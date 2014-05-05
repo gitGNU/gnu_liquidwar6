@@ -45,7 +45,7 @@ _scm_lw6map_get_look (SCM level)
   c_level = lw6_scm_to_map (level);
   if (c_level)
     {
-      c_look = lw6gui_look_new (&(c_level->param.style));
+      c_look = lw6gui_look_new (sys_context, &(c_level->param.style));
       if (c_look)
 	{
 	  ret = lw6_make_scm_look (c_look);

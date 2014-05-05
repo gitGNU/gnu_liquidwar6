@@ -29,6 +29,7 @@
 /**
  * lw6gui_joystick_check_index
  *
+ * @sys_context: global system context
  * @i: index to check
  *
  * Checks wether the index is correct. Does not mean the joystick exists, it's
@@ -37,7 +38,7 @@
  * Return value: 1 if within range, 0 if not.
  */
 int
-lw6gui_joystick_check_index (int i)
+lw6gui_joystick_check_index (lw6sys_context_t * sys_context, int i)
 {
   int ret = 0;
 
@@ -56,6 +57,7 @@ lw6gui_joystick_check_index (int i)
 /**
  * lw6gui_joystick_update_axis_x
  *
+ * @sys_context: global system context
  * @joystick: joystick to update
  * @x: x-axis position, as returned by the driver
  * @limit: the limit, under this, buttons are considered unpressed.
@@ -68,36 +70,37 @@ lw6gui_joystick_check_index (int i)
  * Return value: 1 if within range, 0 if not.
  */
 void
-lw6gui_joystick_update_axis_x (lw6gui_joystick_t * joystick, int x, int limit, int64_t timestamp)
+lw6gui_joystick_update_axis_x (lw6sys_context_t * sys_context, lw6gui_joystick_t * joystick, int x, int limit, int64_t timestamp)
 {
   if (x < -limit)
     {
-      if (!lw6gui_button_is_pressed (&(joystick->pad_left)))
+      if (!lw6gui_button_is_pressed (sys_context, &(joystick->pad_left)))
 	{
-	  lw6gui_button_register_down (&(joystick->pad_left), timestamp);
+	  lw6gui_button_register_down (sys_context, &(joystick->pad_left), timestamp);
 	}
     }
   else
     {
-      lw6gui_button_register_up (&(joystick->pad_left));
+      lw6gui_button_register_up (sys_context, &(joystick->pad_left));
     }
 
   if (x > limit)
     {
-      if (!lw6gui_button_is_pressed (&(joystick->pad_right)))
+      if (!lw6gui_button_is_pressed (sys_context, &(joystick->pad_right)))
 	{
-	  lw6gui_button_register_down (&(joystick->pad_right), timestamp);
+	  lw6gui_button_register_down (sys_context, &(joystick->pad_right), timestamp);
 	}
     }
   else
     {
-      lw6gui_button_register_up (&(joystick->pad_right));
+      lw6gui_button_register_up (sys_context, &(joystick->pad_right));
     }
 }
 
 /**
  * lw6gui_joystick_update_axis_x
  *
+ * @sys_context: global system context
  * @joystick: joystick to update
  * @x: y-axis position, as returned by the driver
  * @limit: the limit, under this, buttons are considered unpressed.
@@ -110,36 +113,37 @@ lw6gui_joystick_update_axis_x (lw6gui_joystick_t * joystick, int x, int limit, i
  * Return value: 1 if within range, 0 if not.
  */
 void
-lw6gui_joystick_update_axis_y (lw6gui_joystick_t * joystick, int y, int limit, int64_t timestamp)
+lw6gui_joystick_update_axis_y (lw6sys_context_t * sys_context, lw6gui_joystick_t * joystick, int y, int limit, int64_t timestamp)
 {
   if (y < -limit)
     {
-      if (!lw6gui_button_is_pressed (&(joystick->pad_up)))
+      if (!lw6gui_button_is_pressed (sys_context, &(joystick->pad_up)))
 	{
-	  lw6gui_button_register_down (&(joystick->pad_up), timestamp);
+	  lw6gui_button_register_down (sys_context, &(joystick->pad_up), timestamp);
 	}
     }
   else
     {
-      lw6gui_button_register_up (&(joystick->pad_up));
+      lw6gui_button_register_up (sys_context, &(joystick->pad_up));
     }
 
   if (y > limit)
     {
-      if (!lw6gui_button_is_pressed (&(joystick->pad_down)))
+      if (!lw6gui_button_is_pressed (sys_context, &(joystick->pad_down)))
 	{
-	  lw6gui_button_register_down (&(joystick->pad_down), timestamp);
+	  lw6gui_button_register_down (sys_context, &(joystick->pad_down), timestamp);
 	}
     }
   else
     {
-      lw6gui_button_register_up (&(joystick->pad_down));
+      lw6gui_button_register_up (sys_context, &(joystick->pad_down));
     }
 }
 
 /**
  * lw6gui_joystick_update_repeat
  *
+ * @sys_context: global system context
  * @joystick: the joystick to update
  * @repeat_settings: the repeat settings (delay + interval)
  * @timestamp: the current ticks (milliseconds)
@@ -150,23 +154,24 @@ lw6gui_joystick_update_axis_y (lw6gui_joystick_t * joystick, int y, int limit, i
  * Return value: none.
  */
 void
-lw6gui_joystick_update_repeat (lw6gui_joystick_t * joystick, lw6gui_repeat_settings_t * repeat_settings, int64_t timestamp)
+lw6gui_joystick_update_repeat (lw6sys_context_t * sys_context, lw6gui_joystick_t * joystick, lw6gui_repeat_settings_t * repeat_settings, int64_t timestamp)
 {
-  lw6gui_button_update_repeat (&(joystick->pad_up), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(joystick->pad_down), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(joystick->pad_left), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(joystick->pad_right), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(joystick->button_a), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(joystick->button_b), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(joystick->button_c), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(joystick->button_d), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(joystick->button_e), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(joystick->button_f), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(joystick->pad_up), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(joystick->pad_down), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(joystick->pad_left), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(joystick->pad_right), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(joystick->button_a), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(joystick->button_b), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(joystick->button_c), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(joystick->button_d), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(joystick->button_e), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(joystick->button_f), repeat_settings, timestamp, 0);
 }
 
 /**
  * lw6gui_joystick_sync
  *
+ * @sys_context: global system context
  * @dst: the target joystick object
  * @src: the source joystick object
  *
@@ -176,19 +181,19 @@ lw6gui_joystick_update_repeat (lw6gui_joystick_t * joystick, lw6gui_repeat_setti
  * Return value: 1 if success, O if failure.
  */
 int
-lw6gui_joystick_sync (lw6gui_joystick_t * dst, lw6gui_joystick_t * src)
+lw6gui_joystick_sync (lw6sys_context_t * sys_context, lw6gui_joystick_t * dst, lw6gui_joystick_t * src)
 {
   int ret = 1;
 
-  ret = lw6gui_button_sync (&(dst->pad_up), &(src->pad_up)) &&
-    lw6gui_button_sync (&(dst->pad_down), &(src->pad_down)) &&
-    lw6gui_button_sync (&(dst->pad_left), &(src->pad_left)) &&
-    lw6gui_button_sync (&(dst->pad_right), &(src->pad_right)) &&
-    lw6gui_button_sync (&(dst->button_a), &(src->button_a)) &&
-    lw6gui_button_sync (&(dst->button_b), &(src->button_b)) &&
-    lw6gui_button_sync (&(dst->button_c), &(src->button_c)) &&
-    lw6gui_button_sync (&(dst->button_d), &(src->button_d)) &&
-    lw6gui_button_sync (&(dst->button_e), &(src->button_e)) && lw6gui_button_sync (&(dst->button_f), &(src->button_f));
+  ret = lw6gui_button_sync (sys_context, &(dst->pad_up), &(src->pad_up)) &&
+    lw6gui_button_sync (sys_context, &(dst->pad_down), &(src->pad_down)) &&
+    lw6gui_button_sync (sys_context, &(dst->pad_left), &(src->pad_left)) &&
+    lw6gui_button_sync (sys_context, &(dst->pad_right), &(src->pad_right)) &&
+    lw6gui_button_sync (sys_context, &(dst->button_a), &(src->button_a)) &&
+    lw6gui_button_sync (sys_context, &(dst->button_b), &(src->button_b)) &&
+    lw6gui_button_sync (sys_context, &(dst->button_c), &(src->button_c)) &&
+    lw6gui_button_sync (sys_context, &(dst->button_d), &(src->button_d)) &&
+    lw6gui_button_sync (sys_context, &(dst->button_e), &(src->button_e)) && lw6gui_button_sync (sys_context, &(dst->button_f), &(src->button_f));
 
   return ret;
 }
@@ -196,6 +201,7 @@ lw6gui_joystick_sync (lw6gui_joystick_t * dst, lw6gui_joystick_t * src)
 /**
  * lw6gui_joystick_get_move_pad
  *
+ * @sys_context: global system context
  * @joystick: the joystick to query
  * @move_pad: the structure which will contain the results
  *
@@ -205,10 +211,10 @@ lw6gui_joystick_sync (lw6gui_joystick_t * dst, lw6gui_joystick_t * src)
  * Return value: none, the value are stored in @move_pad.
  */
 void
-lw6gui_joystick_get_move_pad (const lw6gui_joystick_t * joystick, lw6gui_move_pad_t * move_pad)
+lw6gui_joystick_get_move_pad (lw6sys_context_t * sys_context, const lw6gui_joystick_t * joystick, lw6gui_move_pad_t * move_pad)
 {
-  move_pad->up = lw6gui_button_is_pressed (&(joystick->pad_up));
-  move_pad->down = lw6gui_button_is_pressed (&(joystick->pad_down));
-  move_pad->left = lw6gui_button_is_pressed (&(joystick->pad_left));
-  move_pad->right = lw6gui_button_is_pressed (&(joystick->pad_right));
+  move_pad->up = lw6gui_button_is_pressed (sys_context, &(joystick->pad_up));
+  move_pad->down = lw6gui_button_is_pressed (sys_context, &(joystick->pad_down));
+  move_pad->left = lw6gui_button_is_pressed (sys_context, &(joystick->pad_left));
+  move_pad->right = lw6gui_button_is_pressed (sys_context, &(joystick->pad_right));
 }

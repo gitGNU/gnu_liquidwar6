@@ -98,7 +98,7 @@ _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
   float relative_text_width;
   int ret = _PASS_THROUGH_DEFAULT;
 
-  lw6gui_menu_update_display_range (menu, cylinder_context->const_data.max_displayed_items);
+  lw6gui_menu_update_display_range (sys_context, menu, cylinder_context->const_data.max_displayed_items);
 
   memset (feedback_buffer, 0, sizeof (GLfloat) * FEEDBACK_BUFFER_SIZE);
 

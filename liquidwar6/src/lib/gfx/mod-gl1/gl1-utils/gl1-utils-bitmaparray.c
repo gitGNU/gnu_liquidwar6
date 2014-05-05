@@ -38,7 +38,7 @@ mod_gl1_utils_bitmap_array_init (mod_gl1_utils_context_t *
   mod_gl1_utils_bitmap_t *bitmap;
 
   tile_size = lw6sys_imin (tile_size, utils_context->caps.max_texture_size);
-  if (lw6gui_rect_array_init (&(bitmap_array->layout), w, h, tile_size, border_size))
+  if (lw6gui_rect_array_init (sys_context, &(bitmap_array->layout), w, h, tile_size, border_size))
     {
       bitmap_array->bitmaps = (mod_gl1_utils_bitmap_t **) LW6SYS_CALLOC (sys_context, bitmap_array->layout.nb_tiles * sizeof (mod_gl1_utils_bitmap_t *));
 
@@ -115,7 +115,7 @@ mod_gl1_utils_bitmap_array_init_from_surface (mod_gl1_utils_context_t *
 		  SDL_SetAlpha (surface, 0, SDL_ALPHA_OPAQUE);
 		  SDL_SetAlpha (sub_surface, 0, SDL_ALPHA_OPAQUE);
 		  mod_gl1_utils_clear_surface (sub_surface);
-		  if (lw6gui_rect_array_get_tile_by_i (&(bitmap_array->layout), &rect, i))
+		  if (lw6gui_rect_array_get_tile_by_i (sys_context, &(bitmap_array->layout), &rect, i))
 		    {
 		      /*
 		       * Previous version of the code used blits but it's really

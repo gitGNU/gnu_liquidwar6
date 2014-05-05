@@ -29,6 +29,7 @@
 /**
  * lw6gui_button_register_down
  *
+ * @sys_context: global system context
  * @button: the button to update
  * @timestamp: the current ticks (milliseconds)
  *
@@ -37,7 +38,7 @@
  * Return value: none.
  */
 void
-lw6gui_button_register_down (lw6gui_button_t * button, int64_t timestamp)
+lw6gui_button_register_down (lw6sys_context_t * sys_context, lw6gui_button_t * button, int64_t timestamp)
 {
   if (timestamp <= 0LL)
     {
@@ -60,6 +61,7 @@ lw6gui_button_register_down (lw6gui_button_t * button, int64_t timestamp)
 /**
  * lw6gui_button_register_up
  *
+ * @sys_context: global system context
  * @button: the button to update
  *
  * Registers a "up" (release) event on a button.
@@ -67,7 +69,7 @@ lw6gui_button_register_down (lw6gui_button_t * button, int64_t timestamp)
  * Return value: none.
  */
 void
-lw6gui_button_register_up (lw6gui_button_t * button)
+lw6gui_button_register_up (lw6sys_context_t * sys_context, lw6gui_button_t * button)
 {
   button->is_pressed = 0;
   button->last_press = 0;
@@ -77,6 +79,7 @@ lw6gui_button_register_up (lw6gui_button_t * button)
 /**
  * lw6gui_button_is_pressed
  *
+ * @sys_context: global system context
  * @button: the button to query
  *
  * Tells wether a button is pressed or not.
@@ -84,7 +87,7 @@ lw6gui_button_register_up (lw6gui_button_t * button)
  * Return value: 1 if pressed, 0 if not.
  */
 int
-lw6gui_button_is_pressed (const lw6gui_button_t * button)
+lw6gui_button_is_pressed (lw6sys_context_t * sys_context, const lw6gui_button_t * button)
 {
   int ret = 0;
 
@@ -96,6 +99,7 @@ lw6gui_button_is_pressed (const lw6gui_button_t * button)
 /**
  * lw6gui_button_pop_press
  *
+ * @sys_context: global system context
  * @button: the button to query
  *
  * Tells how many times the button has been pressed. Typical usage: the
@@ -107,7 +111,7 @@ lw6gui_button_is_pressed (const lw6gui_button_t * button)
  * Return value: 1 if there's a press event in the queue, 0 if empty.
  */
 int
-lw6gui_button_pop_press (lw6gui_button_t * button)
+lw6gui_button_pop_press (lw6sys_context_t * sys_context, lw6gui_button_t * button)
 {
   int ret = 0;
 
@@ -123,6 +127,7 @@ lw6gui_button_pop_press (lw6gui_button_t * button)
 /**
  * lw6gui_button_pop_simple_click
  *
+ * @sys_context: global system context
  * @button: the button to query
  *
  * Tells how many times the button has been simpleclicked. This is different
@@ -133,7 +138,7 @@ lw6gui_button_pop_press (lw6gui_button_t * button)
  * Return value: 1 if there's a simpleclick event in the queue, 0 if empty.
  */
 int
-lw6gui_button_pop_simple_click (lw6gui_button_t * button)
+lw6gui_button_pop_simple_click (lw6sys_context_t * sys_context, lw6gui_button_t * button)
 {
   int ret = 0;
 
@@ -149,6 +154,7 @@ lw6gui_button_pop_simple_click (lw6gui_button_t * button)
 /**
  * lw6gui_button_pop_double_click
  *
+ * @sys_context: global system context
  * @button: the button to query
  *
  * Tells how many times the button has been doubleclicked. Typical usage: the
@@ -158,7 +164,7 @@ lw6gui_button_pop_simple_click (lw6gui_button_t * button)
  * Return value: 1 if there's a doubleclick event in the queue, 0 if empty.
  */
 int
-lw6gui_button_pop_double_click (lw6gui_button_t * button)
+lw6gui_button_pop_double_click (lw6sys_context_t * sys_context, lw6gui_button_t * button)
 {
   int ret = 0;
 
@@ -174,6 +180,7 @@ lw6gui_button_pop_double_click (lw6gui_button_t * button)
 /**
  * lw6gui_button_pop_triple_click
  *
+ * @sys_context: global system context
  * @button: the button to query
  *
  * Tells how many times the button has been tripleclicked. Typical usage: the
@@ -183,7 +190,7 @@ lw6gui_button_pop_double_click (lw6gui_button_t * button)
  * Return value: 1 if there's a tripleclick event in the queue, 0 if empty.
  */
 int
-lw6gui_button_pop_triple_click (lw6gui_button_t * button)
+lw6gui_button_pop_triple_click (lw6sys_context_t * sys_context, lw6gui_button_t * button)
 {
   int ret = 0;
 
@@ -199,6 +206,7 @@ lw6gui_button_pop_triple_click (lw6gui_button_t * button)
 /**
  * lw6gui_button_update_repeat
  *
+ * @sys_context: global system context
  * @button: the button to update
  * @repeat_settings: the repeat settings
  * @timestamp: the current ticks (milliseconds)
@@ -210,7 +218,8 @@ lw6gui_button_pop_triple_click (lw6gui_button_t * button)
  * Return value: none.
  */
 void
-lw6gui_button_update_repeat (lw6gui_button_t * button, lw6gui_repeat_settings_t * repeat_settings, int64_t timestamp, int auto_release_enabled)
+lw6gui_button_update_repeat (lw6sys_context_t * sys_context, lw6gui_button_t * button, lw6gui_repeat_settings_t * repeat_settings, int64_t timestamp,
+			     int auto_release_enabled)
 {
   if (auto_release_enabled && button->is_pressed && button->last_press <= timestamp - repeat_settings->auto_release_delay)
     {
@@ -221,7 +230,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button, lw6gui_repeat_settings_t 
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("button auto release button->last_press=%"
 		       LW6SYS_PRINTF_LL "d timestamp=%" LW6SYS_PRINTF_LL "d"), (long long) button->last_press, (long long) timestamp);
-      lw6gui_button_register_up (button);
+      lw6gui_button_register_up (sys_context, button);
     }
 
   if (button->is_pressed)
@@ -275,6 +284,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button, lw6gui_repeat_settings_t 
 /**
  * lw6gui_button_sync
  *
+ * @sys_context: global system context
  * @dst: the target button object
  * @src: the source button object
  *
@@ -286,7 +296,7 @@ lw6gui_button_update_repeat (lw6gui_button_t * button, lw6gui_repeat_settings_t 
  * Return value: 1 if success, O if failure.
  */
 int
-lw6gui_button_sync (lw6gui_button_t * dst, lw6gui_button_t * src)
+lw6gui_button_sync (lw6sys_context_t * sys_context, lw6gui_button_t * dst, lw6gui_button_t * src)
 {
   int ret = 1;
 

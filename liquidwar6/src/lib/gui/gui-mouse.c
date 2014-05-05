@@ -29,6 +29,7 @@
 /**
  * lw6gui_mouse_register_move
  *
+ * @sys_context: global system context
  * @mouse: the mouse object to work on
  * @screen_pos_x: the x position on screen
  * @screen_pos_y: the y position on screen
@@ -39,7 +40,7 @@
  * Return value: note.
  */
 void
-lw6gui_mouse_register_move (lw6gui_mouse_t * mouse, int screen_pos_x, int screen_pos_y, int64_t timestamp)
+lw6gui_mouse_register_move (lw6sys_context_t * sys_context, lw6gui_mouse_t * mouse, int screen_pos_x, int screen_pos_y, int64_t timestamp)
 {
   if (mouse->screen_pointer.pos_x != screen_pos_x || mouse->screen_pointer.pos_y != screen_pos_y)
     {
@@ -69,6 +70,7 @@ lw6gui_mouse_register_move (lw6gui_mouse_t * mouse, int screen_pos_x, int screen
 /**
  * lw6gui_mouse_poll_move
  *
+ * @sys_context: global system context
  * @mouse: the mouse object to poll
  * @screen_pos_x: pointer to the x position (can be NULL), will be updated even if no move
  * @screen_pos_y: pointer to the y position (can be NULL), will be updated even if no move
@@ -78,7 +80,7 @@ lw6gui_mouse_register_move (lw6gui_mouse_t * mouse, int screen_pos_x, int screen
  * Return value: 1 if mouse was moved since last call, 0 if not.
  */
 int
-lw6gui_mouse_poll_move (lw6gui_mouse_t * mouse, int *screen_pos_x, int *screen_pos_y)
+lw6gui_mouse_poll_move (lw6sys_context_t * sys_context, lw6gui_mouse_t * mouse, int *screen_pos_x, int *screen_pos_y)
 {
   int ret = 0;
 
@@ -113,18 +115,19 @@ lw6gui_mouse_poll_move (lw6gui_mouse_t * mouse, int *screen_pos_x, int *screen_p
  * Return value: none.
  */
 void
-lw6gui_mouse_update_repeat (lw6gui_mouse_t * mouse, lw6gui_repeat_settings_t * repeat_settings, int64_t timestamp)
+lw6gui_mouse_update_repeat (lw6sys_context_t * sys_context, lw6gui_mouse_t * mouse, lw6gui_repeat_settings_t * repeat_settings, int64_t timestamp)
 {
-  lw6gui_button_update_repeat (&(mouse->button_left), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(mouse->button_right), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(mouse->button_middle), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(mouse->wheel_up), repeat_settings, timestamp, 0);
-  lw6gui_button_update_repeat (&(mouse->wheel_down), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(mouse->button_left), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(mouse->button_right), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(mouse->button_middle), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(mouse->wheel_up), repeat_settings, timestamp, 0);
+  lw6gui_button_update_repeat (sys_context, &(mouse->wheel_down), repeat_settings, timestamp, 0);
 }
 
 /**
  * lw6gui_mouse_sync
  *
+ * @sys_context: global system context
  * @dst: the target mouse object
  * @src: the source mouse object
  *
@@ -135,7 +138,7 @@ lw6gui_mouse_update_repeat (lw6gui_mouse_t * mouse, lw6gui_repeat_settings_t * r
  * Return value: 1 if success, O if failure.
  */
 int
-lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src)
+lw6gui_mouse_sync (lw6sys_context_t * sys_context, lw6gui_mouse_t * dst, lw6gui_mouse_t * src)
 {
   int ret = 1;
 
@@ -150,10 +153,10 @@ lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src)
   dst->menu_scroll = src->menu_scroll;
   dst->menu_esc = src->menu_esc;
 
-  ret = lw6gui_button_sync (&(dst->button_left), &(src->button_left)) &&
-    lw6gui_button_sync (&(dst->button_right), &(src->button_right)) &&
-    lw6gui_button_sync (&(dst->button_middle), &(src->button_middle)) &&
-    lw6gui_button_sync (&(dst->wheel_up), &(src->wheel_up)) && lw6gui_button_sync (&(dst->wheel_down), &(src->wheel_down));
+  ret = lw6gui_button_sync (sys_context, &(dst->button_left), &(src->button_left)) &&
+    lw6gui_button_sync (sys_context, &(dst->button_right), &(src->button_right)) &&
+    lw6gui_button_sync (sys_context, &(dst->button_middle), &(src->button_middle)) &&
+    lw6gui_button_sync (sys_context, &(dst->wheel_up), &(src->wheel_up)) && lw6gui_button_sync (sys_context, &(dst->wheel_down), &(src->wheel_down));
 
   return ret;
 }
@@ -161,6 +164,7 @@ lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src)
 /**
  * lw6gui_mouse_drag_begin
  *
+ * @sys_context: global system context
  * @mouse: mouse struct to update
  *
  * To be called when one wants to start recording a drag session,
@@ -169,7 +173,7 @@ lw6gui_mouse_sync (lw6gui_mouse_t * dst, lw6gui_mouse_t * src)
  * Return value: none.
  */
 void
-lw6gui_mouse_drag_begin (lw6gui_mouse_t * mouse)
+lw6gui_mouse_drag_begin (lw6sys_context_t * sys_context, lw6gui_mouse_t * mouse)
 {
   mouse->drag_mode = LW6GUI_DRAG_MODE_ON;
   mouse->screen_drag_start = mouse->screen_pointer;
@@ -178,6 +182,7 @@ lw6gui_mouse_drag_begin (lw6gui_mouse_t * mouse)
 /**
  * lw6gui_mouse_drag_end
  *
+ * @sys_context: global system context
  * @mouse: mouse struct to update
  *
  * To be called when one wants to stop recording a drag session,
@@ -186,7 +191,7 @@ lw6gui_mouse_drag_begin (lw6gui_mouse_t * mouse)
  * Return value: none.
  */
 void
-lw6gui_mouse_drag_end (lw6gui_mouse_t * mouse)
+lw6gui_mouse_drag_end (lw6sys_context_t * sys_context, lw6gui_mouse_t * mouse)
 {
   mouse->drag_mode = LW6GUI_DRAG_MODE_DONE;
 }
@@ -194,6 +199,7 @@ lw6gui_mouse_drag_end (lw6gui_mouse_t * mouse)
 /**
  * lw6gui_mouse_drag_pop
  *
+ * @sys_context: global system context
  * @mouse: mouse struct to query
  * @delta_x: x movement (on screen, out param can be NULL)
  * @delta_y: y movement (on screen, out param can be NULL)
@@ -208,7 +214,7 @@ lw6gui_mouse_drag_end (lw6gui_mouse_t * mouse)
  * Return value: none.
  */
 int
-lw6gui_mouse_drag_pop (lw6gui_mouse_t * mouse, int *delta_x, int *delta_y, int *pos_x, int *pos_y, int *speed_x, int *speed_y)
+lw6gui_mouse_drag_pop (lw6sys_context_t * sys_context, lw6gui_mouse_t * mouse, int *delta_x, int *delta_y, int *pos_x, int *pos_y, int *speed_x, int *speed_y)
 {
   int ret = 0;
   int dx = 0;

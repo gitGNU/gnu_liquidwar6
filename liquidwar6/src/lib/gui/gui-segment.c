@@ -29,6 +29,7 @@
 /**
  * lw6gui_segment_is_inside_rect
  *
+ * @sys_context: global system context
  * @segment: segment to test
  * @rect: rectangle in which segment is supposed to be
  *
@@ -38,7 +39,7 @@
  * Return value: 1 if OK, 0 if outside
  */
 int
-lw6gui_segment_is_inside_rect (const lw6gui_segment_t * segment, const lw6gui_rect_t * rect)
+lw6gui_segment_is_inside_rect (lw6sys_context_t * sys_context, const lw6gui_segment_t * segment, const lw6gui_rect_t * rect)
 {
-  return (lw6gui_point_is_inside_rect (segment->p1, rect) && lw6gui_point_is_inside_rect (segment->p2, rect));
+  return (lw6gui_point_is_inside_rect (sys_context, segment->p1, rect) && lw6gui_point_is_inside_rect (sys_context, segment->p2, rect));
 }

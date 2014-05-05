@@ -63,7 +63,7 @@ _mod_caca_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
 	{
 	  if (_mod_caca_load_consts (caca_context))
 	    {
-	      lw6gui_input_init (&(caca_context->input));
+	      lw6gui_input_init (sys_context, &(caca_context->input));
 
 	      /*
 	       * We enable auto_release mode for libcaca, not doing
@@ -71,7 +71,7 @@ _mod_caca_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
 	       * not sent (at least for gl and ncurses drivers) so
 	       * one needs to find a workarround.
 	       */
-	      lw6gui_input_enable_auto_release (&(caca_context->input));
+	      lw6gui_input_enable_auto_release (sys_context, &(caca_context->input));
 
 	      if (_mod_caca_set_resize_callback (caca_context, resize_callback))
 		{
@@ -183,7 +183,7 @@ _mod_caca_quit (_mod_caca_context_t * caca_context)
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("console output enabled (libcaca)"));
     }
 
-  lw6gui_input_quit (&(caca_context->input));
+  lw6gui_input_quit (sys_context, &(caca_context->input));
 
   _mod_caca_unload_consts (caca_context);
   _mod_caca_path_quit (&(caca_context->path));

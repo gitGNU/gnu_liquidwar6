@@ -168,7 +168,7 @@ _display (void *gfx_context, int mask, const lw6gui_look_t * look,
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=splash"));
 	  mod_gl1_splash_display (&(mod_gl1_context->utils_context), mod_gl1_context->splash_context);
-	  look2 = lw6gui_look_dup (look);
+	  look2 = lw6gui_look_dup (sys_context, look);
 	  if (look2)
 	    {
 	      mod_gl1_splash_patch_system_color (&(mod_gl1_context->utils_context), mod_gl1_context->splash_context, &(look2->style.color_set.system_color));
@@ -278,7 +278,7 @@ _display (void *gfx_context, int mask, const lw6gui_look_t * look,
 
       if (look2)
 	{
-	  lw6gui_look_free (look2);
+	  lw6gui_look_free (sys_context, look2);
 	  look2 = NULL;
 	}
       ret = 1;

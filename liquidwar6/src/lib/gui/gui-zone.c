@@ -29,6 +29,7 @@
 /**
  * lw6gui_zone_init_x1y1x2y2
  *
+ * @sys_context: global system context
  * @zone: the structure to initialize
  * @x1: x for top left corner
  * @y1: y for top left corner
@@ -40,7 +41,7 @@
  * Return value: none.
  */
 void
-lw6gui_zone_init_x1y1x2y2 (lw6gui_zone_t * zone, float x1, float y1, float x2, float y2)
+lw6gui_zone_init_x1y1x2y2 (lw6sys_context_t * sys_context, lw6gui_zone_t * zone, float x1, float y1, float x2, float y2)
 {
   zone->x1 = x1;
   zone->y1 = y1;
@@ -53,6 +54,7 @@ lw6gui_zone_init_x1y1x2y2 (lw6gui_zone_t * zone, float x1, float y1, float x2, f
 /**
  * lw6gui_zone_init_xywh
  *
+ * @sys_context: global system context
  * @zone: the structure to initialize
  * @x: x for top left corner
  * @y: y for top left corner
@@ -64,7 +66,7 @@ lw6gui_zone_init_x1y1x2y2 (lw6gui_zone_t * zone, float x1, float y1, float x2, f
  * Return value: none.
  */
 void
-lw6gui_zone_init_xywh (lw6gui_zone_t * zone, float x, float y, float w, float h)
+lw6gui_zone_init_xywh (lw6sys_context_t * sys_context, lw6gui_zone_t * zone, float x, float y, float w, float h)
 {
   zone->x1 = x;
   zone->y1 = y;
@@ -77,6 +79,7 @@ lw6gui_zone_init_xywh (lw6gui_zone_t * zone, float x, float y, float w, float h)
 /**
  * lw6gui_zone_clip
  *
+ * @sys_context: global system context
  * @dst: the structure which will contain the result
  * @src: the source zone
  * @clip: the clipping zone (boundaries)
@@ -86,7 +89,7 @@ lw6gui_zone_init_xywh (lw6gui_zone_t * zone, float x, float y, float w, float h)
  * Return value: none.
  */
 void
-lw6gui_zone_clip (lw6gui_zone_t * dst, lw6gui_zone_t * src, lw6gui_zone_t * clip)
+lw6gui_zone_clip (lw6sys_context_t * sys_context, lw6gui_zone_t * dst, lw6gui_zone_t * src, lw6gui_zone_t * clip)
 {
   float max_x1 = 0.0f;
   float max_y1 = 0.0f;
@@ -98,5 +101,5 @@ lw6gui_zone_clip (lw6gui_zone_t * dst, lw6gui_zone_t * src, lw6gui_zone_t * clip
   min_x2 = (src->x2 < clip->x2) ? src->x2 : clip->x2;
   min_y2 = (src->y2 < clip->y2) ? src->y2 : clip->y2;
 
-  lw6gui_zone_init_x1y1x2y2 (dst, max_x1, max_y1, min_x2, min_y2);
+  lw6gui_zone_init_x1y1x2y2 (sys_context, dst, max_x1, max_y1, min_x2, min_y2);
 }

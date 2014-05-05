@@ -196,7 +196,7 @@ _test_splash ()
     lw6gui_look_t *look = NULL;
     int64_t ticks;
 
-    look = lw6gui_look_new (NULL);
+    look = lw6gui_look_new (sys_context, NULL);
     if (look)
       {
 	ticks = lw6sys_get_uptime ();
@@ -209,7 +209,7 @@ _test_splash ()
 	      }
 	    lw6sys_sleep (sys_context, _TEST_SLEEP);
 	  }
-	lw6gui_look_free (look);
+	lw6gui_look_free (sys_context, look);
       }
   }
 
@@ -229,12 +229,12 @@ _test_background ()
     char *styles[] = { _TEST_BACKGROUND_STYLE_1, _TEST_BACKGROUND_STYLE_2, NULL };
     int i;
 
-    look = lw6gui_look_new (NULL);
+    look = lw6gui_look_new (sys_context, NULL);
     if (look)
       {
 	for (i = 0; styles[i]; ++i)
 	  {
-	    lw6gui_look_set (look, LW6DEF_BACKGROUND_STYLE, styles[i]);
+	    lw6gui_look_set (sys_context, look, LW6DEF_BACKGROUND_STYLE, styles[i]);
 	    ticks = lw6sys_get_uptime ();
 	    while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_BACKGROUND)
 	      {
@@ -246,7 +246,7 @@ _test_background ()
 		lw6sys_sleep (sys_context, _TEST_SLEEP);
 	      }
 	  }
-	lw6gui_look_free (look);
+	lw6gui_look_free (sys_context, look);
       }
   }
 
@@ -271,10 +271,10 @@ _test_menu ()
 
     lw6gui_look_t *look = NULL;
 
-    look = lw6gui_look_new (NULL);
+    look = lw6gui_look_new (sys_context, NULL);
     if (look)
       {
-	menu = lw6gui_menu_new (_TEST_MENU_TITLE, _TEST_MENU_HELP, _TEST_MENU_POPUP, _TEST_MENU_ESC, _TEST_MENU_ENABLE_ESC);
+	menu = lw6gui_menu_new (sys_context, _TEST_MENU_TITLE, _TEST_MENU_HELP, _TEST_MENU_POPUP, _TEST_MENU_ESC, _TEST_MENU_ENABLE_ESC);
 	if (menu)
 	  {
 	    for (i = 0; i < _TEST_MENU_NB_MENUITEMS; ++i)
@@ -285,17 +285,18 @@ _test_menu ()
 		    menuitem_tooltip = lw6sys_new_sprintf (_x_ ("Tooltip for menuitem %d\nExplaining how it works\nIt works as follows:\n...it works!"), i);
 		    if (menuitem_tooltip)
 		      {
-			menuitem = lw6gui_menuitem_new (menuitem_label, menuitem_tooltip, _TEST_MENU_COLOR, 1, 0, i == _TEST_MENU_COLORED_MENUITEM);
+			menuitem =
+			  lw6gui_menuitem_new (sys_context, menuitem_label, menuitem_tooltip, _TEST_MENU_COLOR, 1, 0, i == _TEST_MENU_COLORED_MENUITEM);
 			if (menuitem)
 			  {
-			    lw6gui_menu_append (menu, menuitem, lw6sys_get_uptime ());
+			    lw6gui_menu_append (sys_context, menu, menuitem, lw6sys_get_uptime ());
 			  }
 			LW6SYS_FREE (sys_context, menuitem_tooltip);
 		      }
 		    LW6SYS_FREE (sys_context, menuitem_label);
 		  }
 	      }
-	    lw6gui_menu_select (menu, _TEST_MENU_SELECTED_MENUITEM, _TEST_MENU_ALLOW_SCROLL, 0);
+	    lw6gui_menu_select (sys_context, menu, _TEST_MENU_SELECTED_MENUITEM, _TEST_MENU_ALLOW_SCROLL, 0);
 	    ticks = lw6sys_get_uptime ();
 	    while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_MENU)
 	      {
@@ -310,9 +311,9 @@ _test_menu ()
 		  }
 		lw6sys_sleep (sys_context, _TEST_SLEEP);
 	      }
-	    lw6gui_menu_free (menu);	// should free the menuitem
+	    lw6gui_menu_free (sys_context, menu);	// should free the menuitem
 	  }
-	lw6gui_look_free (look);
+	lw6gui_look_free (sys_context, look);
       }
   }
 
@@ -333,7 +334,7 @@ _test_view ()
     lw6ker_game_struct_t *game_struct = NULL;
     lw6ker_game_state_t *game_state = NULL;
 
-    look = lw6gui_look_new (NULL);
+    look = lw6gui_look_new (sys_context, NULL);
     if (look)
       {
 	level = lw6map_builtin_defaults ();
@@ -364,7 +365,7 @@ _test_view ()
 	      }
 	    lw6map_free (sys_context, level);
 	  }
-	lw6gui_look_free (look);
+	lw6gui_look_free (sys_context, look);
       }
   }
 
@@ -387,7 +388,7 @@ _test_hud ()
     lw6pil_local_cursors_t local_cursors;
     u_int64_t node_id;
 
-    look = lw6gui_look_new (NULL);
+    look = lw6gui_look_new (sys_context, NULL);
     if (look)
       {
 	level = lw6map_builtin_defaults ();
@@ -431,7 +432,7 @@ _test_hud ()
 	      }
 	    lw6map_free (sys_context, level);
 	  }
-	lw6gui_look_free (look);
+	lw6gui_look_free (sys_context, look);
       }
   }
 
@@ -452,7 +453,7 @@ _test_events ()
     char *repr = NULL;
     int64_t ticks = 0;
 
-    look = lw6gui_look_new (NULL);
+    look = lw6gui_look_new (sys_context, NULL);
     if (look)
       {
 	ticks = lw6sys_get_uptime ();
@@ -468,41 +469,41 @@ _test_events ()
 	      }
 	    lw6sys_sleep (sys_context, _TEST_SLEEP);
 	    input = lw6gfx_pump_events (backend);
-	    if (lw6gui_button_pop_press (&(input->mouse.button_left)))
+	    if (lw6gui_button_pop_press (sys_context, &(input->mouse.button_left)))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("left mouse button pressed at %dx%d"), input->mouse.screen_pointer.pos_x, input->mouse.screen_pointer.pos_y);
 	      }
-	    if (lw6gui_button_pop_press (&(input->mouse.button_right)))
+	    if (lw6gui_button_pop_press (sys_context, &(input->mouse.button_right)))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("right mouse button pressed at %d,%d"), input->mouse.screen_pointer.pos_x, input->mouse.screen_pointer.pos_y);
 	      }
-	    if (lw6gui_button_pop_press (&(input->mouse.wheel_up)))
+	    if (lw6gui_button_pop_press (sys_context, &(input->mouse.wheel_up)))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("mouse wheel up"));
 	      }
-	    if (lw6gui_button_pop_press (&(input->mouse.wheel_down)))
+	    if (lw6gui_button_pop_press (sys_context, &(input->mouse.wheel_down)))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("mouse wheel down"));
 	      }
-	    keypress = lw6gui_keyboard_pop_keypress (&(input->keyboard));
+	    keypress = lw6gui_keyboard_pop_keypress (sys_context, &(input->keyboard));
 	    if (keypress)
 	      {
-		repr = lw6gui_keypress_repr (keypress);
+		repr = lw6gui_keypress_repr (sys_context, keypress);
 		if (repr)
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%s"), repr);
 		    LW6SYS_FREE (sys_context, repr);
 		  }
-		lw6gui_keypress_free (keypress);
+		lw6gui_keypress_free (sys_context, keypress);
 	      }
 	    if (lw6sys_signal_poll_quit ())
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("a QUIT event was detected"));
 	      }
 	  }
-	lw6gui_look_free (look);
+	lw6gui_look_free (sys_context, look);
       }
     else
       {
@@ -756,7 +757,7 @@ lw6gfx_test_register (int mode)
       lw6map_test_register (sys_context, mode);
       lw6ker_test_register (sys_context, mode);
       lw6pil_test_register (sys_context, mode);
-      lw6gui_test_register (mode);
+      lw6gui_test_register (sys_context, mode);
       lw6vox_test_register (mode);
       lw6cns_test_register (sys_context, mode);
       /*

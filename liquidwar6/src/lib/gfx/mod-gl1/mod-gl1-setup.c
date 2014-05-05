@@ -287,7 +287,7 @@ _mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, l
 
 	  if (gl1_context && sdl_ok && ttf_ok)
 	    {
-	      lw6gui_input_init (&(gl1_context->utils_context.sdl_context.input));
+	      lw6gui_input_init (sys_context, &(gl1_context->utils_context.sdl_context.input));
 	      mod_gl1_utils_show_mouse (&(gl1_context->utils_context), 0, 1);
 	      mod_gl1_utils_set_resize_callback (&(gl1_context->utils_context), resize_callback);
 	      if (mod_gl1_utils_load_consts (&(gl1_context->utils_context)) && _lw6gfx_sdl_load_consts (&(gl1_context->utils_context.sdl_context)))
@@ -368,7 +368,7 @@ _mod_gl1_quit (_mod_gl1_context_t * gl1_context)
 {
   float quit_sleep = 0.0f;
 
-  lw6gui_input_quit (&(gl1_context->utils_context.sdl_context.input));
+  lw6gui_input_quit (sys_context, &(gl1_context->utils_context.sdl_context.input));
 
   /*
    * Keep this value locally since it can disappear

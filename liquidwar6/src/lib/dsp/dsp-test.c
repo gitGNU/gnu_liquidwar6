@@ -96,7 +96,7 @@ menu_new (int n)
   char *tooltip;
   int i;
 
-  ret = lw6gui_menu_new (_TEST_MENU_TITLE, _TEST_MENU_HELP, _TEST_MENU_POPUP, _TEST_MENU_ESC, _TEST_MENU_ENABLE_ESC);
+  ret = lw6gui_menu_new (sys_context, _TEST_MENU_TITLE, _TEST_MENU_HELP, _TEST_MENU_POPUP, _TEST_MENU_ESC, _TEST_MENU_ENABLE_ESC);
   if (ret)
     {
       for (i = 0; i < n; ++i)
@@ -107,10 +107,10 @@ menu_new (int n)
 	      tooltip = lw6sys_new_sprintf (sys_context, _TEST_MENUITEM_TOOLTIP_FORMAT, i + 1);
 	      if (tooltip)
 		{
-		  item = lw6gui_menuitem_new (label, tooltip, i + 1, 1, i == 0, i == _TEST_MENUITEM_COLORED_INDEX);
+		  item = lw6gui_menuitem_new (sys_context, label, tooltip, i + 1, 1, i == 0, i == _TEST_MENUITEM_COLORED_INDEX);
 		  if (item)
 		    {
-		      lw6gui_menu_append (ret, item, 0);
+		      lw6gui_menu_append (sys_context, ret, item, 0);
 		    }
 		  LW6SYS_FREE (sys_context, tooltip);
 		}
@@ -237,7 +237,7 @@ _test_display ()
       LW6GUI_DISPLAY_BACKGROUND | LW6GUI_DISPLAY_PREVIEW |
       LW6GUI_DISPLAY_MAP | LW6GUI_DISPLAY_FIGHTERS |
       LW6GUI_DISPLAY_CURSORS | LW6GUI_DISPLAY_MENU | LW6GUI_DISPLAY_META | LW6GUI_DISPLAY_LOG | LW6GUI_DISPLAY_FPS;
-    param.look = lw6gui_look_new (NULL);
+    param.look = lw6gui_look_new (sys_context, NULL);
     if (param.look)
       {
 	if (lw6dsp_init (display, &param, NULL))
@@ -271,12 +271,12 @@ _test_display ()
 		sleep_and_report (display, _TEST_SLEEP_SHORT);
 		while (param.menu->nb_items > 0)
 		  {
-		    lw6gui_menu_remove (param.menu, 0, 0);
+		    lw6gui_menu_remove (sys_context, param.menu, 0, 0);
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("displaying menu with %d items"), param.menu->nb_items);
 		    lw6dsp_update (display, &param);
 		    sleep_and_report (display, _TEST_SLEEP_SHORT);
 		  }
-		lw6gui_menu_free (param.menu);
+		lw6gui_menu_free (sys_context, param.menu);
 		param.menu = menu_new (_TEST_NB_MENUITEMS2);
 		if (param.menu)
 		  {
@@ -285,7 +285,7 @@ _test_display ()
 		    sleep_and_report (display, _TEST_SLEEP_SHORT);
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("nb items displayed is %d"), param.menu->nb_items_displayed);
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("scrolling to middle of big menu (%d)"), param.menu->nb_items / 2);
-		    lw6gui_menu_select (param.menu, param.menu->nb_items / 2, _TEST_MENU_ALLOW_SCROLL, 0);
+		    lw6gui_menu_select (sys_context, param.menu, param.menu->nb_items / 2, _TEST_MENU_ALLOW_SCROLL, 0);
 		    lw6dsp_update (display, &param);
 		    sleep_and_report (display, _TEST_SLEEP_SHORT);
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("nb items displayed is %d"), param.menu->nb_items_displayed);
@@ -359,7 +359,7 @@ _test_display ()
 			lw6map_free (sys_context, level);
 			level = NULL;
 		      }
-		    lw6gui_menu_free (param.menu);
+		    lw6gui_menu_free (sys_context, param.menu);
 		    param.menu = NULL;
 		  }
 	      }
@@ -381,16 +381,16 @@ _test_display ()
 		 * it's interesting to see how display reacts.
 		 */
 		lw6dsp_update (display, &param);
-		keypress = lw6gui_keyboard_pop_keypress (&(display->input->keyboard));
+		keypress = lw6gui_keyboard_pop_keypress (sys_context, &(display->input->keyboard));
 		if (keypress)
 		  {
-		    repr = lw6gui_keypress_repr (keypress);
+		    repr = lw6gui_keypress_repr (sys_context, keypress);
 		    if (repr)
 		      {
 			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%s"), repr);
 			LW6SYS_FREE (sys_context, repr);
 		      }
-		    lw6gui_keypress_free (keypress);
+		    lw6gui_keypress_free (sys_context, keypress);
 		  }
 	      }
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("done with events"));
@@ -403,7 +403,7 @@ _test_display ()
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to start display"));
 	  }
-	lw6gui_look_free (param.look);
+	lw6gui_look_free (sys_context, param.look);
       }
     else
       {
@@ -593,7 +593,7 @@ lw6dsp_test_register (int mode)
       lw6map_test_register (sys_context, mode);
       lw6ker_test_register (sys_context, mode);
       lw6pil_test_register (sys_context, mode);
-      lw6gui_test_register (mode);
+      lw6gui_test_register (sys_context, mode);
       lw6vox_test_register (mode);
       lw6gfx_test_register (mode);
       /*

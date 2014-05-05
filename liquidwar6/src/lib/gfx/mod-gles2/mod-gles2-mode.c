@@ -133,7 +133,7 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mo
 	      ratio_mode = fullscreen_modes.high;
 	      target_mode.width = width;
 	      target_mode.height = height;
-	      if (lw6gui_video_mode_sync_ratio (&target_mode, &ratio_mode))
+	      if (lw6gui_video_mode_sync_ratio (sys_context, &target_mode, &ratio_mode))
 		{
 		  width_test = target_mode.width;
 		  height_test = target_mode.height;

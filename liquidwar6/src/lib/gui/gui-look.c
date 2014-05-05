@@ -29,7 +29,7 @@
 #define DEFAULT_DYNAMIC_ZOOM 1.0f
 
 static void
-_fix_zoom (lw6gui_look_t * look)
+_fix_zoom (lw6sys_context_t * sys_context, lw6gui_look_t * look)
 {
   if (look->style.zoom <= 0.0f)
     {
@@ -46,7 +46,7 @@ _fix_zoom (lw6gui_look_t * look)
 }
 
 static void
-_fix_gfx_quality (lw6gui_look_t * look)
+_fix_gfx_quality (lw6sys_context_t * sys_context, lw6gui_look_t * look)
 {
   if (look->gfx_quality < LW6GUI_GFX_QUALITY_LOW)
     {
@@ -71,6 +71,7 @@ static volatile u_int32_t seq_id = 0;
 /**
  * lw6gui_look_new
  *
+ * @sys_context: global system context
  * @map_style: map_style to use as a base
  *
  * Create a new look object, a look is basically a style plus
@@ -79,7 +80,7 @@ static volatile u_int32_t seq_id = 0;
  * Return value: newly created object.
  */
 lw6gui_look_t *
-lw6gui_look_new (const lw6map_style_t * map_style)
+lw6gui_look_new (lw6sys_context_t * sys_context, const lw6map_style_t * map_style)
 {
   lw6gui_look_t *look = NULL;
 
@@ -111,6 +112,7 @@ lw6gui_look_new (const lw6map_style_t * map_style)
 /**
  * lw6gui_look_free
  *
+ * @sys_context: global system context
  * @look: look object to free
  *
  * Frees a look and all its members.
@@ -118,7 +120,7 @@ lw6gui_look_new (const lw6map_style_t * map_style)
  * Return value: none.
  */
 void
-lw6gui_look_free (lw6gui_look_t * look)
+lw6gui_look_free (lw6sys_context_t * sys_context, lw6gui_look_t * look)
 {
   if (look)
     {
@@ -135,6 +137,7 @@ lw6gui_look_free (lw6gui_look_t * look)
 /**
  * lw6gui_look_memory_footprint
  *
+ * @sys_context: global system context
  * @look: look object to query
  *
  * Gives the memory taken by this object in memory.
@@ -142,7 +145,7 @@ lw6gui_look_free (lw6gui_look_t * look)
  * Return value: number of bytes.
  */
 int
-lw6gui_look_memory_footprint (const lw6gui_look_t * look)
+lw6gui_look_memory_footprint (lw6sys_context_t * sys_context, const lw6gui_look_t * look)
 {
   //todo
   return sizeof (lw6gui_look_t);
@@ -151,6 +154,7 @@ lw6gui_look_memory_footprint (const lw6gui_look_t * look)
 /**
  * lw6gui_look_repr
  *
+ * @sys_context: global system context
  * @look: look object to describe
  *
  * Returns a readable description of the object.
@@ -158,7 +162,7 @@ lw6gui_look_memory_footprint (const lw6gui_look_t * look)
  * Return value: newly allocated string.
  */
 char *
-lw6gui_look_repr (const lw6gui_look_t * look)
+lw6gui_look_repr (lw6sys_context_t * sys_context, const lw6gui_look_t * look)
 {
   char *ret = NULL;
 
@@ -177,6 +181,7 @@ lw6gui_look_repr (const lw6gui_look_t * look)
 /**
  * lw6gui_look_set
  *
+ * @sys_context: global system context
  * @look: look object to modify
  * @key: the key to change
  * @value: the new value for the key
@@ -188,20 +193,20 @@ lw6gui_look_repr (const lw6gui_look_t * look)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6gui_look_set (lw6gui_look_t * look, char *key, char *value)
+lw6gui_look_set (lw6sys_context_t * sys_context, lw6gui_look_t * look, char *key, char *value)
 {
   int ret = 0;
 
   if (!strcmp (key, "dynamic-zoom"))
     {
       look->dynamic_zoom = lw6sys_atof (sys_context, value);
-      _fix_zoom (look);
+      _fix_zoom (sys_context, look);
       ret = 1;
     }
   else if (!strcmp (key, LW6DEF_GFX_QUALITY))
     {
       look->gfx_quality = lw6sys_atoi (sys_context, value);
-      _fix_gfx_quality (look);
+      _fix_gfx_quality (sys_context, look);
     }
   else
     {
@@ -214,6 +219,7 @@ lw6gui_look_set (lw6gui_look_t * look, char *key, char *value)
 /**
  * lw6gui_look_get
  *
+ * @sys_context: global system context
  * @look: look object to query
  * @key: the key to get
  *
@@ -224,7 +230,7 @@ lw6gui_look_set (lw6gui_look_t * look, char *key, char *value)
  * Return value: dynamically allocated string.
  */
 char *
-lw6gui_look_get (const lw6gui_look_t * look, char *key)
+lw6gui_look_get (lw6sys_context_t * sys_context, const lw6gui_look_t * look, char *key)
 {
   char *ret = NULL;
 
@@ -247,6 +253,7 @@ lw6gui_look_get (const lw6gui_look_t * look, char *key)
 /**
  * lw6gui_look_is_same
  *
+ * @sys_context: global system context
  * @look_a: first object to compare
  * @look_b: second object to compare
  *
@@ -259,7 +266,7 @@ lw6gui_look_get (const lw6gui_look_t * look, char *key)
  * Return value: 1 if they are the same, 0 if not.
  */
 int
-lw6gui_look_is_same (const lw6gui_look_t * look_a, const lw6gui_look_t * look_b)
+lw6gui_look_is_same (lw6sys_context_t * sys_context, const lw6gui_look_t * look_a, const lw6gui_look_t * look_b)
 {
   int ret = 1;
 
@@ -280,6 +287,7 @@ lw6gui_look_is_same (const lw6gui_look_t * look_a, const lw6gui_look_t * look_b)
 /**
  * lw6gui_look_dup
  *
+ * @sys_context: global system context
  * @look: object to duplicate
  *
  * Duplicates a look object, performing recursive copies.
@@ -287,17 +295,17 @@ lw6gui_look_is_same (const lw6gui_look_t * look_a, const lw6gui_look_t * look_b)
  * Return value: newly allocated object.
  */
 lw6gui_look_t *
-lw6gui_look_dup (const lw6gui_look_t * look)
+lw6gui_look_dup (lw6sys_context_t * sys_context, const lw6gui_look_t * look)
 {
   lw6gui_look_t *ret = NULL;
 
   if (look)
     {
-      ret = lw6gui_look_new (&(look->style));
+      ret = lw6gui_look_new (sys_context, &(look->style));
     }
   else
     {
-      ret = lw6gui_look_new (NULL);
+      ret = lw6gui_look_new (sys_context, NULL);
     }
   if (ret)
     {
@@ -311,6 +319,7 @@ lw6gui_look_dup (const lw6gui_look_t * look)
 /**
  * lw6gui_look_fix
  *
+ * @sys_context: global system context
  * @look: look object to modify
  *
  * Peforms sanity checks and modifies the look if needed,
@@ -320,14 +329,15 @@ lw6gui_look_dup (const lw6gui_look_t * look)
  * Return value: none.
  */
 void
-lw6gui_look_fix (lw6gui_look_t * look)
+lw6gui_look_fix (lw6sys_context_t * sys_context, lw6gui_look_t * look)
 {
-  _fix_zoom (look);
+  _fix_zoom (sys_context, look);
 }
 
 /**
  * lw6gui_look_zoom_in
  *
+ * @sys_context: global system context
  * @look: look object to act upon
  * @zoom_step: how much we should zoom, 2.0 means 2 times bigger
  *
@@ -337,7 +347,7 @@ lw6gui_look_fix (lw6gui_look_t * look)
  * Return value: 1 if zoom was changed, 0 if not.
  */
 int
-lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step)
+lw6gui_look_zoom_in (lw6sys_context_t * sys_context, lw6gui_look_t * look, float zoom_step)
 {
   int ret = 0;
   float old_zoom = look->dynamic_zoom;
@@ -357,7 +367,7 @@ lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("zoom_step=%f, should be >1.0"), zoom_step);
     }
-  _fix_zoom (look);
+  _fix_zoom (sys_context, look);
 
   ret = (old_zoom != look->dynamic_zoom);
 
@@ -367,6 +377,7 @@ lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step)
 /**
  * lw6gui_look_zoom_out
  *
+ * @sys_context: global system context
  * @look: look object to act upon
  * @zoom_step: how much we should zoom, 2.0 means 2 times smaller
  *
@@ -376,7 +387,7 @@ lw6gui_look_zoom_in (lw6gui_look_t * look, float zoom_step)
  * Return value: 1 if zoom was changed, 0 if not.
  */
 int
-lw6gui_look_zoom_out (lw6gui_look_t * look, float zoom_step)
+lw6gui_look_zoom_out (lw6sys_context_t * sys_context, lw6gui_look_t * look, float zoom_step)
 {
   int ret = 0;
   float old_zoom = look->dynamic_zoom;
@@ -396,7 +407,7 @@ lw6gui_look_zoom_out (lw6gui_look_t * look, float zoom_step)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("zoom_step=%f, should be >1.0"), zoom_step);
     }
-  _fix_zoom (look);
+  _fix_zoom (sys_context, look);
 
   ret = (old_zoom != look->dynamic_zoom);
 

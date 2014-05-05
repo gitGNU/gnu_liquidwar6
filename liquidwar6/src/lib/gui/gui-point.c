@@ -29,6 +29,7 @@
 /**
  * lw6gui_point_is_inside_rect
  *
+ * @sys_context: global system context
  * @point: point to test
  * @rect: rectangle in which point is supposed to be
  *
@@ -38,7 +39,7 @@
  * Return value: 1 if OK, 0 if outside
  */
 int
-lw6gui_point_is_inside_rect (lw6gui_point_t point, const lw6gui_rect_t * rect)
+lw6gui_point_is_inside_rect (lw6sys_context_t * sys_context, lw6gui_point_t point, const lw6gui_rect_t * rect)
 {
   return (point.x >= rect->x1 && point.x < rect->x2 && point.y >= rect->y1 && point.y < rect->y2);
 }

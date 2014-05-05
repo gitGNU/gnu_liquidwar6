@@ -67,7 +67,7 @@ _mod_soft_get_fullscreen_modes (_mod_soft_context_t * soft_context, lw6gui_fulls
   modes->standard.width = (modes->low.width + modes->high.width) / 2;
   modes->standard.height = (modes->low.height + modes->high.height) / 2;
 
-  lw6gui_video_mode_sync_ratio (&(modes->standard), &(modes->high));
+  lw6gui_video_mode_sync_ratio (sys_context, &(modes->standard), &(modes->high));
 
   _mod_soft_find_closest_resolution (soft_context, &(modes->standard.width), &(modes->standard.height), modes->standard.width, modes->standard.height);
 
@@ -108,7 +108,7 @@ _mod_soft_find_closest_resolution (_mod_soft_context_t * soft_context, int *clos
 	  wished.height = wished_height;
 	  wished.fullscreen = LW6GUI_DEFAULT_FULLSCREEN;
 
-	  lw6gui_video_mode_find_closest (&closest, &wished, mode_list);
+	  lw6gui_video_mode_find_closest (sys_context, &closest, &wished, mode_list);
 
 	  (*closest_width) = closest.width;
 	  (*closest_height) = closest.height;

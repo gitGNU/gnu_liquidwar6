@@ -29,6 +29,7 @@
 /**
  * lw6gui_power_of_two_ge
  *
+ * @sys_context: global system context
  * @input: the value to approach
  *
  * Finds the closest power of two, which is at least greater
@@ -37,7 +38,7 @@
  * Return value: a power of two.
  */
 int
-lw6gui_power_of_two_ge (int input)
+lw6gui_power_of_two_ge (lw6sys_context_t * sys_context, int input)
 {
   int value = 1;
 
@@ -51,6 +52,7 @@ lw6gui_power_of_two_ge (int input)
 /**
  * lw6gui_power_of_two_le
  *
+ * @sys_context: global system context
  * @input: the value to approach
  *
  * Finds the closest power of two, which is equal of inferior
@@ -59,7 +61,7 @@ lw6gui_power_of_two_ge (int input)
  * Return value: a power of two.
  */
 int
-lw6gui_power_of_two_le (int input)
+lw6gui_power_of_two_le (lw6sys_context_t * sys_context, int input)
 {
   int value = 1;
 

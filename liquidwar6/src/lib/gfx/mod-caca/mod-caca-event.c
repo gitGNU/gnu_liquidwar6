@@ -35,47 +35,47 @@ key_down (lw6gui_keyboard_t * keyboard, caca_event_t * event, _mod_caca_const_da
 
   sym = caca_get_event_key_ch (event);
 
-  lw6gui_keyboard_register_key_down (keyboard, sym, caca_get_event_key_utf32 (event), NULL, timestamp);
+  lw6gui_keyboard_register_key_down (sys_context, keyboard, sym, caca_get_event_key_utf32 (event), NULL, timestamp);
 
   if (sym == const_data->keysym1_up || sym == const_data->keysym2_up || sym == const_data->keysym3_up || sym == const_data->keysym4_up)
     {
-      lw6gui_button_register_down (&(keyboard->arrow_up), timestamp);
+      lw6gui_button_register_down (sys_context, &(keyboard->arrow_up), timestamp);
     }
   if (sym == const_data->keysym1_down || sym == const_data->keysym2_down || sym == const_data->keysym3_down || sym == const_data->keysym4_down)
     {
-      lw6gui_button_register_down (&(keyboard->arrow_down), timestamp);
+      lw6gui_button_register_down (sys_context, &(keyboard->arrow_down), timestamp);
     }
   if (sym == const_data->keysym1_left || sym == const_data->keysym2_left || sym == const_data->keysym3_left || sym == const_data->keysym4_left)
     {
-      lw6gui_button_register_down (&(keyboard->arrow_left), timestamp);
+      lw6gui_button_register_down (sys_context, &(keyboard->arrow_left), timestamp);
     }
   if (sym == const_data->keysym1_right || sym == const_data->keysym2_right || sym == const_data->keysym3_right || sym == const_data->keysym4_right)
     {
-      lw6gui_button_register_down (&(keyboard->arrow_right), timestamp);
+      lw6gui_button_register_down (sys_context, &(keyboard->arrow_right), timestamp);
     }
   if (sym == const_data->keysym1_enter || sym == const_data->keysym2_enter)
     {
-      lw6gui_button_register_down (&(keyboard->key_enter), timestamp);
+      lw6gui_button_register_down (sys_context, &(keyboard->key_enter), timestamp);
     }
   if (sym == const_data->keysym1_esc || sym == const_data->keysym2_esc)
     {
-      lw6gui_button_register_down (&(keyboard->key_esc), timestamp);
+      lw6gui_button_register_down (sys_context, &(keyboard->key_esc), timestamp);
     }
   if (sym == const_data->keysym1_ctrl || sym == const_data->keysym2_ctrl)
     {
-      lw6gui_button_register_down (&(keyboard->key_ctrl), timestamp);
+      lw6gui_button_register_down (sys_context, &(keyboard->key_ctrl), timestamp);
     }
   if (sym == const_data->keysym1_alt || sym == const_data->keysym2_alt)
     {
-      lw6gui_button_register_down (&(keyboard->key_alt), timestamp);
+      lw6gui_button_register_down (sys_context, &(keyboard->key_alt), timestamp);
     }
   if (sym == const_data->keysym1_pgup || sym == const_data->keysym2_pgup)
     {
-      lw6gui_button_register_down (&(keyboard->key_pgup), timestamp);
+      lw6gui_button_register_down (sys_context, &(keyboard->key_pgup), timestamp);
     }
   if (sym == const_data->keysym1_pgdown || sym == const_data->keysym2_pgdown)
     {
-      lw6gui_button_register_down (&(keyboard->key_pgdown), timestamp);
+      lw6gui_button_register_down (sys_context, &(keyboard->key_pgdown), timestamp);
     }
 }
 
@@ -123,7 +123,7 @@ _mod_caca_pump_events (_mod_caca_context_t * caca_context)
        * or even better base this polling on the autorelease delay
        * itself.
        */
-      lw6gui_input_register_change (input);
+      lw6gui_input_register_change (sys_context, input);
     }
 
   return input;

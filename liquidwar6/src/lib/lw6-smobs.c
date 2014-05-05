@@ -568,7 +568,7 @@ print_menu (SCM menu, SCM port, scm_print_state * pstate)
   lw6gui_menu_t *c_menu = lw6_scm_to_menu (menu);
   char *repr = NULL;
 
-  repr = lw6gui_menu_repr (c_menu);
+  repr = lw6gui_menu_repr (sys_context, c_menu);
 
   scm_puts ("#<" SMOB_TYPE_MENU " ", port);
   if (repr)
@@ -606,7 +606,7 @@ lw6_make_scm_menu (lw6gui_menu_t * c_menu)
       id = smob_id (SMOB_TYPE_MENU, c_menu->id);
       if (id)
 	{
-	  repr = lw6gui_menu_repr (c_menu);
+	  repr = lw6gui_menu_repr (sys_context, c_menu);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating menu smob \"%s\""), repr);
@@ -663,14 +663,14 @@ lw6_free_menu_smob (lw6_menu_smob_t * menu_smob)
 {
   char *repr = NULL;
 
-  repr = lw6gui_menu_repr (menu_smob->c_menu);
+  repr = lw6gui_menu_repr (sys_context, menu_smob->c_menu);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing menu smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6gui_menu_free (menu_smob->c_menu);
+  lw6gui_menu_free (sys_context, menu_smob->c_menu);
   LW6SYS_FREE (sys_context, menu_smob);
 }
 
@@ -1347,7 +1347,7 @@ print_look (SCM look, SCM port, scm_print_state * pstate)
   lw6gui_look_t *c_look = lw6_scm_to_look (look);
   char *repr = NULL;
 
-  repr = lw6gui_look_repr (c_look);
+  repr = lw6gui_look_repr (sys_context, c_look);
 
   scm_puts ("#<" SMOB_TYPE_LOOK " ", port);
   if (repr)
@@ -1385,7 +1385,7 @@ lw6_make_scm_look (lw6gui_look_t * c_look)
       id = smob_id (SMOB_TYPE_LOOK, c_look->id);
       if (id)
 	{
-	  repr = lw6gui_look_repr (c_look);
+	  repr = lw6gui_look_repr (sys_context, c_look);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating look smob \"%s\""), repr);
@@ -1442,14 +1442,14 @@ lw6_free_look_smob (lw6_look_smob_t * look_smob)
 {
   char *repr = NULL;
 
-  repr = lw6gui_look_repr (look_smob->c_look);
+  repr = lw6gui_look_repr (sys_context, look_smob->c_look);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing look smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6gui_look_free (look_smob->c_look);
+  lw6gui_look_free (sys_context, look_smob->c_look);
   LW6SYS_FREE (sys_context, look_smob);
 }
 

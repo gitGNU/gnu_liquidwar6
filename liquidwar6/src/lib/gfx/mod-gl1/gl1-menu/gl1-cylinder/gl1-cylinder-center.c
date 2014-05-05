@@ -32,7 +32,7 @@ _mod_gl1_menu_cylinder_center_on_menuitem (mod_gl1_utils_context_t *
 					   utils_context,
 					   _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, lw6gui_menu_t * menu, int position)
 {
-  lw6gui_menu_center (menu, position, cylinder_context->const_data.max_displayed_items);
+  lw6gui_menu_center (sys_context, menu, position, cylinder_context->const_data.max_displayed_items);
 }
 
 void

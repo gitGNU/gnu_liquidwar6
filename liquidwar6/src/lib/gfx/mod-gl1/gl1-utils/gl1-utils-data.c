@@ -175,11 +175,11 @@ mod_gl1_utils_load_data (mod_gl1_utils_context_t * utils_context)
 
   ret = ((utils_context->texture_data.to_delete = lw6sys_list_new (sys_context, NULL)) != NULL) && mod_gl1_utils_load_fonts (utils_context);
 
-  look = lw6gui_look_new (NULL);
+  look = lw6gui_look_new (sys_context, NULL);
   if (look)
     {
       ret = mod_gl1_utils_cache_update (utils_context, look) && ret;
-      lw6gui_look_free (look);
+      lw6gui_look_free (sys_context, look);
     }
 
   return ret;

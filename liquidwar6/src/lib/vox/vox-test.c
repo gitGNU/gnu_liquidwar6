@@ -133,7 +133,7 @@ lw6vox_test_register (int mode)
       lw6map_test_register (sys_context, mode);
       lw6ker_test_register (sys_context, mode);
       lw6mat_test_register (mode);
-      lw6gui_test_register (mode);
+      lw6gui_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6vox", _setup_init, _setup_quit);

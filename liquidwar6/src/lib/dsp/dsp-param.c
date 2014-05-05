@@ -48,11 +48,11 @@ _lw6dsp_param_clear (lw6dsp_param_t * param)
 {
   if (param->menu)
     {
-      lw6gui_menu_free (param->menu);
+      lw6gui_menu_free (sys_context, param->menu);
     }
   if (param->look)
     {
-      lw6gui_look_free (param->look);
+      lw6gui_look_free (sys_context, param->look);
     }
 
   lw6dsp_param_zero (param);
@@ -68,17 +68,17 @@ _lw6dsp_param_diff (const _lw6dsp_data_t * data, const lw6dsp_param_t * param)
       ret = ret | _LW6DSP_PARAM_DIFF_MISC;
     }
 
-  if (!lw6gui_video_mode_is_same (&(data->param.video_mode), &(param->video_mode)))
+  if (!lw6gui_video_mode_is_same (sys_context, &(data->param.video_mode), &(param->video_mode)))
     {
       ret = ret | _LW6DSP_PARAM_DIFF_VIDEO_MODE;
     }
 
-  if (!lw6gui_look_is_same (data->param.look, param->look))
+  if (!lw6gui_look_is_same (sys_context, data->param.look, param->look))
     {
       ret = ret | _LW6DSP_PARAM_DIFF_LOOK;
     }
 
-  if (!lw6gui_menu_is_same (data->param.menu, param->menu))
+  if (!lw6gui_menu_is_same (sys_context, data->param.menu, param->menu))
     {
       ret = ret | _LW6DSP_PARAM_DIFF_MENU;
     }

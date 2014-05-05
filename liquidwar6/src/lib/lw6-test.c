@@ -481,7 +481,7 @@ lw6_test_register (int mode)
       lw6ldr_test_register (sys_context, mode);
       lw6tsk_test_register (sys_context, mode);
       lw6mat_test_register (mode);
-      lw6gui_test_register (mode);
+      lw6gui_test_register (sys_context, mode);
       lw6vox_test_register (mode);
       lw6gfx_test_register (mode);
       lw6dsp_test_register (mode);

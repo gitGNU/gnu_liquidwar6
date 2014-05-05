@@ -29,6 +29,7 @@
 /**
  * lw6gui_viewport_init
  *
+ * @sys_context: global system context
  * @viewport: the viewport to initalize
  * @screen_w: screen width
  * @screen_h: screen height
@@ -58,7 +59,7 @@
  * Return value: 1 if ok, 0 on failure
  */
 int
-lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
+lw6gui_viewport_init (lw6sys_context_t * sys_context, lw6gui_viewport_t * viewport, int screen_w,
 		      int screen_h, float drawable_x1, float drawable_y1,
 		      float drawable_x2, float drawable_y2, float center_x,
 		      float center_y, int map_w, int map_h, int x_polarity,
@@ -95,7 +96,7 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
       viewport->screen_shape.w = screen_w;
       viewport->screen_shape.h = screen_h;
 
-      lw6gui_zone_init_x1y1x2y2 (&(viewport->drawable), drawable_x1, drawable_y1, drawable_x2, drawable_y2);
+      lw6gui_zone_init_x1y1x2y2 (sys_context, &(viewport->drawable), drawable_x1, drawable_y1, drawable_x2, drawable_y2);
 
       if (viewport->map_shape.w > 0 && viewport->map_shape.h > 0
 	  && viewport->screen_shape.w > 0 && viewport->screen_shape.h && viewport->drawable.w > 0.0f && viewport->drawable.h > 0.0f)
@@ -233,8 +234,8 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 		}
 	    }
 
-	  lw6gui_zone_init_xywh (&(viewport->map_main), map_main_x, map_main_y, map_main_w, map_main_h);
-	  lw6gui_zone_clip (&(viewport->map_main_clipped), &(viewport->map_main), &(viewport->drawable));
+	  lw6gui_zone_init_xywh (sys_context, &(viewport->map_main), map_main_x, map_main_y, map_main_w, map_main_h);
+	  lw6gui_zone_clip (sys_context, &(viewport->map_main_clipped), &(viewport->map_main), &(viewport->drawable));
 
 	  /*
 	   * Last, we update the "visible" part, that is, what should
@@ -254,11 +255,12 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 	      map_visible_y1 = viewport->drawable.y1;
 	      map_visible_y2 = viewport->drawable.y2;
 	    }
-	  lw6gui_zone_init_x1y1x2y2 (&(viewport->map_visible), map_visible_x1, map_visible_y1, map_visible_x2, map_visible_y2);
+	  lw6gui_zone_init_x1y1x2y2 (sys_context, &(viewport->map_visible), map_visible_x1, map_visible_y1, map_visible_x2, map_visible_y2);
 
 	  if (use_old_center)
 	    {
-	      lw6gui_viewport_map_to_screen (viewport, &old_center_screen_x, &old_center_screen_y, viewport->old_center_x, viewport->old_center_y, 0);
+	      lw6gui_viewport_map_to_screen (sys_context, viewport, &old_center_screen_x, &old_center_screen_y, viewport->old_center_x, viewport->old_center_y,
+					     0);
 	      //dx = old_center_screen_x - viewport->map_visible.w / 2;
 	      //dy = old_center_screen_y - viewport->map_visible.h / 2;
 	    }
@@ -284,6 +286,7 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
 /**
  * lw6gui_viewport_map_to_screen
  *
+ * @sys_context: global system context
  * @viewport: the viewport to use
  * @screen_x: the x coord on the screen
  * @screen_y: the y coord on the screen
@@ -298,12 +301,13 @@ lw6gui_viewport_init (lw6gui_viewport_t * viewport, int screen_w,
  * Return value: NULL
  */
 void
-lw6gui_viewport_map_to_screen (lw6gui_viewport_t * viewport, float *screen_x, float *screen_y, float map_x, float map_y, int clip)
+lw6gui_viewport_map_to_screen (lw6sys_context_t * sys_context, lw6gui_viewport_t * viewport, float *screen_x, float *screen_y, float map_x, float map_y,
+			       int clip)
 {
   float x = 0.0f;
   float y = 0.0f;
 
-  lw6gui_coord_calc_xy (&x, &y,
+  lw6gui_coord_calc_xy (sys_context, &x, &y,
 			viewport->map_main.x1, viewport->map_main.y1,
 			viewport->map_main.w, viewport->map_main.h, map_x, map_y, 0, 0, viewport->map_shape.w, viewport->map_shape.h);
 
@@ -334,6 +338,7 @@ lw6gui_viewport_map_to_screen (lw6gui_viewport_t * viewport, float *screen_x, fl
 /**
  * lw6gui_viewport_screen_to_map
  *
+ * @sys_context: global system context
  * @viewport: the viewport to use
  * @map_x: the x coord in map coordinates
  * @map_y: the y coord in map coordinates
@@ -349,7 +354,8 @@ lw6gui_viewport_map_to_screen (lw6gui_viewport_t * viewport, float *screen_x, fl
  * Return value: NULL
  */
 void
-lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x, float *map_y, float screen_x, float screen_y, int wrap)
+lw6gui_viewport_screen_to_map (lw6sys_context_t * sys_context, lw6gui_viewport_t * viewport, float *map_x, float *map_y, float screen_x, float screen_y,
+			       int wrap)
 {
   float x = 0.0f;
   float y = 0.0f;
@@ -358,13 +364,13 @@ lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x, float
   int x_flipped = 0;
   int y_flipped = 0;
 
-  lw6gui_coord_calc_xy (&x, &y,
+  lw6gui_coord_calc_xy (sys_context, &x, &y,
 			0, 0, viewport->map_shape.w, viewport->map_shape.h,
 			screen_x, screen_y, viewport->map_main.x1, viewport->map_main.y1, viewport->map_main.w, viewport->map_main.h);
 
   if (wrap)
     {
-      lw6gui_coords_fix_xy_float (&x, &y, &x_flipped, &y_flipped, w, h,
+      lw6gui_coords_fix_xy_float (sys_context, &x, &y, &x_flipped, &y_flipped, w, h,
 				  viewport->x_wrap ? viewport->x_polarity : 0, viewport->y_wrap ? viewport->y_polarity : 0);
     }
 
@@ -375,6 +381,7 @@ lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x, float
 /**
  * lw6gui_viewport_calc_drag
  *
+ * @sys_context: global system context
  * @viewport: viewport to work on
  * @map_dst_x: map det x coord (out param)
  * @map_dst_y: map dst y coord (out param)
@@ -388,12 +395,13 @@ lw6gui_viewport_screen_to_map (lw6gui_viewport_t * viewport, float *map_x, float
  * Return value: none.
  */
 void
-lw6gui_viewport_calc_drag (lw6gui_viewport_t * viewport, float *map_dst_x, float *map_dst_y, float map_src_x, float map_src_y, int screen_dx, int screen_dy)
+lw6gui_viewport_calc_drag (lw6sys_context_t * sys_context, lw6gui_viewport_t * viewport, float *map_dst_x, float *map_dst_y, float map_src_x, float map_src_y,
+			   int screen_dx, int screen_dy)
 {
   float map_dx = 0.0f;
   float map_dy = 0.0f;
 
-  lw6gui_coord_calc_xy (&map_dx, &map_dy, 0.0f, 0.0f, viewport->map_shape.w,
+  lw6gui_coord_calc_xy (sys_context, &map_dx, &map_dy, 0.0f, 0.0f, viewport->map_shape.w,
 			viewport->map_shape.h, screen_dx, screen_dy, 0.0f, 0.0f, viewport->map_main.w, viewport->map_main.h);
 
   (*map_dst_x) = map_src_x - map_dx;

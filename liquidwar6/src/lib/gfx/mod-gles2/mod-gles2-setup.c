@@ -115,7 +115,7 @@ _mod_gles2_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
 	    {
 	      if (gles2_context && sdl_ok && ttf_ok)
 		{
-		  lw6gui_input_init (&(gles2_context->sdl_context.input));
+		  lw6gui_input_init (sys_context, &(gles2_context->sdl_context.input));
 		  //_mod_gles2_show_mouse (&(gles2_context->utils_context), 0, 1);
 		  _mod_gles2_set_resize_callback (gles2_context, resize_callback);
 		  if (_mod_gles2_load_consts (gles2_context) && _lw6gfx_sdl_load_consts (&(gles2_context->sdl_context)))
@@ -165,7 +165,7 @@ _mod_gles2_quit (_mod_gles2_context_t * gles2_context)
    */
   quit_sleep = gles2_context->sdl_context.const_data.quit_sleep;
 
-  lw6gui_input_quit (&(gles2_context->sdl_context.input));
+  lw6gui_input_quit (sys_context, &(gles2_context->sdl_context.input));
 
   // todo...
 

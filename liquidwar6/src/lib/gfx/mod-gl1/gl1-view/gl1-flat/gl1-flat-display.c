@@ -132,8 +132,8 @@ _display_bitmap_array (mod_gl1_utils_context_t * utils_context,
 	{
 	  for (x = flat_context->viewport.map_visible.x1; x < flat_context->viewport.map_visible.x2 - step_x / 2.0f; x += step_x)
 	    {
-	      lw6gui_viewport_screen_to_map (&(flat_context->viewport), &map_x1, &map_y1, x, y, 0);
-	      lw6gui_viewport_screen_to_map (&(flat_context->viewport), &map_x2, &map_y2, x + step_x, y + step_y, 0);
+	      lw6gui_viewport_screen_to_map (sys_context, &(flat_context->viewport), &map_x1, &map_y1, x, y, 0);
+	      lw6gui_viewport_screen_to_map (sys_context, &(flat_context->viewport), &map_x2, &map_y2, x + step_x, y + step_y, 0);
 	      if (use_waves)
 		{
 		  map_x1 += waves_scale_x * cos ((waves_cycle_offset + (x / wave_length)) * M_PI * 2.0f);
@@ -153,7 +153,7 @@ _display_bitmap_array (mod_gl1_utils_context_t * utils_context,
 	      source_quad.p3.y = map_y2;
 	      source_quad.p4.x = map_x1;
 	      source_quad.p4.y = map_y2;
-	      if (lw6gui_rect_array_get_tile_and_quad (&(bitmap_array->layout), &rect, &i, &quad, &source_quad, x_polarity, y_polarity))
+	      if (lw6gui_rect_array_get_tile_and_quad (sys_context, &(bitmap_array->layout), &rect, &i, &quad, &source_quad, x_polarity, y_polarity))
 		{
 		  bitmap = mod_gl1_utils_bitmap_array_get (bitmap_array, i);
 		  texture_x1 = (quad.p1.x - ((float) rect.x1)) / ((float) bitmap_array->layout.tile_size);
@@ -376,7 +376,7 @@ _display_cursor (mod_gl1_utils_context_t * utils_context,
       y = local_cursor->y;
     }
 
-  lw6gui_viewport_map_to_screen (&(flat_context->viewport), &cursor_x, &cursor_y, x, y, 0);
+  lw6gui_viewport_map_to_screen (sys_context, &(flat_context->viewport), &cursor_x, &cursor_y, x, y, 0);
 
   if (local_cursor)
     {
@@ -388,7 +388,7 @@ _display_cursor (mod_gl1_utils_context_t * utils_context,
 	}
       else
 	{
-	  lw6gui_viewport_map_to_screen (&(flat_context->viewport), &cursor_x, &cursor_y, local_cursor->x, local_cursor->y, 0);
+	  lw6gui_viewport_map_to_screen (sys_context, &(flat_context->viewport), &cursor_x, &cursor_y, local_cursor->x, local_cursor->y, 0);
 	}
 
       cursor_x = lw6sys_imax (cursor_x, flat_context->viewport.map_visible.x1);

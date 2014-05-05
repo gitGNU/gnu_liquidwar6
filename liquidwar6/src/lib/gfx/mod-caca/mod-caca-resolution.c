@@ -49,7 +49,7 @@ _mod_caca_get_fullscreen_modes (_mod_caca_context_t * caca_context, lw6gui_fulls
   modes->standard.width = (modes->low.width + modes->high.width) / 2;
   modes->standard.height = (modes->low.height + modes->high.height) / 2;
 
-  lw6gui_video_mode_sync_ratio (&(modes->standard), &(modes->high));
+  lw6gui_video_mode_sync_ratio (sys_context, &(modes->standard), &(modes->high));
 
   _mod_caca_find_closest_resolution (caca_context, &(modes->standard.width), &(modes->standard.height), modes->standard.width, modes->standard.height);
 

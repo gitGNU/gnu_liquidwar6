@@ -29,6 +29,7 @@
 /**
  * lw6gui_keypress_new
  *
+ * @sys_context: global system context
  * @keysym: the keysym to use
  * @unicode: the unicode value for this keysym
  * @label: the label (optional, might be NULL)
@@ -39,7 +40,7 @@
  * Return value: a pointer to the newly allocated object.
  */
 lw6gui_keypress_t *
-lw6gui_keypress_new (int keysym, int unicode, const char *label)
+lw6gui_keypress_new (lw6sys_context_t * sys_context, int keysym, int unicode, const char *label)
 {
   lw6gui_keypress_t *ret = NULL;
 
@@ -64,6 +65,7 @@ lw6gui_keypress_new (int keysym, int unicode, const char *label)
 /**
  * lw6gui_keypress_free
  *
+ * @sys_context: global system context
  * @keypress: the keypress object to free.
  *
  * Deletes a keypress structure.
@@ -71,7 +73,7 @@ lw6gui_keypress_new (int keysym, int unicode, const char *label)
  * Return value: none.
  */
 void
-lw6gui_keypress_free (lw6gui_keypress_t * keypress)
+lw6gui_keypress_free (lw6sys_context_t * sys_context, lw6gui_keypress_t * keypress)
 {
   if (keypress)
     {
@@ -90,6 +92,7 @@ lw6gui_keypress_free (lw6gui_keypress_t * keypress)
 /**
  * lw6gui_keypress_repr
  *
+ * @sys_context: global system context
  * @keypress: the keypress to work on
  *
  * Returns a human-readable representation of the keypress.
@@ -97,7 +100,7 @@ lw6gui_keypress_free (lw6gui_keypress_t * keypress)
  * Return value: a newly allocated string
  */
 char *
-lw6gui_keypress_repr (const lw6gui_keypress_t * keypress)
+lw6gui_keypress_repr (lw6sys_context_t * sys_context, const lw6gui_keypress_t * keypress)
 {
   char *ret = NULL;
 
@@ -106,12 +109,12 @@ lw6gui_keypress_repr (const lw6gui_keypress_t * keypress)
       if (keypress->unicode >= 32 && keypress->unicode <= 127)
 	{
 	  ret =
-	    lw6sys_new_sprintf (_x_
+	    lw6sys_new_sprintf (sys_context, _x_
 				("keypress keysym=%d ascii=%d ('%c') label=\"%s\""), keypress->keysym, keypress->unicode, keypress->unicode, keypress->label);
 	}
       else
 	{
-	  ret = lw6sys_new_sprintf (_x_ ("keypress keysym=%d unicode=%d label=\"%s\""), keypress->keysym, keypress->unicode, keypress->label);
+	  ret = lw6sys_new_sprintf (sys_context, _x_ ("keypress keysym=%d unicode=%d label=\"%s\""), keypress->keysym, keypress->unicode, keypress->label);
 	}
     }
   else

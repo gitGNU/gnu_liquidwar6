@@ -122,7 +122,7 @@ poll (_lw6dsp_data_t * data)
 
   timestamp = lw6sys_get_timestamp ();
   data->input = lw6gfx_pump_events (data->gfx_backend);
-  lw6gui_input_update_repeat (data->input, &(data->param.misc.repeat_settings), timestamp);
+  lw6gui_input_update_repeat (sys_context, data->input, &(data->param.misc.repeat_settings), timestamp);
   mask = data->param.misc.mask;
   if (data->slow_fps)
     {
@@ -265,7 +265,7 @@ loop (_lw6dsp_data_t * data)
 {
   int ret = 0;
 
-  if (!lw6gui_video_mode_is_same (&(data->video_mode_requested), &(data->param.video_mode)))
+  if (!lw6gui_video_mode_is_same (sys_context, &(data->video_mode_requested), &(data->param.video_mode)))
     {
       data->video_mode_requested = data->param.video_mode;
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,

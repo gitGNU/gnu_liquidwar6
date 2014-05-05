@@ -29,6 +29,7 @@
 /**
  * lw6gui_coord_calc_xy
  *
+ * @sys_context: global system context
  * @dst_x: the x coord to return
  * @dst_y: the y coord to return
  * @dst_x0: the x coord of point 0 in destination coord system
@@ -47,7 +48,7 @@
  * Return value: 1 if OK, 0 if error (unable to calculate).
  */
 int
-lw6gui_coord_calc_xy (float *dst_x, float *dst_y, float dst_x0, float dst_y0,
+lw6gui_coord_calc_xy (lw6sys_context_t * sys_context, float *dst_x, float *dst_y, float dst_x0, float dst_y0,
 		      float dst_w, float dst_h, float src_x, float src_y, float src_x0, float src_y0, float src_w, float src_h)
 {
   int ret = 0;
@@ -75,6 +76,7 @@ lw6gui_coord_calc_xy (float *dst_x, float *dst_y, float dst_x0, float dst_y0,
 /**
  * lw6gui_coords_fix_xy_float
  *
+ * @sys_context: global system context
  * @x: x coord (in/out param)
  * @y: y coord (in/out param)
  * @x_flip: flip on x (out param, -1 or +1)
@@ -95,7 +97,7 @@ lw6gui_coord_calc_xy (float *dst_x, float *dst_y, float dst_x0, float dst_y0,
  * Return value: none
  */
 void
-lw6gui_coords_fix_xy_float (float *x, float *y, int *x_flip, int *y_flip, float w, float h, int x_polarity, int y_polarity)
+lw6gui_coords_fix_xy_float (lw6sys_context_t * sys_context, float *x, float *y, int *x_flip, int *y_flip, float w, float h, int x_polarity, int y_polarity)
 {
   /*
    * The algorithm is copied/pasted from map code, only here it

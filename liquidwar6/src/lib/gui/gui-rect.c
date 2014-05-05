@@ -29,6 +29,7 @@
 /**
  * lw6gui_rect_init_x1y1x2y2
  *
+ * @sys_context: global system context
  * @rect: the structure to initialize
  * @x1: x for top left corner
  * @y1: y for top left corner
@@ -40,7 +41,7 @@
  * Return value: none.
  */
 void
-lw6gui_rect_init_x1y1x2y2 (lw6gui_rect_t * rect, int x1, int y1, int x2, int y2)
+lw6gui_rect_init_x1y1x2y2 (lw6sys_context_t * sys_context, lw6gui_rect_t * rect, int x1, int y1, int x2, int y2)
 {
   rect->x1 = x1;
   rect->y1 = y1;
@@ -53,6 +54,7 @@ lw6gui_rect_init_x1y1x2y2 (lw6gui_rect_t * rect, int x1, int y1, int x2, int y2)
 /**
  * lw6gui_rect_init_xywh
  *
+ * @sys_context: global system context
  * @rect: the structure to initialize
  * @x: x for top left corner
  * @y: y for top left corner
@@ -64,7 +66,7 @@ lw6gui_rect_init_x1y1x2y2 (lw6gui_rect_t * rect, int x1, int y1, int x2, int y2)
  * Return value: none.
  */
 void
-lw6gui_rect_init_xywh (lw6gui_rect_t * rect, int x, int y, int w, int h)
+lw6gui_rect_init_xywh (lw6sys_context_t * sys_context, lw6gui_rect_t * rect, int x, int y, int w, int h)
 {
   rect->x1 = x;
   rect->y1 = y;
@@ -77,6 +79,7 @@ lw6gui_rect_init_xywh (lw6gui_rect_t * rect, int x, int y, int w, int h)
 /**
  * lw6gui_rect_clip
  *
+ * @sys_context: global system context
  * @dst: the structure which will contain the result
  * @src: the source rect
  * @clip: the clipping rect (boundaries)
@@ -86,7 +89,7 @@ lw6gui_rect_init_xywh (lw6gui_rect_t * rect, int x, int y, int w, int h)
  * Return value: none.
  */
 void
-lw6gui_rect_clip (lw6gui_rect_t * dst, const lw6gui_rect_t * src, const lw6gui_rect_t * clip)
+lw6gui_rect_clip (lw6sys_context_t * sys_context, lw6gui_rect_t * dst, const lw6gui_rect_t * src, const lw6gui_rect_t * clip)
 {
   int max_x1 = 0;
   int max_y1 = 0;
@@ -98,5 +101,5 @@ lw6gui_rect_clip (lw6gui_rect_t * dst, const lw6gui_rect_t * src, const lw6gui_r
   min_x2 = lw6sys_imin (src->x2, clip->x2);
   min_y2 = lw6sys_imin (src->y2, clip->y2);
 
-  lw6gui_rect_init_x1y1x2y2 (dst, max_x1, max_y1, min_x2, min_y2);
+  lw6gui_rect_init_x1y1x2y2 (sys_context, dst, max_x1, max_y1, min_x2, min_y2);
 }

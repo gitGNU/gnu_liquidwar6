@@ -115,7 +115,7 @@ _mod_soft_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
 	    {
 	      if (soft_context && sdl_ok && ttf_ok)
 		{
-		  lw6gui_input_init (&(soft_context->sdl_context.input));
+		  lw6gui_input_init (sys_context, &(soft_context->sdl_context.input));
 		  //_mod_soft_show_mouse (&(soft_context->utils_context), 0, 1);
 		  _mod_soft_set_resize_callback (soft_context, resize_callback);
 		  if (_mod_soft_load_consts (soft_context) && _lw6gfx_sdl_load_consts (&(soft_context->sdl_context)))
@@ -165,7 +165,7 @@ _mod_soft_quit (_mod_soft_context_t * soft_context)
    */
   quit_sleep = soft_context->sdl_context.const_data.quit_sleep;
 
-  lw6gui_input_quit (&(soft_context->sdl_context.input));
+  lw6gui_input_quit (sys_context, &(soft_context->sdl_context.input));
 
   // todo...
 

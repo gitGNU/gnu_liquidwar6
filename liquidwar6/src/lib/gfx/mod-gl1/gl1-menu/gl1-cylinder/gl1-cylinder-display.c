@@ -281,7 +281,7 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 
   prepare_view (utils_context, cylinder_context);
 
-  lw6gui_menu_update_display_range (menu, cylinder_context->const_data.max_displayed_items);
+  lw6gui_menu_update_display_range (sys_context, menu, cylinder_context->const_data.max_displayed_items);
 
   blink_state = _lw6gfx_sdl_timer_get_uptime (&(utils_context->sdl_context)) / (cylinder_context->const_data.sphere_blink_period / 2) % 2;
   n = menu->nb_items_displayed + 2;
@@ -309,7 +309,7 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
       draw_button (utils_context, cylinder_context, look, menu->esc_item, -1, n);
     }
 
-  if (lw6gui_menu_has_popup (menu))
+  if (lw6gui_menu_has_popup (sys_context, menu))
     {
       popup = menu->popup;
       if (!lw6sys_str_is_null_or_empty (sys_context, popup))
@@ -414,7 +414,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 
   mod_gl1_utils_set_render_mode_3d_menu (utils_context);
 
-  if (!lw6gui_menu_has_popup (menu))
+  if (!lw6gui_menu_has_popup (sys_context, menu))
     {
       n = menu->nb_items_displayed + 2;
       if (cylinder_context->j_tooltip >= 0

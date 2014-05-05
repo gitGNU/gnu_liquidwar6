@@ -29,6 +29,7 @@
 /**
  * lw6gui_triangle_is_inside_rect
  *
+ * @sys_context: global system context
  * @triangle: triangle to test
  * @rect: rectangle in which triangle is supposed to be
  *
@@ -38,8 +39,8 @@
  * Return value: 1 if OK, 0 if outside
  */
 int
-lw6gui_triangle_is_inside_rect (const lw6gui_triangle_t * triangle, const lw6gui_rect_t * rect)
+lw6gui_triangle_is_inside_rect (lw6sys_context_t * sys_context, const lw6gui_triangle_t * triangle, const lw6gui_rect_t * rect)
 {
-  return (lw6gui_point_is_inside_rect (triangle->p1, rect)
-	  && lw6gui_point_is_inside_rect (triangle->p2, rect) && lw6gui_point_is_inside_rect (triangle->p3, rect));
+  return (lw6gui_point_is_inside_rect (sys_context, triangle->p1, rect)
+	  && lw6gui_point_is_inside_rect (sys_context, triangle->p2, rect) && lw6gui_point_is_inside_rect (sys_context, triangle->p3, rect));
 }

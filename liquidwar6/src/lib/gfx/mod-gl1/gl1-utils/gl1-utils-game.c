@@ -312,7 +312,7 @@ mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
 	   */
 	  lw6gui_rect_t rect;
 
-	  if (lw6gui_rect_array_get_tile_by_i (&(bitmap_array->layout), &rect, i))
+	  if (lw6gui_rect_array_get_tile_by_i (sys_context, &(bitmap_array->layout), &rect, i))
 	    {
 	      bitmap = mod_gl1_utils_bitmap_array_get (bitmap_array, i);
 	      if (bitmap)

@@ -36,7 +36,7 @@ typedef struct video_mode_sort_s
 } video_mode_sort_t;
 
 static int
-video_mode_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+_video_mode_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
 {
   int ret = 0;
   const video_mode_sort_t *a;
@@ -58,7 +58,7 @@ video_mode_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** 
 }
 
 static void
-video_mode_copy_callback (void *func_data, void *data)
+_video_mode_copy_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   lw6sys_list_t **target = (lw6sys_list_t **) func_data;
   lw6gui_video_mode_t *video_mode = (lw6gui_video_mode_t *) data;
@@ -74,7 +74,7 @@ video_mode_copy_callback (void *func_data, void *data)
 }
 
 static void
-video_mode_distance_callback (void *func_data, void *data)
+_video_mode_distance_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   const lw6gui_video_mode_t *wished = (const lw6gui_video_mode_t *) func_data;
   video_mode_sort_t *video_mode_sort = (video_mode_sort_t *) data;
@@ -88,6 +88,7 @@ video_mode_distance_callback (void *func_data, void *data)
 /**
  * lw6gui_video_mode_find_closest
  *
+ * @sys_context: global system context
  * @closest: the closest video_mode found
  * @wished: the wished video_mode
  * @available: a list of available video_modes (list of lw6gui_video_mode_t *)
@@ -101,7 +102,7 @@ video_mode_distance_callback (void *func_data, void *data)
  *   an approximative match was picked.
  */
 int
-lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest, const lw6gui_video_mode_t * wished, lw6sys_list_t * available)
+lw6gui_video_mode_find_closest (lw6sys_context_t * sys_context, lw6gui_video_mode_t * closest, const lw6gui_video_mode_t * wished, lw6sys_list_t * available)
 {
   int ret = 0;
   lw6sys_list_t *sorted = NULL;
@@ -113,16 +114,16 @@ lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest, const lw6gui_vide
     {
       if (available)
 	{
-	  lw6sys_list_map (sys_context, available, &video_mode_copy_callback, &sorted);
-	  lw6sys_list_map (sorted, &video_mode_distance_callback, (void *) wished);
-	  lw6sys_sort (sys_context, &sorted, video_mode_sort_callback);
+	  lw6sys_list_map (sys_context, available, &_video_mode_copy_callback, &sorted);
+	  lw6sys_list_map (sys_context, sorted, &_video_mode_distance_callback, (void *) wished);
+	  lw6sys_sort (sys_context, &sorted, _video_mode_sort_callback);
 
 	  if (sorted->data)
 	    {
 	      (*closest) = ((video_mode_sort_t *) (sorted->data))->video_mode;
 	    }
 	}
-      lw6sys_list_free (sorted);
+      lw6sys_list_free (sys_context, sorted);
     }
 
   if (closest->width == wished->width && closest->height == wished->height)
@@ -136,6 +137,7 @@ lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest, const lw6gui_vide
 /**
  * lw6gui_video_mode_is_same
  *
+ * @sys_context: global system context
  * @mode_a: first mode to compare
  * @mode_b: second mode to compare
  *
@@ -144,7 +146,7 @@ lw6gui_video_mode_find_closest (lw6gui_video_mode_t * closest, const lw6gui_vide
  * Return value: 1 if equal, 0 if not.
  */
 int
-lw6gui_video_mode_is_same (const lw6gui_video_mode_t * mode_a, const lw6gui_video_mode_t * mode_b)
+lw6gui_video_mode_is_same (lw6sys_context_t * sys_context, const lw6gui_video_mode_t * mode_a, const lw6gui_video_mode_t * mode_b)
 {
   int ret = 0;
 
@@ -156,6 +158,7 @@ lw6gui_video_mode_is_same (const lw6gui_video_mode_t * mode_a, const lw6gui_vide
 /**
  * lw6gui_video_sync_ratio
  *
+ * @sys_context: global system context
  * @dst: the target video mode
  * @src: the source video mode
  *
@@ -165,7 +168,7 @@ lw6gui_video_mode_is_same (const lw6gui_video_mode_t * mode_a, const lw6gui_vide
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6gui_video_mode_sync_ratio (lw6gui_video_mode_t * dst, const lw6gui_video_mode_t * src)
+lw6gui_video_mode_sync_ratio (lw6sys_context_t * sys_context, lw6gui_video_mode_t * dst, const lw6gui_video_mode_t * src)
 {
   int ret = 0;
   float coeff = 0.0f;

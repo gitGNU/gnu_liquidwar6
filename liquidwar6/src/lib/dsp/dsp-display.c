@@ -80,7 +80,7 @@ lw6dsp_create_backend (int argc, const char *argv[], const char *gfx_backend_nam
 	      if (data->render_mutex)
 		{
 		  lw6dsp_param_zero (&(data->param));
-		  if ((ret->input = lw6gui_input_new ()) != NULL)
+		  if ((ret->input = lw6gui_input_new (sys_context,)) != NULL)
 		    {
 		      ok = 1;
 		    }
@@ -97,7 +97,7 @@ lw6dsp_create_backend (int argc, const char *argv[], const char *gfx_backend_nam
 	  data = NULL;
 	  if (ret->input)
 	    {
-	      lw6gui_input_free (ret->input);
+	      lw6gui_input_free (sys_context, ret->input);
 	    }
 	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
@@ -135,7 +135,7 @@ lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend)
 	    }
 	  if (dsp_backend->input)
 	    {
-	      lw6gui_input_free (dsp_backend->input);
+	      lw6gui_input_free (sys_context, dsp_backend->input);
 	      dsp_backend->input = NULL;
 	    }
 	}
@@ -214,7 +214,7 @@ lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param, lw6gu
       data->run = 1;
       data->start_ticks = lw6sys_get_timestamp ();
       data->resize_callback = resize_callback;
-      lw6gui_input_reset (dsp_backend->input);
+      lw6gui_input_reset (sys_context, dsp_backend->input);
       if (lw6sys_vthread_is_running ())
 	{
 	  thread_ok =
@@ -309,7 +309,7 @@ lw6dsp_quit (lw6dsp_backend_t * dsp_backend)
 	{
 	  lw6sys_thread_join (dsp_backend->thread);
 	}
-      lw6gui_input_quit (dsp_backend->input);
+      lw6gui_input_quit (sys_context, dsp_backend->input);
       _lw6dsp_param_clear (&(data->param));
       dsp_backend->thread = NULL;
     }
@@ -379,7 +379,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
       diff = _lw6dsp_param_diff (data, param);
       if (data->input)
 	{
-	  need_sync = lw6gui_input_need_sync (data->input);
+	  need_sync = lw6gui_input_need_sync (sys_context, data->input);
 	}
       if (diff || need_sync)
 	{
@@ -401,9 +401,9 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 	    {
 	      if (data->param.look)
 		{
-		  lw6gui_look_free (data->param.look);
+		  lw6gui_look_free (sys_context, data->param.look);
 		}
-	      data->param.look = lw6gui_look_dup (param->look);
+	      data->param.look = lw6gui_look_dup (sys_context, param->look);
 	    }
 
 	  if (diff & _LW6DSP_PARAM_DIFF_MENU)
@@ -415,20 +415,20 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 		      if (data->last_menu_id == param->menu->id)
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("synchronising menu"));
-			  lw6gui_menu_sync (data->param.menu, param->menu);
+			  lw6gui_menu_sync (sys_context, data->param.menu, param->menu);
 			}
 		      else
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("new menu is totally different, duping it"));
-			  lw6gui_menu_free (data->param.menu);
-			  data->param.menu = lw6gui_menu_dup (param->menu);
+			  lw6gui_menu_free (sys_context, data->param.menu);
+			  data->param.menu = lw6gui_menu_dup (sys_context, param->menu);
 			  data->last_menu_id = param->menu->id;
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("new menu is NULL"));
-		      lw6gui_menu_free (data->param.menu);
+		      lw6gui_menu_free (sys_context, data->param.menu);
 		      data->param.menu = NULL;
 		      data->last_menu_id = 0;
 		    }
@@ -438,7 +438,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 		  if (param->menu)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("new menu and no previous one, duping it"));
-		      data->param.menu = lw6gui_menu_dup (param->menu);
+		      data->param.menu = lw6gui_menu_dup (sys_context, param->menu);
 		      data->last_menu_id = param->menu->id;
 		    }
 		}
@@ -466,7 +466,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 	    }
 	  if (dsp_backend->input != NULL && data->input != NULL)
 	    {
-	      lw6gui_input_sync (dsp_backend->input, data->input);
+	      lw6gui_input_sync (sys_context, dsp_backend->input, data->input);
 	    }
 
 	  lw6sys_mutex_unlock (sys_context, data->render_mutex);

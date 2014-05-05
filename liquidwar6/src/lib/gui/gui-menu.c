@@ -38,6 +38,7 @@ static volatile u_int32_t seq_id = 0;
 /**
  * lw6gui_menu_new
  *
+ * @sys_context: global system context
  * @title: the string to be displayed, what the user sees. Can be freed after
  *   the call is done, function will make a copy internally.
  * @help: a string introducing the menu, describing what it does,
@@ -53,7 +54,7 @@ static volatile u_int32_t seq_id = 0;
  * Return value: a pointer to the newly allocated object.
  */
 lw6gui_menu_t *
-lw6gui_menu_new (const char *title, const char *help, const char *popup, const char *esc, int enable_esc)
+lw6gui_menu_new (lw6sys_context_t * sys_context, const char *title, const char *help, const char *popup, const char *esc, int enable_esc)
 {
   lw6gui_menu_t *menu = NULL;
 
@@ -66,16 +67,16 @@ lw6gui_menu_new (const char *title, const char *help, const char *popup, const c
 	  menu->id = ++seq_id;
 	}
 
-      menu->title = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (title));
+      menu->title = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (sys_context, title));
       if (menu->title)
 	{
-	  menu->help = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (help));
+	  menu->help = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (sys_context, help));
 	  if (menu->help)
 	    {
-	      menu->popup = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (popup));
+	      menu->popup = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (sys_context, popup));
 	      if (menu->popup)
 		{
-		  menu->esc_item = lw6gui_menuitem_new (esc, NULL, 0, enable_esc, 0, 0);
+		  menu->esc_item = lw6gui_menuitem_new (sys_context, esc, NULL, 0, enable_esc, 0, 0);
 		  if (menu->esc_item)
 		    {
 		      // OK
@@ -85,7 +86,7 @@ lw6gui_menu_new (const char *title, const char *help, const char *popup, const c
 	}
       if ((!menu->title) || (!menu->help) || (!menu->popup) || (!menu->esc_item))
 	{
-	  lw6gui_menu_free (menu);
+	  lw6gui_menu_free (sys_context, menu);
 	  menu = NULL;
 	}
     }
@@ -96,6 +97,7 @@ lw6gui_menu_new (const char *title, const char *help, const char *popup, const c
 /**
  * lw6gui_menu_free
  *
+ * @sys_context: global system context
  * @menu: a pointer to the menu.
  *
  * Frees the menu, checking if things are OK before doing so.
@@ -103,7 +105,7 @@ lw6gui_menu_new (const char *title, const char *help, const char *popup, const c
  * Return value: none.
  */
 void
-lw6gui_menu_free (lw6gui_menu_t * menu)
+lw6gui_menu_free (lw6sys_context_t * sys_context, lw6gui_menu_t * menu)
 {
   int i;
 
@@ -141,13 +143,13 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 
       if (menu->esc_item)
 	{
-	  lw6gui_menuitem_free (menu->esc_item);
+	  lw6gui_menuitem_free (sys_context, menu->esc_item);
 	}
       if (menu->items)
 	{
 	  for (i = 0; i < menu->nb_items; ++i)
 	    {
-	      lw6gui_menuitem_free (menu->items[i]);
+	      lw6gui_menuitem_free (sys_context, menu->items[i]);
 	    }
 	  LW6SYS_FREE (sys_context, menu->items);
 	}
@@ -166,6 +168,7 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
 /**
  * lw6gui_menu_memory_footprint
  *
+ * @sys_context: global system context
  * @menu: a pointer to the menu.
  *
  * Gets the memory occupied by the menu. Could be usefull to help
@@ -174,7 +177,7 @@ lw6gui_menu_free (lw6gui_menu_t * menu)
  * Return value: the number of bytes used.
  */
 int
-lw6gui_menu_memory_footprint (lw6gui_menu_t * menu)
+lw6gui_menu_memory_footprint (lw6sys_context_t * sys_context, lw6gui_menu_t * menu)
 {
   int memory_footprint = 0;
   int i;
@@ -187,7 +190,7 @@ lw6gui_menu_memory_footprint (lw6gui_menu_t * menu)
       memory_footprint += strlen (menu->popup) + 1;
       for (i = 0; i < menu->nb_items; ++i)
 	{
-	  memory_footprint += lw6gui_menuitem_memory_footprint (menu->items[i]);
+	  memory_footprint += lw6gui_menuitem_memory_footprint (sys_context, menu->items[i]);
 	}
     }
   else
@@ -201,6 +204,7 @@ lw6gui_menu_memory_footprint (lw6gui_menu_t * menu)
 /**
  * lw6gui_menu_repr
  *
+ * @sys_context: global system context
  * @menu: a pointer to the menu.
  *
  * Constructs a readable description of the object. Usefull for
@@ -211,7 +215,7 @@ lw6gui_menu_memory_footprint (lw6gui_menu_t * menu)
  * Return value: a string describing the object, must be freed.
  */
 char *
-lw6gui_menu_repr (const lw6gui_menu_t * menu)
+lw6gui_menu_repr (lw6sys_context_t * sys_context, const lw6gui_menu_t * menu)
 {
   char *repr;
 
@@ -223,6 +227,7 @@ lw6gui_menu_repr (const lw6gui_menu_t * menu)
 /**
  * lw6gui_menu_set_title
  *
+ * @sys_context: global system context
  * @menu: a pointer to the menu.
  * @title: the new title, you can free it after calling the function,
  *   an internal copy will be made.
@@ -234,10 +239,10 @@ lw6gui_menu_repr (const lw6gui_menu_t * menu)
  * Return value: none
  */
 void
-lw6gui_menu_set_title (lw6gui_menu_t * menu, const char *title)
+lw6gui_menu_set_title (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, const char *title)
 {
   LW6SYS_FREE (sys_context, menu->title);
-  menu->title = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (title));
+  menu->title = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (sys_context, title));
   if (!(menu->title))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't set menu title \"%s\""), title);
@@ -247,6 +252,7 @@ lw6gui_menu_set_title (lw6gui_menu_t * menu, const char *title)
 /**
  * lw6gui_menu_set_help
  *
+ * @sys_context: global system context
  * @menu: a pointer to the menu.
  * @help: the new help, you can free it after calling the function,
  *   an internal copy will be made.
@@ -258,10 +264,10 @@ lw6gui_menu_set_title (lw6gui_menu_t * menu, const char *title)
  * Return value: none
  */
 void
-lw6gui_menu_set_help (lw6gui_menu_t * menu, const char *help)
+lw6gui_menu_set_help (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, const char *help)
 {
   LW6SYS_FREE (sys_context, menu->help);
-  menu->help = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (help));
+  menu->help = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (sys_context, help));
   if (!(menu->help))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't set menu help \"%s\""), help);
@@ -271,6 +277,7 @@ lw6gui_menu_set_help (lw6gui_menu_t * menu, const char *help)
 /**
  * lw6gui_menu_set_popup
  *
+ * @sys_context: global system context
  * @menu: a pointer to the menu.
  * @popup: the new popup, you can free it after calling the function,
  *   an internal copy will be made.
@@ -282,10 +289,10 @@ lw6gui_menu_set_help (lw6gui_menu_t * menu, const char *help)
  * Return value: none
  */
 void
-lw6gui_menu_set_popup (lw6gui_menu_t * menu, const char *popup)
+lw6gui_menu_set_popup (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, const char *popup)
 {
   LW6SYS_FREE (sys_context, menu->popup);
-  menu->popup = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (popup));
+  menu->popup = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (sys_context, popup));
   if (!(menu->popup))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't set menu popup \"%s\""), popup);
@@ -295,6 +302,7 @@ lw6gui_menu_set_popup (lw6gui_menu_t * menu, const char *popup)
 /**
  * lw6gui_menu_close_popup
  *
+ * @sys_context: global system context
  * @menu: a pointer to the menu.
  *
  * Closes the popup, in practice, this is equivalent to
@@ -303,14 +311,15 @@ lw6gui_menu_set_popup (lw6gui_menu_t * menu, const char *popup)
  * Return value: none
  */
 void
-lw6gui_menu_close_popup (lw6gui_menu_t * menu)
+lw6gui_menu_close_popup (lw6sys_context_t * sys_context, lw6gui_menu_t * menu)
 {
-  lw6gui_menu_set_popup (menu, NULL);
+  lw6gui_menu_set_popup (sys_context, menu, NULL);
 }
 
 /**
  * lw6gui_menu_has_popup
  *
+ * @sys_context: global system context
  * @menu: a pointer to the menu.
  *
  * Tells wether a popup is defined. Behavior is simplistic,
@@ -323,7 +332,7 @@ lw6gui_menu_close_popup (lw6gui_menu_t * menu)
  * Return value: 1 if has popup, 0 if does not
  */
 int
-lw6gui_menu_has_popup (lw6gui_menu_t * menu)
+lw6gui_menu_has_popup (lw6sys_context_t * sys_context, lw6gui_menu_t * menu)
 {
   return !lw6sys_str_is_null_or_empty (sys_context, menu->popup);
 }
@@ -331,6 +340,7 @@ lw6gui_menu_has_popup (lw6gui_menu_t * menu)
 /**
  * lw6gui_menu_get_item
  *
+ * @sys_context: global system context
  * @menu: the menu we want to query
  * @position: the order of the item we want
  *
@@ -340,7 +350,7 @@ lw6gui_menu_has_popup (lw6gui_menu_t * menu)
  * Return value: a pointer to a menu item, NULL if out of range.
  */
 lw6gui_menuitem_t *
-lw6gui_menu_get_item (lw6gui_menu_t * menu, int position)
+lw6gui_menu_get_item (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, int position)
 {
   lw6gui_menuitem_t *ret = NULL;
 
@@ -359,6 +369,7 @@ lw6gui_menu_get_item (lw6gui_menu_t * menu, int position)
 /**
  * lw6gui_menu_select
  *
+ * @sys_context: global system context
  * @menu: the menu we want to modify
  * @position: the position of the item we want to select
  * @allow_scroll: wether scrolling should be allowed when displaying it
@@ -371,7 +382,7 @@ lw6gui_menu_get_item (lw6gui_menu_t * menu, int position)
  * Return value: 1 if success, 0 if failure (out of range).
  */
 int
-lw6gui_menu_select (lw6gui_menu_t * menu, int position, int allow_scroll, int64_t now)
+lw6gui_menu_select (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, int position, int allow_scroll, int64_t now)
 {
   int ret = 0;
   int i = 0;
@@ -383,7 +394,7 @@ lw6gui_menu_select (lw6gui_menu_t * menu, int position, int allow_scroll, int64_
 	  menu->selected_item = position;
 	  for (i = 0; i < menu->nb_items; ++i)
 	    {
-	      lw6gui_menuitem_select (menu->items[i], (i == position), now);
+	      lw6gui_menuitem_select (sys_context, menu->items[i], (i == position), now);
 	    }
 	  ret = 1;
 	}
@@ -400,6 +411,7 @@ lw6gui_menu_select (lw6gui_menu_t * menu, int position, int allow_scroll, int64_
 /**
  * lw6gui_menu_select_esc
  *
+ * @sys_context: global system context
  * @menu: the menu we want to modify
  * @state: 1 to select, 0 to unselect
  * @now: the current time, as a timestamp.
@@ -410,14 +422,15 @@ lw6gui_menu_select (lw6gui_menu_t * menu, int position, int allow_scroll, int64_
  * Return value: none.
  */
 void
-lw6gui_menu_select_esc (lw6gui_menu_t * menu, int state, int64_t now)
+lw6gui_menu_select_esc (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, int state, int64_t now)
 {
-  lw6gui_menuitem_select (menu->esc_item, state, now);
+  lw6gui_menuitem_select (sys_context, menu->esc_item, state, now);
 }
 
 /**
  * lw6gui_menu_enable_esc
  *
+ * @sys_context: global system context
  * @menu: the menu we want to modify
  * @state: 1 to enable, 0 to disable
  * @now: the current time, as a timestamp.
@@ -428,14 +441,15 @@ lw6gui_menu_select_esc (lw6gui_menu_t * menu, int state, int64_t now)
  * Return value: none.
  */
 void
-lw6gui_menu_enable_esc (lw6gui_menu_t * menu, int state, int64_t now)
+lw6gui_menu_enable_esc (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, int state, int64_t now)
 {
-  lw6gui_menuitem_enable (menu->esc_item, state, now);
+  lw6gui_menuitem_enable (sys_context, menu->esc_item, state, now);
 }
 
 /**
  * lw6gui_menu_scroll_up
  *
+ * @sys_context: global system context
  * @menu: the menu to scroll
  *
  * Scrolls a menu up, used as a callback for mouse wheel up for instance.
@@ -444,7 +458,7 @@ lw6gui_menu_enable_esc (lw6gui_menu_t * menu, int state, int64_t now)
  * Return value: 1 if OK, 0 if failed (out of range).
  */
 int
-lw6gui_menu_scroll_up (lw6gui_menu_t * menu)
+lw6gui_menu_scroll_up (lw6sys_context_t * sys_context, lw6gui_menu_t * menu)
 {
   int ret = 0;
 
@@ -460,6 +474,7 @@ lw6gui_menu_scroll_up (lw6gui_menu_t * menu)
 /**
  * lw6gui_menu_scroll_down
  *
+ * @sys_context: global system context
  * @menu: the menu to scroll
  *
  * Scrolls a menu down, used as a callback for mouse wheel down for instance.
@@ -468,7 +483,7 @@ lw6gui_menu_scroll_up (lw6gui_menu_t * menu)
  * Return value: 1 if OK, 0 if failed (out of range).
  */
 int
-lw6gui_menu_scroll_down (lw6gui_menu_t * menu)
+lw6gui_menu_scroll_down (lw6sys_context_t * sys_context, lw6gui_menu_t * menu)
 {
   int ret = 0;
 
@@ -484,6 +499,7 @@ lw6gui_menu_scroll_down (lw6gui_menu_t * menu)
 /**
  * lw6gui_menu_set_breadcrumbs
  *
+ * @sys_context: global system context
  * @menu: the menu to scroll
  * @breadcrumbs: list of strings containing breadcrumbs
  *
@@ -494,7 +510,7 @@ lw6gui_menu_scroll_down (lw6gui_menu_t * menu)
  * Return value: 1 if OK, 0 if failed.
  */
 int
-lw6gui_menu_set_breadcrumbs (lw6gui_menu_t * menu, lw6sys_list_t * breadcrumbs)
+lw6gui_menu_set_breadcrumbs (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, lw6sys_list_t * breadcrumbs)
 {
   int ret = 0;
 
@@ -511,6 +527,7 @@ lw6gui_menu_set_breadcrumbs (lw6gui_menu_t * menu, lw6sys_list_t * breadcrumbs)
 /**
  * lw6gui_menu_center
  *
+ * @sys_context: global system context
  * @menu: the menu to center
  * @position: the position of the menuitem to be put in the center
  * @max_displayed_items: the maximum number of items displayed
@@ -521,7 +538,7 @@ lw6gui_menu_set_breadcrumbs (lw6gui_menu_t * menu, lw6sys_list_t * breadcrumbs)
  * Return value: none.
  */
 void
-lw6gui_menu_center (lw6gui_menu_t * menu, int position, int max_displayed_items)
+lw6gui_menu_center (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, int position, int max_displayed_items)
 {
   menu->first_item_displayed = position - (max_displayed_items / 2);
   menu->first_item_displayed = lw6sys_imin (menu->first_item_displayed, menu->nb_items - 1);
@@ -531,6 +548,7 @@ lw6gui_menu_center (lw6gui_menu_t * menu, int position, int max_displayed_items)
 /**
  * lw6gui_menu_insert
  *
+ * @sys_context: global system context
  * @menu: the menu we want to modify
  * @menuitem: the item to insert
  * @position: the position the new item will occupy ("insert before" mode)
@@ -544,7 +562,7 @@ lw6gui_menu_center (lw6gui_menu_t * menu, int position, int max_displayed_items)
  * Return value: 1 if success, 0 if failure (memory problem, out of range).
  */
 int
-lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int position, int64_t now)
+lw6gui_menu_insert (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int position, int64_t now)
 {
   int ret = 0;
   int i;
@@ -553,7 +571,7 @@ lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int posi
     {
       if (menu->items > 0)
 	{
-	  menu->items = (lw6gui_menuitem_t **) LW6SYS_REALLOC ((void *) (menu->items), (menu->nb_items + 1) * sizeof (lw6gui_menuitem_t *));
+	  menu->items = (lw6gui_menuitem_t **) LW6SYS_REALLOC (sys_context, (void *) (menu->items), (menu->nb_items + 1) * sizeof (lw6gui_menuitem_t *));
 	  if (menu->items)
 	    {
 	      ++(menu->nb_items);
@@ -564,7 +582,7 @@ lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int posi
 	      menu->items[position] = menuitem;
 	      if (menu->selected_item >= position)
 		{
-		  lw6gui_menu_select (menu, menu->selected_item + 1, 0, now);
+		  lw6gui_menu_select (sys_context, menu, menu->selected_item + 1, 0, now);
 		}
 	      ret = 1;
 	    }
@@ -576,7 +594,7 @@ lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int posi
 	    {
 	      menu->nb_items = 1;
 	      menu->items[0] = menuitem;
-	      lw6gui_menu_select (menu, 0, 0, now);
+	      lw6gui_menu_select (sys_context, menu, 0, 0, now);
 	      ret = 1;
 	    }
 	}
@@ -594,6 +612,7 @@ lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int posi
 /**
  * lw6gui_menu_insert
  *
+ * @sys_context: global system context
  * @menu: the menu we want to modify
  * @menuitem: the item to insert
  * @now: the current time, as a timestamp.
@@ -605,11 +624,11 @@ lw6gui_menu_insert (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int posi
  * Return value: 1 if success, 0 if failure (memory problem).
  */
 int
-lw6gui_menu_append (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int64_t now)
+lw6gui_menu_append (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int64_t now)
 {
   int ret = 0;
 
-  ret = lw6gui_menu_insert (menu, menuitem, menu->nb_items, now);
+  ret = lw6gui_menu_insert (sys_context, menu, menuitem, menu->nb_items, now);
 
   return ret;
 }
@@ -617,6 +636,7 @@ lw6gui_menu_append (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int64_t 
 /**
  * lw6gui_menu_remove
  *
+ * @sys_context: global system context
  * @menu: the menu we want to modify
  * @position: the item to insert
  * @now: the current time, as a timestamp.
@@ -626,14 +646,14 @@ lw6gui_menu_append (lw6gui_menu_t * menu, lw6gui_menuitem_t * menuitem, int64_t 
  * Return value: 1 if success, 0 if failure (out of range).
  */
 int
-lw6gui_menu_remove (lw6gui_menu_t * menu, int position, int64_t now)
+lw6gui_menu_remove (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, int position, int64_t now)
 {
   int ret = 0;
   int i;
 
   if (position >= 0 && position < menu->nb_items)
     {
-      lw6gui_menuitem_free (menu->items[position]);
+      lw6gui_menuitem_free (sys_context, menu->items[position]);
       --(menu->nb_items);
       for (i = position; i < menu->nb_items; ++i)
 	{
@@ -645,22 +665,22 @@ lw6gui_menu_remove (lw6gui_menu_t * menu, int position, int64_t now)
 	    {
 	      if (menu->selected_item > 0)
 		{
-		  lw6gui_menu_select (menu, menu->selected_item - 1, 0, now);
+		  lw6gui_menu_select (sys_context, menu, menu->selected_item - 1, 0, now);
 		}
 	      else
 		{
-		  lw6gui_menu_select (menu, menu->selected_item, 0, now);
+		  lw6gui_menu_select (sys_context, menu, menu->selected_item, 0, now);
 		}
 	    }
 	  else
 	    {
 	      if (position < menu->nb_items)
 		{
-		  lw6gui_menu_select (menu, position, 0, now);
+		  lw6gui_menu_select (sys_context, menu, position, 0, now);
 		}
 	      else
 		{
-		  lw6gui_menu_select (menu, menu->nb_items - 1, 0, now);
+		  lw6gui_menu_select (sys_context, menu, menu->nb_items - 1, 0, now);
 		}
 	    }
 	}
@@ -686,6 +706,7 @@ lw6gui_menu_remove (lw6gui_menu_t * menu, int position, int64_t now)
 /**
  * lw6gui_menu_remove_all
  *
+ * @sys_context: global system context
  * @menu: the menu we want to modify
  * @now: the current time, as a timestamp.
  *
@@ -695,13 +716,13 @@ lw6gui_menu_remove (lw6gui_menu_t * menu, int position, int64_t now)
  * Return value: 1 if success, 0 if failure.
  */
 int
-lw6gui_menu_remove_all (lw6gui_menu_t * menu, int64_t now)
+lw6gui_menu_remove_all (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, int64_t now)
 {
   int ret = 1;
 
   while (menu->nb_items > 0)
     {
-      ret = lw6gui_menu_remove (menu, 0, now) && ret;
+      ret = lw6gui_menu_remove (sys_context, menu, 0, now) && ret;
     }
 
   return ret;
@@ -710,6 +731,7 @@ lw6gui_menu_remove_all (lw6gui_menu_t * menu, int64_t now)
 /**
  * lw6gui_menu_update_display_range
  *
+ * @sys_context: global system context
  * @menu: the menu concerned
  * @max_displayed_items: the maximum number of items to display at once
  *
@@ -723,7 +745,7 @@ lw6gui_menu_remove_all (lw6gui_menu_t * menu, int64_t now)
  * Return value: none.
  */
 void
-lw6gui_menu_update_display_range (lw6gui_menu_t * menu, int max_displayed_items)
+lw6gui_menu_update_display_range (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, int max_displayed_items)
 {
   if (menu->nb_items > max_displayed_items)
     {
@@ -768,6 +790,7 @@ lw6gui_menu_update_display_range (lw6gui_menu_t * menu, int max_displayed_items)
 /**
  * lw6gui_menu_insert_for_id_use
  *
+ * @sys_context: global system context
  * @menu: the menu to work on
  * @label: the label of the menuitem to append
  * @tooltip: the tooltip of the menuitem to append
@@ -793,19 +816,20 @@ lw6gui_menu_update_display_range (lw6gui_menu_t * menu, int max_displayed_items)
  *   used with '_using_id' functions.
  */
 int
-lw6gui_menu_insert_for_id_use (lw6gui_menu_t * menu, char *label, char *tooltip, int value, int enabled, int selected, int colored, int position, int64_t now)
+lw6gui_menu_insert_for_id_use (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, char *label, char *tooltip, int value, int enabled, int selected,
+			       int colored, int position, int64_t now)
 {
   int ret = 0;
   lw6gui_menuitem_t *menuitem;
 
-  menuitem = lw6gui_menuitem_new (label, tooltip, value, enabled, selected, colored);
+  menuitem = lw6gui_menuitem_new (sys_context, label, tooltip, value, enabled, selected, colored);
   if (menuitem)
     {
-      if (lw6gui_menu_insert (menu, menuitem, position, now))
+      if (lw6gui_menu_insert (sys_context, menu, menuitem, position, now))
 	{
 	  if (selected)
 	    {
-	      lw6gui_menu_select (menu, position, 0, now);
+	      lw6gui_menu_select (sys_context, menu, position, 0, now);
 	    }
 	  ret = menuitem->id;
 	}
@@ -817,6 +841,7 @@ lw6gui_menu_insert_for_id_use (lw6gui_menu_t * menu, char *label, char *tooltip,
 /**
  * lw6gui_menu_append_for_id_use
  *
+ * @sys_context: global system context
  * @menu: the menu to work on
  * @label: the label of the menuitem to append
  * @tooltip: the tooltip of the menuitem to append
@@ -835,17 +860,18 @@ lw6gui_menu_insert_for_id_use (lw6gui_menu_t * menu, char *label, char *tooltip,
  *   used with '_using_id' functions.
  */
 int
-lw6gui_menu_append_for_id_use (lw6gui_menu_t * menu, char *label, char *tooltip, int value, int enabled, int selected, int colored, int64_t now)
+lw6gui_menu_append_for_id_use (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, char *label, char *tooltip, int value, int enabled, int selected,
+			       int colored, int64_t now)
 {
   int ret = 0;
 
-  ret = lw6gui_menu_insert_for_id_use (menu, label, tooltip, value, enabled, selected, colored, menu->nb_items, now);
+  ret = lw6gui_menu_insert_for_id_use (sys_context, menu, label, tooltip, value, enabled, selected, colored, menu->nb_items, now);
 
   return ret;
 }
 
 static int
-get_position_using_id (lw6gui_menu_t * menu, int id)
+_get_position_using_id (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, int id)
 {
   int ret = -1;
   int i;
@@ -870,6 +896,7 @@ get_position_using_id (lw6gui_menu_t * menu, int id)
 /**
  * lw6gui_menu_remove_using_id
  *
+ * @sys_context: global system context
  * @menu: the menu to work on
  * @menuitem_id: the id of the menuitem to remove
  * @now: current time (timestamp)
@@ -882,15 +909,15 @@ get_position_using_id (lw6gui_menu_t * menu, int id)
  * Return value: 1 if success, 0 if failure (out of range).
  */
 int
-lw6gui_menu_remove_using_id (lw6gui_menu_t * menu, int menuitem_id, int64_t now)
+lw6gui_menu_remove_using_id (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, int menuitem_id, int64_t now)
 {
   int ret = 0;
   int position;
 
-  position = get_position_using_id (menu, menuitem_id);
+  position = _get_position_using_id (sys_context, menu, menuitem_id);
   if (position >= 0 && position < menu->nb_items)
     {
-      ret = lw6gui_menu_remove (menu, position, now);
+      ret = lw6gui_menu_remove (sys_context, menu, position, now);
     }
 
   return ret;
@@ -899,6 +926,7 @@ lw6gui_menu_remove_using_id (lw6gui_menu_t * menu, int menuitem_id, int64_t now)
 /**
  * lw6gui_menu_sync_using_id
  *
+ * @sys_context: global system context
  * @menu: the menu to work on
  * @menuitem_id: the id of the menuitem to synchronize
  * @label: menu label
@@ -920,24 +948,25 @@ lw6gui_menu_remove_using_id (lw6gui_menu_t * menu, int menuitem_id, int64_t now)
  * Return value: 1 if success, 0 if failure (out of range).
  */
 void
-lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id, char *label, char *tooltip, int value, int enabled, int selected, int colored, int64_t now)
+lw6gui_menu_sync_using_id (lw6sys_context_t * sys_context, lw6gui_menu_t * menu, int menuitem_id, char *label, char *tooltip, int value, int enabled,
+			   int selected, int colored, int64_t now)
 {
   int position;
   lw6gui_menuitem_t *menuitem;
 
-  position = get_position_using_id (menu, menuitem_id);
+  position = _get_position_using_id (sys_context, menu, menuitem_id);
   if (position >= 0 && position < menu->nb_items)
     {
-      menuitem = lw6gui_menu_get_item (menu, position);
+      menuitem = lw6gui_menu_get_item (sys_context, menu, position);
       if (menuitem)
 	{
-	  lw6gui_menuitem_set_label (menuitem, label, now);
-	  lw6gui_menuitem_set_tooltip (menuitem, tooltip, now);
-	  lw6gui_menuitem_set_value (menuitem, value, now);
+	  lw6gui_menuitem_set_label (sys_context, menuitem, label, now);
+	  lw6gui_menuitem_set_tooltip (sys_context, menuitem, tooltip, now);
+	  lw6gui_menuitem_set_value (sys_context, menuitem, value, now);
 	  menuitem->enabled = enabled;
 	  if (selected)
 	    {
-	      lw6gui_menu_select (menu, position, 0, now);
+	      lw6gui_menu_select (sys_context, menu, position, 0, now);
 	    }
 	  menuitem->colored = colored;
 	}
@@ -947,6 +976,7 @@ lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id, char *label, c
 /**
  * lw6gui_menu_is_same
  *
+ * @sys_context: global system context
  * @menu_a: first item to compare
  * @menu_b: second item to compare
  *
@@ -955,7 +985,7 @@ lw6gui_menu_sync_using_id (lw6gui_menu_t * menu, int menuitem_id, char *label, c
  * Return value: 1 if they are the same, 0 if not
  */
 int
-lw6gui_menu_is_same (const lw6gui_menu_t * menu_a, const lw6gui_menu_t * menu_b)
+lw6gui_menu_is_same (lw6sys_context_t * sys_context, const lw6gui_menu_t * menu_a, const lw6gui_menu_t * menu_b)
 {
   int ret = 1;
   int i;
@@ -970,10 +1000,10 @@ lw6gui_menu_is_same (const lw6gui_menu_t * menu_a, const lw6gui_menu_t * menu_b)
       ret = ret && lw6sys_str_is_same (sys_context, menu_a->help, menu_b->help);
       ret = ret && lw6sys_str_is_same (sys_context, menu_a->popup, menu_b->popup);
       ret = ret && menu_a->nb_items == menu_b->nb_items;
-      ret = ret && lw6gui_menuitem_is_same (menu_a->esc_item, menu_b->esc_item);
+      ret = ret && lw6gui_menuitem_is_same (sys_context, menu_a->esc_item, menu_b->esc_item);
       for (i = 0; ret && i < lw6sys_imin (menu_a->nb_items, menu_b->nb_items); ++i)
 	{
-	  if (i < menu_a->nb_items && i < menu_b->nb_items && !lw6gui_menuitem_is_same (menu_a->items[i], menu_b->items[i]))
+	  if (i < menu_a->nb_items && i < menu_b->nb_items && !lw6gui_menuitem_is_same (sys_context, menu_a->items[i], menu_b->items[i]))
 	    {
 	      ret = 0;
 	    }
@@ -1004,6 +1034,7 @@ lw6gui_menu_is_same (const lw6gui_menu_t * menu_a, const lw6gui_menu_t * menu_b)
 /**
  * lw6gui_menu_dup
  *
+ * @sys_context: global system context
  * @menu: the menu to duplicate
  *
  * Duplicates a menu structure.
@@ -1011,7 +1042,7 @@ lw6gui_menu_is_same (const lw6gui_menu_t * menu_a, const lw6gui_menu_t * menu_b)
  * Return value: a pointer to the new menu.
  */
 lw6gui_menu_t *
-lw6gui_menu_dup (const lw6gui_menu_t * menu)
+lw6gui_menu_dup (lw6sys_context_t * sys_context, const lw6gui_menu_t * menu)
 {
   lw6gui_menu_t *ret = NULL;
   lw6gui_menuitem_t *item = NULL;
@@ -1019,16 +1050,16 @@ lw6gui_menu_dup (const lw6gui_menu_t * menu)
 
   if (menu)
     {
-      ret = lw6gui_menu_new (menu->title, menu->help, menu->popup, menu->esc_item->label, menu->esc_item->enabled);
+      ret = lw6gui_menu_new (sys_context, menu->title, menu->help, menu->popup, menu->esc_item->label, menu->esc_item->enabled);
       if (ret)
 	{
-	  lw6gui_menuitem_sync (ret->esc_item, menu->esc_item);
+	  lw6gui_menuitem_sync (sys_context, ret->esc_item, menu->esc_item);
 	  for (i = 0; i < menu->nb_items; ++i)
 	    {
-	      item = lw6gui_menuitem_dup (menu->items[i]);
+	      item = lw6gui_menuitem_dup (sys_context, menu->items[i]);
 	      if (item)
 		{
-		  lw6gui_menu_append (ret, item, item->last_change);
+		  lw6gui_menu_append (sys_context, ret, item, item->last_change);
 		}
 	    }
 	  if (ret->nb_items == menu->nb_items)
@@ -1040,7 +1071,7 @@ lw6gui_menu_dup (const lw6gui_menu_t * menu)
 	    }
 	  else
 	    {
-	      lw6gui_menu_free (ret);
+	      lw6gui_menu_free (sys_context, ret);
 	      ret = NULL;
 	    }
 	}
@@ -1059,7 +1090,7 @@ lw6gui_menu_dup (const lw6gui_menu_t * menu)
 	  ret->breadcrumbs = lw6sys_list_dup (sys_context, menu->breadcrumbs, (lw6sys_dup_func_t) lw6sys_str_copy);
 	  if (!(ret->breadcrumbs))
 	    {
-	      lw6gui_menu_free (ret);
+	      lw6gui_menu_free (sys_context, ret);
 	      ret = NULL;
 	    }
 	}
@@ -1071,6 +1102,7 @@ lw6gui_menu_dup (const lw6gui_menu_t * menu)
 /**
  * lw6gui_menu_sync
  *
+ * @sys_context: global system context
  * @dst: the target menu
  * @src: the source menu
  *
@@ -1085,7 +1117,7 @@ lw6gui_menu_dup (const lw6gui_menu_t * menu)
  * Return value: 1 if success, 0 if failure
  */
 int
-lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
+lw6gui_menu_sync (lw6sys_context_t * sys_context, lw6gui_menu_t * dst, lw6gui_menu_t * src)
 {
   int ret = 0;
   int i, d;
@@ -1095,15 +1127,15 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
     {
       if (!lw6sys_str_is_same (sys_context, dst->title, src->title))
 	{
-	  lw6gui_menu_set_title (dst, src->title);
+	  lw6gui_menu_set_title (sys_context, dst, src->title);
 	}
       if (!lw6sys_str_is_same (sys_context, dst->help, src->help))
 	{
-	  lw6gui_menu_set_help (dst, src->help);
+	  lw6gui_menu_set_help (sys_context, dst, src->help);
 	}
       if (!lw6sys_str_is_same (sys_context, dst->popup, src->popup))
 	{
-	  lw6gui_menu_set_popup (dst, src->popup);
+	  lw6gui_menu_set_popup (sys_context, dst, src->popup);
 	}
       d = dst->nb_items - src->nb_items;
       if (d > 0)
@@ -1114,7 +1146,7 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
 	       * We remove the first item, it might not be perfect but
 	       * we don't care, items will be synchronized later
 	       */
-	      lw6gui_menu_remove (dst, 0, 0);
+	      lw6gui_menu_remove (sys_context, dst, 0, 0);
 	    }
 	}
       if (d < 0)
@@ -1125,20 +1157,20 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
 	       * We add any item, we just don't care, synchronisation
 	       * of items will fix things.
 	       */
-	      item = lw6gui_menuitem_dup (src->items[i]);
+	      item = lw6gui_menuitem_dup (sys_context, src->items[i]);
 	      if (item)
 		{
-		  lw6gui_menu_append (dst, item, 0);
+		  lw6gui_menu_append (sys_context, dst, item, 0);
 		}
 	    }
 	}
 
-      lw6gui_menuitem_sync (dst->esc_item, src->esc_item);
+      lw6gui_menuitem_sync (sys_context, dst->esc_item, src->esc_item);
       if (dst->nb_items == src->nb_items)
 	{
 	  for (i = 0; i < src->nb_items; ++i)
 	    {
-	      lw6gui_menuitem_sync (dst->items[i], src->items[i]);
+	      lw6gui_menuitem_sync (sys_context, dst->items[i], src->items[i]);
 	    }
 	  dst->selected_item = src->selected_item;
 	  /*
@@ -1159,15 +1191,15 @@ lw6gui_menu_sync (lw6gui_menu_t * dst, lw6gui_menu_t * src)
 		  /*
 		   * Lazy test on size only
 		   */
-		  if (lw6sys_list_length (sys_context, dst->breadcrumbs) != lw6sys_list_length (src->breadcrumbs))
+		  if (lw6sys_list_length (sys_context, dst->breadcrumbs) != lw6sys_list_length (sys_context, src->breadcrumbs))
 		    {
 		      lw6sys_list_free (sys_context, dst->breadcrumbs);
-		      dst->breadcrumbs = lw6sys_list_dup (src->breadcrumbs, (lw6sys_dup_func_t) lw6sys_str_copy);
+		      dst->breadcrumbs = lw6sys_list_dup (sys_context, src->breadcrumbs, (lw6sys_dup_func_t) lw6sys_str_copy);
 		    }
 		}
 	      else
 		{
-		  dst->breadcrumbs = lw6sys_list_dup (src->breadcrumbs, (lw6sys_dup_func_t) lw6sys_str_copy);
+		  dst->breadcrumbs = lw6sys_list_dup (sys_context, src->breadcrumbs, (lw6sys_dup_func_t) lw6sys_str_copy);
 		}
 	    }
 	  else

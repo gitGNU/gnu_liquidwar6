@@ -31,6 +31,7 @@
 /**
  * lw6gui_smoother_init
  *
+ * @sys_context: global system context
  * @smoother: the structure to initialize
  * @value: the value to use for now
  * @duration: the duration of a standard move, in ticks (msec)
@@ -41,17 +42,18 @@
  * Return value: none.
  */
 void
-lw6gui_smoother_init (lw6gui_smoother_t * smoother, float value, int duration)
+lw6gui_smoother_init (lw6sys_context_t * sys_context, lw6gui_smoother_t * smoother, float value, int duration)
 {
   memset (smoother, 0, sizeof (lw6gui_smoother_t));
 
-  lw6gui_smoother_immediate_force (smoother, value);
+  lw6gui_smoother_immediate_force (sys_context, smoother, value);
   smoother->duration = lw6sys_imax (1, duration);
 }
 
 /**
  * lw6gui_smoother_immediate_force
  *
+ * @sys_context: global system context
  * @smoother: the structure to use
  * @value: the target value
  *
@@ -60,7 +62,7 @@ lw6gui_smoother_init (lw6gui_smoother_t * smoother, float value, int duration)
  * Return value: none.
  */
 void
-lw6gui_smoother_immediate_force (lw6gui_smoother_t * smoother, float value)
+lw6gui_smoother_immediate_force (lw6sys_context_t * sys_context, lw6gui_smoother_t * smoother, float value)
 {
   smoother->s1 = 0.0f;
   smoother->y1 = value;
@@ -71,6 +73,7 @@ lw6gui_smoother_immediate_force (lw6gui_smoother_t * smoother, float value)
 /**
  * lw6gui_smoother_set_target
  *
+ * @sys_context: global system context
  * @smoother: the structure to use
  * @value: the target value
  * @now: the current timestamp
@@ -81,7 +84,7 @@ lw6gui_smoother_immediate_force (lw6gui_smoother_t * smoother, float value)
  * Return value: none.
  */
 void
-lw6gui_smoother_set_target (lw6gui_smoother_t * smoother, float value, int64_t now)
+lw6gui_smoother_set_target (lw6sys_context_t * sys_context, lw6gui_smoother_t * smoother, float value, int64_t now)
 {
   float y = 0.0f;
   float s = 0.0f;
@@ -90,7 +93,7 @@ lw6gui_smoother_set_target (lw6gui_smoother_t * smoother, float value, int64_t n
     {
       if (smoother->t1 > 0)
 	{
-	  lw6sys_math_poly_wy1y2s1 (&y, &s, now - smoother->t1, smoother->duration, smoother->y1, smoother->y2, smoother->s1);
+	  lw6sys_math_poly_wy1y2s1 (sys_context, &y, &s, now - smoother->t1, smoother->duration, smoother->y1, smoother->y2, smoother->s1);
 	  smoother->y1 = y;
 	  smoother->s1 = s;
 	}
@@ -107,6 +110,7 @@ lw6gui_smoother_set_target (lw6gui_smoother_t * smoother, float value, int64_t n
 /**
  * lw6gui_smoother_get_value
  *
+ * @sys_context: global system context
  * @smoother: the structure to use
  * @now: the current timestamp
  *
@@ -115,7 +119,7 @@ lw6gui_smoother_set_target (lw6gui_smoother_t * smoother, float value, int64_t n
  * Return value: a float.
  */
 float
-lw6gui_smoother_get_value (const lw6gui_smoother_t * smoother, int64_t now)
+lw6gui_smoother_get_value (lw6sys_context_t * sys_context, const lw6gui_smoother_t * smoother, int64_t now)
 {
   float ret = 0.0f;
 
@@ -134,6 +138,7 @@ lw6gui_smoother_get_value (const lw6gui_smoother_t * smoother, int64_t now)
 /**
  * lw6gui_smoother_fix_overflow
  *
+ * @sys_context: global system context
  * @smoother: object to modify
  * @step: step size, typically twice the map size
  *
@@ -144,7 +149,7 @@ lw6gui_smoother_get_value (const lw6gui_smoother_t * smoother, int64_t now)
  * Return value: none.
  */
 void
-lw6gui_smoother_fix_overflow (lw6gui_smoother_t * smoother, int step)
+lw6gui_smoother_fix_overflow (lw6sys_context_t * sys_context, lw6gui_smoother_t * smoother, int step)
 {
   float delta = 0.0f;
   int changed = 0;
@@ -177,6 +182,6 @@ lw6gui_smoother_fix_overflow (lw6gui_smoother_t * smoother, int step)
   if (changed)
     {
       smoother->y1 = value;
-      lw6gui_smoother_set_target (smoother, closest, smoother->t1);
+      lw6gui_smoother_set_target (sys_context, smoother, closest, smoother->t1);
     }
 }

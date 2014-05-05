@@ -29,6 +29,7 @@
 /**
  * lw6gui_input_init
  *
+ * @sys_context: global system context
  * @input: the input struct to initialise
  *
  * Initialises an input structure, don't use twice, it won't free a previous init.
@@ -36,7 +37,7 @@
  * Return value: a pointer to the newly allocated object.
  */
 int
-lw6gui_input_init (lw6gui_input_t * input)
+lw6gui_input_init (lw6sys_context_t * sys_context, lw6gui_input_t * input)
 {
   int ret = 0;
 
@@ -59,6 +60,7 @@ lw6gui_input_init (lw6gui_input_t * input)
 /**
  * lw6gui_input_quit
  *
+ * @sys_context: global system context
  * @input: the input struct to uninitialise
  *
  * Unitialises an input structure, need to call it to free event queue.
@@ -66,7 +68,7 @@ lw6gui_input_init (lw6gui_input_t * input)
  * Return value: a pointer to the newly allocated object.
  */
 void
-lw6gui_input_quit (lw6gui_input_t * input)
+lw6gui_input_quit (lw6sys_context_t * sys_context, lw6gui_input_t * input)
 {
   if (input->keyboard.queue)
     {
@@ -78,19 +80,21 @@ lw6gui_input_quit (lw6gui_input_t * input)
 /**
  * lw6gui_input_new
  *
+ * @sys_context: global system context
+ *
  * Creates an input structure, which can be used to handle input state & buffer.
  *
  * Return value: a pointer to the newly allocated object.
  */
 lw6gui_input_t *
-lw6gui_input_new ()
+lw6gui_input_new (lw6sys_context_t * sys_context)
 {
   lw6gui_input_t *ret = NULL;
 
   ret = (lw6gui_input_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6gui_input_t));
   if (ret)
     {
-      if (!lw6gui_input_init (ret))
+      if (!lw6gui_input_init (sys_context, ret))
 	{
 	  LW6SYS_FREE (sys_context, ret);
 	  ret = NULL;
@@ -103,6 +107,7 @@ lw6gui_input_new ()
 /**
  * lw6gui_input_free
  *
+ * @sys_context: global system context
  * @input: the input object to free.
  *
  * Deletes an input structure.
@@ -110,11 +115,11 @@ lw6gui_input_new ()
  * Return value: none.
  */
 void
-lw6gui_input_free (lw6gui_input_t * input)
+lw6gui_input_free (lw6sys_context_t * sys_context, lw6gui_input_t * input)
 {
   if (input)
     {
-      lw6gui_input_quit (input);
+      lw6gui_input_quit (sys_context, input);
       LW6SYS_FREE (sys_context, input);
     }
   else
@@ -126,6 +131,7 @@ lw6gui_input_free (lw6gui_input_t * input)
 /**
  * lw6gui_input_reset
  *
+ * @sys_context: global system context
  * @input: the input struct to reset
  *
  * Resets an input structure. Must have been initialized before. It will empty
@@ -134,12 +140,12 @@ lw6gui_input_free (lw6gui_input_t * input)
  * Return value: 1 on success, 0 if failure.
  */
 int
-lw6gui_input_reset (lw6gui_input_t * input)
+lw6gui_input_reset (lw6sys_context_t * sys_context, lw6gui_input_t * input)
 {
   int ret = 0;
 
-  lw6gui_input_quit (input);
-  ret = lw6gui_input_init (input);
+  lw6gui_input_quit (sys_context, input);
+  ret = lw6gui_input_init (sys_context, input);
 
   return ret;
 }
@@ -147,6 +153,7 @@ lw6gui_input_reset (lw6gui_input_t * input)
 /**
  * lw6gui_input_update_repeat
  *
+ * @sys_context: global system context
  * @input: the input to update
  * @repeat_settings: the repeat settings (delay + interval)
  * @timestamp: the current ticks (milliseconds)
@@ -157,21 +164,22 @@ lw6gui_input_reset (lw6gui_input_t * input)
  * Return value: none.
  */
 void
-lw6gui_input_update_repeat (lw6gui_input_t * input, lw6gui_repeat_settings_t * repeat_settings, int64_t timestamp)
+lw6gui_input_update_repeat (lw6sys_context_t * sys_context, lw6gui_input_t * input, lw6gui_repeat_settings_t * repeat_settings, int64_t timestamp)
 {
   int i;
 
-  lw6gui_keyboard_update_repeat (&(input->keyboard), repeat_settings, timestamp);
-  lw6gui_mouse_update_repeat (&(input->mouse), repeat_settings, timestamp);
+  lw6gui_keyboard_update_repeat (sys_context, &(input->keyboard), repeat_settings, timestamp);
+  lw6gui_mouse_update_repeat (sys_context, &(input->mouse), repeat_settings, timestamp);
   for (i = 0; i < LW6GUI_NB_JOYSTICKS; ++i)
     {
-      lw6gui_joystick_update_repeat (&(input->joysticks[i]), repeat_settings, timestamp);
+      lw6gui_joystick_update_repeat (sys_context, &(input->joysticks[i]), repeat_settings, timestamp);
     }
 }
 
 /**
  * lw6gui_input_register_change
  *
+ * @sys_context: global system context
  * @input: the input to update
  *
  * Tells an input object that one of its descendants has been
@@ -180,7 +188,7 @@ lw6gui_input_update_repeat (lw6gui_input_t * input, lw6gui_repeat_settings_t * r
  * Return value: none.
  */
 void
-lw6gui_input_register_change (lw6gui_input_t * input)
+lw6gui_input_register_change (lw6sys_context_t * sys_context, lw6gui_input_t * input)
 {
   input->need_sync = 1;
 }
@@ -188,6 +196,7 @@ lw6gui_input_register_change (lw6gui_input_t * input)
 /**
  * lw6gui_input_need_sync
  *
+ * @sys_context: global system context
  * @input: the input to test
  *
  * Tests wether an input object contains was modified and
@@ -196,7 +205,7 @@ lw6gui_input_register_change (lw6gui_input_t * input)
  * Return value: 1 if sync is need, 0 if not.
  */
 int
-lw6gui_input_need_sync (const lw6gui_input_t * input)
+lw6gui_input_need_sync (lw6sys_context_t * sys_context, const lw6gui_input_t * input)
 {
   int ret = 0;
 
@@ -216,6 +225,7 @@ lw6gui_input_need_sync (const lw6gui_input_t * input)
 /**
  * lw6gui_input_sync
  *
+ * @sys_context: global system context
  * @dst: the target input object
  * @src: the source input object
  *
@@ -230,18 +240,18 @@ lw6gui_input_need_sync (const lw6gui_input_t * input)
  * Return value: 1 if success, O if failure.
  */
 int
-lw6gui_input_sync (lw6gui_input_t * dst, lw6gui_input_t * src)
+lw6gui_input_sync (lw6sys_context_t * sys_context, lw6gui_input_t * dst, lw6gui_input_t * src)
 {
   int ret = 1;
   int i = 0;
 
   dst->need_sync = src->need_sync;
   src->need_sync = 0;		// we've been synced, need to reset the flag
-  ret = lw6gui_keyboard_sync (&(dst->keyboard), &(src->keyboard)) && ret;
-  ret = lw6gui_mouse_sync (&(dst->mouse), &(src->mouse)) && ret;
+  ret = lw6gui_keyboard_sync (sys_context, &(dst->keyboard), &(src->keyboard)) && ret;
+  ret = lw6gui_mouse_sync (sys_context, &(dst->mouse), &(src->mouse)) && ret;
   for (i = 0; i < LW6GUI_NB_JOYSTICKS; ++i)
     {
-      ret = lw6gui_joystick_sync (&(dst->joysticks[i]), &(src->joysticks[i])) && ret;
+      ret = lw6gui_joystick_sync (sys_context, &(dst->joysticks[i]), &(src->joysticks[i])) && ret;
     }
 
   return ret;
@@ -250,6 +260,7 @@ lw6gui_input_sync (lw6gui_input_t * dst, lw6gui_input_t * src)
 /**
  * lw6gui_input_enable_auto_release
  *
+ * @sys_context: global system context
  * @input: input object to modify
  *
  * Enables auto_release mode, in this mode, it's assummed after
@@ -258,7 +269,7 @@ lw6gui_input_sync (lw6gui_input_t * dst, lw6gui_input_t * src)
  * Return value: none.
  */
 void
-lw6gui_input_enable_auto_release (lw6gui_input_t * input)
+lw6gui_input_enable_auto_release (lw6sys_context_t * sys_context, lw6gui_input_t * input)
 {
   input->keyboard.auto_release_enabled = 1;
 }
