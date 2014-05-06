@@ -31,17 +31,14 @@ typedef struct _mod_gl1_background_void_context_s
 }
 _mod_gl1_background_void_context_t;
 
-/*
- * In display.c
- */
+/* gl1-void-display.c */
 extern void
-_mod_gl1_background_void_display_background (mod_gl1_utils_context_t *
+_mod_gl1_background_void_display_background (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					     utils_context, _mod_gl1_background_void_context_t * void_context, const lw6gui_look_t * look);
 
-/*
- * In setup.c
- */
-extern _mod_gl1_background_void_context_t *_mod_gl1_background_void_init (mod_gl1_utils_context_t * utils_context);
-extern void _mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_void_context_t * void_context);
+/* gl1-void-setup.c */
+extern _mod_gl1_background_void_context_t *_mod_gl1_background_void_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+extern void _mod_gl1_background_void_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+					   _mod_gl1_background_void_context_t * void_context);
 
 #endif

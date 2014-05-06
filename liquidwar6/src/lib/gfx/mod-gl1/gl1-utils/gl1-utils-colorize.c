@@ -28,7 +28,8 @@
 #include "gl1-utils.h"
 
 SDL_Surface *
-mod_gl1_utils_colorize_surface (mod_gl1_utils_context_t * utils_context, SDL_Surface * surface, const lw6map_color_couple_t * color, int has_alpha)
+mod_gl1_utils_colorize_surface (sys_context, mod_gl1_utils_context_t * utils_context, SDL_Surface * surface, const lw6map_color_couple_t * color,
+				int has_alpha)
 {
   SDL_Surface *colorized_surface = NULL;
   int x, y;
@@ -36,13 +37,13 @@ mod_gl1_utils_colorize_surface (mod_gl1_utils_context_t * utils_context, SDL_Sur
   lw6sys_color_hsv_t color_hsv;
   int a;
 
-  colorized_surface = mod_gl1_utils_create_surface (utils_context, surface->w, surface->h);
+  colorized_surface = mod_gl1_utils_create_surface (sys_context, utils_context, surface->w, surface->h);
 
   for (y = 0; y < surface->h; ++y)
     {
       for (x = 0; x < surface->w; ++x)
 	{
-	  color_8 = lw6sys_color_irgba_to_8 (mod_gl1_utils_getpixel (surface, x, y));
+	  color_8 = lw6sys_color_irgba_to_8 (mod_gl1_utils_getpixel (sys_context, surface, x, y));
 	  if (has_alpha)
 	    {
 	      a = color_8.a;
@@ -54,7 +55,7 @@ mod_gl1_utils_colorize_surface (mod_gl1_utils_context_t * utils_context, SDL_Sur
 	  lw6sys_color_rgb_to_hsv (sys_context, &color_hsv, color_8);
 	  color_8 = lw6sys_color_ponderate (sys_context, color->bg, color->fg, color_hsv.v);
 	  color_8.a = a;
-	  mod_gl1_utils_putpixel (colorized_surface, x, y, lw6sys_color_8_to_irgba (sys_context, color_8));
+	  mod_gl1_utils_putpixel (sys_context, colorized_surface, x, y, lw6sys_color_8_to_irgba (sys_context, color_8));
 	}
     }
 

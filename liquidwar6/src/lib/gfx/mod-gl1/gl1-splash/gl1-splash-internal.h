@@ -90,23 +90,17 @@ typedef struct _mod_gl1_splash_context_s
   _mod_gl1_splash_game_t game;
 } _mod_gl1_splash_context_t;
 
-/*
- * In data.c
- */
-extern int _mod_gl1_splash_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context);
-extern void _mod_gl1_splash_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context);
+/* gl1-splash-data.c */
+extern int _mod_gl1_splash_load_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context);
+extern void _mod_gl1_splash_unload_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context);
 
-/*
- * In display.c
- */
-extern void _mod_gl1_splash_display (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context);
-extern void _mod_gl1_splash_patch_system_color (mod_gl1_utils_context_t *
+/* gl1-splash-display.c */
+extern void _mod_gl1_splash_display (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context);
+extern void _mod_gl1_splash_patch_system_color (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						utils_context, _mod_gl1_splash_context_t * splash_context, lw6map_color_couple_t * system_color);
 
-/*
- * In setup.c
- */
-extern _mod_gl1_splash_context_t *_mod_gl1_splash_init (mod_gl1_utils_context_t * utils_context);
-extern void _mod_gl1_splash_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context);
+/* gl1-splash-setup.c */
+extern _mod_gl1_splash_context_t *_mod_gl1_splash_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+extern void _mod_gl1_splash_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context);
 
-#endif
+#endif // LIQUIDWAR6GFX_MOD_GL1_SPLASH_INTERNAL_H

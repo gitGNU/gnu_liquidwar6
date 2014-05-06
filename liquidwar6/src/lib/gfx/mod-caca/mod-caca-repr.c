@@ -28,7 +28,7 @@
 #include "mod-caca-internal.h"
 
 char *
-_mod_caca_repr (_mod_caca_context_t * caca_context, u_int32_t id)
+_mod_caca_repr (sys_context, _mod_caca_context_t * caca_context, u_int32_t id)
 {
   char *ret = NULL;
   const char *caca_version = NULL;

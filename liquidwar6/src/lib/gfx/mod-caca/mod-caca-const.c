@@ -106,7 +106,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
  * Loads constants.
  */
 int
-_mod_caca_load_consts (_mod_caca_context_t * context)
+_mod_caca_load_consts (sys_context, _mod_caca_context_t * context)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -139,7 +139,7 @@ _mod_caca_load_consts (_mod_caca_context_t * context)
  * Unload constants, free memory
  */
 void
-_mod_caca_unload_consts (_mod_caca_context_t * context)
+_mod_caca_unload_consts (sys_context, _mod_caca_context_t * context)
 {
   int i = 0;
 

@@ -27,16 +27,13 @@
 #include "../gl1-utils/gl1-utils.h"
 
 
-/*
- * In display.c
- */
-extern void mod_gl1_splash_display (mod_gl1_utils_context_t * utils_context, void *splash_context);
-extern void mod_gl1_splash_patch_system_color (mod_gl1_utils_context_t * utils_context, void *splash_context, lw6map_color_couple_t * system_color);
+/* gl1-splash-display.c */
+extern void mod_gl1_splash_display (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *splash_context);
+extern void mod_gl1_splash_patch_system_color (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *splash_context,
+					       lw6map_color_couple_t * system_color);
 
-/*
- * In setup.c
- */
-extern void *mod_gl1_splash_init (mod_gl1_utils_context_t * utils_context);
-extern void mod_gl1_splash_quit (mod_gl1_utils_context_t * utils_context, void *splash_context);
+/* gl1-splash-setup.c */
+extern void *mod_gl1_splash_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+extern void mod_gl1_splash_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *splash_context);
 
-#endif
+#endif // LIQUIDWAR6GFX_MOD_GL1_SPLASH_H

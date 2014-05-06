@@ -29,7 +29,7 @@
 #include "gl1-void-internal.h"
 
 mod_gl1_background_backend_t *
-mod_gl1_background_void_create_backend (mod_gl1_utils_context_t * utils_context)
+mod_gl1_background_void_create_backend (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   mod_gl1_background_backend_t *backend;
 

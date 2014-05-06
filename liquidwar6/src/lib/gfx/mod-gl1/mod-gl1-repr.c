@@ -30,7 +30,7 @@
 #include "mod-gl1-internal.h"
 
 char *
-_mod_gl1_repr (_mod_gl1_context_t * gl_context, u_int32_t id)
+_mod_gl1_repr (sys_context, _mod_gl1_context_t * gl_context, u_int32_t id)
 {
   char *ret = NULL;
   SDL_version version;

@@ -29,7 +29,7 @@
 #include "mod-caca-internal.h"
 
 extern int
-_mod_caca_display (_mod_caca_context_t * caca_context, int mask,
+_mod_caca_display (sys_context, _mod_caca_context_t * caca_context, int mask,
 		   const lw6gui_look_t * look, const lw6map_level_t * level,
 		   const lw6ker_game_struct_t * game_struct,
 		   const lw6ker_game_state_t * game_state,
@@ -64,7 +64,7 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
       if ((mask & LW6GUI_DISPLAY_MAP) && game_state)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display step=map"));
-	  _mod_caca_display_map (caca_context, look, game_state, game_struct, local_cursors);
+	  _mod_caca_display_map (sys_context, caca_context, look, game_state, game_struct, local_cursors);
 
 	}
       if ((mask & LW6GUI_DISPLAY_FIGHTERS) && game_state)
@@ -80,12 +80,12 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
       if ((mask & LW6GUI_DISPLAY_HUD) && game_state)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display step=hud"));
-	  _mod_caca_display_hud (caca_context, look, game_state, game_struct);
+	  _mod_caca_display_hud (sys_context, caca_context, look, game_state, game_struct);
 	}
       if ((mask & LW6GUI_DISPLAY_SCORE) && game_state)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display step=score"));
-	  _mod_caca_display_score (caca_context, look, game_state, game_struct);
+	  _mod_caca_display_score (sys_context, caca_context, look, game_state, game_struct);
 	}
       if ((mask & LW6GUI_DISPLAY_PROGRESS))
 	{
@@ -94,7 +94,7 @@ _mod_caca_display (_mod_caca_context_t * caca_context, int mask,
       if ((mask & LW6GUI_DISPLAY_MENU) && menu)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display step=menu"));
-	  _mod_caca_display_menu (caca_context, look, menu);
+	  _mod_caca_display_menu (sys_context, caca_context, look, menu);
 	}
     }
 

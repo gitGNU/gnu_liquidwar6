@@ -171,7 +171,7 @@ lw6dsp_repr (const lw6dsp_backend_t * dsp_backend)
 
   if (data && data->gfx_backend)
     {
-      gfx_backend_repr = lw6gfx_repr (data->gfx_backend);
+      gfx_backend_repr = lw6gfx_repr (sys_context, data->gfx_backend);
       if (gfx_backend_repr)
 	{
 	  ret = lw6sys_new_sprintf (sys_context, _x_ ("%u using %s"), dsp_backend->id, gfx_backend_repr);

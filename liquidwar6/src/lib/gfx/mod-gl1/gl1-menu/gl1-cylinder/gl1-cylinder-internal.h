@@ -90,60 +90,55 @@ typedef struct _mod_gl1_menu_cylinder_context_s
 }
 _mod_gl1_menu_cylinder_context_t;
 
-/*
- * In center.c
- */
+/* gl1-cylinder-center.c */
 extern void
-_mod_gl1_menu_cylinder_center_on_menuitem (mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_center_on_menuitem (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					   utils_context,
 					   _mod_gl1_menu_cylinder_context_t
 					   * cylinder_context, const lw6gui_look_t * look, lw6gui_menu_t * menu, int position);
-/*
- * In display.c
- */
-extern void _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t *
+
+/* gl1-cylinder-display.c */
+extern void _mod_gl1_menu_cylinder_display_menu (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, lw6gui_menu_t * menu);
-extern void _mod_gl1_menu_cylinder_display_progress (mod_gl1_utils_context_t *
+extern void _mod_gl1_menu_cylinder_display_progress (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						     utils_context,
 						     _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, float progress);
-extern void _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t *
+extern void _mod_gl1_menu_cylinder_display_meta (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, lw6gui_menu_t * menu);
 
-/*
- * In data.c
- */
-extern int _mod_gl1_menu_cylinder_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context);
-extern void _mod_gl1_menu_cylinder_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context);
+/* gl1-cylinder-data.c */
+extern int _mod_gl1_menu_cylinder_load_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+					     _mod_gl1_menu_cylinder_context_t * cylinder_context);
+extern void _mod_gl1_menu_cylinder_unload_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+						_mod_gl1_menu_cylinder_context_t * cylinder_context);
 
-/*
- * In draw.c
- */
-extern float _mod_gl1_menu_cylinder_get_cylinder_y (mod_gl1_utils_context_t *
+/* gl1-cylinder-draw.c */
+extern float _mod_gl1_menu_cylinder_get_cylinder_y (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						    utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n);
-extern void _mod_gl1_menu_cylinder_draw_cylinder (mod_gl1_utils_context_t *
+extern void _mod_gl1_menu_cylinder_draw_cylinder (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						  utils_context,
 						  _mod_gl1_menu_cylinder_context_t * cylinder_context, GLenum mode, int i, int n, float relative_text_width);
 extern void
-_mod_gl1_menu_cylinder_draw_cylinder_corners (mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_draw_cylinder_corners (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					      utils_context,
 					      _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, float relative_text_width, int pass_through);
-extern void _mod_gl1_menu_cylinder_draw_sphere (mod_gl1_utils_context_t *
+extern void _mod_gl1_menu_cylinder_draw_sphere (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						utils_context,
 						_mod_gl1_menu_cylinder_context_t * cylinder_context, GLenum mode, int i, int n, int sphere_i, int nb_spheres);
 extern void
-_mod_gl1_menu_cylinder_draw_sphere_corners (mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_draw_sphere_corners (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					    utils_context,
 					    _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, int sphere_i, int nb_spheres, int pass_through);
 extern void
-_mod_gl1_menu_cylinder_draw_fixed_cylinder (mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_draw_fixed_cylinder (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					    utils_context,
 					    _mod_gl1_menu_cylinder_context_t *
 					    cylinder_context, GLenum mode,
 					    float offset, float radius, float cyl_height, float cyl_height_offset, float rotate);
 extern void
-_mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						    utils_context,
 						    _mod_gl1_menu_cylinder_context_t
 						    * cylinder_context,
@@ -151,40 +146,33 @@ _mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (mod_gl1_utils_context_t *
 						    float radius,
 						    float cyl_height, float cyl_height_offset, float rotate, float realtive_text_width, int pass_through);
 
-/*
- * In pick.c
- */
+/* gl1-cylinder-pick.c */
 extern void
-_mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
+_mod_gl1_menu_cylinder_pick_item (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				  _mod_gl1_menu_cylinder_context_t *
 				  cylinder_context,
 				  const lw6gui_look_t * look, int *position, int *scroll, int *esc, lw6gui_menu_t * menu, int screen_x, int screen_y);
 extern void
-_mod_gl1_menu_cylinder_get_cylinder_right_point (mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_get_cylinder_right_point (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_menu_cylinder_context_t
 						 * cylinder_context, int i, int n, float relative_text_width, float *right_point_x, float *right_point_y);
 
-/*
- * In progress.c
- */
-extern void _mod_gl1_menu_cylinder_draw_progress (mod_gl1_utils_context_t *
+/* gl1-cylinder-progress.c */
+extern void _mod_gl1_menu_cylinder_draw_progress (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						  utils_context,
 						  _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, float progress);
 
-/*
- * In setup.c
- */
-extern _mod_gl1_menu_cylinder_context_t *_mod_gl1_menu_cylinder_init (mod_gl1_utils_context_t * utils_context);
-extern void _mod_gl1_menu_cylinder_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context);
+/* gl1-cylinder-setup.c */
+extern _mod_gl1_menu_cylinder_context_t *_mod_gl1_menu_cylinder_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+extern void _mod_gl1_menu_cylinder_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+					 _mod_gl1_menu_cylinder_context_t * cylinder_context);
 
-/*
- * In warp.c
- */
+/* gl1-cylinder-warp.c */
 extern int
-_mod_gl1_menu_cylinder_warp_mouse_on_menuitem (mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_warp_mouse_on_menuitem (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					       utils_context,
 					       _mod_gl1_menu_cylinder_context_t
 					       * cylinder_context, const lw6gui_look_t * look, lw6gui_menu_t * menu, int position);
 
-#endif
+#endif // LIQUIDWAR6GFX_MOD_GL1_MENU_CYLINDER_INTERNAL_H

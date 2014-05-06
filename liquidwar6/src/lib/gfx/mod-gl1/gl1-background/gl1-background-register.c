@@ -32,7 +32,7 @@
 #include "gl1-void/gl1-void.h"
 
 mod_gl1_background_backend_t *
-mod_gl1_background_create_backend (mod_gl1_utils_context_t * utils_context, const char *name)
+mod_gl1_background_create_backend (sys_context, mod_gl1_utils_context_t * utils_context, const char *name)
 {
   mod_gl1_background_backend_t *(*init_func) (mod_gl1_utils_context_t * utils_context) = NULL;
   mod_gl1_background_backend_t *backend = NULL;
@@ -63,7 +63,7 @@ mod_gl1_background_create_backend (mod_gl1_utils_context_t * utils_context, cons
 }
 
 void
-mod_gl1_background_destroy_backend (mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend)
+mod_gl1_background_destroy_backend (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend)
 {
   if (backend)
     {

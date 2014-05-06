@@ -45,7 +45,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
  * Loads constants.
  */
 int
-_mod_gles2_load_consts (_mod_gles2_context_t * context)
+_mod_gles2_load_consts (sys_context, _mod_gles2_context_t * context)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -68,7 +68,7 @@ _mod_gles2_load_consts (_mod_gles2_context_t * context)
  * Unload constants, free memory
  */
 void
-_mod_gles2_unload_consts (_mod_gles2_context_t * context)
+_mod_gles2_unload_consts (sys_context, _mod_gles2_context_t * context)
 {
   memset (&context->const_data, 0, sizeof (_mod_gles2_const_data_t));
 }

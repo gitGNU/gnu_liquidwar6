@@ -33,7 +33,7 @@
  * Initialize display.
  */
 int
-mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui_video_mode_t * video_mode)
+mod_gl1_utils_set_video_mode (sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_video_mode_t * video_mode)
 {
   /* Information about the current video settings. */
   const SDL_VideoInfo *info = NULL;
@@ -121,7 +121,7 @@ mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui_vi
 
       if (width <= 0 || height <= 0)
 	{
-	  if (mod_gl1_utils_get_fullscreen_modes (utils_context, &fullscreen_modes))
+	  if (mod_gl1_utils_get_fullscreen_modes (sys_context, utils_context, &fullscreen_modes))
 	    {
 	      width = fullscreen_modes.standard.width;
 	      height = fullscreen_modes.standard.height;
@@ -131,7 +131,7 @@ mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui_vi
 
       if (fullscreen)
 	{
-	  if (mod_gl1_utils_get_fullscreen_modes (utils_context, &fullscreen_modes))
+	  if (mod_gl1_utils_get_fullscreen_modes (sys_context, utils_context, &fullscreen_modes))
 	    {
 	      ratio_mode = fullscreen_modes.high;
 	      target_mode.width = width;
@@ -140,7 +140,7 @@ mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui_vi
 		{
 		  width_test = target_mode.width;
 		  height_test = target_mode.height;
-		  mod_gl1_utils_find_closest_resolution (utils_context, &width_test, &height_test, width_test, height_test);
+		  mod_gl1_utils_find_closest_resolution (sys_context, utils_context, &width_test, &height_test, width_test, height_test);
 		  if (width_test != width || height_test != height)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -192,7 +192,7 @@ mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui_vi
 
       if (ok)
 	{
-	  mod_gl1_utils_show_mouse (utils_context, 0, 1);
+	  mod_gl1_utils_show_mouse (sys_context, utils_context, 0, 1);
 	  SDL_PumpEvents ();
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("SDL events pumped"));
 
@@ -201,7 +201,7 @@ mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui_vi
 	  utils_context->sdl_context.video_mode.fullscreen = fullscreen;
 	  utils_context->caps.bpp = bpp;
 	  utils_context->caps.max_texture_size = 0;
-	  mod_gl1_utils_sync_viewport (utils_context);
+	  mod_gl1_utils_sync_viewport (sys_context, utils_context);
 	  glGetIntegerv (GL_MAX_TEXTURE_SIZE, &(utils_context->caps.max_texture_size));
 	  if (!utils_context->caps.max_texture_size)
 	    {
@@ -236,11 +236,11 @@ mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui_vi
       /*
        * Call this function to be sure we're truely in some known mode
        */
-      mod_gl1_utils_set_render_mode_2d (utils_context);
+      mod_gl1_utils_set_render_mode_2d (sys_context, utils_context);
 
-      mod_gl1_utils_call_resize_callback (utils_context);
-      mod_gl1_utils_timer_set_bitmap_refresh (utils_context);
-      mod_gl1_utils_smoothers_reset_drawable (utils_context);
+      mod_gl1_utils_call_resize_callback (sys_context, utils_context);
+      mod_gl1_utils_timer_set_bitmap_refresh (sys_context, utils_context);
+      mod_gl1_utils_smoothers_reset_drawable (sys_context, utils_context);
 
       lw6sys_sleep (sys_context, utils_context->sdl_context.const_data.mode_sleep);
     }
@@ -253,7 +253,7 @@ mod_gl1_utils_set_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui_vi
  * Called whenever window resize is asked for.
  */
 int
-mod_gl1_utils_resize_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui_video_mode_t * video_mode)
+mod_gl1_utils_resize_video_mode (sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -267,9 +267,9 @@ mod_gl1_utils_resize_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui
       if (SDL_SetVideoMode (video_mode->width, video_mode->height, utils_context->caps.bpp, flags) != 0)
 	{
 	  utils_context->sdl_context.video_mode = *video_mode;
-	  mod_gl1_utils_sync_viewport (utils_context);
+	  mod_gl1_utils_sync_viewport (sys_context, utils_context);
 
-	  mod_gl1_utils_call_resize_callback (utils_context);
+	  mod_gl1_utils_call_resize_callback (sys_context, utils_context);
 
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("screen set to %dx%d fullscreen=%d"), video_mode->width, video_mode->height, video_mode->fullscreen);
 
@@ -290,14 +290,14 @@ mod_gl1_utils_resize_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui
       ret = 1;
     }
 
-  mod_gl1_utils_timer_set_bitmap_refresh (utils_context);
-  mod_gl1_utils_smoothers_reset_drawable (utils_context);
+  mod_gl1_utils_timer_set_bitmap_refresh (sys_context, utils_context);
+  mod_gl1_utils_smoothers_reset_drawable (sys_context, utils_context);
 
   return ret;
 }
 
 int
-mod_gl1_utils_get_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui_video_mode_t * video_mode)
+mod_gl1_utils_get_video_mode (sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -312,14 +312,14 @@ mod_gl1_utils_get_video_mode (mod_gl1_utils_context_t * utils_context, lw6gui_vi
  * Update viewport
  */
 int
-mod_gl1_utils_sync_viewport (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_sync_viewport (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 1;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("glViewport %dx%d"),
 	      utils_context->sdl_context.video_mode.width, utils_context->sdl_context.video_mode.height);
   glViewport (0, 0, utils_context->sdl_context.video_mode.width, utils_context->sdl_context.video_mode.height);
-  mod_gl1_utils_viewport_drawable_max (utils_context);
+  mod_gl1_utils_viewport_drawable_max (sys_context, utils_context);
 
   return ret;
 }
@@ -328,21 +328,21 @@ mod_gl1_utils_sync_viewport (mod_gl1_utils_context_t * utils_context)
  * Force mode.
  */
 int
-mod_gl1_utils_sync_mode (mod_gl1_utils_context_t * utils_context, int force)
+mod_gl1_utils_sync_mode (sys_context, mod_gl1_utils_context_t * utils_context, int force)
 {
   int ret = 0;
   lw6gui_video_mode_t video_mode;
   int flags = 0;
 
-  mod_gl1_utils_get_video_mode (utils_context, &video_mode);
+  mod_gl1_utils_get_video_mode (sys_context, utils_context, &video_mode);
   flags = SDL_OPENGL | (video_mode.fullscreen ? SDL_FULLSCREEN : SDL_RESIZABLE);
 
   if (force)
     {
       if (SDL_SetVideoMode (video_mode.width, video_mode.height, utils_context->caps.bpp, flags) == 0)
 	{
-	  mod_gl1_utils_sync_viewport (utils_context);
-	  mod_gl1_utils_timer_set_bitmap_refresh (utils_context);
+	  mod_gl1_utils_sync_viewport (sys_context, utils_context);
+	  mod_gl1_utils_timer_set_bitmap_refresh (sys_context, utils_context);
 	  ret = 1;
 	}
       else
@@ -353,7 +353,7 @@ mod_gl1_utils_sync_mode (mod_gl1_utils_context_t * utils_context, int force)
     }
   else
     {
-      mod_gl1_utils_sync_viewport (utils_context);
+      mod_gl1_utils_sync_viewport (sys_context, utils_context);
       ret = 1;
     }
 
@@ -361,7 +361,7 @@ mod_gl1_utils_sync_mode (mod_gl1_utils_context_t * utils_context, int force)
 }
 
 int
-mod_gl1_utils_set_resize_callback (mod_gl1_utils_context_t * utils_context, lw6gui_resize_callback_func_t resize_callback)
+mod_gl1_utils_set_resize_callback (sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_resize_callback_func_t resize_callback)
 {
   int ret = 0;
 
@@ -372,7 +372,7 @@ mod_gl1_utils_set_resize_callback (mod_gl1_utils_context_t * utils_context, lw6g
 }
 
 void
-mod_gl1_utils_call_resize_callback (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_call_resize_callback (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   if (utils_context->sdl_context.resize_callback)
     {

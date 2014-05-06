@@ -30,13 +30,13 @@
 #include "gl1-utils.h"
 
 void
-mod_gl1_utils_display_log (mod_gl1_utils_context_t * context, const lw6gui_look_t * look, const char **log_list)
+mod_gl1_utils_display_log (sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look, const char **log_list)
 {
-  mod_gl1_utils_draw_system_text_bottom_left (context, look, log_list);
+  mod_gl1_utils_draw_system_text_bottom_left (sys_context, context, look, log_list);
 }
 
 void
-mod_gl1_utils_display_fps (mod_gl1_utils_context_t * context, const lw6gui_look_t * look, float fps)
+mod_gl1_utils_display_fps (sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look, float fps)
 {
   const char *list_fps[2];
 
@@ -47,14 +47,14 @@ mod_gl1_utils_display_fps (mod_gl1_utils_context_t * context, const lw6gui_look_
 
       if (list_fps[0])
 	{
-	  mod_gl1_utils_draw_system_text_top_left (context, look, list_fps);
+	  mod_gl1_utils_draw_system_text_top_left (sys_context, context, look, list_fps);
 	  LW6SYS_FREE (sys_context, list_fps[0]);
 	}
     }
 }
 
 void
-mod_gl1_utils_display_mps (mod_gl1_utils_context_t * context, const lw6gui_look_t * look, float mps, int target_mps)
+mod_gl1_utils_display_mps (sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look, float mps, int target_mps)
 {
   const char *list_mps[3];
 
@@ -66,14 +66,14 @@ mod_gl1_utils_display_mps (mod_gl1_utils_context_t * context, const lw6gui_look_
 
       if (list_mps[0])
 	{
-	  mod_gl1_utils_draw_system_text_top_left (context, look, list_mps);
+	  mod_gl1_utils_draw_system_text_top_left (sys_context, context, look, list_mps);
 	  LW6SYS_FREE (sys_context, list_mps[1]);
 	}
     }
 }
 
 void
-mod_gl1_utils_display_url (mod_gl1_utils_context_t * context, const lw6gui_look_t * look, const char *url)
+mod_gl1_utils_display_url (sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look, const char *url)
 {
   const char *list_url[2];
 
@@ -84,6 +84,6 @@ mod_gl1_utils_display_url (mod_gl1_utils_context_t * context, const lw6gui_look_
        */
       list_url[0] = (char *) url;
       list_url[1] = NULL;
-      mod_gl1_utils_draw_system_text_bottom_right (context, look, list_url);
+      mod_gl1_utils_draw_system_text_bottom_right (sys_context, context, look, list_url);
     }
 }

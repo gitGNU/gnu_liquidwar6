@@ -28,17 +28,17 @@
 #include "gl1-utils.h"
 
 extern int64_t
-mod_gl1_utils_timer_get_bitmap_refresh (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_timer_get_bitmap_refresh (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   return utils_context->timer.bitmap_refresh;
 }
 
 extern void
-mod_gl1_utils_timer_set_bitmap_refresh (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_timer_set_bitmap_refresh (sys_context, mod_gl1_utils_context_t * utils_context)
 {
 #if LW6_MS_WINDOWS || LW6_MAC_OS_X
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("forcing the purge of textures now, OpenGL context might be lost"));
-  mod_gl1_utils_bitmap_hash_refresh (utils_context);
+  mod_gl1_utils_bitmap_hash_refresh (sys_context, utils_context);
 #endif
-  utils_context->timer.bitmap_refresh = _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context));
+  utils_context->timer.bitmap_refresh = _lw6gfx_sdl_timer_get_timestamp (sys_context, &(utils_context->sdl_context));
 }

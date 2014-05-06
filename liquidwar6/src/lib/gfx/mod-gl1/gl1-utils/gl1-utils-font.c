@@ -63,7 +63,7 @@ _get_text_height (TTF_Font * font, const char *text)
  * Returns the size of the string if it was drawn
  */
 int
-mod_gl1_utils_get_system_text_width (mod_gl1_utils_context_t * utils_context, const char *text)
+mod_gl1_utils_get_system_text_width (sys_context, mod_gl1_utils_context_t * utils_context, const char *text)
 {
   return _get_text_width (utils_context->font_data.system, text);
 }
@@ -72,13 +72,13 @@ mod_gl1_utils_get_system_text_width (mod_gl1_utils_context_t * utils_context, co
  * Returns the size of the string if it was drawn
  */
 int
-mod_gl1_utils_get_system_text_height (mod_gl1_utils_context_t * utils_context, const char *text)
+mod_gl1_utils_get_system_text_height (sys_context, mod_gl1_utils_context_t * utils_context, const char *text)
 {
   return _get_text_height (utils_context->font_data.system, text);
 }
 
 SDL_Surface *
-mod_gl1_utils_blended_text_surface (mod_gl1_utils_context_t * utils_context, TTF_Font * font, SDL_Color color, const char *text)
+mod_gl1_utils_blended_text_surface (sys_context, mod_gl1_utils_context_t * utils_context, TTF_Font * font, SDL_Color color, const char *text)
 {
   SDL_Surface *ret = NULL;
   char *utf8 = NULL;
@@ -154,7 +154,7 @@ _multiline_text_draw_callback (void *func_data, void *data)
 
 	      text_callback_data->pos.y += buffer->h;
 
-	      mod_gl1_utils_delete_surface (text_callback_data->utils_context, buffer);
+	      mod_gl1_utils_delete_surface (sys_context, text_callback_data->utils_context, buffer);
 	    }
 	  else
 	    {
@@ -196,23 +196,24 @@ mod_gl1_utils_multiline_text_write (mod_gl1_utils_context_t *
 	  data.shape.w = lw6sys_imax (1 + 2 * (border_size + margin_size), lw6sys_imin (data.shape.w, max_width));
 	  data.shape.h = lw6sys_imax (1 + 2 * (border_size + margin_size), lw6sys_imin (data.shape.h, max_height));
 
-	  data.target = mod_gl1_utils_create_surface (utils_context, data.shape.w, data.shape.h);
+	  data.target = mod_gl1_utils_create_surface (sys_context, utils_context, data.shape.w, data.shape.h);
 	  if (data.target)
 	    {
-	      data.sdl_color_bg = mod_gl1_utils_color_8_to_sdl (color->bg);
-	      data.sdl_color_fg = mod_gl1_utils_color_8_to_sdl (color->fg);
+	      data.sdl_color_bg = mod_gl1_utils_color_8_to_sdl (sys_context, color->bg);
+	      data.sdl_color_fg = mod_gl1_utils_color_8_to_sdl (sys_context, color->fg);
 	      i_color_bg = lw6sys_color_8_to_irgba (sys_context, color->bg);
 	      i_color_fg = lw6sys_color_8_to_irgba (sys_context, color->fg);
 
-	      mod_gl1_utils_draw_rectfill (data.target, 0, 0, data.shape.w - 1, data.shape.h - 1, i_color_fg);
-	      mod_gl1_utils_draw_rectfill (data.target, border_size, border_size, data.shape.w - 1 - border_size, data.shape.h - 1 - border_size, i_color_bg);
+	      mod_gl1_utils_draw_rectfill (sys_context, data.target, 0, 0, data.shape.w - 1, data.shape.h - 1, i_color_fg);
+	      mod_gl1_utils_draw_rectfill (sys_context, data.target, border_size, border_size, data.shape.w - 1 - border_size, data.shape.h - 1 - border_size,
+					   i_color_bg);
 
 	      lw6sys_list_map (sys_context, lines, _multiline_text_draw_callback, (void *) &data);
-	      mod_gl1_utils_draw_set_alpha_for_color (data.target, alpha_bg, i_color_bg);
-	      ret = mod_gl1_utils_surface2bitmap (utils_context, data.target, _x_ ("multiline"));
+	      mod_gl1_utils_draw_set_alpha_for_color (sys_context, data.target, alpha_bg, i_color_bg);
+	      ret = mod_gl1_utils_surface2bitmap (sys_context, utils_context, data.target, _x_ ("multiline"));
 	      if (!ret)
 		{
-		  mod_gl1_utils_delete_surface (utils_context, data.target);
+		  mod_gl1_utils_delete_surface (sys_context, utils_context, data.target);
 		}
 	    }
 
@@ -237,8 +238,8 @@ _draw_text (mod_gl1_utils_context_t * utils_context,
   shaded_text = mod_gl1_utils_shaded_text_new (utils_context, font, text, color);
   if (shaded_text != NULL)
     {
-      mod_gl1_utils_shaded_text_display (utils_context, shaded_text, x, y, x + shaded_text->texture_w, y + shaded_text->texture_h, dw, dh);
-      mod_gl1_utils_shaded_text_free (utils_context, shaded_text);
+      mod_gl1_utils_shaded_text_display (sys_context, utils_context, shaded_text, x, y, x + shaded_text->texture_w, y + shaded_text->texture_h, dw, dh);
+      mod_gl1_utils_shaded_text_free (sys_context, utils_context, shaded_text);
       ret = 1;
     }
 
@@ -252,22 +253,22 @@ _draw_text (mod_gl1_utils_context_t * utils_context,
  * Draws a font on the screen, at a given position
  */
 void
-mod_gl1_utils_draw_system_text (mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char *text, int x, int y)
+mod_gl1_utils_draw_system_text (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char *text, int x, int y)
 {
-  mod_gl1_utils_set_render_mode_2d_blend (utils_context);
+  mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
 
   _draw_text (utils_context, utils_context->font_data.system,
 	      text, &(look->style.color_set.system_color), x, y, utils_context->const_data.system_font_dw, utils_context->const_data.system_font_dh);
 }
 
 void
-mod_gl1_utils_draw_system_text_top_left (mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char **text_list)
+mod_gl1_utils_draw_system_text_top_left (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char **text_list)
 {
   int y;
   int w;
   int h;
 
-  mod_gl1_utils_set_render_mode_2d_blend (utils_context);
+  mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
 
   y = 0;
   while (*text_list)
@@ -281,14 +282,14 @@ mod_gl1_utils_draw_system_text_top_left (mod_gl1_utils_context_t * utils_context
 }
 
 void
-mod_gl1_utils_draw_system_text_top_right (mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char **text_list)
+mod_gl1_utils_draw_system_text_top_right (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char **text_list)
 {
   int x;
   int y;
   int w;
   int h;
 
-  mod_gl1_utils_set_render_mode_2d_blend (utils_context);
+  mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
 
   x = utils_context->sdl_context.video_mode.width;
   y = 0;
@@ -304,7 +305,7 @@ mod_gl1_utils_draw_system_text_top_right (mod_gl1_utils_context_t * utils_contex
 }
 
 void
-mod_gl1_utils_draw_system_text_bottom_left (mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char **text_list)
+mod_gl1_utils_draw_system_text_bottom_left (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char **text_list)
 {
   int y;
   int w;
@@ -313,7 +314,7 @@ mod_gl1_utils_draw_system_text_bottom_left (mod_gl1_utils_context_t * utils_cont
   const char **tmp_list;
   const char **list_end;
 
-  mod_gl1_utils_set_render_mode_2d_blend (utils_context);
+  mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
 
   list_end = text_list;
   while (*list_end)
@@ -336,7 +337,7 @@ mod_gl1_utils_draw_system_text_bottom_left (mod_gl1_utils_context_t * utils_cont
 }
 
 void
-mod_gl1_utils_draw_system_text_bottom_right (mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char **text_list)
+mod_gl1_utils_draw_system_text_bottom_right (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char **text_list)
 {
   int x;
   int y;
@@ -346,7 +347,7 @@ mod_gl1_utils_draw_system_text_bottom_right (mod_gl1_utils_context_t * utils_con
   const char **tmp_list;
   const char **list_end;
 
-  mod_gl1_utils_set_render_mode_2d_blend (utils_context);
+  mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
 
   list_end = text_list;
   while (*list_end)

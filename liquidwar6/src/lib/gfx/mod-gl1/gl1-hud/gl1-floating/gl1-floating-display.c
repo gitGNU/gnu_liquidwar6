@@ -47,7 +47,7 @@ _display_clock (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_c
       y2 = y1 + (size_factor * floating_context->const_data.clock_size);
       dw = size_factor * floating_context->const_data.clock_dw;
       dh = size_factor * floating_context->const_data.clock_dh;
-      mod_gl1_utils_shaded_text_display (utils_context, floating_context->clock.clock_text, x1, y1, x2, y2, dw, dh);
+      mod_gl1_utils_shaded_text_display (sys_context, utils_context, floating_context->clock.clock_text, x1, y1, x2, y2, dw, dh);
     }
 }
 
@@ -132,10 +132,10 @@ _display_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_
 
 	      if (floating_context->gauges.gauge_frame)
 		{
-		  mod_gl1_utils_bitmap_colorize (utils_context,
+		  mod_gl1_utils_bitmap_colorize (sys_context, utils_context,
 						 floating_context->gauges.gauge_frame,
 						 floating_context->look->style.colorize, &(floating_context->look->style.color_set.hud_color_frame));
-		  mod_gl1_utils_bitmap_bind (utils_context, floating_context->gauges.gauge_frame);
+		  mod_gl1_utils_bitmap_bind (sys_context, utils_context, floating_context->gauges.gauge_frame);
 		  gluDisk (floating_context->gauges.disk, inner, outer, slices, loops);
 		}
 
@@ -146,13 +146,13 @@ _display_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_
 
 	      if (utils_context->textures_1x1.team_colors[team_color])
 		{
-		  mod_gl1_utils_bitmap_bind (utils_context, utils_context->textures_1x1.team_colors[team_color]);
+		  mod_gl1_utils_bitmap_bind (sys_context, utils_context, utils_context->textures_1x1.team_colors[team_color]);
 		  gluPartialDisk (floating_context->gauges.disk, inner, outer, slices, loops, start, sweep1);
 		}
 
 	      if (utils_context->textures_1x1.team_color_dead)
 		{
-		  mod_gl1_utils_bitmap_bind (utils_context, utils_context->textures_1x1.team_color_dead);
+		  mod_gl1_utils_bitmap_bind (sys_context, utils_context, utils_context->textures_1x1.team_color_dead);
 		  gluPartialDisk (floating_context->gauges.disk, inner, outer, slices, loops, start + sweep1, sweep2);
 		}
 	      glMatrixMode (GL_MODELVIEW);
@@ -176,7 +176,7 @@ _display_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_
 		      text_y1 = (y1 + y2) / 2.0f + size_factor * floating_context->const_data.gauge_relative_percent_y1;
 		      text_x2 = text_x1 + text_w;
 		      text_y2 = text_y1 + text_h;
-		      mod_gl1_utils_shaded_text_display (utils_context,
+		      mod_gl1_utils_shaded_text_display (sys_context, utils_context,
 							 floating_context->gauges.percent_texts[i], text_x1, text_y1, text_x2, text_y2, text_dw, text_dh);
 		    }
 		  if (floating_context->gauges.frags_texts[i] && floating_context->gauges.frags_texts[i]->texture_h > 0)
@@ -187,7 +187,7 @@ _display_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_
 		      text_y1 = (y1 + y2) / 2.0f + size_factor * floating_context->const_data.gauge_relative_frags_y1;
 		      text_x2 = text_x1 + text_w;
 		      text_y2 = text_y1 + text_h;
-		      mod_gl1_utils_shaded_text_display (utils_context,
+		      mod_gl1_utils_shaded_text_display (sys_context, utils_context,
 							 floating_context->gauges.frags_texts[i], text_x1, text_y1, text_x2, text_y2, text_dw, text_dh);
 		    }
 		}
@@ -202,7 +202,7 @@ _display_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_
 		      text_y1 = (y1 + y2) / 2.0f + size_factor * floating_context->const_data.gauge_relative_percent_only_y1;
 		      text_x2 = text_x1 + text_w;
 		      text_y2 = text_y1 + text_h;
-		      mod_gl1_utils_shaded_text_display (utils_context,
+		      mod_gl1_utils_shaded_text_display (sys_context, utils_context,
 							 floating_context->gauges.percent_texts[i], text_x1, text_y1, text_x2, text_y2, text_dw, text_dh);
 		    }
 		}
@@ -235,7 +235,7 @@ _display_weapon (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_
       x1 = y1 = 0.0f;
       x2 = utils_context->sdl_context.video_mode.width;
       y2 = utils_context->sdl_context.video_mode.height;
-      mod_gl1_utils_bitmap_display (utils_context, bitmap, x1, y1, x2, y2);
+      mod_gl1_utils_bitmap_display (sys_context, utils_context, bitmap, x1, y1, x2, y2);
     }
 }
 
@@ -253,25 +253,25 @@ _display_hud (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_con
 }
 
 void
-_mod_gl1_hud_floating_display_hud (mod_gl1_utils_context_t * utils_context,
+_mod_gl1_hud_floating_display_hud (sys_context, mod_gl1_utils_context_t * utils_context,
 				   _mod_gl1_hud_floating_context_t *
 				   floating_context,
 				   const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
-  _mod_gl1_hud_floating_context_begin_hud (utils_context, floating_context);
-  _mod_gl1_hud_floating_context_update_hud (utils_context, floating_context, look, game_state, local_cursors);
+  _mod_gl1_hud_floating_context_begin_hud (sys_context, utils_context, floating_context);
+  _mod_gl1_hud_floating_context_update_hud (sys_context, utils_context, floating_context, look, game_state, local_cursors);
 
-  mod_gl1_utils_set_render_mode_2d_blend (utils_context);
+  mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
   _display_hud (utils_context, floating_context);
-  _mod_gl1_hud_floating_context_end_hud (utils_context, floating_context);
+  _mod_gl1_hud_floating_context_end_hud (sys_context, utils_context, floating_context);
 }
 
 void
-mod_gl1_hud_floating_display_hud (mod_gl1_utils_context_t * utils_context,
+mod_gl1_hud_floating_display_hud (sys_context, mod_gl1_utils_context_t * utils_context,
 				  void *hud_context,
 				  const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
-  _mod_gl1_hud_floating_display_hud (utils_context, (_mod_gl1_hud_floating_context_t *) hud_context, look, game_state, local_cursors);
+  _mod_gl1_hud_floating_display_hud (sys_context, utils_context, (_mod_gl1_hud_floating_context_t *) hud_context, look, game_state, local_cursors);
 }
 
 static void
@@ -294,7 +294,7 @@ _display_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_con
     {
       x0 = utils_context->sdl_context.video_mode.width / 2;
       y0 = utils_context->sdl_context.video_mode.height / 2;
-      cycle = _lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context));
+      cycle = _lw6gfx_sdl_timer_get_cycle (sys_context, &(utils_context->sdl_context));
 
       inner = floating_context->const_data.score_pie_inner * size_factor_screen / 2.0f;
       outer = floating_context->const_data.score_pie_outer * size_factor_screen / 2.0f;
@@ -333,7 +333,7 @@ _display_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_con
 	      glPushMatrix ();
 	      glLoadIdentity ();
 	      glTranslatef (x0 + dx, y0 + dy, 0.0f);
-	      mod_gl1_utils_bitmap_bind (utils_context, utils_context->textures_1x1.team_colors[team_color]);
+	      mod_gl1_utils_bitmap_bind (sys_context, utils_context, utils_context->textures_1x1.team_colors[team_color]);
 	      gluQuadricTexture (floating_context->score_pie.disk, GL_TRUE);
 	      gluPartialDisk (floating_context->score_pie.disk, inner * heartbeat_factor, outer * heartbeat_factor, slices, loops, angle1, angle2 - angle1);
 	      glPopMatrix ();
@@ -372,7 +372,7 @@ _display_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_con
 	      text_y1 = y0 - text_h / 2 + dy;
 	      text_x2 = text_x1 + text_w;
 	      text_y2 = text_y1 + text_h;
-	      mod_gl1_utils_shaded_text_display (utils_context,
+	      mod_gl1_utils_shaded_text_display (sys_context, utils_context,
 						 floating_context->score_pie.score_texts[i], text_x1, text_y1, text_x2, text_y2, text_dw, text_dh);
 	    }
 	}
@@ -392,23 +392,23 @@ _display_score (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_c
 }
 
 void
-_mod_gl1_hud_floating_display_score (mod_gl1_utils_context_t * utils_context,
+_mod_gl1_hud_floating_display_score (sys_context, mod_gl1_utils_context_t * utils_context,
 				     _mod_gl1_hud_floating_context_t *
 				     floating_context,
 				     const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
-  _mod_gl1_hud_floating_context_begin_score (utils_context, floating_context);
-  _mod_gl1_hud_floating_context_update_score (utils_context, floating_context, look, game_state, local_cursors);
+  _mod_gl1_hud_floating_context_begin_score (sys_context, utils_context, floating_context);
+  _mod_gl1_hud_floating_context_update_score (sys_context, utils_context, floating_context, look, game_state, local_cursors);
 
-  mod_gl1_utils_set_render_mode_2d_blend (utils_context);
+  mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
   _display_score (utils_context, floating_context);
-  _mod_gl1_hud_floating_context_end_score (utils_context, floating_context);
+  _mod_gl1_hud_floating_context_end_score (sys_context, utils_context, floating_context);
 }
 
 void
-mod_gl1_hud_floating_display_score (mod_gl1_utils_context_t * utils_context,
+mod_gl1_hud_floating_display_score (sys_context, mod_gl1_utils_context_t * utils_context,
 				    void *hud_context,
 				    const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
-  _mod_gl1_hud_floating_display_score (utils_context, (_mod_gl1_hud_floating_context_t *) hud_context, look, game_state, local_cursors);
+  _mod_gl1_hud_floating_display_score (sys_context, utils_context, (_mod_gl1_hud_floating_context_t *) hud_context, look, game_state, local_cursors);
 }

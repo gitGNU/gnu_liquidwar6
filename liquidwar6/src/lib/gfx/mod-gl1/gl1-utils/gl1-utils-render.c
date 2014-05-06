@@ -41,34 +41,34 @@ basic_cleanup ()
  * Prepares OpenGL buffer for a new draw.
  */
 void
-mod_gl1_utils_prepare_buffer (mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look)
+mod_gl1_utils_prepare_buffer (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look)
 {
   lw6sys_color_f_t bg_color;
 
-  mod_gl1_utils_sync_viewport (utils_context);
+  mod_gl1_utils_sync_viewport (sys_context, utils_context);
   lw6sys_color_8_to_f (&bg_color, look->style.color_set.background_color_root.bg);
   glClearColor (bg_color.r, bg_color.g, bg_color.b, bg_color.a);
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  mod_gl1_utils_update_team_color_map (&(utils_context->team_color_map), &(look->style));
+  mod_gl1_utils_update_team_color_map (sys_context, &(utils_context->team_color_map), &(look->style));
   if (utils_context->render_param.gfx_quality != look->gfx_quality)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("set rendering gfx_quality to %d"), look->gfx_quality);
       utils_context->render_param.gfx_quality = look->gfx_quality;
-      mod_gl1_utils_timer_set_bitmap_refresh (utils_context);
+      mod_gl1_utils_timer_set_bitmap_refresh (sys_context, utils_context);
     }
 }
 
 void
 mod_gl1_prepare_buffer (void *utils_context, lw6gui_look_t * look)
 {
-  mod_gl1_utils_prepare_buffer ((mod_gl1_utils_context_t *) utils_context, look);
+  mod_gl1_utils_prepare_buffer (sys_context, (mod_gl1_utils_context_t *) utils_context, look);
 }
 
 /*
  * Liquid War 6 uses a double buffer, this function swaps them.
  */
 void
-mod_gl1_utils_swap_buffers (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_swap_buffers (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   /*
    * glFinish suspected to be a performance killer, and anyways
@@ -76,17 +76,17 @@ mod_gl1_utils_swap_buffers (mod_gl1_utils_context_t * utils_context)
    */
   //glFinish ();
   SDL_GL_SwapBuffers ();
-  mod_gl1_utils_delete_scheduled_textures (utils_context);
+  mod_gl1_utils_delete_scheduled_textures (sys_context, utils_context);
 }
 
 void
 mod_gl1_swap_buffers (void *utils_context)
 {
-  mod_gl1_utils_swap_buffers ((mod_gl1_utils_context_t *) utils_context);
+  mod_gl1_utils_swap_buffers (sys_context, (mod_gl1_utils_context_t *) utils_context);
 }
 
 void
-mod_gl1_utils_set_render_mode_2d (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_set_render_mode_2d (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   basic_cleanup ();
   if (utils_context->render_param.mode != MOD_GL1_UTILS_RENDER_2D)
@@ -109,7 +109,7 @@ mod_gl1_utils_set_render_mode_2d (mod_gl1_utils_context_t * utils_context)
 }
 
 void
-mod_gl1_utils_set_render_mode_2d_blend (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_set_render_mode_2d_blend (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   basic_cleanup ();
   if (utils_context->render_param.mode != MOD_GL1_UTILS_RENDER_2D_BLEND)
@@ -133,7 +133,7 @@ mod_gl1_utils_set_render_mode_2d_blend (mod_gl1_utils_context_t * utils_context)
 }
 
 void
-mod_gl1_utils_set_render_mode_3d_map (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_set_render_mode_3d_map (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   basic_cleanup ();
   if (utils_context->render_param.mode != MOD_GL1_UTILS_RENDER_3D_MAP)
@@ -147,14 +147,14 @@ mod_gl1_utils_set_render_mode_3d_map (mod_gl1_utils_context_t * utils_context)
       glEnable (GL_DEPTH);
       glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
       glEnable (GL_BLEND);
-      mod_gl1_utils_main_light (utils_context);
+      mod_gl1_utils_main_light (sys_context, utils_context);
 
       utils_context->render_param.mode = MOD_GL1_UTILS_RENDER_3D_MAP;
     }
 }
 
 void
-mod_gl1_utils_set_render_mode_3d_menu (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_set_render_mode_3d_menu (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   basic_cleanup ();
   if (utils_context->render_param.mode != MOD_GL1_UTILS_RENDER_3D_MENU)
@@ -168,14 +168,14 @@ mod_gl1_utils_set_render_mode_3d_menu (mod_gl1_utils_context_t * utils_context)
       glEnable (GL_DEPTH);
       //glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
       glDisable (GL_BLEND);
-      mod_gl1_utils_main_light (utils_context);
+      mod_gl1_utils_main_light (sys_context, utils_context);
 
       utils_context->render_param.mode = MOD_GL1_UTILS_RENDER_3D_MENU;
     }
 }
 
 void
-mod_gl1_utils_set_render_mode_3d_select (mod_gl1_utils_context_t * utils_context, int x, int y)
+mod_gl1_utils_set_render_mode_3d_select (sys_context, mod_gl1_utils_context_t * utils_context, int x, int y)
 {
   GLint viewport[4];
 
@@ -201,7 +201,7 @@ mod_gl1_utils_set_render_mode_3d_select (mod_gl1_utils_context_t * utils_context
 }
 
 void
-mod_gl1_utils_set_render_mode_3d_feedback (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_set_render_mode_3d_feedback (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   GLint viewport[4];
 

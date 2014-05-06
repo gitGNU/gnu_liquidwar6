@@ -34,7 +34,7 @@
  * Low-level SDL initialisation.
  */
 _mod_caca_context_t *
-_mod_caca_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
+_mod_caca_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
   const char **d = NULL;
   const char *driver_id = NULL;
@@ -59,9 +59,9 @@ _mod_caca_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
 	    }
 	}
 
-      if (_mod_caca_path_init (&(caca_context->path), argc, argv))
+      if (_mod_caca_path_init (sys_context, &(caca_context->path), argc, argv))
 	{
-	  if (_mod_caca_load_consts (caca_context))
+	  if (_mod_caca_load_consts (sys_context, caca_context))
 	    {
 	      lw6gui_input_init (sys_context, &(caca_context->input));
 
@@ -73,7 +73,7 @@ _mod_caca_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
 	       */
 	      lw6gui_input_enable_auto_release (sys_context, &(caca_context->input));
 
-	      if (_mod_caca_set_resize_callback (caca_context, resize_callback))
+	      if (_mod_caca_set_resize_callback (sys_context, caca_context, resize_callback))
 		{
 		  /*
 		   * Disabling console output, it could interfere with libcaca
@@ -93,14 +93,14 @@ _mod_caca_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
 		  caca_context->canvas = caca_create_canvas (caca_context->const_data.canvas_create_width, caca_context->const_data.canvas_create_height);
 		  if (caca_context->canvas)
 		    {
-		      if (_mod_caca_set_video_mode (caca_context, video_mode))
+		      if (_mod_caca_set_video_mode (sys_context, caca_context, video_mode))
 			{
 			  // OK
 			}
 		      else
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to set video mode"));
-			  _mod_caca_quit (caca_context);
+			  _mod_caca_quit (sys_context, caca_context);
 			  caca_context = NULL;
 			}
 		    }
@@ -109,28 +109,28 @@ _mod_caca_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
 		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR,
 				  _("unable to create canvas %dx%d"),
 				  caca_context->const_data.canvas_create_width, caca_context->const_data.canvas_create_height);
-		      _mod_caca_quit (caca_context);
+		      _mod_caca_quit (sys_context, caca_context);
 		      caca_context = NULL;
 		    }
 		}
 	      else
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to set resize callback"));
-		  _mod_caca_quit (caca_context);
+		  _mod_caca_quit (sys_context, caca_context);
 		  caca_context = NULL;
 		}
 	    }
 	  else
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to load consts"));
-	      _mod_caca_quit (caca_context);
+	      _mod_caca_quit (sys_context, caca_context);
 	      caca_context = NULL;
 	    }
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to init paths"));
-	  _mod_caca_quit (caca_context);
+	  _mod_caca_quit (sys_context, caca_context);
 	  caca_context = NULL;
 	}
     }
@@ -152,7 +152,7 @@ _mod_caca_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
  * Ends-up all SDL stuff.
  */
 void
-_mod_caca_quit (_mod_caca_context_t * caca_context)
+_mod_caca_quit (sys_context, _mod_caca_context_t * caca_context)
 {
   float quit_sleep = 0.0f;
 
@@ -185,8 +185,8 @@ _mod_caca_quit (_mod_caca_context_t * caca_context)
 
   lw6gui_input_quit (sys_context, &(caca_context->input));
 
-  _mod_caca_unload_consts (caca_context);
-  _mod_caca_path_quit (&(caca_context->path));
+  _mod_caca_unload_consts (sys_context, caca_context);
+  _mod_caca_path_quit (sys_context, &(caca_context->path));
 
   LW6SYS_FREE (sys_context, caca_context);
 

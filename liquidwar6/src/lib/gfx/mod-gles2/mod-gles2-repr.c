@@ -30,7 +30,7 @@
 #include "mod-gles2-internal.h"
 
 char *
-_mod_gles2_repr (_mod_gles2_context_t * gles2_context, u_int32_t id)
+_mod_gles2_repr (sys_context, _mod_gles2_context_t * gles2_context, u_int32_t id)
 {
   char *ret = NULL;
   SDL_version version;

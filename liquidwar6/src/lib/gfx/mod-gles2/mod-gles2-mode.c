@@ -30,7 +30,7 @@
  * Initialize display.
  */
 int
-_mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
+_mod_gles2_set_video_mode (sys_context, _mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
 {
   /* Information about the current video settings. */
   const SDL_VideoInfo *info = NULL;
@@ -118,7 +118,7 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mo
 
       if (width <= 0 || height <= 0)
 	{
-	  if (_mod_gles2_get_fullscreen_modes (gles2_context, &fullscreen_modes))
+	  if (_mod_gles2_get_fullscreen_modes (sys_context, gles2_context, &fullscreen_modes))
 	    {
 	      width = fullscreen_modes.standard.width;
 	      height = fullscreen_modes.standard.height;
@@ -128,7 +128,7 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mo
 
       if (fullscreen)
 	{
-	  if (_mod_gles2_get_fullscreen_modes (gles2_context, &fullscreen_modes))
+	  if (_mod_gles2_get_fullscreen_modes (sys_context, gles2_context, &fullscreen_modes))
 	    {
 	      ratio_mode = fullscreen_modes.high;
 	      target_mode.width = width;
@@ -137,7 +137,7 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mo
 		{
 		  width_test = target_mode.width;
 		  height_test = target_mode.height;
-		  _mod_gles2_find_closest_resolution (gles2_context, &width_test, &height_test, width_test, height_test);
+		  _mod_gles2_find_closest_resolution (sys_context, gles2_context, &width_test, &height_test, width_test, height_test);
 		  if (width_test != width || height_test != height)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -198,7 +198,7 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mo
 	  gles2_context->sdl_context.video_mode.fullscreen = fullscreen;
 	  gles2_context->caps.bpp = bpp;
 	  gles2_context->caps.max_texture_size = 0;
-	  _mod_gles2_sync_viewport (gles2_context);
+	  _mod_gles2_sync_viewport (sys_context, gles2_context);
 	  glGetIntegerv (GL_MAX_TEXTURE_SIZE, &(gles2_context->caps.max_texture_size));
 	  if (!gles2_context->caps.max_texture_size)
 	    {
@@ -235,7 +235,7 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mo
        */
       //_mod_gles2_set_render_mode_2d (gles2_context);
 
-      _mod_gles2_call_resize_callback (gles2_context);
+      _mod_gles2_call_resize_callback (sys_context, gles2_context);
       //_mod_gles2_timer_set_bitmap_refresh (gles2_context);
       //_mod_gles2_smoothers_reset_drawable (gles2_context);
 
@@ -250,7 +250,7 @@ _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mo
  * Called whenever window resize is asked for.
  */
 int
-_mod_gles2_resize_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
+_mod_gles2_resize_video_mode (sys_context, _mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -264,9 +264,9 @@ _mod_gles2_resize_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video
       if (SDL_SetVideoMode (video_mode->width, video_mode->height, gles2_context->caps.bpp, flags) != 0)
 	{
 	  gles2_context->sdl_context.video_mode = *video_mode;
-	  _mod_gles2_sync_viewport (gles2_context);
+	  _mod_gles2_sync_viewport (sys_context, gles2_context);
 
-	  _mod_gles2_call_resize_callback (gles2_context);
+	  _mod_gles2_call_resize_callback (sys_context, gles2_context);
 
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("screen set to %dx%d fullscreen=%d"), video_mode->width, video_mode->height, video_mode->fullscreen);
 
@@ -294,7 +294,7 @@ _mod_gles2_resize_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video
 }
 
 int
-_mod_gles2_get_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
+_mod_gles2_get_video_mode (sys_context, _mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -309,14 +309,14 @@ _mod_gles2_get_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mo
  * Update viewport
  */
 int
-_mod_gles2_sync_viewport (_mod_gles2_context_t * gles2_context)
+_mod_gles2_sync_viewport (sys_context, _mod_gles2_context_t * gles2_context)
 {
   int ret = 1;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("glViewport %dx%d"),
 	      gles2_context->sdl_context.video_mode.width, gles2_context->sdl_context.video_mode.height);
   glViewport (0, 0, gles2_context->sdl_context.video_mode.width, gles2_context->sdl_context.video_mode.height);
-  _mod_gles2_viewport_drawable_max (gles2_context);
+  _mod_gles2_viewport_drawable_max (sys_context, gles2_context);
 
   return ret;
 }
@@ -325,20 +325,20 @@ _mod_gles2_sync_viewport (_mod_gles2_context_t * gles2_context)
  * Force mode.
  */
 int
-_mod_gles2_sync_mode (_mod_gles2_context_t * gles2_context, int force)
+_mod_gles2_sync_mode (sys_context, _mod_gles2_context_t * gles2_context, int force)
 {
   int ret = 0;
   lw6gui_video_mode_t video_mode;
   int flags = 0;
 
-  _mod_gles2_get_video_mode (gles2_context, &video_mode);
+  _mod_gles2_get_video_mode (sys_context, gles2_context, &video_mode);
   flags = SDL_OPENGL | (video_mode.fullscreen ? SDL_FULLSCREEN : SDL_RESIZABLE);
 
   if (force)
     {
       if (SDL_SetVideoMode (video_mode.width, video_mode.height, gles2_context->caps.bpp, flags) == 0)
 	{
-	  _mod_gles2_sync_viewport (gles2_context);
+	  _mod_gles2_sync_viewport (sys_context, gles2_context);
 	  //_mod_gles2_timer_set_bitmap_refresh (gles2_context);
 	  ret = 1;
 	}
@@ -350,7 +350,7 @@ _mod_gles2_sync_mode (_mod_gles2_context_t * gles2_context, int force)
     }
   else
     {
-      _mod_gles2_sync_viewport (gles2_context);
+      _mod_gles2_sync_viewport (sys_context, gles2_context);
       ret = 1;
     }
 
@@ -358,7 +358,7 @@ _mod_gles2_sync_mode (_mod_gles2_context_t * gles2_context, int force)
 }
 
 int
-_mod_gles2_set_resize_callback (_mod_gles2_context_t * gles2_context, lw6gui_resize_callback_func_t resize_callback)
+_mod_gles2_set_resize_callback (sys_context, _mod_gles2_context_t * gles2_context, lw6gui_resize_callback_func_t resize_callback)
 {
   int ret = 0;
 
@@ -369,7 +369,7 @@ _mod_gles2_set_resize_callback (_mod_gles2_context_t * gles2_context, lw6gui_res
 }
 
 void
-_mod_gles2_call_resize_callback (_mod_gles2_context_t * gles2_context)
+_mod_gles2_call_resize_callback (sys_context, _mod_gles2_context_t * gles2_context)
 {
   if (gles2_context->sdl_context.resize_callback)
     {

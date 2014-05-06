@@ -39,7 +39,7 @@ mod_gl1_utils_shaded_text_new (mod_gl1_utils_context_t * utils_context, TTF_Font
   if (shaded_text)
     {
       shaded_text->font = font;
-      if (!mod_gl1_utils_shaded_text_update (utils_context, shaded_text, text, color))
+      if (!mod_gl1_utils_shaded_text_update (sys_context, utils_context, shaded_text, text, color))
 	{
 	  LW6SYS_FREE (sys_context, shaded_text);
 	  shaded_text = NULL;
@@ -49,7 +49,7 @@ mod_gl1_utils_shaded_text_new (mod_gl1_utils_context_t * utils_context, TTF_Font
 }
 
 int
-mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
+mod_gl1_utils_shaded_text_update (sys_context, mod_gl1_utils_context_t * utils_context,
 				  mod_gl1_utils_shaded_text_t * shaded_text, const char *text, const lw6map_color_couple_t * color)
 {
   int ret = 0;
@@ -77,19 +77,19 @@ mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
     {
       if (shaded_text->bg)
 	{
-	  mod_gl1_utils_bitmap_free (utils_context, shaded_text->bg);
+	  mod_gl1_utils_bitmap_free (sys_context, utils_context, shaded_text->bg);
 	}
       if (shaded_text->fg)
 	{
-	  mod_gl1_utils_bitmap_free (utils_context, shaded_text->fg);
+	  mod_gl1_utils_bitmap_free (sys_context, utils_context, shaded_text->fg);
 	}
-      color_bg = mod_gl1_utils_color_8_to_sdl (shaded_text->color.bg);
-      color_fg = mod_gl1_utils_color_8_to_sdl (shaded_text->color.fg);
-      surface_bg = mod_gl1_utils_blended_text_surface (utils_context, shaded_text->font, color_bg, shaded_text->text);
-      surface_fg = mod_gl1_utils_blended_text_surface (utils_context, shaded_text->font, color_fg, shaded_text->text);
+      color_bg = mod_gl1_utils_color_8_to_sdl (sys_context, shaded_text->color.bg);
+      color_fg = mod_gl1_utils_color_8_to_sdl (sys_context, shaded_text->color.fg);
+      surface_bg = mod_gl1_utils_blended_text_surface (sys_context, utils_context, shaded_text->font, color_bg, shaded_text->text);
+      surface_fg = mod_gl1_utils_blended_text_surface (sys_context, utils_context, shaded_text->font, color_fg, shaded_text->text);
       if (surface_bg)
 	{
-	  shaded_text->bg = mod_gl1_utils_surface2bitmap (utils_context, surface_bg, _DESC_SHADED_TEXT_BG);
+	  shaded_text->bg = mod_gl1_utils_surface2bitmap (sys_context, utils_context, surface_bg, _DESC_SHADED_TEXT_BG);
 	  if (shaded_text->bg)
 	    {
 	      shaded_text->texture_w = surface_bg->w;
@@ -97,12 +97,12 @@ mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
 	    }
 	  else
 	    {
-	      mod_gl1_utils_delete_surface (utils_context, surface_bg);
+	      mod_gl1_utils_delete_surface (sys_context, utils_context, surface_bg);
 	    }
 	}
       if (surface_fg)
 	{
-	  shaded_text->fg = mod_gl1_utils_surface2bitmap (utils_context, surface_fg, _DESC_SHADED_TEXT_FG);
+	  shaded_text->fg = mod_gl1_utils_surface2bitmap (sys_context, utils_context, surface_fg, _DESC_SHADED_TEXT_FG);
 	  if (shaded_text->fg)
 	    {
 	      shaded_text->texture_w = surface_fg->w;
@@ -110,7 +110,7 @@ mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
 	    }
 	  else
 	    {
-	      mod_gl1_utils_delete_surface (utils_context, surface_fg);
+	      mod_gl1_utils_delete_surface (sys_context, utils_context, surface_fg);
 	    }
 	}
       ret = (shaded_text->bg && shaded_text->fg);
@@ -120,14 +120,14 @@ mod_gl1_utils_shaded_text_update (mod_gl1_utils_context_t * utils_context,
 }
 
 int
-mod_gl1_utils_shaded_text_display (mod_gl1_utils_context_t * utils_context,
+mod_gl1_utils_shaded_text_display (sys_context, mod_gl1_utils_context_t * utils_context,
 				   mod_gl1_utils_shaded_text_t * shaded_text, float x1, float y1, float x2, float y2, float dw, float dh)
 {
   int ret = 1;
 
   if (shaded_text->bg)
     {
-      ret = ret && mod_gl1_utils_bitmap_display (utils_context, shaded_text->bg, x1 + dw, y1 + dh, x2 + dw, y2 + dh);
+      ret = ret && mod_gl1_utils_bitmap_display (sys_context, utils_context, shaded_text->bg, x1 + dw, y1 + dh, x2 + dw, y2 + dh);
     }
   else
     {
@@ -136,7 +136,7 @@ mod_gl1_utils_shaded_text_display (mod_gl1_utils_context_t * utils_context,
     }
   if (shaded_text->fg)
     {
-      ret = ret && mod_gl1_utils_bitmap_display (utils_context, shaded_text->fg, x1, y1, x2, y2);
+      ret = ret && mod_gl1_utils_bitmap_display (sys_context, utils_context, shaded_text->fg, x1, y1, x2, y2);
     }
   else
     {
@@ -148,7 +148,7 @@ mod_gl1_utils_shaded_text_display (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_utils_shaded_text_free (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_shaded_text_t * shaded_text)
+mod_gl1_utils_shaded_text_free (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_shaded_text_t * shaded_text)
 {
   if (shaded_text)
     {
@@ -158,11 +158,11 @@ mod_gl1_utils_shaded_text_free (mod_gl1_utils_context_t * utils_context, mod_gl1
 	}
       if (shaded_text->bg)
 	{
-	  mod_gl1_utils_bitmap_free (utils_context, shaded_text->bg);
+	  mod_gl1_utils_bitmap_free (sys_context, utils_context, shaded_text->bg);
 	}
       if (shaded_text->fg)
 	{
-	  mod_gl1_utils_bitmap_free (utils_context, shaded_text->fg);
+	  mod_gl1_utils_bitmap_free (sys_context, utils_context, shaded_text->fg);
 	}
       LW6SYS_FREE (sys_context, shaded_text);
     }

@@ -29,7 +29,7 @@
 #include "mod-caca-internal.h"
 
 extern int
-_mod_caca_display_map (_mod_caca_context_t * caca_context,
+_mod_caca_display_map (sys_context, _mod_caca_context_t * caca_context,
 		       const lw6gui_look_t * look,
 		       const lw6ker_game_state_t * game_state, const lw6ker_game_struct_t * game_struct, lw6pil_local_cursors_t * local_cursors)
 {

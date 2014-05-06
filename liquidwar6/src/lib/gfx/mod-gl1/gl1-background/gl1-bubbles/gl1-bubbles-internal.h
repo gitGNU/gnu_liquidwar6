@@ -76,23 +76,20 @@ typedef struct _mod_gl1_background_bubbles_context_s
 }
 _mod_gl1_background_bubbles_context_t;
 
-/*
- * In display.c
- */
+/* gl1-bubbles-display.c */
 extern void
-_mod_gl1_background_bubbles_display_background (mod_gl1_utils_context_t *
+_mod_gl1_background_bubbles_display_background (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context, const lw6gui_look_t * look);
 
-/*
- * In data.c
- */
-extern int _mod_gl1_background_bubbles_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context);
-extern void _mod_gl1_background_bubbles_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context);
+/* gl1-bubbles-data.c */
+extern int _mod_gl1_background_bubbles_load_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+						  _mod_gl1_background_bubbles_context_t * bubbles_context);
+extern void _mod_gl1_background_bubbles_unload_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+						     _mod_gl1_background_bubbles_context_t * bubbles_context);
 
-/*
- * In setup.c
- */
-extern _mod_gl1_background_bubbles_context_t *_mod_gl1_background_bubbles_init (mod_gl1_utils_context_t * utils_context);
-extern void _mod_gl1_background_bubbles_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context);
+/* gl1-bubbles-setup.c */
+extern _mod_gl1_background_bubbles_context_t *_mod_gl1_background_bubbles_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+extern void _mod_gl1_background_bubbles_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+					      _mod_gl1_background_bubbles_context_t * bubbles_context);
 
 #endif

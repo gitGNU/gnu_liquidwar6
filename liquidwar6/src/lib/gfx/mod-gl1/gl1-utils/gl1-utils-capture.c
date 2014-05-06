@@ -30,7 +30,7 @@
 #define _FILE_MASK "%08u.bmp"
 
 SDL_Surface *
-mod_gl1_utils_capture2surface (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_capture2surface (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   SDL_Surface *surface_tmp = NULL;
   SDL_Surface *surface_ret = NULL;
@@ -41,11 +41,11 @@ mod_gl1_utils_capture2surface (mod_gl1_utils_context_t * utils_context)
 
   w = utils_context->sdl_context.video_mode.width;
   h = utils_context->sdl_context.video_mode.height;
-  surface_tmp = mod_gl1_utils_create_surface (utils_context, w, h);
+  surface_tmp = mod_gl1_utils_create_surface (sys_context, utils_context, w, h);
   if (surface_tmp)
     {
       pixels_tmp = (u_int32_t *) surface_tmp->pixels;
-      surface_ret = mod_gl1_utils_create_surface (utils_context, w, h);
+      surface_ret = mod_gl1_utils_create_surface (sys_context, utils_context, w, h);
       if (surface_ret)
 	{
 	  pixels_ret = (u_int32_t *) surface_ret->pixels;
@@ -65,21 +65,21 @@ mod_gl1_utils_capture2surface (mod_gl1_utils_context_t * utils_context)
 		}
 	    }
 	}
-      mod_gl1_utils_delete_surface (utils_context, surface_tmp);
+      mod_gl1_utils_delete_surface (sys_context, utils_context, surface_tmp);
     }
 
   return surface_ret;
 }
 
 int
-mod_gl1_utils_capture2disk (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_capture2disk (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 0;
   SDL_Surface *surface = NULL;
   char *file = NULL;
   char *full_path = NULL;
 
-  surface = mod_gl1_utils_capture2surface (utils_context);
+  surface = mod_gl1_utils_capture2surface (sys_context, utils_context);
   if (surface)
     {
       if (!lw6sys_dir_exists (sys_context, utils_context->path.capture_dir))
@@ -108,7 +108,7 @@ mod_gl1_utils_capture2disk (mod_gl1_utils_context_t * utils_context)
 	      LW6SYS_FREE (sys_context, file);
 	    }
 	}
-      mod_gl1_utils_delete_surface (utils_context, surface);
+      mod_gl1_utils_delete_surface (sys_context, utils_context, surface);
     }
 
   return ret;

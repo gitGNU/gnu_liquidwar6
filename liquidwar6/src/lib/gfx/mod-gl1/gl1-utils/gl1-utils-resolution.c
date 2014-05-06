@@ -28,7 +28,7 @@
 #include "gl1-utils.h"
 
 int
-mod_gl1_utils_get_fullscreen_modes (mod_gl1_utils_context_t * utils_context, lw6gui_fullscreen_modes_t * modes)
+mod_gl1_utils_get_fullscreen_modes (sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_fullscreen_modes_t * modes)
 {
   SDL_Rect **sdl_modes = NULL;
   int i = 0;
@@ -70,13 +70,15 @@ mod_gl1_utils_get_fullscreen_modes (mod_gl1_utils_context_t * utils_context, lw6
 
   lw6gui_video_mode_sync_ratio (sys_context, &(modes->standard), &(modes->high));
 
-  mod_gl1_utils_find_closest_resolution (utils_context, &(modes->standard.width), &(modes->standard.height), modes->standard.width, modes->standard.height);
+  mod_gl1_utils_find_closest_resolution (sys_context, utils_context, &(modes->standard.width), &(modes->standard.height), modes->standard.width,
+					 modes->standard.height);
 
   return ret;
 }
 
 void
-mod_gl1_utils_find_closest_resolution (mod_gl1_utils_context_t * utils_context, int *closest_width, int *closest_height, int wished_width, int wished_height)
+mod_gl1_utils_find_closest_resolution (sys_context, mod_gl1_utils_context_t * utils_context, int *closest_width, int *closest_height, int wished_width,
+				       int wished_height)
 {
   SDL_Rect **sdl_modes = NULL;
   int i = 0;

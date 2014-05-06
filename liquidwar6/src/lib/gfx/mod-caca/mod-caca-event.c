@@ -80,7 +80,7 @@ key_down (lw6gui_keyboard_t * keyboard, caca_event_t * event, _mod_caca_const_da
 }
 
 lw6gui_input_t *
-_mod_caca_pump_events (_mod_caca_context_t * caca_context)
+_mod_caca_pump_events (sys_context, _mod_caca_context_t * caca_context)
 {
   lw6gui_input_t *input = &(caca_context->input);
   caca_event_t event;

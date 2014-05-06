@@ -50,7 +50,7 @@ create_button_key (const lw6gui_look_t * look, const lw6gui_menuitem_t * menuite
  * Store a button bitmap in the menucache. Returns != 0 if successfull.
  */
 int
-mod_gl1_utils_store_button_in_menucache (mod_gl1_utils_context_t * context,
+mod_gl1_utils_store_button_in_menucache (sys_context, mod_gl1_utils_context_t * context,
 					 const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem, mod_gl1_utils_bitmap_t * bitmap)
 {
   mod_gl1_utils_menucache_array_t *menucache_array;
@@ -71,7 +71,7 @@ mod_gl1_utils_store_button_in_menucache (mod_gl1_utils_context_t * context,
     }
   if ((old_bitmap = menucache_array->item_array[i].bitmap) != NULL)
     {
-      mod_gl1_utils_bitmap_free (context, old_bitmap);
+      mod_gl1_utils_bitmap_free (sys_context, context, old_bitmap);
       menucache_array->item_array[i].bitmap = NULL;
     }
 
@@ -124,7 +124,7 @@ mod_gl1_utils_get_button_from_menucache (mod_gl1_utils_context_t * context, cons
  * Clear the cache (usefull when quiting the program).
  */
 void
-mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t * context)
+mod_gl1_utils_clear_menucache (sys_context, mod_gl1_utils_context_t * context)
 {
   mod_gl1_utils_menucache_array_t *menucache_array;
   int i;
@@ -141,7 +141,7 @@ mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t * context)
 	}
       if ((bitmap = menucache_array->item_array[i].bitmap) != NULL)
 	{
-	  mod_gl1_utils_bitmap_free (context, bitmap);
+	  mod_gl1_utils_bitmap_free (sys_context, context, bitmap);
 	}
     }
   if (menucache_array->tooltip_str)
@@ -150,7 +150,7 @@ mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t * context)
     }
   if (menucache_array->tooltip_bitmap)
     {
-      mod_gl1_utils_bitmap_free (context, menucache_array->tooltip_bitmap);
+      mod_gl1_utils_bitmap_free (sys_context, context, menucache_array->tooltip_bitmap);
     }
   if (menucache_array->help_str)
     {
@@ -158,7 +158,7 @@ mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t * context)
     }
   if (menucache_array->help_bitmap)
     {
-      mod_gl1_utils_bitmap_free (context, menucache_array->help_bitmap);
+      mod_gl1_utils_bitmap_free (sys_context, context, menucache_array->help_bitmap);
     }
   if (menucache_array->breadcrumbs_str)
     {
@@ -166,7 +166,7 @@ mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t * context)
     }
   if (menucache_array->breadcrumbs_bitmap)
     {
-      mod_gl1_utils_bitmap_free (context, menucache_array->breadcrumbs_bitmap);
+      mod_gl1_utils_bitmap_free (sys_context, context, menucache_array->breadcrumbs_bitmap);
     }
   if (menucache_array->popup_str)
     {
@@ -174,7 +174,7 @@ mod_gl1_utils_clear_menucache (mod_gl1_utils_context_t * context)
     }
   if (menucache_array->popup_bitmap)
     {
-      mod_gl1_utils_bitmap_free (context, menucache_array->popup_bitmap);
+      mod_gl1_utils_bitmap_free (sys_context, context, menucache_array->popup_bitmap);
     }
 
   memset (menucache_array, 0, sizeof (mod_gl1_utils_menucache_array_t));

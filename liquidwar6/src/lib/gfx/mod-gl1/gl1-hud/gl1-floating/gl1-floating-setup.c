@@ -34,7 +34,7 @@
  * Low-level SDL initialisation.
  */
 _mod_gl1_hud_floating_context_t *
-_mod_gl1_hud_floating_init (mod_gl1_utils_context_t * utils_context)
+_mod_gl1_hud_floating_init (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   _mod_gl1_hud_floating_context_t *floating_context = NULL;
 
@@ -52,13 +52,13 @@ _mod_gl1_hud_floating_init (mod_gl1_utils_context_t * utils_context)
   memset (floating_context, 0, sizeof (_mod_gl1_hud_floating_context_t));
 
 
-  if (!_mod_gl1_hud_floating_load_data (utils_context, floating_context))
+  if (!_mod_gl1_hud_floating_load_data (sys_context, utils_context, floating_context))
     {
       LW6SYS_FREE (sys_context, floating_context);
       floating_context = NULL;
     }
 
-  if (floating_context && !_mod_gl1_hud_floating_context_init (utils_context, floating_context))
+  if (floating_context && !_mod_gl1_hud_floating_context_init (sys_context, utils_context, floating_context))
     {
       LW6SYS_FREE (sys_context, floating_context);
       floating_context = NULL;
@@ -68,26 +68,26 @@ _mod_gl1_hud_floating_init (mod_gl1_utils_context_t * utils_context)
 }
 
 void *
-mod_gl1_hud_floating_init (mod_gl1_utils_context_t * utils_context)
+mod_gl1_hud_floating_init (sys_context, mod_gl1_utils_context_t * utils_context)
 {
-  return (void *) _mod_gl1_hud_floating_init (utils_context);
+  return (void *) _mod_gl1_hud_floating_init (sys_context, utils_context);
 }
 
 /*
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_hud_floating_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_quit (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit hud/floating"));
 
-  _mod_gl1_hud_floating_unload_data (utils_context, floating_context);
-  _mod_gl1_hud_floating_context_clear (utils_context, floating_context);
+  _mod_gl1_hud_floating_unload_data (sys_context, utils_context, floating_context);
+  _mod_gl1_hud_floating_context_clear (sys_context, utils_context, floating_context);
   LW6SYS_FREE (sys_context, floating_context);
 }
 
 void
-mod_gl1_hud_floating_quit (mod_gl1_utils_context_t * utils_context, void *floating_context)
+mod_gl1_hud_floating_quit (sys_context, mod_gl1_utils_context_t * utils_context, void *floating_context)
 {
-  _mod_gl1_hud_floating_quit (utils_context, (_mod_gl1_hud_floating_context_t *) floating_context);
+  _mod_gl1_hud_floating_quit (sys_context, utils_context, (_mod_gl1_hud_floating_context_t *) floating_context);
 }

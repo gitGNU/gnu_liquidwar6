@@ -28,7 +28,7 @@
 #include "gl1-utils.h"
 
 void
-mod_gl1_utils_draw_rectfill (SDL_Surface * surface, int x1, int y1, int x2, int y2, Uint32 color)
+mod_gl1_utils_draw_rectfill (sys_context, SDL_Surface * surface, int x1, int y1, int x2, int y2, Uint32 color)
 {
   /*
    * The slowest implementation ever, however optimizing
@@ -42,13 +42,13 @@ mod_gl1_utils_draw_rectfill (SDL_Surface * surface, int x1, int y1, int x2, int 
     {
       for (y = y1; y < y2; ++y)
 	{
-	  mod_gl1_utils_putpixel (surface, x, y, color);
+	  mod_gl1_utils_putpixel (sys_context, surface, x, y, color);
 	}
     }
 }
 
 void
-mod_gl1_utils_draw_set_alpha_for_color (SDL_Surface * surface, float alpha, Uint32 color)
+mod_gl1_utils_draw_set_alpha_for_color (sys_context, SDL_Surface * surface, float alpha, Uint32 color)
 {
   int x, y, w, h;
   Uint32 pixel_color;
@@ -65,10 +65,10 @@ mod_gl1_utils_draw_set_alpha_for_color (SDL_Surface * surface, float alpha, Uint
     {
       for (y = 0; y < h; ++y)
 	{
-	  pixel_color = mod_gl1_utils_getpixel (surface, x, y);
+	  pixel_color = mod_gl1_utils_getpixel (sys_context, surface, x, y);
 	  if (pixel_color == color)
 	    {
-	      mod_gl1_utils_putpixel (surface, x, y, alpha_color);
+	      mod_gl1_utils_putpixel (sys_context, surface, x, y, alpha_color);
 	    }
 	}
     }

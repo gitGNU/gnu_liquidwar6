@@ -27,17 +27,15 @@
 #include "../../gl1-utils/gl1-utils.h"
 #include "../gl1-background.h"
 
-extern mod_gl1_background_backend_t *mod_gl1_background_bubbles_create_backend (mod_gl1_utils_context_t * utils_context);
+/* gl1-bubbles-backend.c */
+extern mod_gl1_background_backend_t *mod_gl1_background_bubbles_create_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
 
-/*
- * In display.c
- */
-extern void mod_gl1_background_bubbles_display_background (mod_gl1_utils_context_t * utils_context, void *background_context, const lw6gui_look_t * look);
+/* gl1-bubbles-display.c */
+extern void mod_gl1_background_bubbles_display_background (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *background_context,
+							   const lw6gui_look_t * look);
 
-/*
- * In setup.c
- */
-extern void *mod_gl1_background_bubbles_init (mod_gl1_utils_context_t * utils_context);
-extern void mod_gl1_background_bubbles_quit (mod_gl1_utils_context_t * utils_context, void *background_context);
+/* gl1-bubbles-setup.c */
+extern void *mod_gl1_background_bubbles_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+extern void mod_gl1_background_bubbles_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *background_context);
 
 #endif

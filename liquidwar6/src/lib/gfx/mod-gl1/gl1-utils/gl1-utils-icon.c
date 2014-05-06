@@ -38,11 +38,11 @@
 #endif
 
 int
-mod_gl1_utils_icon_set (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_icon_set (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 0;
 
-  utils_context->icon.bitmap = mod_gl1_utils_bitmap_load (utils_context, ICON_DIR ICON_PNG);
+  utils_context->icon.bitmap = mod_gl1_utils_bitmap_load (sys_context, utils_context, ICON_DIR ICON_PNG);
   if (utils_context->icon.bitmap)
     {
       SDL_WM_SetIcon (utils_context->icon.bitmap->surface, NULL);
@@ -53,10 +53,10 @@ mod_gl1_utils_icon_set (mod_gl1_utils_context_t * utils_context)
 }
 
 void
-mod_gl1_utils_icon_unset (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_icon_unset (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   if (utils_context->icon.bitmap)
     {
-      mod_gl1_utils_bitmap_free (utils_context, utils_context->icon.bitmap);
+      mod_gl1_utils_bitmap_free (sys_context, utils_context, utils_context->icon.bitmap);
     }
 }

@@ -45,13 +45,13 @@ prepare_view (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_co
 static void
 draw_cylinder (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, float relative_text_width)
 {
-  _mod_gl1_menu_cylinder_draw_cylinder (utils_context, cylinder_context, GL_RENDER, i, n, relative_text_width);
+  _mod_gl1_menu_cylinder_draw_cylinder (sys_context, utils_context, cylinder_context, GL_RENDER, i, n, relative_text_width);
 }
 
 static void
 draw_sphere (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, int sphere_i, int nb_spheres)
 {
-  _mod_gl1_menu_cylinder_draw_sphere (utils_context, cylinder_context, GL_RENDER, i, n, sphere_i, nb_spheres);
+  _mod_gl1_menu_cylinder_draw_sphere (sys_context, utils_context, cylinder_context, GL_RENDER, i, n, sphere_i, nb_spheres);
 }
 
 static SDL_Color
@@ -61,17 +61,17 @@ get_fg_color (const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
 
   if (menuitem->selected)
     {
-      color = mod_gl1_utils_color_8_to_sdl (look->style.color_set.menu_color_selected.fg);
+      color = mod_gl1_utils_color_8_to_sdl (sys_context, look->style.color_set.menu_color_selected.fg);
     }
   else
     {
       if (menuitem->enabled)
 	{
-	  color = mod_gl1_utils_color_8_to_sdl (look->style.color_set.menu_color_default.fg);
+	  color = mod_gl1_utils_color_8_to_sdl (sys_context, look->style.color_set.menu_color_default.fg);
 	}
       else
 	{
-	  color = mod_gl1_utils_color_8_to_sdl (look->style.color_set.menu_color_disabled.fg);
+	  color = mod_gl1_utils_color_8_to_sdl (sys_context, look->style.color_set.menu_color_disabled.fg);
 	}
     }
 
@@ -88,29 +88,29 @@ get_bg_color (const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
       if (menuitem->value >= 0 && menuitem->value < LW6MAP_NB_TEAM_COLORS)
 	{
 	  // todo, get it from config...
-	  color = mod_gl1_utils_color_8_to_sdl (look->style.color_set.team_colors[menuitem->value]);
+	  color = mod_gl1_utils_color_8_to_sdl (sys_context, look->style.color_set.team_colors[menuitem->value]);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid value %d for colored menu item"), menuitem->value);
-	  color = mod_gl1_utils_color_8_to_sdl (LW6SYS_COLOR_8_WHITE);
+	  color = mod_gl1_utils_color_8_to_sdl (sys_context, LW6SYS_COLOR_8_WHITE);
 	}
     }
   else
     {
       if (menuitem->selected)
 	{
-	  color = mod_gl1_utils_color_8_to_sdl (look->style.color_set.menu_color_selected.bg);
+	  color = mod_gl1_utils_color_8_to_sdl (sys_context, look->style.color_set.menu_color_selected.bg);
 	}
       else
 	{
 	  if (menuitem->enabled)
 	    {
-	      color = mod_gl1_utils_color_8_to_sdl (look->style.color_set.menu_color_default.bg);
+	      color = mod_gl1_utils_color_8_to_sdl (sys_context, look->style.color_set.menu_color_default.bg);
 	    }
 	  else
 	    {
-	      color = mod_gl1_utils_color_8_to_sdl (look->style.color_set.menu_color_disabled.bg);
+	      color = mod_gl1_utils_color_8_to_sdl (sys_context, look->style.color_set.menu_color_disabled.bg);
 	    }
 	}
     }
@@ -157,7 +157,7 @@ draw_button (mod_gl1_utils_context_t * utils_context,
 	    {
 	      utils_context->surface_counter.new_counter++;	// TTF_Render...
 	      bitmap_w = text_surface->w + 2 * utils_context->const_data.menu_font_size;
-	      bitmap = mod_gl1_utils_bitmap_new (utils_context, bitmap_w, MOD_GL1_UTILS_MENU_TEXTURE_H, _DESC_MENU);
+	      bitmap = mod_gl1_utils_bitmap_new (sys_context, utils_context, bitmap_w, MOD_GL1_UTILS_MENU_TEXTURE_H, _DESC_MENU);
 	      if (bitmap != NULL)
 		{
 		  text_rect.x = 0;
@@ -169,10 +169,10 @@ draw_button (mod_gl1_utils_context_t * utils_context,
 		  blit_rect.w = text_surface->w;
 		  blit_rect.h = text_surface->h;
 
-		  mod_gl1_utils_clear_surface_with_color (bitmap->surface, bg_color);
+		  mod_gl1_utils_clear_surface_with_color (sys_context, bitmap->surface, bg_color);
 		  SDL_BlitSurface (text_surface, &text_rect, bitmap->surface, &blit_rect);
 
-		  if (!mod_gl1_utils_store_button_in_menucache (utils_context, look, menuitem, bitmap))
+		  if (!mod_gl1_utils_store_button_in_menucache (sys_context, utils_context, look, menuitem, bitmap))
 		    {
 		      /*
 		       * Storing stuff in menucache should always work, but in
@@ -183,11 +183,11 @@ draw_button (mod_gl1_utils_context_t * utils_context,
 		       * is an order of magnitude better than an obscure invisible
 		       * memory leak...
 		       */
-		      mod_gl1_utils_bitmap_free (utils_context, bitmap);
+		      mod_gl1_utils_bitmap_free (sys_context, utils_context, bitmap);
 		      bitmap = NULL;
 		    }
 		}
-	      mod_gl1_utils_delete_surface (utils_context, text_surface);
+	      mod_gl1_utils_delete_surface (sys_context, utils_context, text_surface);
 	    }
 	  LW6SYS_FREE (sys_context, utf8);
 	}
@@ -197,9 +197,9 @@ draw_button (mod_gl1_utils_context_t * utils_context,
     {
       relative_text_width = ((float) bitmap->surface->w) / ((float) MOD_GL1_UTILS_MENU_TEXTURE_W);
       screen_ratio = ((float) utils_context->sdl_context.video_mode.width) / ((float) utils_context->sdl_context.video_mode.height);
-      texture_scale = mod_gl1_utils_texture_scale (bitmap->surface->w);
+      texture_scale = mod_gl1_utils_texture_scale (sys_context, bitmap->surface->w);
 
-      mod_gl1_utils_bitmap_bind (utils_context, bitmap);
+      mod_gl1_utils_bitmap_bind (sys_context, utils_context, bitmap);
 
       glMatrixMode (GL_TEXTURE);
       glPushMatrix ();
@@ -251,11 +251,11 @@ draw_spheres (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_co
 
   if (blink_state)
     {
-      mod_gl1_utils_bitmap_bind (utils_context, utils_context->textures_1x1.menu_color_default_fg);
+      mod_gl1_utils_bitmap_bind (sys_context, utils_context, utils_context->textures_1x1.menu_color_default_fg);
     }
   else
     {
-      mod_gl1_utils_bitmap_bind (utils_context, utils_context->textures_1x1.menu_color_default_bg);
+      mod_gl1_utils_bitmap_bind (sys_context, utils_context, utils_context->textures_1x1.menu_color_default_bg);
     }
 
   for (sphere_i = 0; sphere_i < nb_spheres; ++sphere_i)
@@ -268,7 +268,7 @@ draw_spheres (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_co
  * Display a menu.
  */
 void
-_mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
+_mod_gl1_menu_cylinder_display_menu (sys_context, mod_gl1_utils_context_t * utils_context,
 				     _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, lw6gui_menu_t * menu)
 {
   int i, j, n;
@@ -277,13 +277,13 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
   float popup_x, popup_y, popup_w, popup_h;
   char *popup = NULL;
 
-  mod_gl1_utils_set_render_mode_3d_menu (utils_context);
+  mod_gl1_utils_set_render_mode_3d_menu (sys_context, utils_context);
 
   prepare_view (utils_context, cylinder_context);
 
   lw6gui_menu_update_display_range (sys_context, menu, cylinder_context->const_data.max_displayed_items);
 
-  blink_state = _lw6gfx_sdl_timer_get_uptime (&(utils_context->sdl_context)) / (cylinder_context->const_data.sphere_blink_period / 2) % 2;
+  blink_state = _lw6gfx_sdl_timer_get_uptime (sys_context, &(utils_context->sdl_context)) / (cylinder_context->const_data.sphere_blink_period / 2) % 2;
   n = menu->nb_items_displayed + 2;
   if (menu->first_item_displayed > 0)
     {
@@ -323,7 +323,7 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 		}
 	      if (utils_context->menucache_array.popup_bitmap)
 		{
-		  mod_gl1_utils_bitmap_free (utils_context, utils_context->menucache_array.popup_bitmap);
+		  mod_gl1_utils_bitmap_free (sys_context, utils_context, utils_context->menucache_array.popup_bitmap);
 		  utils_context->menucache_array.popup_bitmap = NULL;
 		}
 	      utils_context->menucache_array.popup_str = lw6sys_str_copy (sys_context, popup);
@@ -340,7 +340,7 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 
 	  if (utils_context->menucache_array.popup_bitmap)
 	    {
-	      mod_gl1_utils_set_render_mode_2d_blend (utils_context);
+	      mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
 
 	      popup_w =
 		(utils_context->sdl_context.video_mode.width *
@@ -349,7 +349,7 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 	      popup_h = (popup_w * utils_context->menucache_array.popup_bitmap->surface->h) / utils_context->menucache_array.popup_bitmap->surface->w;
 	      popup_x = (utils_context->sdl_context.video_mode.width - popup_w) / 2;
 	      popup_y = (utils_context->sdl_context.video_mode.height - popup_h) / 2;
-	      mod_gl1_utils_bitmap_display (utils_context,
+	      mod_gl1_utils_bitmap_display (sys_context, utils_context,
 					    utils_context->menucache_array.popup_bitmap, popup_x, popup_y, popup_x + popup_w, popup_y + popup_h);
 	    }
 	}
@@ -357,9 +357,10 @@ _mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context, void *cylinder_context, const lw6gui_look_t * look, lw6gui_menu_t * menu)
+mod_gl1_menu_cylinder_display_menu (sys_context, mod_gl1_utils_context_t * utils_context, void *cylinder_context, const lw6gui_look_t * look,
+				    lw6gui_menu_t * menu)
 {
-  _mod_gl1_menu_cylinder_display_menu (utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context, look, menu);
+  _mod_gl1_menu_cylinder_display_menu (sys_context, utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context, look, menu);
   /*
    * It's really better to pick *after* drawing for the first
    * step will generate bitmaps in cache, and those bitmaps we
@@ -376,30 +377,31 @@ mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context, voi
 }
 
 void
-_mod_gl1_menu_cylinder_display_progress (mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_display_progress (sys_context, mod_gl1_utils_context_t *
 					 utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, float progress)
 {
-  mod_gl1_utils_set_render_mode_3d_menu (utils_context);
+  mod_gl1_utils_set_render_mode_3d_menu (sys_context, utils_context);
 
   prepare_view (utils_context, cylinder_context);
 
   if (progress > 0.0f && progress < 1.0f)	// strict, to disable it when complete
     {
-      _mod_gl1_menu_cylinder_draw_progress (utils_context, cylinder_context, look, progress);
+      _mod_gl1_menu_cylinder_draw_progress (sys_context, utils_context, cylinder_context, look, progress);
     }
 }
 
 void
-mod_gl1_menu_cylinder_display_progress (mod_gl1_utils_context_t * utils_context, void *cylinder_context, const lw6gui_look_t * look, float progress)
+mod_gl1_menu_cylinder_display_progress (sys_context, mod_gl1_utils_context_t * utils_context, void *cylinder_context, const lw6gui_look_t * look,
+					float progress)
 {
-  _mod_gl1_menu_cylinder_display_progress (utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context, look, progress);
+  _mod_gl1_menu_cylinder_display_progress (sys_context, utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context, look, progress);
 }
 
 /*
  * Display a menu.
  */
 void
-_mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
+_mod_gl1_menu_cylinder_display_meta (sys_context, mod_gl1_utils_context_t * utils_context,
 				     _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, lw6gui_menu_t * menu)
 {
   int n;
@@ -412,7 +414,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
   float breadcrumbs_x, breadcrumbs_y, breadcrumbs_w, breadcrumbs_h;
   char *breadcrumbs = NULL;
 
-  mod_gl1_utils_set_render_mode_3d_menu (utils_context);
+  mod_gl1_utils_set_render_mode_3d_menu (sys_context, utils_context);
 
   if (!lw6gui_menu_has_popup (sys_context, menu))
     {
@@ -436,7 +438,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 		}
 	      if (utils_context->menucache_array.tooltip_bitmap)
 		{
-		  mod_gl1_utils_bitmap_free (utils_context, utils_context->menucache_array.tooltip_bitmap);
+		  mod_gl1_utils_bitmap_free (sys_context, utils_context, utils_context->menucache_array.tooltip_bitmap);
 		  utils_context->menucache_array.tooltip_bitmap = NULL;
 		}
 	      utils_context->menucache_array.tooltip_str = lw6sys_str_copy (sys_context, tooltip);
@@ -453,7 +455,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 
 	  if (utils_context->menucache_array.tooltip_bitmap)
 	    {
-	      mod_gl1_utils_set_render_mode_2d_blend (utils_context);
+	      mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
 
 	      tooltip_w =
 		(utils_context->sdl_context.video_mode.width *
@@ -462,7 +464,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	      tooltip_h = (tooltip_w * utils_context->menucache_array.tooltip_bitmap->surface->h) / utils_context->menucache_array.tooltip_bitmap->surface->w;
 	      tooltip_x = utils_context->sdl_context.video_mode.width - tooltip_w;
 	      tooltip_y = right_point_y - tooltip_h / 2;
-	      mod_gl1_utils_bitmap_display (utils_context,
+	      mod_gl1_utils_bitmap_display (sys_context, utils_context,
 					    utils_context->menucache_array.tooltip_bitmap, tooltip_x, tooltip_y, tooltip_x + tooltip_w, tooltip_y + tooltip_h);
 	    }
 	}
@@ -479,7 +481,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 		}
 	      if (utils_context->menucache_array.help_bitmap)
 		{
-		  mod_gl1_utils_bitmap_free (utils_context, utils_context->menucache_array.help_bitmap);
+		  mod_gl1_utils_bitmap_free (sys_context, utils_context, utils_context->menucache_array.help_bitmap);
 		  utils_context->menucache_array.help_bitmap = NULL;
 		}
 	      utils_context->menucache_array.help_str = lw6sys_str_copy (sys_context, help);
@@ -496,7 +498,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 
 	  if (utils_context->menucache_array.help_bitmap)
 	    {
-	      mod_gl1_utils_set_render_mode_2d_blend (utils_context);
+	      mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
 
 	      help_w =
 		(utils_context->sdl_context.video_mode.width *
@@ -505,7 +507,8 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	      help_h = (help_w * utils_context->menucache_array.help_bitmap->surface->h) / utils_context->menucache_array.help_bitmap->surface->w;
 	      help_x = (utils_context->sdl_context.video_mode.width - help_w) / 2;
 	      help_y = utils_context->sdl_context.video_mode.height - help_h;
-	      mod_gl1_utils_bitmap_display (utils_context, utils_context->menucache_array.help_bitmap, help_x, help_y, help_x + help_w, help_y + help_h);
+	      mod_gl1_utils_bitmap_display (sys_context, utils_context, utils_context->menucache_array.help_bitmap, help_x, help_y, help_x + help_w,
+					    help_y + help_h);
 	    }
 	}
     }
@@ -526,7 +529,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	    }
 	  if (utils_context->menucache_array.breadcrumbs_bitmap)
 	    {
-	      mod_gl1_utils_bitmap_free (utils_context, utils_context->menucache_array.breadcrumbs_bitmap);
+	      mod_gl1_utils_bitmap_free (sys_context, utils_context, utils_context->menucache_array.breadcrumbs_bitmap);
 	      utils_context->menucache_array.breadcrumbs_bitmap = NULL;
 	    }
 	  utils_context->menucache_array.breadcrumbs_str = lw6sys_str_copy (sys_context, breadcrumbs);
@@ -544,7 +547,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 
       if (utils_context->menucache_array.breadcrumbs_bitmap)
 	{
-	  mod_gl1_utils_set_render_mode_2d_blend (utils_context);
+	  mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
 
 	  breadcrumbs_w =
 	    (utils_context->sdl_context.video_mode.width *
@@ -554,7 +557,7 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 	    (breadcrumbs_w * utils_context->menucache_array.breadcrumbs_bitmap->surface->h) / utils_context->menucache_array.breadcrumbs_bitmap->surface->w;
 	  breadcrumbs_x = utils_context->sdl_context.video_mode.width * (1.0f - cylinder_context->const_data.breadcrumbs_relative_size) / 2.0f;
 	  breadcrumbs_y = 0.0f;
-	  mod_gl1_utils_bitmap_display (utils_context,
+	  mod_gl1_utils_bitmap_display (sys_context, utils_context,
 					utils_context->menucache_array.breadcrumbs_bitmap,
 					breadcrumbs_x, breadcrumbs_y, breadcrumbs_x + breadcrumbs_w, breadcrumbs_y + breadcrumbs_h);
 	}
@@ -566,7 +569,8 @@ _mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context, void *cylinder_context, const lw6gui_look_t * look, lw6gui_menu_t * menu)
+mod_gl1_menu_cylinder_display_meta (sys_context, mod_gl1_utils_context_t * utils_context, void *cylinder_context, const lw6gui_look_t * look,
+				    lw6gui_menu_t * menu)
 {
-  _mod_gl1_menu_cylinder_display_meta (utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context, look, menu);
+  _mod_gl1_menu_cylinder_display_meta (sys_context, utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context, look, menu);
 }

@@ -27,24 +27,21 @@
 #include "../../gl1-utils/gl1-utils.h"
 #include "../gl1-hud.h"
 
-extern mod_gl1_hud_backend_t *mod_gl1_hud_tactical_create_backend (mod_gl1_utils_context_t * utils_context);
+/* gl1-tactical-backend.c */
+extern mod_gl1_hud_backend_t *mod_gl1_hud_tactical_create_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
 
-/*
- * In display.c
- */
-extern void mod_gl1_hud_tactical_display_hud (mod_gl1_utils_context_t *
+/* gl1-tactical-display.c */
+extern void mod_gl1_hud_tactical_display_hud (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					      utils_context,
 					      void *hud_context,
 					      const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
-extern void mod_gl1_hud_tactical_display_score (mod_gl1_utils_context_t *
+extern void mod_gl1_hud_tactical_display_score (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						utils_context,
 						void *hud_context,
 						const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
 
-/*
- * In setup.c
- */
-extern void *mod_gl1_hud_tactical_init (mod_gl1_utils_context_t * utils_context);
-extern void mod_gl1_hud_tactical_quit (mod_gl1_utils_context_t * utils_context, void *hud_context);
+/* gl1-tacticle-setup.c */
+extern void *mod_gl1_hud_tactical_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+extern void mod_gl1_hud_tactical_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *hud_context);
 
-#endif
+#endif // LIQUIDWAR6GFX_MOD_GL1_HUD_TACTICAL_H

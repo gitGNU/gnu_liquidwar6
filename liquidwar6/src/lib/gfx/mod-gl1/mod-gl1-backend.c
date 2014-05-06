@@ -48,7 +48,7 @@ mod_gl1_is_GPL_compatible ()
 static void *
 _init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
-  _mod_gl1_context_t *mod_gl1_context = _mod_gl1_init (argc, argv, video_mode, resize_callback);
+  _mod_gl1_context_t *mod_gl1_context = _mod_gl1_init (sys_context, argc, argv, video_mode, resize_callback);
 
   return (void *) mod_gl1_context;
 }
@@ -60,7 +60,7 @@ _quit (void *gfx_context)
 
   if (mod_gl1_context)
     {
-      _mod_gl1_quit (mod_gl1_context);
+      _mod_gl1_quit (sys_context, mod_gl1_context);
     }
 }
 
@@ -72,7 +72,7 @@ _repr (void *gfx_context, u_int32_t id)
 
   if (mod_gl1_context)
     {
-      ret = _mod_gl1_repr (mod_gl1_context, id);
+      ret = _mod_gl1_repr (sys_context, mod_gl1_context, id);
     }
 
   return ret;
@@ -86,7 +86,7 @@ _set_video_mode (void *gfx_context, lw6gui_video_mode_t * video_mode)
 
   if (mod_gl1_context)
     {
-      ret = mod_gl1_utils_set_video_mode (&(mod_gl1_context->utils_context), video_mode);
+      ret = mod_gl1_utils_set_video_mode (sys_context, &(mod_gl1_context->utils_context), video_mode);
     }
 
   return ret;
@@ -100,7 +100,7 @@ _get_video_mode (void *gfx_context, lw6gui_video_mode_t * video_mode)
 
   if (mod_gl1_context)
     {
-      ret = mod_gl1_utils_get_video_mode (&(mod_gl1_context->utils_context), video_mode);
+      ret = mod_gl1_utils_get_video_mode (sys_context, &(mod_gl1_context->utils_context), video_mode);
     }
 
   return ret;
@@ -114,7 +114,7 @@ _get_fullscreen_modes (void *gfx_context, lw6gui_fullscreen_modes_t * modes)
 
   if (mod_gl1_context)
     {
-      ret = mod_gl1_utils_get_fullscreen_modes (&(mod_gl1_context->utils_context), modes);
+      ret = mod_gl1_utils_get_fullscreen_modes (sys_context, &(mod_gl1_context->utils_context), modes);
     }
 
   return ret;
@@ -128,9 +128,10 @@ _pump_events (void *gfx_context)
 
   if (mod_gl1_context)
     {
-      _lw6gfx_sdl_timer_update (&(mod_gl1_context->utils_context.sdl_context));
+      _lw6gfx_sdl_timer_update (sys_context, &(mod_gl1_context->utils_context.sdl_context));
       ret =
-	_lw6gfx_sdl_pump_events (&(mod_gl1_context->utils_context.sdl_context), mod_gl1_utils_pump_event_callback, (void *) &(mod_gl1_context->utils_context));
+	_lw6gfx_sdl_pump_events (sys_context, &(mod_gl1_context->utils_context.sdl_context), mod_gl1_utils_pump_event_callback,
+				 (void *) &(mod_gl1_context->utils_context));
     }
 
   return ret;
@@ -150,28 +151,29 @@ _display (void *gfx_context, int mask, const lw6gui_look_t * look,
 
   if (mod_gl1_context)
     {
-      _lw6gfx_sdl_timer_update (&(mod_gl1_context->utils_context.sdl_context));
+      _lw6gfx_sdl_timer_update (sys_context, &(mod_gl1_context->utils_context.sdl_context));
       mod_gl1_context->utils_context.counter.nb_frames++;
 
       /*
        * This call to smoothers_update shouldn't be needed anymore when
        * drawable will be fully handled.
        */
-      mod_gl1_utils_smoothers_update (&(mod_gl1_context->utils_context));	// to be fixed
-      _mod_gl1_set_backends (mod_gl1_context, look);
+      mod_gl1_utils_smoothers_update (sys_context, &(mod_gl1_context->utils_context));	// to be fixed
+      _mod_gl1_set_backends (sys_context, mod_gl1_context, look);
       mod_gl1_utils_cache_update (&(mod_gl1_context->utils_context), look);
 
-      mod_gl1_utils_prepare_buffer (&(mod_gl1_context->utils_context), look);
+      mod_gl1_utils_prepare_buffer (sys_context, &(mod_gl1_context->utils_context), look);
 
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display mask=%d"), mask);
       if (mask & LW6GUI_DISPLAY_SPLASH)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=splash"));
-	  mod_gl1_splash_display (&(mod_gl1_context->utils_context), mod_gl1_context->splash_context);
+	  mod_gl1_splash_display (sys_context, &(mod_gl1_context->utils_context), mod_gl1_context->splash_context);
 	  look2 = lw6gui_look_dup (sys_context, look);
 	  if (look2)
 	    {
-	      mod_gl1_splash_patch_system_color (&(mod_gl1_context->utils_context), mod_gl1_context->splash_context, &(look2->style.color_set.system_color));
+	      mod_gl1_splash_patch_system_color (sys_context, &(mod_gl1_context->utils_context), mod_gl1_context->splash_context,
+						 &(look2->style.color_set.system_color));
 	    }
 	}
       else
@@ -183,98 +185,98 @@ _display (void *gfx_context, int mask, const lw6gui_look_t * look,
 	  if (mask & LW6GUI_DISPLAY_BACKGROUND)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=background"));
-	      mod_gl1_background_display_background (&(mod_gl1_context->utils_context), mod_gl1_context->background_backend, look);
+	      mod_gl1_background_display_background (sys_context, &(mod_gl1_context->utils_context), mod_gl1_context->background_backend, look);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_PREVIEW) && level && !game_state)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=preview"));
-	      mod_gl1_view_display_preview (&(mod_gl1_context->utils_context), mod_gl1_context->view_backend, look, level);
+	      mod_gl1_view_display_preview (sys_context, &(mod_gl1_context->utils_context), mod_gl1_context->view_backend, look, level);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_MAP) && game_state)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=map"));
-	      mod_gl1_view_display_map (&(mod_gl1_context->utils_context), mod_gl1_context->view_backend, look, game_state, local_cursors);
+	      mod_gl1_view_display_map (sys_context, &(mod_gl1_context->utils_context), mod_gl1_context->view_backend, look, game_state, local_cursors);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_FIGHTERS) && game_state)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=fighters"));
-	      mod_gl1_view_display_fighters (&(mod_gl1_context->utils_context), mod_gl1_context->view_backend, look, game_state, local_cursors);
+	      mod_gl1_view_display_fighters (sys_context, &(mod_gl1_context->utils_context), mod_gl1_context->view_backend, look, game_state, local_cursors);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_DEBUG_ZONES) && game_struct)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=zones"));
-	      mod_gl1_utils_display_zones (&(mod_gl1_context->utils_context), look, game_struct);
+	      mod_gl1_utils_display_zones (sys_context, &(mod_gl1_context->utils_context), look, game_struct);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_DEBUG_GRADIENT) && game_state)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=gradient"));
-	      mod_gl1_utils_display_gradient (&(mod_gl1_context->utils_context), look, game_state, debug_team_id, debug_layer_id);
+	      mod_gl1_utils_display_gradient (sys_context, &(mod_gl1_context->utils_context), look, game_state, debug_team_id, debug_layer_id);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_CURSORS) && game_state)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=cursors"));
-	      mod_gl1_view_display_cursors (&(mod_gl1_context->utils_context), mod_gl1_context->view_backend, look, game_state, local_cursors);
+	      mod_gl1_view_display_cursors (sys_context, &(mod_gl1_context->utils_context), mod_gl1_context->view_backend, look, game_state, local_cursors);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_HUD) && game_state)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=hud"));
-	      mod_gl1_hud_display_hud (&(mod_gl1_context->utils_context), mod_gl1_context->hud_backend, look, game_state, local_cursors);
+	      mod_gl1_hud_display_hud (sys_context, &(mod_gl1_context->utils_context), mod_gl1_context->hud_backend, look, game_state, local_cursors);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_SCORE) && game_state)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=score"));
-	      mod_gl1_hud_display_score (&(mod_gl1_context->utils_context), mod_gl1_context->hud_backend, look, game_state, local_cursors);
+	      mod_gl1_hud_display_score (sys_context, &(mod_gl1_context->utils_context), mod_gl1_context->hud_backend, look, game_state, local_cursors);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_MENU) && menu)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=menu"));
-	      mod_gl1_menu_display_menu (&(mod_gl1_context->utils_context), mod_gl1_context->menu_backend, look, menu);
+	      mod_gl1_menu_display_menu (sys_context, &(mod_gl1_context->utils_context), mod_gl1_context->menu_backend, look, menu);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_PROGRESS))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=progress"));
-	      mod_gl1_menu_display_progress (&(mod_gl1_context->utils_context), mod_gl1_context->menu_backend, look, progress);
+	      mod_gl1_menu_display_progress (sys_context, &(mod_gl1_context->utils_context), mod_gl1_context->menu_backend, look, progress);
 	    }
 	  if ((mask & LW6GUI_DISPLAY_META) && menu)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=meta"));
-	      mod_gl1_menu_display_meta (&(mod_gl1_context->utils_context), mod_gl1_context->menu_backend, look, menu);
+	      mod_gl1_menu_display_meta (sys_context, &(mod_gl1_context->utils_context), mod_gl1_context->menu_backend, look, menu);
 	    }
 	}
       if ((mask & LW6GUI_DISPLAY_LOG) && log_list)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=log"));
-	  mod_gl1_utils_display_log (&(mod_gl1_context->utils_context), look2 ? look2 : look, log_list);
+	  mod_gl1_utils_display_log (sys_context, &(mod_gl1_context->utils_context), look2 ? look2 : look, log_list);
 	}
       if (mask & LW6GUI_DISPLAY_FPS)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=fps"));
-	  mod_gl1_utils_display_fps (&(mod_gl1_context->utils_context), look2 ? look2 : look, fps);
+	  mod_gl1_utils_display_fps (sys_context, &(mod_gl1_context->utils_context), look2 ? look2 : look, fps);
 	}
       if ((mask & LW6GUI_DISPLAY_MPS) && game_struct)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=mps"));
-	  mod_gl1_utils_display_mps (&(mod_gl1_context->utils_context),
+	  mod_gl1_utils_display_mps (sys_context, &(mod_gl1_context->utils_context),
 				     look2 ? look2 : look, mps, game_struct->rules.rounds_per_sec * game_struct->rules.moves_per_round);
 	}
       if (mask & LW6GUI_DISPLAY_URL)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display step=url"));
-	  mod_gl1_utils_display_url (&(mod_gl1_context->utils_context), look2 ? look2 : look, lw6sys_build_get_home_url ());
+	  mod_gl1_utils_display_url (sys_context, &(mod_gl1_context->utils_context), look2 ? look2 : look, lw6sys_build_get_home_url ());
 	}
-      mod_gl1_utils_show_mouse (&(mod_gl1_context->utils_context), mask & LW6GUI_DISPLAY_MOUSE, 0);
+      mod_gl1_utils_show_mouse (sys_context, &(mod_gl1_context->utils_context), mask & LW6GUI_DISPLAY_MOUSE, 0);
 
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display swap"));
 
       if (capture)
 	{
-	  mod_gl1_utils_capture2disk (&(mod_gl1_context->utils_context));
+	  mod_gl1_utils_capture2disk (sys_context, &(mod_gl1_context->utils_context));
 	}
       if (gfx_debug)
 	{
-	  mod_gl1_utils_bitmap_hash_dump2disk (&(mod_gl1_context->utils_context), 0);
+	  mod_gl1_utils_bitmap_hash_dump2disk (sys_context, &(mod_gl1_context->utils_context), 0);
 	}
-      mod_gl1_utils_swap_buffers (&(mod_gl1_context->utils_context));
+      mod_gl1_utils_swap_buffers (sys_context, &(mod_gl1_context->utils_context));
 
       if (look2)
 	{

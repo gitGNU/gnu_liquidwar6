@@ -57,20 +57,20 @@ draw_cylinder_with_color (mod_gl1_utils_context_t * utils_context,
 
   done = look->style.color_set.menu_color_default.fg;
   todo = look->style.color_set.menu_color_default.bg;
-  sdl_todo = mod_gl1_utils_color_8_to_sdl (todo);
+  sdl_todo = mod_gl1_utils_color_8_to_sdl (sys_context, todo);
   i_done = lw6sys_color_8_to_irgba (sys_context, done);
   i_todo = lw6sys_color_8_to_irgba (sys_context, todo);
 
-  surface = mod_gl1_utils_create_surface (utils_context, MOD_GL1_UTILS_MENU_TEXTURE_W, MOD_GL1_UTILS_MENU_TEXTURE_H);
+  surface = mod_gl1_utils_create_surface (sys_context, utils_context, MOD_GL1_UTILS_MENU_TEXTURE_W, MOD_GL1_UTILS_MENU_TEXTURE_H);
   if (surface)
     {
-      mod_gl1_utils_clear_surface_with_color (surface, sdl_todo);
+      mod_gl1_utils_clear_surface_with_color (sys_context, surface, sdl_todo);
       limit = progress * (MOD_GL1_UTILS_MENU_TEXTURE_W - 1);
       limit = lw6sys_imin (limit, MOD_GL1_UTILS_MENU_TEXTURE_W - 1);
       limit = lw6sys_imax (limit, 0);
-      mod_gl1_utils_draw_rectfill (surface, 0, 0, limit, MOD_GL1_UTILS_MENU_TEXTURE_H - 1, i_done);
-      mod_gl1_utils_draw_rectfill (surface, limit, 0, MOD_GL1_UTILS_MENU_TEXTURE_W - 1, MOD_GL1_UTILS_MENU_TEXTURE_H - 1, i_todo);
-      texture = mod_gl1_utils_surface2texture (utils_context, surface, 0);
+      mod_gl1_utils_draw_rectfill (sys_context, surface, 0, 0, limit, MOD_GL1_UTILS_MENU_TEXTURE_H - 1, i_done);
+      mod_gl1_utils_draw_rectfill (sys_context, surface, limit, 0, MOD_GL1_UTILS_MENU_TEXTURE_W - 1, MOD_GL1_UTILS_MENU_TEXTURE_H - 1, i_todo);
+      texture = mod_gl1_utils_surface2texture (sys_context, utils_context, surface, 0);
       if (texture)
 	{
 	  glEnable (GL_TEXTURE_2D);
@@ -94,18 +94,18 @@ draw_cylinder_with_color (mod_gl1_utils_context_t * utils_context,
 
 	  glMatrixMode (GL_TEXTURE);
 	  glPopMatrix ();
-	  mod_gl1_utils_schedule_delete_texture (utils_context, texture);
+	  mod_gl1_utils_schedule_delete_texture (sys_context, utils_context, texture);
 	}
 
-      mod_gl1_utils_delete_surface (utils_context, surface);
+      mod_gl1_utils_delete_surface (sys_context, utils_context, surface);
     }
 }
 
 void
-_mod_gl1_menu_cylinder_draw_progress (mod_gl1_utils_context_t * utils_context,
+_mod_gl1_menu_cylinder_draw_progress (sys_context, mod_gl1_utils_context_t * utils_context,
 				      _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, float progress)
 {
-  mod_gl1_utils_set_render_mode_3d_menu (utils_context);
+  mod_gl1_utils_set_render_mode_3d_menu (sys_context, utils_context);
   prepare_view (utils_context, cylinder_context);
   draw_cylinder_with_color (utils_context, cylinder_context, look, progress);
 }

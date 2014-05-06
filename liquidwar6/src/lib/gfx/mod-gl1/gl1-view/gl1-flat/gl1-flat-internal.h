@@ -54,7 +54,7 @@ typedef struct _mod_gl1_view_flat_cursor_context_s
   char letter;
   int team_color;
   mod_gl1_utils_bitmap_t *bitmap_color;
-  mod_gl1_utils_shaded_text_t *shaded_text_letter;
+   !mod_gl1_utils_shaded_text_t * shaded_text_letter;
 }
 _mod_gl1_view_flat_cursor_context_t;
 
@@ -101,9 +101,7 @@ typedef struct _mod_gl1_view_flat_context_s
 }
 _mod_gl1_view_flat_context_t;
 
-/*
- * In cursorcontext.c
- */
+/* gl1-flat-cursorcontext.c */
 extern int _mod_gl1_view_flat_cursor_context_init (mod_gl1_utils_context_t *
 						   utils_context,
 						   _mod_gl1_view_flat_cursor_context_t
@@ -131,15 +129,11 @@ extern int _mod_gl1_view_flat_cursors_context_update (mod_gl1_utils_context_t
 						      * const_data, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state);
 extern int _mod_gl1_view_flat_cursors_context_clear (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_cursors_context_t * cursors_context);
 
-/*
- * In data.c
- */
+/* gl1-flat-cursorcontext-data.c */
 extern int _mod_gl1_view_flat_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context);
 extern void _mod_gl1_view_flat_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context);
 
-/*
- * In display.c
- */
+/* gl1-flat-cursorcontext-display.c */
 extern void _mod_gl1_view_flat_display_preview (mod_gl1_utils_context_t *
 						utils_context,
 						_mod_gl1_view_flat_context_t * flat_context, const lw6gui_look_t * look, const lw6map_level_t * level);
@@ -213,15 +207,11 @@ _mod_gl1_view_flat_game_context_update_armies (mod_gl1_utils_context_t *
 					       _mod_gl1_view_flat_game_context_armies_t
 					       * game_context_armies, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state);
 
-/*
- * In setup.c
- */
+/* gl1-flat-cursorcontext-setup.c */
 extern _mod_gl1_view_flat_context_t *_mod_gl1_view_flat_init (mod_gl1_utils_context_t * utils_context);
 extern void _mod_gl1_view_flat_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context);
 
-/*
- * in viewport.c
- */
+/* gl1-flat-cursorcontext-viewport.c */
 extern void
 _mod_gl1_view_flat_viewport_update_preview (mod_gl1_utils_context_t *
 					    utils_context,
@@ -232,4 +222,4 @@ extern void _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
 						flat_context,
 						const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
 
-#endif
+#endif // LIQUIDWAR6GFX_MOD_GL1_VIEW_FLAT_INTERNAL_H

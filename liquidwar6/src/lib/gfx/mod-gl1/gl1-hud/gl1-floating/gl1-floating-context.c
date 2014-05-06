@@ -28,11 +28,11 @@
 #include "gl1-floating-internal.h"
 
 int
-_mod_gl1_hud_floating_context_init (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_init (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
 
-  mod_gl1_utils_viewport_drawable_max (utils_context);
+  mod_gl1_utils_viewport_drawable_max (sys_context, utils_context);
 
   ret = 1;
 
@@ -40,7 +40,7 @@ _mod_gl1_hud_floating_context_init (mod_gl1_utils_context_t * utils_context, _mo
 }
 
 int
-_mod_gl1_hud_floating_context_begin_hud (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_begin_hud (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 1;
 
@@ -63,7 +63,7 @@ _mod_gl1_hud_floating_context_begin_hud (mod_gl1_utils_context_t * utils_context
 }
 
 void
-_mod_gl1_hud_floating_context_end_hud (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_end_hud (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   if (floating_context->gauges.disk)
     {
@@ -92,7 +92,7 @@ _update_clock (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_co
     {
       if (floating_context->clock.clock_text)
 	{
-	  mod_gl1_utils_shaded_text_update (utils_context,
+	  mod_gl1_utils_shaded_text_update (sys_context, utils_context,
 					    floating_context->clock.clock_text, text, &(floating_context->look->style.color_set.hud_color_text));
 	}
       else
@@ -141,7 +141,7 @@ _update_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_c
 	    {
 	      if (floating_context->gauges.percent_texts[i])
 		{
-		  mod_gl1_utils_shaded_text_update (utils_context, floating_context->gauges.percent_texts[i], percent_text, &color_text);
+		  mod_gl1_utils_shaded_text_update (sys_context, utils_context, floating_context->gauges.percent_texts[i], percent_text, &color_text);
 		}
 	      else
 		{
@@ -158,7 +158,7 @@ _update_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_c
 		{
 		  if (floating_context->gauges.frags_texts[i])
 		    {
-		      mod_gl1_utils_shaded_text_update (utils_context, floating_context->gauges.frags_texts[i], frags_text, &color_text);
+		      mod_gl1_utils_shaded_text_update (sys_context, utils_context, floating_context->gauges.frags_texts[i], frags_text, &color_text);
 		    }
 		  else
 		    {
@@ -175,7 +175,7 @@ _update_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_c
 }
 
 int
-_mod_gl1_hud_floating_context_update_hud (mod_gl1_utils_context_t *
+_mod_gl1_hud_floating_context_update_hud (sys_context, mod_gl1_utils_context_t *
 					  utils_context,
 					  _mod_gl1_hud_floating_context_t
 					  * floating_context,
@@ -196,7 +196,7 @@ _mod_gl1_hud_floating_context_update_hud (mod_gl1_utils_context_t *
 }
 
 int
-_mod_gl1_hud_floating_context_begin_score (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_begin_score (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 1;
 
@@ -219,7 +219,7 @@ _mod_gl1_hud_floating_context_begin_score (mod_gl1_utils_context_t * utils_conte
 }
 
 void
-_mod_gl1_hud_floating_context_end_score (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_end_score (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   if (floating_context->score_pie.disk)
     {
@@ -264,7 +264,7 @@ _update_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_cont
 	    {
 	      if (floating_context->score_pie.score_texts[i])
 		{
-		  mod_gl1_utils_shaded_text_update (utils_context, floating_context->gauges.percent_texts[i], score_text, &color_text);
+		  mod_gl1_utils_shaded_text_update (sys_context, utils_context, floating_context->gauges.percent_texts[i], score_text, &color_text);
 		}
 	      else
 		{
@@ -280,7 +280,7 @@ _update_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_cont
 }
 
 int
-_mod_gl1_hud_floating_context_update_score (mod_gl1_utils_context_t *
+_mod_gl1_hud_floating_context_update_score (sys_context, mod_gl1_utils_context_t *
 					    utils_context,
 					    _mod_gl1_hud_floating_context_t
 					    * floating_context,
@@ -299,13 +299,13 @@ _mod_gl1_hud_floating_context_update_score (mod_gl1_utils_context_t *
 }
 
 int
-_mod_gl1_hud_floating_context_clear_hud_clock (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_clear_hud_clock (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
 
   if (floating_context->clock.clock_text)
     {
-      mod_gl1_utils_shaded_text_free (utils_context, floating_context->clock.clock_text);
+      mod_gl1_utils_shaded_text_free (sys_context, utils_context, floating_context->clock.clock_text);
     }
   memset (&(floating_context->clock), 0, sizeof (_mod_gl1_hud_floating_clock_t));
 
@@ -315,25 +315,25 @@ _mod_gl1_hud_floating_context_clear_hud_clock (mod_gl1_utils_context_t * utils_c
 }
 
 int
-_mod_gl1_hud_floating_context_clear_hud_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_clear_hud_gauges (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
   int i;
 
   if (floating_context->gauges.gauge_frame)
     {
-      mod_gl1_utils_bitmap_free (utils_context, floating_context->gauges.gauge_frame);
+      mod_gl1_utils_bitmap_free (sys_context, utils_context, floating_context->gauges.gauge_frame);
       floating_context->gauges.gauge_frame = 0;
     }
   for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
     {
       if (floating_context->gauges.percent_texts[i])
 	{
-	  mod_gl1_utils_shaded_text_free (utils_context, floating_context->gauges.percent_texts[i]);
+	  mod_gl1_utils_shaded_text_free (sys_context, utils_context, floating_context->gauges.percent_texts[i]);
 	}
       if (floating_context->gauges.frags_texts[i])
 	{
-	  mod_gl1_utils_shaded_text_free (utils_context, floating_context->gauges.frags_texts[i]);
+	  mod_gl1_utils_shaded_text_free (sys_context, utils_context, floating_context->gauges.frags_texts[i]);
 	}
     }
   memset (&(floating_context->gauges), 0, sizeof (_mod_gl1_hud_floating_gauges_t));
@@ -344,19 +344,20 @@ _mod_gl1_hud_floating_context_clear_hud_gauges (mod_gl1_utils_context_t * utils_
 }
 
 int
-_mod_gl1_hud_floating_context_clear_hud (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_clear_hud (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
 
   ret =
-    _mod_gl1_hud_floating_context_clear_hud_clock (utils_context,
-						   floating_context) && _mod_gl1_hud_floating_context_clear_hud_gauges (utils_context, floating_context);
+    _mod_gl1_hud_floating_context_clear_hud_clock (sys_context, utils_context,
+						   floating_context)
+    && _mod_gl1_hud_floating_context_clear_hud_gauges (sys_context, utils_context, floating_context);
 
   return ret;
 }
 
 int
-_mod_gl1_hud_floating_context_clear_score (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_clear_score (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
   int i = 0;
@@ -365,7 +366,7 @@ _mod_gl1_hud_floating_context_clear_score (mod_gl1_utils_context_t * utils_conte
     {
       if (floating_context->score_pie.score_texts[i])
 	{
-	  mod_gl1_utils_shaded_text_free (utils_context, floating_context->score_pie.score_texts[i]);
+	  mod_gl1_utils_shaded_text_free (sys_context, utils_context, floating_context->score_pie.score_texts[i]);
 	}
     }
 
@@ -373,12 +374,12 @@ _mod_gl1_hud_floating_context_clear_score (mod_gl1_utils_context_t * utils_conte
 }
 
 int
-_mod_gl1_hud_floating_context_clear (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_clear (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
 
-  _mod_gl1_hud_floating_context_clear_hud (utils_context, floating_context);
-  _mod_gl1_hud_floating_context_clear_score (utils_context, floating_context);
+  _mod_gl1_hud_floating_context_clear_hud (sys_context, utils_context, floating_context);
+  _mod_gl1_hud_floating_context_clear_score (sys_context, utils_context, floating_context);
 
   ret = 1;
 

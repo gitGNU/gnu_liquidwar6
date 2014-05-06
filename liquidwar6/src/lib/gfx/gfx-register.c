@@ -59,7 +59,7 @@
  * Return value: hash containing id/name pairs.
  */
 lw6sys_assoc_t *
-lw6gfx_get_backends (int argc, const char *argv[])
+lw6gfx_get_backends (sys_context, int argc, const char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 
@@ -127,7 +127,7 @@ lw6gfx_get_backends (int argc, const char *argv[])
  * Return value: gfx backend.
  */
 lw6gfx_backend_t *
-lw6gfx_create_backend (int argc, const char *argv[], const char *name)
+lw6gfx_create_backend (sys_context, int argc, const char *argv[], const char *name)
 {
   lw6gfx_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE
@@ -233,7 +233,7 @@ lw6gfx_create_backend (int argc, const char *argv[], const char *name)
  * Return value: none.
  */
 void
-lw6gfx_destroy_backend (lw6gfx_backend_t * backend)
+lw6gfx_destroy_backend (sys_context, lw6gfx_backend_t * backend)
 {
 #ifndef LW6_ALLINONE
   lw6dyn_dlclose_backend (sys_context, backend->dl_handle);

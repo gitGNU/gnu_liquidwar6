@@ -35,32 +35,28 @@ typedef struct mod_gl1_hud_backend_s
   void *hud_context;
   char *backend_name;
 
-  void *(*init) (mod_gl1_utils_context_t * utils_context);
-  void (*quit) (mod_gl1_utils_context_t * utils_context, void *hud_context);
-  void (*display_hud) (mod_gl1_utils_context_t * utils_context,
+  void *(*init) (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+  void (*quit) (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *hud_context);
+  void (*display_hud) (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 		       void *hud_context, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
-  void (*display_score) (mod_gl1_utils_context_t * utils_context,
+  void (*display_score) (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 			 void *hud_context, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
 }
 mod_gl1_hud_backend_t;
 
-/*
- * In api.c
- */
-extern void mod_gl1_hud_display_hud (mod_gl1_utils_context_t * utils_context,
+/* gl1-display.c */
+extern void mod_gl1_hud_display_hud (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				     mod_gl1_hud_backend_t * backend,
 				     const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
-extern void mod_gl1_hud_display_score (mod_gl1_utils_context_t *
+extern void mod_gl1_hud_display_score (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 				       utils_context,
 				       mod_gl1_hud_backend_t * backend,
 				       const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
-extern int mod_gl1_hud_init (mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend);
-extern void mod_gl1_hud_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend);
+extern int mod_gl1_hud_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend);
+extern void mod_gl1_hud_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend);
 
-/*
- * In backend.c
- */
-extern mod_gl1_hud_backend_t *mod_gl1_hud_create_backend (mod_gl1_utils_context_t * utils_context, const char *name);
-extern void mod_gl1_hud_destroy_backend (mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend);
+/* gl1-backend.c */
+extern mod_gl1_hud_backend_t *mod_gl1_hud_create_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const char *name);
+extern void mod_gl1_hud_destroy_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend);
 
-#endif
+#endif // LIQUIDWAR6GFX_MOD_GL1_HUD_H

@@ -30,7 +30,7 @@
 #define _BITMAP_ARRAY_DESC "bitmap_array"
 
 int
-mod_gl1_utils_bitmap_array_init (mod_gl1_utils_context_t *
+mod_gl1_utils_bitmap_array_init (sys_context, mod_gl1_utils_context_t *
 				 utils_context, mod_gl1_utils_bitmap_array_t * bitmap_array, int w, int h, int tile_size, int border_size)
 {
   int ret = 0;
@@ -47,7 +47,8 @@ mod_gl1_utils_bitmap_array_init (mod_gl1_utils_context_t *
 	  ret = 1;
 	  for (i = 0; i < bitmap_array->layout.nb_tiles; ++i)
 	    {
-	      bitmap = mod_gl1_utils_bitmap_new (utils_context, bitmap_array->layout.tile_size, bitmap_array->layout.tile_size, _BITMAP_ARRAY_DESC);
+	      bitmap =
+		mod_gl1_utils_bitmap_new (sys_context, utils_context, bitmap_array->layout.tile_size, bitmap_array->layout.tile_size, _BITMAP_ARRAY_DESC);
 	      if (bitmap)
 		{
 		  /*
@@ -56,8 +57,8 @@ mod_gl1_utils_bitmap_array_init (mod_gl1_utils_context_t *
 		   * happens when bitmap has never been displayed
 		   * so it might still be 0.
 		   */
-		  mod_gl1_utils_bitmap_refresh (utils_context, bitmap);
-		  mod_gl1_utils_bitmap_array_set (bitmap_array, i, bitmap);
+		  mod_gl1_utils_bitmap_refresh (sys_context, utils_context, bitmap);
+		  mod_gl1_utils_bitmap_array_set (sys_context, bitmap_array, i, bitmap);
 		}
 	      else
 		{
@@ -96,7 +97,7 @@ mod_gl1_utils_bitmap_array_init_from_surface (mod_gl1_utils_context_t *
   lw6sys_whd_t shape;
   int x_get, y_get, x_put, y_put;
 
-  if (mod_gl1_utils_bitmap_array_init (utils_context, bitmap_array, surface->w, surface->h, tile_size, border_size))
+  if (mod_gl1_utils_bitmap_array_init (sys_context, utils_context, bitmap_array, surface->w, surface->h, tile_size, border_size))
     {
       ret = 1;
       lw6map_rules_defaults (sys_context, &rules);
@@ -106,7 +107,7 @@ mod_gl1_utils_bitmap_array_init_from_surface (mod_gl1_utils_context_t *
       shape.h = surface->h;
       for (i = 0; i < bitmap_array->layout.nb_tiles; ++i)
 	{
-	  bitmap = mod_gl1_utils_bitmap_array_get (bitmap_array, i);
+	  bitmap = mod_gl1_utils_bitmap_array_get (sys_context, bitmap_array, i);
 	  if (bitmap)
 	    {
 	      sub_surface = bitmap->surface;
@@ -114,7 +115,7 @@ mod_gl1_utils_bitmap_array_init_from_surface (mod_gl1_utils_context_t *
 		{
 		  SDL_SetAlpha (surface, 0, SDL_ALPHA_OPAQUE);
 		  SDL_SetAlpha (sub_surface, 0, SDL_ALPHA_OPAQUE);
-		  mod_gl1_utils_clear_surface (sub_surface);
+		  mod_gl1_utils_clear_surface (sys_context, sub_surface);
 		  if (lw6gui_rect_array_get_tile_by_i (sys_context, &(bitmap_array->layout), &rect, i))
 		    {
 		      /*
@@ -132,7 +133,7 @@ mod_gl1_utils_bitmap_array_init_from_surface (mod_gl1_utils_context_t *
 			      lw6map_coords_fix_xy (sys_context, &rules, &shape, &x_get, &y_get);
 			      x_put = x - rect.x1;
 			      y_put = y - rect.y1;
-			      mod_gl1_utils_putpixel (sub_surface, x_put, y_put, mod_gl1_utils_getpixel (surface, x_get, y_get));
+			      mod_gl1_utils_putpixel (sys_context, sub_surface, x_put, y_put, mod_gl1_utils_getpixel (sys_context, surface, x_get, y_get));
 			    }
 			}
 		    }
@@ -160,7 +161,7 @@ mod_gl1_utils_bitmap_array_init_from_surface (mod_gl1_utils_context_t *
 }
 
 int
-mod_gl1_utils_bitmap_array_init_from_map (mod_gl1_utils_context_t *
+mod_gl1_utils_bitmap_array_init_from_map (sys_context, mod_gl1_utils_context_t *
 					  utils_context,
 					  mod_gl1_utils_bitmap_array_t *
 					  bitmap_array, const lw6map_level_t * level, int tile_size, int border_size, int x_polarity, int y_polarity)
@@ -168,18 +169,18 @@ mod_gl1_utils_bitmap_array_init_from_map (mod_gl1_utils_context_t *
   int ret = 0;
   SDL_Surface *surface;
 
-  surface = mod_gl1_utils_map2surface (utils_context, level);
+  surface = mod_gl1_utils_map2surface (sys_context, utils_context, level);
   if (surface)
     {
       ret = mod_gl1_utils_bitmap_array_init_from_surface (utils_context, bitmap_array, surface, tile_size, border_size, x_polarity, y_polarity);
-      mod_gl1_utils_delete_surface (utils_context, surface);
+      mod_gl1_utils_delete_surface (sys_context, utils_context, surface);
     }
 
   return ret;
 }
 
 int
-mod_gl1_utils_bitmap_array_update (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_array_t * bitmap_array, GLint wrap, GLint filter)
+mod_gl1_utils_bitmap_array_update (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_array_t * bitmap_array, GLint wrap, GLint filter)
 {
   int ret = 1;
   int i;
@@ -187,12 +188,12 @@ mod_gl1_utils_bitmap_array_update (mod_gl1_utils_context_t * utils_context, mod_
 
   for (i = 0; i < bitmap_array->layout.nb_tiles; ++i)
     {
-      bitmap = mod_gl1_utils_bitmap_array_get (bitmap_array, i);
+      bitmap = mod_gl1_utils_bitmap_array_get (sys_context, bitmap_array, i);
       if (bitmap)
 	{
-	  ret = mod_gl1_utils_bitmap_set_wrap (utils_context, bitmap, wrap) && ret;
-	  ret = mod_gl1_utils_bitmap_set_filter (utils_context, bitmap, filter) && ret;
-	  mod_gl1_utils_texture_update (utils_context, bitmap->texture, bitmap->surface);
+	  ret = mod_gl1_utils_bitmap_set_wrap (sys_context, utils_context, bitmap, wrap) && ret;
+	  ret = mod_gl1_utils_bitmap_set_filter (sys_context, utils_context, bitmap, filter) && ret;
+	  mod_gl1_utils_texture_update (sys_context, utils_context, bitmap->texture, bitmap->surface);
 	}
       else
 	{
@@ -205,7 +206,7 @@ mod_gl1_utils_bitmap_array_update (mod_gl1_utils_context_t * utils_context, mod_
 }
 
 void
-mod_gl1_utils_bitmap_array_clear (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_array_t * bitmap_array)
+mod_gl1_utils_bitmap_array_clear (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_array_t * bitmap_array)
 {
   int i;
 
@@ -213,7 +214,7 @@ mod_gl1_utils_bitmap_array_clear (mod_gl1_utils_context_t * utils_context, mod_g
     {
       for (i = 0; i < bitmap_array->layout.nb_tiles; ++i)
 	{
-	  mod_gl1_utils_bitmap_free (utils_context, bitmap_array->bitmaps[i]);
+	  mod_gl1_utils_bitmap_free (sys_context, utils_context, bitmap_array->bitmaps[i]);
 	}
       LW6SYS_FREE (sys_context, bitmap_array->bitmaps);
       bitmap_array->bitmaps = NULL;
@@ -235,7 +236,7 @@ sdl_utils_schedule_delete_bitmap_array (mod_gl1_utils_context_t * utils_context,
     {
       for (i = 0; i < bitmap_array->layout.nb_tiles; ++i)
 	{
-	  mod_gl1_utils_bitmap_free (utils_context, bitmap_array->bitmaps[i]);
+	  mod_gl1_utils_bitmap_free (sys_context, utils_context, bitmap_array->bitmaps[i]);
 	}
       LW6SYS_FREE (sys_context, bitmap_array->bitmaps);
       bitmap_array->bitmaps = NULL;
@@ -243,7 +244,7 @@ sdl_utils_schedule_delete_bitmap_array (mod_gl1_utils_context_t * utils_context,
 }
 
 int
-mod_gl1_utils_bitmap_array_set (mod_gl1_utils_bitmap_array_t * bitmap_array, int i, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_array_set (sys_context, mod_gl1_utils_bitmap_array_t * bitmap_array, int i, mod_gl1_utils_bitmap_t * bitmap)
 {
   int ret = 0;
 
@@ -260,7 +261,7 @@ mod_gl1_utils_bitmap_array_set (mod_gl1_utils_bitmap_array_t * bitmap_array, int
 }
 
 mod_gl1_utils_bitmap_t *
-mod_gl1_utils_bitmap_array_get (mod_gl1_utils_bitmap_array_t * bitmap_array, int i)
+mod_gl1_utils_bitmap_array_get (sys_context, mod_gl1_utils_bitmap_array_t * bitmap_array, int i)
 {
   mod_gl1_utils_bitmap_t *ret = NULL;
 

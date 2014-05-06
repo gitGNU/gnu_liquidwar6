@@ -31,7 +31,7 @@
 #include "gl1-flat-internal.h"
 
 int
-_mod_gl1_view_flat_game_context_init (mod_gl1_utils_context_t *
+_mod_gl1_view_flat_game_context_init (sys_context, mod_gl1_utils_context_t *
 				      utils_context,
 				      _mod_gl1_view_flat_context_t *
 				      flat_context,
@@ -41,7 +41,7 @@ _mod_gl1_view_flat_game_context_init (mod_gl1_utils_context_t *
   int ret = 0;
 
   ret =
-    _mod_gl1_view_flat_game_context_init_map (utils_context, flat_context,
+    _mod_gl1_view_flat_game_context_init_map (sys_context, utils_context, flat_context,
 					      &(game_context->map), look,
 					      level)
     && _mod_gl1_view_flat_game_context_init_armies (utils_context, flat_context, &(game_context->armies), look, game_state);
@@ -50,7 +50,7 @@ _mod_gl1_view_flat_game_context_init (mod_gl1_utils_context_t *
 }
 
 int
-_mod_gl1_view_flat_game_context_init_map (mod_gl1_utils_context_t *
+_mod_gl1_view_flat_game_context_init_map (sys_context, mod_gl1_utils_context_t *
 					  utils_context,
 					  _mod_gl1_view_flat_context_t *
 					  flat_context,
@@ -65,7 +65,7 @@ _mod_gl1_view_flat_game_context_init_map (mod_gl1_utils_context_t *
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("init map"));
   memset (&(game_context_map->map_bitmap_array), 0, sizeof (mod_gl1_utils_bitmap_array_t));
 
-  ret = ret && mod_gl1_utils_bitmap_array_init_from_map (utils_context,
+  ret = ret && mod_gl1_utils_bitmap_array_init_from_map (sys_context, utils_context,
 							 &
 							 (game_context_map->map_bitmap_array),
 							 level,
@@ -85,7 +85,7 @@ _mod_gl1_view_flat_game_context_init_map (mod_gl1_utils_context_t *
 	  filter = GL_LINEAR_MIPMAP_LINEAR;
 	}
 
-      ret = mod_gl1_utils_bitmap_array_update (utils_context, &(game_context_map->map_bitmap_array), wrap, filter);
+      ret = mod_gl1_utils_bitmap_array_update (sys_context, utils_context, &(game_context_map->map_bitmap_array), wrap, filter);
     }
 
   game_context_map->level = level;
@@ -118,7 +118,7 @@ _mod_gl1_view_flat_game_context_init_armies (mod_gl1_utils_context_t *
   game_struct = game_state->game_struct;
 
   ret = ret
-    && mod_gl1_utils_bitmap_array_init (utils_context,
+    && mod_gl1_utils_bitmap_array_init (sys_context, utils_context,
 					&
 					(game_context_armies->armies_bitmap_array),
 					lw6ker_game_struct_get_w
@@ -138,19 +138,19 @@ _mod_gl1_view_flat_game_context_init_armies (mod_gl1_utils_context_t *
 }
 
 void
-_mod_gl1_view_flat_game_context_clear (mod_gl1_utils_context_t *
+_mod_gl1_view_flat_game_context_clear (sys_context, mod_gl1_utils_context_t *
 				       utils_context, _mod_gl1_view_flat_context_t * flat_context, _mod_gl1_view_flat_game_context_t * game_context)
 {
-  _mod_gl1_view_flat_game_context_clear_map (utils_context, flat_context, &(game_context->map));
+  _mod_gl1_view_flat_game_context_clear_map (sys_context, utils_context, flat_context, &(game_context->map));
   _mod_gl1_view_flat_game_context_clear_armies (utils_context, flat_context, &(game_context->armies));
 }
 
 void
-_mod_gl1_view_flat_game_context_clear_map (mod_gl1_utils_context_t *
+_mod_gl1_view_flat_game_context_clear_map (sys_context, mod_gl1_utils_context_t *
 					   utils_context,
 					   _mod_gl1_view_flat_context_t * flat_context, _mod_gl1_view_flat_game_context_map_t * game_context_map)
 {
-  mod_gl1_utils_bitmap_array_clear (utils_context, &(game_context_map->map_bitmap_array));
+  mod_gl1_utils_bitmap_array_clear (sys_context, utils_context, &(game_context_map->map_bitmap_array));
   memset (game_context_map, 0, sizeof (_mod_gl1_view_flat_game_context_map_t));
 }
 
@@ -159,13 +159,13 @@ _mod_gl1_view_flat_game_context_clear_armies (mod_gl1_utils_context_t *
 					      utils_context,
 					      _mod_gl1_view_flat_context_t * flat_context, _mod_gl1_view_flat_game_context_armies_t * game_context_armies)
 {
-  mod_gl1_utils_bitmap_array_clear (utils_context, &(game_context_armies->armies_bitmap_array));
+  mod_gl1_utils_bitmap_array_clear (sys_context, utils_context, &(game_context_armies->armies_bitmap_array));
 
   memset (game_context_armies, 0, sizeof (_mod_gl1_view_flat_game_context_armies_t));
 }
 
 int
-_mod_gl1_view_flat_game_context_update (mod_gl1_utils_context_t *
+_mod_gl1_view_flat_game_context_update (sys_context, mod_gl1_utils_context_t *
 					utils_context,
 					_mod_gl1_view_flat_context_t *
 					flat_context,
@@ -175,7 +175,7 @@ _mod_gl1_view_flat_game_context_update (mod_gl1_utils_context_t *
   int ret = 0;
 
   ret =
-    _mod_gl1_view_flat_game_context_update_map (utils_context, flat_context,
+    _mod_gl1_view_flat_game_context_update_map (sys_context, utils_context, flat_context,
 						&(game_context->map), look,
 						level)
     && _mod_gl1_view_flat_game_context_update_armies (utils_context, flat_context, &(game_context->armies), look, game_state);
@@ -184,7 +184,7 @@ _mod_gl1_view_flat_game_context_update (mod_gl1_utils_context_t *
 }
 
 int
-_mod_gl1_view_flat_game_context_update_map (mod_gl1_utils_context_t *
+_mod_gl1_view_flat_game_context_update_map (sys_context, mod_gl1_utils_context_t *
 					    utils_context,
 					    _mod_gl1_view_flat_context_t *
 					    flat_context,
@@ -198,8 +198,8 @@ _mod_gl1_view_flat_game_context_update_map (mod_gl1_utils_context_t *
     }
   else
     {
-      _mod_gl1_view_flat_game_context_clear_map (utils_context, flat_context, game_context_map);
-      ret = _mod_gl1_view_flat_game_context_init_map (utils_context, flat_context, game_context_map, look, level);
+      _mod_gl1_view_flat_game_context_clear_map (sys_context, utils_context, flat_context, game_context_map);
+      ret = _mod_gl1_view_flat_game_context_init_map (sys_context, utils_context, flat_context, game_context_map, look, level);
     }
 
   return ret;

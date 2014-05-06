@@ -48,7 +48,7 @@ mod_gles2_is_GPL_compatible ()
 static void *
 _init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
-  _mod_gles2_context_t *mod_gles2_context = _mod_gles2_init (argc, argv, video_mode, resize_callback);
+  _mod_gles2_context_t *mod_gles2_context = _mod_gles2_init (sys_context, argc, argv, video_mode, resize_callback);
 
   return (void *) mod_gles2_context;
 }
@@ -60,7 +60,7 @@ _quit (void *gfx_context)
 
   if (mod_gles2_context)
     {
-      _mod_gles2_quit (mod_gles2_context);
+      _mod_gles2_quit (sys_context, mod_gles2_context);
     }
 }
 
@@ -72,7 +72,7 @@ _repr (void *gfx_context, u_int32_t id)
 
   if (mod_gles2_context)
     {
-      ret = _mod_gles2_repr (mod_gles2_context, id);
+      ret = _mod_gles2_repr (sys_context, mod_gles2_context, id);
     }
 
   return ret;
@@ -86,7 +86,7 @@ _set_video_mode (void *gfx_context, lw6gui_video_mode_t * video_mode)
 
   if (mod_gles2_context)
     {
-      ret = _mod_gles2_set_video_mode (mod_gles2_context, video_mode);
+      ret = _mod_gles2_set_video_mode (sys_context, mod_gles2_context, video_mode);
     }
 
   return ret;
@@ -100,7 +100,7 @@ _get_video_mode (void *gfx_context, lw6gui_video_mode_t * video_mode)
 
   if (mod_gles2_context)
     {
-      ret = _mod_gles2_get_video_mode (mod_gles2_context, video_mode);
+      ret = _mod_gles2_get_video_mode (sys_context, mod_gles2_context, video_mode);
     }
 
   return ret;
@@ -114,7 +114,7 @@ _get_fullscreen_modes (void *gfx_context, lw6gui_fullscreen_modes_t * modes)
 
   if (mod_gles2_context)
     {
-      ret = _mod_gles2_get_fullscreen_modes (mod_gles2_context, modes);
+      ret = _mod_gles2_get_fullscreen_modes (sys_context, mod_gles2_context, modes);
     }
 
   return ret;
@@ -128,8 +128,8 @@ _pump_events (void *gfx_context)
 
   if (mod_gles2_context)
     {
-      _lw6gfx_sdl_timer_update (&(mod_gles2_context->sdl_context));
-      ret = _lw6gfx_sdl_pump_events (&(mod_gles2_context->sdl_context), NULL, NULL);
+      _lw6gfx_sdl_timer_update (sys_context, &(mod_gles2_context->sdl_context));
+      ret = _lw6gfx_sdl_pump_events (sys_context, &(mod_gles2_context->sdl_context), NULL, NULL);
     }
 
   return ret;

@@ -33,7 +33,7 @@ _warning (const char *func_name)
 }
 
 int
-mod_gl1_background_init (mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend)
+mod_gl1_background_init (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend)
 {
   if (backend->init)
     {
@@ -48,7 +48,7 @@ mod_gl1_background_init (mod_gl1_utils_context_t * utils_context, mod_gl1_backgr
 }
 
 void
-mod_gl1_background_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend)
+mod_gl1_background_quit (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend)
 {
   if (backend->quit)
     {
@@ -61,7 +61,8 @@ mod_gl1_background_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_backgr
 }
 
 void
-mod_gl1_background_display_background (mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend, const lw6gui_look_t * look)
+mod_gl1_background_display_background (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend,
+				       const lw6gui_look_t * look)
 {
   if (backend->display_background)
     {

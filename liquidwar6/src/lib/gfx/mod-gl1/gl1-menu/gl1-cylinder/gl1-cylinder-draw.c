@@ -29,7 +29,7 @@
 #include "gl1-cylinder-internal.h"
 
 float
-_mod_gl1_menu_cylinder_get_cylinder_y (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n)
+_mod_gl1_menu_cylinder_get_cylinder_y (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n)
 {
   float y;
 
@@ -42,7 +42,7 @@ _mod_gl1_menu_cylinder_get_cylinder_y (mod_gl1_utils_context_t * utils_context, 
  * Display a horizontal  cylinder.
  */
 void
-_mod_gl1_menu_cylinder_draw_cylinder (mod_gl1_utils_context_t * utils_context,
+_mod_gl1_menu_cylinder_draw_cylinder (sys_context, mod_gl1_utils_context_t * utils_context,
 				      _mod_gl1_menu_cylinder_context_t * cylinder_context, GLenum mode, int i, int n, float relative_text_width)
 {
   GLUquadricObj *cyl;
@@ -63,8 +63,8 @@ _mod_gl1_menu_cylinder_draw_cylinder (mod_gl1_utils_context_t * utils_context,
       cyl_height = relative_text_width *
 	cylinder_context->const_data.cyl_height *
 	((float) utils_context->sdl_context.video_mode.width) / ((float) utils_context->sdl_context.video_mode.height);
-      y = _mod_gl1_menu_cylinder_get_cylinder_y (utils_context, cylinder_context, i, n);
-      dt = _lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) % cylinder_context->const_data.oscil_period;
+      y = _mod_gl1_menu_cylinder_get_cylinder_y (sys_context, utils_context, cylinder_context, i, n);
+      dt = _lw6gfx_sdl_timer_get_cycle (sys_context, &(utils_context->sdl_context)) % cylinder_context->const_data.oscil_period;
       dy =
 	(cylinder_context->const_data.oscil_range1 / n) * sin (2.0f * M_PI *
 							       ((dt / ((float) cylinder_context->const_data.oscil_period)) + (((float) i) / ((float) n))));
@@ -111,8 +111,8 @@ _mod_gl1_menu_cylinder_draw_cylinder_corners (mod_gl1_utils_context_t *
   radius = cylinder_context->const_data.radius1 / n;
   cyl_height = relative_text_width *
     cylinder_context->const_data.cyl_height * ((float) utils_context->sdl_context.video_mode.width) / ((float) utils_context->sdl_context.video_mode.height);
-  y = _mod_gl1_menu_cylinder_get_cylinder_y (utils_context, cylinder_context, i, n);
-  dt = _lw6gfx_sdl_timer_get_cycle (&(utils_context->sdl_context)) % cylinder_context->const_data.oscil_period;
+  y = _mod_gl1_menu_cylinder_get_cylinder_y (sys_context, utils_context, cylinder_context, i, n);
+  dt = _lw6gfx_sdl_timer_get_cycle (sys_context, &(utils_context->sdl_context)) % cylinder_context->const_data.oscil_period;
   dy =
     (cylinder_context->const_data.oscil_range1 / n) * sin (2.0f * M_PI *
 							   ((dt / ((float) cylinder_context->const_data.oscil_period)) + (((float) i) / ((float) n))));
@@ -140,7 +140,7 @@ _mod_gl1_menu_cylinder_draw_cylinder_corners (mod_gl1_utils_context_t *
 }
 
 void
-_mod_gl1_menu_cylinder_draw_sphere (mod_gl1_utils_context_t * utils_context,
+_mod_gl1_menu_cylinder_draw_sphere (sys_context, mod_gl1_utils_context_t * utils_context,
 				    _mod_gl1_menu_cylinder_context_t * cylinder_context, GLenum mode, int i, int n, int sphere_i, int nb_spheres)
 {
   GLUquadricObj *cyl;

@@ -33,7 +33,7 @@ _warning (const char *func_name)
 }
 
 int
-mod_gl1_menu_init (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend)
+mod_gl1_menu_init (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend)
 {
   if (backend->init)
     {
@@ -48,7 +48,7 @@ mod_gl1_menu_init (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend
 }
 
 void
-mod_gl1_menu_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend)
+mod_gl1_menu_quit (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend)
 {
   if (backend->quit)
     {
@@ -61,7 +61,8 @@ mod_gl1_menu_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend
 }
 
 void
-mod_gl1_menu_display_menu (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend, const lw6gui_look_t * look, lw6gui_menu_t * menu)
+mod_gl1_menu_display_menu (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend, const lw6gui_look_t * look,
+			   lw6gui_menu_t * menu)
 {
   if (backend->display_menu)
     {
@@ -74,7 +75,8 @@ mod_gl1_menu_display_menu (mod_gl1_utils_context_t * utils_context, mod_gl1_menu
 }
 
 void
-mod_gl1_menu_display_progress (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend, const lw6gui_look_t * look, float progress)
+mod_gl1_menu_display_progress (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend, const lw6gui_look_t * look,
+			       float progress)
 {
   if (backend->display_progress)
     {
@@ -87,7 +89,8 @@ mod_gl1_menu_display_progress (mod_gl1_utils_context_t * utils_context, mod_gl1_
 }
 
 void
-mod_gl1_menu_display_meta (mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend, const lw6gui_look_t * look, lw6gui_menu_t * menu)
+mod_gl1_menu_display_meta (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend, const lw6gui_look_t * look,
+			   lw6gui_menu_t * menu)
 {
   if (backend->display_meta)
     {

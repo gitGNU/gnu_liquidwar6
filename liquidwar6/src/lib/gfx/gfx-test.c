@@ -95,10 +95,10 @@ _test_sdl ()
 
     if (ret)
       {
-	if (_lw6gfx_sdl_bind_funcs (&funcs, handle))
+	if (_lw6gfx_sdl_bind_funcs (sys_context, &funcs, handle))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("binded SDL funcs"));
-	    _lw6gfx_sdl_unbind_funcs (&funcs);
+	    _lw6gfx_sdl_unbind_funcs (sys_context, &funcs);
 	  }
 	else
 	  {
@@ -131,7 +131,7 @@ _test_resolution ()
     lw6gfx_backend_t *backend = _test_data.backend;
     lw6gui_fullscreen_modes_t modes;
 
-    if (lw6gfx_get_fullscreen_modes (backend, &modes))
+    if (lw6gfx_get_fullscreen_modes (sys_context, backend, &modes))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("low resolution is %dx%d"), modes.low.width, modes.low.height);
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("standard resolution is %dx%d"), modes.standard.width, modes.standard.height);
@@ -166,10 +166,10 @@ _call_init (lw6gfx_backend_t * backend)
   video_mode.height = _TEST_HEIGHT;
   video_mode.fullscreen = _TEST_FULLSCREEN;
 
-  ret = ret && lw6gfx_init (backend, &video_mode, resize_callback);
+  ret = ret && lw6gfx_init (sys_context, backend, &video_mode, resize_callback);
   if (ret)
     {
-      repr = lw6gfx_repr (backend);
+      repr = lw6gfx_repr (sys_context, backend);
       if (repr)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("display repr is \"%s\""), repr);
@@ -202,7 +202,8 @@ _test_splash ()
 	ticks = lw6sys_get_uptime ();
 	while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_SPLASH)
 	  {
-	    if (!lw6gfx_display (backend, LW6GUI_DISPLAY_BACKGROUND | LW6GUI_DISPLAY_SPLASH, look, NULL, NULL, NULL, 0, NULL, 0.0f, 0, 0, NULL, 0, 0, 0, 0))
+	    if (!lw6gfx_display
+		(sys_context, backend, LW6GUI_DISPLAY_BACKGROUND | LW6GUI_DISPLAY_SPLASH, look, NULL, NULL, NULL, 0, NULL, 0.0f, 0, 0, NULL, 0, 0, 0, 0))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("display error"));
 		ret = 0;
@@ -238,7 +239,7 @@ _test_background ()
 	    ticks = lw6sys_get_uptime ();
 	    while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_BACKGROUND)
 	      {
-		if (!lw6gfx_display (backend, LW6GUI_DISPLAY_BACKGROUND, look, NULL, NULL, NULL, 0, NULL, 0.0f, 0, 0, NULL, 0, 0, 0, 0))
+		if (!lw6gfx_display (sys_context, backend, LW6GUI_DISPLAY_BACKGROUND, look, NULL, NULL, NULL, 0, NULL, 0.0f, 0, 0, NULL, 0, 0, 0, 0))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("display error"));
 		    ret = 0;
@@ -301,7 +302,7 @@ _test_menu ()
 	    while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_MENU)
 	      {
 		progress = ((float) (lw6sys_get_uptime () - ticks)) / ((float) _TEST_DURATION_MENU);
-		if (!lw6gfx_display (backend,
+		if (!lw6gfx_display (sys_context, backend,
 				     LW6GUI_DISPLAY_BACKGROUND |
 				     LW6GUI_DISPLAY_MENU | LW6GUI_DISPLAY_META
 				     | LW6GUI_DISPLAY_PROGRESS, look, NULL, NULL, NULL, 0, menu, progress, 0, 0, NULL, 0, 0, 0, 0))
@@ -349,7 +350,7 @@ _test_view ()
 		    ticks = lw6sys_get_uptime ();
 		    while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_VIEW)
 		      {
-			if (!lw6gfx_display (backend,
+			if (!lw6gfx_display (sys_context, backend,
 					     LW6GUI_DISPLAY_BACKGROUND |
 					     LW6GUI_DISPLAY_MAP |
 					     LW6GUI_DISPLAY_FIGHTERS, look, level, game_struct, game_state, NULL, NULL, 0.0f, 0.0f, 0.0f, NULL, 0, 0, 0, 0))
@@ -415,7 +416,7 @@ _test_hud ()
 		    ticks = lw6sys_get_uptime ();
 		    while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_HUD)
 		      {
-			if (!lw6gfx_display (backend,
+			if (!lw6gfx_display (sys_context, backend,
 					     LW6GUI_DISPLAY_BACKGROUND |
 					     LW6GUI_DISPLAY_HUD |
 					     LW6GUI_DISPLAY_SCORE, look,
@@ -459,16 +460,16 @@ _test_events ()
 	ticks = lw6sys_get_uptime ();
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("now for %d seconds you can move mouse, touch keyboard, punch joystick"), _TEST_DURATION_EVENTS / 1000);
-	input = lw6gfx_pump_events (backend);
+	input = lw6gfx_pump_events (sys_context, backend);
 	while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_EVENTS && !lw6sys_signal_poll_quit ())
 	  {
-	    if (!lw6gfx_display (backend, LW6GUI_DISPLAY_BACKGROUND, look, NULL, NULL, NULL, 0, NULL, 0.0f, 0, 0, NULL, 0, 0, 0, 0))
+	    if (!lw6gfx_display (sys_context, backend, LW6GUI_DISPLAY_BACKGROUND, look, NULL, NULL, NULL, 0, NULL, 0.0f, 0, 0, NULL, 0, 0, 0, 0))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("display error"));
 		ret = 0;
 	      }
 	    lw6sys_sleep (sys_context, _TEST_SLEEP);
-	    input = lw6gfx_pump_events (backend);
+	    input = lw6gfx_pump_events (sys_context, backend);
 	    if (lw6gui_button_pop_press (sys_context, &(input->mouse.button_left)))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
@@ -518,7 +519,7 @@ _test_events ()
 static void
 _call_quit (lw6gfx_backend_t * backend)
 {
-  lw6gfx_quit (backend);
+  lw6gfx_quit (sys_context, backend);
 }
 #endif // MOD_GL1 || MOD_GLES2 || MOD_SOFT || MOD_CACA
 
@@ -549,7 +550,7 @@ _setup_init_gl1 ()
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libgfx-gl1 CUnit test suite"));
   if (_test_data.backend == NULL)
     {
-      _test_data.backend = lw6gfx_create_backend (argc, argv, "gl1");
+      _test_data.backend = lw6gfx_create_backend (sys_context, argc, argv, "gl1");
       if (_test_data.backend)
 	{
 	  if (_call_init (_test_data.backend))
@@ -558,7 +559,7 @@ _setup_init_gl1 ()
 	    }
 	  else
 	    {
-	      lw6gfx_destroy_backend (_test_data.backend);
+	      lw6gfx_destroy_backend (sys_context, _test_data.backend);
 	      _test_data.backend = NULL;
 	    }
 	}
@@ -577,7 +578,7 @@ _setup_quit_gl1 ()
   if (_test_data.backend)
     {
       _call_quit (_test_data.backend);
-      lw6gfx_destroy_backend (_test_data.backend);
+      lw6gfx_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
     }
@@ -597,7 +598,7 @@ _setup_init_gles2 ()
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libgfx-gles2 CUnit test suite"));
   if (_test_data.backend == NULL)
     {
-      _test_data.backend = lw6gfx_create_backend (argc, argv, "gles2");
+      _test_data.backend = lw6gfx_create_backend (sys_context, argc, argv, "gles2");
       if (_test_data.backend)
 	{
 	  if (_call_init (_test_data.backend))
@@ -606,7 +607,7 @@ _setup_init_gles2 ()
 	    }
 	  else
 	    {
-	      lw6gfx_destroy_backend (_test_data.backend);
+	      lw6gfx_destroy_backend (sys_context, _test_data.backend);
 	      _test_data.backend = NULL;
 	    }
 	}
@@ -625,7 +626,7 @@ _setup_quit_gles2 ()
   if (_test_data.backend)
     {
       _call_quit (_test_data.backend);
-      lw6gfx_destroy_backend (_test_data.backend);
+      lw6gfx_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
     }
@@ -645,7 +646,7 @@ _setup_init_soft ()
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libgfx-soft CUnit test suite"));
   if (_test_data.backend == NULL)
     {
-      _test_data.backend = lw6gfx_create_backend (argc, argv, "soft");
+      _test_data.backend = lw6gfx_create_backend (sys_context, argc, argv, "soft");
       if (_test_data.backend)
 	{
 	  if (_call_init (_test_data.backend))
@@ -654,7 +655,7 @@ _setup_init_soft ()
 	    }
 	  else
 	    {
-	      lw6gfx_destroy_backend (_test_data.backend);
+	      lw6gfx_destroy_backend (sys_context, _test_data.backend);
 	      _test_data.backend = NULL;
 	    }
 	}
@@ -673,7 +674,7 @@ _setup_quit_soft ()
   if (_test_data.backend)
     {
       _call_quit (_test_data.backend);
-      lw6gfx_destroy_backend (_test_data.backend);
+      lw6gfx_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
     }
@@ -693,7 +694,7 @@ _setup_init_caca ()
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libgfx-caca CUnit test suite"));
   if (_test_data.backend == NULL)
     {
-      _test_data.backend = lw6gfx_create_backend (argc, argv, "caca");
+      _test_data.backend = lw6gfx_create_backend (sys_context, argc, argv, "caca");
       if (_test_data.backend)
 	{
 	  if (_call_init (_test_data.backend))
@@ -702,7 +703,7 @@ _setup_init_caca ()
 	    }
 	  else
 	    {
-	      lw6gfx_destroy_backend (_test_data.backend);
+	      lw6gfx_destroy_backend (sys_context, _test_data.backend);
 	      _test_data.backend = NULL;
 	    }
 	}
@@ -721,7 +722,7 @@ _setup_quit_caca ()
   if (_test_data.backend)
     {
       _call_quit (_test_data.backend);
-      lw6gfx_destroy_backend (_test_data.backend);
+      lw6gfx_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
     }
@@ -740,7 +741,7 @@ _setup_quit_caca ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6gfx_test_register (int mode)
+lw6gfx_test_register (sys_context, int mode)
 {
   int ret = 1;
 #if MOD_GL1 || MOD_GLES2 || MOD_SOFT || MOD_CACA
@@ -876,7 +877,7 @@ lw6gfx_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6gfx_test_run (int mode)
+lw6gfx_test_run (sys_context, int mode)
 {
   int ret = 0;
 

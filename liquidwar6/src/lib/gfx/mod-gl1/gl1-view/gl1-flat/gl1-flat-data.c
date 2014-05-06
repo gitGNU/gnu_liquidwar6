@@ -100,7 +100,7 @@ unload_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_conte
  * Putting all the load/unload functions together
  */
 int
-_mod_gl1_view_flat_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
+_mod_gl1_view_flat_load_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
 {
   return load_consts (utils_context, flat_context);
 }
@@ -108,11 +108,11 @@ _mod_gl1_view_flat_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_
 int
 mod_gl1_view_load_data (mod_gl1_utils_context_t * utils_context, void *flat_context)
 {
-  return _mod_gl1_view_flat_load_data (utils_context, (_mod_gl1_view_flat_context_t *) flat_context);
+  return _mod_gl1_view_flat_load_data (sys_context, utils_context, (_mod_gl1_view_flat_context_t *) flat_context);
 }
 
 void
-_mod_gl1_view_flat_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
+_mod_gl1_view_flat_unload_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
 {
   unload_consts (utils_context, flat_context);
 }
@@ -120,5 +120,5 @@ _mod_gl1_view_flat_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl
 void
 mod_gl1_view_unload_data (mod_gl1_utils_context_t * utils_context, void *flat_context)
 {
-  _mod_gl1_view_flat_unload_data (utils_context, (_mod_gl1_view_flat_context_t *) flat_context);
+  _mod_gl1_view_flat_unload_data (sys_context, utils_context, (_mod_gl1_view_flat_context_t *) flat_context);
 }

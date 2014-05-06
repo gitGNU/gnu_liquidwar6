@@ -80,35 +80,36 @@ typedef struct _mod_soft_context_s
 _mod_soft_context_t;
 
 /* mod-soft-const.c */
-extern int _mod_soft_load_consts (_mod_soft_context_t * context);
-extern void _mod_soft_unload_consts (_mod_soft_context_t * context);
+extern int _mod_soft_load_consts (lw6sys_context_t * sys_context, _mod_soft_context_t * context);
+extern void _mod_soft_unload_consts (lw6sys_context_t * sys_context, _mod_soft_context_t * context);
 
 /* mod-soft-mode.c */
-extern int _mod_soft_set_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode);
-extern int _mod_soft_resize_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode);
-extern int _mod_soft_get_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode);
-extern int _mod_soft_sync_viewport (_mod_soft_context_t * soft_context);
-extern int _mod_soft_sync_mode (_mod_soft_context_t * soft_context, int force);
-extern int _mod_soft_set_resize_callback (_mod_soft_context_t * soft_context, lw6gui_resize_callback_func_t resize_callback);
-extern void _mod_soft_call_resize_callback (_mod_soft_context_t * soft_context);
+extern int _mod_soft_set_video_mode (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode);
+extern int _mod_soft_resize_video_mode (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode);
+extern int _mod_soft_get_video_mode (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode);
+extern int _mod_soft_sync_viewport (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context);
+extern int _mod_soft_sync_mode (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, int force);
+extern int _mod_soft_set_resize_callback (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, lw6gui_resize_callback_func_t resize_callback);
+extern void _mod_soft_call_resize_callback (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context);
 
 /* mod-soft-path.c */
-extern int _mod_soft_path_init (_mod_soft_path_t * path, int argc, const char *argv[]);
-extern void _mod_soft_path_quit (_mod_soft_path_t * path);
+extern int _mod_soft_path_init (lw6sys_context_t * sys_context, _mod_soft_path_t * path, int argc, const char *argv[]);
+extern void _mod_soft_path_quit (lw6sys_context_t * sys_context, _mod_soft_path_t * path);
 
 /* mod-soft-repr.c */
-extern char *_mod_soft_repr (_mod_soft_context_t * soft_context, u_int32_t id);
+extern char *_mod_soft_repr (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, u_int32_t id);
 
 /* mod-soft-resolution.c */
-extern int _mod_soft_get_fullscreen_modes (_mod_soft_context_t * soft_context, lw6gui_fullscreen_modes_t * modes);
-extern void _mod_soft_find_closest_resolution (_mod_soft_context_t *
+extern int _mod_soft_get_fullscreen_modes (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, lw6gui_fullscreen_modes_t * modes);
+extern void _mod_soft_find_closest_resolution (lw6sys_context_t * sys_context, _mod_soft_context_t *
 					       soft_context, int *closest_width, int *closest_height, int wished_width, int wished_height);
 
 /* mod-soft-setup.c */
-extern _mod_soft_context_t *_mod_soft_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback);
-extern void _mod_soft_quit (_mod_soft_context_t * soft_context);
+extern _mod_soft_context_t *_mod_soft_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
+					    lw6gui_resize_callback_func_t resize_callback);
+extern void _mod_soft_quit (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context);
 
 /* mod-soft-viewport.c */
-extern void _mod_soft_viewport_drawable_max (_mod_soft_context_t * soft_context);
+extern void _mod_soft_viewport_drawable_max (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context);
 
 #endif // LIQUIDWAR6GFX_MOD_SOFT_INTERNAL_H

@@ -34,7 +34,7 @@
  * Low-level SDL initialisation.
  */
 _mod_gl1_background_bubbles_context_t *
-_mod_gl1_background_bubbles_init (mod_gl1_utils_context_t * utils_context)
+_mod_gl1_background_bubbles_init (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   _mod_gl1_background_bubbles_context_t *bubbles_context = NULL;
 
@@ -49,7 +49,7 @@ _mod_gl1_background_bubbles_init (mod_gl1_utils_context_t * utils_context)
       exit (1);
     }
 
-  if (!_mod_gl1_background_bubbles_load_data (utils_context, bubbles_context))
+  if (!_mod_gl1_background_bubbles_load_data (sys_context, utils_context, bubbles_context))
     {
       LW6SYS_FREE (sys_context, bubbles_context);
       bubbles_context = NULL;
@@ -59,25 +59,25 @@ _mod_gl1_background_bubbles_init (mod_gl1_utils_context_t * utils_context)
 }
 
 void *
-mod_gl1_background_bubbles_init (mod_gl1_utils_context_t * utils_context)
+mod_gl1_background_bubbles_init (sys_context, mod_gl1_utils_context_t * utils_context)
 {
-  return (void *) _mod_gl1_background_bubbles_init (utils_context);
+  return (void *) _mod_gl1_background_bubbles_init (sys_context, utils_context);
 }
 
 /*
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_background_bubbles_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
+_mod_gl1_background_bubbles_quit (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit background/bubbles"));
 
-  _mod_gl1_background_bubbles_unload_data (utils_context, bubbles_context);
+  _mod_gl1_background_bubbles_unload_data (sys_context, utils_context, bubbles_context);
   LW6SYS_FREE (sys_context, bubbles_context);
 }
 
 void
-mod_gl1_background_bubbles_quit (mod_gl1_utils_context_t * utils_context, void *bubbles_context)
+mod_gl1_background_bubbles_quit (sys_context, mod_gl1_utils_context_t * utils_context, void *bubbles_context)
 {
-  _mod_gl1_background_bubbles_quit (utils_context, (_mod_gl1_background_bubbles_context_t *) bubbles_context);
+  _mod_gl1_background_bubbles_quit (sys_context, utils_context, (_mod_gl1_background_bubbles_context_t *) bubbles_context);
 }

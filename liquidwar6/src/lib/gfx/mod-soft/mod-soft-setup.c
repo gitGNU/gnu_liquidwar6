@@ -33,7 +33,7 @@
  * Low-level SDL initialisation.
  */
 _mod_soft_context_t *
-_mod_soft_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
+_mod_soft_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
   _mod_soft_context_t *soft_context = NULL;
   int sdl_ok = 1;
@@ -48,7 +48,7 @@ _mod_soft_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
       if (soft_context->shared_sdl_handle == NULL)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to load shared SDL code"));
-	  _mod_soft_quit (soft_context);
+	  _mod_soft_quit (sys_context, soft_context);
 	  soft_context = NULL;
 	}
     }
@@ -56,9 +56,10 @@ _mod_soft_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
 
   if (soft_context)
     {
-      _lw6gfx_sdl_bind_funcs (&(soft_context->sdl_context.funcs), soft_context->shared_sdl_handle);
+      _lw6gfx_sdl_bind_funcs (sys_context, &(soft_context->sdl_context.funcs), soft_context->shared_sdl_handle);
 
-      if (_mod_soft_path_init (&(soft_context->path), argc, argv) && _lw6gfx_sdl_path_init (&(soft_context->sdl_context), argc, argv))
+      if (_mod_soft_path_init (sys_context, &(soft_context->path), argc, argv)
+	  && _lw6gfx_sdl_path_init (sys_context, &(soft_context->sdl_context), argc, argv))
 	{
 	  memset (&version, 0, sizeof (SDL_version));
 	  SDL_VERSION (&version);
@@ -83,7 +84,7 @@ _mod_soft_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
 	  else
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("SDL init error: \"%s\""), SDL_GetError ());
-	      _mod_soft_quit (soft_context);
+	      _mod_soft_quit (sys_context, soft_context);
 	      soft_context = NULL;
 	    }
 
@@ -106,7 +107,7 @@ _mod_soft_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
 	      else
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("SDL_ttf init error: \"%s\""), TTF_GetError ());
-		  _mod_soft_quit (soft_context);
+		  _mod_soft_quit (sys_context, soft_context);
 		  soft_context = NULL;
 		}
 	    }
@@ -117,25 +118,25 @@ _mod_soft_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
 		{
 		  lw6gui_input_init (sys_context, &(soft_context->sdl_context.input));
 		  //_mod_soft_show_mouse (&(soft_context->utils_context), 0, 1);
-		  _mod_soft_set_resize_callback (soft_context, resize_callback);
-		  if (_mod_soft_load_consts (soft_context) && _lw6gfx_sdl_load_consts (&(soft_context->sdl_context)))
+		  _mod_soft_set_resize_callback (sys_context, soft_context, resize_callback);
+		  if (_mod_soft_load_consts (sys_context, soft_context) && _lw6gfx_sdl_load_consts (sys_context, &(soft_context->sdl_context)))
 		    {
-		      if (_mod_soft_set_video_mode (soft_context, video_mode))
+		      if (_mod_soft_set_video_mode (sys_context, soft_context, video_mode))
 			{
-			  _lw6gfx_sdl_timer_update (&(soft_context->sdl_context));
+			  _lw6gfx_sdl_timer_update (sys_context, &(soft_context->sdl_context));
 			  // todo
 			}
 		      else
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to set video mode"));
-			  _mod_soft_quit (soft_context);
+			  _mod_soft_quit (sys_context, soft_context);
 			  soft_context = NULL;
 			}
 		    }
 		  else
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("unable to load consts"));
-		      _mod_soft_quit (soft_context);
+		      _mod_soft_quit (sys_context, soft_context);
 		      soft_context = NULL;
 		    }
 		}
@@ -155,7 +156,7 @@ _mod_soft_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, 
  * Ends-up all SDL stuff.
  */
 void
-_mod_soft_quit (_mod_soft_context_t * soft_context)
+_mod_soft_quit (sys_context, _mod_soft_context_t * soft_context)
 {
   float quit_sleep = 0.0f;
 
@@ -180,13 +181,13 @@ _mod_soft_quit (_mod_soft_context_t * soft_context)
       SDL_Quit ();
     }
 
-  _lw6gfx_sdl_unload_consts (&(soft_context->sdl_context));
-  _mod_soft_unload_consts (soft_context);
+  _lw6gfx_sdl_unload_consts (sys_context, &(soft_context->sdl_context));
+  _mod_soft_unload_consts (sys_context, soft_context);
 
-  _lw6gfx_sdl_path_quit (&(soft_context->sdl_context));
-  _mod_soft_path_quit (&(soft_context->path));
+  _lw6gfx_sdl_path_quit (sys_context, &(soft_context->sdl_context));
+  _mod_soft_path_quit (sys_context, &(soft_context->path));
 
-  _lw6gfx_sdl_unbind_funcs (&(soft_context->sdl_context.funcs));
+  _lw6gfx_sdl_unbind_funcs (sys_context, &(soft_context->sdl_context.funcs));
 
 #ifndef LW6_ALLINONE
   if (soft_context->shared_sdl_handle)

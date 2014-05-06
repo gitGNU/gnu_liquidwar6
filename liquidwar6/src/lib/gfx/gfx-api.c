@@ -46,7 +46,7 @@ _warning (const char *func_name)
  * Return value: 1 on success, 0 if not
  */
 int
-lw6gfx_init (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
+lw6gfx_init (sys_context, lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -75,7 +75,7 @@ lw6gfx_init (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode, lw6gu
  * Return value: none.
  */
 void
-lw6gfx_quit (lw6gfx_backend_t * backend)
+lw6gfx_quit (sys_context, lw6gfx_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -109,7 +109,7 @@ lw6gfx_quit (lw6gfx_backend_t * backend)
  * Return value: a newly allocated pointer.
  */
 char *
-lw6gfx_repr (const lw6gfx_backend_t * backend)
+lw6gfx_repr (sys_context, const lw6gfx_backend_t * backend)
 {
   char *ret = NULL;
 
@@ -145,7 +145,7 @@ lw6gfx_repr (const lw6gfx_backend_t * backend)
  * Return value: 1 on success, 0 on failure;
  */
 int
-lw6gfx_set_video_mode (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode)
+lw6gfx_set_video_mode (sys_context, lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -176,7 +176,7 @@ lw6gfx_set_video_mode (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_m
  * Return value: 1 on success, 0 on failure;
  */
 int
-lw6gfx_get_video_mode (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode)
+lw6gfx_get_video_mode (sys_context, lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -207,7 +207,7 @@ lw6gfx_get_video_mode (lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_m
  * Return value: 1 on success, 0 on failure;
  */
 int
-lw6gfx_get_fullscreen_modes (lw6gfx_backend_t * backend, lw6gui_fullscreen_modes_t * fullscreen_modes)
+lw6gfx_get_fullscreen_modes (sys_context, lw6gfx_backend_t * backend, lw6gui_fullscreen_modes_t * fullscreen_modes)
 {
   int ret = 0;
 
@@ -239,7 +239,7 @@ lw6gfx_get_fullscreen_modes (lw6gfx_backend_t * backend, lw6gui_fullscreen_modes
  * Return value: a pointer on the internal input state, musn't be freed.
  */
 lw6gui_input_t *
-lw6gfx_pump_events (lw6gfx_backend_t * backend)
+lw6gfx_pump_events (sys_context, lw6gfx_backend_t * backend)
 {
   lw6gui_input_t *ret = NULL;
 
@@ -288,7 +288,7 @@ lw6gfx_pump_events (lw6gfx_backend_t * backend)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6gfx_display (lw6gfx_backend_t * backend, int mask,
+lw6gfx_display (sys_context, lw6gfx_backend_t * backend, int mask,
 		const lw6gui_look_t * look, const lw6map_level_t * level,
 		const lw6ker_game_struct_t * game_struct,
 		const lw6ker_game_state_t * game_state,

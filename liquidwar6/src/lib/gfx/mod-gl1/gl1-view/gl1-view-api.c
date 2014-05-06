@@ -33,7 +33,7 @@ _warning (const char *func_name)
 }
 
 int
-mod_gl1_view_init (mod_gl1_utils_context_t * utils_context, mod_gl1_view_backend_t * backend)
+mod_gl1_view_init (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_view_backend_t * backend)
 {
   if (backend->init)
     {
@@ -48,7 +48,7 @@ mod_gl1_view_init (mod_gl1_utils_context_t * utils_context, mod_gl1_view_backend
 }
 
 void
-mod_gl1_view_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_view_backend_t * backend)
+mod_gl1_view_quit (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_view_backend_t * backend)
 {
   if (backend->quit)
     {
@@ -61,7 +61,7 @@ mod_gl1_view_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_view_backend
 }
 
 void
-mod_gl1_view_display_preview (mod_gl1_utils_context_t * utils_context,
+mod_gl1_view_display_preview (sys_context, mod_gl1_utils_context_t * utils_context,
 			      mod_gl1_view_backend_t * backend, const lw6gui_look_t * look, const lw6map_level_t * level)
 {
   if (backend->display_preview)
@@ -75,7 +75,7 @@ mod_gl1_view_display_preview (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_view_display_map (mod_gl1_utils_context_t * utils_context,
+mod_gl1_view_display_map (sys_context, mod_gl1_utils_context_t * utils_context,
 			  mod_gl1_view_backend_t * backend,
 			  const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
@@ -90,7 +90,7 @@ mod_gl1_view_display_map (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_view_display_fighters (mod_gl1_utils_context_t * utils_context,
+mod_gl1_view_display_fighters (sys_context, mod_gl1_utils_context_t * utils_context,
 			       mod_gl1_view_backend_t * backend,
 			       const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
@@ -105,7 +105,7 @@ mod_gl1_view_display_fighters (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_view_display_cursors (mod_gl1_utils_context_t * utils_context,
+mod_gl1_view_display_cursors (sys_context, mod_gl1_utils_context_t * utils_context,
 			      mod_gl1_view_backend_t * backend,
 			      const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {

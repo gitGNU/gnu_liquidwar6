@@ -129,7 +129,7 @@ unload_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_c
  * Putting all the load/unload functions together
  */
 int
-_mod_gl1_menu_cylinder_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
+_mod_gl1_menu_cylinder_load_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
 {
   return load_consts (utils_context, cylinder_context);
 }
@@ -137,11 +137,11 @@ _mod_gl1_menu_cylinder_load_data (mod_gl1_utils_context_t * utils_context, _mod_
 int
 mod_gl1_menu_load_data (mod_gl1_utils_context_t * utils_context, void *cylinder_context)
 {
-  return _mod_gl1_menu_cylinder_load_data (utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context);
+  return _mod_gl1_menu_cylinder_load_data (sys_context, utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context);
 }
 
 void
-_mod_gl1_menu_cylinder_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
+_mod_gl1_menu_cylinder_unload_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
 {
   unload_consts (utils_context, cylinder_context);
 }
@@ -149,5 +149,5 @@ _mod_gl1_menu_cylinder_unload_data (mod_gl1_utils_context_t * utils_context, _mo
 void
 mod_gl1_menu_unload_data (mod_gl1_utils_context_t * utils_context, void *cylinder_context)
 {
-  _mod_gl1_menu_cylinder_unload_data (utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context);
+  _mod_gl1_menu_cylinder_unload_data (sys_context, utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context);
 }

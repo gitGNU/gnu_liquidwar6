@@ -36,7 +36,7 @@
  * Returns the scale to use in a given direction.
  */
 float
-mod_gl1_utils_texture_scale (int size)
+mod_gl1_utils_texture_scale (sys_context, int size)
 {
   return ((float) size) / ((float) lw6gui_power_of_two_ge (sys_context, size));
 }
@@ -66,7 +66,7 @@ _surface2texture_xywh (mod_gl1_utils_context_t * gfx_context, SDL_Surface * surf
   w = lw6gui_power_of_two_ge (w);
   h = lw6gui_power_of_two_ge (h);
 
-  image = mod_gl1_utils_create_surface (gfx_context, w, h);
+  image = mod_gl1_utils_create_surface (sys_context, gfx_context, w, h);
 
   if (image == NULL)
     {
@@ -131,7 +131,7 @@ _surface2texture_xywh (mod_gl1_utils_context_t * gfx_context, SDL_Surface * surf
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unable to generate texture from surface x,y=%d,%d w,h=%d,%d"), y, y, w, h);
     }
 
-  mod_gl1_utils_delete_surface (gfx_context, image);	/* No longer needed */
+  mod_gl1_utils_delete_surface (sys_context, gfx_context, image);	/* No longer needed */
 
   return texture;
 }
@@ -164,7 +164,7 @@ _surface2texture (mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, 
  * Converts a surface to a texture. Public wrapper function.
  */
 GLuint
-mod_gl1_utils_surface2texture_xywh (mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, int x, int y, int w, int h, int mipmap)
+mod_gl1_utils_surface2texture_xywh (sys_context, mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, int x, int y, int w, int h, int mipmap)
 {
   GLuint texture;
 
@@ -177,7 +177,7 @@ mod_gl1_utils_surface2texture_xywh (mod_gl1_utils_context_t * gfx_context, SDL_S
  * Converts a surface to a texture. Public wrapper function.
  */
 GLuint
-mod_gl1_utils_surface2texture_wh (mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, int w, int h, int mipmap)
+mod_gl1_utils_surface2texture_wh (sys_context, mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, int w, int h, int mipmap)
 {
   GLuint texture;
 
@@ -190,7 +190,7 @@ mod_gl1_utils_surface2texture_wh (mod_gl1_utils_context_t * gfx_context, SDL_Sur
  * Converts a surface to a texture. Public wrapper function.
  */
 GLuint
-mod_gl1_utils_surface2texture (mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, int mipmap)
+mod_gl1_utils_surface2texture (sys_context, mod_gl1_utils_context_t * gfx_context, SDL_Surface * surface, int mipmap)
 {
   GLuint texture;
 
@@ -216,7 +216,7 @@ _map2texture_xywh (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t *
   w = lw6gui_power_of_two_ge (w);
   h = lw6gui_power_of_two_ge (h);
 
-  image = mod_gl1_utils_map2surface_xywh (gfx_context, level, x, y, w, h);
+  image = mod_gl1_utils_map2surface_xywh (sys_context, gfx_context, level, x, y, w, h);
 
   if (image)
     {
@@ -236,7 +236,7 @@ _map2texture_xywh (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t *
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("glGenTextures failed"));
 	}
 
-      mod_gl1_utils_delete_surface (gfx_context, image);	/* No longer needed */
+      mod_gl1_utils_delete_surface (sys_context, gfx_context, image);	/* No longer needed */
     }
 
   if (texture && glIsTexture (texture))
@@ -271,7 +271,7 @@ _map2texture (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * leve
 }
 
 GLuint
-mod_gl1_utils_map2texture_xywh (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level, int x, int y, int w, int h)
+mod_gl1_utils_map2texture_xywh (sys_context, mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level, int x, int y, int w, int h)
 {
   GLuint texture;
 
@@ -281,7 +281,7 @@ mod_gl1_utils_map2texture_xywh (mod_gl1_utils_context_t * gfx_context, const lw6
 }
 
 GLuint
-mod_gl1_utils_map2texture_wh (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level, int w, int h)
+mod_gl1_utils_map2texture_wh (sys_context, mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level, int w, int h)
 {
   GLuint texture;
 
@@ -291,7 +291,7 @@ mod_gl1_utils_map2texture_wh (mod_gl1_utils_context_t * gfx_context, const lw6ma
 }
 
 GLuint
-mod_gl1_utils_map2texture (mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level)
+mod_gl1_utils_map2texture (sys_context, mod_gl1_utils_context_t * gfx_context, const lw6map_level_t * level)
 {
   GLuint texture;
 
@@ -310,7 +310,7 @@ mod_gl1_utils_map2texture (mod_gl1_utils_context_t * gfx_context, const lw6map_l
  * use mod_gl1_utils_schedule_delete_texture instead.
  */
 void
-mod_gl1_utils_delete_texture (mod_gl1_utils_context_t * gfx_context, GLuint texture)
+mod_gl1_utils_delete_texture (sys_context, mod_gl1_utils_context_t * gfx_context, GLuint texture)
 {
   if (texture)
     {
@@ -335,7 +335,7 @@ mod_gl1_utils_delete_texture (mod_gl1_utils_context_t * gfx_context, GLuint text
  * Schedules a texture to be deleted by mod_gl1_utils_flush_delete_texture
  */
 void
-mod_gl1_utils_schedule_delete_texture (mod_gl1_utils_context_t * gfx_context, GLuint texture)
+mod_gl1_utils_schedule_delete_texture (sys_context, mod_gl1_utils_context_t * gfx_context, GLuint texture)
 {
   GLuint *texture_ptr = NULL;
 
@@ -351,7 +351,7 @@ mod_gl1_utils_schedule_delete_texture (mod_gl1_utils_context_t * gfx_context, GL
  * Deletes all textures scheduled for delete.
  */
 void
-mod_gl1_utils_delete_scheduled_textures (mod_gl1_utils_context_t * gfx_context)
+mod_gl1_utils_delete_scheduled_textures (sys_context, mod_gl1_utils_context_t * gfx_context)
 {
   GLuint *texture_ptr = NULL;
 
@@ -362,7 +362,7 @@ mod_gl1_utils_delete_scheduled_textures (mod_gl1_utils_context_t * gfx_context)
 	  texture_ptr = (GLuint *) lw6sys_lifo_pop (sys_context, &(gfx_context->texture_data.to_delete));
 	  if (texture_ptr != NULL)
 	    {
-	      mod_gl1_utils_delete_texture (gfx_context, *texture_ptr);
+	      mod_gl1_utils_delete_texture (sys_context, gfx_context, *texture_ptr);
 	      LW6SYS_FREE (sys_context, texture_ptr);
 	    }
 	}
@@ -370,7 +370,7 @@ mod_gl1_utils_delete_scheduled_textures (mod_gl1_utils_context_t * gfx_context)
 }
 
 void
-mod_gl1_utils_texture_update (mod_gl1_utils_context_t * utils_context, GLuint texture, SDL_Surface * surface)
+mod_gl1_utils_texture_update (sys_context, mod_gl1_utils_context_t * utils_context, GLuint texture, SDL_Surface * surface)
 {
   if (texture && surface)
     {

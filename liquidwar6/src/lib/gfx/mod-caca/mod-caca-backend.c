@@ -48,7 +48,7 @@ mod_caca_is_GPL_compatible ()
 static void *
 _init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
-  _mod_caca_context_t *mod_caca_context = _mod_caca_init (argc, argv, video_mode, resize_callback);
+  _mod_caca_context_t *mod_caca_context = _mod_caca_init (sys_context, argc, argv, video_mode, resize_callback);
 
   return (void *) mod_caca_context;
 }
@@ -60,7 +60,7 @@ _quit (void *gfx_context)
 
   if (mod_caca_context)
     {
-      _mod_caca_quit (mod_caca_context);
+      _mod_caca_quit (sys_context, mod_caca_context);
     }
 }
 
@@ -72,7 +72,7 @@ _repr (void *gfx_context, u_int32_t id)
 
   if (mod_caca_context)
     {
-      ret = _mod_caca_repr (mod_caca_context, id);
+      ret = _mod_caca_repr (sys_context, mod_caca_context, id);
     }
 
   return ret;
@@ -86,7 +86,7 @@ _set_video_mode (void *gfx_context, lw6gui_video_mode_t * video_mode)
 
   if (mod_caca_context)
     {
-      ret = _mod_caca_set_video_mode (mod_caca_context, video_mode);
+      ret = _mod_caca_set_video_mode (sys_context, mod_caca_context, video_mode);
     }
 
   return ret;
@@ -100,7 +100,7 @@ _get_video_mode (void *gfx_context, lw6gui_video_mode_t * video_mode)
 
   if (mod_caca_context)
     {
-      ret = _mod_caca_get_video_mode (mod_caca_context, video_mode);
+      ret = _mod_caca_get_video_mode (sys_context, mod_caca_context, video_mode);
     }
 
   return ret;
@@ -114,7 +114,7 @@ _get_fullscreen_modes (void *gfx_context, lw6gui_fullscreen_modes_t * modes)
 
   if (mod_caca_context)
     {
-      ret = _mod_caca_get_fullscreen_modes (mod_caca_context, modes);
+      ret = _mod_caca_get_fullscreen_modes (sys_context, mod_caca_context, modes);
     }
 
   return ret;
@@ -128,7 +128,7 @@ _pump_events (void *gfx_context)
 
   if (mod_caca_context)
     {
-      ret = _mod_caca_pump_events (mod_caca_context);
+      ret = _mod_caca_pump_events (sys_context, mod_caca_context);
     }
 
   return ret;
@@ -148,7 +148,7 @@ _display (void *gfx_context, int mask, const lw6gui_look_t * look,
   if (mod_caca_context)
     {
       ret =
-	_mod_caca_display (mod_caca_context, mask, look, level, game_struct,
+	_mod_caca_display (sys_context, mod_caca_context, mask, look, level, game_struct,
 			   game_state, local_cursors, menu, progress, fps, mps, log_list, capture, gfx_debug, debug_team_id, debug_layer_id);
     }
 

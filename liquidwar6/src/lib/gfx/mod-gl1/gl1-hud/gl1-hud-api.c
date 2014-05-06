@@ -33,7 +33,7 @@ _warning (const char *func_name)
 }
 
 int
-mod_gl1_hud_init (mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
+mod_gl1_hud_init (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
 {
   if (backend->init)
     {
@@ -48,7 +48,7 @@ mod_gl1_hud_init (mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t
 }
 
 void
-mod_gl1_hud_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
+mod_gl1_hud_quit (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
 {
   if (backend->quit)
     {
@@ -61,7 +61,7 @@ mod_gl1_hud_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t
 }
 
 void
-mod_gl1_hud_display_hud (mod_gl1_utils_context_t * utils_context,
+mod_gl1_hud_display_hud (sys_context, mod_gl1_utils_context_t * utils_context,
 			 mod_gl1_hud_backend_t * backend,
 			 const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
@@ -76,7 +76,7 @@ mod_gl1_hud_display_hud (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_hud_display_score (mod_gl1_utils_context_t * utils_context,
+mod_gl1_hud_display_score (sys_context, mod_gl1_utils_context_t * utils_context,
 			   mod_gl1_hud_backend_t * backend,
 			   const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {

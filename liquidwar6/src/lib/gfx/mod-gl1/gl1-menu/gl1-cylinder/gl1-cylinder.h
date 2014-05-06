@@ -27,24 +27,21 @@
 #include "../../gl1-utils/gl1-utils.h"
 #include "../gl1-menu.h"
 
-/*
- * In backend.c
- */
-extern mod_gl1_menu_backend_t *mod_gl1_menu_cylinder_create_backend (mod_gl1_utils_context_t * utils_context);
+/* gl1-cylinder-backend.c */
+extern mod_gl1_menu_backend_t *mod_gl1_menu_cylinder_create_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
 
-/*
- * In display.c
- */
-extern void mod_gl1_menu_cylinder_display_menu (mod_gl1_utils_context_t * utils_context, void *menu_context, const lw6gui_look_t * look, lw6gui_menu_t * menu);
+/* gl1-cylinder-display.c */
+extern void mod_gl1_menu_cylinder_display_menu (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *menu_context,
+						const lw6gui_look_t * look, lw6gui_menu_t * menu);
 
-extern void mod_gl1_menu_cylinder_display_progress (mod_gl1_utils_context_t * utils_context, void *menu_context, const lw6gui_look_t * look, float progress);
+extern void mod_gl1_menu_cylinder_display_progress (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *menu_context,
+						    const lw6gui_look_t * look, float progress);
 
-extern void mod_gl1_menu_cylinder_display_meta (mod_gl1_utils_context_t * utils_context, void *menu_context, const lw6gui_look_t * look, lw6gui_menu_t * menu);
+extern void mod_gl1_menu_cylinder_display_meta (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *menu_context,
+						const lw6gui_look_t * look, lw6gui_menu_t * menu);
 
-/*
- * In setup.c
- */
-extern void *mod_gl1_menu_cylinder_init (mod_gl1_utils_context_t * utils_context);
-extern void mod_gl1_menu_cylinder_quit (mod_gl1_utils_context_t * utils_context, void *menu_context);
+/* gl1-cylinder-setup.c */
+extern void *mod_gl1_menu_cylinder_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+extern void mod_gl1_menu_cylinder_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *menu_context);
 
-#endif
+#endif // LIQUIDWAR6GFX_MOD_GL1_MENU_CYLINDER_H

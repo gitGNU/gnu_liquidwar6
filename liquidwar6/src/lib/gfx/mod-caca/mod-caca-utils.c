@@ -145,7 +145,7 @@ mod_caca_score_text (_mod_caca_context_t * caca_context, int player_id, lw6ker_s
 }
 
 extern int
-_mod_caca_display_hud (_mod_caca_context_t * caca_context,
+_mod_caca_display_hud (sys_context, _mod_caca_context_t * caca_context,
 		       const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, const lw6ker_game_struct_t * game_struct)
 {
   int ret = 1;
@@ -161,7 +161,7 @@ _mod_caca_display_hud (_mod_caca_context_t * caca_context,
 }
 
 extern int
-_mod_caca_display_score (_mod_caca_context_t * caca_context,
+_mod_caca_display_score (sys_context, _mod_caca_context_t * caca_context,
 			 const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, const lw6ker_game_struct_t * game_struct)
 {
   int ret = 1, i;

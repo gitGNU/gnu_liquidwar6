@@ -74,7 +74,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
  * Loads constants.
  */
 int
-mod_gl1_utils_load_consts (mod_gl1_utils_context_t * context)
+mod_gl1_utils_load_consts (sys_context, mod_gl1_utils_context_t * context)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -97,7 +97,7 @@ mod_gl1_utils_load_consts (mod_gl1_utils_context_t * context)
  * Unload constants, free memory
  */
 void
-mod_gl1_utils_unload_consts (mod_gl1_utils_context_t * context)
+mod_gl1_utils_unload_consts (sys_context, mod_gl1_utils_context_t * context)
 {
   memset (&context->const_data, 0, sizeof (mod_gl1_utils_const_data_t));
 }

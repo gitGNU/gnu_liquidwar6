@@ -46,7 +46,7 @@ _scm_lw6gfx_get_backends ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  backends = lw6gfx_get_backends (lw6_global.argc, lw6_global.argv);
+  backends = lw6gfx_get_backends (sys_context, lw6_global.argc, lw6_global.argv);
   if (backends)
     {
       keys = lw6sys_assoc_keys (sys_context, backends);

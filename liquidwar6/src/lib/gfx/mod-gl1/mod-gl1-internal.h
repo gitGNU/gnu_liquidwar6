@@ -46,24 +46,21 @@ typedef struct _mod_gl1_context_s
 }
 _mod_gl1_context_t;
 
-/*
- * In repr.c
- */
-extern char *_mod_gl1_repr (_mod_gl1_context_t * gl_context, u_int32_t id);
+/* mod-gl1-backend.c */
+extern char *_mod_gl1_repr (lw6sys_context_t * sys_context, _mod_gl1_context_t * gl_context, u_int32_t id);
 
-/*
- * In setup.c
- */
-extern _mod_gl1_context_t *_mod_gl1_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback);
-extern void _mod_gl1_quit (_mod_gl1_context_t * gl_context);
-extern int _mod_gl1_set_backends (_mod_gl1_context_t * gl_context, const lw6gui_look_t * look);
-extern void _mod_gl1_clear_background_backend (_mod_gl1_context_t * gl_context);
-extern void _mod_gl1_clear_hud_backend (_mod_gl1_context_t * gl_context);
-extern void _mod_gl1_clear_menu_backend (_mod_gl1_context_t * gl_context);
-extern void _mod_gl1_clear_view_backend (_mod_gl1_context_t * gl_context);
-extern int _mod_gl1_set_background_backend (_mod_gl1_context_t * gl_context, char *background_style);
-extern int _mod_gl1_set_hud_backend (_mod_gl1_context_t * gl_context, char *hud_style);
-extern int _mod_gl1_set_menu_backend (_mod_gl1_context_t * gl_context, char *menu_style);
-extern int _mod_gl1_set_view_backend (_mod_gl1_context_t * gl_context, char *view_style);
+/* mod-gl1-setup.c */
+extern _mod_gl1_context_t *_mod_gl1_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
+					  lw6gui_resize_callback_func_t resize_callback);
+extern void _mod_gl1_quit (lw6sys_context_t * sys_context, _mod_gl1_context_t * gl_context);
+extern int _mod_gl1_set_backends (lw6sys_context_t * sys_context, _mod_gl1_context_t * gl_context, const lw6gui_look_t * look);
+extern void _mod_gl1_clear_background_backend (lw6sys_context_t * sys_context, _mod_gl1_context_t * gl_context);
+extern void _mod_gl1_clear_hud_backend (lw6sys_context_t * sys_context, _mod_gl1_context_t * gl_context);
+extern void _mod_gl1_clear_menu_backend (lw6sys_context_t * sys_context, _mod_gl1_context_t * gl_context);
+extern void _mod_gl1_clear_view_backend (lw6sys_context_t * sys_context, _mod_gl1_context_t * gl_context);
+extern int _mod_gl1_set_background_backend (lw6sys_context_t * sys_context, _mod_gl1_context_t * gl_context, char *background_style);
+extern int _mod_gl1_set_hud_backend (lw6sys_context_t * sys_context, _mod_gl1_context_t * gl_context, char *hud_style);
+extern int _mod_gl1_set_menu_backend (lw6sys_context_t * sys_context, _mod_gl1_context_t * gl_context, char *menu_style);
+extern int _mod_gl1_set_view_backend (lw6sys_context_t * sys_context, _mod_gl1_context_t * gl_context, char *view_style);
 
 #endif

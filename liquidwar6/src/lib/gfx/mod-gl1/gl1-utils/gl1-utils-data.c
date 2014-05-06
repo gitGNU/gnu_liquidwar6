@@ -36,7 +36,7 @@
  * Dummy wrapper to handle cast & errors.
  */
 SDL_Surface *
-mod_gl1_utils_load_image (mod_gl1_utils_context_t * utils_context, const char *filename)
+mod_gl1_utils_load_image (sys_context, mod_gl1_utils_context_t * utils_context, const char *filename)
 {
   SDL_Surface *ret = NULL;
   char *image_file = NULL;
@@ -73,9 +73,9 @@ mod_gl1_utils_load_image (mod_gl1_utils_context_t * utils_context, const char *f
  * Dummy wrapper to handle cast & errors.
  */
 void
-mod_gl1_utils_unload_image (mod_gl1_utils_context_t * utils_context, SDL_Surface * image)
+mod_gl1_utils_unload_image (sys_context, mod_gl1_utils_context_t * utils_context, SDL_Surface * image)
 {
-  mod_gl1_utils_delete_surface (utils_context, image);
+  mod_gl1_utils_delete_surface (sys_context, utils_context, image);
 }
 
 /*
@@ -119,7 +119,7 @@ unload_font (TTF_Font * font)
  * Loads fonts
  */
 int
-mod_gl1_utils_load_fonts (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_load_fonts (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 0;
 
@@ -154,7 +154,7 @@ mod_gl1_utils_load_fonts (mod_gl1_utils_context_t * utils_context)
  * Unload fonts, free memory
  */
 void
-mod_gl1_utils_unload_fonts (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_unload_fonts (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   unload_font (utils_context->font_data.system);
   unload_font (utils_context->font_data.cursor);
@@ -168,12 +168,12 @@ mod_gl1_utils_unload_fonts (mod_gl1_utils_context_t * utils_context)
  * Putting all the load/unload functions together
  */
 int
-mod_gl1_utils_load_data (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_load_data (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 0;
   lw6gui_look_t *look = NULL;
 
-  ret = ((utils_context->texture_data.to_delete = lw6sys_list_new (sys_context, NULL)) != NULL) && mod_gl1_utils_load_fonts (utils_context);
+  ret = ((utils_context->texture_data.to_delete = lw6sys_list_new (sys_context, NULL)) != NULL) && mod_gl1_utils_load_fonts (sys_context, utils_context);
 
   look = lw6gui_look_new (sys_context, NULL);
   if (look)
@@ -188,17 +188,17 @@ mod_gl1_utils_load_data (mod_gl1_utils_context_t * utils_context)
 int
 mod_gl1_load_data (void *context)
 {
-  return mod_gl1_utils_load_data ((mod_gl1_utils_context_t *) context);
+  return mod_gl1_utils_load_data (sys_context, (mod_gl1_utils_context_t *) context);
 }
 
 void
-mod_gl1_utils_unload_data (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_unload_data (sys_context, mod_gl1_utils_context_t * utils_context)
 {
-  mod_gl1_utils_clear_menucache (utils_context);
-  mod_gl1_utils_unload_fonts (utils_context);
-  mod_gl1_utils_texture_1x1_clear (utils_context);
+  mod_gl1_utils_clear_menucache (sys_context, utils_context);
+  mod_gl1_utils_unload_fonts (sys_context, utils_context);
+  mod_gl1_utils_texture_1x1_clear (sys_context, utils_context);
 
-  mod_gl1_utils_delete_scheduled_textures (utils_context);
+  mod_gl1_utils_delete_scheduled_textures (sys_context, utils_context);
   if (utils_context->texture_data.to_delete)
     {
       LW6SYS_FREE (sys_context, utils_context->texture_data.to_delete);
@@ -209,5 +209,5 @@ mod_gl1_utils_unload_data (mod_gl1_utils_context_t * utils_context)
 void
 mod_gl1_unload_data (void *context)
 {
-  mod_gl1_utils_unload_data ((mod_gl1_utils_context_t *) context);
+  mod_gl1_utils_unload_data (sys_context, (mod_gl1_utils_context_t *) context);
 }

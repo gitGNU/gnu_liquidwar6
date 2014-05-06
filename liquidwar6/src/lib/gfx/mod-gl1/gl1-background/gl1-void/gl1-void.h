@@ -27,17 +27,15 @@
 #include "../../gl1-utils/gl1-utils.h"
 #include "../gl1-background.h"
 
-extern mod_gl1_background_backend_t *mod_gl1_background_void_create_backend (mod_gl1_utils_context_t * utils_context);
+/* gl1-void-backend.c */
+extern mod_gl1_background_backend_t *mod_gl1_background_void_create_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
 
-/*
- * In display.c
- */
-extern void mod_gl1_background_void_display_background (mod_gl1_utils_context_t * utils_context, void *background_context, const lw6gui_look_t * look);
+/* gl1-void-display.c */
+extern void mod_gl1_background_void_display_background (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *background_context,
+							const lw6gui_look_t * look);
 
-/*
- * In setup.c
- */
-extern void *mod_gl1_background_void_init (mod_gl1_utils_context_t * utils_context);
-extern void mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context, void *background_context);
+/* gl1-void-setup.c */
+extern void *mod_gl1_background_void_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+extern void mod_gl1_background_void_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *background_context);
 
 #endif

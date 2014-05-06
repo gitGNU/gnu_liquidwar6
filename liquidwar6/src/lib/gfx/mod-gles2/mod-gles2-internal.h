@@ -90,35 +90,37 @@ typedef struct _mod_gles2_context_s
 _mod_gles2_context_t;
 
 /* mod-gles2-const.c */
-extern int _mod_gles2_load_consts (_mod_gles2_context_t * context);
-extern void _mod_gles2_unload_consts (_mod_gles2_context_t * context);
+extern int _mod_gles2_load_consts (lw6sys_context_t * sys_context, _mod_gles2_context_t * context);
+extern void _mod_gles2_unload_consts (lw6sys_context_t * sys_context, _mod_gles2_context_t * context);
 
 /* mod-gles2-mode.c */
-extern int _mod_gles2_set_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode);
-extern int _mod_gles2_resize_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode);
-extern int _mod_gles2_get_video_mode (_mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode);
-extern int _mod_gles2_sync_viewport (_mod_gles2_context_t * gles2_context);
-extern int _mod_gles2_sync_mode (_mod_gles2_context_t * gles2_context, int force);
-extern int _mod_gles2_set_resize_callback (_mod_gles2_context_t * gles2_context, lw6gui_resize_callback_func_t resize_callback);
-extern void _mod_gles2_call_resize_callback (_mod_gles2_context_t * gles2_context);
+extern int _mod_gles2_set_video_mode (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode);
+extern int _mod_gles2_resize_video_mode (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode);
+extern int _mod_gles2_get_video_mode (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode);
+extern int _mod_gles2_sync_viewport (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context);
+extern int _mod_gles2_sync_mode (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context, int force);
+extern int _mod_gles2_set_resize_callback (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context,
+					   lw6gui_resize_callback_func_t resize_callback);
+extern void _mod_gles2_call_resize_callback (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context);
 
 /* mod-gles2-path.c */
-extern int _mod_gles2_path_init (_mod_gles2_path_t * path, int argc, const char *argv[]);
-extern void _mod_gles2_path_quit (_mod_gles2_path_t * path);
+extern int _mod_gles2_path_init (lw6sys_context_t * sys_context, _mod_gles2_path_t * path, int argc, const char *argv[]);
+extern void _mod_gles2_path_quit (lw6sys_context_t * sys_context, _mod_gles2_path_t * path);
 
 /* mod-gles2-repr.c */
-extern char *_mod_gles2_repr (_mod_gles2_context_t * gles2_context, u_int32_t id);
+extern char *_mod_gles2_repr (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context, u_int32_t id);
 
 /* mod-gles2-resolution.c */
-extern int _mod_gles2_get_fullscreen_modes (_mod_gles2_context_t * gles2_context, lw6gui_fullscreen_modes_t * modes);
-extern void _mod_gles2_find_closest_resolution (_mod_gles2_context_t *
+extern int _mod_gles2_get_fullscreen_modes (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context, lw6gui_fullscreen_modes_t * modes);
+extern void _mod_gles2_find_closest_resolution (lw6sys_context_t * sys_context, _mod_gles2_context_t *
 						gles2_context, int *closest_width, int *closest_height, int wished_width, int wished_height);
 
 /* mod-gles2-setup.c */
-extern _mod_gles2_context_t *_mod_gles2_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback);
-extern void _mod_gles2_quit (_mod_gles2_context_t * gles2_context);
+extern _mod_gles2_context_t *_mod_gles2_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode,
+					      lw6gui_resize_callback_func_t resize_callback);
+extern void _mod_gles2_quit (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context);
 
 /* mod-gles2-viewport.c */
-extern void _mod_gles2_viewport_drawable_max (_mod_gles2_context_t * gles2_context);
+extern void _mod_gles2_viewport_drawable_max (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context);
 
 #endif // LIQUIDWAR6GFX_MOD_GLES2_INTERNAL_H

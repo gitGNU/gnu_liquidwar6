@@ -99,7 +99,7 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 		}
 	      else
 		{
-		  mod_gl1_utils_putpixel (surface, x - x0, y - y0, color);
+		  mod_gl1_utils_putpixel (sys_context, surface, x - x0, y - y0, color);
 		}
 	    }
 	}
@@ -120,7 +120,7 @@ _update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_utils_update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
+mod_gl1_utils_update_game_bitmap_raw (sys_context, mod_gl1_utils_context_t * utils_context,
 				      mod_gl1_utils_bitmap_t * bitmap,
 				      const lw6ker_game_state_t * game_state, const lw6map_color_couple_t * map_color, int invert_y)
 {
@@ -137,7 +137,7 @@ mod_gl1_utils_update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
 	   * be created each time: it's always the same size and represents
 	   * pretty much the same thing/layer -> where fighters are!
 	   */
-	  mod_gl1_utils_texture_update (utils_context, bitmap->texture, bitmap->surface);
+	  mod_gl1_utils_texture_update (sys_context, utils_context, bitmap->texture, bitmap->surface);
 	}
     }
 }
@@ -208,7 +208,7 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 		      color = mod_gl1_utils_get_shaded_color_for_fighter (utils_context, team_color, fighter->health);
 		      if (hidden)
 			{
-			  mod_gl1_utils_force_color32_alpha (&color, hidden_layer_alpha);
+			  mod_gl1_utils_force_color32_alpha (sys_context, &color, hidden_layer_alpha);
 			}
 		    }
 		  if (bytes_per_pixel == 4)
@@ -217,7 +217,7 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 		    }
 		  else
 		    {
-		      mod_gl1_utils_putpixel (surface, x - x0, y - y0, color);
+		      mod_gl1_utils_putpixel (sys_context, surface, x - x0, y - y0, color);
 		    }
 		}
 	      else
@@ -228,7 +228,7 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 		    }
 		  else
 		    {
-		      mod_gl1_utils_putpixel (surface, x - x0, y - y0, 0);
+		      mod_gl1_utils_putpixel (sys_context, surface, x - x0, y - y0, 0);
 		    }
 		}
 	    }
@@ -249,7 +249,7 @@ _update_game_bitmap (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_utils_update_game_bitmap (mod_gl1_utils_context_t * utils_context,
+mod_gl1_utils_update_game_bitmap (sys_context, mod_gl1_utils_context_t * utils_context,
 				  mod_gl1_utils_bitmap_t * bitmap, const lw6ker_game_state_t * game_state, const lw6gui_look_t * look)
 {
   if (bitmap->surface)
@@ -265,13 +265,13 @@ mod_gl1_utils_update_game_bitmap (mod_gl1_utils_context_t * utils_context,
 	   * be created each time: it's always the same size and represents
 	   * pretty much the same thing/layer -> where fighters are!
 	   */
-	  mod_gl1_utils_texture_update (utils_context, bitmap->texture, bitmap->surface);
+	  mod_gl1_utils_texture_update (sys_context, utils_context, bitmap->texture, bitmap->surface);
 	}
     }
 }
 
 void
-mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
+mod_gl1_utils_update_game_bitmap_array (sys_context, mod_gl1_utils_context_t *
 					utils_context,
 					mod_gl1_utils_bitmap_array_t * bitmap_array, const lw6ker_game_state_t * game_state, const lw6gui_look_t * look)
 {
@@ -314,7 +314,7 @@ mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
 
 	  if (lw6gui_rect_array_get_tile_by_i (sys_context, &(bitmap_array->layout), &rect, i))
 	    {
-	      bitmap = mod_gl1_utils_bitmap_array_get (bitmap_array, i);
+	      bitmap = mod_gl1_utils_bitmap_array_get (sys_context, bitmap_array, i);
 	      if (bitmap)
 		{
 		  _update_game_bitmap (utils_context, bitmap, game_state, look, rect.x1, rect.y1, rect.w, rect.h);
@@ -325,7 +325,7 @@ mod_gl1_utils_update_game_bitmap_array (mod_gl1_utils_context_t *
       /*
        * Now render from surfaces to textures.
        */
-      mod_gl1_utils_bitmap_array_update (utils_context, bitmap_array, wrap, filter);
+      mod_gl1_utils_bitmap_array_update (sys_context, utils_context, bitmap_array, wrap, filter);
     }
   else
     {

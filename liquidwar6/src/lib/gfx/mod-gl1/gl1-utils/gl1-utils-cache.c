@@ -36,8 +36,8 @@ mod_gl1_utils_cache_update (mod_gl1_utils_context_t * utils_context, const lw6gu
   if (!lw6map_color_set_is_same (&(utils_context->cache.color_set), &(look->style.color_set)))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("updating cache"));
-      ret = ret && mod_gl1_utils_texture_1x1_update (utils_context, look);
-      mod_gl1_utils_clear_menucache (utils_context);
+      ret = ret && mod_gl1_utils_texture_1x1_update (sys_context, utils_context, look);
+      mod_gl1_utils_clear_menucache (sys_context, utils_context);
 
       utils_context->cache.color_set = look->style.color_set;
     }

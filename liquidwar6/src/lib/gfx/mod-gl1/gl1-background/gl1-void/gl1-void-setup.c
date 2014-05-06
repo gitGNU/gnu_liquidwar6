@@ -34,7 +34,7 @@
  * Low-level SDL initialisation.
  */
 _mod_gl1_background_void_context_t *
-_mod_gl1_background_void_init (mod_gl1_utils_context_t * utils_context)
+_mod_gl1_background_void_init (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   _mod_gl1_background_void_context_t *void_context = NULL;
 
@@ -56,16 +56,16 @@ _mod_gl1_background_void_init (mod_gl1_utils_context_t * utils_context)
 }
 
 void *
-mod_gl1_background_void_init (mod_gl1_utils_context_t * utils_context)
+mod_gl1_background_void_init (sys_context, mod_gl1_utils_context_t * utils_context)
 {
-  return (void *) _mod_gl1_background_void_init (utils_context);
+  return (void *) _mod_gl1_background_void_init (sys_context, utils_context);
 }
 
 /*
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_void_context_t * void_context)
+_mod_gl1_background_void_quit (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_background_void_context_t * void_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit background/void"));
 
@@ -73,7 +73,7 @@ _mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context, _mod_gl1
 }
 
 void
-mod_gl1_background_void_quit (mod_gl1_utils_context_t * utils_context, void *void_context)
+mod_gl1_background_void_quit (sys_context, mod_gl1_utils_context_t * utils_context, void *void_context)
 {
-  _mod_gl1_background_void_quit (utils_context, (_mod_gl1_background_void_context_t *) void_context);
+  _mod_gl1_background_void_quit (sys_context, utils_context, (_mod_gl1_background_void_context_t *) void_context);
 }

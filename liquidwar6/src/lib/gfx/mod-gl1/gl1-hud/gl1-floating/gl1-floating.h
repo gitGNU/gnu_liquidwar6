@@ -27,11 +27,10 @@
 #include "../../gl1-utils/gl1-utils.h"
 #include "../gl1-hud.h"
 
+/* gl1-floating-backend.c */
 extern mod_gl1_hud_backend_t *mod_gl1_hud_floating_create_backend (mod_gl1_utils_context_t * utils_context);
 
-/*
- * In display.c
- */
+/* gl1-floating-display.c */
 extern void mod_gl1_hud_floating_display_hud (mod_gl1_utils_context_t *
 					      utils_context,
 					      void *hud_context,
@@ -41,10 +40,8 @@ extern void mod_gl1_hud_floating_display_score (mod_gl1_utils_context_t *
 						void *hud_context,
 						const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
 
-/*
- * In setup.c
- */
+/* gl1-floating-setup.c */
 extern void *mod_gl1_hud_floating_init (mod_gl1_utils_context_t * utils_context);
 extern void mod_gl1_hud_floating_quit (mod_gl1_utils_context_t * utils_context, void *hud_context);
 
-#endif
+#endif // LIQUIDWAR6GFX_MOD_GL1_HUD_FLOATING_H

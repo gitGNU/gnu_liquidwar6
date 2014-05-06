@@ -30,7 +30,7 @@
 #include "mod-soft-internal.h"
 
 char *
-_mod_soft_repr (_mod_soft_context_t * soft_context, u_int32_t id)
+_mod_soft_repr (sys_context, _mod_soft_context_t * soft_context, u_int32_t id)
 {
   char *ret = NULL;
   SDL_version version;

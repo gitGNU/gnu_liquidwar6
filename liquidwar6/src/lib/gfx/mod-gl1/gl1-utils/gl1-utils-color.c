@@ -28,7 +28,7 @@
 #include "gl1-utils.h"
 
 SDL_Color
-mod_gl1_utils_color_8_to_sdl (lw6sys_color_8_t color_8)
+mod_gl1_utils_color_8_to_sdl (sys_context, lw6sys_color_8_t color_8)
 {
   SDL_Color ret;
 
@@ -41,13 +41,13 @@ mod_gl1_utils_color_8_to_sdl (lw6sys_color_8_t color_8)
 }
 
 SDL_Color
-mod_gl1_utils_color_f_to_sdl (const lw6sys_color_f_t * color_f)
+mod_gl1_utils_color_f_to_sdl (sys_context, const lw6sys_color_f_t * color_f)
 {
   lw6sys_color_8_t color_8;
   SDL_Color ret;
 
   color_8 = lw6sys_color_f_to_8 (sys_context, color_f);
-  ret = mod_gl1_utils_color_8_to_sdl (color_8);
+  ret = mod_gl1_utils_color_8_to_sdl (sys_context, color_8);
 
   return ret;
 }
@@ -66,7 +66,7 @@ _prepare_shaded_color_for_fighter (lw6sys_color_8_t dead_color, lw6sys_color_8_t
 }
 
 void
-mod_gl1_utils_update_team_color_map (mod_gl1_utils_team_color_map_t * team_color_map, const lw6map_style_t * map_style)
+mod_gl1_utils_update_team_color_map (sys_context, mod_gl1_utils_team_color_map_t * team_color_map, const lw6map_style_t * map_style)
 {
   int i, j;
   Uint32 test;
@@ -90,7 +90,8 @@ mod_gl1_utils_update_team_color_map (mod_gl1_utils_team_color_map_t * team_color
 }
 
 int
-mod_gl1_utils_team_color_map_is_same (const mod_gl1_utils_team_color_map_t * team_color_map_a, const mod_gl1_utils_team_color_map_t * team_color_map_b)
+mod_gl1_utils_team_color_map_is_same (sys_context, const mod_gl1_utils_team_color_map_t * team_color_map_a,
+				      const mod_gl1_utils_team_color_map_t * team_color_map_b)
 {
   int ret = 0;
 
@@ -100,7 +101,7 @@ mod_gl1_utils_team_color_map_is_same (const mod_gl1_utils_team_color_map_t * tea
 }
 
 void
-mod_gl1_utils_force_color32_alpha (Uint32 * color, float alpha)
+mod_gl1_utils_force_color32_alpha (sys_context, Uint32 * color, float alpha)
 {
   unsigned char *ptr = (unsigned char *) color;
 
@@ -108,7 +109,7 @@ mod_gl1_utils_force_color32_alpha (Uint32 * color, float alpha)
 }
 
 Uint32
-mod_gl1_utils_get_shaded_color_for_fighter_f (mod_gl1_utils_context_t * utils_context, int team_id, float health)
+mod_gl1_utils_get_shaded_color_for_fighter_f (sys_context, mod_gl1_utils_context_t * utils_context, int team_id, float health)
 {
   Uint32 ret;
   float f;

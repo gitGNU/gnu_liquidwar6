@@ -30,7 +30,7 @@
  * Initialize display.
  */
 int
-_mod_soft_set_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode)
+_mod_soft_set_video_mode (sys_context, _mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode)
 {
   /* Information about the current video settings. */
   const SDL_VideoInfo *info = NULL;
@@ -79,7 +79,7 @@ _mod_soft_set_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_
 
       if (width <= 0 || height <= 0)
 	{
-	  if (_mod_soft_get_fullscreen_modes (soft_context, &fullscreen_modes))
+	  if (_mod_soft_get_fullscreen_modes (sys_context, soft_context, &fullscreen_modes))
 	    {
 	      width = fullscreen_modes.standard.width;
 	      height = fullscreen_modes.standard.height;
@@ -89,7 +89,7 @@ _mod_soft_set_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_
 
       if (fullscreen)
 	{
-	  if (_mod_soft_get_fullscreen_modes (soft_context, &fullscreen_modes))
+	  if (_mod_soft_get_fullscreen_modes (sys_context, soft_context, &fullscreen_modes))
 	    {
 	      ratio_mode = fullscreen_modes.high;
 	      target_mode.width = width;
@@ -98,7 +98,7 @@ _mod_soft_set_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_
 		{
 		  width_test = target_mode.width;
 		  height_test = target_mode.height;
-		  _mod_soft_find_closest_resolution (soft_context, &width_test, &height_test, width_test, height_test);
+		  _mod_soft_find_closest_resolution (sys_context, soft_context, &width_test, &height_test, width_test, height_test);
 		  if (width_test != width || height_test != height)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -155,7 +155,7 @@ _mod_soft_set_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_
 	  soft_context->sdl_context.video_mode.height = height;
 	  soft_context->sdl_context.video_mode.fullscreen = fullscreen;
 	  soft_context->caps.bpp = bpp;
-	  _mod_soft_sync_viewport (soft_context);
+	  _mod_soft_sync_viewport (sys_context, soft_context);
 	}
 
       lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -175,7 +175,7 @@ _mod_soft_set_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_
        */
       //_mod_soft_set_render_mode_2d (soft_context);
 
-      _mod_soft_call_resize_callback (soft_context);
+      _mod_soft_call_resize_callback (sys_context, soft_context);
       //_mod_soft_timer_set_bitmap_refresh (soft_context);
       //_mod_soft_smoothers_reset_drawable (soft_context);
 
@@ -190,7 +190,7 @@ _mod_soft_set_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_
  * Called whenever window resize is asked for.
  */
 int
-_mod_soft_resize_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode)
+_mod_soft_resize_video_mode (sys_context, _mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -204,9 +204,9 @@ _mod_soft_resize_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mo
       if (SDL_SetVideoMode (video_mode->width, video_mode->height, soft_context->caps.bpp, flags) != 0)
 	{
 	  soft_context->sdl_context.video_mode = *video_mode;
-	  _mod_soft_sync_viewport (soft_context);
+	  _mod_soft_sync_viewport (sys_context, soft_context);
 
-	  _mod_soft_call_resize_callback (soft_context);
+	  _mod_soft_call_resize_callback (sys_context, soft_context);
 
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("screen set to %dx%d fullscreen=%d"), video_mode->width, video_mode->height, video_mode->fullscreen);
 
@@ -234,7 +234,7 @@ _mod_soft_resize_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mo
 }
 
 int
-_mod_soft_get_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode)
+_mod_soft_get_video_mode (sys_context, _mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -249,11 +249,11 @@ _mod_soft_get_video_mode (_mod_soft_context_t * soft_context, lw6gui_video_mode_
  * Update viewport
  */
 int
-_mod_soft_sync_viewport (_mod_soft_context_t * soft_context)
+_mod_soft_sync_viewport (sys_context, _mod_soft_context_t * soft_context)
 {
   int ret = 1;
 
-  _mod_soft_viewport_drawable_max (soft_context);
+  _mod_soft_viewport_drawable_max (sys_context, soft_context);
 
   return ret;
 }
@@ -262,20 +262,20 @@ _mod_soft_sync_viewport (_mod_soft_context_t * soft_context)
  * Force mode.
  */
 int
-_mod_soft_sync_mode (_mod_soft_context_t * soft_context, int force)
+_mod_soft_sync_mode (sys_context, _mod_soft_context_t * soft_context, int force)
 {
   int ret = 0;
   lw6gui_video_mode_t video_mode;
   int flags = 0;
 
-  _mod_soft_get_video_mode (soft_context, &video_mode);
+  _mod_soft_get_video_mode (sys_context, soft_context, &video_mode);
   flags = SDL_OPENGL | (video_mode.fullscreen ? SDL_FULLSCREEN : SDL_RESIZABLE);
 
   if (force)
     {
       if (SDL_SetVideoMode (video_mode.width, video_mode.height, soft_context->caps.bpp, flags) == 0)
 	{
-	  _mod_soft_sync_viewport (soft_context);
+	  _mod_soft_sync_viewport (sys_context, soft_context);
 	  //_mod_soft_timer_set_bitmap_refresh (soft_context);
 	  ret = 1;
 	}
@@ -287,7 +287,7 @@ _mod_soft_sync_mode (_mod_soft_context_t * soft_context, int force)
     }
   else
     {
-      _mod_soft_sync_viewport (soft_context);
+      _mod_soft_sync_viewport (sys_context, soft_context);
       ret = 1;
     }
 
@@ -295,7 +295,7 @@ _mod_soft_sync_mode (_mod_soft_context_t * soft_context, int force)
 }
 
 int
-_mod_soft_set_resize_callback (_mod_soft_context_t * soft_context, lw6gui_resize_callback_func_t resize_callback)
+_mod_soft_set_resize_callback (sys_context, _mod_soft_context_t * soft_context, lw6gui_resize_callback_func_t resize_callback)
 {
   int ret = 0;
 
@@ -306,7 +306,7 @@ _mod_soft_set_resize_callback (_mod_soft_context_t * soft_context, lw6gui_resize
 }
 
 void
-_mod_soft_call_resize_callback (_mod_soft_context_t * soft_context)
+_mod_soft_call_resize_callback (sys_context, _mod_soft_context_t * soft_context)
 {
   if (soft_context->sdl_context.resize_callback)
     {

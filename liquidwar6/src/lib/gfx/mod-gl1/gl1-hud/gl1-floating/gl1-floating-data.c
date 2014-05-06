@@ -127,7 +127,7 @@ load_images (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_cont
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading images"));
 
-  ret = ((floating_context->gauges.gauge_frame = mod_gl1_utils_bitmap_load (utils_context, IMAGE_DIR IMAGE_GAUGE_FRAME)) != NULL);
+  ret = ((floating_context->gauges.gauge_frame = mod_gl1_utils_bitmap_load (sys_context, utils_context, IMAGE_DIR IMAGE_GAUGE_FRAME)) != NULL);
   return ret;
 }
 
@@ -139,7 +139,7 @@ unload_images (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_co
 {
   if (floating_context->gauges.gauge_frame)
     {
-      mod_gl1_utils_bitmap_free (utils_context, floating_context->gauges.gauge_frame);
+      mod_gl1_utils_bitmap_free (sys_context, utils_context, floating_context->gauges.gauge_frame);
       floating_context->gauges.gauge_frame = NULL;
     }
 }
@@ -148,7 +148,7 @@ unload_images (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_co
  * Putting all the load/unload functions together
  */
 int
-_mod_gl1_hud_floating_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_load_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 1;
 
@@ -159,7 +159,7 @@ _mod_gl1_hud_floating_load_data (mod_gl1_utils_context_t * utils_context, _mod_g
 }
 
 void
-_mod_gl1_hud_floating_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_unload_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   unload_consts (utils_context, floating_context);
   unload_images (utils_context, floating_context);

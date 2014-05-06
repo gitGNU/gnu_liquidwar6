@@ -32,7 +32,7 @@
 #include "gl1-tactical/gl1-tactical.h"
 
 mod_gl1_hud_backend_t *
-mod_gl1_hud_create_backend (mod_gl1_utils_context_t * utils_context, const char *name)
+mod_gl1_hud_create_backend (sys_context, mod_gl1_utils_context_t * utils_context, const char *name)
 {
   mod_gl1_hud_backend_t *(*init_func) (mod_gl1_utils_context_t * utils_context) = NULL;
   mod_gl1_hud_backend_t *backend = NULL;
@@ -63,7 +63,7 @@ mod_gl1_hud_create_backend (mod_gl1_utils_context_t * utils_context, const char 
 }
 
 void
-mod_gl1_hud_destroy_backend (mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
+mod_gl1_hud_destroy_backend (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
 {
   if (backend)
     {

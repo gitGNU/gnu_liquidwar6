@@ -27,7 +27,7 @@
 #include "mod-gles2-internal.h"
 
 int
-_mod_gles2_get_fullscreen_modes (_mod_gles2_context_t * gles2_context, lw6gui_fullscreen_modes_t * modes)
+_mod_gles2_get_fullscreen_modes (sys_context, _mod_gles2_context_t * gles2_context, lw6gui_fullscreen_modes_t * modes)
 {
   SDL_Rect **sdl_modes = NULL;
   int i = 0;
@@ -69,13 +69,15 @@ _mod_gles2_get_fullscreen_modes (_mod_gles2_context_t * gles2_context, lw6gui_fu
 
   lw6gui_video_mode_sync_ratio (sys_context, &(modes->standard), &(modes->high));
 
-  _mod_gles2_find_closest_resolution (gles2_context, &(modes->standard.width), &(modes->standard.height), modes->standard.width, modes->standard.height);
+  _mod_gles2_find_closest_resolution (sys_context, gles2_context, &(modes->standard.width), &(modes->standard.height), modes->standard.width,
+				      modes->standard.height);
 
   return ret;
 }
 
 void
-_mod_gles2_find_closest_resolution (_mod_gles2_context_t * gles2_context, int *closest_width, int *closest_height, int wished_width, int wished_height)
+_mod_gles2_find_closest_resolution (sys_context, _mod_gles2_context_t * gles2_context, int *closest_width, int *closest_height, int wished_width,
+				    int wished_height)
 {
   SDL_Rect **sdl_modes = NULL;
   int i = 0;

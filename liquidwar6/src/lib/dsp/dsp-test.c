@@ -595,7 +595,7 @@ lw6dsp_test_register (int mode)
       lw6pil_test_register (sys_context, mode);
       lw6gui_test_register (sys_context, mode);
       lw6vox_test_register (sys_context, mode);
-      lw6gfx_test_register (mode);
+      lw6gfx_test_register (sys_context, mode);
       /*
        * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
        * this function is available only in non-allinone mode.
@@ -605,7 +605,7 @@ lw6dsp_test_register (int mode)
 
   if (mode & LW6SYS_TEST_MODE_FULL_TEST)
     {
-      gfx_backends = lw6gfx_get_backends (argc, argv);
+      gfx_backends = lw6gfx_get_backends (sys_context, argc, argv);
       if (gfx_backends)
 	{
 	  if (lw6sys_assoc_has_key (gfx_backends, "gl1"))

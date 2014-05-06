@@ -25,8 +25,8 @@
 
 #include "../gfx.h"
 
-extern lw6sys_module_pedigree_t *mod_gl1_get_pedigree ();
-extern lw6gfx_backend_t *mod_gl1_create_backend ();
+extern lw6sys_module_pedigree_t *mod_gl1_get_pedigree (lw6sys_context_t * sys_context);
+extern lw6gfx_backend_t *mod_gl1_create_backend (lw6sys_context_t * sys_context);
 extern void mod_gl1_is_GPL_compatible ();
 
-#endif
+#endif // LIQUIDWAR6GFX_MOD_GL1_H

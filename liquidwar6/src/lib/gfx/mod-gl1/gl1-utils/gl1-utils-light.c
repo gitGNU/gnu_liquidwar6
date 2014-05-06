@@ -31,7 +31,7 @@
  * Setup main light (top left).
  */
 void
-mod_gl1_utils_main_light (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_main_light (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   GLfloat mainlight_specular[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
   GLfloat mainlight_position[4] = { 1.0f, 1.0f, 1.0f, 0.0f };

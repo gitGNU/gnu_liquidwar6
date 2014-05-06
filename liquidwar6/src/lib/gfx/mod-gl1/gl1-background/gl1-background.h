@@ -35,24 +35,26 @@ typedef struct mod_gl1_background_backend_s
   void *background_context;
   char *backend_name;
 
-  void *(*init) (mod_gl1_utils_context_t * utils_context);
-  void (*quit) (mod_gl1_utils_context_t * utils_context, void *background_context);
-  void (*display_background) (mod_gl1_utils_context_t * utils_context, void *background_context, const lw6gui_look_t * look);
+  void *(*init) (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+  void (*quit) (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *background_context);
+  void (*display_background) (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *background_context, const lw6gui_look_t * look);
 }
 mod_gl1_background_backend_t;
 
 /*
  * In api.c
  */
-extern void mod_gl1_background_display_background (mod_gl1_utils_context_t *
+extern void mod_gl1_background_display_background (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						   utils_context, mod_gl1_background_backend_t * backend, const lw6gui_look_t * look);
-extern int mod_gl1_background_init (mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend);
-extern void mod_gl1_background_quit (mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend);
+extern int mod_gl1_background_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend);
+extern void mod_gl1_background_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend);
 
 /*
  * In backend.c
  */
-extern mod_gl1_background_backend_t *mod_gl1_background_create_backend (mod_gl1_utils_context_t * utils_context, const char *name);
-extern void mod_gl1_background_destroy_backend (mod_gl1_utils_context_t * utils_context, mod_gl1_background_backend_t * backend);
+extern mod_gl1_background_backend_t *mod_gl1_background_create_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+									const char *name);
+extern void mod_gl1_background_destroy_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+						mod_gl1_background_backend_t * backend);
 
 #endif

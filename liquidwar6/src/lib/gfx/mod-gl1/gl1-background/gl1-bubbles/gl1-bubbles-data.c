@@ -97,13 +97,13 @@ _load_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubb
 
   ret =
     ((bubbles_context->bitmap_data.background =
-      mod_gl1_utils_bitmap_load (utils_context,
+      mod_gl1_utils_bitmap_load (sys_context, utils_context,
 				 IMAGE_DIR IMAGE_BACKGROUND)) != NULL)
-    && ((bubbles_context->bitmap_data.bubble = mod_gl1_utils_bitmap_load (utils_context, IMAGE_DIR IMAGE_BUBBLE)) != NULL);
+    && ((bubbles_context->bitmap_data.bubble = mod_gl1_utils_bitmap_load (sys_context, utils_context, IMAGE_DIR IMAGE_BUBBLE)) != NULL);
 
   if (bubbles_context->bitmap_data.background)
     {
-      mod_gl1_utils_bitmap_set_wrap (utils_context, bubbles_context->bitmap_data.background, GL_REPEAT);
+      mod_gl1_utils_bitmap_set_wrap (sys_context, utils_context, bubbles_context->bitmap_data.background, GL_REPEAT);
     }
 
   if (!ret)
@@ -120,8 +120,8 @@ _load_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubb
 static void
 _unload_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
 {
-  mod_gl1_utils_bitmap_free (utils_context, bubbles_context->bitmap_data.background);
-  mod_gl1_utils_bitmap_free (utils_context, bubbles_context->bitmap_data.bubble);
+  mod_gl1_utils_bitmap_free (sys_context, utils_context, bubbles_context->bitmap_data.background);
+  mod_gl1_utils_bitmap_free (sys_context, utils_context, bubbles_context->bitmap_data.bubble);
 
   memset (&bubbles_context->bitmap_data, 0, sizeof (_mod_gl1_background_bubbles_bitmap_data_t));
 }
@@ -130,13 +130,13 @@ _unload_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bu
  * Putting all the load/unload functions together
  */
 int
-_mod_gl1_background_bubbles_load_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
+_mod_gl1_background_bubbles_load_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
 {
   return _load_consts (utils_context, bubbles_context) && _load_bitmaps (utils_context, bubbles_context);
 }
 
 void
-_mod_gl1_background_bubbles_unload_data (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
+_mod_gl1_background_bubbles_unload_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context)
 {
   _unload_bitmaps (utils_context, bubbles_context);
   _unload_consts (utils_context, bubbles_context);

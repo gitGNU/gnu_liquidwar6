@@ -29,7 +29,7 @@
 #include "gl1-floating-internal.h"
 
 mod_gl1_hud_backend_t *
-mod_gl1_hud_floating_create_backend (mod_gl1_utils_context_t * utils_context)
+mod_gl1_hud_floating_create_backend (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   mod_gl1_hud_backend_t *backend;
 

@@ -46,7 +46,7 @@ mod_gl1_utils_bitmap_hash_init ()
 }
 
 void
-mod_gl1_utils_bitmap_hash_quit (lw6sys_hash_t * bitmap_hash)
+mod_gl1_utils_bitmap_hash_quit (sys_context, lw6sys_hash_t * bitmap_hash)
 {
   lw6sys_list_t *keys;
 
@@ -84,7 +84,7 @@ _get_key (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitm
 }
 
 int
-mod_gl1_utils_bitmap_hash_register (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_hash_register (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   int ret = 0;
   char *key = NULL;
@@ -111,7 +111,7 @@ mod_gl1_utils_bitmap_hash_register (mod_gl1_utils_context_t * utils_context, mod
 }
 
 int
-mod_gl1_utils_bitmap_hash_unregister (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_hash_unregister (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   int ret = 0;
   char *key = NULL;
@@ -143,11 +143,11 @@ _refresh_callback (void *func_data, const char *key, void *value)
   mod_gl1_utils_context_t *utils_context = (mod_gl1_utils_context_t *) func_data;
   mod_gl1_utils_bitmap_t *bitmap = (mod_gl1_utils_bitmap_t *) value;
 
-  mod_gl1_utils_bitmap_refresh_force (utils_context, bitmap);
+  mod_gl1_utils_bitmap_refresh_force (sys_context, utils_context, bitmap);
 }
 
 int
-mod_gl1_utils_bitmap_hash_refresh (mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_bitmap_hash_refresh (sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 1;
 
@@ -185,7 +185,7 @@ _dump2disk_callback (void *func_data, const char *key, void *value)
 }
 
 int
-mod_gl1_utils_bitmap_hash_dump2disk (mod_gl1_utils_context_t * utils_context, int force)
+mod_gl1_utils_bitmap_hash_dump2disk (sys_context, mod_gl1_utils_context_t * utils_context, int force)
 {
   int ret = 0;
   int frames = 0;
@@ -195,7 +195,7 @@ mod_gl1_utils_bitmap_hash_dump2disk (mod_gl1_utils_context_t * utils_context, in
     {
       if (utils_context->bitmap_hash)
 	{
-	  mod_gl1_utils_path_update (utils_context);
+	  mod_gl1_utils_path_update (sys_context, utils_context);
 	  if (!lw6sys_dir_exists (sys_context, utils_context->path.bitmap_dir))
 	    {
 	      lw6sys_create_dir (sys_context, utils_context->path.bitmap_dir);

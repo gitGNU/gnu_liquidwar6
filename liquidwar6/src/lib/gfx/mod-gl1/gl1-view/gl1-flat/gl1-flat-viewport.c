@@ -45,9 +45,9 @@ _mod_gl1_view_flat_viewport_update_preview (mod_gl1_utils_context_t *
 
   global_zoom = look->dynamic_zoom * look->style.zoom;
   lw6gui_smoother_set_target (sys_context, &(utils_context->smoothers.global_zoom), global_zoom,
-			      _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context)));
+			      _lw6gfx_sdl_timer_get_timestamp (sys_context, &(utils_context->sdl_context)));
 
-  mod_gl1_utils_smoothers_update (utils_context);
+  mod_gl1_utils_smoothers_update (sys_context, utils_context);
 
   lw6gui_viewport_init (sys_context, &(flat_context->viewport),
 			utils_context->sdl_context.video_mode.width,
@@ -67,7 +67,7 @@ _mod_gl1_view_flat_viewport_update_preview (mod_gl1_utils_context_t *
 }
 
 void
-_mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
+_mod_gl1_view_flat_viewport_update (sys_context, mod_gl1_utils_context_t *
 				    utils_context,
 				    _mod_gl1_view_flat_context_t *
 				    flat_context, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
@@ -131,18 +131,18 @@ _mod_gl1_view_flat_viewport_update (mod_gl1_utils_context_t *
       center_x = main_cursor_x;
       center_y = main_cursor_y;
       lw6gui_smoother_set_target (sys_context, &(utils_context->smoothers.map_center_x), center_x,
-				  _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context)));
+				  _lw6gfx_sdl_timer_get_timestamp (sys_context, &(utils_context->sdl_context)));
       lw6gui_smoother_set_target (sys_context, &(utils_context->smoothers.map_center_y), center_y,
-				  _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context)));
+				  _lw6gfx_sdl_timer_get_timestamp (sys_context, &(utils_context->sdl_context)));
       lw6gui_smoother_fix_overflow (sys_context, &(utils_context->smoothers.map_center_x), shape.w * LW6PIL_COORDS_X2);
       lw6gui_smoother_fix_overflow (sys_context, &(utils_context->smoothers.map_center_y), shape.h * LW6PIL_COORDS_X2);
     }
 
   global_zoom = look->dynamic_zoom * look->style.zoom;
   lw6gui_smoother_set_target (sys_context, &(utils_context->smoothers.global_zoom), global_zoom,
-			      _lw6gfx_sdl_timer_get_timestamp (&(utils_context->sdl_context)));
+			      _lw6gfx_sdl_timer_get_timestamp (sys_context, &(utils_context->sdl_context)));
 
-  mod_gl1_utils_smoothers_update (utils_context);
+  mod_gl1_utils_smoothers_update (sys_context, utils_context);
 
   lw6gui_viewport_init (sys_context, &test,
 			utils_context->sdl_context.video_mode.width,

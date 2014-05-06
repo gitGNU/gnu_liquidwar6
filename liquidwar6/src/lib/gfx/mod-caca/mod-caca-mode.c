@@ -76,7 +76,7 @@ _set_with_driver (caca_canvas_t * canvas, const char *driver)
  * Initialize display.
  */
 int
-_mod_caca_set_video_mode (_mod_caca_context_t * caca_context, lw6gui_video_mode_t * video_mode)
+_mod_caca_set_video_mode (sys_context, _mod_caca_context_t * caca_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
   int i = 0;
@@ -120,7 +120,7 @@ _mod_caca_set_video_mode (_mod_caca_context_t * caca_context, lw6gui_video_mode_
  * Called whenever window resize is asked for.
  */
 int
-_mod_caca_resize_video_mode (_mod_caca_context_t * caca_context, lw6gui_video_mode_t * video_mode)
+_mod_caca_resize_video_mode (sys_context, _mod_caca_context_t * caca_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
   int canvas_width = 0;
@@ -153,7 +153,7 @@ _mod_caca_resize_video_mode (_mod_caca_context_t * caca_context, lw6gui_video_mo
 }
 
 int
-_mod_caca_get_video_mode (_mod_caca_context_t * caca_context, lw6gui_video_mode_t * video_mode)
+_mod_caca_get_video_mode (sys_context, _mod_caca_context_t * caca_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -167,7 +167,7 @@ _mod_caca_get_video_mode (_mod_caca_context_t * caca_context, lw6gui_video_mode_
 }
 
 int
-_mod_caca_set_resize_callback (_mod_caca_context_t * caca_context, lw6gui_resize_callback_func_t resize_callback)
+_mod_caca_set_resize_callback (sys_context, _mod_caca_context_t * caca_context, lw6gui_resize_callback_func_t resize_callback)
 {
   int ret = 0;
 
@@ -178,7 +178,7 @@ _mod_caca_set_resize_callback (_mod_caca_context_t * caca_context, lw6gui_resize
 }
 
 void
-_mod_caca_call_resize_callback (_mod_caca_context_t * caca_context)
+_mod_caca_call_resize_callback (sys_context, _mod_caca_context_t * caca_context)
 {
   if (caca_context->resize_callback)
     {

@@ -38,21 +38,21 @@ init (_lw6dsp_data_t * data)
 
   data->video_mode_requested = data->param.video_mode;
 
-  data->gfx_backend = lw6gfx_create_backend (data->argc, data->argv, data->gfx_backend_name);
+  data->gfx_backend = lw6gfx_create_backend (sys_context, data->argc, data->argv, data->gfx_backend_name);
   if (data->gfx_backend)
     {
-      lw6gfx_get_fullscreen_modes (data->gfx_backend, &data->fullscreen_modes);
+      lw6gfx_get_fullscreen_modes (sys_context, data->gfx_backend, &data->fullscreen_modes);
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("dsp init requested %dx%d fullscreen=%d mode"),
 		  data->video_mode_requested.width, data->video_mode_requested.height, data->video_mode_requested.fullscreen);
-      if (lw6gfx_init (data->gfx_backend, &(data->video_mode_requested), data->resize_callback))
+      if (lw6gfx_init (sys_context, data->gfx_backend, &(data->video_mode_requested), data->resize_callback))
 	{
 	  /*
 	   * We call it here too for it seems to work better once init
 	   * has been called...
 	   */
-	  lw6gfx_get_fullscreen_modes (data->gfx_backend, &data->fullscreen_modes);
-	  if (lw6gfx_get_video_mode (data->gfx_backend, &(data->video_mode_obtained)))
+	  lw6gfx_get_fullscreen_modes (sys_context, data->gfx_backend, &data->fullscreen_modes);
+	  if (lw6gfx_get_video_mode (sys_context, data->gfx_backend, &(data->video_mode_obtained)))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_ ("dsp init obtained %dx%d fullscreen=%d mode"),
@@ -61,14 +61,14 @@ init (_lw6dsp_data_t * data)
 	    }
 	  else
 	    {
-	      lw6gfx_quit (data->gfx_backend);
+	      lw6gfx_quit (sys_context, data->gfx_backend);
 	    }
 	}
       if (!ok)
 	{
 	  if (data->video_mode_obtained.width <= 0 || data->video_mode_obtained.height <= 0)
 	    {
-	      if (lw6gfx_get_fullscreen_modes (data->gfx_backend, &fullscreen_modes))
+	      if (lw6gfx_get_fullscreen_modes (sys_context, data->gfx_backend, &fullscreen_modes))
 		{
 		  data->video_mode_requested.width = fullscreen_modes.standard.width;
 		  data->video_mode_requested.height = fullscreen_modes.standard.height;
@@ -79,9 +79,9 @@ init (_lw6dsp_data_t * data)
 		      _x_
 		      ("couldn't set up mode, trying fallback %dx%d fullscreen=%d"),
 		      data->video_mode_requested.width, data->video_mode_requested.height, data->video_mode_requested.fullscreen);
-	  if (lw6gfx_init (data->gfx_backend, &(data->video_mode_requested), data->resize_callback))
+	  if (lw6gfx_init (sys_context, data->gfx_backend, &(data->video_mode_requested), data->resize_callback))
 	    {
-	      if (lw6gfx_get_video_mode (data->gfx_backend, &(data->video_mode_obtained)))
+	      if (lw6gfx_get_video_mode (sys_context, data->gfx_backend, &(data->video_mode_obtained)))
 		{
 		  ok = 1;
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
@@ -91,13 +91,13 @@ init (_lw6dsp_data_t * data)
 		}
 	      else
 		{
-		  lw6gfx_quit (data->gfx_backend);
+		  lw6gfx_quit (sys_context, data->gfx_backend);
 		}
 	    }
 	}
       if (!ok)
 	{
-	  lw6gfx_destroy_backend (data->gfx_backend);
+	  lw6gfx_destroy_backend (sys_context, data->gfx_backend);
 	  data->gfx_backend = NULL;
 	}
     }
@@ -121,7 +121,7 @@ poll (_lw6dsp_data_t * data)
   int mask = 0;
 
   timestamp = lw6sys_get_timestamp ();
-  data->input = lw6gfx_pump_events (data->gfx_backend);
+  data->input = lw6gfx_pump_events (sys_context, data->gfx_backend);
   lw6gui_input_update_repeat (sys_context, data->input, &(data->param.misc.repeat_settings), timestamp);
   mask = data->param.misc.mask;
   if (data->slow_fps)
@@ -228,7 +228,7 @@ poll (_lw6dsp_data_t * data)
       history = lw6sys_history_get (sys_context, data->param.misc.log_timeout);
       if (history)
 	{
-	  if (lw6gfx_display (data->gfx_backend,
+	  if (lw6gfx_display (sys_context, data->gfx_backend,
 			      mask,
 			      data->param.look,
 			      data->param.level,
@@ -271,9 +271,9 @@ loop (_lw6dsp_data_t * data)
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("dsp update request %dx%d fullscreen=%d mode"),
 		  data->video_mode_requested.width, data->video_mode_requested.height, data->video_mode_requested.fullscreen);
-      if (lw6gfx_set_video_mode (data->gfx_backend, &(data->video_mode_requested)))
+      if (lw6gfx_set_video_mode (sys_context, data->gfx_backend, &(data->video_mode_requested)))
 	{
-	  if (lw6gfx_get_video_mode (data->gfx_backend, &(data->video_mode_obtained)))
+	  if (lw6gfx_get_video_mode (sys_context, data->gfx_backend, &(data->video_mode_obtained)))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
@@ -457,8 +457,8 @@ _lw6dsp_thread_join (_lw6dsp_data_t * data)
    */
   if (data->gfx_backend)
     {
-      lw6gfx_quit (data->gfx_backend);
-      lw6gfx_destroy_backend (data->gfx_backend);
+      lw6gfx_quit (sys_context, data->gfx_backend);
+      lw6gfx_destroy_backend (sys_context, data->gfx_backend);
       data->gfx_backend = NULL;
     }
 

@@ -27,7 +27,7 @@
 #include "mod-soft-internal.h"
 
 void
-_mod_soft_viewport_drawable_max (_mod_soft_context_t * soft_context)
+_mod_soft_viewport_drawable_max (sys_context, _mod_soft_context_t * soft_context)
 {
   lw6gui_zone_init_xywh (sys_context, &(soft_context->sdl_context.viewport), 0.0f,
 			 0.0f, soft_context->sdl_context.video_mode.width, soft_context->sdl_context.video_mode.height);

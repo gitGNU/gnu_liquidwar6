@@ -104,7 +104,7 @@ _mod_gl1_menu_cylinder_pick_item (mod_gl1_utils_context_t * utils_context,
 
   glFeedbackBuffer (FEEDBACK_BUFFER_SIZE, GL_2D, (float *) feedback_buffer);
 
-  mod_gl1_utils_set_render_mode_3d_feedback (utils_context);
+  mod_gl1_utils_set_render_mode_3d_feedback (sys_context, utils_context);
   glRenderMode (GL_FEEDBACK);	// enter feedback mode
 
   n = menu->nb_items_displayed + 2;
@@ -238,7 +238,7 @@ _mod_gl1_menu_cylinder_get_cylinder_right_point (mod_gl1_utils_context_t *
 
   glFeedbackBuffer (FEEDBACK_BUFFER_SIZE, GL_2D, (float *) feedback_buffer);
 
-  mod_gl1_utils_set_render_mode_3d_feedback (utils_context);
+  mod_gl1_utils_set_render_mode_3d_feedback (sys_context, utils_context);
   glRenderMode (GL_FEEDBACK);	// enter feedback mode
 
   _mod_gl1_menu_cylinder_draw_cylinder_corners (utils_context, cylinder_context, i, n, relative_text_width, _PASS_THROUGH_SELECTED);
