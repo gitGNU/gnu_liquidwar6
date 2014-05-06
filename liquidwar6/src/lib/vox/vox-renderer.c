@@ -28,7 +28,7 @@
 #include "vox-internal.h"
 
 _lw6vox_renderer_t *
-_lw6vox_renderer_new (lw6ker_game_state_t * game_state)
+_lw6vox_renderer_new (lw6sys_context_t * sys_context, lw6ker_game_state_t * game_state)
 {
   _lw6vox_renderer_t *ret = NULL;
 
@@ -44,6 +44,7 @@ _lw6vox_renderer_new (lw6ker_game_state_t * game_state)
 /**
  * lw6vox_renderer_new
  *
+ * @sys_context: global system context
  * @game_state: the game state to use
  *
  * Creates a voxel rendering object (todo, not implemented yet).
@@ -51,13 +52,13 @@ _lw6vox_renderer_new (lw6ker_game_state_t * game_state)
  * Return value: renderer object
  */
 lw6vox_renderer_t *
-lw6vox_renderer_new (lw6ker_game_state_t * game_state)
+lw6vox_renderer_new (lw6sys_context_t * sys_context, lw6ker_game_state_t * game_state)
 {
-  return (lw6vox_renderer_t *) _lw6vox_renderer_new (game_state);
+  return (lw6vox_renderer_t *) _lw6vox_renderer_new (sys_context, game_state);
 }
 
 void
-_lw6vox_renderer_free (_lw6vox_renderer_t * renderer)
+_lw6vox_renderer_free (lw6sys_context_t * sys_context, _lw6vox_renderer_t * renderer)
 {
   LW6SYS_FREE (sys_context, renderer);
 }
@@ -65,6 +66,7 @@ _lw6vox_renderer_free (_lw6vox_renderer_t * renderer)
 /**
  * lw6vox_renderer_free
  *
+ * @sys_context: global system context
  * @renderer: the renderer object
  *
  * Frees a voxel rendering object (todo, not implemented yet).
@@ -72,7 +74,7 @@ _lw6vox_renderer_free (_lw6vox_renderer_t * renderer)
  * Return value: none
  */
 void
-lw6vox_renderer_free (lw6vox_renderer_t * renderer)
+lw6vox_renderer_free (lw6sys_context_t * sys_context, lw6vox_renderer_t * renderer)
 {
-  _lw6vox_renderer_free ((_lw6vox_renderer_t *) renderer);
+  _lw6vox_renderer_free (sys_context, (_lw6vox_renderer_t *) renderer);
 }

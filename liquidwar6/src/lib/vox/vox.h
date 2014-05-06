@@ -41,11 +41,11 @@ typedef struct lw6vox_renderer_s
 } lw6vox_renderer_t;
 
 /* vox-renderer.c */
-extern lw6vox_renderer_t *lw6vox_renderer_new (lw6ker_game_state_t * game_state);
-extern void lw6vox_renderer_free (lw6vox_renderer_t * renderer);
+extern lw6vox_renderer_t *lw6vox_renderer_new (lw6sys_context_t * sys_context, lw6ker_game_state_t * game_state);
+extern void lw6vox_renderer_free (lw6sys_context_t * sys_context, lw6vox_renderer_t * renderer);
 
 /* vox-test.c */
-extern int lw6vox_test_register (int mode);
-extern int lw6vox_test_run (int mode);
+extern int lw6vox_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6vox_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif

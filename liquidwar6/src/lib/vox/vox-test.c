@@ -32,9 +32,10 @@
 typedef struct _lw6vox_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
 } _lw6vox_test_data_t;
 
-static _lw6vox_test_data_t _test_data = { 0 };
+static _lw6vox_test_data_t _test_data = { 0, NULL };
 
 /*
  * Testing functions in renderer.c
@@ -43,6 +44,8 @@ static void
 _test_renderer ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -51,7 +54,7 @@ _test_renderer ()
     lw6ker_game_state_t *game_state;
     lw6vox_renderer_t *renderer;
 
-    level = lw6map_builtin_defaults ();
+    level = lw6map_builtin_defaults (sys_context);
     if (level)
       {
 	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
@@ -60,11 +63,11 @@ _test_renderer ()
 	    game_state = lw6ker_game_state_new (sys_context, game_struct, NULL);
 	    if (game_state)
 	      {
-		renderer = lw6vox_renderer_new (game_state);
+		renderer = lw6vox_renderer_new (sys_context, game_state);
 		if (renderer)
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("vox renderer created"));
-		    lw6vox_renderer_free (renderer);
+		    lw6vox_renderer_free (sys_context, renderer);
 		  }
 		else
 		  {
@@ -96,20 +99,27 @@ _test_renderer ()
 static int
 _setup_init ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libvox CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libvox CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 /**
  * lw6vox_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libvox module.
@@ -117,10 +127,12 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6vox_test_register (int mode)
+lw6vox_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -132,7 +144,7 @@ lw6vox_test_register (int mode)
       lw6hlp_test_register (sys_context, mode);
       lw6map_test_register (sys_context, mode);
       lw6ker_test_register (sys_context, mode);
-      lw6mat_test_register (mode);
+      lw6mat_test_register (sys_context, mode);
       lw6gui_test_register (sys_context, mode);
     }
 
@@ -153,6 +165,7 @@ lw6vox_test_register (int mode)
 /**
  * lw6vox_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @vox module test suite, testing most (if not all...)
@@ -161,11 +174,13 @@ lw6vox_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6vox_test_run (int mode)
+lw6vox_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

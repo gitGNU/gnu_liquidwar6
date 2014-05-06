@@ -758,7 +758,7 @@ lw6gfx_test_register (int mode)
       lw6ker_test_register (sys_context, mode);
       lw6pil_test_register (sys_context, mode);
       lw6gui_test_register (sys_context, mode);
-      lw6vox_test_register (mode);
+      lw6vox_test_register (sys_context, mode);
       lw6cns_test_register (sys_context, mode);
       /*
        * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017
