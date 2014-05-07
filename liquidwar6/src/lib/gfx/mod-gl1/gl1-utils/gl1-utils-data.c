@@ -36,7 +36,7 @@
  * Dummy wrapper to handle cast & errors.
  */
 SDL_Surface *
-mod_gl1_utils_load_image (sys_context, mod_gl1_utils_context_t * utils_context, const char *filename)
+mod_gl1_utils_load_image (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const char *filename)
 {
   SDL_Surface *ret = NULL;
   char *image_file = NULL;
@@ -73,7 +73,7 @@ mod_gl1_utils_load_image (sys_context, mod_gl1_utils_context_t * utils_context, 
  * Dummy wrapper to handle cast & errors.
  */
 void
-mod_gl1_utils_unload_image (sys_context, mod_gl1_utils_context_t * utils_context, SDL_Surface * image)
+mod_gl1_utils_unload_image (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, SDL_Surface * image)
 {
   mod_gl1_utils_delete_surface (sys_context, utils_context, image);
 }
@@ -82,7 +82,7 @@ mod_gl1_utils_unload_image (sys_context, mod_gl1_utils_context_t * utils_context
  * Dummy wrapper to handle cast & errors.
  */
 static TTF_Font *
-load_font (mod_gl1_utils_context_t * utils_context, const char *filename, int size)
+_load_font (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const char *filename, int size)
 {
   TTF_Font *ret = NULL;
   char *font_file;
@@ -107,7 +107,7 @@ load_font (mod_gl1_utils_context_t * utils_context, const char *filename, int si
  * Dummy wrapper to handle cast & errors.
  */
 static void
-unload_font (TTF_Font * font)
+_unload_font (lw6sys_context_t * sys_context, TTF_Font * font)
 {
   if (font != NULL)
     {
@@ -119,7 +119,7 @@ unload_font (TTF_Font * font)
  * Loads fonts
  */
 int
-mod_gl1_utils_load_fonts (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_load_fonts (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 0;
 
@@ -127,17 +127,17 @@ mod_gl1_utils_load_fonts (sys_context, mod_gl1_utils_context_t * utils_context)
 
   ret =
     ((utils_context->font_data.menu =
-      load_font (utils_context, FONT_FILE,
-		 utils_context->const_data.menu_font_size)) != NULL)
+      _load_font (sys_context, utils_context, FONT_FILE,
+		  utils_context->const_data.menu_font_size)) != NULL)
     &&
     ((utils_context->font_data.hud =
-      load_font (utils_context, FONT_FILE,
-		 utils_context->const_data.hud_font_size)) != NULL)
+      _load_font (sys_context, utils_context, FONT_FILE,
+		  utils_context->const_data.hud_font_size)) != NULL)
     &&
     ((utils_context->font_data.cursor =
-      load_font (utils_context, FONT_FILE,
-		 utils_context->const_data.cursor_font_size)) != NULL)
-    && ((utils_context->font_data.system = load_font (utils_context, FONT_FILE, utils_context->const_data.system_font_size)) != NULL);
+      _load_font (sys_context, utils_context, FONT_FILE,
+		  utils_context->const_data.cursor_font_size)) != NULL)
+    && ((utils_context->font_data.system = _load_font (sys_context, utils_context, FONT_FILE, utils_context->const_data.system_font_size)) != NULL);
 
   if (!ret)
     {
@@ -154,12 +154,12 @@ mod_gl1_utils_load_fonts (sys_context, mod_gl1_utils_context_t * utils_context)
  * Unload fonts, free memory
  */
 void
-mod_gl1_utils_unload_fonts (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_unload_fonts (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
-  unload_font (utils_context->font_data.system);
-  unload_font (utils_context->font_data.cursor);
-  unload_font (utils_context->font_data.hud);
-  unload_font (utils_context->font_data.menu);
+  _unload_font (sys_context, utils_context->font_data.system);
+  _unload_font (sys_context, utils_context->font_data.cursor);
+  _unload_font (sys_context, utils_context->font_data.hud);
+  _unload_font (sys_context, utils_context->font_data.menu);
 
   memset (&utils_context->font_data, 0, sizeof (mod_gl1_utils_font_data_t));
 }
@@ -168,7 +168,7 @@ mod_gl1_utils_unload_fonts (sys_context, mod_gl1_utils_context_t * utils_context
  * Putting all the load/unload functions together
  */
 int
-mod_gl1_utils_load_data (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_load_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 0;
   lw6gui_look_t *look = NULL;
@@ -178,21 +178,15 @@ mod_gl1_utils_load_data (sys_context, mod_gl1_utils_context_t * utils_context)
   look = lw6gui_look_new (sys_context, NULL);
   if (look)
     {
-      ret = mod_gl1_utils_cache_update (utils_context, look) && ret;
+      ret = mod_gl1_utils_cache_update (sys_context, utils_context, look) && ret;
       lw6gui_look_free (sys_context, look);
     }
 
   return ret;
 }
 
-int
-mod_gl1_load_data (void *context)
-{
-  return mod_gl1_utils_load_data (sys_context, (mod_gl1_utils_context_t *) context);
-}
-
 void
-mod_gl1_utils_unload_data (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_unload_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   mod_gl1_utils_clear_menucache (sys_context, utils_context);
   mod_gl1_utils_unload_fonts (sys_context, utils_context);
@@ -204,10 +198,4 @@ mod_gl1_utils_unload_data (sys_context, mod_gl1_utils_context_t * utils_context)
       LW6SYS_FREE (sys_context, utils_context->texture_data.to_delete);
     }
   memset (&utils_context->texture_data, 0, sizeof (mod_gl1_utils_texture_data_t));
-}
-
-void
-mod_gl1_unload_data (void *context)
-{
-  mod_gl1_utils_unload_data (sys_context, (mod_gl1_utils_context_t *) context);
 }

@@ -31,7 +31,8 @@
 #define _DESC_CURSOR_COLOR "cursor_color"
 
 mod_gl1_utils_bitmap_t *
-mod_gl1_utils_cursor_create_fg_bg (mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const lw6map_level_t * level)
+mod_gl1_utils_cursor_create_fg_bg (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look,
+				   const lw6map_level_t * level)
 {
   mod_gl1_utils_bitmap_t *bitmap = NULL;
   SDL_Surface *surface = NULL;
@@ -45,7 +46,7 @@ mod_gl1_utils_cursor_create_fg_bg (mod_gl1_utils_context_t * utils_context, cons
 	  for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE; ++x)
 	    {
 	      mod_gl1_utils_putpixel (sys_context, surface, x, y,
-				      lw6sys_color_8_to_irgba (lw6map_cursor_texture_layer_get (&(level->cursor_texture.fg_bg_layer), x, y)));
+				      lw6sys_color_8_to_irgba (lw6map_cursor_texture_layer_get (sys_context, &(level->cursor_texture.fg_bg_layer), x, y)));
 	    }
 	}
       bitmap = mod_gl1_utils_surface2bitmap (sys_context, utils_context, surface, _DESC_CURSOR_FG_BG);
@@ -64,7 +65,7 @@ mod_gl1_utils_cursor_create_fg_bg (mod_gl1_utils_context_t * utils_context, cons
 }
 
 mod_gl1_utils_bitmap_t
-  * mod_gl1_utils_cursor_create_color (mod_gl1_utils_context_t *
+  * mod_gl1_utils_cursor_create_color (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 				       utils_context, const lw6gui_look_t * look, const lw6map_level_t * level, const lw6ker_cursor_t * cursor)
 {
   mod_gl1_utils_bitmap_t *bitmap = NULL;
@@ -80,7 +81,7 @@ mod_gl1_utils_bitmap_t
 	  for (x = 0; x < LW6MAP_CURSOR_TEXTURE_SIZE; ++x)
 	    {
 	      mod_gl1_utils_putpixel (sys_context, surface, x, y,
-				      lw6sys_color_8_to_irgba (lw6map_cursor_texture_layer_get (&(level->cursor_texture.color_layer), x, y)));
+				      lw6sys_color_8_to_irgba (lw6map_cursor_texture_layer_get (sys_context, &(level->cursor_texture.color_layer), x, y)));
 	    }
 	}
       bitmap = mod_gl1_utils_surface2bitmap (sys_context, utils_context, surface, _DESC_CURSOR_COLOR);

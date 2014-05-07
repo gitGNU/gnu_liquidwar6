@@ -30,7 +30,7 @@
  * Backend specific functions
  */
 void
-mod_gl1_utils_pump_event_callback (sys_context, void *data, void *event)
+mod_gl1_utils_pump_event_callback (lw6sys_context_t * sys_context, void *data, void *event)
 {
   lw6gui_video_mode_t video_mode;
   SDL_Event *sdl_event = (SDL_Event *) event;

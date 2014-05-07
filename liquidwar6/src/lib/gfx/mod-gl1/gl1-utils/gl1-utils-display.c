@@ -28,7 +28,7 @@
 #include "gl1-utils.h"
 
 void
-mod_gl1_utils_display_texture_full (sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_utils_display_texture_full (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				    GLuint texture, float x1, float y1, float x2, float y2, int texture_w, int texture_h)
 {
   float scale_w, scale_h;
@@ -64,7 +64,7 @@ mod_gl1_utils_display_texture_full (sys_context, mod_gl1_utils_context_t * utils
 }
 
 void
-mod_gl1_utils_display_quad_begin (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_display_quad_begin (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();
@@ -73,7 +73,7 @@ mod_gl1_utils_display_quad_begin (sys_context, mod_gl1_utils_context_t * utils_c
 }
 
 void
-mod_gl1_utils_display_quad_end (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_display_quad_end (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   glEnd ();
   glMatrixMode (GL_TEXTURE);
@@ -81,7 +81,7 @@ mod_gl1_utils_display_quad_end (sys_context, mod_gl1_utils_context_t * utils_con
 }
 
 void
-mod_gl1_utils_display_quad_do (sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_utils_display_quad_do (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 			       GLuint texture, float x1, float y1, float x2, float y2, float texture_x1, float texture_y1, float texture_x2, float texture_y2)
 {
   glBindTexture (GL_TEXTURE_2D, texture);
@@ -97,7 +97,7 @@ mod_gl1_utils_display_quad_do (sys_context, mod_gl1_utils_context_t * utils_cont
 }
 
 void
-mod_gl1_utils_display_texture (sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_utils_display_texture (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 			       GLuint texture, float x1, float y1, float x2, float y2, float texture_x1, float texture_y1, float texture_x2, float texture_y2)
 {
   mod_gl1_utils_display_quad_begin (sys_context, utils_context);
@@ -107,7 +107,7 @@ mod_gl1_utils_display_texture (sys_context, mod_gl1_utils_context_t * utils_cont
 }
 
 void
-mod_gl1_utils_display_texture_with_filter (sys_context, mod_gl1_utils_context_t *
+mod_gl1_utils_display_texture_with_filter (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					   utils_context, GLuint texture,
 					   float x1, float y1, float x2,
 					   float y2, float texture_x1, float texture_y1, float texture_x2, float texture_y2, int pixelize)

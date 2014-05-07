@@ -31,7 +31,7 @@
 #define _DESC_ZONES "zones"
 
 static void
-_display_bitmap (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+_display_bitmap (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   mod_gl1_utils_bitmap_display (sys_context, utils_context, bitmap,
 				utils_context->smoothed.drawable.x1,
@@ -39,7 +39,8 @@ _display_bitmap (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t
 }
 
 static void
-display_map_zones (mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const lw6map_level_t * level, const lw6ker_game_struct_t * game_struct)
+_display_map_zones (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const lw6map_level_t * level,
+		    const lw6ker_game_struct_t * game_struct)
 {
   mod_gl1_utils_bitmap_t *bitmap = NULL;
   SDL_Surface *surface = NULL;
@@ -51,7 +52,7 @@ display_map_zones (mod_gl1_utils_context_t * utils_context, const lw6gui_look_t 
 
       if (bitmap)
 	{
-	  _display_bitmap (utils_context, bitmap);
+	  _display_bitmap (sys_context, utils_context, bitmap);
 
 	  mod_gl1_utils_bitmap_free (sys_context, utils_context, bitmap);
 	}
@@ -63,7 +64,8 @@ display_map_zones (mod_gl1_utils_context_t * utils_context, const lw6gui_look_t 
 }
 
 void
-mod_gl1_utils_display_zones (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const lw6ker_game_struct_t * game_struct)
+mod_gl1_utils_display_zones (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look,
+			     const lw6ker_game_struct_t * game_struct)
 {
   if (utils_context && look && game_struct)
     {
@@ -73,25 +75,25 @@ mod_gl1_utils_display_zones (sys_context, mod_gl1_utils_context_t * utils_contex
       glColor3f (1.0, 1.0, 1.0);
       glEnable (GL_TEXTURE_2D);	// for texture
 
-      display_map_zones (utils_context, look, game_struct->level, game_struct);
+      _display_map_zones (sys_context, utils_context, look, game_struct->level, game_struct);
     }
 }
 
 static void
-display_map_gradient (mod_gl1_utils_context_t * utils_context,
-		      const lw6gui_look_t * look, const lw6map_level_t * level, const lw6ker_game_state_t * game_state, int team_id, int layer_id)
+_display_map_gradient (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+		       const lw6gui_look_t * look, const lw6map_level_t * level, const lw6ker_game_state_t * game_state, int team_id, int layer_id)
 {
   mod_gl1_utils_bitmap_t *bitmap = NULL;
   SDL_Surface *surface = NULL;
 
-  surface = mod_gl1_utils_create_gradient_surface (utils_context, game_state, team_id, layer_id);
+  surface = mod_gl1_utils_create_gradient_surface (sys_context, utils_context, game_state, team_id, layer_id);
   if (surface)
     {
       bitmap = mod_gl1_utils_surface2bitmap (sys_context, utils_context, surface, _DESC_GRADIENT);
 
       if (bitmap)
 	{
-	  _display_bitmap (utils_context, bitmap);
+	  _display_bitmap (sys_context, utils_context, bitmap);
 
 	  mod_gl1_utils_bitmap_free (sys_context, utils_context, bitmap);
 	}
@@ -103,7 +105,7 @@ display_map_gradient (mod_gl1_utils_context_t * utils_context,
 }
 
 void
-mod_gl1_utils_display_gradient (sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_utils_display_gradient (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, int team_id, int layer_id)
 {
   if (utils_context && game_state)
@@ -113,6 +115,6 @@ mod_gl1_utils_display_gradient (sys_context, mod_gl1_utils_context_t * utils_con
       glColor3f (1.0, 1.0, 1.0);
       glEnable (GL_TEXTURE_2D);	// for texture
 
-      display_map_gradient (utils_context, look, game_state->game_struct->level, game_state, team_id, layer_id);
+      _display_map_gradient (sys_context, utils_context, look, game_state->game_struct->level, game_state, team_id, layer_id);
     }
 }

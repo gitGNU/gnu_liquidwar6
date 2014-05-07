@@ -28,7 +28,7 @@
 #include "gl1-utils.h"
 
 void
-mod_gl1_utils_draw_rectfill (sys_context, SDL_Surface * surface, int x1, int y1, int x2, int y2, Uint32 color)
+mod_gl1_utils_draw_rectfill (lw6sys_context_t * sys_context, SDL_Surface * surface, int x1, int y1, int x2, int y2, Uint32 color)
 {
   /*
    * The slowest implementation ever, however optimizing
@@ -48,7 +48,7 @@ mod_gl1_utils_draw_rectfill (sys_context, SDL_Surface * surface, int x1, int y1,
 }
 
 void
-mod_gl1_utils_draw_set_alpha_for_color (sys_context, SDL_Surface * surface, float alpha, Uint32 color)
+mod_gl1_utils_draw_set_alpha_for_color (lw6sys_context_t * sys_context, SDL_Surface * surface, float alpha, Uint32 color)
 {
   int x, y, w, h;
   Uint32 pixel_color;
@@ -56,9 +56,9 @@ mod_gl1_utils_draw_set_alpha_for_color (sys_context, SDL_Surface * surface, floa
   lw6sys_color_f_t color_f_tmp;
 
   //alpha_8=lw6sys_color_float2char(alpha);
-  lw6sys_color_irgba_to_f (sys_context, &color_f_tmp, color);
+  lw6sys_color_irgba_to_f (&color_f_tmp, color);
   color_f_tmp.a = alpha;
-  alpha_color = lw6sys_color_f_to_irgba (sys_context, &color_f_tmp);
+  alpha_color = lw6sys_color_f_to_irgba (&color_f_tmp);
   w = surface->w;
   h = surface->h;
   for (x = 0; x < w; ++x)
