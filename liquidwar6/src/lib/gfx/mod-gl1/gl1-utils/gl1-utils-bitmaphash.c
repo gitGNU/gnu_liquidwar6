@@ -31,7 +31,7 @@
 #define _DUMP_EVERY_N_FRAMES 100
 
 lw6sys_hash_t *
-mod_gl1_utils_bitmap_hash_init ()
+mod_gl1_utils_bitmap_hash_init (lw6sys_context_t * sys_context)
 {
   lw6sys_hash_t *ret = NULL;
 
@@ -46,7 +46,7 @@ mod_gl1_utils_bitmap_hash_init ()
 }
 
 void
-mod_gl1_utils_bitmap_hash_quit (sys_context, lw6sys_hash_t * bitmap_hash)
+mod_gl1_utils_bitmap_hash_quit (lw6sys_context_t * sys_context, lw6sys_hash_t * bitmap_hash)
 {
   lw6sys_list_t *keys;
 
@@ -67,7 +67,7 @@ mod_gl1_utils_bitmap_hash_quit (sys_context, lw6sys_hash_t * bitmap_hash)
 }
 
 static char *
-_get_key (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+_get_key (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   char *key = NULL;
 
@@ -84,14 +84,14 @@ _get_key (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitm
 }
 
 int
-mod_gl1_utils_bitmap_hash_register (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_hash_register (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   int ret = 0;
   char *key = NULL;
 
   if (utils_context->bitmap_hash)
     {
-      key = _get_key (utils_context, bitmap);
+      key = _get_key (sys_context, utils_context, bitmap);
       if (key)
 	{
 	  if (!lw6sys_hash_has_key (sys_context, utils_context->bitmap_hash, key))
@@ -111,14 +111,14 @@ mod_gl1_utils_bitmap_hash_register (sys_context, mod_gl1_utils_context_t * utils
 }
 
 int
-mod_gl1_utils_bitmap_hash_unregister (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_hash_unregister (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   int ret = 0;
   char *key = NULL;
 
   if (utils_context->bitmap_hash)
     {
-      key = _get_key (utils_context, bitmap);
+      key = _get_key (sys_context, utils_context, bitmap);
       if (key)
 	{
 	  if (lw6sys_hash_has_key (sys_context, utils_context->bitmap_hash, key))
@@ -138,7 +138,7 @@ mod_gl1_utils_bitmap_hash_unregister (sys_context, mod_gl1_utils_context_t * uti
 }
 
 static void
-_refresh_callback (void *func_data, const char *key, void *value)
+_refresh_callback (lw6sys_context_t * sys_context, void *func_data, const char *key, void *value)
 {
   mod_gl1_utils_context_t *utils_context = (mod_gl1_utils_context_t *) func_data;
   mod_gl1_utils_bitmap_t *bitmap = (mod_gl1_utils_bitmap_t *) value;
@@ -147,7 +147,7 @@ _refresh_callback (void *func_data, const char *key, void *value)
 }
 
 int
-mod_gl1_utils_bitmap_hash_refresh (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_bitmap_hash_refresh (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 1;
 
@@ -160,7 +160,7 @@ mod_gl1_utils_bitmap_hash_refresh (sys_context, mod_gl1_utils_context_t * utils_
 }
 
 static void
-_dump2disk_callback (void *func_data, const char *key, void *value)
+_dump2disk_callback (lw6sys_context_t * sys_context, void *func_data, const char *key, void *value)
 {
   mod_gl1_utils_context_t *utils_context = (mod_gl1_utils_context_t *) func_data;
   mod_gl1_utils_bitmap_t *bitmap = (mod_gl1_utils_bitmap_t *) value;
@@ -185,7 +185,7 @@ _dump2disk_callback (void *func_data, const char *key, void *value)
 }
 
 int
-mod_gl1_utils_bitmap_hash_dump2disk (sys_context, mod_gl1_utils_context_t * utils_context, int force)
+mod_gl1_utils_bitmap_hash_dump2disk (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, int force)
 {
   int ret = 0;
   int frames = 0;

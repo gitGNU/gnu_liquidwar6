@@ -79,7 +79,7 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 		       * mode, team_color could be negative even if fighter was
 		       * reported active just before.
 		       */
-		      color = mod_gl1_utils_get_shaded_color_for_fighter (utils_context, team_color, fighter->health);
+		      color = mod_gl1_utils_get_shaded_color_for_fighter (team_color, fighter->health);
 		    }
 		}
 	      else
@@ -205,7 +205,7 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 		       * mode, team_color could be negative even if fighter was
 		       * reported active just before.
 		       */
-		      color = mod_gl1_utils_get_shaded_color_for_fighter (utils_context, team_color, fighter->health);
+		      color = mod_gl1_utils_get_shaded_color_for_fighter (team_color, fighter->health);
 		      if (hidden)
 			{
 			  mod_gl1_utils_force_color32_alpha (sys_context, &color, hidden_layer_alpha);

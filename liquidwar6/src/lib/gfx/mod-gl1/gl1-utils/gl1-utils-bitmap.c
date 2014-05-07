@@ -32,7 +32,7 @@
 static volatile u_int32_t seq_id = 0;
 
 static void
-_set_defaults (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap, const char *desc)
+_set_defaults (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap, const char *desc)
 {
   // some values not set, already at zero because of CALLOC
   bitmap->wrap = GL_REPEAT;
@@ -44,7 +44,7 @@ _set_defaults (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t *
   bitmap->texture_w = lw6gui_power_of_two_ge (sys_context, bitmap->surface->w);
   bitmap->texture_h = lw6gui_power_of_two_ge (sys_context, bitmap->surface->h);
   bitmap->last_refresh = _lw6gfx_sdl_timer_get_timestamp (sys_context, &(utils_context->sdl_context));
-  bitmap->desc = lw6sys_str_copy (desc);
+  bitmap->desc = lw6sys_str_copy (sys_context, desc);
   mod_gl1_utils_bitmap_hash_register (sys_context, utils_context, bitmap);
   /*  if (utils_context->initialized)
      {
@@ -53,7 +53,7 @@ _set_defaults (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t *
 }
 
 static int
-_has_alpha (const char *filename)
+_has_alpha (lw6sys_context_t * sys_context, const char *filename)
 {
   int ret = 0;
 
@@ -66,7 +66,7 @@ _has_alpha (const char *filename)
 }
 
 mod_gl1_utils_bitmap_t *
-mod_gl1_utils_bitmap_new (sys_context, mod_gl1_utils_context_t * utils_context, int width, int height, const char *desc)
+mod_gl1_utils_bitmap_new (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, int width, int height, const char *desc)
 {
   mod_gl1_utils_bitmap_t *ret = NULL;
 
@@ -84,7 +84,7 @@ mod_gl1_utils_bitmap_new (sys_context, mod_gl1_utils_context_t * utils_context, 
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("new bitmap %d %dx%d"), ret->id, width, height);
 	  ret->has_alpha = 1;
-	  _set_defaults (utils_context, ret, desc);
+	  _set_defaults (sys_context, utils_context, ret, desc);
 	}
       else
 	{
@@ -97,7 +97,7 @@ mod_gl1_utils_bitmap_new (sys_context, mod_gl1_utils_context_t * utils_context, 
 }
 
 mod_gl1_utils_bitmap_t *
-mod_gl1_utils_bitmap_load (sys_context, mod_gl1_utils_context_t * utils_context, const char *filename)
+mod_gl1_utils_bitmap_load (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const char *filename)
 {
   mod_gl1_utils_bitmap_t *ret = NULL;
   char *desc = NULL;
@@ -120,9 +120,9 @@ mod_gl1_utils_bitmap_load (sys_context, mod_gl1_utils_context_t * utils_context,
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bitmap %u \"%s\" %dx%d loaded"), ret->id, filename, ret->surface->w, ret->surface->h);
 	      if (ret->surface->format->BytesPerPixel == 4)
 		{
-		  ret->has_alpha = _has_alpha (filename);
+		  ret->has_alpha = _has_alpha (sys_context, filename);
 		}
-	      _set_defaults (utils_context, ret, desc);
+	      _set_defaults (sys_context, utils_context, ret, desc);
 	    }
 	  else
 	    {
@@ -142,7 +142,7 @@ mod_gl1_utils_bitmap_load (sys_context, mod_gl1_utils_context_t * utils_context,
 }
 
 mod_gl1_utils_bitmap_t *
-mod_gl1_utils_surface2bitmap (sys_context, mod_gl1_utils_context_t * utils_context, SDL_Surface * surface, const char *desc)
+mod_gl1_utils_surface2bitmap (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, SDL_Surface * surface, const char *desc)
 {
   mod_gl1_utils_bitmap_t *ret = NULL;
 
@@ -158,14 +158,14 @@ mod_gl1_utils_surface2bitmap (sys_context, mod_gl1_utils_context_t * utils_conte
       ret->surface = surface;
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bitmap %u from surface %dx%d"), ret->id, ret->surface->w, ret->surface->h);
       ret->has_alpha = 1;
-      _set_defaults (utils_context, ret, desc);
+      _set_defaults (sys_context, utils_context, ret, desc);
     }
 
   return ret;
 }
 
 void
-mod_gl1_utils_bitmap_free (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_free (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   if (bitmap)
     {
@@ -197,7 +197,7 @@ mod_gl1_utils_bitmap_free (sys_context, mod_gl1_utils_context_t * utils_context,
 }
 
 int
-mod_gl1_utils_bitmap_colorize (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap, int colorize,
+mod_gl1_utils_bitmap_colorize (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap, int colorize,
 			       const lw6map_color_couple_t * color)
 {
   int ret = 0;
@@ -231,7 +231,7 @@ mod_gl1_utils_bitmap_colorize (sys_context, mod_gl1_utils_context_t * utils_cont
 }
 
 int
-mod_gl1_utils_bitmap_set_wrap (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap, GLint wrap)
+mod_gl1_utils_bitmap_set_wrap (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap, GLint wrap)
 {
   int ret = 0;
 
@@ -251,7 +251,7 @@ mod_gl1_utils_bitmap_set_wrap (sys_context, mod_gl1_utils_context_t * utils_cont
 }
 
 int
-mod_gl1_utils_bitmap_set_filter (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap, GLint filter)
+mod_gl1_utils_bitmap_set_filter (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap, GLint filter)
 {
   int ret = 0;
 
@@ -322,8 +322,8 @@ mod_gl1_utils_bitmap_set_filter (sys_context, mod_gl1_utils_context_t * utils_co
 }
 
 int
-mod_gl1_utils_bitmap_set_texture_coords (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap, float s1, float t1, float s2,
-					 float t2)
+mod_gl1_utils_bitmap_set_texture_coords (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap, float s1,
+					 float t1, float s2, float t2)
 {
   int ret = 0;
 
@@ -351,7 +351,7 @@ mod_gl1_utils_bitmap_set_texture_coords (sys_context, mod_gl1_utils_context_t * 
 }
 
 void
-mod_gl1_utils_bitmap_clear_texture (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_clear_texture (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   if (bitmap->texture)
     {
@@ -361,7 +361,7 @@ mod_gl1_utils_bitmap_clear_texture (sys_context, mod_gl1_utils_context_t * utils
 }
 
 void
-mod_gl1_utils_bitmap_clear_texture_now (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_clear_texture_now (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   if (bitmap->texture)
     {
@@ -371,7 +371,7 @@ mod_gl1_utils_bitmap_clear_texture_now (sys_context, mod_gl1_utils_context_t * u
 }
 
 int
-mod_gl1_utils_bitmap_refresh (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_refresh (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   int ret = 0;
   int64_t bitmap_refresh;
@@ -447,7 +447,7 @@ mod_gl1_utils_bitmap_refresh (sys_context, mod_gl1_utils_context_t * utils_conte
 }
 
 int
-mod_gl1_utils_bitmap_refresh_force (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_refresh_force (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   int ret = 0;
 
@@ -458,7 +458,7 @@ mod_gl1_utils_bitmap_refresh_force (sys_context, mod_gl1_utils_context_t * utils
 }
 
 void
-mod_gl1_utils_bitmap_bind_no_gen (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_bind_no_gen (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   glBindTexture (GL_TEXTURE_2D, bitmap->texture);
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, bitmap->wrap);
@@ -468,7 +468,7 @@ mod_gl1_utils_bitmap_bind_no_gen (sys_context, mod_gl1_utils_context_t * utils_c
 }
 
 int
-mod_gl1_utils_bitmap_bind (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_bind (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   int ret = 0;
 
@@ -506,7 +506,8 @@ mod_gl1_utils_bitmap_bind (sys_context, mod_gl1_utils_context_t * utils_context,
 }
 
 int
-mod_gl1_utils_bitmap_display (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap, float x1, float y1, float x2, float y2)
+mod_gl1_utils_bitmap_display (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap, float x1, float y1,
+			      float x2, float y2)
 {
   int ret = 0;
 
@@ -532,7 +533,7 @@ mod_gl1_utils_bitmap_display (sys_context, mod_gl1_utils_context_t * utils_conte
 }
 
 int
-mod_gl1_utils_bitmap_update_texture (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_update_texture (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   int ret = 0;
 

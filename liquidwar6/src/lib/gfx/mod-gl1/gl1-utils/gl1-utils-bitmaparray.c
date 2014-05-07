@@ -30,7 +30,7 @@
 #define _BITMAP_ARRAY_DESC "bitmap_array"
 
 int
-mod_gl1_utils_bitmap_array_init (sys_context, mod_gl1_utils_context_t *
+mod_gl1_utils_bitmap_array_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 				 utils_context, mod_gl1_utils_bitmap_array_t * bitmap_array, int w, int h, int tile_size, int border_size)
 {
   int ret = 0;
@@ -82,7 +82,7 @@ mod_gl1_utils_bitmap_array_init (sys_context, mod_gl1_utils_context_t *
 }
 
 int
-mod_gl1_utils_bitmap_array_init_from_surface (mod_gl1_utils_context_t *
+mod_gl1_utils_bitmap_array_init_from_surface (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					      utils_context,
 					      mod_gl1_utils_bitmap_array_t *
 					      bitmap_array, SDL_Surface * surface, int tile_size, int border_size, int x_polarity, int y_polarity)
@@ -130,7 +130,7 @@ mod_gl1_utils_bitmap_array_init_from_surface (mod_gl1_utils_context_t *
 			    {
 			      x_get = x;
 			      y_get = y;
-			      lw6map_coords_fix_xy (sys_context, &rules, &shape, &x_get, &y_get);
+			      lw6map_coords_fix_xy (&rules, &shape, &x_get, &y_get);
 			      x_put = x - rect.x1;
 			      y_put = y - rect.y1;
 			      mod_gl1_utils_putpixel (sys_context, sub_surface, x_put, y_put, mod_gl1_utils_getpixel (sys_context, surface, x_get, y_get));
@@ -161,7 +161,7 @@ mod_gl1_utils_bitmap_array_init_from_surface (mod_gl1_utils_context_t *
 }
 
 int
-mod_gl1_utils_bitmap_array_init_from_map (sys_context, mod_gl1_utils_context_t *
+mod_gl1_utils_bitmap_array_init_from_map (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					  utils_context,
 					  mod_gl1_utils_bitmap_array_t *
 					  bitmap_array, const lw6map_level_t * level, int tile_size, int border_size, int x_polarity, int y_polarity)
@@ -172,7 +172,7 @@ mod_gl1_utils_bitmap_array_init_from_map (sys_context, mod_gl1_utils_context_t *
   surface = mod_gl1_utils_map2surface (sys_context, utils_context, level);
   if (surface)
     {
-      ret = mod_gl1_utils_bitmap_array_init_from_surface (utils_context, bitmap_array, surface, tile_size, border_size, x_polarity, y_polarity);
+      ret = mod_gl1_utils_bitmap_array_init_from_surface (sys_context, utils_context, bitmap_array, surface, tile_size, border_size, x_polarity, y_polarity);
       mod_gl1_utils_delete_surface (sys_context, utils_context, surface);
     }
 
@@ -180,7 +180,8 @@ mod_gl1_utils_bitmap_array_init_from_map (sys_context, mod_gl1_utils_context_t *
 }
 
 int
-mod_gl1_utils_bitmap_array_update (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_array_t * bitmap_array, GLint wrap, GLint filter)
+mod_gl1_utils_bitmap_array_update (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_array_t * bitmap_array,
+				   GLint wrap, GLint filter)
 {
   int ret = 1;
   int i;
@@ -206,7 +207,7 @@ mod_gl1_utils_bitmap_array_update (sys_context, mod_gl1_utils_context_t * utils_
 }
 
 void
-mod_gl1_utils_bitmap_array_clear (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_array_t * bitmap_array)
+mod_gl1_utils_bitmap_array_clear (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_array_t * bitmap_array)
 {
   int i;
 
@@ -228,7 +229,8 @@ mod_gl1_utils_bitmap_array_clear (sys_context, mod_gl1_utils_context_t * utils_c
  * usable 'till next redraw.
  */
 void
-sdl_utils_schedule_delete_bitmap_array (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_array_t * bitmap_array)
+mod_gl1_utils_schedule_delete_bitmap_array (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+					    mod_gl1_utils_bitmap_array_t * bitmap_array)
 {
   int i;
 
@@ -244,7 +246,7 @@ sdl_utils_schedule_delete_bitmap_array (mod_gl1_utils_context_t * utils_context,
 }
 
 int
-mod_gl1_utils_bitmap_array_set (sys_context, mod_gl1_utils_bitmap_array_t * bitmap_array, int i, mod_gl1_utils_bitmap_t * bitmap)
+mod_gl1_utils_bitmap_array_set (lw6sys_context_t * sys_context, mod_gl1_utils_bitmap_array_t * bitmap_array, int i, mod_gl1_utils_bitmap_t * bitmap)
 {
   int ret = 0;
 
@@ -261,7 +263,7 @@ mod_gl1_utils_bitmap_array_set (sys_context, mod_gl1_utils_bitmap_array_t * bitm
 }
 
 mod_gl1_utils_bitmap_t *
-mod_gl1_utils_bitmap_array_get (sys_context, mod_gl1_utils_bitmap_array_t * bitmap_array, int i)
+mod_gl1_utils_bitmap_array_get (lw6sys_context_t * sys_context, mod_gl1_utils_bitmap_array_t * bitmap_array, int i)
 {
   mod_gl1_utils_bitmap_t *ret = NULL;
 
