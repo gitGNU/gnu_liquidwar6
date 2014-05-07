@@ -28,7 +28,7 @@
 #include "gl1-splash-internal.h"
 
 _mod_gl1_splash_context_t *
-_mod_gl1_splash_init (sys_context, mod_gl1_utils_context_t * utils_context)
+_mod_gl1_splash_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   _mod_gl1_splash_context_t *splash_context = NULL;
 
@@ -50,7 +50,7 @@ _mod_gl1_splash_init (sys_context, mod_gl1_utils_context_t * utils_context)
 }
 
 void *
-mod_gl1_splash_init (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_splash_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   void *ret = NULL;
   if (utils_context)
@@ -62,7 +62,7 @@ mod_gl1_splash_init (sys_context, mod_gl1_utils_context_t * utils_context)
 }
 
 void
-_mod_gl1_splash_quit (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_mod_gl1_splash_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   if (utils_context && splash_context)
     {
@@ -76,7 +76,7 @@ _mod_gl1_splash_quit (sys_context, mod_gl1_utils_context_t * utils_context, _mod
 }
 
 void
-mod_gl1_splash_quit (sys_context, mod_gl1_utils_context_t * utils_context, void *splash_context)
+mod_gl1_splash_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *splash_context)
 {
   _mod_gl1_splash_quit (sys_context, utils_context, (_mod_gl1_splash_context_t *) splash_context);
 }

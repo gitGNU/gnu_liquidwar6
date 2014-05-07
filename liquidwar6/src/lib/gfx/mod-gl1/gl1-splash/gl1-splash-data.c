@@ -39,7 +39,7 @@
 #define _DESC_SPLASH_GAME "splash_game"
 
 static void
-_read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_gl1_splash_const_data_t *const_data;
 
@@ -87,7 +87,7 @@ _read_callback (void *callback_data, const char *element, const char *key, const
 }
 
 static int
-_load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_load_consts (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -107,13 +107,13 @@ _load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t
 }
 
 static void
-_unload_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_unload_consts (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   memset (&splash_context->const_data, 0, sizeof (_mod_gl1_splash_const_data_t));
 }
 
 static int
-_load_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_load_bitmaps (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int ret = 0;
 
@@ -128,7 +128,7 @@ _load_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_
 }
 
 static void
-_unload_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_unload_bitmaps (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   if (splash_context->bitmap_data.satellite)
     {
@@ -138,7 +138,7 @@ _unload_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_contex
 }
 
 static int
-_load_game (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_load_game (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int ret = 0;
 
@@ -148,21 +148,24 @@ _load_game (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t *
   if (splash_context->game.level)
     {
       splash_context->game.level->param.rules.total_time = LW6MAP_RULES_MAX_TOTAL_TIME;
-      splash_context->game.game_struct = lw6ker_game_struct_new (splash_context->game.level, NULL);
+      splash_context->game.game_struct = lw6ker_game_struct_new (sys_context, splash_context->game.level, NULL);
       if (splash_context->game.game_struct)
 	{
-	  splash_context->game.game_state = lw6ker_game_state_new (splash_context->game.game_struct, NULL);
+	  splash_context->game.game_state = lw6ker_game_state_new (sys_context, splash_context->game.game_struct, NULL);
 	  if (splash_context->game.game_state)
 	    {
-	      lw6ker_game_state_register_node (splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID);
-	      lw6ker_game_state_add_cursor (splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID, _MOD_GL1_SPLASH_GAME_CURSOR1_ID, _GAME_COLOR1);
-	      lw6ker_game_state_add_cursor (splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID, _MOD_GL1_SPLASH_GAME_CURSOR2_ID, _GAME_COLOR2);
-	      lw6ker_game_state_add_cursor (splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID, _MOD_GL1_SPLASH_GAME_CURSOR3_ID, _GAME_COLOR3);
-	      lw6ker_game_state_add_cursor (splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID, _MOD_GL1_SPLASH_GAME_CURSOR4_ID, _GAME_COLOR4);
+	      lw6ker_game_state_register_node (sys_context, splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID);
+	      lw6ker_game_state_add_cursor (sys_context, splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID, _MOD_GL1_SPLASH_GAME_CURSOR1_ID,
+					    _GAME_COLOR1);
+	      lw6ker_game_state_add_cursor (sys_context, splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID, _MOD_GL1_SPLASH_GAME_CURSOR2_ID,
+					    _GAME_COLOR2);
+	      lw6ker_game_state_add_cursor (sys_context, splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID, _MOD_GL1_SPLASH_GAME_CURSOR3_ID,
+					    _GAME_COLOR3);
+	      lw6ker_game_state_add_cursor (sys_context, splash_context->game.game_state, _MOD_GL1_SPLASH_GAME_NODE_ID, _MOD_GL1_SPLASH_GAME_CURSOR4_ID,
+					    _GAME_COLOR4);
 	      splash_context->game.bitmap =
-		mod_gl1_utils_bitmap_new (sys_context, utils_context,
-					  lw6ker_game_state_get_w
-					  (splash_context->game.game_state), lw6ker_game_state_get_h (splash_context->game.game_state), _DESC_SPLASH_GAME);
+		mod_gl1_utils_bitmap_new (sys_context, utils_context, lw6ker_game_state_get_w (sys_context, splash_context->game.game_state),
+					  lw6ker_game_state_get_h (sys_context, splash_context->game.game_state), _DESC_SPLASH_GAME);
 	      if (splash_context->game.bitmap)
 		{
 		  mod_gl1_utils_bitmap_set_wrap (sys_context, utils_context, splash_context->game.bitmap, GL_REPEAT);
@@ -179,7 +182,7 @@ _load_game (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t *
 }
 
 static void
-_unload_game (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_unload_game (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   if (splash_context->game.bitmap)
     {
@@ -187,15 +190,15 @@ _unload_game (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t
     }
   if (splash_context->game.game_state)
     {
-      lw6ker_game_state_free (splash_context->game.game_state);
+      lw6ker_game_state_free (sys_context, splash_context->game.game_state);
     }
   if (splash_context->game.game_struct)
     {
-      lw6ker_game_struct_free (splash_context->game.game_struct);
+      lw6ker_game_struct_free (sys_context, splash_context->game.game_struct);
     }
   if (splash_context->game.level)
     {
-      lw6map_free (splash_context->game.level);
+      lw6map_free (sys_context, splash_context->game.level);
     }
   if (splash_context->game.sphere)
     {
@@ -205,19 +208,20 @@ _unload_game (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t
 }
 
 int
-_mod_gl1_splash_load_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_mod_gl1_splash_load_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int ret = 0;
 
-  ret = _load_consts (utils_context, splash_context) && _load_bitmaps (utils_context, splash_context) && _load_game (utils_context, splash_context);
+  ret = _load_consts (sys_context, utils_context, splash_context) && _load_bitmaps (sys_context, utils_context, splash_context)
+    && _load_game (sys_context, utils_context, splash_context);
 
   return ret;
 }
 
 void
-_mod_gl1_splash_unload_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_mod_gl1_splash_unload_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
-  _unload_game (utils_context, splash_context);
-  _unload_bitmaps (utils_context, splash_context);
-  _unload_consts (utils_context, splash_context);
+  _unload_game (sys_context, utils_context, splash_context);
+  _unload_bitmaps (sys_context, utils_context, splash_context);
+  _unload_consts (sys_context, utils_context, splash_context);
 }

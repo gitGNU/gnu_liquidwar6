@@ -30,7 +30,7 @@
 #include "gl1-splash-internal.h"
 
 void
-_display_root (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_display_root (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   lw6sys_color_f_t bg_color;
 
@@ -45,7 +45,7 @@ _display_root (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_
 }
 
 void
-_update_system (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_update_system (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int x_center = 0;
   int y_center = 0;
@@ -57,41 +57,41 @@ _update_system (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context
       x_center =
 	((int)
 	 (_lw6gfx_sdl_timer_get_cycle (sys_context, &(utils_context->sdl_context)) *
-	  splash_context->const_data.cursors_center_speed)) % lw6ker_game_state_get_w (splash_context->game.game_state);
-      y_center = lw6ker_game_state_get_h (splash_context->game.game_state) / 2;
+	  splash_context->const_data.cursors_center_speed)) % lw6ker_game_state_get_w (sys_context, splash_context->game.game_state);
+      y_center = lw6ker_game_state_get_h (sys_context, splash_context->game.game_state) / 2;
       angle = ((float) _lw6gfx_sdl_timer_get_cycle (sys_context, &(utils_context->sdl_context))) / ((float) splash_context->const_data.cursors_spin_period);
-      if (lw6ker_game_state_get_cursor (splash_context->game.game_state, &cursor, _MOD_GL1_SPLASH_GAME_CURSOR1_ID))
+      if (lw6ker_game_state_get_cursor (sys_context, splash_context->game.game_state, &cursor, _MOD_GL1_SPLASH_GAME_CURSOR1_ID))
 	{
 	  cursor.pos.x = x_center + splash_context->const_data.cursors_spin_radius * cos (angle);
 	  cursor.pos.y = y_center + splash_context->const_data.cursors_spin_radius * sin (angle);
-	  lw6ker_game_state_set_cursor (splash_context->game.game_state, &cursor);
+	  lw6ker_game_state_set_cursor (sys_context, splash_context->game.game_state, &cursor);
 	}
-      if (lw6ker_game_state_get_cursor (splash_context->game.game_state, &cursor, _MOD_GL1_SPLASH_GAME_CURSOR2_ID))
+      if (lw6ker_game_state_get_cursor (sys_context, splash_context->game.game_state, &cursor, _MOD_GL1_SPLASH_GAME_CURSOR2_ID))
 	{
 	  cursor.pos.x = x_center - splash_context->const_data.cursors_spin_radius * sin (angle);
 	  cursor.pos.y = y_center + splash_context->const_data.cursors_spin_radius * cos (angle);
-	  lw6ker_game_state_set_cursor (splash_context->game.game_state, &cursor);
+	  lw6ker_game_state_set_cursor (sys_context, splash_context->game.game_state, &cursor);
 	}
-      if (lw6ker_game_state_get_cursor (splash_context->game.game_state, &cursor, _MOD_GL1_SPLASH_GAME_CURSOR3_ID))
+      if (lw6ker_game_state_get_cursor (sys_context, splash_context->game.game_state, &cursor, _MOD_GL1_SPLASH_GAME_CURSOR3_ID))
 	{
 	  cursor.pos.x = x_center - splash_context->const_data.cursors_spin_radius * cos (angle);
 	  cursor.pos.y = y_center - splash_context->const_data.cursors_spin_radius * sin (angle);
-	  lw6ker_game_state_set_cursor (splash_context->game.game_state, &cursor);
+	  lw6ker_game_state_set_cursor (sys_context, splash_context->game.game_state, &cursor);
 	}
-      if (lw6ker_game_state_get_cursor (splash_context->game.game_state, &cursor, _MOD_GL1_SPLASH_GAME_CURSOR4_ID))
+      if (lw6ker_game_state_get_cursor (sys_context, splash_context->game.game_state, &cursor, _MOD_GL1_SPLASH_GAME_CURSOR4_ID))
 	{
 	  cursor.pos.x = x_center + splash_context->const_data.cursors_spin_radius * sin (angle);
 	  cursor.pos.y = y_center - splash_context->const_data.cursors_spin_radius * cos (angle);
-	  lw6ker_game_state_set_cursor (splash_context->game.game_state, &cursor);
+	  lw6ker_game_state_set_cursor (sys_context, splash_context->game.game_state, &cursor);
 	}
-      lw6ker_game_state_do_round (splash_context->game.game_state);
+      lw6ker_game_state_do_round (sys_context, splash_context->game.game_state);
       mod_gl1_utils_update_game_bitmap_raw (sys_context, utils_context,
 					    splash_context->game.bitmap, splash_context->game.game_state, &splash_context->const_data.map_color, 1);
     }
 }
 
 void
-_display_system (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_display_system (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int slices;
   int stacks;
@@ -176,7 +176,7 @@ _display_system (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_contex
 }
 
 void
-_update_text (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_update_text (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   int i;
   char *credits;
@@ -184,7 +184,7 @@ _update_text (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t
   if (splash_context->const_data.text_period > 0)
     {
       i = _lw6gfx_sdl_timer_get_cycle (sys_context, &(utils_context->sdl_context)) / splash_context->const_data.text_period;
-      credits = lw6hlp_get_credits (i);
+      credits = lw6hlp_get_credits (sys_context, i);
       if (credits)
 	{
 	  if ((!(splash_context->text.shaded_text)) || (strcmp (credits, splash_context->text.shaded_text->text) != 0))
@@ -194,7 +194,7 @@ _update_text (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t
 		  mod_gl1_utils_shaded_text_free (sys_context, utils_context, splash_context->text.shaded_text);
 		}
 	      splash_context->text.shaded_text =
-		mod_gl1_utils_shaded_text_new (utils_context, utils_context->font_data.hud, credits, &splash_context->const_data.text_color);
+		mod_gl1_utils_shaded_text_new (sys_context, utils_context, utils_context->font_data.hud, credits, &splash_context->const_data.text_color);
 	    }
 	  LW6SYS_FREE (sys_context, credits);
 	}
@@ -202,7 +202,7 @@ _update_text (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t
 }
 
 void
-_display_text (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_display_text (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
   float x1, y1, x2, y2;
   float center_x, center_y, w, h, dw, dh;
@@ -233,17 +233,17 @@ _display_text (mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_
 }
 
 void
-_mod_gl1_splash_display (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
+_mod_gl1_splash_display (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context)
 {
-  _display_root (utils_context, splash_context);
-  _update_system (utils_context, splash_context);
-  _display_system (utils_context, splash_context);
-  _update_text (utils_context, splash_context);
-  _display_text (utils_context, splash_context);
+  _display_root (sys_context, utils_context, splash_context);
+  _update_system (sys_context, utils_context, splash_context);
+  _display_system (sys_context, utils_context, splash_context);
+  _update_text (sys_context, utils_context, splash_context);
+  _display_text (sys_context, utils_context, splash_context);
 }
 
 void
-mod_gl1_splash_display (sys_context, mod_gl1_utils_context_t * utils_context, void *splash_context)
+mod_gl1_splash_display (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *splash_context)
 {
   if (utils_context && splash_context)
     {
@@ -252,14 +252,15 @@ mod_gl1_splash_display (sys_context, mod_gl1_utils_context_t * utils_context, vo
 }
 
 void
-_mod_gl1_splash_patch_system_color (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context,
+_mod_gl1_splash_patch_system_color (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_splash_context_t * splash_context,
 				    lw6map_color_couple_t * system_color)
 {
   *system_color = splash_context->const_data.text_color;
 }
 
 void
-mod_gl1_splash_patch_system_color (sys_context, mod_gl1_utils_context_t * utils_context, void *splash_context, lw6map_color_couple_t * system_color)
+mod_gl1_splash_patch_system_color (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *splash_context,
+				   lw6map_color_couple_t * system_color)
 {
   if (utils_context && splash_context)
     {
