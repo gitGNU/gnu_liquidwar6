@@ -27,65 +27,65 @@
 #include "gl1-hud.h"
 
 static void
-_warning (const char *func_name)
+_warning (lw6sys_context_t * sys_context, const char *func_name)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("hud backend function \"%s\" is not defined"), func_name);
 }
 
 int
-mod_gl1_hud_init (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
+mod_gl1_hud_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
 {
   if (backend->init)
     {
-      backend->hud_context = backend->init (utils_context);
+      backend->hud_context = backend->init (sys_context, utils_context);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   return backend->hud_context ? 1 : 0;
 }
 
 void
-mod_gl1_hud_quit (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
+mod_gl1_hud_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
 {
   if (backend->quit)
     {
-      backend->quit (utils_context, backend->hud_context);
+      backend->quit (sys_context, utils_context, backend->hud_context);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 }
 
 void
-mod_gl1_hud_display_hud (sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_hud_display_hud (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 			 mod_gl1_hud_backend_t * backend,
 			 const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
   if (backend->display_hud)
     {
-      backend->display_hud (utils_context, backend->hud_context, look, game_state, local_cursors);
+      backend->display_hud (sys_context, utils_context, backend->hud_context, look, game_state, local_cursors);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 }
 
 void
-mod_gl1_hud_display_score (sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_hud_display_score (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 			   mod_gl1_hud_backend_t * backend,
 			   const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
   if (backend->display_score)
     {
-      backend->display_score (utils_context, backend->hud_context, look, game_state, local_cursors);
+      backend->display_score (sys_context, utils_context, backend->hud_context, look, game_state, local_cursors);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 }

@@ -34,7 +34,7 @@
  * Low-level SDL initialisation.
  */
 _mod_gl1_hud_floating_context_t *
-_mod_gl1_hud_floating_init (sys_context, mod_gl1_utils_context_t * utils_context)
+_mod_gl1_hud_floating_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   _mod_gl1_hud_floating_context_t *floating_context = NULL;
 
@@ -68,7 +68,7 @@ _mod_gl1_hud_floating_init (sys_context, mod_gl1_utils_context_t * utils_context
 }
 
 void *
-mod_gl1_hud_floating_init (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_hud_floating_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   return (void *) _mod_gl1_hud_floating_init (sys_context, utils_context);
 }
@@ -77,7 +77,7 @@ mod_gl1_hud_floating_init (sys_context, mod_gl1_utils_context_t * utils_context)
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_hud_floating_quit (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit hud/floating"));
 
@@ -87,7 +87,7 @@ _mod_gl1_hud_floating_quit (sys_context, mod_gl1_utils_context_t * utils_context
 }
 
 void
-mod_gl1_hud_floating_quit (sys_context, mod_gl1_utils_context_t * utils_context, void *floating_context)
+mod_gl1_hud_floating_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *floating_context)
 {
   _mod_gl1_hud_floating_quit (sys_context, utils_context, (_mod_gl1_hud_floating_context_t *) floating_context);
 }

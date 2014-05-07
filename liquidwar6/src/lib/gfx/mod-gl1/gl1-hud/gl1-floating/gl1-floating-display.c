@@ -30,7 +30,7 @@
 #include "gl1-floating-internal.h"
 
 static void
-_display_clock (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_display_clock (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   float x1, x2, y1, y2, dw, dh;
   float size_factor = sqrt (utils_context->sdl_context.video_mode.width * utils_context->sdl_context.video_mode.height);
@@ -52,7 +52,7 @@ _display_clock (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_c
 }
 
 static void
-_display_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_display_gauges (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   float x1, x2, y1, y2, w, h;
   float text_w, text_h, text_x1, text_x2, text_y1, text_y2, text_dw, text_dh;
@@ -86,22 +86,22 @@ _display_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_
 	  team_color = floating_context->score_array.scores[i].team_color;
 	  if (team_color >= 0)
 	    {
-	      weapon_per1000_left = lw6ker_game_state_get_weapon_per1000_left (floating_context->game_state, team_color);
+	      weapon_per1000_left = lw6ker_game_state_get_weapon_per1000_left (sys_context, floating_context->game_state, team_color);
 	      if (weapon_per1000_left > 0)
 		{
 		  charge = lw6sys_imin (1000, weapon_per1000_left) / 1000.0f;
 		}
 	      else
 		{
-		  charge = lw6sys_imin (1000, lw6ker_game_state_get_charge_per1000 (floating_context->game_state, team_color)) / 1000.0f;
+		  charge = lw6sys_imin (1000, lw6ker_game_state_get_charge_per1000 (sys_context, floating_context->game_state, team_color)) / 1000.0f;
 		}
 	      size_factor_score = ratio * floating_context->const_data.gauge_max_size + (1.0f - ratio) * floating_context->const_data.gauge_min_size;
 	      size_factor_heartbeat = (lw6ker_game_state_get_charge_per1000
-				       (floating_context->game_state,
+				       (sys_context, floating_context->game_state,
 					team_color) >=
 				       1000) ?
 		lw6sys_math_heartbeat (sys_context,
-				       _lw6gfx_sdl_timer_get_uptime (&
+				       _lw6gfx_sdl_timer_get_uptime (sys_context, &
 								     (utils_context->sdl_context)),
 				       floating_context->const_data.gauge_heartbeat_period,
 				       floating_context->const_data.gauge_relative_heartbeat_min,
@@ -213,7 +213,7 @@ _display_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_
 }
 
 static void
-_display_weapon (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_display_weapon (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int team_color = 0;
   int weapon_id = 0;
@@ -225,7 +225,7 @@ _display_weapon (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_
   glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glEnable (GL_BLEND);
 
-  if (lw6ker_game_state_get_latest_weapon (floating_context->game_state, &team_color, &weapon_id, &per1000_left))
+  if (lw6ker_game_state_get_latest_weapon (sys_context, floating_context->game_state, &team_color, &weapon_id, &per1000_left))
     {
       transparency =
 	((per1000_left * floating_context->const_data.weapon_ambiance_alpha1 +
@@ -240,20 +240,20 @@ _display_weapon (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_
 }
 
 static void
-_display_hud (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_display_hud (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();
   glLoadIdentity ();
-  _display_clock (utils_context, floating_context);
-  _display_gauges (utils_context, floating_context);
-  _display_weapon (utils_context, floating_context);
+  _display_clock (sys_context, utils_context, floating_context);
+  _display_gauges (sys_context, utils_context, floating_context);
+  _display_weapon (sys_context, utils_context, floating_context);
   glMatrixMode (GL_TEXTURE);
   glPopMatrix ();
 }
 
 void
-_mod_gl1_hud_floating_display_hud (sys_context, mod_gl1_utils_context_t * utils_context,
+_mod_gl1_hud_floating_display_hud (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				   _mod_gl1_hud_floating_context_t *
 				   floating_context,
 				   const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
@@ -262,12 +262,12 @@ _mod_gl1_hud_floating_display_hud (sys_context, mod_gl1_utils_context_t * utils_
   _mod_gl1_hud_floating_context_update_hud (sys_context, utils_context, floating_context, look, game_state, local_cursors);
 
   mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
-  _display_hud (utils_context, floating_context);
+  _display_hud (sys_context, utils_context, floating_context);
   _mod_gl1_hud_floating_context_end_hud (sys_context, utils_context, floating_context);
 }
 
 void
-mod_gl1_hud_floating_display_hud (sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_hud_floating_display_hud (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				  void *hud_context,
 				  const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
@@ -275,7 +275,7 @@ mod_gl1_hud_floating_display_hud (sys_context, mod_gl1_utils_context_t * utils_c
 }
 
 static void
-_display_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_display_pie (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int i = 0;
   float x0, y0, dx, dy, angle1, angle2, angle_offset;
@@ -315,7 +315,7 @@ _display_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_con
 	  if (i == 0)
 	    {
 	      heartbeat_factor =
-		lw6sys_math_heartbeat (cycle,
+		lw6sys_math_heartbeat (sys_context, cycle,
 				       floating_context->const_data.score_pie_heartbeat_period,
 				       floating_context->const_data.score_pie_heartbeat_factor1, floating_context->const_data.score_pie_heartbeat_factor2);
 	    }
@@ -381,18 +381,18 @@ _display_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_con
 }
 
 static void
-_display_score (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_display_score (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   glMatrixMode (GL_TEXTURE);
   glPushMatrix ();
   glLoadIdentity ();
-  _display_pie (utils_context, floating_context);
+  _display_pie (sys_context, utils_context, floating_context);
   glMatrixMode (GL_TEXTURE);
   glPopMatrix ();
 }
 
 void
-_mod_gl1_hud_floating_display_score (sys_context, mod_gl1_utils_context_t * utils_context,
+_mod_gl1_hud_floating_display_score (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				     _mod_gl1_hud_floating_context_t *
 				     floating_context,
 				     const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
@@ -401,12 +401,12 @@ _mod_gl1_hud_floating_display_score (sys_context, mod_gl1_utils_context_t * util
   _mod_gl1_hud_floating_context_update_score (sys_context, utils_context, floating_context, look, game_state, local_cursors);
 
   mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
-  _display_score (utils_context, floating_context);
+  _display_score (sys_context, utils_context, floating_context);
   _mod_gl1_hud_floating_context_end_score (sys_context, utils_context, floating_context);
 }
 
 void
-mod_gl1_hud_floating_display_score (sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_hud_floating_display_score (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				    void *hud_context,
 				    const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {

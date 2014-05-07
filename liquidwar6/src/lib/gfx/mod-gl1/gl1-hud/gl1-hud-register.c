@@ -32,9 +32,9 @@
 #include "gl1-tactical/gl1-tactical.h"
 
 mod_gl1_hud_backend_t *
-mod_gl1_hud_create_backend (sys_context, mod_gl1_utils_context_t * utils_context, const char *name)
+mod_gl1_hud_create_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const char *name)
 {
-  mod_gl1_hud_backend_t *(*init_func) (mod_gl1_utils_context_t * utils_context) = NULL;
+  mod_gl1_hud_backend_t *(*init_func) (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context) = NULL;
   mod_gl1_hud_backend_t *backend = NULL;
 
   if (strcmp (name, "floating") == 0)
@@ -52,7 +52,7 @@ mod_gl1_hud_create_backend (sys_context, mod_gl1_utils_context_t * utils_context
 
   if (init_func)
     {
-      backend = init_func (utils_context);
+      backend = init_func (sys_context, utils_context);
       if (backend)
 	{
 	  backend->backend_name = lw6sys_str_copy (sys_context, name);
@@ -63,7 +63,7 @@ mod_gl1_hud_create_backend (sys_context, mod_gl1_utils_context_t * utils_context
 }
 
 void
-mod_gl1_hud_destroy_backend (sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
+mod_gl1_hud_destroy_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_hud_backend_t * backend)
 {
   if (backend)
     {

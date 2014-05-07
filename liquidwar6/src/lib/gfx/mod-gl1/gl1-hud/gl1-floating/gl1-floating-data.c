@@ -38,7 +38,7 @@
 #define IMAGE_GAUGE_FRAME "gauge-frame.png"
 
 static void
-read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_gl1_hud_floating_const_data_t *const_data;
 
@@ -95,7 +95,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 }
 
 static int
-load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_load_consts (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -106,7 +106,7 @@ load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_cont
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) &(floating_context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, _read_callback, (void *) &(floating_context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }
@@ -115,13 +115,13 @@ load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_cont
 }
 
 static void
-unload_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_unload_consts (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   memset (&floating_context->const_data, 0, sizeof (_mod_gl1_hud_floating_const_data_t));
 }
 
 static int
-load_images (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_load_images (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
 
@@ -135,7 +135,7 @@ load_images (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_cont
  * Free memory.
  */
 static void
-unload_images (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_unload_images (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   if (floating_context->gauges.gauge_frame)
     {
@@ -148,19 +148,19 @@ unload_images (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_co
  * Putting all the load/unload functions together
  */
 int
-_mod_gl1_hud_floating_load_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_load_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 1;
 
-  ret = ret && load_consts (utils_context, floating_context);
-  ret = ret && load_images (utils_context, floating_context);
+  ret = ret && _load_consts (sys_context, utils_context, floating_context);
+  ret = ret && _load_images (sys_context, utils_context, floating_context);
 
   return ret;
 }
 
 void
-_mod_gl1_hud_floating_unload_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_unload_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
-  unload_consts (utils_context, floating_context);
-  unload_images (utils_context, floating_context);
+  _unload_consts (sys_context, utils_context, floating_context);
+  _unload_images (sys_context, utils_context, floating_context);
 }

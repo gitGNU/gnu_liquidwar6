@@ -34,7 +34,7 @@
  * Low-level SDL initialisation.
  */
 _mod_gl1_hud_tactical_context_t *
-_mod_gl1_hud_tactical_init (sys_context, mod_gl1_utils_context_t * utils_context)
+_mod_gl1_hud_tactical_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   _mod_gl1_hud_tactical_context_t *tactical_context = NULL;
 
@@ -62,7 +62,7 @@ _mod_gl1_hud_tactical_init (sys_context, mod_gl1_utils_context_t * utils_context
 }
 
 void *
-mod_gl1_hud_tactical_init (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_hud_tactical_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   return (void *) _mod_gl1_hud_tactical_init (sys_context, utils_context);
 }
@@ -71,7 +71,7 @@ mod_gl1_hud_tactical_init (sys_context, mod_gl1_utils_context_t * utils_context)
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_hud_tactical_quit (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
+_mod_gl1_hud_tactical_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit hud/tactical"));
 
@@ -80,7 +80,7 @@ _mod_gl1_hud_tactical_quit (sys_context, mod_gl1_utils_context_t * utils_context
 }
 
 void
-mod_gl1_hud_tactical_quit (sys_context, mod_gl1_utils_context_t * utils_context, void *tactical_context)
+mod_gl1_hud_tactical_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *tactical_context)
 {
   _mod_gl1_hud_tactical_quit (sys_context, utils_context, (_mod_gl1_hud_tactical_context_t *) tactical_context);
 }

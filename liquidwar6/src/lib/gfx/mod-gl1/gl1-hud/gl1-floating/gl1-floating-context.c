@@ -28,7 +28,8 @@
 #include "gl1-floating-internal.h"
 
 int
-_mod_gl1_hud_floating_context_init (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+				    _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
 
@@ -40,7 +41,8 @@ _mod_gl1_hud_floating_context_init (sys_context, mod_gl1_utils_context_t * utils
 }
 
 int
-_mod_gl1_hud_floating_context_begin_hud (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_begin_hud (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+					 _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 1;
 
@@ -63,7 +65,8 @@ _mod_gl1_hud_floating_context_begin_hud (sys_context, mod_gl1_utils_context_t * 
 }
 
 void
-_mod_gl1_hud_floating_context_end_hud (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_end_hud (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+				       _mod_gl1_hud_floating_context_t * floating_context)
 {
   if (floating_context->gauges.disk)
     {
@@ -73,7 +76,7 @@ _mod_gl1_hud_floating_context_end_hud (sys_context, mod_gl1_utils_context_t * ut
 }
 
 static int
-_update_clock (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_update_clock (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
 
@@ -98,7 +101,8 @@ _update_clock (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_co
       else
 	{
 	  floating_context->clock.clock_text =
-	    mod_gl1_utils_shaded_text_new (utils_context, utils_context->font_data.menu, text, &(floating_context->look->style.color_set.hud_color_text));
+	    mod_gl1_utils_shaded_text_new (sys_context, utils_context, utils_context->font_data.menu, text,
+					   &(floating_context->look->style.color_set.hud_color_text));
 	}
       LW6SYS_FREE (sys_context, text);
     }
@@ -107,7 +111,7 @@ _update_clock (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_co
 }
 
 static int
-_update_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_update_gauges (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 1;
   int i;
@@ -146,7 +150,7 @@ _update_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_c
 	      else
 		{
 		  floating_context->gauges.percent_texts[i] =
-		    mod_gl1_utils_shaded_text_new (utils_context, utils_context->font_data.hud, percent_text, &color_text);
+		    mod_gl1_utils_shaded_text_new (sys_context, utils_context, utils_context->font_data.hud, percent_text, &color_text);
 		}
 	      LW6SYS_FREE (sys_context, percent_text);
 	    }
@@ -163,7 +167,7 @@ _update_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_c
 		  else
 		    {
 		      floating_context->gauges.frags_texts[i] =
-			mod_gl1_utils_shaded_text_new (utils_context, utils_context->font_data.hud, frags_text, &color_text);
+			mod_gl1_utils_shaded_text_new (sys_context, utils_context, utils_context->font_data.hud, frags_text, &color_text);
 		    }
 		  LW6SYS_FREE (sys_context, frags_text);
 		}
@@ -175,7 +179,7 @@ _update_gauges (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_c
 }
 
 int
-_mod_gl1_hud_floating_context_update_hud (sys_context, mod_gl1_utils_context_t *
+_mod_gl1_hud_floating_context_update_hud (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					  utils_context,
 					  _mod_gl1_hud_floating_context_t
 					  * floating_context,
@@ -189,14 +193,15 @@ _mod_gl1_hud_floating_context_update_hud (sys_context, mod_gl1_utils_context_t *
   floating_context->local_cursors = local_cursors;
   lw6ker_score_array_update (sys_context, &floating_context->score_array, floating_context->game_state);
 
-  ret = _update_clock (utils_context, floating_context) && ret;
-  ret = _update_gauges (utils_context, floating_context) && ret;
+  ret = _update_clock (sys_context, utils_context, floating_context) && ret;
+  ret = _update_gauges (sys_context, utils_context, floating_context) && ret;
 
   return ret;
 }
 
 int
-_mod_gl1_hud_floating_context_begin_score (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_begin_score (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+					   _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 1;
 
@@ -219,7 +224,8 @@ _mod_gl1_hud_floating_context_begin_score (sys_context, mod_gl1_utils_context_t 
 }
 
 void
-_mod_gl1_hud_floating_context_end_score (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_end_score (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+					 _mod_gl1_hud_floating_context_t * floating_context)
 {
   if (floating_context->score_pie.disk)
     {
@@ -229,7 +235,7 @@ _mod_gl1_hud_floating_context_end_score (sys_context, mod_gl1_utils_context_t * 
 }
 
 static int
-_update_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_update_pie (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 1;
   // int percent, frags;
@@ -252,13 +258,13 @@ _update_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_cont
 	    {
 	      score_text =
 		lw6sys_new_sprintf (sys_context, _x_ ("%d: %s, %d frags"),
-				    i + 1, _(lw6map_team_color_index_to_key (team_color)), floating_context->score_array.scores[i].frags);
+				    i + 1, _(lw6map_team_color_index_to_key (sys_context, team_color)), floating_context->score_array.scores[i].frags);
 	    }
 	  else
 	    {
 	      score_text =
 		lw6sys_new_sprintf (sys_context, _x_ ("%d: %s, %d%%"), i + 1,
-				    _(lw6map_team_color_index_to_key (team_color)), floating_context->score_array.scores[i].fighters_percent);
+				    _(lw6map_team_color_index_to_key (sys_context, team_color)), floating_context->score_array.scores[i].fighters_percent);
 	    }
 	  if (score_text)
 	    {
@@ -269,7 +275,7 @@ _update_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_cont
 	      else
 		{
 		  floating_context->score_pie.score_texts[i] =
-		    mod_gl1_utils_shaded_text_new (utils_context, utils_context->font_data.hud, score_text, &color_text);
+		    mod_gl1_utils_shaded_text_new (sys_context, utils_context, utils_context->font_data.hud, score_text, &color_text);
 		}
 	      LW6SYS_FREE (sys_context, score_text);
 	    }
@@ -280,7 +286,7 @@ _update_pie (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_cont
 }
 
 int
-_mod_gl1_hud_floating_context_update_score (sys_context, mod_gl1_utils_context_t *
+_mod_gl1_hud_floating_context_update_score (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					    utils_context,
 					    _mod_gl1_hud_floating_context_t
 					    * floating_context,
@@ -293,13 +299,14 @@ _mod_gl1_hud_floating_context_update_score (sys_context, mod_gl1_utils_context_t
   floating_context->local_cursors = local_cursors;
   lw6ker_score_array_update (sys_context, &floating_context->score_array, floating_context->game_state);
 
-  ret = _update_pie (utils_context, floating_context);
+  ret = _update_pie (sys_context, utils_context, floating_context);
 
   return ret;
 }
 
 int
-_mod_gl1_hud_floating_context_clear_hud_clock (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_clear_hud_clock (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+					       _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
 
@@ -315,7 +322,8 @@ _mod_gl1_hud_floating_context_clear_hud_clock (sys_context, mod_gl1_utils_contex
 }
 
 int
-_mod_gl1_hud_floating_context_clear_hud_gauges (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_clear_hud_gauges (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+						_mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
   int i;
@@ -344,7 +352,8 @@ _mod_gl1_hud_floating_context_clear_hud_gauges (sys_context, mod_gl1_utils_conte
 }
 
 int
-_mod_gl1_hud_floating_context_clear_hud (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_clear_hud (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+					 _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
 
@@ -357,7 +366,8 @@ _mod_gl1_hud_floating_context_clear_hud (sys_context, mod_gl1_utils_context_t * 
 }
 
 int
-_mod_gl1_hud_floating_context_clear_score (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_clear_score (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+					   _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
   int i = 0;
@@ -374,7 +384,8 @@ _mod_gl1_hud_floating_context_clear_score (sys_context, mod_gl1_utils_context_t 
 }
 
 int
-_mod_gl1_hud_floating_context_clear (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_floating_context_t * floating_context)
+_mod_gl1_hud_floating_context_clear (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+				     _mod_gl1_hud_floating_context_t * floating_context)
 {
   int ret = 0;
 

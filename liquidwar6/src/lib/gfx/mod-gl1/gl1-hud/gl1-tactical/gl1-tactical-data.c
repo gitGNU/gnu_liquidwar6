@@ -36,7 +36,7 @@
 #define IMAGE_FRAME "frame.png"
 
 static void
-read_callback (void *callback_data, const char *element, const char *key, const char *value)
+read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_gl1_hud_tactical_const_data_t *const_data;
 
@@ -52,7 +52,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 }
 
 static int
-load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
+_load_consts (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -72,7 +72,7 @@ load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_cont
 }
 
 static void
-unload_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
+_unload_consts (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
 {
   memset (&tactical_context->const_data, 0, sizeof (_mod_gl1_hud_tactical_const_data_t));
 }
@@ -81,7 +81,7 @@ unload_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_co
  * Loads bitmaps from disk.
  */
 static int
-load_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
+_load_bitmaps (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
 {
   int ret = 0;
 
@@ -104,7 +104,7 @@ load_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_con
  * Free memory.
  */
 static void
-unload_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
+_unload_bitmaps (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
 {
   mod_gl1_utils_bitmap_free (sys_context, utils_context, tactical_context->bitmap_data.frame);
 
@@ -115,14 +115,14 @@ unload_bitmaps (mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_c
  * Putting all the load/unload functions together
  */
 int
-_mod_gl1_hud_tactical_load_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
+_mod_gl1_hud_tactical_load_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
 {
-  return load_consts (utils_context, tactical_context) && load_bitmaps (utils_context, tactical_context);
+  return _load_consts (sys_context, utils_context, tactical_context) && _load_bitmaps (sys_context, utils_context, tactical_context);
 }
 
 void
-_mod_gl1_hud_tactical_unload_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
+_mod_gl1_hud_tactical_unload_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_hud_tactical_context_t * tactical_context)
 {
-  unload_consts (utils_context, tactical_context);
-  unload_bitmaps (utils_context, tactical_context);
+  _unload_consts (sys_context, utils_context, tactical_context);
+  _unload_bitmaps (sys_context, utils_context, tactical_context);
 }

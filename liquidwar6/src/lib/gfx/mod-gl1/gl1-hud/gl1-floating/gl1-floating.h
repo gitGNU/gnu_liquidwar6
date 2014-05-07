@@ -28,20 +28,20 @@
 #include "../gl1-hud.h"
 
 /* gl1-floating-backend.c */
-extern mod_gl1_hud_backend_t *mod_gl1_hud_floating_create_backend (mod_gl1_utils_context_t * utils_context);
+extern mod_gl1_hud_backend_t *mod_gl1_hud_floating_create_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
 
 /* gl1-floating-display.c */
-extern void mod_gl1_hud_floating_display_hud (mod_gl1_utils_context_t *
+extern void mod_gl1_hud_floating_display_hud (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					      utils_context,
 					      void *hud_context,
 					      const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
-extern void mod_gl1_hud_floating_display_score (mod_gl1_utils_context_t *
+extern void mod_gl1_hud_floating_display_score (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						utils_context,
 						void *hud_context,
 						const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors);
 
 /* gl1-floating-setup.c */
-extern void *mod_gl1_hud_floating_init (mod_gl1_utils_context_t * utils_context);
-extern void mod_gl1_hud_floating_quit (mod_gl1_utils_context_t * utils_context, void *hud_context);
+extern void *mod_gl1_hud_floating_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+extern void mod_gl1_hud_floating_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *hud_context);
 
 #endif // LIQUIDWAR6GFX_MOD_GL1_HUD_FLOATING_H
