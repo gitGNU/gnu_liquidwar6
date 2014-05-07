@@ -30,7 +30,7 @@
 #define _FILE_MASK "%08u.bmp"
 
 SDL_Surface *
-mod_gl1_utils_capture2surface (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_capture2surface (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   SDL_Surface *surface_tmp = NULL;
   SDL_Surface *surface_ret = NULL;
@@ -72,7 +72,7 @@ mod_gl1_utils_capture2surface (sys_context, mod_gl1_utils_context_t * utils_cont
 }
 
 int
-mod_gl1_utils_capture2disk (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_capture2disk (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 0;
   SDL_Surface *surface = NULL;

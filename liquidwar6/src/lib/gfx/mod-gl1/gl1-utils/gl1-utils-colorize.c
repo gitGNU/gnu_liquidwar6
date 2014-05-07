@@ -28,8 +28,8 @@
 #include "gl1-utils.h"
 
 SDL_Surface *
-mod_gl1_utils_colorize_surface (sys_context, mod_gl1_utils_context_t * utils_context, SDL_Surface * surface, const lw6map_color_couple_t * color,
-				int has_alpha)
+mod_gl1_utils_colorize_surface (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, SDL_Surface * surface,
+				const lw6map_color_couple_t * color, int has_alpha)
 {
   SDL_Surface *colorized_surface = NULL;
   int x, y;
@@ -55,7 +55,7 @@ mod_gl1_utils_colorize_surface (sys_context, mod_gl1_utils_context_t * utils_con
 	  lw6sys_color_rgb_to_hsv (sys_context, &color_hsv, color_8);
 	  color_8 = lw6sys_color_ponderate (sys_context, color->bg, color->fg, color_hsv.v);
 	  color_8.a = a;
-	  mod_gl1_utils_putpixel (sys_context, colorized_surface, x, y, lw6sys_color_8_to_irgba (sys_context, color_8));
+	  mod_gl1_utils_putpixel (sys_context, colorized_surface, x, y, lw6sys_color_8_to_irgba (color_8));
 	}
     }
 

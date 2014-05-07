@@ -33,7 +33,7 @@
 #define CONST_FILE "utils/gl1-utils-const.xml"
 
 static void
-read_callback (void *callback_data, const char *element, const char *key, const char *value)
+read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   mod_gl1_utils_const_data_t *const_data;
 
@@ -74,7 +74,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
  * Loads constants.
  */
 int
-mod_gl1_utils_load_consts (sys_context, mod_gl1_utils_context_t * context)
+mod_gl1_utils_load_consts (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * context)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -97,7 +97,7 @@ mod_gl1_utils_load_consts (sys_context, mod_gl1_utils_context_t * context)
  * Unload constants, free memory
  */
 void
-mod_gl1_utils_unload_consts (sys_context, mod_gl1_utils_context_t * context)
+mod_gl1_utils_unload_consts (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * context)
 {
   memset (&context->const_data, 0, sizeof (mod_gl1_utils_const_data_t));
 }
