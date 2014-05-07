@@ -38,7 +38,7 @@
 #endif
 
 int
-mod_gl1_utils_icon_set (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_icon_set (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 0;
 
@@ -53,7 +53,7 @@ mod_gl1_utils_icon_set (sys_context, mod_gl1_utils_context_t * utils_context)
 }
 
 void
-mod_gl1_utils_icon_unset (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_icon_unset (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
 {
   if (utils_context->icon.bitmap)
     {

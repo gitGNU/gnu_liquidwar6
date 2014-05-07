@@ -28,7 +28,7 @@
 #include "gl1-utils.h"
 
 void
-mod_gl1_utils_show_mouse (sys_context, mod_gl1_utils_context_t * utils_context, int state, int force)
+mod_gl1_utils_show_mouse (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, int state, int force)
 {
   if (force || (state != utils_context->mouse_state.shown))
     {

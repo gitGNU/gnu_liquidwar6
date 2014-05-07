@@ -35,7 +35,7 @@
  * Very slow, we don't care, for debugging only.
  */
 SDL_Surface *
-mod_gl1_utils_create_gradient_surface (mod_gl1_utils_context_t * utils_context, const lw6ker_game_state_t * game_state, int team_id, int layer_id)
+mod_gl1_utils_create_gradient_surface (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, const lw6ker_game_state_t * game_state, int team_id, int layer_id)
 {
   SDL_Surface *gradient_surface;
   lw6sys_color_f_t color;
@@ -89,7 +89,7 @@ mod_gl1_utils_create_gradient_surface (mod_gl1_utils_context_t * utils_context, 
 	      color.a = utils_context->const_data.gradient_opacity;
 
 	      mod_gl1_utils_draw_rectfill (sys_context, gradient_surface, zone_pos.x,
-					   zone_pos.y, zone_pos.x + zone_size - 1, zone_pos.y + zone_size - 1, lw6sys_color_f_to_irgba (sys_context, &color));
+					   zone_pos.y, zone_pos.x + zone_size - 1, zone_pos.y + zone_size - 1, lw6sys_color_f_to_irgba (&color));
 	    }
 	}
     }

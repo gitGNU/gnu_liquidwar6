@@ -30,7 +30,7 @@
 #define _DESC_TEXTURE_1X1 "texture_1x1"
 
 static void
-_bitmap_free (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
+_bitmap_free (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * bitmap)
 {
   if (bitmap)
     {
@@ -39,7 +39,7 @@ _bitmap_free (mod_gl1_utils_context_t * utils_context, mod_gl1_utils_bitmap_t * 
 }
 
 mod_gl1_utils_bitmap_t *
-mod_gl1_utils_texture_1x1_color2bitmap (sys_context, mod_gl1_utils_context_t * utils_context, lw6sys_color_8_t color_8)
+mod_gl1_utils_texture_1x1_color2bitmap (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, lw6sys_color_8_t color_8)
 {
   mod_gl1_utils_bitmap_t *ret = NULL;
   Uint32 pixel;
@@ -47,7 +47,7 @@ mod_gl1_utils_texture_1x1_color2bitmap (sys_context, mod_gl1_utils_context_t * u
   ret = mod_gl1_utils_bitmap_new (sys_context, utils_context, 1, 1, _DESC_TEXTURE_1X1);
   if (ret)
     {
-      pixel = lw6sys_color_8_to_irgba (sys_context, color_8);
+      pixel = lw6sys_color_8_to_irgba (color_8);
       mod_gl1_utils_putpixel (sys_context, ret->surface, 0, 0, pixel);
       mod_gl1_utils_bitmap_clear_texture (sys_context, utils_context, ret);
     }
@@ -56,7 +56,7 @@ mod_gl1_utils_texture_1x1_color2bitmap (sys_context, mod_gl1_utils_context_t * u
 }
 
 int
-mod_gl1_utils_texture_1x1_update (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look)
+mod_gl1_utils_texture_1x1_update (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look)
 {
   int ret = 1;
   int i, j;
@@ -156,41 +156,41 @@ mod_gl1_utils_texture_1x1_update (sys_context, mod_gl1_utils_context_t * utils_c
 }
 
 void
-mod_gl1_utils_texture_1x1_clear (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_texture_1x1_clear (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int i, j;
 
-  _bitmap_free (utils_context, utils_context->textures_1x1.color_base_fg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.color_base_bg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.color_alternate_fg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.color_alternate_bg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.background_color_root_fg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.background_color_root_bg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.background_color_stuff_fg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.background_color_stuff_bg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.hud_color_frame_fg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.hud_color_frame_bg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.hud_color_text_fg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.hud_color_text_bg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.menu_color_default_fg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.menu_color_default_bg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.menu_color_selected_fg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.menu_color_selected_bg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.menu_color_disabled_fg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.menu_color_disabled_bg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.view_color_cursor_fg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.view_color_cursor_bg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.view_color_map_fg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.view_color_map_bg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.system_color_fg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.system_color_bg);
-  _bitmap_free (utils_context, utils_context->textures_1x1.team_color_dead);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.color_base_fg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.color_base_bg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.color_alternate_fg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.color_alternate_bg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.background_color_root_fg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.background_color_root_bg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.background_color_stuff_fg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.background_color_stuff_bg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.hud_color_frame_fg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.hud_color_frame_bg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.hud_color_text_fg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.hud_color_text_bg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.menu_color_default_fg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.menu_color_default_bg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.menu_color_selected_fg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.menu_color_selected_bg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.menu_color_disabled_fg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.menu_color_disabled_bg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.view_color_cursor_fg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.view_color_cursor_bg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.view_color_map_fg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.view_color_map_bg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.system_color_fg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.system_color_bg);
+  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.team_color_dead);
   for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
     {
-      _bitmap_free (utils_context, utils_context->textures_1x1.team_colors[i]);
+      _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.team_colors[i]);
       for (j = 0; j <= MOD_GL1_UTILS_TRANSPARENCY_SCALE; ++j)
 	{
-	  _bitmap_free (utils_context, utils_context->textures_1x1.team_colors_transparency[i][j]);
+	  _bitmap_free (sys_context,utils_context, utils_context->textures_1x1.team_colors_transparency[i][j]);
 	}
     }
   memset (&(utils_context->textures_1x1), 0, sizeof (mod_gl1_utils_texture_1x1_t));

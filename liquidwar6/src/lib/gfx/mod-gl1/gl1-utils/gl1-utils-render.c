@@ -31,7 +31,7 @@
 #define SELECT_HEIGHT 3.0f
 
 static void
-basic_cleanup ()
+_basic_cleanup (lw6sys_context_t *sys_context)
 {
   glEnable (GL_TEXTURE_2D);
   glColor3f (1.0f, 1.0f, 1.0f);
@@ -41,7 +41,7 @@ basic_cleanup ()
  * Prepares OpenGL buffer for a new draw.
  */
 void
-mod_gl1_utils_prepare_buffer (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look)
+mod_gl1_utils_prepare_buffer (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look)
 {
   lw6sys_color_f_t bg_color;
 
@@ -59,7 +59,7 @@ mod_gl1_utils_prepare_buffer (sys_context, mod_gl1_utils_context_t * utils_conte
 }
 
 void
-mod_gl1_prepare_buffer (void *utils_context, lw6gui_look_t * look)
+mod_gl1_prepare_buffer (lw6sys_context_t *sys_context,void *utils_context, lw6gui_look_t * look)
 {
   mod_gl1_utils_prepare_buffer (sys_context, (mod_gl1_utils_context_t *) utils_context, look);
 }
@@ -68,7 +68,7 @@ mod_gl1_prepare_buffer (void *utils_context, lw6gui_look_t * look)
  * Liquid War 6 uses a double buffer, this function swaps them.
  */
 void
-mod_gl1_utils_swap_buffers (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_swap_buffers (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
 {
   /*
    * glFinish suspected to be a performance killer, and anyways
@@ -80,15 +80,9 @@ mod_gl1_utils_swap_buffers (sys_context, mod_gl1_utils_context_t * utils_context
 }
 
 void
-mod_gl1_swap_buffers (void *utils_context)
+mod_gl1_utils_set_render_mode_2d (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
 {
-  mod_gl1_utils_swap_buffers (sys_context, (mod_gl1_utils_context_t *) utils_context);
-}
-
-void
-mod_gl1_utils_set_render_mode_2d (sys_context, mod_gl1_utils_context_t * utils_context)
-{
-  basic_cleanup ();
+  _basic_cleanup (sys_context);
   if (utils_context->render_param.mode != MOD_GL1_UTILS_RENDER_2D)
     {
       glMatrixMode (GL_PROJECTION);
@@ -109,9 +103,9 @@ mod_gl1_utils_set_render_mode_2d (sys_context, mod_gl1_utils_context_t * utils_c
 }
 
 void
-mod_gl1_utils_set_render_mode_2d_blend (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_set_render_mode_2d_blend (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
 {
-  basic_cleanup ();
+  _basic_cleanup (sys_context);
   if (utils_context->render_param.mode != MOD_GL1_UTILS_RENDER_2D_BLEND)
     {
       glMatrixMode (GL_PROJECTION);
@@ -133,9 +127,9 @@ mod_gl1_utils_set_render_mode_2d_blend (sys_context, mod_gl1_utils_context_t * u
 }
 
 void
-mod_gl1_utils_set_render_mode_3d_map (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_set_render_mode_3d_map (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
 {
-  basic_cleanup ();
+  _basic_cleanup (sys_context);
   if (utils_context->render_param.mode != MOD_GL1_UTILS_RENDER_3D_MAP)
     {
       glMatrixMode (GL_PROJECTION);
@@ -154,9 +148,9 @@ mod_gl1_utils_set_render_mode_3d_map (sys_context, mod_gl1_utils_context_t * uti
 }
 
 void
-mod_gl1_utils_set_render_mode_3d_menu (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_set_render_mode_3d_menu (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
 {
-  basic_cleanup ();
+  _basic_cleanup (sys_context);
   if (utils_context->render_param.mode != MOD_GL1_UTILS_RENDER_3D_MENU)
     {
       glMatrixMode (GL_PROJECTION);
@@ -175,11 +169,11 @@ mod_gl1_utils_set_render_mode_3d_menu (sys_context, mod_gl1_utils_context_t * ut
 }
 
 void
-mod_gl1_utils_set_render_mode_3d_select (sys_context, mod_gl1_utils_context_t * utils_context, int x, int y)
+mod_gl1_utils_set_render_mode_3d_select (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, int x, int y)
 {
   GLint viewport[4];
 
-  basic_cleanup ();
+  _basic_cleanup (sys_context);
   if (utils_context->render_param.mode != MOD_GL1_UTILS_RENDER_3D_SELECT)
     {
       glMatrixMode (GL_PROJECTION);
@@ -201,11 +195,11 @@ mod_gl1_utils_set_render_mode_3d_select (sys_context, mod_gl1_utils_context_t * 
 }
 
 void
-mod_gl1_utils_set_render_mode_3d_feedback (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_set_render_mode_3d_feedback (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
 {
   GLint viewport[4];
 
-  basic_cleanup ();
+  _basic_cleanup (sys_context);
   if (utils_context->render_param.mode != MOD_GL1_UTILS_RENDER_3D_FEEDBACK)
     {
       glMatrixMode (GL_PROJECTION);

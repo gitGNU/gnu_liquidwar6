@@ -30,7 +30,7 @@
 #include "gl1-utils.h"
 
 int
-mod_gl1_utils_joystick_init (sys_context, mod_gl1_utils_joysticks_info_t * joysticks_info)
+mod_gl1_utils_joystick_init (lw6sys_context_t *sys_context, mod_gl1_utils_joysticks_info_t * joysticks_info)
 {
   int ret = 0;
   int i;
@@ -67,7 +67,7 @@ mod_gl1_utils_joystick_init (sys_context, mod_gl1_utils_joysticks_info_t * joyst
 }
 
 void
-mod_gl1_utils_joystick_quit (sys_context, mod_gl1_utils_joysticks_info_t * joysticks_info)
+mod_gl1_utils_joystick_quit (lw6sys_context_t *sys_context, mod_gl1_utils_joysticks_info_t * joysticks_info)
 {
   int i;
 
