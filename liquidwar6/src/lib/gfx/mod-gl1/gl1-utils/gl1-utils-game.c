@@ -32,7 +32,7 @@
  * fighters here" is done.
  */
 static void
-_update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
+_update_game_surface_raw (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 			  SDL_Surface * surface,
 			  const lw6ker_game_state_t * game_state, const lw6map_color_couple_t * map_color, int invert_y, int x0, int y0, int w, int h)
 {
@@ -52,8 +52,8 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 
   x1 = x0 + w - 1;
   y1 = y0 + h - 1;
-  lw6map_coords_fix_xy (sys_context, rules, &shape, &x0, &y0);
-  lw6map_coords_fix_xy (sys_context, rules, &shape, &x1, &y1);
+  lw6map_coords_fix_xy (rules, &shape, &x0, &y0);
+  lw6map_coords_fix_xy (rules, &shape, &x1, &y1);
   x1++;
   y1++;
   bg = lw6sys_color_8_to_irgba (map_color->bg);
@@ -70,7 +70,7 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 	      fighter_id = lw6ker_game_state_get_fighter_id (sys_context, game_state, x, ry, 0);
 	      if (fighter_id >= 0)
 		{
-		  fighter = lw6ker_game_state_get_fighter_ro_by_id (game_state, fighter_id);
+		  fighter = lw6ker_game_state_get_fighter_ro_by_id (sys_context, game_state, fighter_id);
 		  team_color = fighter->team_color;
 		  if (team_color >= 0)
 		    {
@@ -79,12 +79,12 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 		       * mode, team_color could be negative even if fighter was
 		       * reported active just before.
 		       */
-		      color = mod_gl1_utils_get_shaded_color_for_fighter (team_color, fighter->health);
+		      color = mod_gl1_utils_get_shaded_color_for_fighter (utils_context, team_color, fighter->health);
 		    }
 		}
 	      else
 		{
-		  if (lw6ker_game_struct_is_bg (game_state->game_struct, x, ry, 0))
+		  if (lw6ker_game_struct_is_bg (sys_context, game_state->game_struct, x, ry, 0))
 		    {
 		      color = bg;
 		    }
@@ -112,21 +112,21 @@ _update_game_surface_raw (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_update_game_bitmap_raw (mod_gl1_utils_context_t * utils_context,
+_update_game_bitmap_raw (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 			 mod_gl1_utils_bitmap_t * bitmap,
 			 const lw6ker_game_state_t * game_state, const lw6map_color_couple_t * map_color, int invert_y, int x0, int y0, int w, int h)
 {
-  _update_game_surface_raw (utils_context, bitmap->surface, game_state, map_color, invert_y, x0, y0, w, h);
+  _update_game_surface_raw (sys_context, utils_context, bitmap->surface, game_state, map_color, invert_y, x0, y0, w, h);
 }
 
 void
-mod_gl1_utils_update_game_bitmap_raw (sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_utils_update_game_bitmap_raw (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				      mod_gl1_utils_bitmap_t * bitmap,
 				      const lw6ker_game_state_t * game_state, const lw6map_color_couple_t * map_color, int invert_y)
 {
   if (bitmap->surface)
     {
-      _update_game_bitmap_raw (utils_context, bitmap, game_state, map_color,
+      _update_game_bitmap_raw (sys_context, utils_context, bitmap, game_state, map_color,
 			       invert_y, 0, 0, lw6ker_game_state_get_w (sys_context, game_state), lw6ker_game_state_get_h (sys_context, game_state));
       if (bitmap->texture)
 	{
@@ -147,7 +147,7 @@ mod_gl1_utils_update_game_bitmap_raw (sys_context, mod_gl1_utils_context_t * uti
  * fighters here" is done.
  */
 static void
-_update_game_surface (mod_gl1_utils_context_t * utils_context,
+_update_game_surface (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 		      SDL_Surface * surface, const lw6ker_game_state_t * game_state, const lw6gui_look_t * look, int x0, int y0, int w, int h)
 {
   int x, y, z, x1, y1, d;
@@ -177,7 +177,7 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 	    {
 	      safe_x = x;
 	      safe_y = y;
-	      lw6map_coords_fix_xy (sys_context, rules, &shape, &safe_x, &safe_y);
+	      lw6map_coords_fix_xy (rules, &shape, &safe_x, &safe_y);
 	      fighter_id = -1;
 	      hidden = 0;
 	      for (z = 0; z < d && fighter_id < 0; ++z)
@@ -191,12 +191,12 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 		   */
 		  if (d > 1 && fighter_id < 0)
 		    {
-		      hidden = lw6ker_game_struct_is_fg (game_state->game_struct, safe_x, safe_y, z);
+		      hidden = lw6ker_game_struct_is_fg (sys_context, game_state->game_struct, safe_x, safe_y, z);
 		    }
 		}
 	      if (fighter_id >= 0)
 		{
-		  fighter = lw6ker_game_state_get_fighter_ro_by_id (game_state, fighter_id);
+		  fighter = lw6ker_game_state_get_fighter_ro_by_id (sys_context, game_state, fighter_id);
 		  team_color = fighter->team_color;
 		  if (team_color >= 0)
 		    {
@@ -205,7 +205,7 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 		       * mode, team_color could be negative even if fighter was
 		       * reported active just before.
 		       */
-		      color = mod_gl1_utils_get_shaded_color_for_fighter (team_color, fighter->health);
+		      color = mod_gl1_utils_get_shaded_color_for_fighter (utils_context, team_color, fighter->health);
 		      if (hidden)
 			{
 			  mod_gl1_utils_force_color32_alpha (sys_context, &color, hidden_layer_alpha);
@@ -242,19 +242,19 @@ _update_game_surface (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_update_game_bitmap (mod_gl1_utils_context_t * utils_context,
+_update_game_bitmap (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 		     mod_gl1_utils_bitmap_t * bitmap, const lw6ker_game_state_t * game_state, const lw6gui_look_t * look, int x0, int y0, int w, int h)
 {
-  _update_game_surface (utils_context, bitmap->surface, game_state, look, x0, y0, w, h);
+  _update_game_surface (sys_context, utils_context, bitmap->surface, game_state, look, x0, y0, w, h);
 }
 
 void
-mod_gl1_utils_update_game_bitmap (sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_utils_update_game_bitmap (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				  mod_gl1_utils_bitmap_t * bitmap, const lw6ker_game_state_t * game_state, const lw6gui_look_t * look)
 {
   if (bitmap->surface)
     {
-      _update_game_bitmap (utils_context, bitmap, game_state, look,
+      _update_game_bitmap (sys_context, utils_context, bitmap, game_state, look,
 			   0, 0, lw6ker_game_state_get_w (sys_context, game_state), lw6ker_game_state_get_h (sys_context, game_state));
       if (bitmap->texture)
 	{
@@ -271,7 +271,7 @@ mod_gl1_utils_update_game_bitmap (sys_context, mod_gl1_utils_context_t * utils_c
 }
 
 void
-mod_gl1_utils_update_game_bitmap_array (sys_context, mod_gl1_utils_context_t *
+mod_gl1_utils_update_game_bitmap_array (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					utils_context,
 					mod_gl1_utils_bitmap_array_t * bitmap_array, const lw6ker_game_state_t * game_state, const lw6gui_look_t * look)
 {
@@ -317,7 +317,7 @@ mod_gl1_utils_update_game_bitmap_array (sys_context, mod_gl1_utils_context_t *
 	      bitmap = mod_gl1_utils_bitmap_array_get (sys_context, bitmap_array, i);
 	      if (bitmap)
 		{
-		  _update_game_bitmap (utils_context, bitmap, game_state, look, rect.x1, rect.y1, rect.w, rect.h);
+		  _update_game_bitmap (sys_context, utils_context, bitmap, game_state, look, rect.x1, rect.y1, rect.w, rect.h);
 		}
 	    }
 	}

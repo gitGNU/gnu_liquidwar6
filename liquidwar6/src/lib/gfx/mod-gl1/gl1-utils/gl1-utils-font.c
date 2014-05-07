@@ -30,7 +30,7 @@
 #include "gl1-utils.h"
 
 static void
-_get_text_wh (TTF_Font * font, const char *text, int *width, int *height)
+_get_text_wh (lw6sys_context_t * sys_context, TTF_Font * font, const char *text, int *width, int *height)
 {
   if (TTF_SizeUTF8 (font, text, width, height) == -1)
     {
@@ -40,21 +40,21 @@ _get_text_wh (TTF_Font * font, const char *text, int *width, int *height)
 }
 
 static int
-_get_text_width (TTF_Font * font, const char *text)
+_get_text_width (lw6sys_context_t * sys_context, TTF_Font * font, const char *text)
 {
   int width = 0;
 
-  _get_text_wh (font, text, &width, NULL);
+  _get_text_wh (sys_context, font, text, &width, NULL);
 
   return width;
 }
 
 static int
-_get_text_height (TTF_Font * font, const char *text)
+_get_text_height (lw6sys_context_t * sys_context, TTF_Font * font, const char *text)
 {
   int height = 0;
 
-  _get_text_wh (font, text, NULL, &height);
+  _get_text_wh (sys_context, font, text, NULL, &height);
 
   return height;
 }
@@ -63,22 +63,23 @@ _get_text_height (TTF_Font * font, const char *text)
  * Returns the size of the string if it was drawn
  */
 int
-mod_gl1_utils_get_system_text_width (sys_context, mod_gl1_utils_context_t * utils_context, const char *text)
+mod_gl1_utils_get_system_text_width (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const char *text)
 {
-  return _get_text_width (utils_context->font_data.system, text);
+  return _get_text_width (sys_context, utils_context->font_data.system, text);
 }
 
 /*
  * Returns the size of the string if it was drawn
  */
 int
-mod_gl1_utils_get_system_text_height (sys_context, mod_gl1_utils_context_t * utils_context, const char *text)
+mod_gl1_utils_get_system_text_height (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const char *text)
 {
-  return _get_text_height (utils_context->font_data.system, text);
+  return _get_text_height (sys_context, utils_context->font_data.system, text);
 }
 
 SDL_Surface *
-mod_gl1_utils_blended_text_surface (sys_context, mod_gl1_utils_context_t * utils_context, TTF_Font * font, SDL_Color color, const char *text)
+mod_gl1_utils_blended_text_surface (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, TTF_Font * font, SDL_Color color,
+				    const char *text)
 {
   SDL_Surface *ret = NULL;
   char *utf8 = NULL;
@@ -102,7 +103,7 @@ mod_gl1_utils_blended_text_surface (sys_context, mod_gl1_utils_context_t * utils
 }
 
 static void
-_multiline_text_size_callback (void *func_data, void *data)
+_multiline_text_size_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
 
   mod_gl1_utils_multiline_text_callback_data_t *text_callback_data = (mod_gl1_utils_multiline_text_callback_data_t *) func_data;
@@ -111,14 +112,14 @@ _multiline_text_size_callback (void *func_data, void *data)
 
   if (!lw6sys_str_is_blank (sys_context, line))
     {
-      _get_text_wh (text_callback_data->font, line, &w, &h);
+      _get_text_wh (sys_context, text_callback_data->font, line, &w, &h);
       text_callback_data->shape.w = lw6sys_imax (text_callback_data->shape.w, w);
       text_callback_data->shape.h += h;
     }
 }
 
 static void
-_multiline_text_draw_callback (void *func_data, void *data)
+_multiline_text_draw_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
 
   mod_gl1_utils_multiline_text_callback_data_t *text_callback_data = (mod_gl1_utils_multiline_text_callback_data_t *) func_data;
@@ -166,7 +167,7 @@ _multiline_text_draw_callback (void *func_data, void *data)
 }
 
 mod_gl1_utils_bitmap_t *
-mod_gl1_utils_multiline_text_write (mod_gl1_utils_context_t *
+mod_gl1_utils_multiline_text_write (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 				    utils_context, TTF_Font * font,
 				    const char *text,
 				    const lw6map_color_couple_t * color,
@@ -201,8 +202,8 @@ mod_gl1_utils_multiline_text_write (mod_gl1_utils_context_t *
 	    {
 	      data.sdl_color_bg = mod_gl1_utils_color_8_to_sdl (sys_context, color->bg);
 	      data.sdl_color_fg = mod_gl1_utils_color_8_to_sdl (sys_context, color->fg);
-	      i_color_bg = lw6sys_color_8_to_irgba (sys_context, color->bg);
-	      i_color_fg = lw6sys_color_8_to_irgba (sys_context, color->fg);
+	      i_color_bg = lw6sys_color_8_to_irgba (color->bg);
+	      i_color_fg = lw6sys_color_8_to_irgba (color->fg);
 
 	      mod_gl1_utils_draw_rectfill (sys_context, data.target, 0, 0, data.shape.w - 1, data.shape.h - 1, i_color_fg);
 	      mod_gl1_utils_draw_rectfill (sys_context, data.target, border_size, border_size, data.shape.w - 1 - border_size, data.shape.h - 1 - border_size,
@@ -229,13 +230,13 @@ mod_gl1_utils_multiline_text_write (mod_gl1_utils_context_t *
  * Helper internal func
  */
 static void
-_draw_text (mod_gl1_utils_context_t * utils_context,
+_draw_text (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 	    TTF_Font * font, const char *text, const lw6map_color_couple_t * color, float x, float y, float dw, float dh)
 {
   mod_gl1_utils_shaded_text_t *shaded_text;
   int ret = 0;
 
-  shaded_text = mod_gl1_utils_shaded_text_new (utils_context, font, text, color);
+  shaded_text = mod_gl1_utils_shaded_text_new (sys_context, utils_context, font, text, color);
   if (shaded_text != NULL)
     {
       mod_gl1_utils_shaded_text_display (sys_context, utils_context, shaded_text, x, y, x + shaded_text->texture_w, y + shaded_text->texture_h, dw, dh);
@@ -253,16 +254,18 @@ _draw_text (mod_gl1_utils_context_t * utils_context,
  * Draws a font on the screen, at a given position
  */
 void
-mod_gl1_utils_draw_system_text (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char *text, int x, int y)
+mod_gl1_utils_draw_system_text (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char *text, int x,
+				int y)
 {
   mod_gl1_utils_set_render_mode_2d_blend (sys_context, utils_context);
 
-  _draw_text (utils_context, utils_context->font_data.system,
+  _draw_text (sys_context, utils_context, utils_context->font_data.system,
 	      text, &(look->style.color_set.system_color), x, y, utils_context->const_data.system_font_dw, utils_context->const_data.system_font_dh);
 }
 
 void
-mod_gl1_utils_draw_system_text_top_left (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char **text_list)
+mod_gl1_utils_draw_system_text_top_left (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look,
+					 const char **text_list)
 {
   int y;
   int w;
@@ -273,8 +276,8 @@ mod_gl1_utils_draw_system_text_top_left (sys_context, mod_gl1_utils_context_t * 
   y = 0;
   while (*text_list)
     {
-      _get_text_wh (utils_context->font_data.system, *text_list, &w, &h);
-      _draw_text (utils_context, utils_context->font_data.system,
+      _get_text_wh (sys_context, utils_context->font_data.system, *text_list, &w, &h);
+      _draw_text (sys_context, utils_context, utils_context->font_data.system,
 		  *text_list, &(look->style.color_set.system_color), 0, y, utils_context->const_data.system_font_dw, utils_context->const_data.system_font_dh);
       y += (utils_context->const_data.system_font_hcoef * h) + utils_context->const_data.system_font_dh;
       text_list++;
@@ -282,7 +285,8 @@ mod_gl1_utils_draw_system_text_top_left (sys_context, mod_gl1_utils_context_t * 
 }
 
 void
-mod_gl1_utils_draw_system_text_top_right (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char **text_list)
+mod_gl1_utils_draw_system_text_top_right (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look,
+					  const char **text_list)
 {
   int x;
   int y;
@@ -295,8 +299,8 @@ mod_gl1_utils_draw_system_text_top_right (sys_context, mod_gl1_utils_context_t *
   y = 0;
   while (*text_list)
     {
-      _get_text_wh (utils_context->font_data.system, *text_list, &w, &h);
-      _draw_text (utils_context, utils_context->font_data.system,
+      _get_text_wh (sys_context, utils_context->font_data.system, *text_list, &w, &h);
+      _draw_text (sys_context, utils_context, utils_context->font_data.system,
 		  *text_list, &(look->style.color_set.system_color),
 		  x - w, y, utils_context->const_data.system_font_dw, utils_context->const_data.system_font_dh);
       y += (utils_context->const_data.system_font_hcoef * h) + utils_context->const_data.system_font_dh;
@@ -305,7 +309,8 @@ mod_gl1_utils_draw_system_text_top_right (sys_context, mod_gl1_utils_context_t *
 }
 
 void
-mod_gl1_utils_draw_system_text_bottom_left (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char **text_list)
+mod_gl1_utils_draw_system_text_bottom_left (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look,
+					    const char **text_list)
 {
   int y;
   int w;
@@ -328,16 +333,17 @@ mod_gl1_utils_draw_system_text_bottom_left (sys_context, mod_gl1_utils_context_t
     {
       tmp_list--;
 
-      _get_text_wh (utils_context->font_data.system, *tmp_list, &w, &h);
+      _get_text_wh (sys_context, utils_context->font_data.system, *tmp_list, &w, &h);
       y -= (hcoef * h) + utils_context->const_data.system_font_dh;
-      _draw_text (utils_context, utils_context->font_data.system,
+      _draw_text (sys_context, utils_context, utils_context->font_data.system,
 		  *tmp_list, &(look->style.color_set.system_color), 0, y, utils_context->const_data.system_font_dw, utils_context->const_data.system_font_dh);
       hcoef = utils_context->const_data.system_font_hcoef;
     }
 }
 
 void
-mod_gl1_utils_draw_system_text_bottom_right (sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look, const char **text_list)
+mod_gl1_utils_draw_system_text_bottom_right (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6gui_look_t * look,
+					     const char **text_list)
 {
   int x;
   int y;
@@ -362,9 +368,9 @@ mod_gl1_utils_draw_system_text_bottom_right (sys_context, mod_gl1_utils_context_
     {
       tmp_list--;
 
-      _get_text_wh (utils_context->font_data.system, *tmp_list, &w, &h);
+      _get_text_wh (sys_context, utils_context->font_data.system, *tmp_list, &w, &h);
       y -= (hcoef * h) + utils_context->const_data.system_font_dh;
-      _draw_text (utils_context, utils_context->font_data.system,
+      _draw_text (sys_context, utils_context, utils_context->font_data.system,
 		  *tmp_list, &(look->style.color_set.system_color),
 		  x - w, y, utils_context->const_data.system_font_dw, utils_context->const_data.system_font_dh);
       hcoef = utils_context->const_data.system_font_hcoef;
