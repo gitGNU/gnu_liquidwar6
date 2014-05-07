@@ -37,7 +37,7 @@
  * NOTE: The surface must be locked before calling this!
  */
 Uint32
-mod_gl1_utils_getpixel (lw6sys_context_t *sys_context, SDL_Surface * surface, int x, int y)
+mod_gl1_utils_getpixel (lw6sys_context_t * sys_context, SDL_Surface * surface, int x, int y)
 {
   int bpp = surface->format->BytesPerPixel;
   /* Here p is the address to the pixel we want to retrieve */
@@ -75,7 +75,7 @@ mod_gl1_utils_getpixel (lw6sys_context_t *sys_context, SDL_Surface * surface, in
  * NOTE: The surface must be locked before calling this!
  */
 void
-mod_gl1_utils_putpixel (lw6sys_context_t *sys_context, SDL_Surface * surface, int x, int y, Uint32 pixel)
+mod_gl1_utils_putpixel (lw6sys_context_t * sys_context, SDL_Surface * surface, int x, int y, Uint32 pixel)
 {
   int bytes_per_pixel = surface->format->BytesPerPixel;
   /* Here p is the address to the pixel we want to set */

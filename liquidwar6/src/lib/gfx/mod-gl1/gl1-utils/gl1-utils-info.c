@@ -30,19 +30,19 @@
 #include "gl1-utils.h"
 
 void
-mod_gl1_utils_display_log (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look, const char **log_list)
+mod_gl1_utils_display_log (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look, const char **log_list)
 {
   mod_gl1_utils_draw_system_text_bottom_left (sys_context, context, look, log_list);
 }
 
 void
-mod_gl1_utils_display_fps (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look, float fps)
+mod_gl1_utils_display_fps (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look, float fps)
 {
   const char *list_fps[2];
 
   if (fps >= 0)
     {
-      list_fps[0] = lw6sys_itoa (sys_context,fps);
+      list_fps[0] = lw6sys_itoa (sys_context, fps);
       list_fps[1] = NULL;
 
       if (list_fps[0])
@@ -54,7 +54,7 @@ mod_gl1_utils_display_fps (lw6sys_context_t *sys_context, mod_gl1_utils_context_
 }
 
 void
-mod_gl1_utils_display_mps (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look, float mps, int target_mps)
+mod_gl1_utils_display_mps (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look, float mps, int target_mps)
 {
   const char *list_mps[3];
 
@@ -73,7 +73,7 @@ mod_gl1_utils_display_mps (lw6sys_context_t *sys_context, mod_gl1_utils_context_
 }
 
 void
-mod_gl1_utils_display_url (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look, const char *url)
+mod_gl1_utils_display_url (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look, const char *url)
 {
   const char *list_url[2];
 

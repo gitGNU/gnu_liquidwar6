@@ -31,7 +31,8 @@
 #define _DESC_SHADED_TEXT_FG "shaded_text_bg"
 
 mod_gl1_utils_shaded_text_t *
-mod_gl1_utils_shaded_text_new (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, TTF_Font * font, const char *text, const lw6map_color_couple_t * color)
+mod_gl1_utils_shaded_text_new (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, TTF_Font * font, const char *text,
+			       const lw6map_color_couple_t * color)
 {
   mod_gl1_utils_shaded_text_t *shaded_text;
 
@@ -49,7 +50,7 @@ mod_gl1_utils_shaded_text_new (lw6sys_context_t *sys_context,mod_gl1_utils_conte
 }
 
 int
-mod_gl1_utils_shaded_text_update (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_utils_shaded_text_update (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				  mod_gl1_utils_shaded_text_t * shaded_text, const char *text, const lw6map_color_couple_t * color)
 {
   int ret = 0;
@@ -120,7 +121,7 @@ mod_gl1_utils_shaded_text_update (lw6sys_context_t *sys_context, mod_gl1_utils_c
 }
 
 int
-mod_gl1_utils_shaded_text_display (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_utils_shaded_text_display (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				   mod_gl1_utils_shaded_text_t * shaded_text, float x1, float y1, float x2, float y2, float dw, float dh)
 {
   int ret = 1;
@@ -148,7 +149,7 @@ mod_gl1_utils_shaded_text_display (lw6sys_context_t *sys_context, mod_gl1_utils_
 }
 
 void
-mod_gl1_utils_shaded_text_free (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_shaded_text_t * shaded_text)
+mod_gl1_utils_shaded_text_free (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_utils_shaded_text_t * shaded_text)
 {
   if (shaded_text)
     {

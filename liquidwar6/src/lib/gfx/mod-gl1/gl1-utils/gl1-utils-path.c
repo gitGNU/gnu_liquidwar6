@@ -32,7 +32,7 @@
 #define BITMAP "gl1-bitmap"
 
 int
-mod_gl1_utils_path_init (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, int argc, const char *argv[])
+mod_gl1_utils_path_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, int argc, const char *argv[])
 {
   char *data_root_dir = NULL;
   char *user_dir = NULL;
@@ -60,7 +60,7 @@ mod_gl1_utils_path_init (lw6sys_context_t *sys_context, mod_gl1_utils_context_t 
 }
 
 int
-mod_gl1_utils_path_update (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_path_update (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 0;
   char *frame_str = NULL;
@@ -84,7 +84,7 @@ mod_gl1_utils_path_update (lw6sys_context_t *sys_context, mod_gl1_utils_context_
 }
 
 void
-mod_gl1_utils_path_quit (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_path_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   if (utils_context->path.data_dir)
     {

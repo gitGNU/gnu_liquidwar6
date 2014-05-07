@@ -33,7 +33,7 @@
  * Basic wrapper to handle errors and use our defaults settings.
  */
 SDL_Surface *
-mod_gl1_utils_create_surface (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * context, int w, int h)
+mod_gl1_utils_create_surface (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * context, int w, int h)
 {
   SDL_Surface *image;
 
@@ -62,7 +62,7 @@ mod_gl1_utils_create_surface (lw6sys_context_t *sys_context, mod_gl1_utils_conte
  * Basic wrapper to handle errors and use our defaults settings.
  */
 void
-mod_gl1_utils_delete_surface (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * context, SDL_Surface * surface)
+mod_gl1_utils_delete_surface (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * context, SDL_Surface * surface)
 {
   if (surface != NULL)
     {
@@ -76,19 +76,19 @@ mod_gl1_utils_delete_surface (lw6sys_context_t *sys_context, mod_gl1_utils_conte
 }
 
 void
-mod_gl1_utils_clear_surface_with_color (lw6sys_context_t *sys_context, SDL_Surface * surface, SDL_Color color)
+mod_gl1_utils_clear_surface_with_color (lw6sys_context_t * sys_context, SDL_Surface * surface, SDL_Color color)
 {
   SDL_FillRect (surface, NULL, SDL_MapRGB (surface->format, color.r, color.g, color.b));
 }
 
 void
-mod_gl1_utils_clear_surface (lw6sys_context_t *sys_context, SDL_Surface * surface)
+mod_gl1_utils_clear_surface (lw6sys_context_t * sys_context, SDL_Surface * surface)
 {
   memset (surface->pixels, 0, surface->pitch * surface->h);
 }
 
 static SDL_Surface *
-_map2surface_xywh (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, const lw6map_level_t * level, int x, int y, int w, int h)
+_map2surface_xywh (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6map_level_t * level, int x, int y, int w, int h)
 {
   SDL_Surface *ret;
   int i, j;
@@ -116,47 +116,48 @@ _map2surface_xywh (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils
 }
 
 static SDL_Surface *
-_map2surface_wh (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, const lw6map_level_t * level, int w, int h)
+_map2surface_wh (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6map_level_t * level, int w, int h)
 {
-  return _map2surface_xywh (sys_context,utils_context, level, 0, 0, w, h);
+  return _map2surface_xywh (sys_context, utils_context, level, 0, 0, w, h);
 }
 
 static SDL_Surface *
-_map2surface (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, const lw6map_level_t * level)
+_map2surface (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6map_level_t * level)
 {
   /*
    * No need to use the closest power of 2 here, it does not
    * make sense for a surface (but it surely does for a texture).
    */
-  return _map2surface_wh (sys_context,utils_context, level, level->texture.w, level->texture.h);
+  return _map2surface_wh (sys_context, utils_context, level, level->texture.w, level->texture.h);
 }
 
 SDL_Surface *
-mod_gl1_utils_map2surface_xywh (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, const lw6map_level_t * level, int x, int y, int w, int h)
+mod_gl1_utils_map2surface_xywh (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6map_level_t * level, int x, int y, int w,
+				int h)
 {
   SDL_Surface *surface;
 
-  surface = _map2surface_xywh (sys_context,utils_context, level, x, y, w, h);
+  surface = _map2surface_xywh (sys_context, utils_context, level, x, y, w, h);
 
   return surface;
 }
 
 SDL_Surface *
-mod_gl1_utils_map2surface_wh (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, const lw6map_level_t * level, int w, int h)
+mod_gl1_utils_map2surface_wh (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6map_level_t * level, int w, int h)
 {
   SDL_Surface *surface;
 
-  surface = _map2surface_wh (sys_context,utils_context, level, w, h);
+  surface = _map2surface_wh (sys_context, utils_context, level, w, h);
 
   return surface;
 }
 
 SDL_Surface *
-mod_gl1_utils_map2surface (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, const lw6map_level_t * level)
+mod_gl1_utils_map2surface (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6map_level_t * level)
 {
   SDL_Surface *surface;
 
-  surface = _map2surface (sys_context,utils_context, level);
+  surface = _map2surface (sys_context, utils_context, level);
 
   return surface;
 }

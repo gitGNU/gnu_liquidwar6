@@ -33,7 +33,7 @@
  * Very slow, we don't care, for debugging only.
  */
 SDL_Surface *
-mod_gl1_utils_create_zones_surface (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, const lw6ker_game_struct_t * game_struct)
+mod_gl1_utils_create_zones_surface (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const lw6ker_game_struct_t * game_struct)
 {
   SDL_Surface *zones_surface;
   lw6sys_color_f_t color;

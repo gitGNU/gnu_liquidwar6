@@ -34,7 +34,7 @@
  * Pointer must be freed.
  */
 static char *
-_create_button_key (lw6sys_context_t *sys_context,const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
+_create_button_key (lw6sys_context_t * sys_context, const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
 {
   char *key;
   int c1, c2;
@@ -50,7 +50,7 @@ _create_button_key (lw6sys_context_t *sys_context,const lw6gui_look_t * look, co
  * Store a button bitmap in the menucache. Returns != 0 if successfull.
  */
 int
-mod_gl1_utils_store_button_in_menucache (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * context,
+mod_gl1_utils_store_button_in_menucache (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * context,
 					 const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem, mod_gl1_utils_bitmap_t * bitmap)
 {
   mod_gl1_utils_menucache_array_t *menucache_array;
@@ -75,7 +75,7 @@ mod_gl1_utils_store_button_in_menucache (lw6sys_context_t *sys_context, mod_gl1_
       menucache_array->item_array[i].bitmap = NULL;
     }
 
-  key = _create_button_key (sys_context,look, menuitem);
+  key = _create_button_key (sys_context, look, menuitem);
   if (key != NULL)
     {
       ret = 1;
@@ -90,7 +90,8 @@ mod_gl1_utils_store_button_in_menucache (lw6sys_context_t *sys_context, mod_gl1_
  * Gets a button bitmap from the menucache. Returns non NULL if successfull.
  */
 mod_gl1_utils_bitmap_t *
-mod_gl1_utils_get_button_from_menucache (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * context, const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
+mod_gl1_utils_get_button_from_menucache (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * context, const lw6gui_look_t * look,
+					 const lw6gui_menuitem_t * menuitem)
 {
   mod_gl1_utils_menucache_array_t *menucache_array;
   mod_gl1_utils_bitmap_t *bitmap = NULL;
@@ -99,7 +100,7 @@ mod_gl1_utils_get_button_from_menucache (lw6sys_context_t *sys_context,mod_gl1_u
 
   menucache_array = &(context->menucache_array);
 
-  key = _create_button_key (sys_context,look, menuitem);
+  key = _create_button_key (sys_context, look, menuitem);
 
   if (key != NULL)
     {
@@ -124,7 +125,7 @@ mod_gl1_utils_get_button_from_menucache (lw6sys_context_t *sys_context,mod_gl1_u
  * Clear the cache (usefull when quiting the program).
  */
 void
-mod_gl1_utils_clear_menucache (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * context)
+mod_gl1_utils_clear_menucache (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * context)
 {
   mod_gl1_utils_menucache_array_t *menucache_array;
   int i;

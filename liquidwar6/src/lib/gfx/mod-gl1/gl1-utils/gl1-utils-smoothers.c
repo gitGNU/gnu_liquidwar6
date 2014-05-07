@@ -30,7 +30,7 @@
 #include "gl1-utils.h"
 
 void
-mod_gl1_utils_smoothers_init (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_smoothers_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   lw6gui_smoother_init (sys_context, &(utils_context->smoothers.global_zoom), 1.0f, utils_context->const_data.smoother_global_zoom_duration);
 
@@ -50,7 +50,7 @@ mod_gl1_utils_smoothers_init (lw6sys_context_t *sys_context, mod_gl1_utils_conte
 }
 
 void
-mod_gl1_utils_smoothers_reset_drawable (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_smoothers_reset_drawable (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   /*
      lw6gui_smoother_immediate_force (sys_context,&(utils_context->smoothers.drawable_x1),
@@ -65,7 +65,7 @@ mod_gl1_utils_smoothers_reset_drawable (lw6sys_context_t *sys_context, mod_gl1_u
 }
 
 void
-mod_gl1_utils_smoothers_update (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_smoothers_update (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   //float drawable_x1, drawable_y1, drawable_x2, drawable_y2;
   utils_context->smoothed.global_zoom =

@@ -33,7 +33,7 @@
  * Initialize display.
  */
 int
-mod_gl1_utils_set_video_mode (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_video_mode_t * video_mode)
+mod_gl1_utils_set_video_mode (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_video_mode_t * video_mode)
 {
   /* Information about the current video settings. */
   const SDL_VideoInfo *info = NULL;
@@ -253,7 +253,7 @@ mod_gl1_utils_set_video_mode (lw6sys_context_t *sys_context, mod_gl1_utils_conte
  * Called whenever window resize is asked for.
  */
 int
-mod_gl1_utils_resize_video_mode (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_video_mode_t * video_mode)
+mod_gl1_utils_resize_video_mode (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -297,7 +297,7 @@ mod_gl1_utils_resize_video_mode (lw6sys_context_t *sys_context, mod_gl1_utils_co
 }
 
 int
-mod_gl1_utils_get_video_mode (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_video_mode_t * video_mode)
+mod_gl1_utils_get_video_mode (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -312,7 +312,7 @@ mod_gl1_utils_get_video_mode (lw6sys_context_t *sys_context, mod_gl1_utils_conte
  * Update viewport
  */
 int
-mod_gl1_utils_sync_viewport (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_sync_viewport (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   int ret = 1;
 
@@ -328,7 +328,7 @@ mod_gl1_utils_sync_viewport (lw6sys_context_t *sys_context, mod_gl1_utils_contex
  * Force mode.
  */
 int
-mod_gl1_utils_sync_mode (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, int force)
+mod_gl1_utils_sync_mode (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, int force)
 {
   int ret = 0;
   lw6gui_video_mode_t video_mode;
@@ -361,7 +361,7 @@ mod_gl1_utils_sync_mode (lw6sys_context_t *sys_context, mod_gl1_utils_context_t 
 }
 
 int
-mod_gl1_utils_set_resize_callback (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_resize_callback_func_t resize_callback)
+mod_gl1_utils_set_resize_callback (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, lw6gui_resize_callback_func_t resize_callback)
 {
   int ret = 0;
 
@@ -372,7 +372,7 @@ mod_gl1_utils_set_resize_callback (lw6sys_context_t *sys_context, mod_gl1_utils_
 }
 
 void
-mod_gl1_utils_call_resize_callback (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_utils_call_resize_callback (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   if (utils_context->sdl_context.resize_callback)
     {
