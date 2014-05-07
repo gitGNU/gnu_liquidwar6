@@ -28,7 +28,8 @@
 #include "gl1-bubbles-internal.h"
 
 static void
-_display_background (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context, const lw6gui_look_t * look)
+_display_background (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context,
+		     const lw6gui_look_t * look)
 {
   mod_gl1_utils_set_render_mode_2d (sys_context, utils_context);
 
@@ -59,7 +60,7 @@ _display_background (mod_gl1_utils_context_t * utils_context, _mod_gl1_backgroun
 }
 
 static void
-_display_bubble (mod_gl1_utils_context_t * utils_context,
+_display_bubble (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 		 _mod_gl1_background_bubbles_context_t * bubbles_context, _mod_gl1_background_bubbles_bubble_t * bubble, const lw6gui_look_t * look)
 {
   int dt;
@@ -103,7 +104,8 @@ _display_bubble (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_display_bubbles (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context, const lw6gui_look_t * look)
+_display_bubbles (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context,
+		  const lw6gui_look_t * look)
 {
   int i;
   int nb_bubbles;
@@ -121,21 +123,22 @@ _display_bubbles (mod_gl1_utils_context_t * utils_context, _mod_gl1_background_b
   glBegin (GL_QUADS);
   for (i = 0; i < nb_bubbles; ++i)
     {
-      _display_bubble (utils_context, bubbles_context, &(bubbles_context->state.bubbles[i]), look);
+      _display_bubble (sys_context, utils_context, bubbles_context, &(bubbles_context->state.bubbles[i]), look);
     }
   glEnd ();
 }
 
 void
-_mod_gl1_background_bubbles_display_background (sys_context, mod_gl1_utils_context_t *
+_mod_gl1_background_bubbles_display_background (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						utils_context, _mod_gl1_background_bubbles_context_t * bubbles_context, const lw6gui_look_t * look)
 {
-  _display_background (utils_context, bubbles_context, look);
-  _display_bubbles (utils_context, bubbles_context, look);
+  _display_background (sys_context, utils_context, bubbles_context, look);
+  _display_bubbles (sys_context, utils_context, bubbles_context, look);
 }
 
 void
-mod_gl1_background_bubbles_display_background (sys_context, mod_gl1_utils_context_t * utils_context, void *bubbles_context, const lw6gui_look_t * look)
+mod_gl1_background_bubbles_display_background (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *bubbles_context,
+					       const lw6gui_look_t * look)
 {
   _mod_gl1_background_bubbles_display_background (sys_context, utils_context, bubbles_context, look);
 }
