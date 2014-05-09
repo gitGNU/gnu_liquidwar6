@@ -27,7 +27,7 @@
 #include "shared-sdl-internal.h"
 
 static void
-log_event (SDL_Event * event)
+_log_event (lw6sys_context_t * sys_context, SDL_Event * event)
 {
   switch (event->type)
     {
@@ -114,7 +114,7 @@ log_event (SDL_Event * event)
 }
 
 static void
-key_down (lw6gui_keyboard_t * keyboard, SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data, int64_t timestamp)
+_key_down (lw6sys_context_t * sys_context, lw6gui_keyboard_t * keyboard, SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data, int64_t timestamp)
 {
   int sym = 0;
 
@@ -165,7 +165,7 @@ key_down (lw6gui_keyboard_t * keyboard, SDL_Event * event, _lw6gfx_sdl_const_dat
 }
 
 static void
-key_up (lw6gui_keyboard_t * keyboard, SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data)
+_key_up (lw6sys_context_t * sys_context, lw6gui_keyboard_t * keyboard, SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data)
 {
   int sym = 0;
 
@@ -264,13 +264,13 @@ key_up (lw6gui_keyboard_t * keyboard, SDL_Event * event, _lw6gfx_sdl_const_data_
 }
 
 static void
-mouse_move (lw6gui_mouse_t * mouse, SDL_Event * event, int64_t timestamp)
+_mouse_move (lw6sys_context_t * sys_context, lw6gui_mouse_t * mouse, SDL_Event * event, int64_t timestamp)
 {
   lw6gui_mouse_register_move (sys_context, mouse, event->button.x, event->button.y, timestamp);
 }
 
 static void
-mouse_button_down (lw6gui_mouse_t * mouse, SDL_Event * event, int64_t timestamp)
+_mouse_button_down (lw6sys_context_t * sys_context, lw6gui_mouse_t * mouse, SDL_Event * event, int64_t timestamp)
 {
   switch (event->button.button)
     {
@@ -310,7 +310,7 @@ mouse_button_down (lw6gui_mouse_t * mouse, SDL_Event * event, int64_t timestamp)
 }
 
 static void
-mouse_button_up (lw6gui_mouse_t * mouse, SDL_Event * event)
+_mouse_button_up (lw6sys_context_t * sys_context, lw6gui_mouse_t * mouse, SDL_Event * event)
 {
   switch (event->button.button)
     {
@@ -334,7 +334,7 @@ mouse_button_up (lw6gui_mouse_t * mouse, SDL_Event * event)
 }
 
 static int
-joystick_index (SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data)
+_joystick_index (lw6sys_context_t * sys_context, SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data)
 {
   int ret = -1;
 
@@ -351,7 +351,7 @@ joystick_index (SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data)
 }
 
 static int
-joystick_button_index (SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data, int i)
+_joystick_button_index (lw6sys_context_t * sys_context, SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data, int i)
 {
   int ret = -1;
 
@@ -424,7 +424,7 @@ joystick_button_index (SDL_Event * event, _lw6gfx_sdl_const_data_t * const_data,
 }
 
 static void
-joystick_move (lw6gui_joystick_t * joystick, SDL_Event * event, int limit, int64_t timestamp)
+_joystick_move (lw6sys_context_t * sys_context, lw6gui_joystick_t * joystick, SDL_Event * event, int limit, int64_t timestamp)
 {
   switch (event->jaxis.axis)
     {
@@ -441,7 +441,7 @@ joystick_move (lw6gui_joystick_t * joystick, SDL_Event * event, int limit, int64
 }
 
 static void
-joystick_button_down (lw6gui_joystick_t * joystick, int b, SDL_Event * event, int64_t timestamp)
+_joystick_button_down (lw6sys_context_t * sys_context, lw6gui_joystick_t * joystick, int b, SDL_Event * event, int64_t timestamp)
 {
   switch (b)
     {
@@ -470,7 +470,7 @@ joystick_button_down (lw6gui_joystick_t * joystick, int b, SDL_Event * event, in
 }
 
 static void
-joystick_button_up (lw6gui_joystick_t * joystick, int b, SDL_Event * event)
+_joystick_button_up (lw6sys_context_t * sys_context, lw6gui_joystick_t * joystick, int b, SDL_Event * event)
 {
   switch (b)
     {
@@ -502,7 +502,8 @@ joystick_button_up (lw6gui_joystick_t * joystick, int b, SDL_Event * event)
  * Internal poll function.
  */
 lw6gui_input_t *
-shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context, _lw6gfx_sdl_event_callback_t event_callback_func, void *event_callback_data)
+shared_sdl_pump_events (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context, _lw6gfx_sdl_event_callback_t event_callback_func,
+			void *event_callback_data)
 {
   SDL_Event event;
   int64_t timestamp = 0LL;
@@ -510,67 +511,67 @@ shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context, _lw6gfx_sdl_event_c
   _lw6gfx_sdl_const_data_t *const_data = &(sdl_context->const_data);
   int i, b;
 
-  timestamp = shared_sdl_timer_get_timestamp (&(sdl_context->timer));
+  timestamp = shared_sdl_timer_get_timestamp (sys_context, &(sdl_context->timer));
   memset (&event, 0, sizeof (SDL_Event));
   while (SDL_PollEvent (&event))
     {
-      log_event (&event);
+      _log_event (sys_context, &event);
       switch (event.type)
 	{
 	case SDL_KEYDOWN:
 	  lw6gui_input_register_change (sys_context, input);
-	  key_down (&(input->keyboard), &event, const_data, timestamp);
+	  _key_down (sys_context, &(input->keyboard), &event, const_data, timestamp);
 	  if (event.key.keysym.sym == const_data->keysym_quit)
 	    {
-	      lw6sys_signal_send_quit ();
+	      lw6sys_signal_send_quit (sys_context);
 	    }
 	  break;
 	case SDL_KEYUP:
 	  lw6gui_input_register_change (sys_context, input);
-	  key_up (&(input->keyboard), &event, const_data);
+	  _key_up (sys_context, &(input->keyboard), &event, const_data);
 	  break;
 	case SDL_QUIT:
 	  lw6gui_input_register_change (sys_context, input);
-	  lw6sys_signal_send_quit ();
+	  lw6sys_signal_send_quit (sys_context);
 	  break;
 	case SDL_MOUSEMOTION:
 	  lw6gui_input_register_change (sys_context, input);
-	  mouse_move (&(input->mouse), &event, timestamp);
+	  _mouse_move (sys_context, &(input->mouse), &event, timestamp);
 	  break;
 	case SDL_MOUSEBUTTONDOWN:
 	  lw6gui_input_register_change (sys_context, input);
-	  mouse_move (&(input->mouse), &event, timestamp);
-	  mouse_button_down (&(input->mouse), &event, timestamp);
+	  _mouse_move (sys_context, &(input->mouse), &event, timestamp);
+	  _mouse_button_down (sys_context, &(input->mouse), &event, timestamp);
 	  break;
 	case SDL_MOUSEBUTTONUP:
 	  lw6gui_input_register_change (sys_context, input);
-	  mouse_move (&(input->mouse), &event, timestamp);
-	  mouse_button_up (&(input->mouse), &event);
+	  _mouse_move (sys_context, &(input->mouse), &event, timestamp);
+	  _mouse_button_up (sys_context, &(input->mouse), &event);
 	  break;
 	case SDL_JOYAXISMOTION:
 	  lw6gui_input_register_change (sys_context, input);
-	  i = joystick_index (&event, const_data);
-	  if (lw6gui_joystick_check_index (i))
+	  i = _joystick_index (sys_context, &event, const_data);
+	  if (lw6gui_joystick_check_index (sys_context, i))
 	    {
-	      joystick_move (&(input->joysticks[i]), &event, const_data->joystick_limit, timestamp);
+	      _joystick_move (sys_context, &(input->joysticks[i]), &event, const_data->joystick_limit, timestamp);
 	    }
 	  break;
 	case SDL_JOYBUTTONDOWN:
 	  lw6gui_input_register_change (sys_context, input);
-	  i = joystick_index (&event, const_data);
-	  if (lw6gui_joystick_check_index (i))
+	  i = _joystick_index (sys_context, &event, const_data);
+	  if (lw6gui_joystick_check_index (sys_context, i))
 	    {
-	      b = joystick_button_index (&event, const_data, i);
-	      joystick_button_down (&(input->joysticks[i]), b, &event, timestamp);
+	      b = _joystick_button_index (sys_context, &event, const_data, i);
+	      _joystick_button_down (sys_context, &(input->joysticks[i]), b, &event, timestamp);
 	    }
 	  break;
 	case SDL_JOYBUTTONUP:
 	  lw6gui_input_register_change (sys_context, input);
-	  i = joystick_index (&event, const_data);
-	  if (lw6gui_joystick_check_index (i))
+	  i = _joystick_index (sys_context, &event, const_data);
+	  if (lw6gui_joystick_check_index (sys_context, i))
 	    {
-	      b = joystick_button_index (&event, const_data, i);
-	      joystick_button_up (&(input->joysticks[i]), b, &event);
+	      b = _joystick_button_index (sys_context, &event, const_data, i);
+	      _joystick_button_up (sys_context, &(input->joysticks[i]), b, &event);
 	    }
 	  break;
 	}
@@ -585,7 +586,7 @@ shared_sdl_pump_events (_lw6gfx_sdl_context_t * sdl_context, _lw6gfx_sdl_event_c
   if (event_callback_func)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("event_callback defined, calling it with data=%p"), event_callback_data);
-      event_callback_func (event_callback_data, (void *) &event);
+      event_callback_func (sys_context, event_callback_data, (void *) &event);
     }
 
   return input;

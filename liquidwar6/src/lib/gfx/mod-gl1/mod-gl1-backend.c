@@ -46,7 +46,7 @@ mod_gl1_is_GPL_compatible ()
 }
 
 static void *
-_init (lw6sys_context_t *sys_context,int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
+_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
   _mod_gl1_context_t *mod_gl1_context = _mod_gl1_init (sys_context, argc, argv, video_mode, resize_callback);
 
@@ -54,7 +54,7 @@ _init (lw6sys_context_t *sys_context,int argc, const char *argv[], lw6gui_video_
 }
 
 static void
-_quit (lw6sys_context_t *sys_context,void *gfx_context)
+_quit (lw6sys_context_t * sys_context, void *gfx_context)
 {
   _mod_gl1_context_t *mod_gl1_context = (_mod_gl1_context_t *) gfx_context;
 
@@ -65,7 +65,7 @@ _quit (lw6sys_context_t *sys_context,void *gfx_context)
 }
 
 static char *
-_repr (lw6sys_context_t *sys_context,void *gfx_context, u_int32_t id)
+_repr (lw6sys_context_t * sys_context, void *gfx_context, u_int32_t id)
 {
   char *ret = NULL;
   _mod_gl1_context_t *mod_gl1_context = (_mod_gl1_context_t *) gfx_context;
@@ -79,7 +79,7 @@ _repr (lw6sys_context_t *sys_context,void *gfx_context, u_int32_t id)
 }
 
 static int
-_set_video_mode (lw6sys_context_t *sys_context,void *gfx_context, lw6gui_video_mode_t * video_mode)
+_set_video_mode (lw6sys_context_t * sys_context, void *gfx_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
   _mod_gl1_context_t *mod_gl1_context = (_mod_gl1_context_t *) gfx_context;
@@ -93,7 +93,7 @@ _set_video_mode (lw6sys_context_t *sys_context,void *gfx_context, lw6gui_video_m
 }
 
 static int
-_get_video_mode (lw6sys_context_t *sys_context,void *gfx_context, lw6gui_video_mode_t * video_mode)
+_get_video_mode (lw6sys_context_t * sys_context, void *gfx_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
   _mod_gl1_context_t *mod_gl1_context = (_mod_gl1_context_t *) gfx_context;
@@ -107,7 +107,7 @@ _get_video_mode (lw6sys_context_t *sys_context,void *gfx_context, lw6gui_video_m
 }
 
 static int
-_get_fullscreen_modes (lw6sys_context_t *sys_context,void *gfx_context, lw6gui_fullscreen_modes_t * modes)
+_get_fullscreen_modes (lw6sys_context_t * sys_context, void *gfx_context, lw6gui_fullscreen_modes_t * modes)
 {
   int ret = 0;
   _mod_gl1_context_t *mod_gl1_context = (_mod_gl1_context_t *) gfx_context;
@@ -121,7 +121,7 @@ _get_fullscreen_modes (lw6sys_context_t *sys_context,void *gfx_context, lw6gui_f
 }
 
 static lw6gui_input_t *
-_pump_events (lw6sys_context_t *sys_context,void *gfx_context)
+_pump_events (lw6sys_context_t * sys_context, void *gfx_context)
 {
   lw6gui_input_t *ret = NULL;
   _mod_gl1_context_t *mod_gl1_context = (_mod_gl1_context_t *) gfx_context;
@@ -138,7 +138,7 @@ _pump_events (lw6sys_context_t *sys_context,void *gfx_context)
 }
 
 static int
-_display (lw6sys_context_t *sys_context,void *gfx_context, int mask, const lw6gui_look_t * look,
+_display (lw6sys_context_t * sys_context, void *gfx_context, int mask, const lw6gui_look_t * look,
 	  const lw6map_level_t * level,
 	  const lw6ker_game_struct_t * game_struct,
 	  const lw6ker_game_state_t * game_state,
@@ -160,7 +160,7 @@ _display (lw6sys_context_t *sys_context,void *gfx_context, int mask, const lw6gu
        */
       mod_gl1_utils_smoothers_update (sys_context, &(mod_gl1_context->utils_context));	// to be fixed
       _mod_gl1_set_backends (sys_context, mod_gl1_context, look);
-      mod_gl1_utils_cache_update (sys_context,&(mod_gl1_context->utils_context), look);
+      mod_gl1_utils_cache_update (sys_context, &(mod_gl1_context->utils_context), look);
 
       mod_gl1_utils_prepare_buffer (sys_context, &(mod_gl1_context->utils_context), look);
 
@@ -290,7 +290,7 @@ _display (lw6sys_context_t *sys_context,void *gfx_context, int mask, const lw6gu
 }
 
 lw6sys_module_pedigree_t *
-mod_gl1_get_pedigree (lw6sys_context_t *sys_context)
+mod_gl1_get_pedigree (lw6sys_context_t * sys_context)
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
@@ -314,7 +314,7 @@ mod_gl1_get_pedigree (lw6sys_context_t *sys_context)
 }
 
 lw6gfx_backend_t *
-mod_gl1_create_backend (lw6sys_context_t *sys_context)
+mod_gl1_create_backend (lw6sys_context_t * sys_context)
 {
   lw6gfx_backend_t *backend;
 

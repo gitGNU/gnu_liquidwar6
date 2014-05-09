@@ -29,7 +29,7 @@
 #include "gl1-flat-internal.h"
 
 void
-_mod_gl1_view_flat_viewport_update_preview (lw6sys_context_t *sys_context,mod_gl1_utils_context_t *
+_mod_gl1_view_flat_viewport_update_preview (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 					    utils_context,
 					    _mod_gl1_view_flat_context_t * flat_context, const lw6gui_look_t * look, const lw6map_level_t * level)
 {
@@ -67,7 +67,7 @@ _mod_gl1_view_flat_viewport_update_preview (lw6sys_context_t *sys_context,mod_gl
 }
 
 void
-_mod_gl1_view_flat_viewport_update (lw6sys_context_t *sys_context, mod_gl1_utils_context_t *
+_mod_gl1_view_flat_viewport_update (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 				    utils_context,
 				    _mod_gl1_view_flat_context_t *
 				    flat_context, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)

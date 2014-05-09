@@ -36,13 +36,13 @@
 #define _PASS_THROUGH_SELECTED -5
 
 static void
-_draw_button_corners (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context,
-		     _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, float relative_text_width, int pass_through)
+_draw_button_corners (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+		      _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, float relative_text_width, int pass_through)
 {
 
   if (i >= 0)
     {
-      _mod_gl1_menu_cylinder_draw_cylinder_corners (sys_context,utils_context, cylinder_context, i, n, relative_text_width, pass_through);
+      _mod_gl1_menu_cylinder_draw_cylinder_corners (sys_context, utils_context, cylinder_context, i, n, relative_text_width, pass_through);
     }
   else
     {
@@ -61,7 +61,7 @@ _draw_button_corners (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * ut
       draw_esc_cyl_height_offset = cylinder_context->const_data.esc_cyl_height_offset * screen_ratio;
       draw_esc_rotate = cylinder_context->const_data.esc_rotate;
 
-      _mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (sys_context,utils_context,
+      _mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (sys_context, utils_context,
 							  cylinder_context,
 							  draw_esc_offset,
 							  draw_esc_radius,
@@ -70,19 +70,19 @@ _draw_button_corners (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * ut
 }
 
 static void
-_draw_spheres_corners (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context,
-		      _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, int nb_spheres, int pass_through)
+_draw_spheres_corners (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+		       _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, int nb_spheres, int pass_through)
 {
   int sphere_i;
 
   for (sphere_i = 0; sphere_i < nb_spheres; ++sphere_i)
     {
-      _mod_gl1_menu_cylinder_draw_sphere_corners (sys_context,utils_context, cylinder_context, i, n, sphere_i, nb_spheres, pass_through);
+      _mod_gl1_menu_cylinder_draw_sphere_corners (sys_context, utils_context, cylinder_context, i, n, sphere_i, nb_spheres, pass_through);
     }
 }
 
 void
-_mod_gl1_menu_cylinder_pick_item (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context,
+_mod_gl1_menu_cylinder_pick_item (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				  _mod_gl1_menu_cylinder_context_t *
 				  cylinder_context,
 				  const lw6gui_look_t * look, int *position, int *scroll, int *esc, lw6gui_menu_t * menu, int screen_x, int screen_y)
@@ -111,17 +111,17 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t *sys_context,mod_gl1_utils_co
 
   if (menu->first_item_displayed > 0)
     {
-      _draw_spheres_corners (sys_context,utils_context, cylinder_context, 0, n, cylinder_context->const_data.nb_spheres, _PASS_THROUGH_PREV);
+      _draw_spheres_corners (sys_context, utils_context, cylinder_context, 0, n, cylinder_context->const_data.nb_spheres, _PASS_THROUGH_PREV);
     }
   if (menu->first_item_displayed + menu->nb_items_displayed < menu->nb_items)
     {
-      _draw_spheres_corners (sys_context,utils_context, cylinder_context, n - 1, n, cylinder_context->const_data.nb_spheres, _PASS_THROUGH_NEXT);
+      _draw_spheres_corners (sys_context, utils_context, cylinder_context, n - 1, n, cylinder_context->const_data.nb_spheres, _PASS_THROUGH_NEXT);
     }
 
   for (i = 0; i < menu->nb_items_displayed; ++i)
     {
       menuitem = menu->items[i + menu->first_item_displayed];
-      button_bitmap = mod_gl1_utils_get_button_from_menucache (sys_context,utils_context, look, menuitem);
+      button_bitmap = mod_gl1_utils_get_button_from_menucache (sys_context, utils_context, look, menuitem);
       if (button_bitmap)
 	{
 	  //
@@ -135,12 +135,12 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t *sys_context,mod_gl1_utils_co
 	{
 	  relative_text_width = 1.0f;
 	}
-      _draw_button_corners (sys_context,utils_context, cylinder_context, i + 1, n, relative_text_width, i + menu->first_item_displayed);
+      _draw_button_corners (sys_context, utils_context, cylinder_context, i + 1, n, relative_text_width, i + menu->first_item_displayed);
     }
 
   if (menu->esc_item->enabled)
     {
-      button_bitmap = mod_gl1_utils_get_button_from_menucache (sys_context,utils_context, look, menu->esc_item);
+      button_bitmap = mod_gl1_utils_get_button_from_menucache (sys_context, utils_context, look, menu->esc_item);
       if (button_bitmap)
 	{
 	  //
@@ -154,7 +154,7 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t *sys_context,mod_gl1_utils_co
 	{
 	  relative_text_width = 1.0f;
 	}
-      _draw_button_corners (sys_context,utils_context, cylinder_context, -1, n, relative_text_width, _PASS_THROUGH_ESC);
+      _draw_button_corners (sys_context, utils_context, cylinder_context, -1, n, relative_text_width, _PASS_THROUGH_ESC);
     }
 
   glRenderMode (GL_RENDER);	// back to normal mode
@@ -225,7 +225,7 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t *sys_context,mod_gl1_utils_co
 }
 
 void
-_mod_gl1_menu_cylinder_get_cylinder_right_point (lw6sys_context_t *sys_context,mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_get_cylinder_right_point (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_menu_cylinder_context_t
 						 * cylinder_context, int i, int n, float relative_text_width, float *right_point_x, float *right_point_y)
@@ -241,7 +241,7 @@ _mod_gl1_menu_cylinder_get_cylinder_right_point (lw6sys_context_t *sys_context,m
   mod_gl1_utils_set_render_mode_3d_feedback (sys_context, utils_context);
   glRenderMode (GL_FEEDBACK);	// enter feedback mode
 
-  _mod_gl1_menu_cylinder_draw_cylinder_corners (sys_context,utils_context, cylinder_context, i, n, relative_text_width, _PASS_THROUGH_SELECTED);
+  _mod_gl1_menu_cylinder_draw_cylinder_corners (sys_context, utils_context, cylinder_context, i, n, relative_text_width, _PASS_THROUGH_SELECTED);
 
   glRenderMode (GL_RENDER);	// back to normal mode
 

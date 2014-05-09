@@ -31,7 +31,7 @@
  * OpenGL wizardry, to prepare view parameters.
  */
 static void
-_prepare_view (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
+_prepare_view (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
 {
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -40,8 +40,8 @@ _prepare_view (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_con
 }
 
 static void
-_draw_cylinder_with_color (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context,
-			  _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, float progress)
+_draw_cylinder_with_color (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+			   _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, float progress)
 {
   lw6sys_color_8_t done;
   lw6sys_color_8_t todo;
@@ -90,7 +90,7 @@ _draw_cylinder_with_color (lw6sys_context_t *sys_context,mod_gl1_utils_context_t
 	    cylinder_context->const_data.progress_cyl_height *
 	    ((float) utils_context->sdl_context.video_mode.width) / ((float) utils_context->sdl_context.video_mode.height);
 
-	  _mod_gl1_menu_cylinder_draw_fixed_cylinder (sys_context,utils_context, cylinder_context, GL_RENDER, offset, radius, cyl_height, 0.0f, 0.0f);
+	  _mod_gl1_menu_cylinder_draw_fixed_cylinder (sys_context, utils_context, cylinder_context, GL_RENDER, offset, radius, cyl_height, 0.0f, 0.0f);
 
 	  glMatrixMode (GL_TEXTURE);
 	  glPopMatrix ();
@@ -102,10 +102,10 @@ _draw_cylinder_with_color (lw6sys_context_t *sys_context,mod_gl1_utils_context_t
 }
 
 void
-_mod_gl1_menu_cylinder_draw_progress (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
+_mod_gl1_menu_cylinder_draw_progress (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 				      _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, float progress)
 {
   mod_gl1_utils_set_render_mode_3d_menu (sys_context, utils_context);
-  _prepare_view (sys_context,utils_context, cylinder_context);
-  _draw_cylinder_with_color (sys_context,utils_context, cylinder_context, look, progress);
+  _prepare_view (sys_context, utils_context, cylinder_context);
+  _draw_cylinder_with_color (sys_context, utils_context, cylinder_context, look, progress);
 }

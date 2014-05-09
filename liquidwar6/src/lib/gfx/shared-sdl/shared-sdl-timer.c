@@ -27,25 +27,25 @@
 #include "shared-sdl-internal.h"
 
 void
-shared_sdl_timer_update (_lw6gfx_sdl_timer_t * timer)
+shared_sdl_timer_update (lw6sys_context_t * sys_context, _lw6gfx_sdl_timer_t * timer)
 {
   lw6sys_timer_update (sys_context, &(timer->timestamp), &(timer->uptime), &(timer->cycle));
 }
 
 int64_t
-shared_sdl_timer_get_timestamp (const _lw6gfx_sdl_timer_t * timer)
+shared_sdl_timer_get_timestamp (lw6sys_context_t * sys_context, const _lw6gfx_sdl_timer_t * timer)
 {
   return timer->timestamp;
 }
 
 int64_t
-shared_sdl_timer_get_uptime (const _lw6gfx_sdl_timer_t * timer)
+shared_sdl_timer_get_uptime (lw6sys_context_t * sys_context, const _lw6gfx_sdl_timer_t * timer)
 {
   return timer->uptime;
 }
 
 int32_t
-shared_sdl_timer_get_cycle (const _lw6gfx_sdl_timer_t * timer)
+shared_sdl_timer_get_cycle (lw6sys_context_t * sys_context, const _lw6gfx_sdl_timer_t * timer)
 {
   return timer->cycle;
 }

@@ -31,9 +31,9 @@
 #include "gl1-cylinder/gl1-cylinder.h"
 
 mod_gl1_menu_backend_t *
-mod_gl1_menu_create_backend (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, const char *name)
+mod_gl1_menu_create_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, const char *name)
 {
-  mod_gl1_menu_backend_t *(*init_func) (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context) = NULL;
+  mod_gl1_menu_backend_t *(*init_func) (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context) = NULL;
   mod_gl1_menu_backend_t *backend = NULL;
 
   if (strcmp (name, "cylinder") == 0)
@@ -47,7 +47,7 @@ mod_gl1_menu_create_backend (lw6sys_context_t *sys_context, mod_gl1_utils_contex
 
   if (init_func)
     {
-      backend = init_func (sys_context,utils_context);
+      backend = init_func (sys_context, utils_context);
       if (backend)
 	{
 	  backend->backend_name = lw6sys_str_copy (sys_context, name);
@@ -58,7 +58,7 @@ mod_gl1_menu_create_backend (lw6sys_context_t *sys_context, mod_gl1_utils_contex
 }
 
 void
-mod_gl1_menu_destroy_backend (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend)
+mod_gl1_menu_destroy_backend (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, mod_gl1_menu_backend_t * backend)
 {
   if (backend)
     {

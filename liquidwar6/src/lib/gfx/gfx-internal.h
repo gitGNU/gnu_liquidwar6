@@ -27,7 +27,7 @@
 
 typedef struct _lw6gfx_sdl_context_s *_lw6gfx_sdl_context_p;
 
-typedef void (*_lw6gfx_sdl_event_callback_t) (lw6sys_context_t *sys_context,void *data, void *event);
+typedef void (*_lw6gfx_sdl_event_callback_t) (lw6sys_context_t * sys_context, void *data, void *event);
 
 typedef struct _lw6gfx_sdl_path_s
 {

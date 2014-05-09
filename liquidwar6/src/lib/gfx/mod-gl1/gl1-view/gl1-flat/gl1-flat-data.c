@@ -34,7 +34,7 @@
 #define CONST_FILE "view/flat/gl1-flat-const.xml"
 
 static void
-_read_callback (lw6sys_context_t *sys_context,void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_gl1_view_flat_const_data_t *const_data;
 
@@ -70,7 +70,7 @@ _read_callback (lw6sys_context_t *sys_context,void *callback_data, const char *e
 }
 
 static int
-_load_consts (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
+_load_consts (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -90,7 +90,7 @@ _load_consts (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_cont
 }
 
 static void
-_unload_consts (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
+_unload_consts (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
 {
   memset (&flat_context->const_data, 0, sizeof (_mod_gl1_view_flat_const_data_t));
 }
@@ -100,25 +100,25 @@ _unload_consts (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_co
  * Putting all the load/unload functions together
  */
 int
-_mod_gl1_view_flat_load_data (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
+_mod_gl1_view_flat_load_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
 {
-  return _load_consts (sys_context,utils_context, flat_context);
+  return _load_consts (sys_context, utils_context, flat_context);
 }
 
 int
-mod_gl1_view_load_data (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, void *flat_context)
+mod_gl1_view_load_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *flat_context)
 {
   return _mod_gl1_view_flat_load_data (sys_context, utils_context, (_mod_gl1_view_flat_context_t *) flat_context);
 }
 
 void
-_mod_gl1_view_flat_unload_data (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
+_mod_gl1_view_flat_unload_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
 {
-  _unload_consts (sys_context,utils_context, flat_context);
+  _unload_consts (sys_context, utils_context, flat_context);
 }
 
 void
-mod_gl1_view_unload_data (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, void *flat_context)
+mod_gl1_view_unload_data (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *flat_context)
 {
   _mod_gl1_view_flat_unload_data (sys_context, utils_context, (_mod_gl1_view_flat_context_t *) flat_context);
 }

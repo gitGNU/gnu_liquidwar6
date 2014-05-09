@@ -29,7 +29,7 @@
 #define CONST_FILE "sdl-const.xml"
 
 static void
-read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   _lw6gfx_sdl_const_data_t *const_data;
 
@@ -101,18 +101,18 @@ read_callback (void *callback_data, const char *element, const char *key, const 
  * Loads constants.
  */
 int
-shared_sdl_load_consts (_lw6gfx_sdl_context_t * sdl_context)
+_shared_sdl_load_consts (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context)
 {
   int ret = 0;
   char *const_file = NULL;
 
-  const_file = lw6sys_path_concat (sdl_context->path.data_dir, CONST_FILE);
+  const_file = lw6sys_path_concat (sys_context, sdl_context->path.data_dir, CONST_FILE);
 
   if (const_file)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) &(sdl_context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, _read_callback, (void *) &(sdl_context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }
@@ -124,7 +124,7 @@ shared_sdl_load_consts (_lw6gfx_sdl_context_t * sdl_context)
  * Unload constants, free memory
  */
 void
-shared_sdl_unload_consts (_lw6gfx_sdl_context_t * sdl_context)
+_shared_sdl_unload_consts (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context)
 {
   memset (&sdl_context->const_data, 0, sizeof (_lw6gfx_sdl_const_data_t));
 }

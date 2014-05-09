@@ -34,7 +34,7 @@
  * Low-level SDL initialisation.
  */
 _mod_gl1_menu_cylinder_context_t *
-_mod_gl1_menu_cylinder_init (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
+_mod_gl1_menu_cylinder_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   _mod_gl1_menu_cylinder_context_t *cylinder_context = NULL;
 
@@ -49,13 +49,13 @@ _mod_gl1_menu_cylinder_init (lw6sys_context_t *sys_context, mod_gl1_utils_contex
 	}
       else
 	{
-	  LW6SYS_FREE (sys_context,cylinder_context);
+	  LW6SYS_FREE (sys_context, cylinder_context);
 	  cylinder_context = NULL;
 	}
     }
   else
     {
-      LW6SYS_FREE (sys_context,cylinder_context);
+      LW6SYS_FREE (sys_context, cylinder_context);
       cylinder_context = NULL;
     }
 
@@ -63,7 +63,7 @@ _mod_gl1_menu_cylinder_init (lw6sys_context_t *sys_context, mod_gl1_utils_contex
 }
 
 void *
-mod_gl1_menu_cylinder_init (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_menu_cylinder_init (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context)
 {
   return (void *) _mod_gl1_menu_cylinder_init (sys_context, utils_context);
 }
@@ -72,16 +72,16 @@ mod_gl1_menu_cylinder_init (lw6sys_context_t *sys_context, mod_gl1_utils_context
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_menu_cylinder_quit (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
+_mod_gl1_menu_cylinder_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
 {
   if (cylinder_context)
     {
-      LW6SYS_FREE (sys_context,cylinder_context);
+      LW6SYS_FREE (sys_context, cylinder_context);
     }
 }
 
 void
-mod_gl1_menu_cylinder_quit (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, void *cylinder_context)
+mod_gl1_menu_cylinder_quit (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, void *cylinder_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit menu/cylinder"));
 

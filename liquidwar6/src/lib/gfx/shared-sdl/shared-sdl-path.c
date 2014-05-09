@@ -30,7 +30,7 @@
 #define DEBUG "sdl-debug"
 
 int
-shared_sdl_path_init (_lw6gfx_sdl_path_t * path, int argc, const char *argv[])
+shared_sdl_path_init (lw6sys_context_t * sys_context, _lw6gfx_sdl_path_t * path, int argc, const char *argv[])
 {
   char *data_root_dir = NULL;
   char *user_dir = NULL;
@@ -54,14 +54,14 @@ shared_sdl_path_init (_lw6gfx_sdl_path_t * path, int argc, const char *argv[])
 
   if (!ret)
     {
-      shared_sdl_path_quit (path);
+      shared_sdl_path_quit (sys_context, path);
     }
 
   return ret;
 }
 
 void
-shared_sdl_path_quit (_lw6gfx_sdl_path_t * path)
+shared_sdl_path_quit (lw6sys_context_t * sys_context, _lw6gfx_sdl_path_t * path)
 {
   if (path->debug_dir)
     {
