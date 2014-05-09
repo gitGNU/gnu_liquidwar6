@@ -101,7 +101,7 @@ _read_callback (lw6sys_context_t * sys_context, void *callback_data, const char 
  * Loads constants.
  */
 int
-_shared_sdl_load_consts (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context)
+shared_sdl_load_consts (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -124,7 +124,7 @@ _shared_sdl_load_consts (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t *
  * Unload constants, free memory
  */
 void
-_shared_sdl_unload_consts (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context)
+shared_sdl_unload_consts (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context)
 {
   memset (&sdl_context->const_data, 0, sizeof (_lw6gfx_sdl_const_data_t));
 }

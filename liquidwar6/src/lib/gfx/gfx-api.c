@@ -35,6 +35,7 @@ _warning (lw6sys_context_t * sys_context, const char *func_name)
 /**
  * lw6gfx_init
  *
+ * @sys_context: global system context
  * @backend: the graphical backend to use
  * @video_mode: the video mode to use at start up
  * @resize_callback: a callback function which will be called at each resize event
@@ -67,6 +68,7 @@ lw6gfx_init (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend, lw6gui_
 /**
  * lw6gfx_quit
  *
+ * @sys_context: global system context
  * @backend: the backend to quit
  *
  * Uninitializes the backend, that is, exits the graphical mode. All threads that
@@ -102,6 +104,7 @@ lw6gfx_quit (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend)
 /**
  * lw6gfx_repr
  *
+ * @sys_context: global system context
  * @backend: the backend to represent
  *
  * Returns a readable version of the backend object.
@@ -132,6 +135,7 @@ lw6gfx_repr (lw6sys_context_t * sys_context, const lw6gfx_backend_t * backend)
 /**
  * lw6gfx_set_video_mode
  *
+ * @sys_context: global system context
  * @backend: the backend to use
  * @video_mode: the new video mode
  *
@@ -168,6 +172,7 @@ lw6gfx_set_video_mode (lw6sys_context_t * sys_context, lw6gfx_backend_t * backen
 /**
  * lw6gfx_get_video_mode
  *
+ * @sys_context: global system context
  * @backend: the backend to use
  * @video_mode: the current video mode (will be overwritten, out parameter)
  *
@@ -199,6 +204,7 @@ lw6gfx_get_video_mode (lw6sys_context_t * sys_context, lw6gfx_backend_t * backen
 /**
  * lw6gfx_get_fullscreen_modes
  *
+ * @sys_context: global system context
  * @backend: the backend to use
  * @fullscreen_modes: the available fullscreen modes (will be overwritten, out parameter)
  *
@@ -230,6 +236,7 @@ lw6gfx_get_fullscreen_modes (lw6sys_context_t * sys_context, lw6gfx_backend_t * 
 /**
  * lw6gfx_pump_events
  *
+ * @sys_context: global system context
  * @backend: the backend to use
  *
  * This function "pumps" events, that is gets pending events, puts them in queues,
@@ -262,6 +269,7 @@ lw6gfx_pump_events (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend)
 /**
  * lw6gfx_display
  *
+ * @sys_context: global system context
  * @backend: the graphical backend to use
  * @look: the look, the skin, contains display options
  * @mask: display flag, tells what to display
