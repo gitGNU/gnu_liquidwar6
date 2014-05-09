@@ -36,26 +36,26 @@
  * OpenGL wizardry, to prepare view parameters.
  */
 static void
-prepare_view (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
+_prepare_view (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
 {
   glEnable (GL_TEXTURE_2D);
   glColor3f (1.0f, 1.0f, 1.0f);
 }
 
 static void
-draw_cylinder (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, float relative_text_width)
+_draw_cylinder (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, float relative_text_width)
 {
   _mod_gl1_menu_cylinder_draw_cylinder (sys_context, utils_context, cylinder_context, GL_RENDER, i, n, relative_text_width);
 }
 
 static void
-draw_sphere (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, int sphere_i, int nb_spheres)
+_draw_sphere (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, int sphere_i, int nb_spheres)
 {
   _mod_gl1_menu_cylinder_draw_sphere (sys_context, utils_context, cylinder_context, GL_RENDER, i, n, sphere_i, nb_spheres);
 }
 
 static SDL_Color
-get_fg_color (const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
+_get_fg_color (lw6sys_context_t *sys_context,const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
 {
   SDL_Color color;
 
@@ -79,7 +79,7 @@ get_fg_color (const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
 }
 
 static SDL_Color
-get_bg_color (const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
+_get_bg_color (lw6sys_context_t *sys_context,const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
 {
   SDL_Color color;
 
@@ -122,7 +122,7 @@ get_bg_color (const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
  * Draw a basic text menu item (button).
  */
 static void
-draw_button (mod_gl1_utils_context_t * utils_context,
+_draw_button (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context,
 	     _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem, int i, int n)
 {
   SDL_Surface *text_surface = NULL;
@@ -143,15 +143,15 @@ draw_button (mod_gl1_utils_context_t * utils_context,
   float relative_text_width;
   float screen_ratio;
 
-  bitmap = mod_gl1_utils_get_button_from_menucache (utils_context, look, menuitem);
+  bitmap = mod_gl1_utils_get_button_from_menucache (sys_context,utils_context, look, menuitem);
 
   if (bitmap == NULL)
     {
       utf8 = lw6sys_locale_to_utf8 (sys_context, menuitem->label);
       if (utf8 != NULL)
 	{
-	  fg_color = get_fg_color (look, menuitem);
-	  bg_color = get_bg_color (look, menuitem);
+	  fg_color = _get_fg_color (sys_context,look, menuitem);
+	  bg_color = _get_bg_color (sys_context,look, menuitem);
 	  text_surface = TTF_RenderUTF8_Shaded (utils_context->font_data.menu, utf8, fg_color, bg_color);
 	  if (text_surface != NULL)
 	    {
@@ -210,7 +210,7 @@ draw_button (mod_gl1_utils_context_t * utils_context,
 
       if (i >= 0)
 	{
-	  draw_cylinder (utils_context, cylinder_context, i, n, relative_text_width);
+	  _draw_cylinder (sys_context,utils_context, cylinder_context, i, n, relative_text_width);
 	}
       else
 	{
@@ -219,7 +219,7 @@ draw_button (mod_gl1_utils_context_t * utils_context,
 	  draw_esc_cyl_height = relative_text_width * cylinder_context->const_data.esc_cyl_height * screen_ratio;
 	  draw_esc_cyl_height_offset = cylinder_context->const_data.esc_cyl_height_offset * screen_ratio;
 	  draw_esc_rotate = cylinder_context->const_data.esc_rotate;
-	  _mod_gl1_menu_cylinder_draw_fixed_cylinder (utils_context,
+	  _mod_gl1_menu_cylinder_draw_fixed_cylinder (sys_context,utils_context,
 						      cylinder_context,
 						      GL_RENDER,
 						      draw_esc_offset, draw_esc_radius, draw_esc_cyl_height, draw_esc_cyl_height_offset, draw_esc_rotate);
@@ -245,7 +245,7 @@ draw_button (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-draw_spheres (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, int blink_state, int nb_spheres)
+_draw_spheres (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, int blink_state, int nb_spheres)
 {
   int sphere_i;
 
@@ -260,7 +260,7 @@ draw_spheres (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_co
 
   for (sphere_i = 0; sphere_i < nb_spheres; ++sphere_i)
     {
-      draw_sphere (utils_context, cylinder_context, i, n, sphere_i, nb_spheres);
+      _draw_sphere (sys_context,utils_context, cylinder_context, i, n, sphere_i, nb_spheres);
     }
 }
 
@@ -268,7 +268,7 @@ draw_spheres (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_co
  * Display a menu.
  */
 void
-_mod_gl1_menu_cylinder_display_menu (sys_context, mod_gl1_utils_context_t * utils_context,
+_mod_gl1_menu_cylinder_display_menu (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
 				     _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, lw6gui_menu_t * menu)
 {
   int i, j, n;
@@ -279,7 +279,7 @@ _mod_gl1_menu_cylinder_display_menu (sys_context, mod_gl1_utils_context_t * util
 
   mod_gl1_utils_set_render_mode_3d_menu (sys_context, utils_context);
 
-  prepare_view (utils_context, cylinder_context);
+  _prepare_view (sys_context,utils_context, cylinder_context);
 
   lw6gui_menu_update_display_range (sys_context, menu, cylinder_context->const_data.max_displayed_items);
 
@@ -287,11 +287,11 @@ _mod_gl1_menu_cylinder_display_menu (sys_context, mod_gl1_utils_context_t * util
   n = menu->nb_items_displayed + 2;
   if (menu->first_item_displayed > 0)
     {
-      draw_spheres (utils_context, cylinder_context, 0, n, blink_state, cylinder_context->const_data.nb_spheres);
+      _draw_spheres (sys_context,utils_context, cylinder_context, 0, n, blink_state, cylinder_context->const_data.nb_spheres);
     }
   if (menu->first_item_displayed + menu->nb_items_displayed < menu->nb_items)
     {
-      draw_spheres (utils_context, cylinder_context, n - 1, n, blink_state ? 0 : 1, cylinder_context->const_data.nb_spheres);
+      _draw_spheres (sys_context,utils_context, cylinder_context, n - 1, n, blink_state ? 0 : 1, cylinder_context->const_data.nb_spheres);
     }
   for (i = 0; i < menu->nb_items_displayed; ++i)
     {
@@ -302,11 +302,11 @@ _mod_gl1_menu_cylinder_display_menu (sys_context, mod_gl1_utils_context_t * util
 	  cylinder_context->i_right_point = i;
 	  cylinder_context->j_tooltip = j;
 	}
-      draw_button (utils_context, cylinder_context, look, menuitem, i + 1, n);
+      _draw_button (sys_context,utils_context, cylinder_context, look, menuitem, i + 1, n);
     }
   if (menu->esc_item->enabled)
     {
-      draw_button (utils_context, cylinder_context, look, menu->esc_item, -1, n);
+      _draw_button (sys_context,utils_context, cylinder_context, look, menu->esc_item, -1, n);
     }
 
   if (lw6gui_menu_has_popup (sys_context, menu))
@@ -314,7 +314,7 @@ _mod_gl1_menu_cylinder_display_menu (sys_context, mod_gl1_utils_context_t * util
       popup = menu->popup;
       if (!lw6sys_str_is_null_or_empty (sys_context, popup))
 	{
-	  if ((!lw6sys_str_is_same (popup, utils_context->menucache_array.popup_str)) || (!utils_context->menucache_array.popup_bitmap))
+	  if ((!lw6sys_str_is_same (sys_context,popup, utils_context->menucache_array.popup_str)) || (!utils_context->menucache_array.popup_bitmap))
 	    {
 	      if (utils_context->menucache_array.popup_str)
 		{
@@ -328,7 +328,7 @@ _mod_gl1_menu_cylinder_display_menu (sys_context, mod_gl1_utils_context_t * util
 		}
 	      utils_context->menucache_array.popup_str = lw6sys_str_copy (sys_context, popup);
 	      utils_context->menucache_array.popup_bitmap =
-		mod_gl1_utils_multiline_text_write (utils_context,
+		mod_gl1_utils_multiline_text_write (sys_context,utils_context,
 						    utils_context->font_data.menu, popup,
 						    &(look->style.color_set.menu_color_default),
 						    cylinder_context->const_data.popup_alpha_bg,
@@ -357,7 +357,7 @@ _mod_gl1_menu_cylinder_display_menu (sys_context, mod_gl1_utils_context_t * util
 }
 
 void
-mod_gl1_menu_cylinder_display_menu (sys_context, mod_gl1_utils_context_t * utils_context, void *cylinder_context, const lw6gui_look_t * look,
+mod_gl1_menu_cylinder_display_menu (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, void *cylinder_context, const lw6gui_look_t * look,
 				    lw6gui_menu_t * menu)
 {
   _mod_gl1_menu_cylinder_display_menu (sys_context, utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context, look, menu);
@@ -366,7 +366,7 @@ mod_gl1_menu_cylinder_display_menu (sys_context, mod_gl1_utils_context_t * utils
    * step will generate bitmaps in cache, and those bitmaps we
    * need later when picking to scale things
    */
-  _mod_gl1_menu_cylinder_pick_item (utils_context,
+  _mod_gl1_menu_cylinder_pick_item (sys_context,utils_context,
 				    (_mod_gl1_menu_cylinder_context_t *)
 				    cylinder_context,
 				    look,
@@ -377,12 +377,12 @@ mod_gl1_menu_cylinder_display_menu (sys_context, mod_gl1_utils_context_t * utils
 }
 
 void
-_mod_gl1_menu_cylinder_display_progress (sys_context, mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_display_progress (lw6sys_context_t *sys_context, mod_gl1_utils_context_t *
 					 utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, float progress)
 {
   mod_gl1_utils_set_render_mode_3d_menu (sys_context, utils_context);
 
-  prepare_view (utils_context, cylinder_context);
+  _prepare_view (sys_context,utils_context, cylinder_context);
 
   if (progress > 0.0f && progress < 1.0f)	// strict, to disable it when complete
     {
@@ -391,7 +391,7 @@ _mod_gl1_menu_cylinder_display_progress (sys_context, mod_gl1_utils_context_t *
 }
 
 void
-mod_gl1_menu_cylinder_display_progress (sys_context, mod_gl1_utils_context_t * utils_context, void *cylinder_context, const lw6gui_look_t * look,
+mod_gl1_menu_cylinder_display_progress (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, void *cylinder_context, const lw6gui_look_t * look,
 					float progress)
 {
   _mod_gl1_menu_cylinder_display_progress (sys_context, utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context, look, progress);
@@ -401,7 +401,7 @@ mod_gl1_menu_cylinder_display_progress (sys_context, mod_gl1_utils_context_t * u
  * Display a menu.
  */
 void
-_mod_gl1_menu_cylinder_display_meta (sys_context, mod_gl1_utils_context_t * utils_context,
+_mod_gl1_menu_cylinder_display_meta (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
 				     _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, lw6gui_menu_t * menu)
 {
   int n;
@@ -427,9 +427,9 @@ _mod_gl1_menu_cylinder_display_meta (sys_context, mod_gl1_utils_context_t * util
 	}
       if (!lw6sys_str_is_null_or_empty (sys_context, tooltip))
 	{
-	  _mod_gl1_menu_cylinder_get_cylinder_right_point (utils_context,
+	  _mod_gl1_menu_cylinder_get_cylinder_right_point (sys_context,utils_context,
 							   cylinder_context, cylinder_context->i_right_point + 1, n, 1.0f, &right_point_x, &right_point_y);
-	  if ((!lw6sys_str_is_same (tooltip, utils_context->menucache_array.tooltip_str)) || (!utils_context->menucache_array.tooltip_bitmap))
+	  if ((!lw6sys_str_is_same (sys_context,tooltip, utils_context->menucache_array.tooltip_str)) || (!utils_context->menucache_array.tooltip_bitmap))
 	    {
 	      if (utils_context->menucache_array.tooltip_str)
 		{
@@ -443,7 +443,7 @@ _mod_gl1_menu_cylinder_display_meta (sys_context, mod_gl1_utils_context_t * util
 		}
 	      utils_context->menucache_array.tooltip_str = lw6sys_str_copy (sys_context, tooltip);
 	      utils_context->menucache_array.tooltip_bitmap =
-		mod_gl1_utils_multiline_text_write (utils_context,
+		mod_gl1_utils_multiline_text_write (sys_context,utils_context,
 						    utils_context->font_data.hud, tooltip,
 						    &(look->style.color_set.menu_color_default),
 						    cylinder_context->const_data.tooltip_alpha_bg,
@@ -472,7 +472,7 @@ _mod_gl1_menu_cylinder_display_meta (sys_context, mod_gl1_utils_context_t * util
       help = menu->help;
       if (!lw6sys_str_is_null_or_empty (sys_context, help))
 	{
-	  if ((!lw6sys_str_is_same (help, utils_context->menucache_array.help_str)) || (!utils_context->menucache_array.help_bitmap))
+	  if ((!lw6sys_str_is_same (sys_context,help, utils_context->menucache_array.help_str)) || (!utils_context->menucache_array.help_bitmap))
 	    {
 	      if (utils_context->menucache_array.help_str)
 		{
@@ -486,7 +486,7 @@ _mod_gl1_menu_cylinder_display_meta (sys_context, mod_gl1_utils_context_t * util
 		}
 	      utils_context->menucache_array.help_str = lw6sys_str_copy (sys_context, help);
 	      utils_context->menucache_array.help_bitmap =
-		mod_gl1_utils_multiline_text_write (utils_context,
+		mod_gl1_utils_multiline_text_write (sys_context,utils_context,
 						    utils_context->font_data.hud, help,
 						    &(look->style.color_set.menu_color_default),
 						    cylinder_context->const_data.help_alpha_bg,
@@ -520,7 +520,7 @@ _mod_gl1_menu_cylinder_display_meta (sys_context, mod_gl1_utils_context_t * util
 
   if (!lw6sys_str_is_null_or_empty (sys_context, breadcrumbs))
     {
-      if ((!lw6sys_str_is_same (breadcrumbs, utils_context->menucache_array.breadcrumbs_str)) || (!utils_context->menucache_array.breadcrumbs_bitmap))
+      if ((!lw6sys_str_is_same (sys_context,breadcrumbs, utils_context->menucache_array.breadcrumbs_str)) || (!utils_context->menucache_array.breadcrumbs_bitmap))
 	{
 	  if (utils_context->menucache_array.breadcrumbs_str)
 	    {
@@ -534,7 +534,7 @@ _mod_gl1_menu_cylinder_display_meta (sys_context, mod_gl1_utils_context_t * util
 	    }
 	  utils_context->menucache_array.breadcrumbs_str = lw6sys_str_copy (sys_context, breadcrumbs);
 	  utils_context->menucache_array.breadcrumbs_bitmap =
-	    mod_gl1_utils_multiline_text_write (utils_context,
+	    mod_gl1_utils_multiline_text_write (sys_context,utils_context,
 						utils_context->font_data.hud,
 						breadcrumbs,
 						&(look->style.color_set.menu_color_default),
@@ -569,7 +569,7 @@ _mod_gl1_menu_cylinder_display_meta (sys_context, mod_gl1_utils_context_t * util
 }
 
 void
-mod_gl1_menu_cylinder_display_meta (sys_context, mod_gl1_utils_context_t * utils_context, void *cylinder_context, const lw6gui_look_t * look,
+mod_gl1_menu_cylinder_display_meta (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, void *cylinder_context, const lw6gui_look_t * look,
 				    lw6gui_menu_t * menu)
 {
   _mod_gl1_menu_cylinder_display_meta (sys_context, utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context, look, menu);

@@ -29,7 +29,7 @@
 #include "gl1-cylinder-internal.h"
 
 mod_gl1_menu_backend_t *
-mod_gl1_menu_cylinder_create_backend (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_menu_cylinder_create_backend (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
 {
   mod_gl1_menu_backend_t *backend;
 

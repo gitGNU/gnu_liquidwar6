@@ -32,7 +32,7 @@
 #define CONST_FILE "menu/cylinder/gl1-cylinder-const.xml"
 
 static void
-read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t *sys_context,void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_gl1_menu_cylinder_const_data_t *const_data;
 
@@ -100,7 +100,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
 }
 
 static int
-load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
+_load_consts (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -111,7 +111,7 @@ load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_con
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) &(cylinder_context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, _read_callback, (void *) &(cylinder_context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }
@@ -120,7 +120,7 @@ load_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_con
 }
 
 static void
-unload_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
+_unload_consts (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
 {
   memset (&cylinder_context->const_data, 0, sizeof (_mod_gl1_menu_cylinder_const_data_t));
 }
@@ -129,25 +129,25 @@ unload_consts (mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_c
  * Putting all the load/unload functions together
  */
 int
-_mod_gl1_menu_cylinder_load_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
+_mod_gl1_menu_cylinder_load_data (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
 {
-  return load_consts (utils_context, cylinder_context);
+  return _load_consts (sys_context,utils_context, cylinder_context);
 }
 
 int
-mod_gl1_menu_load_data (mod_gl1_utils_context_t * utils_context, void *cylinder_context)
+mod_gl1_menu_load_data (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, void *cylinder_context)
 {
   return _mod_gl1_menu_cylinder_load_data (sys_context, utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context);
 }
 
 void
-_mod_gl1_menu_cylinder_unload_data (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
+_mod_gl1_menu_cylinder_unload_data (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context)
 {
-  unload_consts (utils_context, cylinder_context);
+  _unload_consts (sys_context,utils_context, cylinder_context);
 }
 
 void
-mod_gl1_menu_unload_data (mod_gl1_utils_context_t * utils_context, void *cylinder_context)
+mod_gl1_menu_unload_data (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, void *cylinder_context)
 {
   _mod_gl1_menu_cylinder_unload_data (sys_context, utils_context, (_mod_gl1_menu_cylinder_context_t *) cylinder_context);
 }

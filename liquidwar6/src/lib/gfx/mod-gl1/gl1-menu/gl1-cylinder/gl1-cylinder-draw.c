@@ -29,7 +29,7 @@
 #include "gl1-cylinder-internal.h"
 
 float
-_mod_gl1_menu_cylinder_get_cylinder_y (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n)
+_mod_gl1_menu_cylinder_get_cylinder_y (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n)
 {
   float y;
 
@@ -42,7 +42,7 @@ _mod_gl1_menu_cylinder_get_cylinder_y (sys_context, mod_gl1_utils_context_t * ut
  * Display a horizontal  cylinder.
  */
 void
-_mod_gl1_menu_cylinder_draw_cylinder (sys_context, mod_gl1_utils_context_t * utils_context,
+_mod_gl1_menu_cylinder_draw_cylinder (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
 				      _mod_gl1_menu_cylinder_context_t * cylinder_context, GLenum mode, int i, int n, float relative_text_width)
 {
   GLUquadricObj *cyl;
@@ -97,7 +97,7 @@ _mod_gl1_menu_cylinder_draw_cylinder (sys_context, mod_gl1_utils_context_t * uti
 }
 
 void
-_mod_gl1_menu_cylinder_draw_cylinder_corners (mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_draw_cylinder_corners (lw6sys_context_t *sys_context,mod_gl1_utils_context_t *
 					      utils_context,
 					      _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, float relative_text_width, int pass_through)
 {
@@ -140,7 +140,7 @@ _mod_gl1_menu_cylinder_draw_cylinder_corners (mod_gl1_utils_context_t *
 }
 
 void
-_mod_gl1_menu_cylinder_draw_sphere (sys_context, mod_gl1_utils_context_t * utils_context,
+_mod_gl1_menu_cylinder_draw_sphere (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
 				    _mod_gl1_menu_cylinder_context_t * cylinder_context, GLenum mode, int i, int n, int sphere_i, int nb_spheres)
 {
   GLUquadricObj *cyl;
@@ -184,7 +184,7 @@ _mod_gl1_menu_cylinder_draw_sphere (sys_context, mod_gl1_utils_context_t * utils
 }
 
 void
-_mod_gl1_menu_cylinder_draw_sphere_corners (mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_draw_sphere_corners (lw6sys_context_t *sys_context,mod_gl1_utils_context_t *
 					    utils_context,
 					    _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, int sphere_i, int nb_spheres, int pass_through)
 {
@@ -215,7 +215,7 @@ _mod_gl1_menu_cylinder_draw_sphere_corners (mod_gl1_utils_context_t *
 }
 
 void
-_mod_gl1_menu_cylinder_draw_fixed_cylinder (mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_draw_fixed_cylinder (lw6sys_context_t *sys_context,mod_gl1_utils_context_t *
 					    utils_context,
 					    _mod_gl1_menu_cylinder_context_t *
 					    cylinder_context, GLenum mode, float offset, float radius, float cyl_height, float cyl_height_offset, float rotate)
@@ -260,7 +260,7 @@ _mod_gl1_menu_cylinder_draw_fixed_cylinder (mod_gl1_utils_context_t *
 }
 
 void
-_mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (mod_gl1_utils_context_t *
+_mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (lw6sys_context_t *sys_context,mod_gl1_utils_context_t *
 						    utils_context,
 						    _mod_gl1_menu_cylinder_context_t
 						    * cylinder_context,
