@@ -45,10 +45,10 @@ static uint8_t table[TABLEX * TABLEY];
 
 static int frame = 0;
 
-static void do_plasma (uint8_t *, double, double, double, double, double, double);
+static void _do_plasma (lw6sys_context_t *, uint8_t *, double, double, double, double, double, double);
 
 static void
-plasma (enum action action, caca_canvas_t * cv)
+_plasma (lw6sys_context_t * sys_context, enum action action, caca_canvas_t * cv)
 {
   static caca_dither_t *dither;
   static uint8_t *screen;
@@ -98,11 +98,11 @@ plasma (enum action action, caca_canvas_t * cv)
       /* Set the palette */
       caca_set_dither_palette (dither, red, green, blue, alpha);
 
-      do_plasma (screen,
-		 (1.0 + sin (((double) frame) * R[0])) / 2,
-		 (1.0 + sin (((double) frame) * R[1])) / 2,
-		 (1.0 + sin (((double) frame) * R[2])) / 2,
-		 (1.0 + sin (((double) frame) * R[3])) / 2, (1.0 + sin (((double) frame) * R[4])) / 2, (1.0 + sin (((double) frame) * R[5])) / 2);
+      _do_plasma (sys_context, screen,
+		  (1.0 + sin (((double) frame) * R[0])) / 2,
+		  (1.0 + sin (((double) frame) * R[1])) / 2,
+		  (1.0 + sin (((double) frame) * R[2])) / 2,
+		  (1.0 + sin (((double) frame) * R[3])) / 2, (1.0 + sin (((double) frame) * R[4])) / 2, (1.0 + sin (((double) frame) * R[5])) / 2);
       break;
 
     case RENDER:
@@ -117,7 +117,7 @@ plasma (enum action action, caca_canvas_t * cv)
 }
 
 static void
-do_plasma (uint8_t * pixels, double x_1, double y_1, double x_2, double y_2, double x_3, double y_3)
+_do_plasma (lw6sys_context_t * sys_context, uint8_t * pixels, double x_1, double y_1, double x_2, double y_2, double x_3, double y_3)
 {
   unsigned int X1 = x_1 * (TABLEX / 2),
     Y1 = y_1 * (TABLEY / 2), X2 = x_2 * (TABLEX / 2), Y2 = y_2 * (TABLEY / 2), X3 = x_3 * (TABLEX / 2), Y3 = y_3 * (TABLEY / 2);
@@ -134,7 +134,7 @@ do_plasma (uint8_t * pixels, double x_1, double y_1, double x_2, double y_2, dou
 }
 
 static void
-increment_frame (_mod_caca_context_t * caca_context, caca_font_t * fo, caca_dither_t * di, uint8_t * buff)
+_increment_frame (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context, caca_font_t * fo, caca_dither_t * di, uint8_t * buff)
 {
   int wc, hc;
   static caca_font_t *f = NULL;
@@ -149,8 +149,8 @@ increment_frame (_mod_caca_context_t * caca_context, caca_font_t * fo, caca_dith
     buf = buff;
   hc = caca_get_canvas_height (caca_context->canvas);
   wc = caca_get_canvas_width (caca_context->canvas);
-  plasma (UPDATE, caca_context->canvas);
-  plasma (RENDER, caca_context->canvas);
+  _plasma (sys_context, UPDATE, caca_context->canvas);
+  _plasma (sys_context, RENDER, caca_context->canvas);
 
   caca_set_color_ansi (caca_context->canvas, CACA_WHITE, CACA_BLACK);
   caca_dither_bitmap (caca_context->canvas, (wc - (10 * caca_get_font_width (f))) / 2, (hc - caca_get_font_height (f)) / 2, wc, hc, d, buf);
@@ -161,8 +161,8 @@ increment_frame (_mod_caca_context_t * caca_context, caca_font_t * fo, caca_dith
   frame++;
 }
 
-extern void
-splash_free (_mod_caca_context_t * caca_context, caca_font_t * fo, caca_dither_t * di, uint8_t * buff, int init)
+void
+_mod_caca_splash_free (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context, caca_font_t * fo, caca_dither_t * di, uint8_t * buff, int init)
 {
   static caca_font_t *f = NULL;
   static caca_dither_t *d = NULL;
@@ -176,19 +176,19 @@ splash_free (_mod_caca_context_t * caca_context, caca_font_t * fo, caca_dither_t
     }
   if (init == 0)
     {
-      plasma (FREE, caca_context->canvas);
+      _plasma (sys_context, FREE, caca_context->canvas);
       free (buf);
       caca_free_dither (d);
       caca_free_font (f);
     }
 }
 
-extern void
-plasma_anim (_mod_caca_context_t * caca_context)
+void
+_mod_caca_plasma_anim (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context)
 {
   if (frame != 0)
     {
-      increment_frame (caca_context, NULL, NULL, NULL);
+      _increment_frame (sys_context, caca_context, NULL, NULL, NULL);
       return;
     }
   int wc, hc;
@@ -206,8 +206,8 @@ plasma_anim (_mod_caca_context_t * caca_context)
     }
   hc = caca_get_canvas_height (caca_context->canvas);
   wc = caca_get_canvas_width (caca_context->canvas);
-  plasma (PREPARE, caca_context->canvas);
-  plasma (INIT, caca_context->canvas);
+  _plasma (sys_context, PREPARE, caca_context->canvas);
+  _plasma (sys_context, INIT, caca_context->canvas);
 
   caca_set_color_ansi (cv, CACA_BLACK, CACA_TRANSPARENT);
   caca_put_str (cv, 0, 0, "LiquidWar6");
@@ -228,7 +228,7 @@ plasma_anim (_mod_caca_context_t * caca_context)
     return;
   caca_render_canvas (cv, f, buf, wc, hc, 4 * wc);
   d = caca_create_dither (32, wc, hc, 4 * wc, 0xff00, 0xff0000, 0xff000000, 0xff);
-  increment_frame (caca_context, f, d, buf);
-  splash_free (caca_context, f, d, buf, 1);
+  _increment_frame (sys_context, caca_context, f, d, buf);
+  _mod_caca_splash_free (sys_context, caca_context, f, d, buf, 1);
   caca_free_canvas (cv);
 }

@@ -34,7 +34,7 @@
  * Low-level SDL initialisation.
  */
 _mod_caca_context_t *
-_mod_caca_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
+_mod_caca_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
   const char **d = NULL;
   const char *driver_id = NULL;
@@ -42,7 +42,7 @@ _mod_caca_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t *
   _mod_caca_context_t *caca_context = NULL;
   int console_state = 0;
 
-  console_state = lw6sys_log_get_console_state ();
+  console_state = lw6sys_log_get_console_state (sys_context);
   caca_context = (_mod_caca_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_caca_context_t));
   if (caca_context)
     {
@@ -85,7 +85,7 @@ _mod_caca_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t *
 		   * Storing old state to restore it later
 		   */
 		  caca_context->console_state = console_state;
-		  lw6sys_log_set_console_state (0);
+		  lw6sys_log_set_console_state (sys_context, 0);
 
 		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("libcaca init"));
 		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -152,7 +152,7 @@ _mod_caca_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t *
  * Ends-up all SDL stuff.
  */
 void
-_mod_caca_quit (sys_context, _mod_caca_context_t * caca_context)
+_mod_caca_quit (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context)
 {
   float quit_sleep = 0.0f;
 

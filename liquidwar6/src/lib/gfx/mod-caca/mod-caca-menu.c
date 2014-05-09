@@ -28,8 +28,8 @@
 
 #include "mod-caca-internal.h"
 
-extern int
-_mod_caca_display_menu (sys_context, _mod_caca_context_t * caca_context, const lw6gui_look_t * look, lw6gui_menu_t * menu)
+int
+_mod_caca_display_menu (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context, const lw6gui_look_t * look, lw6gui_menu_t * menu)
 {
   int ret = 1;
   int i, j, wc;

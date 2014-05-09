@@ -28,7 +28,7 @@
 #include "shared-sdl/shared-sdl.h"
 
 int
-_lw6gfx_sdl_bind_funcs (sys_context, _lw6gfx_sdl_funcs_t * funcs, void *handle)
+_lw6gfx_sdl_bind_funcs (lw6sys_context_t * sys_context, _lw6gfx_sdl_funcs_t * funcs, void *handle)
 {
   int ret = 0;
 
@@ -65,153 +65,154 @@ _lw6gfx_sdl_bind_funcs (sys_context, _lw6gfx_sdl_funcs_t * funcs, void *handle)
 }
 
 void
-_lw6gfx_sdl_unbind_funcs (sys_context, _lw6gfx_sdl_funcs_t * funcs)
+_lw6gfx_sdl_unbind_funcs (lw6sys_context_t * sys_context, _lw6gfx_sdl_funcs_t * funcs)
 {
   memset (funcs, 0, sizeof (_lw6gfx_sdl_funcs_t));
 }
 
 static void
-_warning (const char *func_name)
+_warning (lw6sys_context_t * sys_context, const char *func_name)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("gfx sdl function \"%s\" is not defined"), func_name);
 }
 
 int
-_lw6gfx_sdl_load_consts (sys_context, _lw6gfx_sdl_context_t * sdl_context)
+_lw6gfx_sdl_load_consts (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context)
 {
   int ret = 0;
 
   if (sdl_context->funcs.load_consts)
     {
-      ret = sdl_context->funcs.load_consts (sdl_context);
+      ret = sdl_context->funcs.load_consts (sys_context, sdl_context);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   return ret;
 }
 
 void
-_lw6gfx_sdl_unload_consts (sys_context, _lw6gfx_sdl_context_t * sdl_context)
+_lw6gfx_sdl_unload_consts (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context)
 {
   if (sdl_context->funcs.unload_consts)
     {
-      sdl_context->funcs.unload_consts (sdl_context);
+      sdl_context->funcs.unload_consts (sys_context, sdl_context);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 }
 
 lw6gui_input_t *
-_lw6gfx_sdl_pump_events (sys_context, _lw6gfx_sdl_context_t * sdl_context, _lw6gfx_sdl_event_callback_t event_callback_func, void *event_callback_data)
+_lw6gfx_sdl_pump_events (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context, _lw6gfx_sdl_event_callback_t event_callback_func,
+			 void *event_callback_data)
 {
   lw6gui_input_t *ret = NULL;
 
   if (sdl_context->funcs.pump_events)
     {
-      ret = sdl_context->funcs.pump_events (sdl_context, event_callback_func, event_callback_data);
+      ret = sdl_context->funcs.pump_events (sys_context, sdl_context, event_callback_func, event_callback_data);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   return ret;
 }
 
 int
-_lw6gfx_sdl_path_init (sys_context, _lw6gfx_sdl_context_t * sdl_context, int argc, const char *argv[])
+_lw6gfx_sdl_path_init (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context, int argc, const char *argv[])
 {
   int ret = 0;
 
   if (sdl_context->funcs.path_init)
     {
-      ret = sdl_context->funcs.path_init (&(sdl_context->path), argc, argv);
+      ret = sdl_context->funcs.path_init (sys_context, &(sdl_context->path), argc, argv);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   return ret;
 }
 
 void
-_lw6gfx_sdl_path_quit (sys_context, _lw6gfx_sdl_context_t * sdl_context)
+_lw6gfx_sdl_path_quit (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context)
 {
   if (sdl_context->funcs.path_quit)
     {
-      sdl_context->funcs.path_quit (&(sdl_context->path));
+      sdl_context->funcs.path_quit (sys_context, &(sdl_context->path));
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 }
 
 void
-_lw6gfx_sdl_timer_update (sys_context, _lw6gfx_sdl_context_t * sdl_context)
+_lw6gfx_sdl_timer_update (lw6sys_context_t * sys_context, _lw6gfx_sdl_context_t * sdl_context)
 {
   if (sdl_context->funcs.timer_update)
     {
-      sdl_context->funcs.timer_update (&(sdl_context->timer));
+      sdl_context->funcs.timer_update (sys_context, &(sdl_context->timer));
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 }
 
 int64_t
-_lw6gfx_sdl_timer_get_timestamp (sys_context, const _lw6gfx_sdl_context_t * sdl_context)
+_lw6gfx_sdl_timer_get_timestamp (lw6sys_context_t * sys_context, const _lw6gfx_sdl_context_t * sdl_context)
 {
   int64_t ret = 0LL;
 
   if (sdl_context->funcs.timer_get_timestamp)
     {
-      ret = sdl_context->funcs.timer_get_timestamp (&(sdl_context->timer));
+      ret = sdl_context->funcs.timer_get_timestamp (sys_context, &(sdl_context->timer));
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   return ret;
 }
 
 int64_t
-_lw6gfx_sdl_timer_get_uptime (sys_context, const _lw6gfx_sdl_context_t * sdl_context)
+_lw6gfx_sdl_timer_get_uptime (lw6sys_context_t * sys_context, const _lw6gfx_sdl_context_t * sdl_context)
 {
   int64_t ret = 0LL;
 
   if (sdl_context->funcs.timer_get_uptime)
     {
-      ret = sdl_context->funcs.timer_get_uptime (&(sdl_context->timer));
+      ret = sdl_context->funcs.timer_get_uptime (sys_context, &(sdl_context->timer));
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   return ret;
 }
 
 int32_t
-_lw6gfx_sdl_timer_get_cycle (sys_context, const _lw6gfx_sdl_context_t * sdl_context)
+_lw6gfx_sdl_timer_get_cycle (lw6sys_context_t * sys_context, const _lw6gfx_sdl_context_t * sdl_context)
 {
   int32_t ret = 0LL;
 
   if (sdl_context->funcs.timer_get_cycle)
     {
-      ret = sdl_context->funcs.timer_get_cycle (&(sdl_context->timer));
+      ret = sdl_context->funcs.timer_get_cycle (sys_context, &(sdl_context->timer));
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   return ret;

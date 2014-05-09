@@ -27,7 +27,7 @@
 #include "gfx.h"
 
 static void
-_warning (const char *func_name)
+_warning (lw6sys_context_t * sys_context, const char *func_name)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("gfx backend function \"%s\" is not defined"), func_name);
 }
@@ -46,17 +46,17 @@ _warning (const char *func_name)
  * Return value: 1 on success, 0 if not
  */
 int
-lw6gfx_init (sys_context, lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
+lw6gfx_init (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->init)
     {
-      backend->gfx_context = backend->init (backend->argc, backend->argv, video_mode, resize_callback);
+      backend->gfx_context = backend->init (sys_context, backend->argc, backend->argv, video_mode, resize_callback);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -75,7 +75,7 @@ lw6gfx_init (sys_context, lw6gfx_backend_t * backend, lw6gui_video_mode_t * vide
  * Return value: none.
  */
 void
-lw6gfx_quit (sys_context, lw6gfx_backend_t * backend)
+lw6gfx_quit (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -87,13 +87,13 @@ lw6gfx_quit (sys_context, lw6gfx_backend_t * backend)
        */
       if (backend->gfx_context)
 	{
-	  backend->quit (backend->gfx_context);
+	  backend->quit (sys_context, backend->gfx_context);
 	  backend->gfx_context = NULL;
 	}
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -109,7 +109,7 @@ lw6gfx_quit (sys_context, lw6gfx_backend_t * backend)
  * Return value: a newly allocated pointer.
  */
 char *
-lw6gfx_repr (sys_context, const lw6gfx_backend_t * backend)
+lw6gfx_repr (lw6sys_context_t * sys_context, const lw6gfx_backend_t * backend)
 {
   char *ret = NULL;
 
@@ -117,11 +117,11 @@ lw6gfx_repr (sys_context, const lw6gfx_backend_t * backend)
 
   if (backend->repr)
     {
-      ret = backend->repr (backend->gfx_context, backend->id);
+      ret = backend->repr (sys_context, backend->gfx_context, backend->id);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -145,7 +145,7 @@ lw6gfx_repr (sys_context, const lw6gfx_backend_t * backend)
  * Return value: 1 on success, 0 on failure;
  */
 int
-lw6gfx_set_video_mode (sys_context, lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode)
+lw6gfx_set_video_mode (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -153,11 +153,11 @@ lw6gfx_set_video_mode (sys_context, lw6gfx_backend_t * backend, lw6gui_video_mod
 
   if (backend->set_video_mode)
     {
-      ret = backend->set_video_mode (backend->gfx_context, video_mode);
+      ret = backend->set_video_mode (sys_context, backend->gfx_context, video_mode);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -176,7 +176,7 @@ lw6gfx_set_video_mode (sys_context, lw6gfx_backend_t * backend, lw6gui_video_mod
  * Return value: 1 on success, 0 on failure;
  */
 int
-lw6gfx_get_video_mode (sys_context, lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode)
+lw6gfx_get_video_mode (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -184,11 +184,11 @@ lw6gfx_get_video_mode (sys_context, lw6gfx_backend_t * backend, lw6gui_video_mod
 
   if (backend->get_video_mode)
     {
-      ret = backend->get_video_mode (backend->gfx_context, video_mode);
+      ret = backend->get_video_mode (sys_context, backend->gfx_context, video_mode);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -207,7 +207,7 @@ lw6gfx_get_video_mode (sys_context, lw6gfx_backend_t * backend, lw6gui_video_mod
  * Return value: 1 on success, 0 on failure;
  */
 int
-lw6gfx_get_fullscreen_modes (sys_context, lw6gfx_backend_t * backend, lw6gui_fullscreen_modes_t * fullscreen_modes)
+lw6gfx_get_fullscreen_modes (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend, lw6gui_fullscreen_modes_t * fullscreen_modes)
 {
   int ret = 0;
 
@@ -215,11 +215,11 @@ lw6gfx_get_fullscreen_modes (sys_context, lw6gfx_backend_t * backend, lw6gui_ful
 
   if (backend->get_fullscreen_modes)
     {
-      ret = backend->get_fullscreen_modes (backend->gfx_context, fullscreen_modes);
+      ret = backend->get_fullscreen_modes (sys_context, backend->gfx_context, fullscreen_modes);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -239,7 +239,7 @@ lw6gfx_get_fullscreen_modes (sys_context, lw6gfx_backend_t * backend, lw6gui_ful
  * Return value: a pointer on the internal input state, musn't be freed.
  */
 lw6gui_input_t *
-lw6gfx_pump_events (sys_context, lw6gfx_backend_t * backend)
+lw6gfx_pump_events (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend)
 {
   lw6gui_input_t *ret = NULL;
 
@@ -247,11 +247,11 @@ lw6gfx_pump_events (sys_context, lw6gfx_backend_t * backend)
 
   if (backend->pump_events)
     {
-      ret = backend->pump_events (backend->gfx_context);
+      ret = backend->pump_events (sys_context, backend->gfx_context);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   return ret;
@@ -288,7 +288,7 @@ lw6gfx_pump_events (sys_context, lw6gfx_backend_t * backend)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6gfx_display (sys_context, lw6gfx_backend_t * backend, int mask,
+lw6gfx_display (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend, int mask,
 		const lw6gui_look_t * look, const lw6map_level_t * level,
 		const lw6ker_game_struct_t * game_struct,
 		const lw6ker_game_state_t * game_state,
@@ -302,12 +302,12 @@ lw6gfx_display (sys_context, lw6gfx_backend_t * backend, int mask,
   if (backend->display)
     {
       ret =
-	backend->display (backend->gfx_context, mask, look, level,
+	backend->display (sys_context, backend->gfx_context, mask, look, level,
 			  game_struct, game_state, local_cursors, menu, progress, fps, mps, log_list, capture, gfx_debug, debug_team_id, debug_layer_id);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;

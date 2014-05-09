@@ -62,10 +62,11 @@
 typedef struct _lw6gfx_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
   lw6gfx_backend_t *backend;
 } _lw6gfx_test_data_t;
 
-static _lw6gfx_test_data_t _test_data = { 0, NULL };
+static _lw6gfx_test_data_t _test_data = { 0, NULL, NULL };
 
 #if MOD_GL1 || MOD_GLES2 || MOD_SOFT
 static void
@@ -76,6 +77,8 @@ _test_sdl ()
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 #endif
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -125,6 +128,8 @@ static void
 _test_resolution ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -147,14 +152,14 @@ _test_resolution ()
 }
 
 static void
-resize_callback (lw6gui_video_mode_t * video_mode)
+_resize_callback (lw6sys_context_t * sys_context, lw6gui_video_mode_t * video_mode)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 	      _x_ ("resize callback called %dx%d fullscreen=%d"), video_mode->width, video_mode->height, video_mode->fullscreen);
 }
 
 static int
-_call_init (lw6gfx_backend_t * backend)
+_call_init (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend)
 {
   int ret = 1;
 
@@ -166,7 +171,7 @@ _call_init (lw6gfx_backend_t * backend)
   video_mode.height = _TEST_HEIGHT;
   video_mode.fullscreen = _TEST_FULLSCREEN;
 
-  ret = ret && lw6gfx_init (sys_context, backend, &video_mode, resize_callback);
+  ret = ret && lw6gfx_init (sys_context, backend, &video_mode, _resize_callback);
   if (ret)
     {
       repr = lw6gfx_repr (sys_context, backend);
@@ -175,8 +180,8 @@ _call_init (lw6gfx_backend_t * backend)
 	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("display repr is \"%s\""), repr);
 	  LW6SYS_FREE (sys_context, repr);
 	}
-      ticks = lw6sys_get_uptime ();
-      while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_SETUP)
+      ticks = lw6sys_get_uptime (sys_context);
+      while (lw6sys_get_uptime (sys_context) < ticks + _TEST_DURATION_SETUP)
 	{
 	  lw6sys_sleep (sys_context, _TEST_SLEEP);
 	}
@@ -189,6 +194,8 @@ static void
 _test_splash ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -199,8 +206,8 @@ _test_splash ()
     look = lw6gui_look_new (sys_context, NULL);
     if (look)
       {
-	ticks = lw6sys_get_uptime ();
-	while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_SPLASH)
+	ticks = lw6sys_get_uptime (sys_context);
+	while (lw6sys_get_uptime (sys_context) < ticks + _TEST_DURATION_SPLASH)
 	  {
 	    if (!lw6gfx_display
 		(sys_context, backend, LW6GUI_DISPLAY_BACKGROUND | LW6GUI_DISPLAY_SPLASH, look, NULL, NULL, NULL, 0, NULL, 0.0f, 0, 0, NULL, 0, 0, 0, 0))
@@ -221,6 +228,8 @@ static void
 _test_background ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -236,8 +245,8 @@ _test_background ()
 	for (i = 0; styles[i]; ++i)
 	  {
 	    lw6gui_look_set (sys_context, look, LW6DEF_BACKGROUND_STYLE, styles[i]);
-	    ticks = lw6sys_get_uptime ();
-	    while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_BACKGROUND)
+	    ticks = lw6sys_get_uptime (sys_context);
+	    while (lw6sys_get_uptime (sys_context) < ticks + _TEST_DURATION_BACKGROUND)
 	      {
 		if (!lw6gfx_display (sys_context, backend, LW6GUI_DISPLAY_BACKGROUND, look, NULL, NULL, NULL, 0, NULL, 0.0f, 0, 0, NULL, 0, 0, 0, 0))
 		  {
@@ -258,6 +267,8 @@ static void
 _test_menu ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -283,14 +294,15 @@ _test_menu ()
 		menuitem_label = lw6sys_new_sprintf (sys_context, _x_ ("Test menuitem %d"), i);
 		if (menuitem_label)
 		  {
-		    menuitem_tooltip = lw6sys_new_sprintf (_x_ ("Tooltip for menuitem %d\nExplaining how it works\nIt works as follows:\n...it works!"), i);
+		    menuitem_tooltip =
+		      lw6sys_new_sprintf (sys_context, _x_ ("Tooltip for menuitem %d\nExplaining how it works\nIt works as follows:\n...it works!"), i);
 		    if (menuitem_tooltip)
 		      {
 			menuitem =
 			  lw6gui_menuitem_new (sys_context, menuitem_label, menuitem_tooltip, _TEST_MENU_COLOR, 1, 0, i == _TEST_MENU_COLORED_MENUITEM);
 			if (menuitem)
 			  {
-			    lw6gui_menu_append (sys_context, menu, menuitem, lw6sys_get_uptime ());
+			    lw6gui_menu_append (sys_context, menu, menuitem, lw6sys_get_uptime (sys_context));
 			  }
 			LW6SYS_FREE (sys_context, menuitem_tooltip);
 		      }
@@ -298,10 +310,10 @@ _test_menu ()
 		  }
 	      }
 	    lw6gui_menu_select (sys_context, menu, _TEST_MENU_SELECTED_MENUITEM, _TEST_MENU_ALLOW_SCROLL, 0);
-	    ticks = lw6sys_get_uptime ();
-	    while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_MENU)
+	    ticks = lw6sys_get_uptime (sys_context);
+	    while (lw6sys_get_uptime (sys_context) < ticks + _TEST_DURATION_MENU)
 	      {
-		progress = ((float) (lw6sys_get_uptime () - ticks)) / ((float) _TEST_DURATION_MENU);
+		progress = ((float) (lw6sys_get_uptime (sys_context) - ticks)) / ((float) _TEST_DURATION_MENU);
 		if (!lw6gfx_display (sys_context, backend,
 				     LW6GUI_DISPLAY_BACKGROUND |
 				     LW6GUI_DISPLAY_MENU | LW6GUI_DISPLAY_META
@@ -325,6 +337,8 @@ static void
 _test_view ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -338,7 +352,7 @@ _test_view ()
     look = lw6gui_look_new (sys_context, NULL);
     if (look)
       {
-	level = lw6map_builtin_defaults ();
+	level = lw6map_builtin_defaults (sys_context);
 	if (level)
 	  {
 	    game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
@@ -347,8 +361,8 @@ _test_view ()
 		game_state = lw6ker_game_state_new (sys_context, game_struct, NULL);
 		if (game_state)
 		  {
-		    ticks = lw6sys_get_uptime ();
-		    while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_VIEW)
+		    ticks = lw6sys_get_uptime (sys_context);
+		    while (lw6sys_get_uptime (sys_context) < ticks + _TEST_DURATION_VIEW)
 		      {
 			if (!lw6gfx_display (sys_context, backend,
 					     LW6GUI_DISPLAY_BACKGROUND |
@@ -377,6 +391,8 @@ static void
 _test_hud ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -392,7 +408,7 @@ _test_hud ()
     look = lw6gui_look_new (sys_context, NULL);
     if (look)
       {
-	level = lw6map_builtin_defaults ();
+	level = lw6map_builtin_defaults (sys_context);
 	level->param.rules.total_time = LW6MAP_RULES_MIN_TOTAL_TIME;
 	if (level)
 	  {
@@ -403,18 +419,18 @@ _test_hud ()
 		if (game_state)
 		  {
 		    lw6pil_local_cursors_reset (sys_context, &local_cursors);
-		    node_id = lw6sys_generate_id_64 ();
+		    node_id = lw6sys_generate_id_64 (sys_context);
 		    lw6ker_game_state_register_node (sys_context, game_state, node_id);
-		    lw6ker_game_state_add_cursor (sys_context, game_state, node_id, lw6sys_generate_id_16 (), LW6MAP_TEAM_COLOR_RED);
-		    lw6ker_game_state_add_cursor (sys_context, game_state, node_id, lw6sys_generate_id_16 (), LW6MAP_TEAM_COLOR_GREEN);
-		    lw6ker_game_state_add_cursor (sys_context, game_state, node_id, lw6sys_generate_id_16 (), LW6MAP_TEAM_COLOR_BLUE);
+		    lw6ker_game_state_add_cursor (sys_context, game_state, node_id, lw6sys_generate_id_16 (sys_context), LW6MAP_TEAM_COLOR_RED);
+		    lw6ker_game_state_add_cursor (sys_context, game_state, node_id, lw6sys_generate_id_16 (sys_context), LW6MAP_TEAM_COLOR_GREEN);
+		    lw6ker_game_state_add_cursor (sys_context, game_state, node_id, lw6sys_generate_id_16 (sys_context), LW6MAP_TEAM_COLOR_BLUE);
 		    while (lw6ker_game_state_get_time_left (sys_context, game_state) > 0)
 		      {
 			lw6ker_game_state_do_round (sys_context, game_state);
 		      }
 
-		    ticks = lw6sys_get_uptime ();
-		    while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_HUD)
+		    ticks = lw6sys_get_uptime (sys_context);
+		    while (lw6sys_get_uptime (sys_context) < ticks + _TEST_DURATION_HUD)
 		      {
 			if (!lw6gfx_display (sys_context, backend,
 					     LW6GUI_DISPLAY_BACKGROUND |
@@ -444,6 +460,8 @@ static void
 _test_events ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -457,11 +475,11 @@ _test_events ()
     look = lw6gui_look_new (sys_context, NULL);
     if (look)
       {
-	ticks = lw6sys_get_uptime ();
+	ticks = lw6sys_get_uptime (sys_context);
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("now for %d seconds you can move mouse, touch keyboard, punch joystick"), _TEST_DURATION_EVENTS / 1000);
 	input = lw6gfx_pump_events (sys_context, backend);
-	while (lw6sys_get_uptime (sys_context,) < ticks + _TEST_DURATION_EVENTS && !lw6sys_signal_poll_quit ())
+	while (lw6sys_get_uptime (sys_context) < ticks + _TEST_DURATION_EVENTS && !lw6sys_signal_poll_quit (sys_context))
 	  {
 	    if (!lw6gfx_display (sys_context, backend, LW6GUI_DISPLAY_BACKGROUND, look, NULL, NULL, NULL, 0, NULL, 0.0f, 0, 0, NULL, 0, 0, 0, 0))
 	      {
@@ -499,7 +517,7 @@ _test_events ()
 		  }
 		lw6gui_keypress_free (sys_context, keypress);
 	      }
-	    if (lw6sys_signal_poll_quit ())
+	    if (lw6sys_signal_poll_quit (sys_context))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("a QUIT event was detected"));
 	      }
@@ -517,7 +535,7 @@ _test_events ()
 
 
 static void
-_call_quit (lw6gfx_backend_t * backend)
+_call_quit (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend)
 {
   lw6gfx_quit (sys_context, backend);
 }
@@ -527,14 +545,20 @@ _call_quit (lw6gfx_backend_t * backend)
 static int
 _setup_init_sdl ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libgfx-sdl CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit_sdl ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libgfx-sdl CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 #endif // MOD_GL1 || MOD_GLES2 || MOD_SOFT
@@ -544,6 +568,7 @@ static int
 _setup_init_gl1 ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
@@ -553,7 +578,7 @@ _setup_init_gl1 ()
       _test_data.backend = lw6gfx_create_backend (sys_context, argc, argv, "gl1");
       if (_test_data.backend)
 	{
-	  if (_call_init (_test_data.backend))
+	  if (_call_init (sys_context, _test_data.backend))
 	    {
 	      ret = CUE_SUCCESS;
 	    }
@@ -572,12 +597,13 @@ static int
 _setup_quit_gl1 ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libgfx-gl1 CUnit test suite"));
 
   if (_test_data.backend)
     {
-      _call_quit (_test_data.backend);
+      _call_quit (sys_context, _test_data.backend);
       lw6gfx_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
@@ -592,6 +618,7 @@ static int
 _setup_init_gles2 ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
@@ -601,7 +628,7 @@ _setup_init_gles2 ()
       _test_data.backend = lw6gfx_create_backend (sys_context, argc, argv, "gles2");
       if (_test_data.backend)
 	{
-	  if (_call_init (_test_data.backend))
+	  if (_call_init (sys_context, _test_data.backend))
 	    {
 	      ret = CUE_SUCCESS;
 	    }
@@ -620,12 +647,13 @@ static int
 _setup_quit_gles2 ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libgfx-gles2 CUnit test suite"));
 
   if (_test_data.backend)
     {
-      _call_quit (_test_data.backend);
+      _call_quit (sys_context, _test_data.backend);
       lw6gfx_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
@@ -640,6 +668,7 @@ static int
 _setup_init_soft ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
@@ -649,7 +678,7 @@ _setup_init_soft ()
       _test_data.backend = lw6gfx_create_backend (sys_context, argc, argv, "soft");
       if (_test_data.backend)
 	{
-	  if (_call_init (_test_data.backend))
+	  if (_call_init (sys_context, _test_data.backend))
 	    {
 	      ret = CUE_SUCCESS;
 	    }
@@ -668,12 +697,13 @@ static int
 _setup_quit_soft ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libgfx-soft CUnit test suite"));
 
   if (_test_data.backend)
     {
-      _call_quit (_test_data.backend);
+      _call_quit (sys_context, _test_data.backend);
       lw6gfx_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
@@ -688,6 +718,8 @@ static int
 _setup_init_caca ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
@@ -697,7 +729,7 @@ _setup_init_caca ()
       _test_data.backend = lw6gfx_create_backend (sys_context, argc, argv, "caca");
       if (_test_data.backend)
 	{
-	  if (_call_init (_test_data.backend))
+	  if (_call_init (sys_context, _test_data.backend))
 	    {
 	      ret = CUE_SUCCESS;
 	    }
@@ -716,12 +748,13 @@ static int
 _setup_quit_caca ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libgfx-caca CUnit test suite"));
 
   if (_test_data.backend)
     {
-      _call_quit (_test_data.backend);
+      _call_quit (sys_context, _test_data.backend);
       lw6gfx_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
@@ -734,6 +767,7 @@ _setup_quit_caca ()
 /**
  * lw6gfx_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libgfx module.
@@ -741,12 +775,14 @@ _setup_quit_caca ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6gfx_test_register (sys_context, int mode)
+lw6gfx_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
 #if MOD_GL1 || MOD_GLES2 || MOD_SOFT || MOD_CACA
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
 #endif // MOD_GL1 || MOD_GLES2 || MOD_SOFT || MOD_CACA
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -869,6 +905,7 @@ lw6gfx_test_register (sys_context, int mode)
 /**
  * lw6gfx_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @gfx module test suite, testing most (if not all...)
@@ -877,11 +914,13 @@ lw6gfx_test_register (sys_context, int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6gfx_test_run (sys_context, int mode)
+lw6gfx_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

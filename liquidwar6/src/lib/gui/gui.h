@@ -142,7 +142,7 @@ typedef struct lw6gui_repeat_settings_s
   int auto_release_delay;
 } lw6gui_repeat_settings_t;
 
-typedef void (*lw6gui_resize_callback_func_t) (lw6gui_video_mode_t * video_mode);
+typedef void (*lw6gui_resize_callback_func_t) (lw6sys_context_t * sys_context, lw6gui_video_mode_t * video_mode);
 
 /**
  * The look structure contains everything the renderer needs

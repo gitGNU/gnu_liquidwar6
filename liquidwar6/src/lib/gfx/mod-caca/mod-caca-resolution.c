@@ -27,7 +27,7 @@
 #include "mod-caca-internal.h"
 
 int
-_mod_caca_get_fullscreen_modes (sys_context, _mod_caca_context_t * caca_context, lw6gui_fullscreen_modes_t * modes)
+_mod_caca_get_fullscreen_modes (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context, lw6gui_fullscreen_modes_t * modes)
 {
   int ret = 0;
 
@@ -67,8 +67,8 @@ _mod_caca_get_fullscreen_modes (sys_context, _mod_caca_context_t * caca_context,
 }
 
 void
-_mod_caca_find_closest_resolution (sys_context, _mod_caca_context_t * caca_context, int *closest_width, int *closest_height, int wished_width,
-				   int wished_height)
+_mod_caca_find_closest_resolution (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context, int *closest_width, int *closest_height,
+				   int wished_width, int wished_height)
 {
   (*closest_width) = wished_width;
   (*closest_height) = wished_height;

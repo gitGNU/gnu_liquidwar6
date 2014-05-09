@@ -46,6 +46,7 @@
 /**
  * lw6gfx_get_backends
  *
+ * @sys_context: global system context
  * @argc: argc, as passed to @main
  * @argv: argv, as passed to @main
  *
@@ -59,7 +60,7 @@
  * Return value: hash containing id/name pairs.
  */
 lw6sys_assoc_t *
-lw6gfx_get_backends (sys_context, int argc, const char *argv[])
+lw6gfx_get_backends (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 
@@ -116,6 +117,7 @@ lw6gfx_get_backends (sys_context, int argc, const char *argv[])
 /**
  * lw6gfx_create_backend
  *
+ * @sys_context: global system context
  * @argc: argc, as passed to @main
  * @argv: argv, as passed to @main
  * @name: string containing gfx key, typically got from @lw6gfx_get_backends
@@ -127,7 +129,7 @@ lw6gfx_get_backends (sys_context, int argc, const char *argv[])
  * Return value: gfx backend.
  */
 lw6gfx_backend_t *
-lw6gfx_create_backend (sys_context, int argc, const char *argv[], const char *name)
+lw6gfx_create_backend (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *name)
 {
   lw6gfx_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE
@@ -225,6 +227,7 @@ lw6gfx_create_backend (sys_context, int argc, const char *argv[], const char *na
 /**
  * lw6gfx_destroy_backend
  *
+ * @sys_context: global system context
  * @backend: gfx backend to destroy
  *
  * Frees the ressources associated to a gfx, which must have been
@@ -233,7 +236,7 @@ lw6gfx_create_backend (sys_context, int argc, const char *argv[], const char *na
  * Return value: none.
  */
 void
-lw6gfx_destroy_backend (sys_context, lw6gfx_backend_t * backend)
+lw6gfx_destroy_backend (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend)
 {
 #ifndef LW6_ALLINONE
   lw6dyn_dlclose_backend (sys_context, backend->dl_handle);

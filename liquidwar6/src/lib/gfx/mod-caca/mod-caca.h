@@ -25,8 +25,8 @@
 
 #include "../gfx.h"
 
-extern lw6sys_module_pedigree_t *mod_caca_get_pedigree (lw6sys_context_t * sys_context,);
-extern lw6gfx_backend_t *mod_caca_create_backend (lw6sys_context_t * sys_context,);
+extern lw6sys_module_pedigree_t *mod_caca_get_pedigree (lw6sys_context_t * sys_context);
+extern lw6gfx_backend_t *mod_caca_create_backend (lw6sys_context_t * sys_context);
 extern void mod_caca_is_GPL_compatible ();
 
 #endif // LIQUIDWAR6GFX_MOD_CACA_H

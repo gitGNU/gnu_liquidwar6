@@ -29,7 +29,7 @@
 #include "mod-caca-internal.h"
 
 static void
-key_down (lw6gui_keyboard_t * keyboard, caca_event_t * event, _mod_caca_const_data_t * const_data, int64_t timestamp)
+_key_down (lw6sys_context_t * sys_context, lw6gui_keyboard_t * keyboard, caca_event_t * event, _mod_caca_const_data_t * const_data, int64_t timestamp)
 {
   int sym = 0;
 
@@ -80,7 +80,7 @@ key_down (lw6gui_keyboard_t * keyboard, caca_event_t * event, _mod_caca_const_da
 }
 
 lw6gui_input_t *
-_mod_caca_pump_events (sys_context, _mod_caca_context_t * caca_context)
+_mod_caca_pump_events (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context)
 {
   lw6gui_input_t *input = &(caca_context->input);
   caca_event_t event;
@@ -96,7 +96,7 @@ _mod_caca_pump_events (sys_context, _mod_caca_context_t * caca_context)
 
       while (caca_get_event (caca_context->display, CACA_EVENT_KEY_PRESS, &event, caca_context->const_data.event_timeout_microseconds))
 	{
-	  timestamp = lw6sys_get_timestamp ();
+	  timestamp = lw6sys_get_timestamp (sys_context);
 	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		      _x_ ("libcaca event type=%s ascii=%d\n"),
 		      (caca_get_event_type (&event) ==
@@ -104,10 +104,10 @@ _mod_caca_pump_events (sys_context, _mod_caca_context_t * caca_context)
 	  switch (caca_get_event_type (&event))
 	    {
 	    case CACA_EVENT_KEY_PRESS:
-	      key_down (&(input->keyboard), &event, const_data, timestamp);
+	      _key_down (sys_context, &(input->keyboard), &event, const_data, timestamp);
 	      if (caca_get_event_key_ch (&event) == const_data->keysym_quit)
 		{
-		  lw6sys_signal_send_quit ();
+		  lw6sys_signal_send_quit (sys_context);
 		}
 	      break;
 	    default:

@@ -111,8 +111,9 @@ extern int _mod_caca_display_map (lw6sys_context_t * sys_context, _mod_caca_cont
 extern int _mod_caca_display_menu (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context, const lw6gui_look_t * look, lw6gui_menu_t * menu);
 
 /* mod-caca-splash.c */
-extern void plasma_anim (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context);
-extern void splash_free (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context, caca_font_t * fo, caca_dither_t * di, uint8_t * buff, int init);
+extern void _mod_caca_plasma_anim (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context);
+extern void _mod_caca_splash_free (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context, caca_font_t * fo, caca_dither_t * di, uint8_t * buff,
+				   int init);
 
 /* mod-caca-utils.c */
 extern int _mod_caca_display_hud (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context,

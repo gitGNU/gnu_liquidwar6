@@ -29,7 +29,7 @@
 #define CONST_FILE "caca-const.xml"
 
 static void
-read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_caca_const_data_t *const_data;
 
@@ -106,7 +106,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
  * Loads constants.
  */
 int
-_mod_caca_load_consts (sys_context, _mod_caca_context_t * context)
+_mod_caca_load_consts (lw6sys_context_t * sys_context, _mod_caca_context_t * context)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -118,7 +118,7 @@ _mod_caca_load_consts (sys_context, _mod_caca_context_t * context)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) &(context->const_data));
+      ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, _read_callback, (void *) &(context->const_data));
 
       LW6SYS_FREE (sys_context, const_file);
     }
@@ -139,7 +139,7 @@ _mod_caca_load_consts (sys_context, _mod_caca_context_t * context)
  * Unload constants, free memory
  */
 void
-_mod_caca_unload_consts (sys_context, _mod_caca_context_t * context)
+_mod_caca_unload_consts (lw6sys_context_t * sys_context, _mod_caca_context_t * context)
 {
   int i = 0;
 

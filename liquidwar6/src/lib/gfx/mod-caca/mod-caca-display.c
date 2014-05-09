@@ -29,7 +29,7 @@
 #include "mod-caca-internal.h"
 
 extern int
-_mod_caca_display (sys_context, _mod_caca_context_t * caca_context, int mask,
+_mod_caca_display (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context, int mask,
 		   const lw6gui_look_t * look, const lw6map_level_t * level,
 		   const lw6ker_game_struct_t * game_struct,
 		   const lw6ker_game_state_t * game_state,
@@ -49,14 +49,14 @@ _mod_caca_display (sys_context, _mod_caca_context_t * caca_context, int mask,
   if (mask & LW6GUI_DISPLAY_SPLASH)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display step=splash"));
-      plasma_anim (caca_context);
+      _mod_caca_plasma_anim (sys_context, caca_context);
       sp_free = 1;
     }
   else
     {
       if (sp_free == 1)
 	{
-	  splash_free (caca_context, NULL, NULL, NULL, 0);
+	  _mod_caca_splash_free (sys_context, caca_context, NULL, NULL, NULL, 0);
 	  sp_free = 0;
 	}
       caca_set_color_ansi (caca_context->canvas, CACA_DEFAULT, CACA_DEFAULT);

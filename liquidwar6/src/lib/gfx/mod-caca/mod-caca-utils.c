@@ -29,7 +29,7 @@
 #include "mod-caca-internal.h"
 
 static int
-mod_caca_score_font (_mod_caca_context_t * caca_context, int player_id, lw6ker_score_t * score)
+_score_font (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context, int player_id, lw6ker_score_t * score)
 {
   int wc, hc, i;
   caca_canvas_t *cv;
@@ -49,7 +49,7 @@ mod_caca_score_font (_mod_caca_context_t * caca_context, int player_id, lw6ker_s
   memset (buffer, CACA_TRANSPARENT, sizeof (*buffer) * 4 * (hc / 5));
 
   for (i = 0; i < 4 * (hc / 5); ++i)
-    buffer[i] = lw6sys_color_8_to_ibgra (sys_context, caca_context->const_data.team_color[score->team_color]);
+    buffer[i] = lw6sys_color_8_to_ibgra (caca_context->const_data.team_color[score->team_color]);
 
   d = caca_create_dither (32, 4, (hc / 5), 4 * 4, 0x00ff0000, 0x0000ff00, 0x000000ff, 0x0);
   if (player_id < 5)
@@ -109,8 +109,8 @@ mod_caca_score_font (_mod_caca_context_t * caca_context, int player_id, lw6ker_s
   return (1);
 }
 
-static int
-mod_caca_score_text (_mod_caca_context_t * caca_context, int player_id, lw6ker_score_t * score)
+int
+_score_text (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context, int player_id, lw6ker_score_t * score)
 {
   // int wc, hc, i;
   int i;
@@ -130,7 +130,7 @@ mod_caca_score_text (_mod_caca_context_t * caca_context, int player_id, lw6ker_s
   snprintf (score_str, 12, " P%2d: %d %% ", player_id, score->fighters_percent);
 
   for (i = 0; i < 3; ++i)
-    buffer[i] = lw6sys_color_8_to_ibgra (sys_context, caca_context->const_data.team_color[score->team_color]);
+    buffer[i] = lw6sys_color_8_to_ibgra (caca_context->const_data.team_color[score->team_color]);
 
   dither = caca_create_dither (32, 3, 1, 4 * 3, 0x00ff0000, 0x0000ff00, 0x000000ff, 0x0);
   caca_dither_bitmap (caca_context->canvas, player_id * 15, 0, 3, 1, dither, buffer);
@@ -145,7 +145,7 @@ mod_caca_score_text (_mod_caca_context_t * caca_context, int player_id, lw6ker_s
 }
 
 extern int
-_mod_caca_display_hud (sys_context, _mod_caca_context_t * caca_context,
+_mod_caca_display_hud (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context,
 		       const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, const lw6ker_game_struct_t * game_struct)
 {
   int ret = 1;
@@ -155,13 +155,13 @@ _mod_caca_display_hud (sys_context, _mod_caca_context_t * caca_context,
   lw6ker_score_array_update (sys_context, &caca_context->score_array, game_state);
   for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
     if (caca_context->score_array.scores[i].has_been_active)
-      mod_caca_score_text (caca_context, i, &caca_context->score_array.scores[i]);
+      _score_text (sys_context, caca_context, i, &caca_context->score_array.scores[i]);
   caca_refresh_display (caca_context->display);
   return ret;
 }
 
 extern int
-_mod_caca_display_score (sys_context, _mod_caca_context_t * caca_context,
+_mod_caca_display_score (lw6sys_context_t * sys_context, _mod_caca_context_t * caca_context,
 			 const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, const lw6ker_game_struct_t * game_struct)
 {
   int ret = 1, i;
@@ -169,7 +169,7 @@ _mod_caca_display_score (sys_context, _mod_caca_context_t * caca_context,
   lw6ker_score_array_update (sys_context, &caca_context->score_array, game_state);
   for (i = 0; i < LW6MAP_NB_TEAM_COLORS; ++i)
     if (caca_context->score_array.scores[i].has_been_active)
-      mod_caca_score_font (caca_context, i, &caca_context->score_array.scores[i]);
+      _score_font (sys_context, caca_context, i, &caca_context->score_array.scores[i]);
   caca_refresh_display (caca_context->display);
   return ret;
 }
