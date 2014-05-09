@@ -29,7 +29,7 @@
 #include "gl1-flat-internal.h"
 
 static void
-_set_map_rules (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
+_set_map_rules (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
 {
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -38,7 +38,7 @@ _set_map_rules (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_cont
 }
 
 static void
-_set_fighters_rules (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
+_set_fighters_rules (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
 {
   // glTexParameteri useless herem set in mod_gl1_utils_texture_update
   /*
@@ -62,7 +62,7 @@ _set_fighters_rules (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat
 */
 
 static void
-_display_bitmap_array (mod_gl1_utils_context_t * utils_context,
+_display_bitmap_array (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context,
 		       _mod_gl1_view_flat_context_t * flat_context,
 		       mod_gl1_utils_bitmap_array_t * bitmap_array, const lw6gui_look_t * look, int x_polarity, int y_polarity)
 {
@@ -184,16 +184,16 @@ _display_bitmap_array (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_display_map_preview (mod_gl1_utils_context_t * utils_context,
+_display_map_preview (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context,
 		      _mod_gl1_view_flat_context_t * flat_context, const lw6gui_look_t * look, const lw6map_level_t * level)
 {
-  _set_map_rules (utils_context, flat_context);
-  _display_bitmap_array (utils_context, flat_context,
+  _set_map_rules (sys_context,utils_context, flat_context);
+  _display_bitmap_array (sys_context,utils_context, flat_context,
 			 &(flat_context->game_context.map.map_bitmap_array), look, level->param.rules.x_polarity, level->param.rules.y_polarity);
 }
 
 void
-_mod_gl1_view_flat_display_preview (sys_context, mod_gl1_utils_context_t * utils_context,
+_mod_gl1_view_flat_display_preview (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
 				    _mod_gl1_view_flat_context_t * flat_context, const lw6gui_look_t * look, const lw6map_level_t * level)
 {
   if (utils_context && flat_context && level && level->texture.data)
@@ -212,13 +212,13 @@ _mod_gl1_view_flat_display_preview (sys_context, mod_gl1_utils_context_t * utils
       glColor3f (1.0, 1.0, 1.0);
       glEnable (GL_TEXTURE_2D);	// for texture
 
-      _mod_gl1_view_flat_viewport_update_preview (utils_context, flat_context, look, level);
-      _display_map_preview (utils_context, flat_context, look, level);
+      _mod_gl1_view_flat_viewport_update_preview (sys_context,utils_context, flat_context, look, level);
+      _display_map_preview (sys_context,utils_context, flat_context, look, level);
     }
 }
 
 void
-mod_gl1_view_flat_display_preview (sys_context, mod_gl1_utils_context_t * utils_context, void *flat_context, const lw6gui_look_t * look,
+mod_gl1_view_flat_display_preview (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, void *flat_context, const lw6gui_look_t * look,
 				   const lw6map_level_t * level)
 {
   _mod_gl1_view_flat_display_preview (sys_context, utils_context, (_mod_gl1_view_flat_context_t *) flat_context, look, level);
@@ -231,7 +231,7 @@ mod_gl1_view_flat_display_preview (sys_context, mod_gl1_utils_context_t * utils_
  * game_context_init first.
  */
 static void
-_display_armies (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context, const lw6gui_look_t * look)
+_display_armies (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context, const lw6gui_look_t * look)
 {
   lw6sys_whd_t shape;
   const lw6ker_game_state_t *game_state;
@@ -240,8 +240,8 @@ _display_armies (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_con
   lw6ker_game_state_get_shape (sys_context, game_state, &shape);
 
   mod_gl1_utils_update_game_bitmap_array (sys_context, utils_context, &(flat_context->game_context.armies.armies_bitmap_array), game_state, look);
-  _set_fighters_rules (utils_context, flat_context);
-  _display_bitmap_array (utils_context, flat_context,
+  _set_fighters_rules (sys_context,utils_context, flat_context);
+  _display_bitmap_array (sys_context,utils_context, flat_context,
 			 &(flat_context->game_context.armies.armies_bitmap_array), look,
 			 game_state->game_struct->rules.x_polarity, game_state->game_struct->rules.y_polarity);
 }
@@ -253,16 +253,16 @@ _display_armies (mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_con
  * game_context_init first.
  */
 static void
-_display_map (mod_gl1_utils_context_t * utils_context,
+_display_map (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context,
 	      _mod_gl1_view_flat_context_t *
 	      flat_context, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display map"));
-  _display_map_preview (utils_context, flat_context, look, game_state->game_struct->level);
+  _display_map_preview (sys_context,utils_context, flat_context, look, game_state->game_struct->level);
 }
 
 void
-_mod_gl1_view_flat_display_map (sys_context, mod_gl1_utils_context_t * utils_context,
+_mod_gl1_view_flat_display_map (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
 				_mod_gl1_view_flat_context_t *
 				flat_context, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
@@ -288,12 +288,12 @@ _mod_gl1_view_flat_display_map (sys_context, mod_gl1_utils_context_t * utils_con
 
       _mod_gl1_view_flat_viewport_update (sys_context, utils_context, flat_context, look, game_state, local_cursors);
 
-      _display_map (utils_context, flat_context, look, game_state, local_cursors);
+      _display_map (sys_context,utils_context, flat_context, look, game_state, local_cursors);
     }
 }
 
 void
-mod_gl1_view_flat_display_map (sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_view_flat_display_map (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
 			       void *flat_context, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
   _mod_gl1_view_flat_display_map (sys_context, utils_context, (_mod_gl1_view_flat_context_t *) flat_context, look, game_state, local_cursors);
@@ -306,16 +306,16 @@ mod_gl1_view_flat_display_map (sys_context, mod_gl1_utils_context_t * utils_cont
  * game_context_init first.
  */
 static void
-_display_fighters (mod_gl1_utils_context_t * utils_context,
+_display_fighters (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context,
 		   _mod_gl1_view_flat_context_t *
 		   flat_context, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display fighters"));
-  _display_armies (utils_context, flat_context, look);
+  _display_armies (sys_context,utils_context, flat_context, look);
 }
 
 void
-_mod_gl1_view_flat_display_fighters (sys_context, mod_gl1_utils_context_t * utils_context,
+_mod_gl1_view_flat_display_fighters (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
 				     _mod_gl1_view_flat_context_t *
 				     flat_context, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
@@ -333,12 +333,12 @@ _mod_gl1_view_flat_display_fighters (sys_context, mod_gl1_utils_context_t * util
       glEnable (GL_TEXTURE_2D);	// for texture
 
       _mod_gl1_view_flat_viewport_update (sys_context, utils_context, flat_context, look, game_state, local_cursors);
-      _display_fighters (utils_context, flat_context, look, game_state, local_cursors);
+      _display_fighters (sys_context,utils_context, flat_context, look, game_state, local_cursors);
     }
 }
 
 void
-mod_gl1_view_flat_display_fighters (sys_context, mod_gl1_utils_context_t * utils_context,
+mod_gl1_view_flat_display_fighters (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
 				    void *flat_context,
 				    const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
@@ -346,7 +346,7 @@ mod_gl1_view_flat_display_fighters (sys_context, mod_gl1_utils_context_t * utils
 }
 
 static void
-_display_cursor_bitmap (mod_gl1_utils_context_t * utils_context,
+_display_cursor_bitmap (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context,
 			_mod_gl1_view_flat_context_t * flat_context, float x, float y, float w, float h, mod_gl1_utils_bitmap_t * bitmap)
 {
   mod_gl1_utils_bitmap_bind (sys_context, utils_context, bitmap);
@@ -354,7 +354,7 @@ _display_cursor_bitmap (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_display_cursor (mod_gl1_utils_context_t * utils_context,
+_display_cursor (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context,
 		 _mod_gl1_view_flat_context_t * flat_context,
 		 const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursor_t * local_cursor, int i, int x, int y, int even_odd)
 {
@@ -409,13 +409,13 @@ _display_cursor (mod_gl1_utils_context_t * utils_context,
       cursor_avg =
 	(utils_context->sdl_context.video_mode.width +
 	 utils_context->sdl_context.video_mode.height) * flat_context->const_data.cursor_size * look->style.cursor_size;
-      if (lw6ker_game_state_get_charge_per1000 (game_state, flat_context->cursors_context.cursor[i].team_color) >= 1000)
+      if (lw6ker_game_state_get_charge_per1000 (sys_context,game_state, flat_context->cursors_context.cursor[i].team_color) >= 1000)
 	{
 	  cursor_w = cursor_h =
 	    (utils_context->sdl_context.video_mode.width +
 	     utils_context->sdl_context.video_mode.height) *
 	    lw6sys_math_heartbeat (sys_context, _lw6gfx_sdl_timer_get_uptime
-				   (&(utils_context->sdl_context)),
+				   (sys_context,&(utils_context->sdl_context)),
 				   flat_context->const_data.cursor_heartbeat_period,
 				   flat_context->const_data.cursor_size_heartbeat_min,
 				   flat_context->const_data.cursor_size_heartbeat_max) * look->style.cursor_size;
@@ -427,8 +427,8 @@ _display_cursor (mod_gl1_utils_context_t * utils_context,
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display cursor %d %0.1f , %0.1f - %0.1f x %0.1f"), i, cursor_x, cursor_y, cursor_w, cursor_h);
       if (even_odd || !look->style.blink_cursor)
 	{
-	  _display_cursor_bitmap (utils_context, flat_context, cursor_x, cursor_y, cursor_w, cursor_h, flat_context->cursors_context.bitmap_fg_bg);
-	  _display_cursor_bitmap (utils_context, flat_context, cursor_x, cursor_y, cursor_w, cursor_h, flat_context->cursors_context.cursor[i].bitmap_color);
+	  _display_cursor_bitmap (sys_context,utils_context, flat_context, cursor_x, cursor_y, cursor_w, cursor_h, flat_context->cursors_context.bitmap_fg_bg);
+	  _display_cursor_bitmap (sys_context,utils_context, flat_context, cursor_x, cursor_y, cursor_w, cursor_h, flat_context->cursors_context.cursor[i].bitmap_color);
 	}
       if (flat_context->cursors_context.cursor[i].shaded_text_letter->texture_h > 0)
 	{
@@ -450,7 +450,7 @@ _display_cursor (mod_gl1_utils_context_t * utils_context,
 }
 
 static void
-_display_cursors (mod_gl1_utils_context_t * utils_context,
+_display_cursors (lw6sys_context_t *sys_context,mod_gl1_utils_context_t * utils_context,
 		  _mod_gl1_view_flat_context_t *
 		  flat_context, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
@@ -469,13 +469,13 @@ _display_cursors (mod_gl1_utils_context_t * utils_context,
 	  blink_state =
 	    lw6sys_math_blink (sys_context, _lw6gfx_sdl_timer_get_uptime (sys_context, &(utils_context->sdl_context)),
 			       flat_context->const_data.cursor_blink_period);
-	  _display_cursor (utils_context, flat_context, look, game_state, local_cursor, i, cursor.pos.x, cursor.pos.y, blink_state);
+	  _display_cursor (sys_context,utils_context, flat_context, look, game_state, local_cursor, i, cursor.pos.x, cursor.pos.y, blink_state);
 	}
     }
 }
 
 void
-_mod_gl1_view_flat_display_cursors (sys_context, mod_gl1_utils_context_t * utils_context,
+_mod_gl1_view_flat_display_cursors (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context,
 				    _mod_gl1_view_flat_context_t *
 				    flat_context, const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)
 {
@@ -490,12 +490,12 @@ _mod_gl1_view_flat_display_cursors (sys_context, mod_gl1_utils_context_t * utils
 
       _mod_gl1_view_flat_viewport_update (sys_context, utils_context, flat_context, look, game_state, local_cursors);
 
-      _display_cursors (utils_context, flat_context, look, game_state, local_cursors);
+      _display_cursors (sys_context,utils_context, flat_context, look, game_state, local_cursors);
     }
 }
 
 void
-mod_gl1_view_flat_display_cursors (sys_context, mod_gl1_utils_context_t *
+mod_gl1_view_flat_display_cursors (lw6sys_context_t *sys_context, mod_gl1_utils_context_t *
 				   utils_context,
 				   void *flat_context,
 				   const lw6gui_look_t * look, const lw6ker_game_state_t * game_state, lw6pil_local_cursors_t * local_cursors)

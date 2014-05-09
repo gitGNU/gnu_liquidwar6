@@ -30,7 +30,7 @@
 #include "mod-gl1-internal.h"
 
 int
-_mod_gl1_set_backends (sys_context, _mod_gl1_context_t * gl_context, const lw6gui_look_t * look)
+_mod_gl1_set_backends (lw6sys_context_t *sys_context, _mod_gl1_context_t * gl_context, const lw6gui_look_t * look)
 {
   int ret = 1;
 
@@ -43,7 +43,7 @@ _mod_gl1_set_backends (sys_context, _mod_gl1_context_t * gl_context, const lw6gu
 }
 
 void
-_mod_gl1_clear_background_backend (sys_context, _mod_gl1_context_t * gl_context)
+_mod_gl1_clear_background_backend (lw6sys_context_t *sys_context, _mod_gl1_context_t * gl_context)
 {
   if (gl_context->background_backend)
     {
@@ -56,7 +56,7 @@ _mod_gl1_clear_background_backend (sys_context, _mod_gl1_context_t * gl_context)
 }
 
 void
-_mod_gl1_clear_hud_backend (sys_context, _mod_gl1_context_t * gl_context)
+_mod_gl1_clear_hud_backend (lw6sys_context_t *sys_context,_mod_gl1_context_t * gl_context)
 {
   if (gl_context->hud_backend)
     {
@@ -69,7 +69,7 @@ _mod_gl1_clear_hud_backend (sys_context, _mod_gl1_context_t * gl_context)
 }
 
 void
-_mod_gl1_clear_menu_backend (sys_context, _mod_gl1_context_t * gl_context)
+_mod_gl1_clear_menu_backend (lw6sys_context_t *sys_context, _mod_gl1_context_t * gl_context)
 {
   if (gl_context->menu_backend)
     {
@@ -82,7 +82,7 @@ _mod_gl1_clear_menu_backend (sys_context, _mod_gl1_context_t * gl_context)
 }
 
 void
-_mod_gl1_clear_view_backend (sys_context, _mod_gl1_context_t * gl_context)
+_mod_gl1_clear_view_backend (lw6sys_context_t *sys_context, _mod_gl1_context_t * gl_context)
 {
   if (gl_context->view_backend)
     {
@@ -95,7 +95,7 @@ _mod_gl1_clear_view_backend (sys_context, _mod_gl1_context_t * gl_context)
 }
 
 int
-_mod_gl1_set_background_backend (sys_context, _mod_gl1_context_t * gl_context, char *background_style)
+_mod_gl1_set_background_backend (lw6sys_context_t *sys_context, _mod_gl1_context_t * gl_context, char *background_style)
 {
   int ret = 0;
 
@@ -119,7 +119,7 @@ _mod_gl1_set_background_backend (sys_context, _mod_gl1_context_t * gl_context, c
 }
 
 int
-_mod_gl1_set_hud_backend (sys_context, _mod_gl1_context_t * gl_context, char *hud_style)
+_mod_gl1_set_hud_backend (lw6sys_context_t *sys_context, _mod_gl1_context_t * gl_context, char *hud_style)
 {
   int ret = 0;
 
@@ -143,7 +143,7 @@ _mod_gl1_set_hud_backend (sys_context, _mod_gl1_context_t * gl_context, char *hu
 }
 
 int
-_mod_gl1_set_menu_backend (sys_context, _mod_gl1_context_t * gl_context, char *menu_style)
+_mod_gl1_set_menu_backend (lw6sys_context_t *sys_context, _mod_gl1_context_t * gl_context, char *menu_style)
 {
   int ret = 0;
 
@@ -167,7 +167,7 @@ _mod_gl1_set_menu_backend (sys_context, _mod_gl1_context_t * gl_context, char *m
 }
 
 int
-_mod_gl1_set_view_backend (sys_context, _mod_gl1_context_t * gl_context, char *view_style)
+_mod_gl1_set_view_backend (lw6sys_context_t *sys_context, _mod_gl1_context_t * gl_context, char *view_style)
 {
   int ret = 0;
 
@@ -194,7 +194,7 @@ _mod_gl1_set_view_backend (sys_context, _mod_gl1_context_t * gl_context, char *v
  * Low-level SDL initialisation.
  */
 _mod_gl1_context_t *
-_mod_gl1_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
+_mod_gl1_init (lw6sys_context_t *sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
   _mod_gl1_context_t *gl1_context = NULL;
   int splash_ok = 0;
@@ -234,7 +234,7 @@ _mod_gl1_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t * 
 	  version = *SDL_Linked_Version ();
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL linked version now at runtime %u.%u.%u"), version.major, version.minor, version.patch);
 
-	  if (lw6sys_sdl_register ())
+	  if (lw6sys_sdl_register (sys_context))
 	    {
 	      sdl_ok = !SDL_Init (SDL_INIT_EVENTTHREAD);
 	    }
@@ -266,7 +266,7 @@ _mod_gl1_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t * 
 	      /*
 	       * Icon must be set before video mode is set
 	       */
-	      gl1_context->utils_context.bitmap_hash = mod_gl1_utils_bitmap_hash_init ();
+	      gl1_context->utils_context.bitmap_hash = mod_gl1_utils_bitmap_hash_init (sys_context);
 	      mod_gl1_utils_icon_set (sys_context, &(gl1_context->utils_context));
 	      SDL_EnableUNICODE (1);
 	    }
@@ -366,7 +366,7 @@ _mod_gl1_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t * 
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_quit (sys_context, _mod_gl1_context_t * gl1_context)
+_mod_gl1_quit (lw6sys_context_t *sys_context, _mod_gl1_context_t * gl1_context)
 {
   float quit_sleep = 0.0f;
 
@@ -410,7 +410,7 @@ _mod_gl1_quit (sys_context, _mod_gl1_context_t * gl1_context)
    */
   SDL_QuitSubSystem (SDL_INIT_VIDEO);
 
-  if (lw6sys_sdl_unregister ())
+  if (lw6sys_sdl_unregister (sys_context))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL Quit"));
       SDL_Quit ();

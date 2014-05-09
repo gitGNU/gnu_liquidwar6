@@ -29,20 +29,20 @@
 extern void shared_sdl_is_GPL_compatible ();
 
 /* shared-sdl-const.c */
-extern int shared_sdl_load_consts (_lw6gfx_sdl_context_t * sdl_context);
-extern void shared_sdl_unload_consts (_lw6gfx_sdl_context_t * sdl_context);
+extern int shared_sdl_load_consts (lw6sys_context_t *sys_context,_lw6gfx_sdl_context_t * sdl_context);
+extern void shared_sdl_unload_consts (lw6sys_context_t *sys_context,_lw6gfx_sdl_context_t * sdl_context);
 
 /* shared-sdl-event.c */
-extern lw6gui_input_t *shared_sdl_pump_events (_lw6gfx_sdl_context_t *
+extern lw6gui_input_t *shared_sdl_pump_events (lw6sys_context_t *sys_context,_lw6gfx_sdl_context_t *
 					       sdl_context, _lw6gfx_sdl_event_callback_t event_callback_func, void *event_callback_data);
 /* shared-sdl-path.c */
-extern int shared_sdl_path_init (_lw6gfx_sdl_path_t * path, int argc, const char *argv[]);
-extern void shared_sdl_path_quit (_lw6gfx_sdl_path_t * path);
+extern int shared_sdl_path_init (lw6sys_context_t *sys_context,_lw6gfx_sdl_path_t * path, int argc, const char *argv[]);
+extern void shared_sdl_path_quit (lw6sys_context_t *sys_context,_lw6gfx_sdl_path_t * path);
 
 /* shared-sdl-timer.c */
-extern void shared_sdl_timer_update (_lw6gfx_sdl_timer_t * timer);
-extern int64_t shared_sdl_timer_get_timestamp (const _lw6gfx_sdl_timer_t * timer);
-extern int64_t shared_sdl_timer_get_uptime (const _lw6gfx_sdl_timer_t * timer);
-extern int32_t shared_sdl_timer_get_cycle (const _lw6gfx_sdl_timer_t * timer);
+extern void shared_sdl_timer_update (lw6sys_context_t *sys_context,_lw6gfx_sdl_timer_t * timer);
+extern int64_t shared_sdl_timer_get_timestamp (lw6sys_context_t *sys_context,const _lw6gfx_sdl_timer_t * timer);
+extern int64_t shared_sdl_timer_get_uptime (lw6sys_context_t *sys_context,const _lw6gfx_sdl_timer_t * timer);
+extern int32_t shared_sdl_timer_get_cycle (lw6sys_context_t *sys_context,const _lw6gfx_sdl_timer_t * timer);
 
 #endif // LIQUIDWAR6GFX_SHARED_SDL_H

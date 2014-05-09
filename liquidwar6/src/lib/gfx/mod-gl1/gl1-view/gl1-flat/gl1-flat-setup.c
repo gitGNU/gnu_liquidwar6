@@ -34,7 +34,7 @@
  * Low-level SDL initialisation.
  */
 _mod_gl1_view_flat_context_t *
-_mod_gl1_view_flat_init (sys_context, mod_gl1_utils_context_t * utils_context)
+_mod_gl1_view_flat_init (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
 {
   _mod_gl1_view_flat_context_t *flat_context = NULL;
 
@@ -60,7 +60,7 @@ _mod_gl1_view_flat_init (sys_context, mod_gl1_utils_context_t * utils_context)
 }
 
 void *
-mod_gl1_view_flat_init (sys_context, mod_gl1_utils_context_t * utils_context)
+mod_gl1_view_flat_init (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context)
 {
   return (void *) _mod_gl1_view_flat_init (sys_context, utils_context);
 }
@@ -69,7 +69,7 @@ mod_gl1_view_flat_init (sys_context, mod_gl1_utils_context_t * utils_context)
  * Ends-up all SDL stuff.
  */
 void
-_mod_gl1_view_flat_quit (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
+_mod_gl1_view_flat_quit (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_context_t * flat_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("quit view/flat"));
 
@@ -80,7 +80,7 @@ _mod_gl1_view_flat_quit (sys_context, mod_gl1_utils_context_t * utils_context, _
 }
 
 void
-mod_gl1_view_flat_quit (sys_context, mod_gl1_utils_context_t * utils_context, void *flat_context)
+mod_gl1_view_flat_quit (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, void *flat_context)
 {
   _mod_gl1_view_flat_quit (sys_context, utils_context, (_mod_gl1_view_flat_context_t *) flat_context);
 }

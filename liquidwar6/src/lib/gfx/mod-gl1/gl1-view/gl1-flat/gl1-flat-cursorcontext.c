@@ -29,7 +29,7 @@
 #include "gl1-flat-internal.h"
 
 int
-_mod_gl1_view_flat_cursor_context_init (sys_context, mod_gl1_utils_context_t *
+_mod_gl1_view_flat_cursor_context_init (lw6sys_context_t *sys_context, mod_gl1_utils_context_t *
 					utils_context,
 					_mod_gl1_view_flat_cursor_context_t
 					* cursor_context,
@@ -46,7 +46,7 @@ _mod_gl1_view_flat_cursor_context_init (sys_context, mod_gl1_utils_context_t *
       cursor_context->cursor_id = cursor->cursor_id;
       cursor_context->letter = cursor->letter;
       cursor_context->team_color = cursor->team_color;
-      cursor_context->bitmap_color = mod_gl1_utils_cursor_create_color (utils_context, look, level, cursor);
+      cursor_context->bitmap_color = mod_gl1_utils_cursor_create_color (sys_context,utils_context, look, level, cursor);
 
       if (cursor->team_color >= 0)
 	{
@@ -59,7 +59,7 @@ _mod_gl1_view_flat_cursor_context_init (sys_context, mod_gl1_utils_context_t *
       color_couple.bg = look->style.color_set.team_color_dead;
 
       text[0] = cursor->letter;
-      cursor_context->shaded_text_letter = mod_gl1_utils_shaded_text_new (utils_context, utils_context->font_data.cursor, text, &color_couple);
+      cursor_context->shaded_text_letter = mod_gl1_utils_shaded_text_new (sys_context,utils_context, utils_context->font_data.cursor, text, &color_couple);
 
       ret = (cursor_context->bitmap_color != NULL) && (cursor_context->shaded_text_letter != NULL);
     }
@@ -73,7 +73,7 @@ _mod_gl1_view_flat_cursor_context_init (sys_context, mod_gl1_utils_context_t *
 }
 
 int
-_mod_gl1_view_flat_cursor_context_update (sys_context, mod_gl1_utils_context_t *
+_mod_gl1_view_flat_cursor_context_update (lw6sys_context_t *sys_context, mod_gl1_utils_context_t *
 					  utils_context,
 					  _mod_gl1_view_flat_cursor_context_t
 					  * cursor_context,
@@ -98,7 +98,7 @@ _mod_gl1_view_flat_cursor_context_update (sys_context, mod_gl1_utils_context_t *
 }
 
 int
-_mod_gl1_view_flat_cursor_context_clear (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_cursor_context_t * cursor_context)
+_mod_gl1_view_flat_cursor_context_clear (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_cursor_context_t * cursor_context)
 {
   int ret = 1;
 
@@ -116,7 +116,7 @@ _mod_gl1_view_flat_cursor_context_clear (sys_context, mod_gl1_utils_context_t * 
 }
 
 int
-_mod_gl1_view_flat_cursors_context_init (sys_context, mod_gl1_utils_context_t *
+_mod_gl1_view_flat_cursors_context_init (lw6sys_context_t *sys_context, mod_gl1_utils_context_t *
 					 utils_context,
 					 _mod_gl1_view_flat_cursors_context_t
 					 * cursors_context,
@@ -130,7 +130,7 @@ _mod_gl1_view_flat_cursors_context_init (sys_context, mod_gl1_utils_context_t *
   level = game_state->game_struct->level;
   cursors_context->level_id = level->id;
   cursors_context->color = look->style.color_set.view_color_cursor;
-  cursors_context->bitmap_fg_bg = mod_gl1_utils_cursor_create_fg_bg (utils_context, look, level);
+  cursors_context->bitmap_fg_bg = mod_gl1_utils_cursor_create_fg_bg (sys_context,utils_context, look, level);
   ret = ret && (cursors_context->bitmap_fg_bg != NULL);
   for (i = 0; i < LW6MAP_MAX_NB_CURSORS; ++i)
     {
@@ -142,7 +142,7 @@ _mod_gl1_view_flat_cursors_context_init (sys_context, mod_gl1_utils_context_t *
 }
 
 int
-_mod_gl1_view_flat_cursors_context_update (sys_context, mod_gl1_utils_context_t *
+_mod_gl1_view_flat_cursors_context_update (lw6sys_context_t *sys_context, mod_gl1_utils_context_t *
 					   utils_context,
 					   _mod_gl1_view_flat_cursors_context_t
 					   * cursors_context,
@@ -154,7 +154,7 @@ _mod_gl1_view_flat_cursors_context_update (sys_context, mod_gl1_utils_context_t 
   lw6map_level_t *level = NULL;
 
   level = game_state->game_struct->level;
-  if ((cursors_context->level_id != level->id) || (!lw6map_color_is_same (&cursors_context->color, &look->style.color_set.view_color_cursor)))
+  if ((cursors_context->level_id != level->id) || (!lw6map_color_is_same (sys_context,&cursors_context->color, &look->style.color_set.view_color_cursor)))
     {
       _mod_gl1_view_flat_cursors_context_clear (sys_context, utils_context, cursors_context);
       ret = ret && _mod_gl1_view_flat_cursors_context_init (sys_context, utils_context, cursors_context, const_data, look, game_state);
@@ -172,7 +172,7 @@ _mod_gl1_view_flat_cursors_context_update (sys_context, mod_gl1_utils_context_t 
 }
 
 int
-_mod_gl1_view_flat_cursors_context_clear (sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_cursors_context_t * cursors_context)
+_mod_gl1_view_flat_cursors_context_clear (lw6sys_context_t *sys_context, mod_gl1_utils_context_t * utils_context, _mod_gl1_view_flat_cursors_context_t * cursors_context)
 {
   int ret = 1;
   int i;
