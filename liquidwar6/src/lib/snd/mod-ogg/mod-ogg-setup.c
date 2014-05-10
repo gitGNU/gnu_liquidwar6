@@ -28,7 +28,7 @@
 #include "mod-ogg-internal.h"
 
 _mod_ogg_context_t *
-_mod_ogg_init (int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
+_mod_ogg_init (sys_context, int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
 {
   _mod_ogg_context_t *snd_context = NULL;
   int sdl_ok = 1;
@@ -42,7 +42,7 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume, float water_volume
   snd_context = (_mod_ogg_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_ogg_context_t));
   if (snd_context)
     {
-      if (_mod_ogg_path_init (snd_context, argc, argv))
+      if (_mod_ogg_path_init (sys_context, snd_context, argc, argv))
 	{
 	  memset (&version, 0, sizeof (SDL_version));
 	  SDL_VERSION (&version);
@@ -50,7 +50,7 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume, float water_volume
 	  version = *SDL_Linked_Version ();
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL linked version now at runtime %u.%u.%u"), version.major, version.minor, version.patch);
 
-	  _mod_ogg_load_consts (snd_context);
+	  _mod_ogg_load_consts (sys_context, snd_context);
 
 	  if (lw6sys_sdl_register ())
 	    {
@@ -99,10 +99,10 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume, float water_volume
 				  _x_ ("not enough channels (%d) to handle both water and sound fx"), snd_context->mixer.nb_channels);
 		    }
 
-		  _mod_ogg_set_fx_volume (snd_context, fx_volume);
-		  _mod_ogg_set_water_volume (snd_context, water_volume);
-		  _mod_ogg_set_music_volume (snd_context, music_volume);
-		  if (_mod_ogg_load_fx (snd_context) && _mod_ogg_load_water (snd_context))
+		  _mod_ogg_set_fx_volume (sys_context, snd_context, fx_volume);
+		  _mod_ogg_set_water_volume (sys_context, snd_context, water_volume);
+		  _mod_ogg_set_music_volume (sys_context, snd_context, music_volume);
+		  if (_mod_ogg_load_fx (sys_context, snd_context) && _mod_ogg_load_water (sys_context, snd_context))
 		    {
 		      ok = 1;
 		    }
@@ -122,7 +122,7 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume, float water_volume
   if (!ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to init mod_ogg"));
-      _mod_ogg_quit (snd_context);
+      _mod_ogg_quit (sys_context, snd_context);
       snd_context = NULL;
     }
 
@@ -130,19 +130,19 @@ _mod_ogg_init (int argc, const char *argv[], float fx_volume, float water_volume
 }
 
 void
-_mod_ogg_poll (_mod_ogg_context_t * snd_context)
+_mod_ogg_poll (sys_context, _mod_ogg_context_t * snd_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("ogg poll"));
 
-  _mod_ogg_poll_water (snd_context);
+  _mod_ogg_poll_water (sys_context, snd_context);
 }
 
 void
-_mod_ogg_quit (_mod_ogg_context_t * snd_context)
+_mod_ogg_quit (sys_context, _mod_ogg_context_t * snd_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("ogg quit"));
 
-  _mod_ogg_stop_music (snd_context);
+  _mod_ogg_stop_music (sys_context, snd_context);
 
   lw6sys_idle ();
   Mix_HaltChannel (-1);
@@ -154,9 +154,9 @@ _mod_ogg_quit (_mod_ogg_context_t * snd_context)
   Mix_CloseAudio ();
   lw6sys_idle ();
 
-  _mod_ogg_unload_fx (snd_context);
-  _mod_ogg_unload_water (snd_context);
-  _mod_ogg_unload_consts (snd_context);
+  _mod_ogg_unload_fx (sys_context, snd_context);
+  _mod_ogg_unload_water (sys_context, snd_context);
+  _mod_ogg_unload_consts (sys_context, snd_context);
 
   SDL_QuitSubSystem (SDL_INIT_AUDIO);
 
@@ -166,7 +166,7 @@ _mod_ogg_quit (_mod_ogg_context_t * snd_context)
       SDL_Quit ();
     }
 
-  _mod_ogg_path_quit (snd_context);
+  _mod_ogg_path_quit (sys_context, snd_context);
 
   LW6SYS_FREE (sys_context, snd_context);
 }

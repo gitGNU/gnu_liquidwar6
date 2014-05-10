@@ -60,7 +60,7 @@ mod_ogg_is_dlclose_safe ()
 }
 
 static int
-_play_fx (void *snd_context, int fx_id)
+_play_fx (lw6sys_context_t * sys_context, void *snd_context, int fx_id)
 {
   int ret = 0;
 
@@ -68,14 +68,14 @@ _play_fx (void *snd_context, int fx_id)
 
   if (mod_ogg_context)
     {
-      ret = _mod_ogg_play_fx (mod_ogg_context, fx_id);
+      ret = _mod_ogg_play_fx (sys_context, mod_ogg_context, fx_id);
     }
 
   return ret;
 }
 
 static int
-_is_music_file (void *snd_context, char *music_file)
+_is_music_file (lw6sys_context_t * sys_context, void *snd_context, char *music_file)
 {
   int ret = 0;
 
@@ -83,14 +83,14 @@ _is_music_file (void *snd_context, char *music_file)
 
   if (mod_ogg_context)
     {
-      ret = _mod_ogg_is_music_file (mod_ogg_context, music_file);
+      ret = _mod_ogg_is_music_file (sys_context, mod_ogg_context, music_file);
     }
 
   return ret;
 }
 
 static int
-_play_music_file (void *snd_context, char *music_file)
+_play_music_file (lw6sys_context_t * sys_context, void *snd_context, char *music_file)
 {
   int ret = 0;
 
@@ -98,14 +98,14 @@ _play_music_file (void *snd_context, char *music_file)
 
   if (mod_ogg_context)
     {
-      ret = _mod_ogg_play_music_file (mod_ogg_context, music_file);
+      ret = _mod_ogg_play_music_file (sys_context, mod_ogg_context, music_file);
     }
 
   return ret;
 }
 
 static int
-_play_music_random (void *snd_context, char *music_path, char *music_filter, char *music_exclude)
+_play_music_random (lw6sys_context_t * sys_context, void *snd_context, char *music_path, char *music_filter, char *music_exclude)
 {
   int ret = 0;
 
@@ -113,102 +113,112 @@ _play_music_random (void *snd_context, char *music_path, char *music_filter, cha
 
   if (mod_ogg_context)
     {
-      ret = _mod_ogg_play_music_random (mod_ogg_context, music_path, music_filter, music_exclude);
+      ret = _mod_ogg_play_music_random (sys_context, mod_ogg_context, music_path, music_filter, music_exclude);
     }
 
   return ret;
 }
 
 static void
-_stop_music (void *snd_context)
+_stop_music (lw6sys_context_t * sys_context, void *snd_context)
 {
   _mod_ogg_context_t *mod_ogg_context = (_mod_ogg_context_t *) snd_context;
 
   if (mod_ogg_context)
     {
-      _mod_ogg_stop_music (mod_ogg_context);
+      _mod_ogg_stop_music (sys_context, mod_ogg_context);
     }
 }
 
 static void *
-_init (int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
+_init (lw6sys_context_t * sys_context, int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
 {
-  _mod_ogg_context_t *mod_ogg_context = _mod_ogg_init (argc, argv, fx_volume, water_volume, music_volume);
+  _mod_ogg_context_t *mod_ogg_context = _mod_ogg_init (sys_context, argc, argv, fx_volume, water_volume, music_volume);
 
   return (void *) mod_ogg_context;
 }
 
 static void
-_set_fx_volume (void *snd_context, float volume)
+_set_fx_volume (lw6sys_context_t * sys_context, void *snd_context, float volume)
 {
   _mod_ogg_context_t *mod_ogg_context = (_mod_ogg_context_t *) snd_context;
 
   if (mod_ogg_context)
     {
-      _mod_ogg_set_fx_volume (mod_ogg_context, volume);
+      _mod_ogg_set_fx_volume (sys_context, mod_ogg_context, volume);
     }
 }
 
 static void
-_set_water_volume (void *snd_context, float volume)
+_set_water_volume (lw6sys_context_t * sys_context, void *snd_context, float volume)
 {
   _mod_ogg_context_t *mod_ogg_context = (_mod_ogg_context_t *) snd_context;
 
   if (mod_ogg_context)
     {
-      _mod_ogg_set_water_volume (mod_ogg_context, volume);
+      _mod_ogg_set_water_volume (sys_context, mod_ogg_context, volume);
     }
 }
 
 static void
-_set_music_volume (void *snd_context, float volume)
+_set_music_volume (lw6sys_context_t * sys_context, void *snd_context, float volume)
 {
   _mod_ogg_context_t *mod_ogg_context = (_mod_ogg_context_t *) snd_context;
 
   if (mod_ogg_context)
     {
-      _mod_ogg_set_music_volume (mod_ogg_context, volume);
+      _mod_ogg_set_music_volume (sys_context, mod_ogg_context, volume);
     }
 }
 
 static void
-_poll (void *snd_context)
+_poll (lw6sys_context_t * sys_context, void *snd_context)
 {
   _mod_ogg_context_t *mod_ogg_context = (_mod_ogg_context_t *) snd_context;
 
   if (mod_ogg_context)
     {
-      _mod_ogg_poll (mod_ogg_context);
+      _mod_ogg_poll (sys_context, mod_ogg_context);
     }
 }
 
 static void
-_quit (void *snd_context)
+_quit (lw6sys_context_t * sys_context, void *snd_context)
 {
   _mod_ogg_context_t *mod_ogg_context = (_mod_ogg_context_t *) snd_context;
 
   if (mod_ogg_context)
     {
-      _mod_ogg_quit (mod_ogg_context);
+      _mod_ogg_quit (sys_context, mod_ogg_context);
     }
 }
 
 static char *
-_repr (void *snd_context, u_int32_t id)
+_repr (lw6sys_context_t * sys_context, void *snd_context, u_int32_t id)
 {
   char *ret = NULL;
   _mod_ogg_context_t *mod_ogg_context = (_mod_ogg_context_t *) snd_context;
 
   if (mod_ogg_context)
     {
-      ret = _mod_ogg_repr (mod_ogg_context, id);
+      ret = _mod_ogg_repr (sys_context, mod_ogg_context, id);
     }
 
   return ret;
 }
 
+/**
+ * mod_ogg_get_pedigree
+ *
+ * @sys_context: global system context
+ *
+ * Returns the pedigree for mod-ogg, giving details about the module,
+ * including name, description, licence, date/time of compilation.
+ *
+ * Return value: dynamically allocated object.
+ */
 lw6sys_module_pedigree_t *
-mod_ogg_get_pedigree ()
+mod_ogg_get_pedigree (sys_context, lw6sys_context_t * sys_context)
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
@@ -230,8 +240,17 @@ mod_ogg_get_pedigree ()
   return module_pedigree;
 }
 
+/**
+ * mod_ogg_create_backend
+ *
+ * @sys_context: global system context
+ *
+ * Creates a mod-ogg backend.
+ *
+ * Return value: backend pointer.
+ */
 lw6snd_backend_t *
-mod_ogg_create_backend ()
+mod_ogg_create_backend (sys_context, lw6sys_context_t * sys_context)
 {
   lw6snd_backend_t *backend;
 

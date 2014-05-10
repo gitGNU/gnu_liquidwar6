@@ -28,7 +28,7 @@
 #include "mod-csound-internal.h"
 
 _mod_csound_context_t *
-_mod_csound_init (int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
+_mod_csound_init (sys_context, int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
 {
   _mod_csound_context_t *csound_context = NULL;
   int ok = 0;
@@ -38,11 +38,11 @@ _mod_csound_init (int argc, const char *argv[], float fx_volume, float water_vol
   csound_context = (_mod_csound_context_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_csound_context_t));
   if (csound_context)
     {
-      if (_mod_csound_path_init (csound_context, argc, argv))
+      if (_mod_csound_path_init (sys_context, csound_context, argc, argv))
 	{
-	  _mod_csound_set_fx_volume (csound_context, fx_volume);
-	  _mod_csound_set_water_volume (csound_context, water_volume);
-	  _mod_csound_set_music_volume (csound_context, music_volume);
+	  _mod_csound_set_fx_volume (sys_context, csound_context, fx_volume);
+	  _mod_csound_set_water_volume (sys_context, csound_context, water_volume);
+	  _mod_csound_set_music_volume (sys_context, csound_context, music_volume);
 
 	  ok = 1;
 	}
@@ -51,22 +51,22 @@ _mod_csound_init (int argc, const char *argv[], float fx_volume, float water_vol
   if (!ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to init csound module"));
-      _mod_csound_quit (csound_context);
+      _mod_csound_quit (sys_context, csound_context);
     }
 
   return csound_context;
 }
 
 void
-_mod_csound_poll (_mod_csound_context_t * csound_context)
+_mod_csound_poll (sys_context, _mod_csound_context_t * csound_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("csound poll"));
 }
 
 void
-_mod_csound_quit (_mod_csound_context_t * csound_context)
+_mod_csound_quit (sys_context, _mod_csound_context_t * csound_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("csound quit"));
-  _mod_csound_path_quit (csound_context);
+  _mod_csound_path_quit (sys_context, csound_context);
   LW6SYS_FREE (sys_context, csound_context);
 }

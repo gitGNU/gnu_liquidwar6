@@ -28,7 +28,7 @@
 #include "mod-ogg-internal.h"
 
 char *
-_mod_ogg_repr (_mod_ogg_context_t * ogg_context, u_int32_t id)
+_mod_ogg_repr (sys_context, _mod_ogg_context_t * ogg_context, u_int32_t id)
 {
   char *ret = NULL;
   SDL_version version;

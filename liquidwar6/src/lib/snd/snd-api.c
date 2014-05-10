@@ -43,7 +43,7 @@ _warning (const char *func_name)
  * Return value: 1 on success, 0 on error
  */
 int
-lw6snd_play_fx (lw6snd_backend_t * backend, int fx_id)
+lw6snd_play_fx (sys_context, lw6snd_backend_t * backend, int fx_id)
 {
   int ret = 0;
 
@@ -78,7 +78,7 @@ lw6snd_play_fx (lw6snd_backend_t * backend, int fx_id)
  * Return value: 1 if music file, 0 if not
  */
 int
-lw6snd_is_music_file (lw6snd_backend_t * backend, char *map_dir, char *music_path, char *music_file)
+lw6snd_is_music_file (sys_context, lw6snd_backend_t * backend, char *map_dir, char *music_path, char *music_file)
 {
   int ret = 0;
   char *found_path;
@@ -117,7 +117,7 @@ lw6snd_is_music_file (lw6snd_backend_t * backend, char *map_dir, char *music_pat
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6snd_play_music_file (lw6snd_backend_t * backend, char *map_dir, char *music_path, char *music_file)
+lw6snd_play_music_file (sys_context, lw6snd_backend_t * backend, char *map_dir, char *music_path, char *music_file)
 {
   int ret = 0;
   char *found_path = NULL;
@@ -164,7 +164,7 @@ lw6snd_play_music_file (lw6snd_backend_t * backend, char *map_dir, char *music_p
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6snd_play_music_random (lw6snd_backend_t * backend, char *music_path, char *music_filter, char *music_exclude)
+lw6snd_play_music_random (sys_context, lw6snd_backend_t * backend, char *music_path, char *music_filter, char *music_exclude)
 {
   int ret = 0;
 
@@ -196,7 +196,7 @@ lw6snd_play_music_random (lw6snd_backend_t * backend, char *music_path, char *mu
  * Return value: none.
  */
 void
-lw6snd_stop_music (lw6snd_backend_t * backend)
+lw6snd_stop_music (sys_context, lw6snd_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -228,7 +228,7 @@ lw6snd_stop_music (lw6snd_backend_t * backend)
  * Return value: 1 on success, 0 if not
  */
 int
-lw6snd_init (lw6snd_backend_t * backend, float fx_volume, float water_volume, float music_volume)
+lw6snd_init (sys_context, lw6snd_backend_t * backend, float fx_volume, float water_volume, float music_volume)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -257,7 +257,7 @@ lw6snd_init (lw6snd_backend_t * backend, float fx_volume, float water_volume, fl
  * Return value: none.
  */
 void
-lw6snd_set_fx_volume (lw6snd_backend_t * backend, float volume)
+lw6snd_set_fx_volume (sys_context, lw6snd_backend_t * backend, float volume)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -284,7 +284,7 @@ lw6snd_set_fx_volume (lw6snd_backend_t * backend, float volume)
  * Return value: none.
  */
 void
-lw6snd_set_water_volume (lw6snd_backend_t * backend, float volume)
+lw6snd_set_water_volume (sys_context, lw6snd_backend_t * backend, float volume)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -311,7 +311,7 @@ lw6snd_set_water_volume (lw6snd_backend_t * backend, float volume)
  * Return value: none.
  */
 void
-lw6snd_set_music_volume (lw6snd_backend_t * backend, float volume)
+lw6snd_set_music_volume (sys_context, lw6snd_backend_t * backend, float volume)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -337,7 +337,7 @@ lw6snd_set_music_volume (lw6snd_backend_t * backend, float volume)
  * Return value: none.
  */
 void
-lw6snd_poll (lw6snd_backend_t * backend)
+lw6snd_poll (sys_context, lw6snd_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -366,7 +366,7 @@ lw6snd_poll (lw6snd_backend_t * backend)
  * Return value: none.
  */
 void
-lw6snd_quit (lw6snd_backend_t * backend)
+lw6snd_quit (sys_context, lw6snd_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -400,7 +400,7 @@ lw6snd_quit (lw6snd_backend_t * backend)
  * Return value: a newly allocated pointer.
  */
 char *
-lw6snd_repr (const lw6snd_backend_t * backend)
+lw6snd_repr (sys_context, const lw6snd_backend_t * backend)
 {
   char *ret = NULL;
 

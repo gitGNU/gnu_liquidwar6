@@ -54,13 +54,13 @@ _release_snd_quit (void *func_data, const char *key, void *value)
   snd_smob = (lw6_snd_smob_t *) value;
   if (snd_smob && snd_smob->c_snd)
     {
-      repr = lw6snd_repr (snd_smob->c_snd);
+      repr = lw6snd_repr (sys_context, snd_smob->c_snd);
       if (repr)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("release snd \"%s\""), repr);
 	  LW6SYS_FREE (sys_context, repr);
 	}
-      lw6snd_quit (snd_smob->c_snd);
+      lw6snd_quit (sys_context, snd_smob->c_snd);
     }
 }
 

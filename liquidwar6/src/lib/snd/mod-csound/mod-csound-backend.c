@@ -68,7 +68,7 @@ _play_fx (void *snd_context, int fx_id)
 
   if (csound_context)
     {
-      ret = _mod_csound_play_fx (csound_context, fx_id);
+      ret = _mod_csound_play_fx (sys_context, csound_context, fx_id);
     }
 
   return ret;
@@ -83,7 +83,7 @@ _is_music_file (void *snd_context, char *music_file)
 
   if (mod_csound_context)
     {
-      ret = _mod_csound_is_music_file (mod_csound_context, music_file);
+      ret = _mod_csound_is_music_file (sys_context, mod_csound_context, music_file);
     }
 
   return ret;
@@ -98,7 +98,7 @@ _play_music_file (void *snd_context, char *music_file)
 
   if (csound_context)
     {
-      ret = _mod_csound_play_music_file (csound_context, music_file);
+      ret = _mod_csound_play_music_file (sys_context, csound_context, music_file);
     }
 
   return ret;
@@ -113,7 +113,7 @@ _play_music_random (void *snd_context, char *music_path, char *music_filter, cha
 
   if (mod_csound_context)
     {
-      ret = _mod_csound_play_music_random (mod_csound_context, music_path, music_filter, music_exclude);
+      ret = _mod_csound_play_music_random (sys_context, mod_csound_context, music_path, music_filter, music_exclude);
     }
 
   return ret;
@@ -126,14 +126,14 @@ _stop_music (void *snd_context)
 
   if (mod_csound_context)
     {
-      _mod_csound_stop_music (mod_csound_context);
+      _mod_csound_stop_music (sys_context, mod_csound_context);
     }
 }
 
 static void *
 _init (int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
 {
-  _mod_csound_context_t *csound_context = _mod_csound_init (argc, argv, fx_volume, water_volume, music_volume);
+  _mod_csound_context_t *csound_context = _mod_csound_init (sys_context, argc, argv, fx_volume, water_volume, music_volume);
 
   return (void *) csound_context;
 }
@@ -145,7 +145,7 @@ _set_fx_volume (void *snd_context, float volume)
 
   if (csound_context)
     {
-      _mod_csound_set_fx_volume (csound_context, volume);
+      _mod_csound_set_fx_volume (sys_context, csound_context, volume);
     }
 }
 
@@ -156,7 +156,7 @@ _set_water_volume (void *snd_context, float volume)
 
   if (csound_context)
     {
-      _mod_csound_set_water_volume (csound_context, volume);
+      _mod_csound_set_water_volume (sys_context, csound_context, volume);
     }
 }
 
@@ -167,7 +167,7 @@ _set_music_volume (void *snd_context, float volume)
 
   if (csound_context)
     {
-      _mod_csound_set_music_volume (csound_context, volume);
+      _mod_csound_set_music_volume (sys_context, csound_context, volume);
     }
 }
 
@@ -178,7 +178,7 @@ _poll (void *snd_context)
 
   if (csound_context)
     {
-      _mod_csound_poll (csound_context);
+      _mod_csound_poll (sys_context, csound_context);
     }
 }
 
@@ -189,7 +189,7 @@ _quit (void *snd_context)
 
   if (csound_context)
     {
-      _mod_csound_quit (csound_context);
+      _mod_csound_quit (sys_context, csound_context);
     }
 }
 
@@ -201,7 +201,7 @@ _repr (void *snd_context, u_int32_t id)
 
   if (mod_csound_context)
     {
-      ret = _mod_csound_repr (mod_csound_context, id);
+      ret = _mod_csound_repr (sys_context, mod_csound_context, id);
     }
 
   return ret;

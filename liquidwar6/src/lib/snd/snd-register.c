@@ -48,7 +48,7 @@
  * Return value: hash containing id/name pairs.
  */
 lw6sys_assoc_t *
-lw6snd_get_backends (int argc, const char *argv[])
+lw6snd_get_backends (sys_context, int argc, const char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 
@@ -96,7 +96,7 @@ lw6snd_get_backends (int argc, const char *argv[])
  * Return value: snd backend.
  */
 lw6snd_backend_t *
-lw6snd_create_backend (int argc, const char *argv[], const char *name)
+lw6snd_create_backend (sys_context, int argc, const char *argv[], const char *name)
 {
   lw6snd_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE
@@ -187,7 +187,7 @@ lw6snd_create_backend (int argc, const char *argv[], const char *name)
  * Return value: none.
  */
 void
-lw6snd_destroy_backend (lw6snd_backend_t * backend)
+lw6snd_destroy_backend (sys_context, lw6snd_backend_t * backend)
 {
 #ifndef LW6_ALLINONE
   lw6dyn_dlclose_backend (sys_context, backend->dl_handle);

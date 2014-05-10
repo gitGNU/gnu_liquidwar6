@@ -46,7 +46,7 @@ _scm_lw6snd_get_backends ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
 
-  backends = lw6snd_get_backends (lw6_global.argc, lw6_global.argv);
+  backends = lw6snd_get_backends (sys_context, lw6_global.argc, lw6_global.argv);
   if (backends)
     {
       keys = lw6sys_assoc_keys (sys_context, backends);
@@ -100,16 +100,16 @@ _scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM water_volume, SCM music_vo
       c_water_volume = scm_to_double (water_volume);
       c_music_volume = scm_to_double (music_volume);
 
-      c_ret = lw6snd_create_backend (lw6_global.argc, lw6_global.argv, c_backend_name);
+      c_ret = lw6snd_create_backend (sys_context, lw6_global.argc, lw6_global.argv, c_backend_name);
       if (c_ret)
 	{
-	  if (lw6snd_init (c_ret, c_fx_volume, c_water_volume, c_music_volume))
+	  if (lw6snd_init (sys_context, c_ret, c_fx_volume, c_water_volume, c_music_volume))
 	    {
 	      ret = lw6_make_scm_snd (c_ret);
 	    }
 	  else
 	    {
-	      lw6snd_destroy_backend (c_ret);
+	      lw6snd_destroy_backend (sys_context, c_ret);
 	    }
 	}
       LW6SYS_FREE (sys_context, c_backend_name);
@@ -121,7 +121,7 @@ _scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM water_volume, SCM music_vo
 }
 
 static SCM
-_scm_lw6snd_poll (SCM snd)
+_scm_lw6snd_poll (sys_context, SCM snd)
 {
   SCM ret = SCM_BOOL_F;
   lw6snd_backend_t *c_snd;
@@ -134,7 +134,7 @@ _scm_lw6snd_poll (SCM snd)
   c_snd = lw6_scm_to_snd (snd);
   if (c_snd)
     {
-      lw6snd_poll (c_snd);
+      lw6snd_poll (sys_context, c_snd);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -156,7 +156,7 @@ _scm_lw6snd_release (SCM snd)
   c_snd = lw6_scm_to_snd (snd);
   if (c_snd)
     {
-      lw6snd_quit (c_snd);
+      lw6snd_quit (sys_context, c_snd);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -165,7 +165,7 @@ _scm_lw6snd_release (SCM snd)
 }
 
 static SCM
-_scm_lw6snd_play_fx (SCM snd, SCM fx_id)
+_scm_lw6snd_play_fx (sys_context, SCM snd, SCM fx_id)
 {
   SCM ret = SCM_BOOL_F;
   lw6snd_backend_t *c_snd;
@@ -182,7 +182,7 @@ _scm_lw6snd_play_fx (SCM snd, SCM fx_id)
     {
       c_fx_id = scm_to_int (fx_id);
 
-      ret = scm_from_int (lw6snd_play_fx (c_snd, c_fx_id));
+      ret = scm_from_int (lw6snd_play_fx (sys_context, c_snd, c_fx_id));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -191,7 +191,7 @@ _scm_lw6snd_play_fx (SCM snd, SCM fx_id)
 }
 
 static SCM
-_scm_lw6snd_set_fx_volume (SCM snd, SCM fx_volume)
+_scm_lw6snd_set_fx_volume (sys_context, SCM snd, SCM fx_volume)
 {
   lw6snd_backend_t *c_snd;
   float c_fx_volume;
@@ -206,7 +206,7 @@ _scm_lw6snd_set_fx_volume (SCM snd, SCM fx_volume)
   if (c_snd)
     {
       c_fx_volume = scm_to_double (fx_volume);
-      lw6snd_set_fx_volume (c_snd, c_fx_volume);
+      lw6snd_set_fx_volume (sys_context, c_snd, c_fx_volume);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -215,7 +215,7 @@ _scm_lw6snd_set_fx_volume (SCM snd, SCM fx_volume)
 }
 
 static SCM
-_scm_lw6snd_set_water_volume (SCM snd, SCM water_volume)
+_scm_lw6snd_set_water_volume (sys_context, SCM snd, SCM water_volume)
 {
   lw6snd_backend_t *c_snd;
   float c_water_volume;
@@ -230,7 +230,7 @@ _scm_lw6snd_set_water_volume (SCM snd, SCM water_volume)
   if (c_snd)
     {
       c_water_volume = scm_to_double (water_volume);
-      lw6snd_set_water_volume (c_snd, c_water_volume);
+      lw6snd_set_water_volume (sys_context, c_snd, c_water_volume);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -239,7 +239,7 @@ _scm_lw6snd_set_water_volume (SCM snd, SCM water_volume)
 }
 
 static SCM
-_scm_lw6snd_is_music_file (SCM snd, SCM map_dir, SCM music_path, SCM music_file)
+_scm_lw6snd_is_music_file (sys_context, SCM snd, SCM map_dir, SCM music_path, SCM music_file)
 {
   SCM ret = SCM_BOOL_F;
   lw6snd_backend_t *c_snd;
@@ -267,7 +267,7 @@ _scm_lw6snd_is_music_file (SCM snd, SCM map_dir, SCM music_path, SCM music_file)
 	      c_music_file = lw6scm_utils_to_0str (music_file);
 	      if (c_music_file)
 		{
-		  if (lw6snd_is_music_file (c_snd, c_map_dir, c_music_path, c_music_file))
+		  if (lw6snd_is_music_file (sys_context, c_snd, c_map_dir, c_music_path, c_music_file))
 		    {
 		      ret = SCM_BOOL_T;
 		    }
@@ -285,7 +285,7 @@ _scm_lw6snd_is_music_file (SCM snd, SCM map_dir, SCM music_path, SCM music_file)
 }
 
 static SCM
-_scm_lw6snd_play_music_file (SCM snd, SCM map_dir, SCM music_path, SCM music_file)
+_scm_lw6snd_play_music_file (sys_context, SCM snd, SCM map_dir, SCM music_path, SCM music_file)
 {
   SCM ret = SCM_BOOL_F;
   lw6snd_backend_t *c_snd;
@@ -313,7 +313,7 @@ _scm_lw6snd_play_music_file (SCM snd, SCM map_dir, SCM music_path, SCM music_fil
 	      c_music_file = lw6scm_utils_to_0str (music_file);
 	      if (c_music_file)
 		{
-		  ret = scm_from_int (lw6snd_play_music_file (c_snd, c_map_dir, c_music_path, c_music_file));
+		  ret = scm_from_int (lw6snd_play_music_file (sys_context, c_snd, c_map_dir, c_music_path, c_music_file));
 		  LW6SYS_FREE (sys_context, c_music_file);
 		}
 	      LW6SYS_FREE (sys_context, c_music_path);
@@ -328,7 +328,7 @@ _scm_lw6snd_play_music_file (SCM snd, SCM map_dir, SCM music_path, SCM music_fil
 }
 
 static SCM
-_scm_lw6snd_play_music_random (SCM snd, SCM music_path, SCM music_filter, SCM music_exclude)
+_scm_lw6snd_play_music_random (sys_context, SCM snd, SCM music_path, SCM music_filter, SCM music_exclude)
 {
   SCM ret = SCM_BOOL_F;
   lw6snd_backend_t *c_snd;
@@ -356,7 +356,7 @@ _scm_lw6snd_play_music_random (SCM snd, SCM music_path, SCM music_filter, SCM mu
 	      c_music_exclude = lw6scm_utils_to_0str (music_exclude);
 	      if (c_music_exclude)
 		{
-		  ret = scm_from_int (lw6snd_play_music_random (c_snd, c_music_path, c_music_filter, c_music_exclude));
+		  ret = scm_from_int (lw6snd_play_music_random (sys_context, c_snd, c_music_path, c_music_filter, c_music_exclude));
 		  LW6SYS_FREE (sys_context, c_music_exclude);
 		}
 	      LW6SYS_FREE (sys_context, c_music_filter);
@@ -371,7 +371,7 @@ _scm_lw6snd_play_music_random (SCM snd, SCM music_path, SCM music_filter, SCM mu
 }
 
 static SCM
-_scm_lw6snd_stop_music (SCM snd)
+_scm_lw6snd_stop_music (sys_context, SCM snd)
 {
   lw6snd_backend_t *c_snd;
 
@@ -383,7 +383,7 @@ _scm_lw6snd_stop_music (SCM snd)
   c_snd = lw6_scm_to_snd (snd);
   if (c_snd)
     {
-      lw6snd_stop_music (c_snd);
+      lw6snd_stop_music (sys_context, c_snd);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -392,7 +392,7 @@ _scm_lw6snd_stop_music (SCM snd)
 }
 
 static SCM
-_scm_lw6snd_set_music_volume (SCM snd, SCM music_volume)
+_scm_lw6snd_set_music_volume (sys_context, SCM snd, SCM music_volume)
 {
   lw6snd_backend_t *c_snd;
   float c_music_volume;
@@ -407,7 +407,7 @@ _scm_lw6snd_set_music_volume (SCM snd, SCM music_volume)
   if (c_snd)
     {
       c_music_volume = scm_to_double (music_volume);
-      lw6snd_set_music_volume (c_snd, c_music_volume);
+      lw6snd_set_music_volume (sys_context, c_snd, c_music_volume);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;

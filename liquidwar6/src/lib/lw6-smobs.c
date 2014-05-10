@@ -257,7 +257,7 @@ print_snd (SCM snd, SCM port, scm_print_state * pstate)
   lw6snd_backend_t *c_snd = lw6_scm_to_snd (snd);
   char *repr = NULL;
 
-  repr = lw6snd_repr (c_snd);
+  repr = lw6snd_repr (sys_context, c_snd);
 
   scm_puts ("#<" SMOB_TYPE_SND " ", port);
   if (repr)
@@ -296,7 +296,7 @@ lw6_make_scm_snd (lw6snd_backend_t * c_snd)
       id = smob_id (SMOB_TYPE_SND, c_snd->id);
       if (id)
 	{
-	  repr = lw6snd_repr (c_snd);
+	  repr = lw6snd_repr (sys_context, c_snd);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating snd smob \"%s\""), repr);
@@ -353,15 +353,15 @@ lw6_free_snd_smob (lw6_snd_smob_t * snd_smob)
 {
   char *repr = NULL;
 
-  repr = lw6snd_repr (snd_smob->c_snd);
+  repr = lw6snd_repr (sys_context, snd_smob->c_snd);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing snd smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6snd_quit (snd_smob->c_snd);
-  lw6snd_destroy_backend (snd_smob->c_snd);
+  lw6snd_quit (sys_context, snd_smob->c_snd);
+  lw6snd_destroy_backend (sys_context, snd_smob->c_snd);
   LW6SYS_FREE (sys_context, snd_smob);
 }
 

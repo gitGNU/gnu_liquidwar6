@@ -30,7 +30,7 @@
 #define FX_DIR "fx"
 
 int
-_mod_ogg_play_fx (_mod_ogg_context_t * ogg_context, int fx_id)
+_mod_ogg_play_fx (sys_context, _mod_ogg_context_t * ogg_context, int fx_id)
 {
   int ret = 0;
   int channel = -1;
@@ -107,7 +107,7 @@ load_fx (_mod_ogg_context_t * ogg_context, char *file)
 }
 
 int
-_mod_ogg_load_fx (_mod_ogg_context_t * ogg_context)
+_mod_ogg_load_fx (sys_context, _mod_ogg_context_t * ogg_context)
 {
   int ret = 0;
   int i;
@@ -137,7 +137,7 @@ _mod_ogg_load_fx (_mod_ogg_context_t * ogg_context)
 }
 
 void
-_mod_ogg_unload_fx (_mod_ogg_context_t * ogg_context)
+_mod_ogg_unload_fx (sys_context, _mod_ogg_context_t * ogg_context)
 {
   int i;
 

@@ -30,7 +30,7 @@
 static char *_MUSIC_EXTS[] = { ".ogg", ".mp3", ".wav", ".mid", ".midi", ".mod", ".xm", ".s3m", NULL };
 
 int
-_mod_ogg_is_music_file (_mod_ogg_context_t * ogg_context, char *music_file)
+_mod_ogg_is_music_file (sys_context, _mod_ogg_context_t * ogg_context, char *music_file)
 {
   int ret = 0;
   int i = 0;
@@ -83,11 +83,11 @@ _mod_ogg_is_music_file (_mod_ogg_context_t * ogg_context, char *music_file)
 }
 
 int
-_mod_ogg_play_music_file (_mod_ogg_context_t * ogg_context, char *music_file)
+_mod_ogg_play_music_file (sys_context, _mod_ogg_context_t * ogg_context, char *music_file)
 {
   int ret = 0;
 
-  _mod_ogg_stop_music (ogg_context);
+  _mod_ogg_stop_music (sys_context, ogg_context);
 
   if (!ogg_context->music.music)
     {
@@ -123,14 +123,14 @@ _is_music_callback_func (void *func_data, char *file)
   int ret = 0;
   _mod_ogg_context_t *ogg_context = (_mod_ogg_context_t *) func_data;
 
-  ret = _mod_ogg_is_music_file (ogg_context, file);
+  ret = _mod_ogg_is_music_file (sys_context, ogg_context, file);
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("found file \"%s\" is_music_file=%d"), file, ret);
 
   return ret;
 }
 
 int
-_mod_ogg_play_music_random (_mod_ogg_context_t * ogg_context, char *music_path, char *music_filter, char *music_exclude)
+_mod_ogg_play_music_random (sys_context, _mod_ogg_context_t * ogg_context, char *music_path, char *music_filter, char *music_exclude)
 {
   int ret = 0;
   lw6sys_list_t *list = NULL;
@@ -169,7 +169,7 @@ _mod_ogg_play_music_random (_mod_ogg_context_t * ogg_context, char *music_path, 
 	}
       if (music_file)
 	{
-	  ret = _mod_ogg_play_music_file (ogg_context, music_file);
+	  ret = _mod_ogg_play_music_file (sys_context, ogg_context, music_file);
 	  LW6SYS_FREE (sys_context, music_file);
 	}
       // list is freed at this stage
@@ -190,7 +190,7 @@ _mod_ogg_play_music_random (_mod_ogg_context_t * ogg_context, char *music_path, 
 }
 
 void
-_mod_ogg_stop_music (_mod_ogg_context_t * ogg_context)
+_mod_ogg_stop_music (sys_context, _mod_ogg_context_t * ogg_context)
 {
   if (ogg_context->music.music)
     {

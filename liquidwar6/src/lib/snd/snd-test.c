@@ -55,10 +55,10 @@ _call_init (lw6snd_backend_t * backend)
   int ret = 1;
   char *repr = NULL;
 
-  ret = ret && lw6snd_init (backend, _TEST_FX_VOLUME, _TEST_WATER_VOLUME, _TEST_MUSIC_VOLUME);
+  ret = ret && lw6snd_init (sys_context, backend, _TEST_FX_VOLUME, _TEST_WATER_VOLUME, _TEST_MUSIC_VOLUME);
   if (ret)
     {
-      repr = lw6snd_repr (backend);
+      repr = lw6snd_repr (sys_context, backend);
       if (repr)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("snd repr is \"%s\""), repr);
@@ -81,7 +81,7 @@ _test_play_fx ()
 
     for (i = 0; i < LW6SND_NB_FX; ++i)
       {
-	if (lw6snd_play_fx (backend, i))
+	if (lw6snd_play_fx (sys_context, backend, i))
 	  {
 	    lw6sys_sleep (sys_context, _TEST_FX_SLEEP);
 	  }
@@ -107,7 +107,7 @@ _test_play_water ()
 
     for (i = 0; i < _TEST_WATER_NB; ++i)
       {
-	lw6snd_poll (backend);
+	lw6snd_poll (sys_context, backend);
 	lw6sys_sleep (sys_context, _TEST_WATER_SLEEP);
       }
   }
@@ -130,10 +130,10 @@ _test_play_music ()
     map_path = lw6cfg_unified_get_music_path (sys_context, argc, argv);
     if (map_path)
       {
-	if (lw6snd_play_music_random (backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
+	if (lw6snd_play_music_random (sys_context, backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
 	  {
 	    lw6sys_sleep (sys_context, _TEST_MUSIC_SLEEP);
-	    if (lw6snd_play_music_random (backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
+	    if (lw6snd_play_music_random (sys_context, backend, map_path, _TEST_MUSIC_FILTER, _TEST_MUSIC_EXCLUDE))
 	      {
 		lw6sys_sleep (sys_context, _TEST_MUSIC_SLEEP);
 	      }
@@ -141,7 +141,7 @@ _test_play_music ()
 	      {
 		ret = 0;
 	      }
-	    lw6snd_stop_music (backend);
+	    lw6snd_stop_music (sys_context, backend);
 	  }
 	else
 	  {
@@ -158,7 +158,7 @@ _test_play_music ()
 static void
 _call_quit (lw6snd_backend_t * backend)
 {
-  lw6snd_quit (backend);
+  lw6snd_quit (sys_context, backend);
 }
 
 #ifdef MOD_OGG
@@ -172,7 +172,7 @@ _setup_init_ogg ()
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libsnd-ogg CUnit test suite"));
   if (_test_data.backend == NULL)
     {
-      _test_data.backend = lw6snd_create_backend (argc, argv, "ogg");
+      _test_data.backend = lw6snd_create_backend (sys_context, argc, argv, "ogg");
       if (_test_data.backend)
 	{
 	  if (_call_init (_test_data.backend))
@@ -181,7 +181,7 @@ _setup_init_ogg ()
 	    }
 	  else
 	    {
-	      lw6snd_destroy_backend (_test_data.backend);
+	      lw6snd_destroy_backend (sys_context, _test_data.backend);
 	      _test_data.backend = NULL;
 	    }
 	}
@@ -200,7 +200,7 @@ _setup_quit_ogg ()
   if (_test_data.backend)
     {
       _call_quit (_test_data.backend);
-      lw6snd_destroy_backend (_test_data.backend);
+      lw6snd_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
     }
@@ -220,7 +220,7 @@ _setup_init_csound ()
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libsnd-csound CUnit test suite"));
   if (_test_data.backend == NULL)
     {
-      _test_data.backend = lw6snd_create_backend (argc, argv, "csound");
+      _test_data.backend = lw6snd_create_backend (sys_context, argc, argv, "csound");
       if (_test_data.backend)
 	{
 	  if (_call_init (_test_data.backend))
@@ -229,7 +229,7 @@ _setup_init_csound ()
 	    }
 	  else
 	    {
-	      lw6snd_destroy_backend (_test_data.backend);
+	      lw6snd_destroy_backend (sys_context, _test_data.backend);
 	      _test_data.backend = NULL;
 	    }
 	}
@@ -248,7 +248,7 @@ _setup_quit_csound ()
   if (_test_data.backend)
     {
       _call_quit (_test_data.backend);
-      lw6snd_destroy_backend (_test_data.backend);
+      lw6snd_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
     }
@@ -267,7 +267,7 @@ _setup_quit_csound ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6snd_test_register (int mode)
+lw6snd_test_register (sys_context, int mode)
 {
   int ret = 1;
 #if MOD_OGG || MOD_CSOUND || MOD_SOFT || MOD_CACA
@@ -332,7 +332,7 @@ lw6snd_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6snd_test_run (int mode)
+lw6snd_test_run (sys_context, int mode)
 {
   int ret = 0;
 

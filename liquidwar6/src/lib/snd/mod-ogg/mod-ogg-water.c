@@ -30,7 +30,7 @@
 #define WATER_DIR "water"
 
 void
-_mod_ogg_poll_water (_mod_ogg_context_t * ogg_context)
+_mod_ogg_poll_water (sys_context, _mod_ogg_context_t * ogg_context)
 {
   int channel = 0;
   int water_id = 0;
@@ -84,7 +84,7 @@ load_water (_mod_ogg_context_t * ogg_context, char *file)
 }
 
 int
-_mod_ogg_load_water (_mod_ogg_context_t * ogg_context)
+_mod_ogg_load_water (sys_context, _mod_ogg_context_t * ogg_context)
 {
   int ret = 0;
   int i;
@@ -110,7 +110,7 @@ _mod_ogg_load_water (_mod_ogg_context_t * ogg_context)
 }
 
 void
-_mod_ogg_unload_water (_mod_ogg_context_t * ogg_context)
+_mod_ogg_unload_water (sys_context, _mod_ogg_context_t * ogg_context)
 {
   int i;
 

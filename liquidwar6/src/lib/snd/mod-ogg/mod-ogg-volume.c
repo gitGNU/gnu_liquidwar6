@@ -28,7 +28,7 @@
 #include "mod-ogg-internal.h"
 
 extern void
-_mod_ogg_set_fx_volume (_mod_ogg_context_t * ogg_context, float volume)
+_mod_ogg_set_fx_volume (sys_context, _mod_ogg_context_t * ogg_context, float volume)
 {
   int i = 0;
 
@@ -41,7 +41,7 @@ _mod_ogg_set_fx_volume (_mod_ogg_context_t * ogg_context, float volume)
 }
 
 extern void
-_mod_ogg_set_water_volume (_mod_ogg_context_t * ogg_context, float volume)
+_mod_ogg_set_water_volume (sys_context, _mod_ogg_context_t * ogg_context, float volume)
 {
   ogg_context->volume.water = volume;
 
@@ -57,7 +57,7 @@ _mod_ogg_set_water_volume (_mod_ogg_context_t * ogg_context, float volume)
 }
 
 extern void
-_mod_ogg_set_music_volume (_mod_ogg_context_t * ogg_context, float volume)
+_mod_ogg_set_music_volume (sys_context, _mod_ogg_context_t * ogg_context, float volume)
 {
   ogg_context->volume.music = volume;
 

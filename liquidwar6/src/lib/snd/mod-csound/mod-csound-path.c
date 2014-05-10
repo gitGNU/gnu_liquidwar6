@@ -30,7 +30,7 @@
 #define SUB "snd/csound"
 
 int
-_mod_csound_path_init (_mod_csound_context_t * csound_context, int argc, const char *argv[])
+_mod_csound_path_init (sys_context, _mod_csound_context_t * csound_context, int argc, const char *argv[])
 {
   char *data_root_dir = NULL;
   int ret = 0;
@@ -47,7 +47,7 @@ _mod_csound_path_init (_mod_csound_context_t * csound_context, int argc, const c
 }
 
 void
-_mod_csound_path_quit (_mod_csound_context_t * csound_context)
+_mod_csound_path_quit (sys_context, _mod_csound_context_t * csound_context)
 {
   if (csound_context->path.data_dir)
     {
