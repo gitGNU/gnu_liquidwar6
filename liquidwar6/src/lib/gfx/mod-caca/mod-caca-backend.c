@@ -165,7 +165,7 @@ _display (lw6sys_context_t * sys_context, void *gfx_context, int mask, const lw6
  *
  * Return value: dynamically allocated object.
  */
-lw6sys_module_pedigree_t *lw6sys_module_pedigree_t *
+lw6sys_module_pedigree_t *
 mod_caca_get_pedigree (lw6sys_context_t * sys_context)
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;

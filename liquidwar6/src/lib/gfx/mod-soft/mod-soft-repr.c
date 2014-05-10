@@ -30,7 +30,7 @@
 #include "mod-soft-internal.h"
 
 char *
-_mod_soft_repr (sys_context, _mod_soft_context_t * soft_context, u_int32_t id)
+_mod_soft_repr (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, u_int32_t id)
 {
   char *ret = NULL;
   SDL_version version;
@@ -38,7 +38,7 @@ _mod_soft_repr (sys_context, _mod_soft_context_t * soft_context, u_int32_t id)
   memset (&version, 0, sizeof (SDL_version));
   version = *SDL_Linked_Version ();
   ret =
-    lw6sys_new_sprintf (_x_
+    lw6sys_new_sprintf (sys_context, _x_
 			("%u soft SDL version %u.%u.%u resolution %dx%d"),
 			id, version.major, version.minor, version.patch,
 			soft_context->sdl_context.video_mode.width, soft_context->sdl_context.video_mode.height);

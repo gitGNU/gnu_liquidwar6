@@ -30,7 +30,7 @@
  * Initialize display.
  */
 int
-_mod_soft_set_video_mode (sys_context, _mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode)
+_mod_soft_set_video_mode (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode)
 {
   /* Information about the current video settings. */
   const SDL_VideoInfo *info = NULL;
@@ -55,7 +55,7 @@ _mod_soft_set_video_mode (sys_context, _mod_soft_context_t * soft_context, lw6gu
   height = video_mode->height;
   fullscreen = video_mode->fullscreen;
 
-  lw6sys_sleep (soft_context->sdl_context.const_data.mode_sleep);
+  lw6sys_sleep (sys_context, soft_context->sdl_context.const_data.mode_sleep);
 
   /* Let's get some video information. */
   info = SDL_GetVideoInfo ();
@@ -179,7 +179,7 @@ _mod_soft_set_video_mode (sys_context, _mod_soft_context_t * soft_context, lw6gu
       //_mod_soft_timer_set_bitmap_refresh (soft_context);
       //_mod_soft_smoothers_reset_drawable (soft_context);
 
-      lw6sys_sleep (soft_context->sdl_context.const_data.mode_sleep);
+      lw6sys_sleep (sys_context, soft_context->sdl_context.const_data.mode_sleep);
     }
 
   return ok;
@@ -190,7 +190,7 @@ _mod_soft_set_video_mode (sys_context, _mod_soft_context_t * soft_context, lw6gu
  * Called whenever window resize is asked for.
  */
 int
-_mod_soft_resize_video_mode (sys_context, _mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode)
+_mod_soft_resize_video_mode (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -234,7 +234,7 @@ _mod_soft_resize_video_mode (sys_context, _mod_soft_context_t * soft_context, lw
 }
 
 int
-_mod_soft_get_video_mode (sys_context, _mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode)
+_mod_soft_get_video_mode (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -249,7 +249,7 @@ _mod_soft_get_video_mode (sys_context, _mod_soft_context_t * soft_context, lw6gu
  * Update viewport
  */
 int
-_mod_soft_sync_viewport (sys_context, _mod_soft_context_t * soft_context)
+_mod_soft_sync_viewport (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context)
 {
   int ret = 1;
 
@@ -262,7 +262,7 @@ _mod_soft_sync_viewport (sys_context, _mod_soft_context_t * soft_context)
  * Force mode.
  */
 int
-_mod_soft_sync_mode (sys_context, _mod_soft_context_t * soft_context, int force)
+_mod_soft_sync_mode (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, int force)
 {
   int ret = 0;
   lw6gui_video_mode_t video_mode;
@@ -295,7 +295,7 @@ _mod_soft_sync_mode (sys_context, _mod_soft_context_t * soft_context, int force)
 }
 
 int
-_mod_soft_set_resize_callback (sys_context, _mod_soft_context_t * soft_context, lw6gui_resize_callback_func_t resize_callback)
+_mod_soft_set_resize_callback (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context, lw6gui_resize_callback_func_t resize_callback)
 {
   int ret = 0;
 
@@ -306,11 +306,11 @@ _mod_soft_set_resize_callback (sys_context, _mod_soft_context_t * soft_context, 
 }
 
 void
-_mod_soft_call_resize_callback (sys_context, _mod_soft_context_t * soft_context)
+_mod_soft_call_resize_callback (lw6sys_context_t * sys_context, _mod_soft_context_t * soft_context)
 {
   if (soft_context->sdl_context.resize_callback)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("calling resize callback"));
-      soft_context->sdl_context.resize_callback (&(soft_context->sdl_context.video_mode));
+      soft_context->sdl_context.resize_callback (sys_context, &(soft_context->sdl_context.video_mode));
     }
 }
