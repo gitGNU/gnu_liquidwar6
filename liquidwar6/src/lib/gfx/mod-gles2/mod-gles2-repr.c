@@ -30,7 +30,7 @@
 #include "mod-gles2-internal.h"
 
 char *
-_mod_gles2_repr (sys_context, _mod_gles2_context_t * gles2_context, u_int32_t id)
+_mod_gles2_repr (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context, u_int32_t id)
 {
   char *ret = NULL;
   SDL_version version;
@@ -38,7 +38,7 @@ _mod_gles2_repr (sys_context, _mod_gles2_context_t * gles2_context, u_int32_t id
   memset (&version, 0, sizeof (SDL_version));
   version = *SDL_Linked_Version ();
   ret =
-    lw6sys_new_sprintf (_x_
+    lw6sys_new_sprintf (sys_context, _x_
 			("%u gles2 SDL version %u.%u.%u resolution %dx%d"),
 			id, version.major, version.minor, version.patch,
 			gles2_context->sdl_context.video_mode.width, gles2_context->sdl_context.video_mode.height);

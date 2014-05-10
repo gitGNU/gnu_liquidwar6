@@ -155,7 +155,17 @@ _display (lw6sys_context_t * sys_context, void *gfx_context, int mask, const lw6
   return ret;
 }
 
-lw6sys_module_pedigree_t *
+/**
+ * mod_caca_get_pedigree
+ *
+ * @sys_context: global system context
+ *
+ * Returns the pedigree for mod-caca, giving details about the module,
+ * including name, description, licence, date/time of compilation.
+ *
+ * Return value: dynamically allocated object.
+ */
+lw6sys_module_pedigree_t *lw6sys_module_pedigree_t *
 mod_caca_get_pedigree (lw6sys_context_t * sys_context)
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
@@ -177,6 +187,15 @@ mod_caca_get_pedigree (lw6sys_context_t * sys_context)
   return module_pedigree;
 }
 
+/**
+ * mod_caca_create_backend
+ *
+ * @sys_context: global system context
+ *
+ * Creates a mod-caca backend.
+ *
+ * Return value: backend pointer.
+ */
 lw6gfx_backend_t *
 mod_caca_create_backend (lw6sys_context_t * sys_context)
 {

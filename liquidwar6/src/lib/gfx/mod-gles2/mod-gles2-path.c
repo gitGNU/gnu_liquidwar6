@@ -30,7 +30,7 @@
 #define DEBUG "gles2-debug"
 
 int
-_mod_gles2_path_init (sys_context, _mod_gles2_path_t * path, int argc, const char *argv[])
+_mod_gles2_path_init (lw6sys_context_t * sys_context, _mod_gles2_path_t * path, int argc, const char *argv[])
 {
   char *data_root_dir = NULL;
   char *user_dir = NULL;
@@ -61,7 +61,7 @@ _mod_gles2_path_init (sys_context, _mod_gles2_path_t * path, int argc, const cha
 }
 
 void
-_mod_gles2_path_quit (sys_context, _mod_gles2_path_t * path)
+_mod_gles2_path_quit (lw6sys_context_t * sys_context, _mod_gles2_path_t * path)
 {
   if (path->debug_dir)
     {

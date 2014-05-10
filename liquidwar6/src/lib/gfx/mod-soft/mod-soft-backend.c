@@ -155,8 +155,18 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
   return ret;
 }
 
-lw6sys_module_pedigree_t *
-mod_soft_get_pedigree ()
+/**
+ * mod_soft_get_pedigree
+ *
+ * @sys_context: global system context
+ *
+ * Returns the pedigree for mod-soft, giving details about the module,
+ * including name, description, licence, date/time of compilation.
+ *
+ * Return value: dynamically allocated object.
+ */
+lw6sys_module_pedigree_t *lw6sys_module_pedigree_t *
+mod_soft_get_pedigree (lw6sys_context_t * sys_context)
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
@@ -177,8 +187,17 @@ mod_soft_get_pedigree ()
   return module_pedigree;
 }
 
-lw6gfx_backend_t *
-mod_soft_create_backend ()
+/**
+ * mod_soft_create_backend
+ *
+ * @sys_context: global system context
+ *
+ * Creates a mod-soft backend.
+ *
+ * Return value: backend pointer.
+ */
+lw6sys_module_pedigree_t *lw6gfx_backend_t *
+mod_soft_create_backend (lw6sys_context_t * sys_context)
 {
   lw6gfx_backend_t *backend;
 

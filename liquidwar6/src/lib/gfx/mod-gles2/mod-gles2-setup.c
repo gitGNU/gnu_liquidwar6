@@ -33,7 +33,7 @@
  * Low-level SDL initialisation.
  */
 _mod_gles2_context_t *
-_mod_gles2_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
+_mod_gles2_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
   _mod_gles2_context_t *gles2_context = NULL;
   int sdl_ok = 1;
@@ -67,7 +67,7 @@ _mod_gles2_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t 
 	  version = *SDL_Linked_Version ();
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL linked version now at runtime %u.%u.%u"), version.major, version.minor, version.patch);
 
-	  if (lw6sys_sdl_register ())
+	  if (lw6sys_sdl_register (sys_context))
 	    {
 	      sdl_ok = !SDL_Init (SDL_INIT_EVENTTHREAD);
 	    }
@@ -156,7 +156,7 @@ _mod_gles2_init (sys_context, int argc, const char *argv[], lw6gui_video_mode_t 
  * Ends-up all SDL stuff.
  */
 void
-_mod_gles2_quit (sys_context, _mod_gles2_context_t * gles2_context)
+_mod_gles2_quit (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context)
 {
   float quit_sleep = 0.0f;
 
@@ -175,7 +175,7 @@ _mod_gles2_quit (sys_context, _mod_gles2_context_t * gles2_context)
 
   SDL_QuitSubSystem (SDL_INIT_VIDEO);
 
-  if (lw6sys_sdl_unregister ())
+  if (lw6sys_sdl_unregister (sys_context))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL Quit"));
       SDL_Quit ();

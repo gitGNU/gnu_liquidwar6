@@ -30,7 +30,7 @@
  * Initialize display.
  */
 int
-_mod_gles2_set_video_mode (sys_context, _mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
+_mod_gles2_set_video_mode (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
 {
   /* Information about the current video settings. */
   const SDL_VideoInfo *info = NULL;
@@ -250,7 +250,7 @@ _mod_gles2_set_video_mode (sys_context, _mod_gles2_context_t * gles2_context, lw
  * Called whenever window resize is asked for.
  */
 int
-_mod_gles2_resize_video_mode (sys_context, _mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
+_mod_gles2_resize_video_mode (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -294,7 +294,7 @@ _mod_gles2_resize_video_mode (sys_context, _mod_gles2_context_t * gles2_context,
 }
 
 int
-_mod_gles2_get_video_mode (sys_context, _mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
+_mod_gles2_get_video_mode (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
 
@@ -309,7 +309,7 @@ _mod_gles2_get_video_mode (sys_context, _mod_gles2_context_t * gles2_context, lw
  * Update viewport
  */
 int
-_mod_gles2_sync_viewport (sys_context, _mod_gles2_context_t * gles2_context)
+_mod_gles2_sync_viewport (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context)
 {
   int ret = 1;
 
@@ -325,7 +325,7 @@ _mod_gles2_sync_viewport (sys_context, _mod_gles2_context_t * gles2_context)
  * Force mode.
  */
 int
-_mod_gles2_sync_mode (sys_context, _mod_gles2_context_t * gles2_context, int force)
+_mod_gles2_sync_mode (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context, int force)
 {
   int ret = 0;
   lw6gui_video_mode_t video_mode;
@@ -358,7 +358,7 @@ _mod_gles2_sync_mode (sys_context, _mod_gles2_context_t * gles2_context, int for
 }
 
 int
-_mod_gles2_set_resize_callback (sys_context, _mod_gles2_context_t * gles2_context, lw6gui_resize_callback_func_t resize_callback)
+_mod_gles2_set_resize_callback (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context, lw6gui_resize_callback_func_t resize_callback)
 {
   int ret = 0;
 
@@ -369,11 +369,11 @@ _mod_gles2_set_resize_callback (sys_context, _mod_gles2_context_t * gles2_contex
 }
 
 void
-_mod_gles2_call_resize_callback (sys_context, _mod_gles2_context_t * gles2_context)
+_mod_gles2_call_resize_callback (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context)
 {
   if (gles2_context->sdl_context.resize_callback)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("calling resize callback"));
-      gles2_context->sdl_context.resize_callback (&(gles2_context->sdl_context.video_mode));
+      gles2_context->sdl_context.resize_callback (sys_context, &(gles2_context->sdl_context.video_mode));
     }
 }

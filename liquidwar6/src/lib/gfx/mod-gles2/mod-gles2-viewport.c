@@ -27,7 +27,7 @@
 #include "mod-gles2-internal.h"
 
 void
-_mod_gles2_viewport_drawable_max (sys_context, _mod_gles2_context_t * gles2_context)
+_mod_gles2_viewport_drawable_max (lw6sys_context_t * sys_context, _mod_gles2_context_t * gles2_context)
 {
   lw6gui_zone_init_xywh (sys_context, &(gles2_context->sdl_context.viewport), 0.0f,
 			 0.0f, gles2_context->sdl_context.video_mode.width, gles2_context->sdl_context.video_mode.height);

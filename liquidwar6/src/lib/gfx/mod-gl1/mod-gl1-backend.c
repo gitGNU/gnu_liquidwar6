@@ -289,6 +289,16 @@ _display (lw6sys_context_t * sys_context, void *gfx_context, int mask, const lw6
   return ret;
 }
 
+/**
+ * mod_gl1_get_pedigree
+ *
+ * @sys_context: global system context
+ *
+ * Returns the pedigree for mod-gl1, giving details about the module,
+ * including name, description, licence, date/time of compilation.
+ *
+ * Return value: dynamically allocated object.
+ */
 lw6sys_module_pedigree_t *
 mod_gl1_get_pedigree (lw6sys_context_t * sys_context)
 {
@@ -313,6 +323,15 @@ mod_gl1_get_pedigree (lw6sys_context_t * sys_context)
   return module_pedigree;
 }
 
+/**
+ * mod_gl1_create_backend
+ *
+ * @sys_context: global system context
+ *
+ * Creates a mod-gl1 backend.
+ *
+ * Return value: backend pointer.
+ */
 lw6gfx_backend_t *
 mod_gl1_create_backend (lw6sys_context_t * sys_context)
 {

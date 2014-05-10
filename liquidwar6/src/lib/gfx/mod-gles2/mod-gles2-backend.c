@@ -46,7 +46,7 @@ mod_gles2_is_GPL_compatible ()
 }
 
 static void *
-_init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
+_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_resize_callback_func_t resize_callback)
 {
   _mod_gles2_context_t *mod_gles2_context = _mod_gles2_init (sys_context, argc, argv, video_mode, resize_callback);
 
@@ -54,7 +54,7 @@ _init (int argc, const char *argv[], lw6gui_video_mode_t * video_mode, lw6gui_re
 }
 
 static void
-_quit (void *gfx_context)
+_quit (lw6sys_context_t * sys_context, void *gfx_context)
 {
   _mod_gles2_context_t *mod_gles2_context = (_mod_gles2_context_t *) gfx_context;
 
@@ -65,7 +65,7 @@ _quit (void *gfx_context)
 }
 
 static char *
-_repr (void *gfx_context, u_int32_t id)
+_repr (lw6sys_context_t * sys_context, void *gfx_context, u_int32_t id)
 {
   char *ret = NULL;
   _mod_gles2_context_t *mod_gles2_context = (_mod_gles2_context_t *) gfx_context;
@@ -79,7 +79,7 @@ _repr (void *gfx_context, u_int32_t id)
 }
 
 static int
-_set_video_mode (void *gfx_context, lw6gui_video_mode_t * video_mode)
+_set_video_mode (lw6sys_context_t * sys_context, void *gfx_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
   _mod_gles2_context_t *mod_gles2_context = (_mod_gles2_context_t *) gfx_context;
@@ -93,7 +93,7 @@ _set_video_mode (void *gfx_context, lw6gui_video_mode_t * video_mode)
 }
 
 static int
-_get_video_mode (void *gfx_context, lw6gui_video_mode_t * video_mode)
+_get_video_mode (lw6sys_context_t * sys_context, void *gfx_context, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
   _mod_gles2_context_t *mod_gles2_context = (_mod_gles2_context_t *) gfx_context;
@@ -107,7 +107,7 @@ _get_video_mode (void *gfx_context, lw6gui_video_mode_t * video_mode)
 }
 
 static int
-_get_fullscreen_modes (void *gfx_context, lw6gui_fullscreen_modes_t * modes)
+_get_fullscreen_modes (lw6sys_context_t * sys_context, void *gfx_context, lw6gui_fullscreen_modes_t * modes)
 {
   int ret = 0;
   _mod_gles2_context_t *mod_gles2_context = (_mod_gles2_context_t *) gfx_context;
@@ -121,7 +121,7 @@ _get_fullscreen_modes (void *gfx_context, lw6gui_fullscreen_modes_t * modes)
 }
 
 static lw6gui_input_t *
-_pump_events (void *gfx_context)
+_pump_events (lw6sys_context_t * sys_context, void *gfx_context)
 {
   lw6gui_input_t *ret = NULL;
   _mod_gles2_context_t *mod_gles2_context = (_mod_gles2_context_t *) gfx_context;
@@ -136,12 +136,12 @@ _pump_events (void *gfx_context)
 }
 
 static int
-_display (void *gfx_context, int mask, lw6gui_look_t * look,
-	  lw6map_level_t * level,
-	  lw6ker_game_struct_t * game_struct,
-	  lw6ker_game_state_t * game_state,
+_display (lw6sys_context_t * sys_context, void *gfx_context, int mask, const lw6gui_look_t * look,
+	  const lw6map_level_t * level,
+	  const lw6ker_game_struct_t * game_struct,
+	  const lw6ker_game_state_t * game_state,
 	  lw6pil_local_cursors_t * local_cursors,
-	  lw6gui_menu_t * menu, float progress, float fps, float mps, char **log_list, int capture, int gfx_debug, int debug_team_id, int debug_layer_id)
+	  lw6gui_menu_t * menu, float progress, float fps, float mps, const char **log_list, int capture, int gfx_debug, int debug_team_id, int debug_layer_id)
 {
   int ret = 0;
   _mod_gles2_context_t *mod_gles2_context = (_mod_gles2_context_t *) gfx_context;
@@ -155,8 +155,18 @@ _display (void *gfx_context, int mask, lw6gui_look_t * look,
   return ret;
 }
 
+/**
+ * mod_gles2_get_pedigree
+ *
+ * @sys_context: global system context
+ *
+ * Returns the pedigree for mod-gles2, giving details about the module,
+ * including name, description, licence, date/time of compilation.
+ *
+ * Return value: dynamically allocated object.
+ */
 lw6sys_module_pedigree_t *
-mod_gles2_get_pedigree ()
+mod_gles2_get_pedigree (lw6sys_context_t * sys_context)
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
@@ -179,8 +189,17 @@ mod_gles2_get_pedigree ()
   return module_pedigree;
 }
 
+/**
+ * mod_gles2_create_backend
+ *
+ * @sys_context: global system context
+ *
+ * Creates a mod-gles2 backend.
+ *
+ * Return value: backend pointer.
+ */
 lw6gfx_backend_t *
-mod_gles2_create_backend ()
+mod_gles2_create_backend (lw6sys_context_t * sys_context)
 {
   lw6gfx_backend_t *backend;
 
