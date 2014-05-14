@@ -28,7 +28,7 @@
 #include "mod-ogg-internal.h"
 
 _mod_ogg_context_t *
-_mod_ogg_init (sys_context, int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
+_mod_ogg_init (lw6sys_context_t * sys_context, int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
 {
   _mod_ogg_context_t *snd_context = NULL;
   int sdl_ok = 1;
@@ -52,7 +52,7 @@ _mod_ogg_init (sys_context, int argc, const char *argv[], float fx_volume, float
 
 	  _mod_ogg_load_consts (sys_context, snd_context);
 
-	  if (lw6sys_sdl_register ())
+	  if (lw6sys_sdl_register (sys_context))
 	    {
 	      sdl_ok = !SDL_Init (SDL_INIT_EVENTTHREAD);
 	    }
@@ -130,7 +130,7 @@ _mod_ogg_init (sys_context, int argc, const char *argv[], float fx_volume, float
 }
 
 void
-_mod_ogg_poll (sys_context, _mod_ogg_context_t * snd_context)
+_mod_ogg_poll (lw6sys_context_t * sys_context, _mod_ogg_context_t * snd_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("ogg poll"));
 
@@ -138,21 +138,21 @@ _mod_ogg_poll (sys_context, _mod_ogg_context_t * snd_context)
 }
 
 void
-_mod_ogg_quit (sys_context, _mod_ogg_context_t * snd_context)
+_mod_ogg_quit (lw6sys_context_t * sys_context, _mod_ogg_context_t * snd_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("ogg quit"));
 
   _mod_ogg_stop_music (sys_context, snd_context);
 
-  lw6sys_idle ();
+  lw6sys_idle (sys_context);
   Mix_HaltChannel (-1);
-  lw6sys_idle ();
+  lw6sys_idle (sys_context);
 
-  lw6sys_idle ();
+  lw6sys_idle (sys_context);
   SDL_PauseAudio (1);
-  lw6sys_idle ();
+  lw6sys_idle (sys_context);
   Mix_CloseAudio ();
-  lw6sys_idle ();
+  lw6sys_idle (sys_context);
 
   _mod_ogg_unload_fx (sys_context, snd_context);
   _mod_ogg_unload_water (sys_context, snd_context);
@@ -160,7 +160,7 @@ _mod_ogg_quit (sys_context, _mod_ogg_context_t * snd_context)
 
   SDL_QuitSubSystem (SDL_INIT_AUDIO);
 
-  if (lw6sys_sdl_unregister ())
+  if (lw6sys_sdl_unregister (sys_context))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("SDL Quit"));
       SDL_Quit ();

@@ -30,7 +30,7 @@
 #define FX_DIR "fx"
 
 int
-_mod_ogg_play_fx (sys_context, _mod_ogg_context_t * ogg_context, int fx_id)
+_mod_ogg_play_fx (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, int fx_id)
 {
   int ret = 0;
   int channel = -1;
@@ -77,7 +77,7 @@ _mod_ogg_play_fx (sys_context, _mod_ogg_context_t * ogg_context, int fx_id)
 }
 
 static Mix_Chunk *
-load_fx (_mod_ogg_context_t * ogg_context, char *file)
+_load_fx (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, char *file)
 {
   char *path1 = NULL;
   char *path2 = NULL;
@@ -88,7 +88,7 @@ load_fx (_mod_ogg_context_t * ogg_context, char *file)
       path1 = lw6sys_path_concat (sys_context, FX_DIR, file);
       if (path1)
 	{
-	  path2 = lw6sys_path_concat (ogg_context->path.data_dir, path1);
+	  path2 = lw6sys_path_concat (sys_context, ogg_context->path.data_dir, path1);
 	  if (path2)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading fx \"%s\""), path2);
@@ -107,21 +107,21 @@ load_fx (_mod_ogg_context_t * ogg_context, char *file)
 }
 
 int
-_mod_ogg_load_fx (sys_context, _mod_ogg_context_t * ogg_context)
+_mod_ogg_load_fx (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context)
 {
   int ret = 0;
   int i;
 
-  ogg_context->fx.fx[LW6SND_FX_SPLASH] = load_fx (ogg_context, ogg_context->const_data.file_splash);
-  ogg_context->fx.fx[LW6SND_FX_VALID] = load_fx (ogg_context, ogg_context->const_data.file_valid);
-  ogg_context->fx.fx[LW6SND_FX_SELECT] = load_fx (ogg_context, ogg_context->const_data.file_select);
-  ogg_context->fx.fx[LW6SND_FX_NO] = load_fx (ogg_context, ogg_context->const_data.file_no);
-  ogg_context->fx.fx[LW6SND_FX_START] = load_fx (ogg_context, ogg_context->const_data.file_start);
-  ogg_context->fx.fx[LW6SND_FX_DEATH] = load_fx (ogg_context, ogg_context->const_data.file_death);
-  ogg_context->fx.fx[LW6SND_FX_BELL] = load_fx (ogg_context, ogg_context->const_data.file_bell);
-  ogg_context->fx.fx[LW6SND_FX_SCORE] = load_fx (ogg_context, ogg_context->const_data.file_score);
-  ogg_context->fx.fx[LW6SND_FX_HELLO] = load_fx (ogg_context, ogg_context->const_data.file_hello);
-  ogg_context->fx.fx[LW6SND_FX_GOODBYE] = load_fx (ogg_context, ogg_context->const_data.file_goodbye);
+  ogg_context->fx.fx[LW6SND_FX_SPLASH] = _load_fx (sys_context, ogg_context, ogg_context->const_data.file_splash);
+  ogg_context->fx.fx[LW6SND_FX_VALID] = _load_fx (sys_context, ogg_context, ogg_context->const_data.file_valid);
+  ogg_context->fx.fx[LW6SND_FX_SELECT] = _load_fx (sys_context, ogg_context, ogg_context->const_data.file_select);
+  ogg_context->fx.fx[LW6SND_FX_NO] = _load_fx (sys_context, ogg_context, ogg_context->const_data.file_no);
+  ogg_context->fx.fx[LW6SND_FX_START] = _load_fx (sys_context, ogg_context, ogg_context->const_data.file_start);
+  ogg_context->fx.fx[LW6SND_FX_DEATH] = _load_fx (sys_context, ogg_context, ogg_context->const_data.file_death);
+  ogg_context->fx.fx[LW6SND_FX_BELL] = _load_fx (sys_context, ogg_context, ogg_context->const_data.file_bell);
+  ogg_context->fx.fx[LW6SND_FX_SCORE] = _load_fx (sys_context, ogg_context, ogg_context->const_data.file_score);
+  ogg_context->fx.fx[LW6SND_FX_HELLO] = _load_fx (sys_context, ogg_context, ogg_context->const_data.file_hello);
+  ogg_context->fx.fx[LW6SND_FX_GOODBYE] = _load_fx (sys_context, ogg_context, ogg_context->const_data.file_goodbye);
 
   ret = 1;
   for (i = 0; i < LW6SND_NB_FX; ++i)
@@ -137,7 +137,7 @@ _mod_ogg_load_fx (sys_context, _mod_ogg_context_t * ogg_context)
 }
 
 void
-_mod_ogg_unload_fx (sys_context, _mod_ogg_context_t * ogg_context)
+_mod_ogg_unload_fx (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context)
 {
   int i;
 

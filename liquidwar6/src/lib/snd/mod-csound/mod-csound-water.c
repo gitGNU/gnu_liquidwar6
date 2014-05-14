@@ -28,7 +28,7 @@
 #include "mod-csound-internal.h"
 
 extern int
-_mod_csound_poll_water (sys_context, _mod_csound_context_t * csound_context)
+_mod_csound_poll_water (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context)
 {
   int ret = 0;
 

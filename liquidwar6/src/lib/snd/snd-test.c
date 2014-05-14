@@ -43,14 +43,15 @@
 typedef struct _lw6snd_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
   lw6snd_backend_t *backend;
 } _lw6snd_test_data_t;
 
-static _lw6snd_test_data_t _test_data = { 0, NULL };
+static _lw6snd_test_data_t _test_data = { 0, NULL, NULL };
 
 #if MOD_OGG || MOD_CSOUND
 static int
-_call_init (lw6snd_backend_t * backend)
+_call_init (lw6sys_context_t * sys_context, lw6snd_backend_t * backend)
 {
   int ret = 1;
   char *repr = NULL;
@@ -73,6 +74,8 @@ static void
 _test_play_fx ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -99,6 +102,8 @@ static void
 _test_play_water ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -119,6 +124,8 @@ static void
 _test_play_music ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -156,7 +163,7 @@ _test_play_music ()
 #endif // MOD_OGG || MOD_CSOUND
 
 static void
-_call_quit (lw6snd_backend_t * backend)
+_call_quit (lw6sys_context_t * sys_context, lw6snd_backend_t * backend)
 {
   lw6snd_quit (sys_context, backend);
 }
@@ -166,6 +173,7 @@ static int
 _setup_init_ogg ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
@@ -175,7 +183,7 @@ _setup_init_ogg ()
       _test_data.backend = lw6snd_create_backend (sys_context, argc, argv, "ogg");
       if (_test_data.backend)
 	{
-	  if (_call_init (_test_data.backend))
+	  if (_call_init (sys_context, _test_data.backend))
 	    {
 	      ret = CUE_SUCCESS;
 	    }
@@ -194,12 +202,13 @@ static int
 _setup_quit_ogg ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libsnd-ogg CUnit test suite"));
 
   if (_test_data.backend)
     {
-      _call_quit (_test_data.backend);
+      _call_quit (sys_context, _test_data.backend);
       lw6snd_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
@@ -214,6 +223,7 @@ static int
 _setup_init_csound ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
@@ -223,7 +233,7 @@ _setup_init_csound ()
       _test_data.backend = lw6snd_create_backend (sys_context, argc, argv, "csound");
       if (_test_data.backend)
 	{
-	  if (_call_init (_test_data.backend))
+	  if (_call_init (sys_context, _test_data.backend))
 	    {
 	      ret = CUE_SUCCESS;
 	    }
@@ -242,12 +252,13 @@ static int
 _setup_quit_csound ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libsnd-csound CUnit test suite"));
 
   if (_test_data.backend)
     {
-      _call_quit (_test_data.backend);
+      _call_quit (sys_context, _test_data.backend);
       lw6snd_destroy_backend (sys_context, _test_data.backend);
       _test_data.backend = NULL;
       ret = CUE_SUCCESS;
@@ -260,6 +271,7 @@ _setup_quit_csound ()
 /**
  * lw6snd_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libsnd module.
@@ -267,12 +279,14 @@ _setup_quit_csound ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6snd_test_register (sys_context, int mode)
+lw6snd_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
 #if MOD_OGG || MOD_CSOUND || MOD_SOFT || MOD_CACA
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
 #endif // MOD_OGG || MOD_CSOUND || MOD_SOFT || MOD_CACA
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -324,6 +338,7 @@ lw6snd_test_register (sys_context, int mode)
 /**
  * lw6snd_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @snd module test suite, testing most (if not all...)
@@ -332,11 +347,13 @@ lw6snd_test_register (sys_context, int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6snd_test_run (sys_context, int mode)
+lw6snd_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

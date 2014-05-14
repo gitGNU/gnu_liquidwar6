@@ -75,7 +75,7 @@ _read_callback (lw6sys_context_t * sys_context, void *callback_data, const char 
  * Loads constants.
  */
 int
-_mod_ogg_load_consts (sys_context, lw6sys_context_t * sys_context, _mod_ogg_context_t * context)
+_mod_ogg_load_consts (lw6sys_context_t * sys_context, _mod_ogg_context_t * context)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -98,7 +98,7 @@ _mod_ogg_load_consts (sys_context, lw6sys_context_t * sys_context, _mod_ogg_cont
  * Unload constants, free memory
  */
 void
-_mod_ogg_unload_consts (sys_context, lw6sys_context_t * sys_context, _mod_ogg_context_t * context)
+_mod_ogg_unload_consts (lw6sys_context_t * sys_context, _mod_ogg_context_t * context)
 {
   if (context->const_data.file_splash)
     {

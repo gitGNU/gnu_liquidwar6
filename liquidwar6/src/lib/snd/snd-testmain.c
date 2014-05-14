@@ -48,6 +48,7 @@ main (int argc, const char *argv[])
 #endif
 {
   int ret = 0;
+  lw6sys_context_t *sys_context = NULL;
   int mode = 0;
 
   LW6SYS_MAIN_BEGIN;

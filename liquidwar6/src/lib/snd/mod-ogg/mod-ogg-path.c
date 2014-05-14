@@ -30,7 +30,7 @@
 #define SUB "snd/ogg"
 
 int
-_mod_ogg_path_init (sys_context, _mod_ogg_context_t * ogg_context, int argc, const char *argv[])
+_mod_ogg_path_init (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, int argc, const char *argv[])
 {
   char *data_root_dir = NULL;
   int ret = 0;
@@ -47,7 +47,7 @@ _mod_ogg_path_init (sys_context, _mod_ogg_context_t * ogg_context, int argc, con
 }
 
 void
-_mod_ogg_path_quit (sys_context, _mod_ogg_context_t * ogg_context)
+_mod_ogg_path_quit (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context)
 {
   if (ogg_context->path.data_dir)
     {

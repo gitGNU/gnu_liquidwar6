@@ -28,7 +28,7 @@
 #include "mod-csound-internal.h"
 
 char *
-_mod_csound_repr (sys_context, _mod_csound_context_t * csound_context, u_int32_t id)
+_mod_csound_repr (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context, u_int32_t id)
 {
   char *ret = NULL;
 

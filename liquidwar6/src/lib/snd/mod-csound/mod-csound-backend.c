@@ -60,7 +60,7 @@ mod_csound_is_dlclose_safe ()
 }
 
 static int
-_play_fx (void *snd_context, int fx_id)
+_play_fx (lw6sys_context_t * sys_context, void *snd_context, int fx_id)
 {
   int ret = 0;
 
@@ -75,7 +75,7 @@ _play_fx (void *snd_context, int fx_id)
 }
 
 static int
-_is_music_file (void *snd_context, char *music_file)
+_is_music_file (lw6sys_context_t * sys_context, void *snd_context, char *music_file)
 {
   int ret = 0;
 
@@ -90,7 +90,7 @@ _is_music_file (void *snd_context, char *music_file)
 }
 
 static int
-_play_music_file (void *snd_context, char *music_file)
+_play_music_file (lw6sys_context_t * sys_context, void *snd_context, char *music_file)
 {
   int ret = 0;
 
@@ -105,7 +105,7 @@ _play_music_file (void *snd_context, char *music_file)
 }
 
 static int
-_play_music_random (void *snd_context, char *music_path, char *music_filter, char *music_exclude)
+_play_music_random (lw6sys_context_t * sys_context, void *snd_context, char *music_path, char *music_filter, char *music_exclude)
 {
   int ret = 0;
 
@@ -120,7 +120,7 @@ _play_music_random (void *snd_context, char *music_path, char *music_filter, cha
 }
 
 static void
-_stop_music (void *snd_context)
+_stop_music (lw6sys_context_t * sys_context, void *snd_context)
 {
   _mod_csound_context_t *mod_csound_context = (_mod_csound_context_t *) snd_context;
 
@@ -131,7 +131,7 @@ _stop_music (void *snd_context)
 }
 
 static void *
-_init (int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
+_init (lw6sys_context_t * sys_context, int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
 {
   _mod_csound_context_t *csound_context = _mod_csound_init (sys_context, argc, argv, fx_volume, water_volume, music_volume);
 
@@ -139,7 +139,7 @@ _init (int argc, const char *argv[], float fx_volume, float water_volume, float 
 }
 
 static void
-_set_fx_volume (void *snd_context, float volume)
+_set_fx_volume (lw6sys_context_t * sys_context, void *snd_context, float volume)
 {
   _mod_csound_context_t *csound_context = (_mod_csound_context_t *) snd_context;
 
@@ -150,7 +150,7 @@ _set_fx_volume (void *snd_context, float volume)
 }
 
 static void
-_set_water_volume (void *snd_context, float volume)
+_set_water_volume (lw6sys_context_t * sys_context, void *snd_context, float volume)
 {
   _mod_csound_context_t *csound_context = (_mod_csound_context_t *) snd_context;
 
@@ -161,7 +161,7 @@ _set_water_volume (void *snd_context, float volume)
 }
 
 static void
-_set_music_volume (void *snd_context, float volume)
+_set_music_volume (lw6sys_context_t * sys_context, void *snd_context, float volume)
 {
   _mod_csound_context_t *csound_context = (_mod_csound_context_t *) snd_context;
 
@@ -172,7 +172,7 @@ _set_music_volume (void *snd_context, float volume)
 }
 
 static void
-_poll (void *snd_context)
+_poll (lw6sys_context_t * sys_context, void *snd_context)
 {
   _mod_csound_context_t *csound_context = (_mod_csound_context_t *) snd_context;
 
@@ -183,7 +183,7 @@ _poll (void *snd_context)
 }
 
 static void
-_quit (void *snd_context)
+_quit (lw6sys_context_t * sys_context, void *snd_context)
 {
   _mod_csound_context_t *csound_context = (_mod_csound_context_t *) snd_context;
 
@@ -194,7 +194,7 @@ _quit (void *snd_context)
 }
 
 static char *
-_repr (void *snd_context, u_int32_t id)
+_repr (lw6sys_context_t * sys_context, void *snd_context, u_int32_t id)
 {
   char *ret = NULL;
   _mod_csound_context_t *mod_csound_context = (_mod_csound_context_t *) snd_context;
@@ -207,8 +207,18 @@ _repr (void *snd_context, u_int32_t id)
   return ret;
 }
 
+/**
+ * mod_csound_get_pedigree
+ *
+ * @sys_context: global system context
+ *
+ * Returns the pedigree for mod-csound, giving details about the module,
+ * including name, description, licence, date/time of compilation.
+ *
+ * Return value: dynamically allocated object.
+ */
 lw6sys_module_pedigree_t *
-mod_csound_get_pedigree ()
+mod_csound_get_pedigree (lw6sys_context_t * sys_context)
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
@@ -229,8 +239,17 @@ mod_csound_get_pedigree ()
   return module_pedigree;
 }
 
+/**
+ * mod_csound_create_backend
+ *
+ * @sys_context: global system context
+ *
+ * Creates a mod-csound backend.
+ *
+ * Return value: backend pointer.
+ */
 lw6snd_backend_t *
-mod_csound_create_backend ()
+mod_csound_create_backend (lw6sys_context_t * sys_context)
 {
   lw6snd_backend_t *backend;
 

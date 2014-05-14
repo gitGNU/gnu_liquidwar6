@@ -129,54 +129,56 @@ _mod_ogg_context_t;
 /*
  * In const.c
  */
-extern int _mod_ogg_load_consts (_mod_ogg_context_t * ogg_context);
-extern void _mod_ogg_unload_consts (_mod_ogg_context_t * ogg_context);
+extern int _mod_ogg_load_consts (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context);
+extern void _mod_ogg_unload_consts (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context);
 
 /*
  * In fx.c
  */
-extern int _mod_ogg_play_fx (_mod_ogg_context_t * ogg_context, int fx_id);
-extern int _mod_ogg_load_fx (_mod_ogg_context_t * ogg_context);
-extern void _mod_ogg_unload_fx (_mod_ogg_context_t * ogg_context);
+extern int _mod_ogg_play_fx (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, int fx_id);
+extern int _mod_ogg_load_fx (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context);
+extern void _mod_ogg_unload_fx (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context);
 
 /*
  * In music.c
  */
-extern int _mod_ogg_is_music_file (_mod_ogg_context_t * ogg_context, char *music_file);
-extern int _mod_ogg_play_music_file (_mod_ogg_context_t * ogg_context, char *music_file);
-extern int _mod_ogg_play_music_random (_mod_ogg_context_t * ogg_context, char *music_path, char *music_filter, char *music_exclude);
-extern void _mod_ogg_stop_music (_mod_ogg_context_t * ogg_context);
+extern int _mod_ogg_is_music_file (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, char *music_file);
+extern int _mod_ogg_play_music_file (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, char *music_file);
+extern int _mod_ogg_play_music_random (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, char *music_path, char *music_filter,
+				       char *music_exclude);
+extern void _mod_ogg_stop_music (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context);
 
 /*
  * In path.c
  */
-extern int _mod_ogg_path_init (_mod_ogg_context_t * ogg_context, int argc, const char *argv[]);
-extern void _mod_ogg_path_quit (_mod_ogg_context_t * ogg_context);
+extern int _mod_ogg_path_init (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, int argc, const char *argv[]);
+extern void _mod_ogg_path_quit (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context);
 
 /*
  * In repr.c
  */
-extern char *_mod_ogg_repr (_mod_ogg_context_t * gfx_context, u_int32_t id);
+extern char *_mod_ogg_repr (lw6sys_context_t * sys_context, _mod_ogg_context_t * gfx_context, u_int32_t id);
 
 /*
  * In setup.c
  */
-extern _mod_ogg_context_t *_mod_ogg_init (int argc, const char *argv[], float fx_volume, float water_volume, float music_volume);
-extern void _mod_ogg_poll (_mod_ogg_context_t * ogg_context);
-extern void _mod_ogg_quit (_mod_ogg_context_t * ogg_context);
+extern _mod_ogg_context_t *_mod_ogg_init (lw6sys_context_t * sys_context, int argc, const char *argv[], float fx_volume, float water_volume,
+					  float music_volume);
+extern void _mod_ogg_poll (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context);
+extern void _mod_ogg_quit (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context);
 
 /*
  * In volume.c
  */
-extern void _mod_ogg_set_fx_volume (_mod_ogg_context_t * ogg_context, float volume);
-extern void _mod_ogg_set_water_volume (_mod_ogg_context_t * ogg_context, float volume);
-extern void _mod_ogg_set_music_volume (_mod_ogg_context_t * ogg_context, float volume);
+extern void _mod_ogg_set_fx_volume (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, float volume);
+extern void _mod_ogg_set_water_volume (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, float volume);
+extern void _mod_ogg_set_music_volume (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, float volume);
 
 /*
  * In water.c
  */
-extern void _mod_ogg_poll_water (_mod_ogg_context_t * ogg_context);
-extern int _mod_ogg_load_water (_mod_ogg_context_t * ogg_context);
-extern void _mod_ogg_unload_water (_mod_ogg_context_t * ogg_context);
+extern void _mod_ogg_poll_water (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context);
+extern int _mod_ogg_load_water (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context);
+extern void _mod_ogg_unload_water (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context);
 
 #endif

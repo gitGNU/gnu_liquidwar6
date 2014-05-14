@@ -28,7 +28,7 @@
 #include "mod-ogg-internal.h"
 
 char *
-_mod_ogg_repr (sys_context, _mod_ogg_context_t * ogg_context, u_int32_t id)
+_mod_ogg_repr (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, u_int32_t id)
 {
   char *ret = NULL;
   SDL_version version;
@@ -36,7 +36,7 @@ _mod_ogg_repr (sys_context, _mod_ogg_context_t * ogg_context, u_int32_t id)
   memset (&version, 0, sizeof (SDL_version));
   version = *SDL_Linked_Version ();
   ret =
-    lw6sys_new_sprintf (_x_
+    lw6sys_new_sprintf (sys_context, _x_
 			("%u ogg SDL version %u.%u.%u volume %0.1f-%0.1f-%0.1f"),
 			id, version.major, version.minor, version.patch, ogg_context->volume.fx, ogg_context->volume.water, ogg_context->volume.music);
 

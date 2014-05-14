@@ -28,7 +28,7 @@
 #include "mod-csound-internal.h"
 
 _mod_csound_context_t *
-_mod_csound_init (sys_context, int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
+_mod_csound_init (lw6sys_context_t * sys_context, int argc, const char *argv[], float fx_volume, float water_volume, float music_volume)
 {
   _mod_csound_context_t *csound_context = NULL;
   int ok = 0;
@@ -58,13 +58,13 @@ _mod_csound_init (sys_context, int argc, const char *argv[], float fx_volume, fl
 }
 
 void
-_mod_csound_poll (sys_context, _mod_csound_context_t * csound_context)
+_mod_csound_poll (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("csound poll"));
 }
 
 void
-_mod_csound_quit (sys_context, _mod_csound_context_t * csound_context)
+_mod_csound_quit (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("csound quit"));
   _mod_csound_path_quit (sys_context, csound_context);

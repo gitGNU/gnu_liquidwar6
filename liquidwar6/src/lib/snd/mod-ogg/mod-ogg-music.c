@@ -30,7 +30,7 @@
 static char *_MUSIC_EXTS[] = { ".ogg", ".mp3", ".wav", ".mid", ".midi", ".mod", ".xm", ".s3m", NULL };
 
 int
-_mod_ogg_is_music_file (sys_context, _mod_ogg_context_t * ogg_context, char *music_file)
+_mod_ogg_is_music_file (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, char *music_file)
 {
   int ret = 0;
   int i = 0;
@@ -41,10 +41,10 @@ _mod_ogg_is_music_file (sys_context, _mod_ogg_context_t * ogg_context, char *mus
       /*
        * We copy this for we're going to modify it in place
        */
-      music_file_tmp = lw6sys_str_copy (music_file);
+      music_file_tmp = lw6sys_str_copy (sys_context, music_file);
       if (music_file_tmp)
 	{
-	  lw6sys_str_tolower (music_file_tmp);
+	  lw6sys_str_tolower (sys_context, music_file_tmp);
 	  if ((ogg_context->music.filter == NULL) || (strlen (ogg_context->music.filter) == 0) || (strstr (music_file_tmp, ogg_context->music.filter)))
 	    {
 	      if ((ogg_context->music.exclude == NULL) || (strlen (ogg_context->music.exclude) == 0) || (!strstr (music_file_tmp, ogg_context->music.exclude)))
@@ -63,7 +63,7 @@ _mod_ogg_is_music_file (sys_context, _mod_ogg_context_t * ogg_context, char *mus
 	}
       if (ret)
 	{
-	  if (lw6sys_file_exists (music_file))
+	  if (lw6sys_file_exists (sys_context, music_file))
 	    {
 	      ret = 1;
 	    }
@@ -83,7 +83,7 @@ _mod_ogg_is_music_file (sys_context, _mod_ogg_context_t * ogg_context, char *mus
 }
 
 int
-_mod_ogg_play_music_file (sys_context, _mod_ogg_context_t * ogg_context, char *music_file)
+_mod_ogg_play_music_file (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, char *music_file)
 {
   int ret = 0;
 
@@ -118,7 +118,7 @@ _mod_ogg_play_music_file (sys_context, _mod_ogg_context_t * ogg_context, char *m
 }
 
 static int
-_is_music_callback_func (void *func_data, char *file)
+_is_music_callback_func (lw6sys_context_t * sys_context, void *func_data, char *file)
 {
   int ret = 0;
   _mod_ogg_context_t *ogg_context = (_mod_ogg_context_t *) func_data;
@@ -130,7 +130,7 @@ _is_music_callback_func (void *func_data, char *file)
 }
 
 int
-_mod_ogg_play_music_random (sys_context, _mod_ogg_context_t * ogg_context, char *music_path, char *music_filter, char *music_exclude)
+_mod_ogg_play_music_random (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, char *music_path, char *music_filter, char *music_exclude)
 {
   int ret = 0;
   lw6sys_list_t *list = NULL;
@@ -142,19 +142,19 @@ _mod_ogg_play_music_random (sys_context, _mod_ogg_context_t * ogg_context, char 
 
   if (music_filter && strlen (music_filter) > 0)
     {
-      ogg_context->music.filter = lw6sys_str_copy (music_filter);
-      lw6sys_str_tolower (ogg_context->music.filter);
+      ogg_context->music.filter = lw6sys_str_copy (sys_context, music_filter);
+      lw6sys_str_tolower (sys_context, ogg_context->music.filter);
     }
   if (music_exclude && strlen (music_exclude) > 0)
     {
-      ogg_context->music.exclude = lw6sys_str_copy (music_exclude);
-      lw6sys_str_tolower (ogg_context->music.exclude);
+      ogg_context->music.exclude = lw6sys_str_copy (sys_context, music_exclude);
+      lw6sys_str_tolower (sys_context, ogg_context->music.exclude);
     }
 
-  list = lw6sys_path_list (music_path, _is_music_callback_func, (void *) ogg_context, &n);
+  list = lw6sys_path_list (sys_context, music_path, _is_music_callback_func, (void *) ogg_context, &n);
   if (list)
     {
-      j = lw6sys_random (n);
+      j = lw6sys_random (sys_context, n);
       while (list && ((path = ((char *) lw6sys_list_pop_front (sys_context, &list))) != NULL))
 	{
 	  if ((i == j) && (!music_file))
@@ -190,7 +190,7 @@ _mod_ogg_play_music_random (sys_context, _mod_ogg_context_t * ogg_context, char 
 }
 
 void
-_mod_ogg_stop_music (sys_context, _mod_ogg_context_t * ogg_context)
+_mod_ogg_stop_music (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context)
 {
   if (ogg_context->music.music)
     {

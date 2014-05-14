@@ -218,7 +218,7 @@ _repr (lw6sys_context_t * sys_context, void *snd_context, u_int32_t id)
  * Return value: dynamically allocated object.
  */
 lw6sys_module_pedigree_t *
-mod_ogg_get_pedigree (sys_context, lw6sys_context_t * sys_context)
+mod_ogg_get_pedigree (lw6sys_context_t * sys_context)
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
@@ -250,7 +250,7 @@ mod_ogg_get_pedigree (sys_context, lw6sys_context_t * sys_context)
  * Return value: backend pointer.
  */
 lw6snd_backend_t *
-mod_ogg_create_backend (sys_context, lw6sys_context_t * sys_context)
+mod_ogg_create_backend (lw6sys_context_t * sys_context)
 {
   lw6snd_backend_t *backend;
 

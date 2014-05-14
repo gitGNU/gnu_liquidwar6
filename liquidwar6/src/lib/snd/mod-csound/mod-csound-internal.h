@@ -49,45 +49,47 @@ _mod_csound_context_t;
 /*
  * In fx.c
  */
-extern int _mod_csound_play_fx (_mod_csound_context_t * csound_context, int fx_id);
+extern int _mod_csound_play_fx (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context, int fx_id);
 
 /*
  * In music.c
  */
-extern int _mod_csound_is_music_file (_mod_csound_context_t * csound_context, char *music_file);
-extern int _mod_csound_play_music_file (_mod_csound_context_t * csound_context, char *music_file);
-extern int _mod_csound_play_music_random (_mod_csound_context_t * csound_context, char *music_path, char *music_filter, char *music_exclude);
-extern void _mod_csound_stop_music (_mod_csound_context_t * csound_context);
+extern int _mod_csound_is_music_file (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context, char *music_file);
+extern int _mod_csound_play_music_file (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context, char *music_file);
+extern int _mod_csound_play_music_random (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context, char *music_path, char *music_filter,
+					  char *music_exclude);
+extern void _mod_csound_stop_music (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context);
 
 /*
  * In path.c
  */
-extern int _mod_csound_path_init (_mod_csound_context_t * csound_context, int argc, const char *argv[]);
-extern void _mod_csound_path_quit (_mod_csound_context_t * csound_context);
+extern int _mod_csound_path_init (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context, int argc, const char *argv[]);
+extern void _mod_csound_path_quit (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context);
 
 /*
  * In repr.c
  */
-extern char *_mod_csound_repr (_mod_csound_context_t * csound_context, u_int32_t id);
+extern char *_mod_csound_repr (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context, u_int32_t id);
 
 /*
  * In setup.c
  */
-extern _mod_csound_context_t *_mod_csound_init (int argc, const char *argv[], float fx_volume, float water_volume, float music_volume);
-extern void _mod_csound_poll (_mod_csound_context_t * csound_context);
-extern void _mod_csound_quit (_mod_csound_context_t * csound_context);
+extern _mod_csound_context_t *_mod_csound_init (lw6sys_context_t * sys_context, int argc, const char *argv[], float fx_volume, float water_volume,
+						float music_volume);
+extern void _mod_csound_poll (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context);
+extern void _mod_csound_quit (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context);
 
 /*
  * In volume.c
  */
-extern void _mod_csound_set_fx_volume (_mod_csound_context_t * csound_context, float volume);
-extern void _mod_csound_set_water_volume (_mod_csound_context_t * csound_context, float volume);
-extern void _mod_csound_set_music_volume (_mod_csound_context_t * csound_context, float volume);
+extern void _mod_csound_set_fx_volume (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context, float volume);
+extern void _mod_csound_set_water_volume (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context, float volume);
+extern void _mod_csound_set_music_volume (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context, float volume);
 
 /*
  * In water.c
  */
-extern int _mod_csound_poll_water (_mod_csound_context_t * csound_context);
+extern int _mod_csound_poll_water (lw6sys_context_t * sys_context, _mod_csound_context_t * csound_context);
 
 
 #endif

@@ -27,7 +27,7 @@
 #include "snd.h"
 
 static void
-_warning (const char *func_name)
+_warning (lw6sys_context_t * sys_context, const char *func_name)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("snd backend function \"%s\" is not defined"), func_name);
 }
@@ -35,6 +35,7 @@ _warning (const char *func_name)
 /**
  * lw6snd_play_fx
  *
+ * @sys_context: global system context
  * @backend: sound backend to use
  * @fx_id: sound fx id
  *
@@ -43,7 +44,7 @@ _warning (const char *func_name)
  * Return value: 1 on success, 0 on error
  */
 int
-lw6snd_play_fx (sys_context, lw6snd_backend_t * backend, int fx_id)
+lw6snd_play_fx (lw6sys_context_t * sys_context, lw6snd_backend_t * backend, int fx_id)
 {
   int ret = 0;
 
@@ -51,11 +52,11 @@ lw6snd_play_fx (sys_context, lw6snd_backend_t * backend, int fx_id)
 
   if (backend->play_fx)
     {
-      ret = backend->play_fx (backend->snd_context, fx_id);
+      ret = backend->play_fx (sys_context, backend->snd_context, fx_id);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -66,6 +67,7 @@ lw6snd_play_fx (sys_context, lw6snd_backend_t * backend, int fx_id)
 /**
  * lw6snd_is_music_file
  *
+ * @sys_context: global system context
  * @backend: sound backend to use
  * @map_dir: map directory, to search additionnal files
  * @music_path: config entry containing multiple paths
@@ -78,7 +80,7 @@ lw6snd_play_fx (sys_context, lw6snd_backend_t * backend, int fx_id)
  * Return value: 1 if music file, 0 if not
  */
 int
-lw6snd_is_music_file (sys_context, lw6snd_backend_t * backend, char *map_dir, char *music_path, char *music_file)
+lw6snd_is_music_file (lw6sys_context_t * sys_context, lw6snd_backend_t * backend, char *map_dir, char *music_path, char *music_file)
 {
   int ret = 0;
   char *found_path;
@@ -87,16 +89,16 @@ lw6snd_is_music_file (sys_context, lw6snd_backend_t * backend, char *map_dir, ch
 
   if (backend->is_music_file)
     {
-      found_path = lw6sys_find_in_dir_and_path (map_dir, music_path, music_file);
+      found_path = lw6sys_find_in_dir_and_path (sys_context, map_dir, music_path, music_file);
       if (found_path)
 	{
-	  ret = backend->is_music_file (backend->snd_context, found_path);
+	  ret = backend->is_music_file (sys_context, backend->snd_context, found_path);
 	  LW6SYS_FREE (sys_context, found_path);
 	}
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -117,7 +119,7 @@ lw6snd_is_music_file (sys_context, lw6snd_backend_t * backend, char *map_dir, ch
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6snd_play_music_file (sys_context, lw6snd_backend_t * backend, char *map_dir, char *music_path, char *music_file)
+lw6snd_play_music_file (lw6sys_context_t * sys_context, lw6snd_backend_t * backend, char *map_dir, char *music_path, char *music_file)
 {
   int ret = 0;
   char *found_path = NULL;
@@ -133,10 +135,10 @@ lw6snd_play_music_file (sys_context, lw6snd_backend_t * backend, char *map_dir, 
       if (strlen (music_file) > 0)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trying song \"%s\" with map_dir=\"%s\" and music_path=\"%s\""), music_file, map_dir, music_path);
-	  found_path = lw6sys_find_in_dir_and_path (map_dir, music_path, music_file);
+	  found_path = lw6sys_find_in_dir_and_path (sys_context, map_dir, music_path, music_file);
 	  if (found_path)
 	    {
-	      ret = backend->play_music_file (backend->snd_context, found_path);
+	      ret = backend->play_music_file (sys_context, backend->snd_context, found_path);
 	      LW6SYS_FREE (sys_context, found_path);
 	    }
 	}
@@ -150,6 +152,7 @@ lw6snd_play_music_file (sys_context, lw6snd_backend_t * backend, char *map_dir, 
 /**
  * lw6snd_play_music_random
  *
+ * @sys_context: global system context
  * @backend: sound backend to use
  * @map_dir: map directory, to search additionnal files
  * @music_path: config entry containing multiple paths
@@ -164,7 +167,7 @@ lw6snd_play_music_file (sys_context, lw6snd_backend_t * backend, char *map_dir, 
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6snd_play_music_random (sys_context, lw6snd_backend_t * backend, char *music_path, char *music_filter, char *music_exclude)
+lw6snd_play_music_random (lw6sys_context_t * sys_context, lw6snd_backend_t * backend, char *music_path, char *music_filter, char *music_exclude)
 {
   int ret = 0;
 
@@ -174,11 +177,11 @@ lw6snd_play_music_random (sys_context, lw6snd_backend_t * backend, char *music_p
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("picking a random song in \"%s\" using filter \"%s\" and exclude \"%s\""), music_path, music_filter, music_exclude);
-      ret = backend->play_music_random (backend->snd_context, music_path, music_filter, music_exclude);
+      ret = backend->play_music_random (sys_context, backend->snd_context, music_path, music_filter, music_exclude);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -189,6 +192,7 @@ lw6snd_play_music_random (sys_context, lw6snd_backend_t * backend, char *music_p
 /**
  * lw6snd_stop_music
  *
+ * @sys_context: global system context
  * @backend: sound backend to use
  *
  * Stops the music.
@@ -196,17 +200,17 @@ lw6snd_play_music_random (sys_context, lw6snd_backend_t * backend, char *music_p
  * Return value: none.
  */
 void
-lw6snd_stop_music (sys_context, lw6snd_backend_t * backend)
+lw6snd_stop_music (lw6sys_context_t * sys_context, lw6snd_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->stop_music)
     {
-      backend->stop_music (backend->snd_context);
+      backend->stop_music (sys_context, backend->snd_context);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -215,6 +219,7 @@ lw6snd_stop_music (sys_context, lw6snd_backend_t * backend)
 /**
  * lw6snd_init
  *
+ * @sys_context: global system context
  * @backend: the graphical backend to use
  * @fx_volume: sound fx volume
  * @water_volume: water sounds volume
@@ -228,17 +233,17 @@ lw6snd_stop_music (sys_context, lw6snd_backend_t * backend)
  * Return value: 1 on success, 0 if not
  */
 int
-lw6snd_init (sys_context, lw6snd_backend_t * backend, float fx_volume, float water_volume, float music_volume)
+lw6snd_init (lw6sys_context_t * sys_context, lw6snd_backend_t * backend, float fx_volume, float water_volume, float music_volume)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->init)
     {
-      backend->snd_context = backend->init (backend->argc, backend->argv, fx_volume, water_volume, music_volume);
+      backend->snd_context = backend->init (sys_context, backend->argc, backend->argv, fx_volume, water_volume, music_volume);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -249,6 +254,7 @@ lw6snd_init (sys_context, lw6snd_backend_t * backend, float fx_volume, float wat
 /**
  * lw6snd_set_fx_volume
  *
+ * @sys_context: global system context
  * @backend: sound backend to use
  * @volume: sound fx volume
  *
@@ -257,17 +263,17 @@ lw6snd_init (sys_context, lw6snd_backend_t * backend, float fx_volume, float wat
  * Return value: none.
  */
 void
-lw6snd_set_fx_volume (sys_context, lw6snd_backend_t * backend, float volume)
+lw6snd_set_fx_volume (lw6sys_context_t * sys_context, lw6snd_backend_t * backend, float volume)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->set_fx_volume)
     {
-      backend->set_fx_volume (backend->snd_context, volume);
+      backend->set_fx_volume (sys_context, backend->snd_context, volume);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -276,6 +282,7 @@ lw6snd_set_fx_volume (sys_context, lw6snd_backend_t * backend, float volume)
 /**
  * lw6snd_set_water_volume
  *
+ * @sys_context: global system context
  * @backend: sound backend to use
  * @volume: water sounds volume
  *
@@ -284,17 +291,17 @@ lw6snd_set_fx_volume (sys_context, lw6snd_backend_t * backend, float volume)
  * Return value: none.
  */
 void
-lw6snd_set_water_volume (sys_context, lw6snd_backend_t * backend, float volume)
+lw6snd_set_water_volume (lw6sys_context_t * sys_context, lw6snd_backend_t * backend, float volume)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->set_water_volume)
     {
-      backend->set_water_volume (backend->snd_context, volume);
+      backend->set_water_volume (sys_context, backend->snd_context, volume);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -303,6 +310,7 @@ lw6snd_set_water_volume (sys_context, lw6snd_backend_t * backend, float volume)
 /**
  * lw6snd_set_music_volume
  *
+ * @sys_context: global system context
  * @backend: sound backend to use
  * @volume: music volume
  *
@@ -311,17 +319,17 @@ lw6snd_set_water_volume (sys_context, lw6snd_backend_t * backend, float volume)
  * Return value: none.
  */
 void
-lw6snd_set_music_volume (sys_context, lw6snd_backend_t * backend, float volume)
+lw6snd_set_music_volume (lw6sys_context_t * sys_context, lw6snd_backend_t * backend, float volume)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->set_music_volume)
     {
-      backend->set_music_volume (backend->snd_context, volume);
+      backend->set_music_volume (sys_context, backend->snd_context, volume);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -330,6 +338,7 @@ lw6snd_set_music_volume (sys_context, lw6snd_backend_t * backend, float volume)
 /**
  * lw6snd_poll
  *
+ * @sys_context: global system context
  * @backend: sound backend to use
  *
  * Polling function, must be called on a regular basis.
@@ -337,7 +346,7 @@ lw6snd_set_music_volume (sys_context, lw6snd_backend_t * backend, float volume)
  * Return value: none.
  */
 void
-lw6snd_poll (sys_context, lw6snd_backend_t * backend)
+lw6snd_poll (lw6sys_context_t * sys_context, lw6snd_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -345,12 +354,12 @@ lw6snd_poll (sys_context, lw6snd_backend_t * backend)
     {
       if (backend->snd_context)
 	{
-	  backend->poll (backend->snd_context);
+	  backend->poll (sys_context, backend->snd_context);
 	}
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -359,6 +368,7 @@ lw6snd_poll (sys_context, lw6snd_backend_t * backend)
 /**
  * lw6snd_quit
  *
+ * @sys_context: global system context
  * @backend: the backend to quit
  *
  * Uninitializes the backend, that is, releases resources, stops playback.
@@ -366,7 +376,7 @@ lw6snd_poll (sys_context, lw6snd_backend_t * backend)
  * Return value: none.
  */
 void
-lw6snd_quit (sys_context, lw6snd_backend_t * backend)
+lw6snd_quit (lw6sys_context_t * sys_context, lw6snd_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -378,13 +388,13 @@ lw6snd_quit (sys_context, lw6snd_backend_t * backend)
        */
       if (backend->snd_context)
 	{
-	  backend->quit (backend->snd_context);
+	  backend->quit (sys_context, backend->snd_context);
 	  backend->snd_context = NULL;
 	}
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -393,6 +403,7 @@ lw6snd_quit (sys_context, lw6snd_backend_t * backend)
 /**
  * lw6snd_repr
  *
+ * @sys_context: global system context
  * @backend: the backend to represent
  *
  * Returns a readable version of the backend object.
@@ -400,7 +411,7 @@ lw6snd_quit (sys_context, lw6snd_backend_t * backend)
  * Return value: a newly allocated pointer.
  */
 char *
-lw6snd_repr (sys_context, const lw6snd_backend_t * backend)
+lw6snd_repr (lw6sys_context_t * sys_context, const lw6snd_backend_t * backend)
 {
   char *ret = NULL;
 
@@ -408,11 +419,11 @@ lw6snd_repr (sys_context, const lw6snd_backend_t * backend)
 
   if (backend->repr)
     {
-      ret = backend->repr (backend->snd_context, backend->id);
+      ret = backend->repr (sys_context, backend->snd_context, backend->id);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;

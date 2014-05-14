@@ -30,7 +30,7 @@
 #define WATER_DIR "water"
 
 void
-_mod_ogg_poll_water (sys_context, _mod_ogg_context_t * ogg_context)
+_mod_ogg_poll_water (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context)
 {
   int channel = 0;
   int water_id = 0;
@@ -54,7 +54,7 @@ _mod_ogg_poll_water (sys_context, _mod_ogg_context_t * ogg_context)
 }
 
 static Mix_Chunk *
-load_water (_mod_ogg_context_t * ogg_context, char *file)
+_load_water (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context, char *file)
 {
   char *path1 = NULL;
   char *path2 = NULL;
@@ -65,7 +65,7 @@ load_water (_mod_ogg_context_t * ogg_context, char *file)
       path1 = lw6sys_path_concat (sys_context, WATER_DIR, file);
       if (path1)
 	{
-	  path2 = lw6sys_path_concat (ogg_context->path.data_dir, path1);
+	  path2 = lw6sys_path_concat (sys_context, ogg_context->path.data_dir, path1);
 	  if (path2)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading water \"%s\""), path2);
@@ -84,17 +84,17 @@ load_water (_mod_ogg_context_t * ogg_context, char *file)
 }
 
 int
-_mod_ogg_load_water (sys_context, _mod_ogg_context_t * ogg_context)
+_mod_ogg_load_water (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context)
 {
   int ret = 0;
   int i;
 
-  ogg_context->water.water[_MOD_OGG_WATER1] = load_water (ogg_context, ogg_context->const_data.file_water1);
-  ogg_context->water.water[_MOD_OGG_WATER2] = load_water (ogg_context, ogg_context->const_data.file_water2);
-  ogg_context->water.water[_MOD_OGG_WATER3] = load_water (ogg_context, ogg_context->const_data.file_water3);
-  ogg_context->water.water[_MOD_OGG_WATER4] = load_water (ogg_context, ogg_context->const_data.file_water4);
-  ogg_context->water.water[_MOD_OGG_WATER5] = load_water (ogg_context, ogg_context->const_data.file_water5);
-  ogg_context->water.water[_MOD_OGG_WATER6] = load_water (ogg_context, ogg_context->const_data.file_water6);
+  ogg_context->water.water[_MOD_OGG_WATER1] = _load_water (sys_context, ogg_context, ogg_context->const_data.file_water1);
+  ogg_context->water.water[_MOD_OGG_WATER2] = _load_water (sys_context, ogg_context, ogg_context->const_data.file_water2);
+  ogg_context->water.water[_MOD_OGG_WATER3] = _load_water (sys_context, ogg_context, ogg_context->const_data.file_water3);
+  ogg_context->water.water[_MOD_OGG_WATER4] = _load_water (sys_context, ogg_context, ogg_context->const_data.file_water4);
+  ogg_context->water.water[_MOD_OGG_WATER5] = _load_water (sys_context, ogg_context, ogg_context->const_data.file_water5);
+  ogg_context->water.water[_MOD_OGG_WATER6] = _load_water (sys_context, ogg_context, ogg_context->const_data.file_water6);
 
   ret = 1;
   for (i = 0; i < _MOD_OGG_NB_WATER; ++i)
@@ -110,7 +110,7 @@ _mod_ogg_load_water (sys_context, _mod_ogg_context_t * ogg_context)
 }
 
 void
-_mod_ogg_unload_water (sys_context, _mod_ogg_context_t * ogg_context)
+_mod_ogg_unload_water (lw6sys_context_t * sys_context, _mod_ogg_context_t * ogg_context)
 {
   int i;
 
