@@ -154,24 +154,25 @@ typedef struct lw6dsp_backend_s
 } lw6dsp_backend_t;
 
 /* dsp-display.c */
-extern lw6dsp_backend_t *lw6dsp_create_backend (int argc, const char *argv[], const char *gfx_backend_name);
-extern void lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend);
-extern char *lw6dsp_repr (const lw6dsp_backend_t * dsp_backend);
-extern int lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param, lw6gui_resize_callback_func_t resize_callback);
-extern void lw6dsp_quit (lw6dsp_backend_t * dsp_backend);
-extern int lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param);
-extern int lw6dsp_get_nb_frames (lw6dsp_backend_t * dsp_backend);
-extern int lw6dsp_get_last_frame_rendering_time (lw6dsp_backend_t * dsp_backend);
-extern int lw6dsp_get_instant_fps (lw6dsp_backend_t * dsp_backend);
-extern int lw6dsp_get_average_fps (lw6dsp_backend_t * dsp_backend);
-extern int lw6dsp_get_video_mode (lw6dsp_backend_t * dsp_backend, lw6gui_video_mode_t * video_mode);
-extern int lw6dsp_get_fullscreen_modes (lw6dsp_backend_t * dsp_backend, lw6gui_fullscreen_modes_t * fullscreen_modes);
+extern lw6dsp_backend_t *lw6dsp_create_backend (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *gfx_backend_name);
+extern void lw6dsp_destroy_backend (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend);
+extern char *lw6dsp_repr (lw6sys_context_t * sys_context, const lw6dsp_backend_t * dsp_backend);
+extern int lw6dsp_init (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param,
+			lw6gui_resize_callback_func_t resize_callback);
+extern void lw6dsp_quit (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend);
+extern int lw6dsp_update (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param);
+extern int lw6dsp_get_nb_frames (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend);
+extern int lw6dsp_get_last_frame_rendering_time (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend);
+extern int lw6dsp_get_instant_fps (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend);
+extern int lw6dsp_get_average_fps (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend);
+extern int lw6dsp_get_video_mode (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend, lw6gui_video_mode_t * video_mode);
+extern int lw6dsp_get_fullscreen_modes (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend, lw6gui_fullscreen_modes_t * fullscreen_modes);
 
 /* dsp-param.c */
-extern void lw6dsp_param_zero (lw6dsp_param_t * param);
+extern void lw6dsp_param_zero (lw6sys_context_t * sys_context, lw6dsp_param_t * param);
 
 /* dsp-test.c */
-extern int lw6dsp_test_register (int mode);
-extern int lw6dsp_test_run (int mode);
+extern int lw6dsp_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6dsp_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif

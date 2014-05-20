@@ -101,7 +101,7 @@ print_dsp (SCM dsp, SCM port, scm_print_state * pstate)
   lw6dsp_backend_t *c_dsp = lw6_scm_to_dsp (dsp);
   char *repr = NULL;
 
-  repr = lw6dsp_repr (c_dsp);
+  repr = lw6dsp_repr (sys_context, c_dsp);
 
   scm_puts ("#<" SMOB_TYPE_DSP " ", port);
   if (repr)
@@ -144,7 +144,7 @@ lw6_make_scm_dsp (lw6dsp_backend_t * c_dsp)
       id = smob_id (SMOB_TYPE_DSP, c_dsp->id);
       if (id)
 	{
-	  repr = lw6dsp_repr (c_dsp);
+	  repr = lw6dsp_repr (sys_context, c_dsp);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating dsp smob \"%s\""), repr);
@@ -201,15 +201,15 @@ lw6_free_dsp_smob (lw6_dsp_smob_t * dsp_smob)
 {
   char *repr = NULL;
 
-  repr = lw6dsp_repr (dsp_smob->c_dsp);
+  repr = lw6dsp_repr (sys_context, dsp_smob->c_dsp);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing dsp smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6dsp_quit (dsp_smob->c_dsp);
-  lw6dsp_destroy_backend (dsp_smob->c_dsp);
+  lw6dsp_quit (sys_context, dsp_smob->c_dsp);
+  lw6dsp_destroy_backend (sys_context, dsp_smob->c_dsp);
   LW6SYS_FREE (sys_context, dsp_smob);
 }
 

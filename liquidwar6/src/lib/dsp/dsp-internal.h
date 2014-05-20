@@ -73,26 +73,21 @@ typedef struct _lw6dsp_data_s
 #endif
 } _lw6dsp_data_t;
 
-/*
-typedef void *(*lw6dsp_macosx_init_func_t) (void);
-typedef void (*lw6dsp_macosx_quit_func_t) (void *ptr);
-*/
-
 /* dsp-data.c */
-extern _lw6dsp_data_t *_lw6dsp_data_new ();
-extern void _lw6dsp_data_clear (_lw6dsp_data_t * data);
-extern void _lw6dsp_data_free (_lw6dsp_data_t * data);
+extern _lw6dsp_data_t *_lw6dsp_data_new (lw6sys_context_t * sys_context);
+extern void _lw6dsp_data_clear (lw6sys_context_t * sys_context, _lw6dsp_data_t * data);
+extern void _lw6dsp_data_free (lw6sys_context_t * sys_context, _lw6dsp_data_t * data);
 
 /* dsp-macosx.m */
-extern void *_lw6dsp_macosx_thread_init ();
-extern void _lw6dsp_macosx_thread_quit (void *ptr);
+extern void *_lw6dsp_macosx_thread_init (lw6sys_context_t * sys_context);
+extern void _lw6dsp_macosx_thread_quit (lw6sys_context_t * sys_context, void *ptr);
 
 /* dsp-param.c */
-extern void _lw6dsp_param_clear (lw6dsp_param_t * param);
-extern int _lw6dsp_param_diff (const _lw6dsp_data_t * data, const lw6dsp_param_t * param);
+extern void _lw6dsp_param_clear (lw6sys_context_t * sys_context, lw6dsp_param_t * param);
+extern int _lw6dsp_param_diff (lw6sys_context_t * sys_context, const _lw6dsp_data_t * data, const lw6dsp_param_t * param);
 
 /* dsp-thread.c */
-extern void _lw6dsp_thread_func (_lw6dsp_data_t * data);
-extern void _lw6dsp_thread_join (_lw6dsp_data_t * data);
+extern void _lw6dsp_thread_func (lw6sys_context_t * sys_context, _lw6dsp_data_t * data);
+extern void _lw6dsp_thread_join (lw6sys_context_t * sys_context, _lw6dsp_data_t * data);
 
 #endif

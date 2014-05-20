@@ -22,7 +22,7 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #include "dsp-internal.h"
 
@@ -39,6 +39,7 @@ static volatile u_int32_t seq_id = 0;
 /**
  * lw6dsp_create_backend
  *
+ * @sys_context: global system context
  * @argc: argc as passed to @main
  * @argv: argv as passed to @main
  * @gfx_backend_name: the id/name of the gfx backend to use
@@ -53,7 +54,7 @@ static volatile u_int32_t seq_id = 0;
  * Return value: a newly allocated object.
  */
 lw6dsp_backend_t *
-lw6dsp_create_backend (int argc, const char *argv[], const char *gfx_backend_name)
+lw6dsp_create_backend (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *gfx_backend_name)
 {
   lw6dsp_backend_t *ret = NULL;
   _lw6dsp_data_t *data = NULL;
@@ -67,20 +68,20 @@ lw6dsp_create_backend (int argc, const char *argv[], const char *gfx_backend_nam
 	{
 	  ret->id = ++seq_id;
 	}
-      data = _lw6dsp_data_new ();
+      data = _lw6dsp_data_new (sys_context);
       if (data)
 	{
 	  ret->data = (void *) data;
 	  data->argc = argc;
 	  data->argv = argv;
-	  data->gfx_backend_name = lw6sys_str_copy (gfx_backend_name);
+	  data->gfx_backend_name = lw6sys_str_copy (sys_context, gfx_backend_name);
 	  if (data->gfx_backend_name)
 	    {
-	      data->render_mutex = lw6sys_mutex_create ();
+	      data->render_mutex = lw6sys_mutex_create (sys_context);
 	      if (data->render_mutex)
 		{
-		  lw6dsp_param_zero (&(data->param));
-		  if ((ret->input = lw6gui_input_new (sys_context,)) != NULL)
+		  lw6dsp_param_zero (sys_context, &(data->param));
+		  if ((ret->input = lw6gui_input_new (sys_context)) != NULL)
 		    {
 		      ok = 1;
 		    }
@@ -92,7 +93,7 @@ lw6dsp_create_backend (int argc, const char *argv[], const char *gfx_backend_nam
 	{
 	  if (data)
 	    {
-	      _lw6dsp_data_free (data);
+	      _lw6dsp_data_free (sys_context, data);
 	    }
 	  data = NULL;
 	  if (ret->input)
@@ -110,6 +111,7 @@ lw6dsp_create_backend (int argc, const char *argv[], const char *gfx_backend_nam
 /**
  * lw6dsp_destroy_backend
  *
+ * @sys_context: global system context
  * @dsp_backend: the dsp_backend object to free
  *
  * Frees all ressources used by a dsp_backend object. Note that you must
@@ -118,7 +120,7 @@ lw6dsp_create_backend (int argc, const char *argv[], const char *gfx_backend_nam
  * Return value: none.
  */
 void
-lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend)
+lw6dsp_destroy_backend (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend)
 {
   if (dsp_backend)
     {
@@ -126,7 +128,7 @@ lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend)
 	{
 	  if (dsp_backend->data)
 	    {
-	      _lw6dsp_data_free (dsp_backend->data);
+	      _lw6dsp_data_free (sys_context, dsp_backend->data);
 	      dsp_backend->data = NULL;
 	    }
 	  else
@@ -154,6 +156,7 @@ lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend)
 /**
  * lw6dsp_repr
  *
+ * @sys_context: global system context
  * @dsp_backend: the object to represent
  *
  * Gives a short human-readable description of the object.
@@ -161,7 +164,7 @@ lw6dsp_destroy_backend (lw6dsp_backend_t * dsp_backend)
  * Return value: a newly allocated string, must be freed.
  */
 char *
-lw6dsp_repr (const lw6dsp_backend_t * dsp_backend)
+lw6dsp_repr (lw6sys_context_t * sys_context, const lw6dsp_backend_t * dsp_backend)
 {
   char *ret = NULL;
   _lw6dsp_data_t *data = NULL;
@@ -189,6 +192,7 @@ lw6dsp_repr (const lw6dsp_backend_t * dsp_backend)
 /**
  * lw6dsp_init
  *
+ * @sys_context: global system context
  * @dsp_backend: the dsp_backend to start
  * @param: parameters to pass to the display funcs
  * @resize_callback: a function which will be called when there's a resize event
@@ -202,20 +206,20 @@ lw6dsp_repr (const lw6dsp_backend_t * dsp_backend)
  * Return value: 1 if success, 0 if error.
  */
 int
-lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param, lw6gui_resize_callback_func_t resize_callback)
+lw6dsp_init (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param, lw6gui_resize_callback_func_t resize_callback)
 {
   int ret = 0;
   int thread_ok = 0;
   _lw6dsp_data_t *data = NULL;
 
   data = (_lw6dsp_data_t *) dsp_backend->data;
-  if (lw6dsp_update (dsp_backend, param))
+  if (lw6dsp_update (sys_context, dsp_backend, param))
     {
       data->run = 1;
-      data->start_ticks = lw6sys_get_timestamp ();
+      data->start_ticks = lw6sys_get_timestamp (sys_context);
       data->resize_callback = resize_callback;
       lw6gui_input_reset (sys_context, dsp_backend->input);
-      if (lw6sys_vthread_is_running ())
+      if (lw6sys_vthread_is_running (sys_context))
 	{
 	  thread_ok =
 	    lw6sys_vthread_create (sys_context,
@@ -225,17 +229,18 @@ lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param, lw6gu
       else
 	{
 	  dsp_backend->thread =
-	    lw6sys_thread_create ((lw6sys_thread_callback_func_t) _lw6dsp_thread_func, (lw6sys_thread_callback_func_t) _lw6dsp_thread_join, dsp_backend->data);
+	    lw6sys_thread_create (sys_context, (lw6sys_thread_callback_func_t) _lw6dsp_thread_func, (lw6sys_thread_callback_func_t) _lw6dsp_thread_join,
+				  dsp_backend->data);
 	  thread_ok = (dsp_backend->thread != NULL);
 	}
       if (thread_ok)
 	{
 #ifdef LW6_MAC_OS_X
 	  data->macosx_thread_handler = _lw6dsp_macosx_thread_init ();
-#endif
+#endif // LW6_MAC_OS_X
 	  while (!data->started)
 	    {
-	      lw6sys_idle ();
+	      lw6sys_idle (sys_context);
 	    }
 	  if (!data->failed)
 	    {
@@ -245,13 +250,13 @@ lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param, lw6gu
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("stopping dsp_backend thread"));
 	      data->run = 0;
-	      if (lw6sys_vthread_is_running ())
+	      if (lw6sys_vthread_is_running (sys_context))
 		{
-		  lw6sys_vthread_join ();
+		  lw6sys_vthread_join (sys_context);
 		}
 	      else
 		{
-		  lw6sys_thread_join (dsp_backend->thread);
+		  lw6sys_thread_join (sys_context, dsp_backend->thread);
 		  dsp_backend->thread = NULL;
 		}
 	    }
@@ -263,7 +268,7 @@ lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param, lw6gu
       data->run = 0;
       data->started = 0;
       data->failed = 0;
-      _lw6dsp_param_clear (&(data->param));
+      _lw6dsp_param_clear (sys_context, &(data->param));
     }
 
   return ret;
@@ -272,6 +277,7 @@ lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param, lw6gu
 /**
  * lw6dsp_quit
  *
+ * @sys_context: global system context
  * @dsp_backend: the dsp_backend to stop
  *
  * Stops a dsp_backend, that is, cancel rendering and unset the
@@ -281,7 +287,7 @@ lw6dsp_init (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param, lw6gu
  * Return value: none.
  */
 void
-lw6dsp_quit (lw6dsp_backend_t * dsp_backend)
+lw6dsp_quit (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend)
 {
   _lw6dsp_data_t *data = NULL;
 
@@ -300,17 +306,17 @@ lw6dsp_quit (lw6dsp_backend_t * dsp_backend)
 	{
 	  _lw6dsp_macosx_thread_quit (data->macosx_thread_handler);
 	}
-#endif
-      if (lw6sys_vthread_is_running ())
+#endif // LW6_MAC_OS_X
+      if (lw6sys_vthread_is_running (sys_context))
 	{
-	  lw6sys_vthread_join ();
+	  lw6sys_vthread_join (sys_context);
 	}
       else
 	{
-	  lw6sys_thread_join (dsp_backend->thread);
+	  lw6sys_thread_join (sys_context, dsp_backend->thread);
 	}
       lw6gui_input_quit (sys_context, dsp_backend->input);
-      _lw6dsp_param_clear (&(data->param));
+      _lw6dsp_param_clear (sys_context, &(data->param));
       dsp_backend->thread = NULL;
     }
 }
@@ -318,6 +324,7 @@ lw6dsp_quit (lw6dsp_backend_t * dsp_backend)
 /**
  * lw6dsp_update
  *
+ * @sys_context: global system context
  * @dsp_backend: the dsp_backend to update
  * @param: parameters to pass to the dsp_backend funcs
  *
@@ -336,7 +343,7 @@ lw6dsp_quit (lw6dsp_backend_t * dsp_backend)
  * Return value: 1 if success, 0 if error.
  */
 int
-lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
+lw6dsp_update (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 {
   int ret = 1;
   _lw6dsp_data_t *data = NULL;
@@ -364,7 +371,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 	       * We go idle for a very short time, this will just avoid the
 	       * caller to get stuck in 100% CPU greedy loops.
 	       */
-	      lw6sys_idle ();
+	      lw6sys_idle (sys_context);
 	      ++i;
 	    }
 	}
@@ -376,7 +383,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
        * of pilot, then the parent object can be freed.
        */
       data->nb_frames_at_last_update = data->nb_frames;
-      diff = _lw6dsp_param_diff (data, param);
+      diff = _lw6dsp_param_diff (sys_context, data, param);
       if (data->input)
 	{
 	  need_sync = lw6gui_input_need_sync (sys_context, data->input);
@@ -479,6 +486,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
 /**
  * lw6dsp_get_nb_frames
  *
+ * @sys_context: global system context
  * @dsp_backend: the dsp_backend to query
  *
  * Returns the number of frames displayed since the display was started.
@@ -486,7 +494,7 @@ lw6dsp_update (lw6dsp_backend_t * dsp_backend, const lw6dsp_param_t * param)
  * Return value: the number of frames displayed.
  */
 int
-lw6dsp_get_nb_frames (lw6dsp_backend_t * dsp_backend)
+lw6dsp_get_nb_frames (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend)
 {
   int ret = 0;
   _lw6dsp_data_t *data = NULL;
@@ -515,7 +523,7 @@ lw6dsp_get_nb_frames (lw6dsp_backend_t * dsp_backend)
  * Return value: the number of milliseconds it took to draw screen
  */
 int
-lw6dsp_get_last_frame_rendering_time (lw6dsp_backend_t * dsp_backend)
+lw6dsp_get_last_frame_rendering_time (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend)
 {
   int ret = 0;
   _lw6dsp_data_t *data = NULL;
@@ -537,6 +545,7 @@ lw6dsp_get_last_frame_rendering_time (lw6dsp_backend_t * dsp_backend)
 /**
  * lw6dsp_get_instant_fps
  *
+ * @sys_context: global system context
  * @dsp_backend: the dsp_backend to query
  *
  * Returns the current frames per sec display rate. This is the instant value,
@@ -545,7 +554,7 @@ lw6dsp_get_last_frame_rendering_time (lw6dsp_backend_t * dsp_backend)
  * Return value: the current instant display rate.
  */
 int
-lw6dsp_get_instant_fps (lw6dsp_backend_t * dsp_backend)
+lw6dsp_get_instant_fps (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend)
 {
   int ret = 0;
   _lw6dsp_data_t *data = NULL;
@@ -567,6 +576,7 @@ lw6dsp_get_instant_fps (lw6dsp_backend_t * dsp_backend)
 /**
  * lw6dsp_get_average_fps
  *
+ * @sys_context: global system context
  * @dsp_backend: the dsp_backend to query
  *
  * Returns the current frames per sec display rate. This is not absolutely
@@ -575,7 +585,7 @@ lw6dsp_get_instant_fps (lw6dsp_backend_t * dsp_backend)
  * Return value: the current averaged display rate.
  */
 int
-lw6dsp_get_average_fps (lw6dsp_backend_t * dsp_backend)
+lw6dsp_get_average_fps (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend)
 {
   int ret = 0;
   _lw6dsp_data_t *data = NULL;
@@ -597,6 +607,7 @@ lw6dsp_get_average_fps (lw6dsp_backend_t * dsp_backend)
 /**
  * lw6dsp_get_video_mode
  *
+ * @sys_context: global system context
  * @dsp_backend: the dsp_backend to query
  * @video_mode: a structure which will contain the results
  *
@@ -607,7 +618,7 @@ lw6dsp_get_average_fps (lw6dsp_backend_t * dsp_backend)
  * Return value: 1 if ok, 0 if failure (mode not set)
  */
 int
-lw6dsp_get_video_mode (lw6dsp_backend_t * dsp_backend, lw6gui_video_mode_t * video_mode)
+lw6dsp_get_video_mode (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend, lw6gui_video_mode_t * video_mode)
 {
   int ret = 0;
   _lw6dsp_data_t *data = NULL;
@@ -635,6 +646,7 @@ lw6dsp_get_video_mode (lw6dsp_backend_t * dsp_backend, lw6gui_video_mode_t * vid
 /**
  * lw6dsp_get_fullscreen_modes
  *
+ * @sys_context: global system context
  * @dsp_backend: the dsp_backend to query
  * @fullscreen_modes: a structure which will contain the results
  *
@@ -646,7 +658,7 @@ lw6dsp_get_video_mode (lw6dsp_backend_t * dsp_backend, lw6gui_video_mode_t * vid
  * Return value: 1 if ok, 0 if failure (mode not set)
  */
 int
-lw6dsp_get_fullscreen_modes (lw6dsp_backend_t * dsp_backend, lw6gui_fullscreen_modes_t * fullscreen_modes)
+lw6dsp_get_fullscreen_modes (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend, lw6gui_fullscreen_modes_t * fullscreen_modes)
 {
   int ret = 0;
   _lw6dsp_data_t *data = NULL;

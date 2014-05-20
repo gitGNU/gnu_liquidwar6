@@ -32,7 +32,7 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
   int ret = 0;
   SCM value;
 
-  lw6dsp_param_zero (c_param);
+  lw6dsp_param_zero (sys_context, c_param);
 
   value = scm_hash_ref (param, scm_from_locale_string (LW6DEF_DISPLAY_SPLASH), SCM_BOOL_F);
   SCM_ASSERT (SCM_BOOLP (value), value, SCM_ARGn, LW6DEF_DISPLAY_SPLASH);
@@ -352,16 +352,16 @@ _scm_lw6dsp_new (SCM backend_name, SCM param)
     {
       if (prepare_update_param_bootstrap (&c_param, param))
 	{
-	  c_ret = lw6dsp_create_backend (lw6_global.argc, lw6_global.argv, c_backend_name);
+	  c_ret = lw6dsp_create_backend (sys_context, lw6_global.argc, lw6_global.argv, c_backend_name);
 	  if (c_ret)
 	    {
-	      if (lw6dsp_init (c_ret, &c_param, lw6_resize_callback))
+	      if (lw6dsp_init (sys_context, c_ret, &c_param, lw6_resize_callback))
 		{
 		  ret = lw6_make_scm_dsp (c_ret);
 		}
 	      else
 		{
-		  lw6dsp_destroy_backend (c_ret);
+		  lw6dsp_destroy_backend (sys_context, c_ret);
 		}
 	    }
 	}
@@ -387,7 +387,7 @@ _scm_lw6dsp_release (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      lw6dsp_quit (c_dsp);
+      lw6dsp_quit (sys_context, c_dsp);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -396,7 +396,7 @@ _scm_lw6dsp_release (SCM dsp)
 }
 
 static SCM
-_scm_lw6dsp_update (SCM dsp, SCM param)
+_scm_lw6dsp_update (sys_context, SCM dsp, SCM param)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -413,7 +413,7 @@ _scm_lw6dsp_update (SCM dsp, SCM param)
     {
       if (prepare_update_param (dsp, &c_param, param))
 	{
-	  ret = lw6dsp_update (c_dsp, &c_param) ? SCM_BOOL_T : SCM_BOOL_F;
+	  ret = lw6dsp_update (sys_context, c_dsp, &c_param) ? SCM_BOOL_T : SCM_BOOL_F;
 	}
     }
 
@@ -423,7 +423,7 @@ _scm_lw6dsp_update (SCM dsp, SCM param)
 }
 
 static SCM
-_scm_lw6dsp_get_nb_frames (SCM dsp)
+_scm_lw6dsp_get_nb_frames (sys_context, SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -436,7 +436,7 @@ _scm_lw6dsp_get_nb_frames (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      ret = scm_from_int (lw6dsp_get_nb_frames (c_dsp));
+      ret = scm_from_int (lw6dsp_get_nb_frames (sys_context, c_dsp));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -445,7 +445,7 @@ _scm_lw6dsp_get_nb_frames (SCM dsp)
 }
 
 static SCM
-_scm_lw6dsp_get_last_frame_rendering_time (SCM dsp)
+_scm_lw6dsp_get_last_frame_rendering_time (sys_context, SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -458,7 +458,7 @@ _scm_lw6dsp_get_last_frame_rendering_time (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      ret = scm_from_int (lw6dsp_get_last_frame_rendering_time (c_dsp));
+      ret = scm_from_int (lw6dsp_get_last_frame_rendering_time (sys_context, c_dsp));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -467,7 +467,7 @@ _scm_lw6dsp_get_last_frame_rendering_time (SCM dsp)
 }
 
 static SCM
-_scm_lw6dsp_get_instant_fps (SCM dsp)
+_scm_lw6dsp_get_instant_fps (sys_context, SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -480,7 +480,7 @@ _scm_lw6dsp_get_instant_fps (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      ret = scm_from_int (lw6dsp_get_instant_fps (c_dsp));
+      ret = scm_from_int (lw6dsp_get_instant_fps (sys_context, c_dsp));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -489,7 +489,7 @@ _scm_lw6dsp_get_instant_fps (SCM dsp)
 }
 
 static SCM
-_scm_lw6dsp_get_average_fps (SCM dsp)
+_scm_lw6dsp_get_average_fps (sys_context, SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -502,7 +502,7 @@ _scm_lw6dsp_get_average_fps (SCM dsp)
   c_dsp = lw6_scm_to_dsp (dsp);
   if (c_dsp)
     {
-      ret = scm_from_int (lw6dsp_get_average_fps (c_dsp));
+      ret = scm_from_int (lw6dsp_get_average_fps (sys_context, c_dsp));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -511,7 +511,7 @@ _scm_lw6dsp_get_average_fps (SCM dsp)
 }
 
 static SCM
-_scm_lw6dsp_get_video_mode (SCM dsp)
+_scm_lw6dsp_get_video_mode (sys_context, SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -526,7 +526,7 @@ _scm_lw6dsp_get_video_mode (SCM dsp)
     {
       lw6gui_video_mode_t video_mode;
 
-      if (lw6dsp_get_video_mode (c_dsp, &video_mode))
+      if (lw6dsp_get_video_mode (sys_context, c_dsp, &video_mode))
 	{
 	  ret =
 	    scm_list_3 (scm_cons
@@ -544,7 +544,7 @@ _scm_lw6dsp_get_video_mode (SCM dsp)
 }
 
 static SCM
-_scm_lw6dsp_get_fullscreen_modes (SCM dsp)
+_scm_lw6dsp_get_fullscreen_modes (sys_context, SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
@@ -559,7 +559,7 @@ _scm_lw6dsp_get_fullscreen_modes (SCM dsp)
     {
       lw6gui_fullscreen_modes_t fullscreen_modes;
 
-      if (lw6dsp_get_fullscreen_modes (c_dsp, &fullscreen_modes))
+      if (lw6dsp_get_fullscreen_modes (sys_context, c_dsp, &fullscreen_modes))
 	{
 	  ret = scm_list_3 (scm_cons (scm_from_locale_string ("low"),
 				      scm_list_3 (scm_cons

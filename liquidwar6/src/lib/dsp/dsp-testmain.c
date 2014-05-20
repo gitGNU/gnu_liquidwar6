@@ -36,13 +36,13 @@ static int _ret = 1;
 static int _mode = 0;
 
 static void
-run (void *data)
+_run (lw6sys_context_t * sys_context, void *data)
 {
   if (CU_initialize_registry () == CUE_SUCCESS)
     {
-      if (lw6dsp_test_register (_mode))
+      if (lw6dsp_test_register (sys_context, _mode))
 	{
-	  _ret = lw6dsp_test_run (_mode);
+	  _ret = lw6dsp_test_run (sys_context, _mode);
 	}
       CU_cleanup_registry ();
     }
@@ -64,6 +64,7 @@ main (int argc, const char *argv[])
 #endif
 {
   int ret = 0;
+  lw6sys_context_t *sys_context = NULL;
 
   LW6SYS_MAIN_BEGIN;
   LW6HLP_MAIN_BEGIN;
@@ -73,7 +74,7 @@ main (int argc, const char *argv[])
 #ifdef LW6_MAC_OS_X
   lw6sys_vthread_run (sys_context, run, NULL, NULL);
 #else
-  run (NULL);
+  _run (sys_context, NULL);
 #endif
   ret = _ret;
 

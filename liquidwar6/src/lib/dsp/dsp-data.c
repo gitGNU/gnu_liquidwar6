@@ -27,7 +27,7 @@
 #include "dsp-internal.h"
 
 _lw6dsp_data_t *
-_lw6dsp_data_new ()
+_lw6dsp_data_new (lw6sys_context_t * sys_context)
 {
   _lw6dsp_data_t *ret = NULL;
 
@@ -42,7 +42,7 @@ _lw6dsp_data_new ()
 }
 
 void
-_lw6dsp_data_free (_lw6dsp_data_t * data)
+_lw6dsp_data_free (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
 {
   if (data->gfx_backend_name)
     {
@@ -58,6 +58,6 @@ _lw6dsp_data_free (_lw6dsp_data_t * data)
     {
       lw6sys_mutex_destroy (sys_context, data->render_mutex);
     }
-  _lw6dsp_param_clear (&(data->param));
+  _lw6dsp_param_clear (sys_context, &(data->param));
   LW6SYS_FREE (sys_context, data);
 }

@@ -30,6 +30,7 @@
 /**
  * lw6dsp_param_zero
  *
+ * @sys_context: global system context
  * @param: the structure to initialize
  *
  * Fills a display param struct with zeros, this is mandatory
@@ -38,13 +39,13 @@
  * Return value: none.
  */
 void
-lw6dsp_param_zero (lw6dsp_param_t * param)
+lw6dsp_param_zero (lw6sys_context_t * sys_context, lw6dsp_param_t * param)
 {
   memset (param, 0, sizeof (lw6dsp_param_t));
 }
 
 void
-_lw6dsp_param_clear (lw6dsp_param_t * param)
+_lw6dsp_param_clear (lw6sys_context_t * sys_context, lw6dsp_param_t * param)
 {
   if (param->menu)
     {
@@ -55,11 +56,11 @@ _lw6dsp_param_clear (lw6dsp_param_t * param)
       lw6gui_look_free (sys_context, param->look);
     }
 
-  lw6dsp_param_zero (param);
+  lw6dsp_param_zero (sys_context, param);
 }
 
 int
-_lw6dsp_param_diff (const _lw6dsp_data_t * data, const lw6dsp_param_t * param)
+_lw6dsp_param_diff (lw6sys_context_t * sys_context, const _lw6dsp_data_t * data, const lw6dsp_param_t * param)
 {
   int ret = 0;
 

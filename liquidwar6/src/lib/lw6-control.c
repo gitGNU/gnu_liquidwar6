@@ -35,13 +35,13 @@ _release_dsp_quit (void *func_data, const char *key, void *value)
   dsp_smob = (lw6_dsp_smob_t *) value;
   if (dsp_smob && dsp_smob->c_dsp)
     {
-      repr = lw6dsp_repr (dsp_smob->c_dsp);
+      repr = lw6dsp_repr (sys_context, dsp_smob->c_dsp);
       if (repr)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("release dsp \"%s\""), repr);
 	  LW6SYS_FREE (sys_context, repr);
 	}
-      lw6dsp_quit (dsp_smob->c_dsp);
+      lw6dsp_quit (sys_context, dsp_smob->c_dsp);
     }
 }
 

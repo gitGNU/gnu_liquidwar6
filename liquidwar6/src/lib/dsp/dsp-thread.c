@@ -31,7 +31,7 @@
 #define MPS_REFRESH_PER_SEC 2
 
 void static
-init (_lw6dsp_data_t * data)
+_init (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
 {
   int ok = 0;
   lw6gui_fullscreen_modes_t fullscreen_modes;
@@ -110,7 +110,7 @@ init (_lw6dsp_data_t * data)
 }
 
 static int
-poll (_lw6dsp_data_t * data)
+_poll (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
 {
   int ret = 1;
   char **history = NULL;
@@ -120,7 +120,7 @@ poll (_lw6dsp_data_t * data)
   float progress = 0.0f;
   int mask = 0;
 
-  timestamp = lw6sys_get_timestamp ();
+  timestamp = lw6sys_get_timestamp (sys_context);
   data->input = lw6gfx_pump_events (sys_context, data->gfx_backend);
   lw6gui_input_update_repeat (sys_context, data->input, &(data->param.misc.repeat_settings), timestamp);
   mask = data->param.misc.mask;
@@ -248,7 +248,7 @@ poll (_lw6dsp_data_t * data)
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("display thread problem"));
 	      ret = 0;
 	    }
-	  lw6sys_history_free (history);
+	  lw6sys_history_free (sys_context, history);
 	}
       else
 	{
@@ -261,7 +261,7 @@ poll (_lw6dsp_data_t * data)
 }
 
 static int
-loop (_lw6dsp_data_t * data)
+_loop (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
 {
   int ret = 0;
 
@@ -283,13 +283,13 @@ loop (_lw6dsp_data_t * data)
 	}
     }
 
-  ret = poll (data);
+  ret = _poll (sys_context, data);
 
   return ret;
 }
 
 void
-_lw6dsp_thread_func (_lw6dsp_data_t * data)
+_lw6dsp_thread_func (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
 {
   int frames_increment = 1;	// mustn't be 0
   int frames_counter = 0;
@@ -317,7 +317,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 
   if (!data->gfx_backend)
     {
-      init (data);
+      _init (sys_context, data);
     }
 
   lw6sys_mutex_unlock (sys_context, data->render_mutex);
@@ -327,7 +327,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display loop"));
       while (data->run)
 	{
-	  ticks = lw6sys_get_timestamp ();
+	  ticks = lw6sys_get_timestamp (sys_context);
 
 	  lw6sys_mutex_lock (sys_context, data->render_mutex);
 
@@ -401,7 +401,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 		}
 
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("frame %d at ticks %" LW6SYS_PRINTF_LL "d"), data->nb_frames, (long long) ticks);
-	      loop (data);
+	      _loop (sys_context, data);
 	      do_skip = 0;
 	    }
 	  else
@@ -413,7 +413,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 	       */
 	      do_skip = 1;
 	    }
-	  cpu_ticks = lw6sys_get_timestamp (sys_context,) - ticks;
+	  cpu_ticks = lw6sys_get_timestamp (sys_context) - ticks;
 	  delay_cpu = 0;
 	  if (!do_skip)
 	    {
@@ -445,7 +445,7 @@ _lw6dsp_thread_func (_lw6dsp_data_t * data)
 }
 
 void
-_lw6dsp_thread_join (_lw6dsp_data_t * data)
+_lw6dsp_thread_join (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display join"));
 
