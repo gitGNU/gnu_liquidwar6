@@ -123,7 +123,7 @@ _response_index_html (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node
 		      list = lw6sys_str_copy (sys_context, LW6SYS_STR_EMPTY);
 		      if (list)
 			{
-			  lw6nod_info_map_verified_nodes (node_info, _add_node_html, &list);
+			  lw6nod_info_map_verified_nodes (sys_context, node_info, _add_node_html, &list);
 			  content = lw6sys_new_sprintf (sys_context, httpd_context->data.htdocs.index_html,
 							/*
 							 * Variables in the HEAD section
@@ -296,7 +296,7 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_t * no
 	      if (!strcmp (request->uri, _MOD_HTTPD_OOB_ROOT)
 		  || !strcmp (request->uri, _MOD_HTTPD_OOB_INDEX_HTML) || !strcmp (request->uri, _MOD_HTTPD_OOB_SCREENSHOT_JPEG))
 		{
-		  dyn_info = lw6nod_info_dup_dyn (node_info);
+		  dyn_info = lw6nod_info_dup_dyn (sys_context, node_info);
 		  if (dyn_info)
 		    {
 		      if (!strcmp (request->uri, _MOD_HTTPD_OOB_ROOT) || !strcmp (request->uri, _MOD_HTTPD_OOB_INDEX_HTML))

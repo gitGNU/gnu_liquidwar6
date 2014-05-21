@@ -28,7 +28,7 @@
 #include "nod-internal.h"
 
 void
-_lw6nod_ref_info_reset (lw6nod_ref_info_t * ref_info)
+_lw6nod_ref_info_reset (lw6sys_context_t * sys_context, lw6nod_ref_info_t * ref_info)
 {
   if (ref_info->id_str)
     {
@@ -43,7 +43,7 @@ _lw6nod_ref_info_reset (lw6nod_ref_info_t * ref_info)
 }
 
 int
-_lw6nod_ref_info_update (lw6nod_ref_info_t * ref_info, u_int64_t id, const char *url)
+_lw6nod_ref_info_update (lw6sys_context_t * sys_context, lw6nod_ref_info_t * ref_info, u_int64_t id, const char *url)
 {
   int ret = 1;
 
@@ -55,7 +55,7 @@ _lw6nod_ref_info_update (lw6nod_ref_info_t * ref_info, u_int64_t id, const char 
 	  LW6SYS_FREE (sys_context, ref_info->id_str);
 	  ref_info->id_str = NULL;
 	}
-      ref_info->id_str = lw6sys_id_ltoa (id);
+      ref_info->id_str = lw6sys_id_ltoa (sys_context, id);
     }
 
   /*

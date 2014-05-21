@@ -56,5 +56,5 @@ _peer_id_list_process_join_callback (void *func_data, u_int64_t id)
 void
 _lw6p2p_peer_id_list_process_join (_lw6p2p_node_t * node, lw6nod_info_t * remote_node_info)
 {
-  lw6nod_info_community_id_without_url_map (remote_node_info, _peer_id_list_process_join_callback, (void *) node);
+  lw6nod_info_community_id_without_url_map (sys_context, remote_node_info, _peer_id_list_process_join_callback, (void *) node);
 }

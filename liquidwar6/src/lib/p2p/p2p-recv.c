@@ -246,7 +246,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 		      /*
 		       * Add peer node to local tables.
 		       */
-		      lw6nod_info_community_add (node->node_info, cnx->remote_id_int, cnx->remote_url);
+		      lw6nod_info_community_add (sys_context, node->node_info, cnx->remote_id_int, cnx->remote_url);
 		      if (!lw6dat_warehouse_is_node_registered (node->warehouse, cnx->remote_id_int))
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
@@ -316,7 +316,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 	      /*
 	       * Seq is not 0, this is an answer from a server
 	       */
-	      if (lw6nod_info_community_is_member (node->node_info, cnx->remote_id_int, cnx->remote_url))
+	      if (lw6nod_info_community_is_member (sys_context, node->node_info, cnx->remote_id_int, cnx->remote_url))
 		{
 		  /*
 		   * OK, accepted by server.
@@ -475,7 +475,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 
   if (remote_node_info)
     {
-      lw6nod_info_free (remote_node_info);
+      lw6nod_info_free (sys_context, remote_node_info);
     }
 }
 

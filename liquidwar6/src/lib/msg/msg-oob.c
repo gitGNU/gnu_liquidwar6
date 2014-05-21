@@ -48,7 +48,7 @@ lw6msg_oob_generate_info (lw6nod_info_t * info)
   char *open_relay = NULL;
   char *has_password = NULL;
 
-  dyn_info = lw6nod_info_dup_dyn (info);
+  dyn_info = lw6nod_info_dup_dyn (sys_context, info);
   if (dyn_info)
     {
       has_password = info->const_info.has_password ? LW6MSG_YES : LW6MSG_NO;
@@ -154,13 +154,13 @@ lw6msg_oob_generate_list (lw6nod_info_t * info)
   lw6nod_dyn_info_t *dyn_info = NULL;
   char *tmp;
 
-  dyn_info = lw6nod_info_dup_dyn (info);
+  dyn_info = lw6nod_info_dup_dyn (sys_context, info);
   if (dyn_info)
     {
       ret = lw6sys_str_copy (sys_context, LW6SYS_STR_EMPTY);
       if (ret)
 	{
-	  lw6nod_info_map_verified_nodes (info, _add_node_txt, &ret);
+	  lw6nod_info_map_verified_nodes (sys_context, info, _add_node_txt, &ret);
 	  if (ret)
 	    {
 	      tmp = lw6sys_str_concat (sys_context, ret, "\n");

@@ -46,7 +46,7 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
 	  base64_level = lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null (info->dyn_info.level));
 	  if (base64_level)
 	    {
-	      peer_id_list = lw6nod_info_community_get_peer_id_list_str (info);
+	      peer_id_list = lw6nod_info_community_get_peer_id_list_str (sys_context, info);
 	      if (peer_id_list)
 		{
 		  uptime = (lw6sys_get_timestamp () - info->const_info.creation_timestamp) / 1000;
@@ -714,10 +714,11 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       (*info) =
-	lw6nod_info_new (program.buf, version.buf, codename.buf, stamp, id, url.buf, title.buf, description.buf, NULL, bench, open_relay, uptime, 0, NULL);
+	lw6nod_info_new (sys_context, program.buf, version.buf, codename.buf, stamp, id, url.buf, title.buf, description.buf, NULL, bench, open_relay, uptime,
+			 0, NULL);
       if (*info)
 	{
-	  if (lw6nod_info_update ((*info), community_id, round, level.buf,
+	  if (lw6nod_info_update (sys_context, (*info), community_id, round, level.buf,
 				  required_bench, nb_colors, max_nb_colors, nb_cursors, max_nb_cursors, nb_nodes, max_nb_nodes, peer_id_list.buf, 0, NULL))
 	    {
 	      if (local_info)
@@ -727,7 +728,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
 		   * peer database too, this is usually performed on join
 		   * messages.
 		   */
-		  lw6nod_info_community_set_peer_id_list_str (local_info, peer_id_list.buf);
+		  lw6nod_info_community_set_peer_id_list_str (sys_context, local_info, peer_id_list.buf);
 		}
 	      (*info)->const_info.has_password = has_password;
 	      if (next)
@@ -1323,7 +1324,7 @@ lw6msg_cmd_guess_from_url (const char *msg)
 	  if (_analyse_info (&node_info, NULL, &seek, pos))
 	    {
 	      ret = lw6sys_str_copy (sys_context, node_info->const_info.ref_info.url);
-	      lw6nod_info_free (node_info);
+	      lw6nod_info_free (sys_context, node_info);
 	      node_info = NULL;
 	    }
 	}

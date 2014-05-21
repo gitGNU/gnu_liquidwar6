@@ -59,7 +59,7 @@ _do_broadcast (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info, lw6c
 		      if (given_url)
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_udp client BROADCAST discovered %s:%d \"%s\""), incoming_ip, port, given_url);
-			  lw6nod_info_add_discovered_node (node_info, given_url);
+			  lw6nod_info_add_discovered_node (sys_context, node_info, given_url);
 			  LW6SYS_FREE (sys_context, given_url);
 			}
 		      LW6SYS_FREE (sys_context, response);
@@ -122,7 +122,7 @@ _do_ping (_mod_udp_context_t * udp_context, lw6nod_info_t * node_info, lw6cli_oo
 				{
 				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					      _x_ ("mod_udp connected on %s:%d using \"%s\" but server reports \"%s\""), ip, parsed_url->port, url, given_url);
-				  lw6nod_info_add_discovered_node (node_info, given_url);
+				  lw6nod_info_add_discovered_node (sys_context, node_info, given_url);
 				}
 			      LW6SYS_FREE (sys_context, given_url);
 			    }
@@ -241,7 +241,7 @@ _list_response_callback (void *func_data, void *data)
       if (lw6sys_url_is_canonized (sys_context, line))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("list contains \"%s\", registering it"), line);
-	  lw6nod_info_add_discovered_node (node_info, line);
+	  lw6nod_info_add_discovered_node (sys_context, node_info, line);
 	}
       else
 	{

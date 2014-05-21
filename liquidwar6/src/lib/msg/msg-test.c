@@ -203,7 +203,7 @@ _test_cmd ()
     int miss_serial_max = 0;
 
     info =
-      lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
+      lw6nod_info_new (sys_context, _TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 		       _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
 		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
@@ -215,7 +215,7 @@ _test_cmd ()
 	    if (lw6msg_cmd_analyse_hello (&analysed_info, msg))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("hello command analysed (node url=\"%s\")"), analysed_info->const_info.ref_info.url);
-		lw6nod_info_free (analysed_info);
+		lw6nod_info_free (sys_context, analysed_info);
 	      }
 	    else
 	      {
@@ -255,7 +255,7 @@ _test_cmd ()
 				 LW6SYS_PRINTF_LL "x and should be %" LW6SYS_PRINTF_LL "x)"), (long long) analysed_ticket, (long long) ticket);
 		    ret = 0;
 		  }
-		lw6nod_info_free (analysed_info);
+		lw6nod_info_free (sys_context, analysed_info);
 	      }
 	    else
 	      {
@@ -296,7 +296,7 @@ _test_cmd ()
 				analysed_key, key, analysed_serial, serial);
 		    ret = 0;
 		  }
-		lw6nod_info_free (analysed_info);
+		lw6nod_info_free (sys_context, analysed_info);
 	      }
 	    else
 	      {
@@ -337,7 +337,7 @@ _test_cmd ()
 				analysed_key, key, analysed_serial, serial);
 		    ret = 0;
 		  }
-		lw6nod_info_free (analysed_info);
+		lw6nod_info_free (sys_context, analysed_info);
 	      }
 	    else
 	      {
@@ -379,7 +379,7 @@ _test_cmd ()
 				 LW6SYS_PRINTF_LL "d serial=%d and should be %d)"), (long long) analysed_seq, (long long) seq, analysed_serial, serial);
 		    ret = 0;
 		  }
-		lw6nod_info_free (analysed_info);
+		lw6nod_info_free (sys_context, analysed_info);
 	      }
 	    else
 	      {
@@ -407,7 +407,7 @@ _test_cmd ()
 	    if (lw6msg_cmd_analyse_goodbye (&analysed_info, msg))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("goodbye command analysed (node url=\"%s\")"), analysed_info->const_info.ref_info.url);
-		lw6nod_info_free (analysed_info);
+		lw6nod_info_free (sys_context, analysed_info);
 	      }
 	    else
 	      {
@@ -527,7 +527,7 @@ _test_cmd ()
 	    LW6SYS_FREE (sys_context, msg);
 	  }
 
-	lw6nod_info_free (info);
+	lw6nod_info_free (sys_context, info);
       }
   }
 
@@ -552,7 +552,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
   char *received_physical_from_url = NULL;
 
   info =
-    lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
+    lw6nod_info_new (sys_context, _TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 		     _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
 		     _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
   if (info)
@@ -729,7 +729,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 	    }
 	  LW6SYS_FREE (sys_context, password_checksum);
 	}
-      lw6nod_info_free (info);
+      lw6nod_info_free (sys_context, info);
     }
 
   return ret;
@@ -884,7 +884,7 @@ _test_oob ()
     char *remote_url = NULL;
 
     info =
-      lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
+      lw6nod_info_new (sys_context, _TEST_PROGRAM, _TEST_VERSION, _TEST_CODENAME,
 		       _TEST_STAMP, _TEST_ID, _TEST_URL, _TEST_TITLE,
 		       _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
     if (info)
@@ -935,7 +935,7 @@ _test_oob ()
 	    if (url)
 	      {
 		verified_node =
-		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
+		  lw6nod_info_new (sys_context, _TEST_PROGRAM, _TEST_VERSION,
 				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_1,
 				   url, _TEST_TITLE, _TEST_DESCRIPTION,
 				   _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
@@ -949,7 +949,7 @@ _test_oob ()
 	    if (url)
 	      {
 		verified_node =
-		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
+		  lw6nod_info_new (sys_context, _TEST_PROGRAM, _TEST_VERSION,
 				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_2,
 				   url, _TEST_TITLE, _TEST_DESCRIPTION,
 				   _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
@@ -963,7 +963,7 @@ _test_oob ()
 	    if (url)
 	      {
 		verified_node =
-		  lw6nod_info_new (_TEST_PROGRAM, _TEST_VERSION,
+		  lw6nod_info_new (sys_context, _TEST_PROGRAM, _TEST_VERSION,
 				   _TEST_CODENAME, _TEST_STAMP, _TEST_ID_3,
 				   url, _TEST_TITLE, _TEST_DESCRIPTION,
 				   _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
@@ -976,7 +976,7 @@ _test_oob ()
 
 	    if (list)
 	      {
-		lw6nod_info_set_verified_nodes (info, list);
+		lw6nod_info_set_verified_nodes (sys_context, info, list);
 	      }
 
 	    oob = lw6msg_oob_generate_list (info);
@@ -1119,7 +1119,7 @@ _test_oob ()
 	    LW6SYS_FREE (sys_context, request);
 	  }
 
-	lw6nod_info_free (info);
+	lw6nod_info_free (sys_context, info);
       }
   }
 
@@ -1796,7 +1796,7 @@ lw6msg_test_register (int mode)
        */
       lw6sys_test_register (sys_context, mode);
       lw6glb_test_register (sys_context, mode);
-      lw6nod_test_register (mode);
+      lw6nod_test_register (sys_context, mode);
       lw6cnx_test_register (mode);
     }
 

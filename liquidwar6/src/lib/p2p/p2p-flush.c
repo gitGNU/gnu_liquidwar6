@@ -98,7 +98,8 @@ _select_other_node_callback (void *func_data, int nb_fields, char **fields_value
        */
       if (id && url && title && description)
 	{
-	  verified_node = lw6nod_info_new (program, version, codename, stamp, id, url, title, description, NULL, bench, open_relay, uptime, 0, NULL);
+	  verified_node =
+	    lw6nod_info_new (sys_context, program, version, codename, stamp, id, url, title, description, NULL, bench, open_relay, uptime, 0, NULL);
 	  if (verified_node && list_of_node)
 	    {
 	      lw6sys_list_push_front (list_of_node, verified_node);
@@ -142,7 +143,7 @@ _lw6p2p_flush_verified_nodes (_lw6p2p_node_t * node)
 	}
       if (list_of_node)
 	{
-	  ret = lw6nod_info_set_verified_nodes (node->node_info, list_of_node);
+	  ret = lw6nod_info_set_verified_nodes (sys_context, node->node_info, list_of_node);
 	}
     }
 
@@ -181,7 +182,7 @@ _lw6p2p_flush_discovered_nodes (_lw6p2p_node_t * node)
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("flush discovered nodes"));
   ret = 1;
 
-  list = lw6nod_info_pop_discovered_nodes (node->node_info);
+  list = lw6nod_info_pop_discovered_nodes (sys_context, node->node_info);
   if (list)
     {
       while ((url = lw6sys_list_pop_front (sys_context, &list)) != NULL)

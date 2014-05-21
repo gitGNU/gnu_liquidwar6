@@ -66,7 +66,7 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 			    {
 			      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					  _x_ ("mod_tcp connected on %s:%d using \"%s\" but server reports \"%s\""), ip, parsed_url->port, url, given_url);
-			      lw6nod_info_add_discovered_node (node_info, given_url);
+			      lw6nod_info_add_discovered_node (sys_context, node_info, given_url);
 			    }
 			  LW6SYS_FREE (sys_context, given_url);
 			}
@@ -228,7 +228,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 			    {
 			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_ ("list from %s:%d \"%s\" contains \"%s\", registering it"), ip, parsed_url->port, url, response);
-			      lw6nod_info_add_discovered_node (node_info, response);
+			      lw6nod_info_add_discovered_node (sys_context, node_info, response);
 			    }
 			  else
 			    {

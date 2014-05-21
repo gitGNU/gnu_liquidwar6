@@ -180,29 +180,29 @@ typedef struct lw6nod_info_s
   lw6sys_list_t *verified_nodes;
 } lw6nod_info_t;
 
-typedef void (*lw6nod_id_callback_func_t) (void *func_data, u_int64_t id);
+typedef void (*lw6nod_id_callback_func_t) (lw6sys_context_t * sys_context, void *func_data, u_int64_t id);
 
 /* nod-community.c */
-extern int lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id, const char *url);
-extern int lw6nod_info_community_is_member (lw6nod_info_t * info, u_int64_t id, const char *url);
-extern int lw6nod_info_community_has_id (lw6nod_info_t * info, u_int64_t id);
-extern int lw6nod_info_community_has_id_without_url (lw6nod_info_t * info, u_int64_t id);
-extern int lw6nod_info_community_has_url (lw6nod_info_t * info, const char *url);
-extern int64_t lw6nod_info_community_get_id_from_url (lw6nod_info_t * info, const char *url);
-extern char *lw6nod_info_community_get_url_from_id (lw6nod_info_t * info, int64_t id);
-extern int lw6nod_info_community_remove_by_id (lw6nod_info_t * info, u_int64_t id);
-extern int lw6nod_info_community_remove_by_url (lw6nod_info_t * info, const char *url);
-extern int lw6nod_info_community_count (lw6nod_info_t * info);
-extern void lw6nod_info_community_reset (lw6nod_info_t * info);
-extern char *lw6nod_info_community_get_peer_id_list_str (lw6nod_info_t * info);
-extern void lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info, const char *peer_id_list_str);
-extern void lw6nod_info_community_id_without_url_map (lw6nod_info_t * info, lw6nod_id_callback_func_t func, void *func_data);
+extern int lw6nod_info_community_add (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int64_t id, const char *url);
+extern int lw6nod_info_community_is_member (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int64_t id, const char *url);
+extern int lw6nod_info_community_has_id (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int64_t id);
+extern int lw6nod_info_community_has_id_without_url (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int64_t id);
+extern int lw6nod_info_community_has_url (lw6sys_context_t * sys_context, lw6nod_info_t * info, const char *url);
+extern int64_t lw6nod_info_community_get_id_from_url (lw6sys_context_t * sys_context, lw6nod_info_t * info, const char *url);
+extern char *lw6nod_info_community_get_url_from_id (lw6sys_context_t * sys_context, lw6nod_info_t * info, int64_t id);
+extern int lw6nod_info_community_remove_by_id (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int64_t id);
+extern int lw6nod_info_community_remove_by_url (lw6sys_context_t * sys_context, lw6nod_info_t * info, const char *url);
+extern int lw6nod_info_community_count (lw6sys_context_t * sys_context, lw6nod_info_t * info);
+extern void lw6nod_info_community_reset (lw6sys_context_t * sys_context, lw6nod_info_t * info);
+extern char *lw6nod_info_community_get_peer_id_list_str (lw6sys_context_t * sys_context, lw6nod_info_t * info);
+extern void lw6nod_info_community_set_peer_id_list_str (lw6sys_context_t * sys_context, lw6nod_info_t * info, const char *peer_id_list_str);
+extern void lw6nod_info_community_id_without_url_map (lw6sys_context_t * sys_context, lw6nod_info_t * info, lw6nod_id_callback_func_t func, void *func_data);
 
 /* nod-dyninfo.c */
-extern void lw6nod_dyn_info_free (lw6nod_dyn_info_t * info);
+extern void lw6nod_dyn_info_free (lw6sys_context_t * sys_context, lw6nod_dyn_info_t * info);
 
 /* nod-info.c */
-extern lw6nod_info_t *lw6nod_info_new (const char *program,
+extern lw6nod_info_t *lw6nod_info_new (lw6sys_context_t * sys_context, const char *program,
 				       const char *version,
 				       const char *codename,
 				       int stamp,
@@ -210,26 +210,26 @@ extern lw6nod_info_t *lw6nod_info_new (const char *program,
 				       const char *title,
 				       const char *description,
 				       const char *password, int bench, int open_relay, int uptime, int idle_screenshot_size, void *idle_screenshot_data);
-extern void lw6nod_info_free (lw6nod_info_t * info);
-extern int lw6nod_info_lock (lw6nod_info_t * info);
-extern int lw6nod_info_unlock (lw6nod_info_t * info);
-extern void lw6nod_info_idle (lw6nod_info_t * info);
-extern int lw6nod_info_update (lw6nod_info_t * info, u_int64_t community_id,
+extern void lw6nod_info_free (lw6sys_context_t * sys_context, lw6nod_info_t * info);
+extern int lw6nod_info_lock (lw6sys_context_t * sys_context, lw6nod_info_t * info);
+extern int lw6nod_info_unlock (lw6sys_context_t * sys_context, lw6nod_info_t * info);
+extern void lw6nod_info_idle (lw6sys_context_t * sys_context, lw6nod_info_t * info);
+extern int lw6nod_info_update (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int64_t community_id,
 			       int round, const char *level,
 			       int required_bench, int nb_colors,
 			       int max_nb_colors, int nb_cursors,
 			       int max_nb_cursors, int nb_nodes,
 			       int max_nb_nodes, const char *peer_id_list, int game_screenshot_size, void *game_screenshot_data);
-extern lw6nod_dyn_info_t *lw6nod_info_dup_dyn (lw6nod_info_t * info);
-extern lw6sys_hash_t *lw6nod_info_new_discovered_nodes ();
-extern int lw6nod_info_add_discovered_node (lw6nod_info_t * info, const char *public_url);
-extern lw6sys_list_t *lw6nod_info_pop_discovered_nodes (lw6nod_info_t * info);
-extern lw6sys_list_t *lw6nod_info_new_verified_nodes ();
-extern int lw6nod_info_set_verified_nodes (lw6nod_info_t * info, lw6sys_list_t * list);
-extern void lw6nod_info_map_verified_nodes (lw6nod_info_t * info, lw6sys_list_callback_func_t func, void *func_data);
+extern lw6nod_dyn_info_t *lw6nod_info_dup_dyn (lw6sys_context_t * sys_context, lw6nod_info_t * info);
+extern lw6sys_hash_t *lw6nod_info_new_discovered_nodes (lw6sys_context_t * sys_context);
+extern int lw6nod_info_add_discovered_node (lw6sys_context_t * sys_context, lw6nod_info_t * info, const char *public_url);
+extern lw6sys_list_t *lw6nod_info_pop_discovered_nodes (lw6sys_context_t * sys_context, lw6nod_info_t * info);
+extern lw6sys_list_t *lw6nod_info_new_verified_nodes (lw6sys_context_t * sys_context);
+extern int lw6nod_info_set_verified_nodes (lw6sys_context_t * sys_context, lw6nod_info_t * info, lw6sys_list_t * list);
+extern void lw6nod_info_map_verified_nodes (lw6sys_context_t * sys_context, lw6nod_info_t * info, lw6sys_list_callback_func_t func, void *func_data);
 
 /* nod-test.c */
-extern int lw6nod_test_register (int mode);
-extern int lw6nod_test_run (int mode);
+extern int lw6nod_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6nod_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif

@@ -28,13 +28,13 @@
 #include "nod-internal.h"
 
 static int
-_set_community_id (lw6nod_dyn_info_t * dyninfo, u_int64_t community_id)
+_set_community_id (lw6sys_context_t * sys_context, lw6nod_dyn_info_t * dyninfo, u_int64_t community_id)
 {
   int ret = 0;
 
   if (dyninfo->community_id_str)
     {
-      LW6SYS_FREE (dyninfo->community_id_str);
+      LW6SYS_FREE (sys_context, dyninfo->community_id_str);
       dyninfo->community_id_str = NULL;
     }
   if (community_id != LW6NOD_COMMUNITY_ID_NONE)
@@ -65,23 +65,23 @@ _set_community_id (lw6nod_dyn_info_t * dyninfo, u_int64_t community_id)
 }
 
 void
-_lw6nod_dyn_info_reset (lw6nod_dyn_info_t * dyn_info)
+_lw6nod_dyn_info_reset (lw6sys_context_t * sys_context, lw6nod_dyn_info_t * dyn_info)
 {
   int i;
-  _set_community_id (dyn_info, LW6NOD_COMMUNITY_ID_NONE);
+  _set_community_id (sys_context, dyn_info, LW6NOD_COMMUNITY_ID_NONE);
   if (dyn_info->community_id_str)
     {
-      LW6SYS_FREE (dyn_info->community_id_str);
+      LW6SYS_FREE (sys_context, dyn_info->community_id_str);
       dyn_info->community_id_str = NULL;
     }
   for (i = 0; i < LW6NOD_MAX_NB_PEERS; ++i)
     {
-      _lw6nod_ref_info_reset (&(dyn_info->community_peers[i]));
+      _lw6nod_ref_info_reset (sys_context, &(dyn_info->community_peers[i]));
     }
   dyn_info->round = 0;
   if (dyn_info->level)
     {
-      LW6SYS_FREE (dyn_info->level);
+      LW6SYS_FREE (sys_context, dyn_info->level);
       dyn_info->level = NULL;
     }
   dyn_info->required_bench = 0;
@@ -93,20 +93,20 @@ _lw6nod_dyn_info_reset (lw6nod_dyn_info_t * dyn_info)
   dyn_info->max_nb_nodes = 0;
   if (dyn_info->game_screenshot_data)
     {
-      LW6SYS_FREE (dyn_info->game_screenshot_data);
+      LW6SYS_FREE (sys_context, dyn_info->game_screenshot_data);
       dyn_info->game_screenshot_data = NULL;
     }
 }
 
 int
-_lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
+_lw6nod_dyn_info_update (lw6sys_context_t * sys_context, lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
 			 int round, const char *level, int required_bench,
 			 int nb_colors, int max_nb_colors, int nb_cursors,
 			 int max_nb_cursors, int nb_nodes, int max_nb_nodes, int game_screenshot_size, void *game_screenshot_data)
 {
   int ret = 1;
 
-  _set_community_id (dyn_info, community_id);
+  _set_community_id (sys_context, dyn_info, community_id);
   dyn_info->round = round;
   /*
    * This test about pointers being different is both an optimization
@@ -117,10 +117,10 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
     {
       if (dyn_info->level)
 	{
-	  LW6SYS_FREE (dyn_info->level);
+	  LW6SYS_FREE (sys_context, dyn_info->level);
 	  dyn_info->level = NULL;
 	}
-      dyn_info->level = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (level));
+      dyn_info->level = lw6sys_str_copy (sys_context, lw6sys_str_empty_if_null (sys_context, level));
     }
   dyn_info->required_bench = required_bench;
   dyn_info->nb_colors = nb_colors;
@@ -140,7 +140,7 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
     {
       if (dyn_info->game_screenshot_data)
 	{
-	  LW6SYS_FREE (dyn_info->game_screenshot_data);
+	  LW6SYS_FREE (sys_context, dyn_info->game_screenshot_data);
 	  dyn_info->game_screenshot_data = NULL;
 	}
       if (game_screenshot_size > 0)
@@ -168,6 +168,7 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
 /**
  * lw6nod_dyn_info_free
  *
+ * @sys_context: global system context
  * @dyn_info: the dyn info struct to free
  *
  * Frees a dyn info object, to be used after a
@@ -176,16 +177,16 @@ _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info, u_int64_t community_id,
  * Return value: none
  */
 void
-lw6nod_dyn_info_free (lw6nod_dyn_info_t * dyn_info)
+lw6nod_dyn_info_free (lw6sys_context_t * sys_context, lw6nod_dyn_info_t * dyn_info)
 {
-  _lw6nod_dyn_info_reset (dyn_info);
+  _lw6nod_dyn_info_reset (sys_context, dyn_info);
   if (dyn_info->community_id_str)
     {
-      LW6SYS_FREE (dyn_info->community_id_str);
+      LW6SYS_FREE (sys_context, dyn_info->community_id_str);
     }
   if (dyn_info->level)
     {
-      LW6SYS_FREE (dyn_info->level);
+      LW6SYS_FREE (sys_context, dyn_info->level);
     }
-  LW6SYS_FREE (dyn_info);
+  LW6SYS_FREE (sys_context, dyn_info);
 }

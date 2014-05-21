@@ -70,7 +70,7 @@ _mod_udpd_process_oob (_mod_udpd_context_t * udpd_context, lw6nod_info_t * node_
 		  if (strlen (given_public_url) > 0)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("discovered node \"%s\" from given url"), given_public_url);
-		      lw6nod_info_add_discovered_node (node_info, given_public_url);
+		      lw6nod_info_add_discovered_node (sys_context, node_info, given_public_url);
 		    }
 		  LW6SYS_FREE (sys_context, given_public_url);
 		}

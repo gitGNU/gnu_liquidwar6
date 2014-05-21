@@ -124,7 +124,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 	  node->password = lw6sys_str_copy ("");
 	}
       node->node_info =
-	lw6nod_info_new (lw6sys_build_get_package_tarname (),
+	lw6nod_info_new (sys_context, lw6sys_build_get_package_tarname (),
 			 lw6sys_build_get_version (),
 			 lw6sys_build_get_codename (),
 			 lw6sys_atoi (sys_context, lw6sys_build_get_stamp ()),
@@ -281,7 +281,7 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
 	}
       if (node->node_info)
 	{
-	  lw6nod_info_free (node->node_info);
+	  lw6nod_info_free (sys_context, node->node_info);
 	}
       if (node->password)
 	{
@@ -499,7 +499,7 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
 	      if (guessed_public_url)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("discovered node \"%s\" from guessed url"), guessed_public_url);
-		  lw6nod_info_add_discovered_node (node->node_info, guessed_public_url);
+		  lw6nod_info_add_discovered_node (sys_context, node->node_info, guessed_public_url);
 		  LW6SYS_FREE (sys_context, guessed_public_url);
 		}
 	      if (node->bind_port != LW6NET_DEFAULT_PORT)
@@ -509,7 +509,7 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				  _x_ ("discovered node \"%s\" from guessed url (using non-standard port %d)"), guessed_public_url, node->bind_port);
-		      lw6nod_info_add_discovered_node (node->node_info, guessed_public_url);
+		      lw6nod_info_add_discovered_node (sys_context, node->node_info, guessed_public_url);
 		      LW6SYS_FREE (sys_context, guessed_public_url);
 		    }
 		}
@@ -567,7 +567,7 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
 		  if (guessed_public_url)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("discovered node \"%s\" from guessed url"), guessed_public_url);
-		      lw6nod_info_add_discovered_node (node->node_info, guessed_public_url);
+		      lw6nod_info_add_discovered_node (sys_context, node->node_info, guessed_public_url);
 		      LW6SYS_FREE (sys_context, guessed_public_url);
 		    }
 		  if (node->bind_port != LW6NET_DEFAULT_PORT)
@@ -577,7 +577,7 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 				      _x_ ("discovered node \"%s\" from guessed url (using non-standard port %d)"), guessed_public_url, node->bind_port);
-			  lw6nod_info_add_discovered_node (node->node_info, guessed_public_url);
+			  lw6nod_info_add_discovered_node (sys_context, node->node_info, guessed_public_url);
 			  LW6SYS_FREE (sys_context, guessed_public_url);
 			}
 		    }
@@ -1770,7 +1770,7 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0)
    */
   _lw6p2p_node_disconnect (node);
 
-  lw6nod_info_update (node->node_info, lw6sys_generate_id_64 (),
+  lw6nod_info_update (sys_context, node->node_info, lw6sys_generate_id_64 (),
 		      0, NULL, node->node_info->const_info.bench / LW6P2P_BENCH_NETWORK_DIVIDE, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
   _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (sys_context,), seq_0);
   lw6dat_warehouse_set_local_seq_0 (node->warehouse, seq_0);
@@ -1832,7 +1832,8 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
   remote_id_str = lw6sys_id_ltoa (sys_context, remote_id);
   if (remote_id_str)
     {
-      if ((!lw6nod_info_community_has_id (node->node_info, remote_id)) && (!lw6nod_info_community_has_url (node->node_info, remote_url)))
+      if ((!lw6nod_info_community_has_id (sys_context, node->node_info, remote_id))
+	  && (!lw6nod_info_community_has_url (sys_context, node->node_info, remote_url)))
 	{
 	  i = _lw6p2p_node_find_tentacle (node, remote_id);
 	  if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
@@ -1872,7 +1873,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
 		   * part will come later when messages are
 		   * actually received and join is complete.
 		   */
-		  lw6nod_info_community_add (node->node_info, remote_id, remote_url);
+		  lw6nod_info_community_add (sys_context, node->node_info, remote_id, remote_url);
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trying to join  %" LW6SYS_PRINTF_LL "x at \"%s\""), (long long) remote_id, remote_url);
 		  ret =
 		    _lw6p2p_tentacle_init (tentacle, &(node->backends),
@@ -1936,7 +1937,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
 	}
       else
 	{
-	  if (lw6nod_info_community_is_member (node->node_info, remote_id, remote_url))
+	  if (lw6nod_info_community_is_member (sys_context, node->node_info, remote_id, remote_url))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("it's useless to join %" LW6SYS_PRINTF_LL "x at \"%s\", it's already a community member"), (long long) remote_id, remote_url);
@@ -1998,7 +1999,7 @@ _lw6p2p_node_refresh_peer (_lw6p2p_node_t * node, u_int64_t remote_id, const cha
   int ret = 1;
   char *url_from_id = NULL;
 
-  url_from_id = lw6nod_info_community_get_url_from_id (node->node_info, remote_id);
+  url_from_id = lw6nod_info_community_get_url_from_id (sys_context, node->node_info, remote_id);
   if (url_from_id)
     {
       if (!lw6sys_str_is_same (sys_context, remote_url, url_from_id))
@@ -2059,8 +2060,8 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
     {
       _lw6p2p_tentacle_clear (&(node->tentacles[i]));
     }
-  lw6nod_info_community_reset (node->node_info);
-  lw6nod_info_update (node->node_info, LW6NOD_COMMUNITY_ID_NONE, 0, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
+  lw6nod_info_community_reset (sys_context, node->node_info);
+  lw6nod_info_update (sys_context, node->node_info, LW6NOD_COMMUNITY_ID_NONE, 0, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
   node->seed_needed = 0;
   node->dump_needed = 0;
   node->last_seq_reference = lw6dat_warehouse_get_seq_min (node->warehouse) - 1;
@@ -2111,7 +2112,7 @@ _lw6p2p_node_update_info (_lw6p2p_node_t * node,
   int ret = 0;
 
   ret =
-    lw6nod_info_update (node->node_info,
+    lw6nod_info_update (sys_context, node->node_info,
 			node->node_info->dyn_info.community_id_int, round,
 			level, node->node_info->dyn_info.required_bench,
 			nb_colors, max_nb_colors, nb_cursors, max_nb_cursors,

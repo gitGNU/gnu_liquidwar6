@@ -28,29 +28,29 @@
 #define _LW6NOD_HASH_SIZE 31
 
 /* nod-community.c */
-extern lw6nod_ref_info_t *_lw6nod_node_info_community_get_by_id (lw6nod_info_t * node_info, u_int64_t id);
-extern lw6nod_ref_info_t *_lw6nod_node_info_community_get_by_url (lw6nod_info_t * node_info, const char *url);
+extern lw6nod_ref_info_t *_lw6nod_node_info_community_get_by_id (lw6sys_context_t * sys_context, lw6nod_info_t * node_info, u_int64_t id);
+extern lw6nod_ref_info_t *_lw6nod_node_info_community_get_by_url (lw6sys_context_t * sys_context, lw6nod_info_t * node_info, const char *url);
 
 /* nod-constinfo.c */
-extern int _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
+extern int _lw6nod_const_info_init (lw6sys_context_t * sys_context, lw6nod_const_info_t * const_info,
 				    const char *program, const char *version,
 				    const char *codename, int stamp,
 				    u_int64_t id, const char *url,
 				    const char *title,
 				    const char *description,
 				    const char *password, int bench, int open_relay, int uptime, int idle_screenshot_size, void *idle_screenshot_data);
-extern void _lw6nod_const_info_reset (lw6nod_const_info_t * const_info);
+extern void _lw6nod_const_info_reset (lw6sys_context_t * sys_context, lw6nod_const_info_t * const_info);
 
 /* nod-dyninfo.c */
-extern void _lw6nod_dyn_info_reset (lw6nod_dyn_info_t * dyn_info);
-extern int _lw6nod_dyn_info_update (lw6nod_dyn_info_t * dyn_info,
+extern void _lw6nod_dyn_info_reset (lw6sys_context_t * sys_context, lw6nod_dyn_info_t * dyn_info);
+extern int _lw6nod_dyn_info_update (lw6sys_context_t * sys_context, lw6nod_dyn_info_t * dyn_info,
 				    u_int64_t community_id, int round,
 				    const char *level, int required_bench,
 				    int nb_colors, int max_nb_colors,
 				    int nb_cursors, int max_nb_cursors, int nb_nodes, int max_nb_nodes, int game_screenshot_size, void *game_screenshot_data);
 
 /* nod-refinfo.c */
-extern void _lw6nod_ref_info_reset (lw6nod_ref_info_t * ref_info);
-extern int _lw6nod_ref_info_update (lw6nod_ref_info_t * ref_info, u_int64_t id, const char *url);
+extern void _lw6nod_ref_info_reset (lw6sys_context_t * sys_context, lw6nod_ref_info_t * ref_info);
+extern int _lw6nod_ref_info_update (lw6sys_context_t * sys_context, lw6nod_ref_info_t * ref_info, u_int64_t id, const char *url);
 
 #endif

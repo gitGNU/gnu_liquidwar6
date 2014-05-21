@@ -28,7 +28,7 @@
 #include "nod-internal.h"
 
 int
-_lw6nod_const_info_init (lw6nod_const_info_t * const_info,
+_lw6nod_const_info_init (lw6sys_context_t * sys_context, lw6nod_const_info_t * const_info,
 			 const char *program, const char *version,
 			 const char *codename, int stamp, u_int64_t id,
 			 const char *url, const char *title,
@@ -70,7 +70,7 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
       const_info->stamp = lw6sys_atoi (sys_context, lw6sys_build_get_stamp ());
     }
 
-  ret = _lw6nod_ref_info_update (&(const_info->ref_info), id, url) && ret;
+  ret = _lw6nod_ref_info_update (sys_context, &(const_info->ref_info), id, url) && ret;
 
   if (title && strlen (title) > 0)
     {
@@ -78,7 +78,7 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
     }
   else
     {
-      const_info->title = lw6sys_get_hostname ();
+      const_info->title = lw6sys_get_hostname (sys_context);
     }
   if (const_info->title)
     {
@@ -86,28 +86,28 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
     }
   if (description)
     {
-      const_info->description = lw6sys_str_copy (description);
+      const_info->description = lw6sys_str_copy (sys_context, description);
     }
   else
     {
-      const_info->description = lw6sys_str_copy ("");
+      const_info->description = lw6sys_str_copy (sys_context, "");
     }
   if (const_info->description)
     {
       lw6sys_str_cleanup (sys_context, const_info->description);
     }
-  if (!lw6sys_str_is_null_or_empty (password))
+  if (!lw6sys_str_is_null_or_empty (sys_context, password))
     {
       const_info->has_password = 1;
-      const_info->password = lw6sys_str_copy (password);
+      const_info->password = lw6sys_str_copy (sys_context, password);
     }
   else
     {
-      const_info->password = lw6sys_str_copy ("");
+      const_info->password = lw6sys_str_copy (sys_context, "");
     }
   const_info->bench = bench;
   const_info->open_relay = open_relay ? 1 : 0;
-  const_info->creation_timestamp = lw6sys_get_timestamp (sys_context,) - (u_int64_t) (uptime * 1000);
+  const_info->creation_timestamp = lw6sys_get_timestamp (sys_context) - (u_int64_t) (uptime * 1000);
   const_info->idle_screenshot_size = idle_screenshot_size;
   if (idle_screenshot_size > 0)
     {
@@ -129,7 +129,7 @@ _lw6nod_const_info_init (lw6nod_const_info_t * const_info,
 }
 
 void
-_lw6nod_const_info_reset (lw6nod_const_info_t * const_info)
+_lw6nod_const_info_reset (lw6sys_context_t * sys_context, lw6nod_const_info_t * const_info)
 {
   if (const_info->program)
     {
@@ -144,7 +144,7 @@ _lw6nod_const_info_reset (lw6nod_const_info_t * const_info)
       LW6SYS_FREE (sys_context, const_info->codename);
     }
 
-  _lw6nod_ref_info_reset (&(const_info->ref_info));
+  _lw6nod_ref_info_reset (sys_context, &(const_info->ref_info));
 
   if (const_info->title)
     {

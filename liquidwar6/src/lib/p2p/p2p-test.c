@@ -2287,7 +2287,7 @@ lw6p2p_test_register (int mode)
       lw6glb_test_register (sys_context, mode);
       lw6cfg_test_register (sys_context, mode);
       lw6net_test_register (sys_context, mode);
-      lw6nod_test_register (mode);
+      lw6nod_test_register (sys_context, mode);
       lw6cnx_test_register (mode);
       lw6msg_test_register (mode);
       lw6cli_test_register (mode);

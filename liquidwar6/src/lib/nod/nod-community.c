@@ -30,6 +30,7 @@
 /**
  * lw6nod_info_community_add
  *
+ * @sys_context: global system context
  * @info: node info object to modify
  * @id: ID of the new member
  * @url: URL of the new member, can be NULL
@@ -39,7 +40,7 @@
  * Return value: 1 if new member could be added, 0 if not.
  */
 int
-lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id, const char *url)
+lw6nod_info_community_add (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int64_t id, const char *url)
 {
   int ret = 0;
   int i = 0;
@@ -48,8 +49,11 @@ lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id, const char *url)
   if (lw6sys_check_id (sys_context, id) && id != info->const_info.ref_info.id_int)
     {
       if (((url != NULL)
-	   && (!lw6nod_info_community_is_member (info, id, url)))
-	  || ((url == NULL) && (!lw6nod_info_community_has_id (info, id))) || ((url != NULL) && (lw6nod_info_community_has_id_without_url (info, id))))
+	   && (!lw6nod_info_community_is_member (sys_context, info, id, url)))
+	  || ((url == NULL) && (!lw6nod_info_community_has_id (sys_context, info, id))) || ((url != NULL)
+											    &&
+											    (lw6nod_info_community_has_id_without_url
+											     (sys_context, info, id))))
 	{
 	  for (i = 0; i < LW6NOD_MAX_NB_PEERS && found_i < 0; ++i)
 	    {
@@ -59,7 +63,7 @@ lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id, const char *url)
 		}
 	      if (found_i >= 0)
 		{
-		  ret = _lw6nod_ref_info_update (&(info->dyn_info.community_peers[i]), id, url);
+		  ret = _lw6nod_ref_info_update (sys_context, &(info->dyn_info.community_peers[i]), id, url);
 		}
 	      else
 		{
@@ -94,6 +98,7 @@ lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id, const char *url)
 /**
  * lw6nod_info_community_is_member
  *
+ * @sys_context: global system context
  * @info: node info object to test
  * @id: ID of the member we want to check
  * @url: URL of the member we want to check
@@ -108,11 +113,11 @@ lw6nod_info_community_add (lw6nod_info_t * info, u_int64_t id, const char *url)
  * Return value: 1 if new member could be added, 0 if not.
  */
 int
-lw6nod_info_community_is_member (lw6nod_info_t * info, u_int64_t id, const char *url)
+lw6nod_info_community_is_member (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int64_t id, const char *url)
 {
   int ret = 0;
 
-  ret = (_lw6nod_node_info_community_get_by_id (info, id) != NULL) || (_lw6nod_node_info_community_get_by_url (info, url) != NULL);
+  ret = (_lw6nod_node_info_community_get_by_id (sys_context, info, id) != NULL) || (_lw6nod_node_info_community_get_by_url (sys_context, info, url) != NULL);
 
   return ret;
 }
@@ -120,6 +125,7 @@ lw6nod_info_community_is_member (lw6nod_info_t * info, u_int64_t id, const char 
 /**
  * lw6nod_info_community_has_id
  *
+ * @sys_context: global system context
  * @info: node info object to test
  * @id: ID of the member we want to check
  *
@@ -129,11 +135,11 @@ lw6nod_info_community_is_member (lw6nod_info_t * info, u_int64_t id, const char 
  * Return value: 1 if ID is already taken, 0 if available.
  */
 int
-lw6nod_info_community_has_id (lw6nod_info_t * info, u_int64_t id)
+lw6nod_info_community_has_id (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int64_t id)
 {
   int ret = 0;
 
-  ret = (_lw6nod_node_info_community_get_by_id (info, id) != NULL);
+  ret = (_lw6nod_node_info_community_get_by_id (sys_context, info, id) != NULL);
 
   return ret;
 }
@@ -141,6 +147,7 @@ lw6nod_info_community_has_id (lw6nod_info_t * info, u_int64_t id)
 /**
  * lw6nod_info_community_has_id_without_url
  *
+ * @sys_context: global system context
  * @info: node info object to test
  * @id: ID of the member we want to check
  *
@@ -150,12 +157,12 @@ lw6nod_info_community_has_id (lw6nod_info_t * info, u_int64_t id)
  * Return value: 1 if ID is already taken and has NULL url, 0 else.
  */
 int
-lw6nod_info_community_has_id_without_url (lw6nod_info_t * info, u_int64_t id)
+lw6nod_info_community_has_id_without_url (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int64_t id)
 {
   int ret = 0;
   lw6nod_ref_info_t *ref_info = NULL;
 
-  ref_info = _lw6nod_node_info_community_get_by_id (info, id);
+  ref_info = _lw6nod_node_info_community_get_by_id (sys_context, info, id);
 
   ret = ((ref_info != NULL) && (ref_info->url == NULL));
 
@@ -165,6 +172,7 @@ lw6nod_info_community_has_id_without_url (lw6nod_info_t * info, u_int64_t id)
 /**
  * lw6nod_info_community_has_url
  *
+ * @sys_context: global system context
  * @info: node info object to test
  * @url: URL of the member we want to check
  *
@@ -174,11 +182,11 @@ lw6nod_info_community_has_id_without_url (lw6nod_info_t * info, u_int64_t id)
  * Return value: 1 if URL is already taken, 0 if available.
  */
 int
-lw6nod_info_community_has_url (lw6nod_info_t * info, const char *url)
+lw6nod_info_community_has_url (lw6sys_context_t * sys_context, lw6nod_info_t * info, const char *url)
 {
   int ret = 0;
 
-  ret = (_lw6nod_node_info_community_get_by_url (info, url) != NULL);
+  ret = (_lw6nod_node_info_community_get_by_url (sys_context, info, url) != NULL);
 
   return ret;
 }
@@ -186,6 +194,7 @@ lw6nod_info_community_has_url (lw6nod_info_t * info, const char *url)
 /**
  * lw6nod_info_community_get_id_from_url
  *
+ * @sys_context: global system context
  * @info: node info object to test
  * @url: URL of the member we want to check
  *
@@ -194,12 +203,12 @@ lw6nod_info_community_has_url (lw6nod_info_t * info, const char *url)
  * Return value: id if it's the community, else 0
  */
 int64_t
-lw6nod_info_community_get_id_from_url (lw6nod_info_t * info, const char *url)
+lw6nod_info_community_get_id_from_url (lw6sys_context_t * sys_context, lw6nod_info_t * info, const char *url)
 {
   int64_t ret = 0LL;
   lw6nod_ref_info_t *ref_info = NULL;
 
-  ref_info = _lw6nod_node_info_community_get_by_url (info, url);
+  ref_info = _lw6nod_node_info_community_get_by_url (sys_context, info, url);
   if (ref_info)
     {
       ret = ref_info->id_int;
@@ -211,6 +220,7 @@ lw6nod_info_community_get_id_from_url (lw6nod_info_t * info, const char *url)
 /**
  * lw6nod_info_community_get_url_from_id
  *
+ * @sys_context: global system context
  * @info: node info object to test
  * @id: ID of the member we want to check
  *
@@ -219,15 +229,15 @@ lw6nod_info_community_get_id_from_url (lw6nod_info_t * info, const char *url)
  * Return value: url if it's the community else NULL, must be freed
  */
 char *
-lw6nod_info_community_get_url_from_id (lw6nod_info_t * info, int64_t id)
+lw6nod_info_community_get_url_from_id (lw6sys_context_t * sys_context, lw6nod_info_t * info, int64_t id)
 {
   char *ret = NULL;
   lw6nod_ref_info_t *ref_info = NULL;
 
-  ref_info = _lw6nod_node_info_community_get_by_id (info, id);
+  ref_info = _lw6nod_node_info_community_get_by_id (sys_context, info, id);
   if (ref_info && ref_info->url)
     {
-      ret = lw6sys_str_copy (ref_info->url);
+      ret = lw6sys_str_copy (sys_context, ref_info->url);
     }
 
   return ret;
@@ -236,6 +246,7 @@ lw6nod_info_community_get_url_from_id (lw6nod_info_t * info, int64_t id)
 /**
  * lw6nod_info_community_remove_by_id
  *
+ * @sys_context: global system context
  * @info: node info object to modify
  * @id: ID of the member we want to remove
  *
@@ -244,17 +255,17 @@ lw6nod_info_community_get_url_from_id (lw6nod_info_t * info, int64_t id)
  * Return value: 1 if successfully removed, 0 if was not present.
  */
 int
-lw6nod_info_community_remove_by_id (lw6nod_info_t * info, u_int64_t id)
+lw6nod_info_community_remove_by_id (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int64_t id)
 {
   int ret = 0;
   lw6nod_ref_info_t *ref_info = NULL;
 
-  ref_info = _lw6nod_node_info_community_get_by_id (info, id);
+  ref_info = _lw6nod_node_info_community_get_by_id (sys_context, info, id);
   if (ref_info)
     {
       if (ref_info != &(info->const_info.ref_info))
 	{
-	  _lw6nod_ref_info_reset (ref_info);
+	  _lw6nod_ref_info_reset (sys_context, ref_info);
 	  ret = 1;
 	}
       else
@@ -270,6 +281,7 @@ lw6nod_info_community_remove_by_id (lw6nod_info_t * info, u_int64_t id)
 /**
  * lw6nod_info_community_remove_by_url
  *
+ * @sys_context: global system context
  * @info: node info object to modify
  * @url: URL of the member we want to remove
  *
@@ -278,17 +290,17 @@ lw6nod_info_community_remove_by_id (lw6nod_info_t * info, u_int64_t id)
  * Return value: 1 if successfully removed, 0 if was not present.
  */
 int
-lw6nod_info_community_remove_by_url (lw6nod_info_t * info, const char *url)
+lw6nod_info_community_remove_by_url (lw6sys_context_t * sys_context, lw6nod_info_t * info, const char *url)
 {
   int ret = 0;
   lw6nod_ref_info_t *ref_info = NULL;
 
-  ref_info = _lw6nod_node_info_community_get_by_url (info, url);
+  ref_info = _lw6nod_node_info_community_get_by_url (sys_context, info, url);
   if (ref_info)
     {
       if (ref_info != &(info->const_info.ref_info))
 	{
-	  _lw6nod_ref_info_reset (ref_info);
+	  _lw6nod_ref_info_reset (sys_context, ref_info);
 	  ret = 1;
 	}
       else
@@ -304,6 +316,7 @@ lw6nod_info_community_remove_by_url (lw6nod_info_t * info, const char *url)
 /**
  * lw6nod_info_community_count
  *
+ * @sys_context: global system context
  * @info: node info object to modify
  *
  * Tells how many members there are in a community. This include ourselves
@@ -315,7 +328,7 @@ lw6nod_info_community_remove_by_url (lw6nod_info_t * info, const char *url)
  * Return value: number of community members, including this node (us).
  */
 int
-lw6nod_info_community_count (lw6nod_info_t * info)
+lw6nod_info_community_count (lw6sys_context_t * sys_context, lw6nod_info_t * info)
 {
   int ret = 0;
   int i = 0;
@@ -343,6 +356,7 @@ lw6nod_info_community_count (lw6nod_info_t * info)
 /**
  * lw6nod_info_community_reset
  *
+ * @sys_context: global system context
  * @info: node info object to modify
  *
  * Resets all peers, set community to only one member, ourselves.
@@ -350,19 +364,20 @@ lw6nod_info_community_count (lw6nod_info_t * info)
  * Return value: none.
  */
 void
-lw6nod_info_community_reset (lw6nod_info_t * info)
+lw6nod_info_community_reset (lw6sys_context_t * sys_context, lw6nod_info_t * info)
 {
   int i = 0;
 
   for (i = 0; i < LW6NOD_MAX_NB_PEERS; ++i)
     {
-      _lw6nod_ref_info_reset (&(info->dyn_info.community_peers[i]));
+      _lw6nod_ref_info_reset (sys_context, &(info->dyn_info.community_peers[i]));
     }
 }
 
 /**
  * lw6nod_info_community_get_peer_id_list_str
  *
+ * @sys_context: global system context
  * @info: node to query
  *
  * Builds a string containing all peer ids, separated by a
@@ -371,14 +386,14 @@ lw6nod_info_community_reset (lw6nod_info_t * info)
  * Return value: newly allocated string
  */
 char *
-lw6nod_info_community_get_peer_id_list_str (lw6nod_info_t * info)
+lw6nod_info_community_get_peer_id_list_str (lw6sys_context_t * sys_context, lw6nod_info_t * info)
 {
   char *ret = NULL;
   char *tmp = NULL;
   u_int64_t peer_id = 0LL;
   int i = 0;
 
-  ret = lw6sys_str_copy ("");
+  ret = lw6sys_str_copy (sys_context, "");
 
   for (i = 0; i < LW6NOD_MAX_NB_PEERS && ret; ++i)
     {
@@ -387,7 +402,7 @@ lw6nod_info_community_get_peer_id_list_str (lw6nod_info_t * info)
 	{
 	  if (strlen (ret) > 0)
 	    {
-	      tmp = lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "x", ret, LW6NOD_PEER_ID_LIST_SEP, (long long) peer_id);
+	      tmp = lw6sys_new_sprintf (sys_context, "%s%c%" LW6SYS_PRINTF_LL "x", ret, LW6NOD_PEER_ID_LIST_SEP, (long long) peer_id);
 	    }
 	  else
 	    {
@@ -408,6 +423,7 @@ lw6nod_info_community_get_peer_id_list_str (lw6nod_info_t * info)
 /**
  * lw6nod_info_community_set_peer_id_list_str
  *
+ * @sys_context: global system context
  * @info: node to modify
  * @peer_id_list_str: new value
  *
@@ -419,7 +435,7 @@ lw6nod_info_community_get_peer_id_list_str (lw6nod_info_t * info)
  * Return value: none
  */
 void
-lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info, const char *peer_id_list_str)
+lw6nod_info_community_set_peer_id_list_str (lw6sys_context_t * sys_context, lw6nod_info_t * info, const char *peer_id_list_str)
 {
   char *pos = NULL;
   char *tmp = NULL;
@@ -442,12 +458,12 @@ lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info, const char *pe
 	    {
 	      end[0] = '\0';
 	    }
-	  peer_id = lw6sys_id_atol (pos);
+	  peer_id = lw6sys_id_atol (sys_context, pos);
 	  if (lw6sys_check_id (sys_context, peer_id))
 	    {
 	      if (peer_id != info->const_info.ref_info.id_int)
 		{
-		  if (lw6nod_info_community_has_id (info, peer_id))
+		  if (lw6nod_info_community_has_id (sys_context, info, peer_id))
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("peer_id \"%" LW6SYS_PRINTF_LL "x\" already in the community"), (long long) peer_id);
 		    }
@@ -459,7 +475,7 @@ lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info, const char *pe
 		       * but we don't care until we are *really* connected to this host and
 		       * have its real URL.
 		       */
-		      lw6nod_info_community_add (info, peer_id, NULL);
+		      lw6nod_info_community_add (sys_context, info, peer_id, NULL);
 		    }
 		}
 	      else
@@ -480,6 +496,7 @@ lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info, const char *pe
 /**
  * lw6nod_info_community_id_without_url_map
  *
+ * @sys_context: global system context
  * @info: node to process
  * @func: function to use as a callback
  * @func_data: data passed along with the function
@@ -490,7 +507,7 @@ lw6nod_info_community_set_peer_id_list_str (lw6nod_info_t * info, const char *pe
  * Return value: none.
  */
 void
-lw6nod_info_community_id_without_url_map (lw6nod_info_t * info, lw6nod_id_callback_func_t func, void *func_data)
+lw6nod_info_community_id_without_url_map (lw6sys_context_t * sys_context, lw6nod_info_t * info, lw6nod_id_callback_func_t func, void *func_data)
 {
   u_int64_t peer_id = 0LL;
   int i = 0;
@@ -500,13 +517,13 @@ lw6nod_info_community_id_without_url_map (lw6nod_info_t * info, lw6nod_id_callba
       peer_id = info->dyn_info.community_peers[i].id_int;
       if (peer_id && !(info->dyn_info.community_peers[i].url))
 	{
-	  func (func_data, peer_id);
+	  func (sys_context, func_data, peer_id);
 	}
     }
 }
 
 lw6nod_ref_info_t *
-_lw6nod_node_info_community_get_by_id (lw6nod_info_t * node_info, u_int64_t id)
+_lw6nod_node_info_community_get_by_id (lw6sys_context_t * sys_context, lw6nod_info_t * node_info, u_int64_t id)
 {
   lw6nod_ref_info_t *ret = NULL;
   int i = 0;
@@ -530,7 +547,7 @@ _lw6nod_node_info_community_get_by_id (lw6nod_info_t * node_info, u_int64_t id)
 }
 
 lw6nod_ref_info_t *
-_lw6nod_node_info_community_get_by_url (lw6nod_info_t * node_info, const char *url)
+_lw6nod_node_info_community_get_by_url (lw6sys_context_t * sys_context, lw6nod_info_t * node_info, const char *url)
 {
   lw6nod_ref_info_t *ret = NULL;
   int i = 0;
@@ -543,7 +560,7 @@ _lw6nod_node_info_community_get_by_url (lw6nod_info_t * node_info, const char *u
     {
       for (i = 0; i < LW6NOD_MAX_NB_PEERS && !ret; ++i)
 	{
-	  if (lw6sys_str_is_same (node_info->dyn_info.community_peers[i].url, url))
+	  if (lw6sys_str_is_same (sys_context, node_info->dyn_info.community_peers[i].url, url))
 	    {
 	      ret = &(node_info->dyn_info.community_peers[i]);
 	    }
