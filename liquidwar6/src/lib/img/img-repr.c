@@ -29,6 +29,7 @@
 /**
  * lw6img_repr
  *
+ * @sys_context: global system context
  * @jpeg: the jpeg to describe
  *
  * Returns a string describing the jepg. This is a very short description,
@@ -38,7 +39,7 @@
  * Return value: a dynamically allocated string.
  */
 char *
-lw6img_repr (const lw6img_jpeg_t * jpeg)
+lw6img_repr (lw6sys_context_t * sys_context, const lw6img_jpeg_t * jpeg)
 {
   char *ret = NULL;
 

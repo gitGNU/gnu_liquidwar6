@@ -42,9 +42,10 @@
 typedef struct _lw6img_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
 } _lw6img_test_data_t;
 
-static _lw6img_test_data_t _test_data = { 0 };
+static _lw6img_test_data_t _test_data = { 0, NULL };
 
 /*
  * Testing functions in screenshot.c
@@ -53,6 +54,8 @@ static void
 _test_screenshot ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -65,7 +68,7 @@ _test_screenshot ()
     lw6img_jpeg_t *jpeg = NULL;
     char *repr = NULL;
 
-    level = lw6map_builtin_defaults ();
+    level = lw6map_builtin_defaults (sys_context);
     if (level)
       {
 	game_struct = lw6ker_game_struct_new (sys_context, level, NULL);
@@ -82,16 +85,16 @@ _test_screenshot ()
 		user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
 		if (user_dir)
 		  {
-		    jpeg = lw6img_screenshot_new (game_state, user_dir, LW6IMG_JPEG_QUALITY_DEFAULT);
+		    jpeg = lw6img_screenshot_new (sys_context, game_state, user_dir, LW6IMG_JPEG_QUALITY_DEFAULT);
 		    if (jpeg)
 		      {
-			repr = lw6img_repr (jpeg);
+			repr = lw6img_repr (sys_context, jpeg);
 			if (repr)
 			  {
 			    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("generated screenshot \"%s\""), repr);
 			    LW6SYS_FREE (sys_context, repr);
 			  }
-			lw6img_screenshot_free (jpeg);
+			lw6img_screenshot_free (sys_context, jpeg);
 			jpeg = NULL;
 		      }
 		    else
@@ -135,20 +138,27 @@ _test_screenshot ()
 static int
 _setup_init ()
 {
+  lw6sys_context_t *sys_context = NULL;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libimg CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
+  lw6sys_context_t *sys_context = NULL;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libimg CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 /**
  * lw6img_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libimg module.
@@ -156,10 +166,12 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6img_test_register (int mode)
+lw6img_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
   CU_Suite *suite;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -189,6 +201,7 @@ lw6img_test_register (int mode)
 /**
  * lw6img_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @img module test suite, testing most (if not all...)
@@ -197,11 +210,13 @@ lw6img_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6img_test_run (int mode)
+lw6img_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

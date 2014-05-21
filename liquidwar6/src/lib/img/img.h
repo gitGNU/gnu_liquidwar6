@@ -52,14 +52,14 @@ typedef struct lw6img_jpeg_s
 lw6img_jpeg_t;
 
 /* img-repr.c */
-extern char *lw6img_repr (const lw6img_jpeg_t * jpeg);
+extern char *lw6img_repr (lw6sys_context_t * sys_context, const lw6img_jpeg_t * jpeg);
 
 /* img-screenshot.c */
-extern lw6img_jpeg_t *lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir, int quality);
-extern void lw6img_screenshot_free (lw6img_jpeg_t * screenshot);
+extern lw6img_jpeg_t *lw6img_screenshot_new (lw6sys_context_t * sys_context, lw6ker_game_state_t * game_state, char *user_dir, int quality);
+extern void lw6img_screenshot_free (lw6sys_context_t * sys_context, lw6img_jpeg_t * screenshot);
 
 /* img-test.c */
-extern int lw6img_test_register (int mode);
-extern int lw6img_test_run (int mode);
+extern int lw6img_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6img_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif

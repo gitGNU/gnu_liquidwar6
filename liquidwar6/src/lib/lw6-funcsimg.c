@@ -53,7 +53,7 @@ _scm_lw6img_screenshot (SCM game_state, SCM quality)
 	{
 	  c_quality = scm_to_int (quality);
 
-	  c_jpeg = lw6img_screenshot_new (c_game_state, c_user_dir, c_quality);
+	  c_jpeg = lw6img_screenshot_new (sys_context, c_game_state, c_user_dir, c_quality);
 	  /*
 	   * Note that it's valid *not* to have a screenshot for a game,
 	   * this is typically the case if there's no active game,

@@ -51,6 +51,7 @@ static volatile u_int32_t seq_id = 0;
 /**
  * lw6img_screenshot_new
  *
+ * @sys_context: global system context
  * @game_state: game_state to create a screenshot from
  * @user_dir: user directory
  * @quality: quality, from 0 to 100
@@ -65,7 +66,7 @@ static volatile u_int32_t seq_id = 0;
  * Return value: dynamically allocated object.
  */
 lw6img_jpeg_t *
-lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir, int quality)
+lw6img_screenshot_new (lw6sys_context_t * sys_context, lw6ker_game_state_t * game_state, char *user_dir, int quality)
 {
   lw6img_jpeg_t *ret = NULL;
   lw6ker_game_struct_t *game_struct = game_state->game_struct;
@@ -125,7 +126,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir, int qua
 			}
 		      if (fighter_id >= 0)
 			{
-			  fighter = lw6ker_game_state_get_fighter_ro_by_id (game_state, fighter_id);
+			  fighter = lw6ker_game_state_get_fighter_ro_by_id (sys_context, game_state, fighter_id);
 			  team_color = fighter->team_color;
 			  if (lw6map_team_color_is_valid (team_color))
 			    {
@@ -205,7 +206,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir, int qua
     {
       if ((!(ret->jpeg_data)) || (ret->jpeg_size <= 0) || (ret->shape.w <= 0) || (ret->shape.h <= 0))
 	{
-	  lw6img_screenshot_free (ret);
+	  lw6img_screenshot_free (sys_context, ret);
 	  ret = NULL;
 	}
     }
@@ -216,6 +217,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir, int qua
 /**
  * lw6img_screenshot_free
  *
+ * @sys_context: global system context
  * @screenhost: screenshot object to free
  *
  * Frees a JPEG screenshot.
@@ -223,7 +225,7 @@ lw6img_screenshot_new (lw6ker_game_state_t * game_state, char *user_dir, int qua
  * Return value: none.
  */
 void
-lw6img_screenshot_free (lw6img_jpeg_t * screenshot)
+lw6img_screenshot_free (lw6sys_context_t * sys_context, lw6img_jpeg_t * screenshot)
 {
   if (screenshot)
     {

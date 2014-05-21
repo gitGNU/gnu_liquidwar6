@@ -1956,7 +1956,7 @@ print_jpeg (SCM jpeg, SCM port, scm_print_state * pstate)
   lw6img_jpeg_t *c_jpeg = lw6_scm_to_jpeg (jpeg);
   char *repr = NULL;
 
-  repr = lw6img_repr (c_jpeg);
+  repr = lw6img_repr (sys_context, c_jpeg);
 
   scm_puts ("#<" SMOB_TYPE_JPEG " ", port);
   if (repr)
@@ -1994,7 +1994,7 @@ lw6_make_scm_jpeg (lw6img_jpeg_t * c_jpeg)
       id = smob_id (SMOB_TYPE_JPEG, c_jpeg->id);
       if (id)
 	{
-	  repr = lw6img_repr (c_jpeg);
+	  repr = lw6img_repr (sys_context, c_jpeg);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating jpeg smob \"%s\""), repr);
@@ -2051,14 +2051,14 @@ lw6_free_jpeg_smob (lw6_jpeg_smob_t * jpeg_smob)
 {
   char *repr = NULL;
 
-  repr = lw6img_repr (jpeg_smob->c_jpeg);
+  repr = lw6img_repr (sys_context, jpeg_smob->c_jpeg);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing jpeg smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6img_screenshot_free (jpeg_smob->c_jpeg);
+  lw6img_screenshot_free (sys_context, jpeg_smob->c_jpeg);
   LW6SYS_FREE (sys_context, jpeg_smob);
 }
 
