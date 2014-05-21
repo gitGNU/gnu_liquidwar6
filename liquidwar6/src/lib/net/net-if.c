@@ -34,6 +34,8 @@
 /**
  * lw6net_if_guess_local
  *
+ * @sys_context: global system context
+ *
  * Guess the local IP address. This is not fool-proof,
  * and it probably cannot be as we can't handle all
  * user-specific configs involving multiple IP addresses,
@@ -46,7 +48,7 @@
  * Return value: the IP as a string, dynamically allocated
  */
 char *
-lw6net_if_guess_local ()
+lw6net_if_guess_local (lw6sys_context_t * sys_context)
 {
   char *ret = NULL;
 
@@ -119,7 +121,7 @@ lw6net_if_guess_local ()
 		{
 		  if (strcmp (host, LW6NET_ADDRESS_LOOPBACK))
 		    {
-		      ret = lw6sys_str_copy (host);
+		      ret = lw6sys_str_copy (sys_context, host);
 		    }
 		}
 	      else
@@ -143,6 +145,7 @@ lw6net_if_guess_local ()
 /**
  * lw6net_if_guess_public_url
  *
+ * @sys_context: global system context
  * @bind_ip: the IP address used to bind on
  * @bind_port: the IP port used to bind on
  *
@@ -157,14 +160,14 @@ lw6net_if_guess_local ()
  * Return value: the IP as a string, dynamically allocated
  */
 char *
-lw6net_if_guess_public_url (const char *bind_ip, int bind_port)
+lw6net_if_guess_public_url (lw6sys_context_t * sys_context, const char *bind_ip, int bind_port)
 {
   char *ret = NULL;
   char *ip = NULL;
 
   if (!strcmp (bind_ip, LW6NET_ADDRESS_ANY))
     {
-      ip = lw6net_if_guess_local ();
+      ip = lw6net_if_guess_local (sys_context);
       if (!ip)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("can't find local network interface, using loopback"));
@@ -178,7 +181,7 @@ lw6net_if_guess_public_url (const char *bind_ip, int bind_port)
   if (ip)
     {
       ret = lw6sys_url_http_from_ip_port (sys_context, ip, bind_port);
-      LW6SYS_FREE (ip);
+      LW6SYS_FREE (sys_context, ip);
     }
 
   return ret;

@@ -34,11 +34,11 @@
 #define _UDP_SEND_FILE "udp-send.log"
 
 int
-_lw6net_counters_init (int argc, const char *argv[], _lw6net_counters_t * counters)
+_lw6net_counters_init (lw6sys_context_t * sys_context, int argc, const char *argv[], _lw6net_counters_t * counters)
 {
   int ret = 0;
 
-  counters->spinlock = lw6sys_spinlock_create ();
+  counters->spinlock = lw6sys_spinlock_create (sys_context);
   if (counters->spinlock)
     {
       ret = 1;
@@ -48,7 +48,7 @@ _lw6net_counters_init (int argc, const char *argv[], _lw6net_counters_t * counte
 }
 
 void
-_lw6net_counters_quit (_lw6net_counters_t * counters)
+_lw6net_counters_quit (lw6sys_context_t * sys_context, _lw6net_counters_t * counters)
 {
   if (counters->open_counter < counters->close_counter)
     {
@@ -63,8 +63,8 @@ _lw6net_counters_quit (_lw6net_counters_t * counters)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("%d sockets opened and closed"), counters->open_counter);
     }
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("%d kb sent"), lw6net_counters_get_sent_kbytes ());
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("%d kb received"), lw6net_counters_get_received_kbytes ());
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("%d kb sent"), lw6net_counters_get_sent_kbytes (sys_context));
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("%d kb received"), lw6net_counters_get_received_kbytes (sys_context));
 
   /*
    * Only free spinlock now as functions above might need it
@@ -78,7 +78,7 @@ _lw6net_counters_quit (_lw6net_counters_t * counters)
 }
 
 void
-_lw6net_counters_register_socket (_lw6net_counters_t * counters)
+_lw6net_counters_register_socket (lw6sys_context_t * sys_context, _lw6net_counters_t * counters)
 {
   if (lw6sys_spinlock_lock (sys_context, counters->spinlock))
     {
@@ -88,7 +88,7 @@ _lw6net_counters_register_socket (_lw6net_counters_t * counters)
 }
 
 void
-_lw6net_counters_unregister_socket (_lw6net_counters_t * counters)
+_lw6net_counters_unregister_socket (lw6sys_context_t * sys_context, _lw6net_counters_t * counters)
 {
   if (lw6sys_spinlock_lock (sys_context, counters->spinlock))
     {
@@ -98,7 +98,7 @@ _lw6net_counters_unregister_socket (_lw6net_counters_t * counters)
 }
 
 void
-_lw6net_counters_register_send (_lw6net_counters_t * counters, int bytes)
+_lw6net_counters_register_send (lw6sys_context_t * sys_context, _lw6net_counters_t * counters, int bytes)
 {
   /*
    * It's interesting to use the lock since the counter field is 64 bits
@@ -112,7 +112,7 @@ _lw6net_counters_register_send (_lw6net_counters_t * counters, int bytes)
 }
 
 void
-_lw6net_counters_register_recv (_lw6net_counters_t * counters, int bytes)
+_lw6net_counters_register_recv (lw6sys_context_t * sys_context, _lw6net_counters_t * counters, int bytes)
 {
   /*
    * It's interesting to use the lock since the counter field is 64 bits
@@ -126,7 +126,7 @@ _lw6net_counters_register_recv (_lw6net_counters_t * counters, int bytes)
 }
 
 int
-lw6net_counters_get_sent_kbytes ()
+lw6net_counters_get_sent_kbytes (lw6sys_context_t * sys_context)
 {
   int ret = 0;
   _lw6net_counters_t *counters = &(_lw6net_global_context->counters);
@@ -141,7 +141,7 @@ lw6net_counters_get_sent_kbytes ()
 }
 
 int
-lw6net_counters_get_received_kbytes ()
+lw6net_counters_get_received_kbytes (lw6sys_context_t * sys_context)
 {
   int ret = 0;
   _lw6net_counters_t *counters = &(_lw6net_global_context->counters);

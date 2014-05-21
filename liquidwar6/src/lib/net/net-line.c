@@ -49,6 +49,7 @@ static char trail[TRAIL_SIZE + 1] = { CHAR_LF, CHAR_0, CHAR_0 };
 /**
  * lw6net_recv_line_tcp:
  *
+ * @sys_context: global system context
  * @sock: the socket descriptor
  *
  * Receives a line terminated by LF ("\n", chr(10)) or
@@ -63,7 +64,7 @@ static char trail[TRAIL_SIZE + 1] = { CHAR_LF, CHAR_0, CHAR_0 };
  *   content received. The tailing (CR)/LF is stripped.
  */
 char *
-lw6net_recv_line_tcp (int *sock)
+lw6net_recv_line_tcp (lw6sys_context_t * sys_context, int *sock)
 {
   char *ret = NULL;
   int line_size = 0;
@@ -74,12 +75,12 @@ lw6net_recv_line_tcp (int *sock)
   char *pos_lf;
   char line_buf[LW6NET_MAX_LINE_SIZE + TRAIL_SIZE + 1];
 
-  if (lw6net_socket_is_valid (*sock))
+  if (lw6net_socket_is_valid (sys_context, *sock))
     {
       line_size = _lw6net_global_context->const_data.line_size;
       line_delay = _lw6net_global_context->const_data.line_delay_msec;
       memset (line_buf, 0, line_size + TRAIL_SIZE + 1);
-      available_size = lw6net_tcp_peek (sock, line_buf, line_size + TRAIL_SIZE, 0.0f);
+      available_size = lw6net_tcp_peek (sys_context, sock, line_buf, line_size + TRAIL_SIZE, 0.0f);
       if (available_size > 0)
 	{
 	  pos_lf = strchr (line_buf, CHAR_LF);
@@ -95,7 +96,7 @@ lw6net_recv_line_tcp (int *sock)
 		}
 
 	      // remove data from queue
-	      lw6net_tcp_recv (sock, line_buf, wanted_size, line_delay, 0);
+	      lw6net_tcp_recv (sys_context, sock, line_buf, wanted_size, line_delay, 0);
 	    }
 	}
     }
@@ -106,6 +107,7 @@ lw6net_recv_line_tcp (int *sock)
 /**
  * lw6net_send_line_tcp:
  *
+ * @sys_context: global system context
  * @sock: the socket descriptor
  * @line: the line to be sent, without the "\n" at the end
  *
@@ -117,7 +119,7 @@ lw6net_recv_line_tcp (int *sock)
  * Return value: non-zero if success
  */
 int
-lw6net_send_line_tcp (int *sock, const char *line)
+lw6net_send_line_tcp (lw6sys_context_t * sys_context, int *sock, const char *line)
 {
   int ret = 0;
   int line_size = 0;
@@ -125,14 +127,14 @@ lw6net_send_line_tcp (int *sock, const char *line)
   int wanted_size = 0;
   char *trailed_line = NULL;
 
-  if (lw6net_socket_is_valid (*sock) && line)
+  if (lw6net_socket_is_valid (sys_context, *sock) && line)
     {
       /*
        * If sock is not reported as alive, we don't even waste
        * the time to try and send data, this could really slow
        * down things on polling loops.
        */
-      if (lw6net_tcp_is_alive (sock))
+      if (lw6net_tcp_is_alive (sys_context, sock))
 	{
 	  trailed_line = lw6sys_str_concat (sys_context, line, trail);
 	  if (trailed_line)
@@ -146,7 +148,7 @@ lw6net_send_line_tcp (int *sock, const char *line)
 		  wanted_size = line_size;
 		}
 
-	      ret = lw6net_tcp_send (sock, trailed_line, wanted_size, line_delay, 0);
+	      ret = lw6net_tcp_send (sys_context, sock, trailed_line, wanted_size, line_delay, 0);
 	      LW6SYS_FREE (sys_context, trailed_line);
 	    }
 	}
@@ -158,6 +160,7 @@ lw6net_send_line_tcp (int *sock, const char *line)
 /**
  * lw6net_recv_line_udp:
  *
+ * @sys_context: global system context
  * @sock: the socket descriptor
  * @incoming_ip: the IP address of the sender (returned)
  * @incoming_port: the IP port of the sender (returned)
@@ -175,7 +178,7 @@ lw6net_send_line_tcp (int *sock, const char *line)
  *   content received. The tailing (CR)/LF is stripped.
  */
 char *
-lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
+lw6net_recv_line_udp (lw6sys_context_t * sys_context, int sock, char **incoming_ip, int *incoming_port)
 {
   char *ret = NULL;
   int line_size = 0;
@@ -190,11 +193,11 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
    */
   char line_buf[LW6NET_MAX_LINE_SIZE + TRAIL_SIZE + 1];
 
-  if (lw6net_socket_is_valid (sock))
+  if (lw6net_socket_is_valid (sys_context, sock))
     {
       line_size = lw6sys_imin (_lw6net_global_context->const_data.line_size, LW6NET_PPPOE_MTU - TRAIL_SIZE);
       memset (line_buf, 0, line_size + TRAIL_SIZE + 1);
-      available_size = lw6net_udp_peek (sock, line_buf, line_size + TRAIL_SIZE, incoming_ip, incoming_port);
+      available_size = lw6net_udp_peek (sys_context, sock, line_buf, line_size + TRAIL_SIZE, incoming_ip, incoming_port);
       if (incoming_ip && (*incoming_ip))
 	{
 	  LW6SYS_FREE (sys_context, *incoming_ip);
@@ -213,7 +216,7 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
 		}
 	    }
 	  // remove data from queue
-	  lw6net_udp_recv (sock, line_buf, available_size, incoming_ip, incoming_port);
+	  lw6net_udp_recv (sys_context, sock, line_buf, available_size, incoming_ip, incoming_port);
 	}
     }
 
@@ -223,6 +226,7 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
 /**
  * lw6net_recv_lines_udp:
  *
+ * @sys_context: global system context
  * @sock: the socket descriptor
  * @incoming_ip: the IP address of the sender (returned)
  * @incoming_port: the IP port of the sender (returned)
@@ -242,7 +246,7 @@ lw6net_recv_line_udp (int sock, char **incoming_ip, int *incoming_port)
  *   The tailing (CR)/LF is stripped from strings.
  */
 lw6sys_list_t *
-lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
+lw6net_recv_lines_udp (lw6sys_context_t * sys_context, int sock, char **incoming_ip, int *incoming_port)
 {
   lw6sys_list_t *ret = NULL;
   char *line = NULL;
@@ -254,14 +258,14 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
   char *seek = NULL;
   int no_lf_at_very_end = 0;
 
-  if (lw6net_socket_is_valid (sock))
+  if (lw6net_socket_is_valid (sys_context, sock))
     {
       ret = lw6sys_list_new (sys_context, lw6sys_free_callback);
       if (ret)
 	{
 	  line_size = lw6sys_imin (_lw6net_global_context->const_data.line_size, LW6NET_PPPOE_MTU - TRAIL_SIZE);
 	  memset (line_buf, 0, line_size + TRAIL_SIZE + 1);
-	  available_size = lw6net_udp_peek (sock, line_buf, line_size + TRAIL_SIZE, incoming_ip, incoming_port);
+	  available_size = lw6net_udp_peek (sys_context, sock, line_buf, line_size + TRAIL_SIZE, incoming_ip, incoming_port);
 	  if (incoming_ip && (*incoming_ip))
 	    {
 	      LW6SYS_FREE (sys_context, *incoming_ip);
@@ -276,7 +280,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
 		    {
 		      trail_size = (pos_lf > seek && pos_lf[-1] == CHAR_CR) ? TRAIL_SIZE : TRAIL_SIZE - 1;
 		      pos_lf[1 - trail_size] = CHAR_0;
-		      line = lw6sys_str_copy (seek);
+		      line = lw6sys_str_copy (sys_context, seek);
 		      if (line)
 			{
 			  lw6sys_str_cleanup (sys_context, line);
@@ -294,7 +298,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
 		    }
 		}
 	      // remove data from queue
-	      lw6net_udp_recv (sock, line_buf, available_size, incoming_ip, incoming_port);
+	      lw6net_udp_recv (sys_context, sock, line_buf, available_size, incoming_ip, incoming_port);
 	    }
 	}
     }
@@ -330,6 +334,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
 /**
  * lw6net_send_line_udp:
  *
+ * @sys_context: global system context
  * @sock: the socket descriptor
  * @line: the line to be sent, without the "\n" at the end
  * @ip: the IP address of the target
@@ -342,7 +347,7 @@ lw6net_recv_lines_udp (int sock, char **incoming_ip, int *incoming_port)
  * Return value: the number of bytes sent, 0 if failure
  */
 int
-lw6net_send_line_udp (int sock, const char *line, const char *ip, int port)
+lw6net_send_line_udp (lw6sys_context_t * sys_context, int sock, const char *line, const char *ip, int port)
 {
   int ret = 0;
   int line_size = 0;
@@ -350,7 +355,7 @@ lw6net_send_line_udp (int sock, const char *line, const char *ip, int port)
   char *copied_line;
   char *trailed_line;
 
-  if (lw6net_socket_is_valid (sock) && line)
+  if (lw6net_socket_is_valid (sys_context, sock) && line)
     {
       line_size = lw6sys_imin (_lw6net_global_context->const_data.line_size, LW6NET_PPPOE_MTU - TRAIL_SIZE);
       copied_line = lw6sys_str_copy (sys_context, line);
@@ -365,7 +370,7 @@ lw6net_send_line_udp (int sock, const char *line, const char *ip, int port)
 	  trailed_line = lw6sys_str_concat (sys_context, copied_line, trail);
 	  if (trailed_line)
 	    {
-	      ret = lw6net_udp_send (sock, trailed_line, strlen (trailed_line), ip, port);
+	      ret = lw6net_udp_send (sys_context, sock, trailed_line, strlen (trailed_line), ip, port);
 	      LW6SYS_FREE (sys_context, trailed_line);
 	    }
 	  LW6SYS_FREE (sys_context, copied_line);

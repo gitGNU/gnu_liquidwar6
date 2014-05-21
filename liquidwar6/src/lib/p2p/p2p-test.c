@@ -368,10 +368,10 @@ _test_tentacle_poll_step1_accept_tcp (lw6srv_listener_t * listener, int64_t now)
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("polling node TCP"));
 
-  if (lw6net_socket_is_valid (listener->tcp_sock))
+  if (lw6net_socket_is_valid (sys_context, listener->tcp_sock))
     {
-      sock = lw6net_tcp_accept (&ip, &port, listener->tcp_sock, _TEST_TENTACLE_ACCEPT_DELAY);
-      if (lw6net_socket_is_valid (sock) && ip != NULL && port > 0)
+      sock = lw6net_tcp_accept (sys_context, &ip, &port, listener->tcp_sock, _TEST_TENTACLE_ACCEPT_DELAY);
+      if (lw6net_socket_is_valid (sys_context, sock) && ip != NULL && port > 0)
 	{
 	  tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
 	  if (tcp_accepter)
@@ -424,10 +424,10 @@ _test_tentacle_poll_step2_recv_udp (lw6srv_listener_t * listener, int64_t now)
   memset (buf, 0, LW6NET_UDP_MINIMAL_BUF_SIZE + 1);
   if (listener->udp_sock >= 0)
     {
-      if (lw6net_udp_peek (listener->udp_sock, buf, LW6NET_UDP_MINIMAL_BUF_SIZE, &ip1, &port1))
+      if (lw6net_udp_peek (sys_context, listener->udp_sock, buf, LW6NET_UDP_MINIMAL_BUF_SIZE, &ip1, &port1))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("received data from %s:%d"), ip1, port1);
-	  line = lw6net_recv_line_udp (listener->udp_sock, &ip2, &port2);
+	  line = lw6net_recv_line_udp (sys_context, listener->udp_sock, &ip2, &port2);
 	  if (line)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("UDP connection from %s:%d"), ip2, port2);
@@ -2242,7 +2242,7 @@ _setup_init ()
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libp2p CUnit test suite"));
 
-  if (lw6net_init (argc, argv, _TEST_NET_LOG))
+  if (lw6net_init (sys_context, argc, argv, _TEST_NET_LOG))
     {
       ret = CUE_SUCCESS;
     }
@@ -2286,7 +2286,7 @@ lw6p2p_test_register (int mode)
       lw6sys_test_register (sys_context, mode);
       lw6glb_test_register (sys_context, mode);
       lw6cfg_test_register (sys_context, mode);
-      lw6net_test_register (mode);
+      lw6net_test_register (sys_context, mode);
       lw6nod_test_register (mode);
       lw6cnx_test_register (mode);
       lw6msg_test_register (mode);

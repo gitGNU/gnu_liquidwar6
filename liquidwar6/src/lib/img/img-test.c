@@ -169,7 +169,7 @@ int
 lw6img_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
 
   _test_data.sys_context = sys_context;
 

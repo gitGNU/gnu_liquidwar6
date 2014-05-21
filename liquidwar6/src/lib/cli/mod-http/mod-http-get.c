@@ -87,7 +87,7 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url, const char *
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("GET \"%s\""), url);
 
-  if (lw6net_is_connectable (ip, port))
+  if (lw6net_is_connectable (sys_context, ip, port))
     {
       /*
        * We use this lock because CURL might use gethostbyname internally.
@@ -249,16 +249,16 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url, const char *
 	   * Try a simple connect if we were in failure, this is just to set
 	   * the "not connectable" state if needed.
 	   */
-	  test_sock = lw6net_tcp_connect (ip, port, http_context->data.consts.connect_timeout);
-	  if (lw6net_socket_is_valid (test_sock))
+	  test_sock = lw6net_tcp_connect (sys_context, ip, port, http_context->data.consts.connect_timeout);
+	  if (lw6net_socket_is_valid (sys_context, test_sock))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			  _x_ ("destination %s:%d is reachable by plain TCP/IP, but unable to serve correct LW6 HTTP stuff on url \"%s\""), ip, port, url);
-	      lw6net_socket_close (&test_sock);
+	      lw6net_socket_close (sys_context, &test_sock);
 	    }
 	  else
 	    {
-	      lw6net_set_connectable (ip, port, 0);
+	      lw6net_set_connectable (sys_context, ip, port, 0);
 	    }
 	}
     }

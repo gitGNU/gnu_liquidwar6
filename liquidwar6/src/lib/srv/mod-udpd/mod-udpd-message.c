@@ -48,7 +48,7 @@ _mod_udpd_send (_mod_udpd_context_t * udpd_context,
     {
       if (lw6cnx_connection_lock_send (connection))
 	{
-	  if (lw6net_send_line_udp (specific_data->sock, line, connection->remote_ip, specific_data->remote_port))
+	  if (lw6net_send_line_udp (sys_context, specific_data->sock, line, connection->remote_ip, specific_data->remote_port))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udpd sent \"%s\""), line);
 	      ret = 1;

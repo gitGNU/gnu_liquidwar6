@@ -46,11 +46,11 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
 			      connection->local_id_int, connection->remote_id_int, logical_from_id, logical_to_id, message);
   if (line)
     {
-      if (lw6net_socket_is_valid (specific_data->sock))
+      if (lw6net_socket_is_valid (sys_context, specific_data->sock))
 	{
 	  if (lw6cnx_connection_lock_send (connection))
 	    {
-	      if (lw6net_send_line_tcp (&(specific_data->sock), line))
+	      if (lw6net_send_line_tcp (sys_context, &(specific_data->sock), line))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd sent \"%s\""), line);
 		  specific_data->last_send_success_timestamp = now;
@@ -96,7 +96,7 @@ _mod_tcpd_can_send (_mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * co
   int ret = 0;
   _mod_tcpd_specific_data_t *specific_data = (_mod_tcpd_specific_data_t *) connection->backend_specific_data;
 
-  ret = lw6net_socket_is_valid (specific_data->sock);
+  ret = lw6net_socket_is_valid (sys_context, specific_data->sock);
 
   return ret;
 }
@@ -116,24 +116,24 @@ _mod_tcpd_poll (_mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connec
   u_int64_t logical_to_id = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd poll"));
-  if (lw6net_socket_is_valid (specific_data->sock))
+  if (lw6net_socket_is_valid (sys_context, specific_data->sock))
     {
       /*
        * Note: we don't explicitely close socket here, even if it's not
        * alive, in fact it's the recv/send code that will do it if needed
        * as it acts on the pointer directly.
        */
-      if (lw6net_tcp_is_alive (&(specific_data->sock)))
+      if (lw6net_tcp_is_alive (sys_context, &(specific_data->sock)))
 	{
 	  /*
 	   * Recv
 	   */
 	  memset (buffer, 0, LW6SRV_CONTENT_BUFFER_SIZE + 1);
-	  if (lw6net_tcp_peek (&(specific_data->sock), buffer, LW6SRV_CONTENT_BUFFER_SIZE, 0))
+	  if (lw6net_tcp_peek (sys_context, &(specific_data->sock), buffer, LW6SRV_CONTENT_BUFFER_SIZE, 0))
 	    {
 	      if (strchr (buffer, '\n'))
 		{
-		  envelope_line = lw6net_recv_line_tcp (&(specific_data->sock));
+		  envelope_line = lw6net_recv_line_tcp (sys_context, &(specific_data->sock));
 		  if (envelope_line)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd received envelope \"%s\""), envelope_line);

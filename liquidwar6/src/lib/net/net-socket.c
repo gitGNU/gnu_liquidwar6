@@ -33,7 +33,7 @@
 #include "net-internal.h"
 
 int
-_lw6net_socket_bind (const char *ip, int port, int protocol)
+_lw6net_socket_bind (lw6sys_context_t * sys_context, const char *ip, int port, int protocol)
 {
   int sock = -1;
   int binded = 0;
@@ -41,7 +41,7 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
   int enable = 1;
 
   sock = socket (AF_INET, protocol, 0);
-  if (lw6net_socket_is_valid (sock))
+  if (lw6net_socket_is_valid (sys_context, sock))
     {
       if (!setsockopt (sock, SOL_SOCKET, SO_REUSEADDR, (char *) &enable, sizeof (int)))
 	{
@@ -52,20 +52,20 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
 #ifdef SO_NOSIGPIPE
 	  if (setsockopt (sock, SOL_SOCKET, SO_NOSIGPIPE, (char *) &enable, sizeof (int)))
 	    {
-	      lw6net_last_error ();
+	      lw6net_last_error (sys_context);
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("setsockopt(SO_NOSIGPIPE) failed"));
 	    }
 #endif // SO_NOSIGPIPE
 
 	  name.sin_family = AF_INET;
 	  name.sin_addr.s_addr = INADDR_ANY;
-	  if (_lw6net_inet_aton (&name.sin_addr, ip))
+	  if (_lw6net_inet_aton (sys_context, &name.sin_addr, ip))
 	    {
 	      name.sin_port = htons (port);
 	      if (bind (sock, (struct sockaddr *) &name, sizeof (name)) >= 0)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bind socket %d on %s:%d"), sock, ip, port);
-		  _lw6net_counters_register_socket (&(_lw6net_global_context->counters));
+		  _lw6net_counters_register_socket (sys_context, &(_lw6net_global_context->counters));
 		  binded = 1;
 		}
 	      else
@@ -80,13 +80,13 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
 		       * In that case, we just bind on any/all interfaces, period.
 		       */
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("bind socket %d on port *:%d"), sock, port);
-		      _lw6net_counters_register_socket (&(_lw6net_global_context->counters));
+		      _lw6net_counters_register_socket (sys_context, &(_lw6net_global_context->counters));
 		      binded = 1;
 		    }
 		  else
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bind() on %s:%d failed"), ip, port);
-		      lw6net_last_error ();
+		      lw6net_last_error (sys_context);
 		    }
 		}
 	    }
@@ -94,16 +94,16 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("setsockopt() failed"));
-	  lw6net_last_error ();
+	  lw6net_last_error (sys_context);
 	}
     }
   else
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("socket() failed"));
-      lw6net_last_error ();
+      lw6net_last_error (sys_context);
     }
 
-  if (lw6net_socket_is_valid (sock) && !binded)
+  if (lw6net_socket_is_valid (sys_context, sock) && !binded)
     {
 #ifdef LW6_MS_WINDOWS
       if (closesocket (sock))
@@ -112,7 +112,7 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
 #endif
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("close() failed"));
-	  lw6net_last_error ();
+	  lw6net_last_error (sys_context);
 	}
       sock = -1;
     }
@@ -123,6 +123,7 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
 /**
  * lw6net_socket_set_blocking_mode
  *
+ * @sys_context: global system context
  * @sock: the socket to modify
  * @mode: the mode to use (1 -> blocking mode, 0 -> non-blocking)
  *
@@ -132,11 +133,11 @@ _lw6net_socket_bind (const char *ip, int port, int protocol)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6net_socket_set_blocking_mode (int sock, int mode)
+lw6net_socket_set_blocking_mode (lw6sys_context_t * sys_context, int sock, int mode)
 {
   int ret = 0;
 
-  if (lw6net_socket_is_valid (sock))
+  if (lw6net_socket_is_valid (sys_context, sock))
     {
 #ifdef LW6_MS_WINDOWS
       u_long enable_ul = !mode;
@@ -148,7 +149,7 @@ lw6net_socket_set_blocking_mode (int sock, int mode)
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("ioctlsocket failed on socket %d"), sock);
-	  lw6net_last_error ();
+	  lw6net_last_error (sys_context);
 	}
 #else
       int flags = 0;
@@ -190,6 +191,7 @@ lw6net_socket_set_blocking_mode (int sock, int mode)
 /**
  * lw6net_socket_is_valid
  *
+ * @sys_context: global system context
  * @sock: the socket to test
  *
  * Tells if a socket is valid or not. This does not mean the
@@ -200,7 +202,7 @@ lw6net_socket_set_blocking_mode (int sock, int mode)
  * Return value: 1 if valid, 0 if not
  */
 int
-lw6net_socket_is_valid (int sock)
+lw6net_socket_is_valid (lw6sys_context_t * sys_context, int sock)
 {
   return (sock >= 0);
 }
@@ -208,6 +210,7 @@ lw6net_socket_is_valid (int sock)
 /**
  * lw6net_socket_close
  *
+ * @sys_context: global system context
  * @sock: the socket to close
  *
  * Closes a socket, that is, stop activity and free its descriptor.
@@ -219,18 +222,18 @@ lw6net_socket_is_valid (int sock)
  * Return value: none.
  */
 void
-lw6net_socket_close (int *sock)
+lw6net_socket_close (lw6sys_context_t * sys_context, int *sock)
 {
   int tmp_sock = LW6NET_SOCKET_INVALID;
 
   if (sock)
     {
-      if (lw6net_socket_is_valid (*sock))
+      if (lw6net_socket_is_valid (sys_context, *sock))
 	{
 	  tmp_sock = (*sock);
 	  (*sock) = LW6NET_SOCKET_INVALID;
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("close socket %d"), tmp_sock);
-	  _lw6net_counters_unregister_socket (&(_lw6net_global_context->counters));
+	  _lw6net_counters_unregister_socket (sys_context, &(_lw6net_global_context->counters));
 #ifdef LW6_MS_WINDOWS
 	  if (closesocket (tmp_sock))
 #else
@@ -238,7 +241,7 @@ lw6net_socket_close (int *sock)
 #endif
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("close() failed"));
-	      lw6net_last_error ();
+	      lw6net_last_error (sys_context);
 	    }
 	}
       else

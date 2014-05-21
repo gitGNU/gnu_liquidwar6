@@ -28,11 +28,12 @@
 #include "net-internal.h"
 
 int
-_lw6net_connectable_init (_lw6net_connectable_t * connectable, int connectable_cache_hash_size, int connectable_cache_delay_sec)
+_lw6net_connectable_init (lw6sys_context_t * sys_context, _lw6net_connectable_t * connectable, int connectable_cache_hash_size,
+			  int connectable_cache_delay_sec)
 {
   int ret = 0;
 
-  connectable->connectable_cache_mutex = lw6sys_mutex_create ();
+  connectable->connectable_cache_mutex = lw6sys_mutex_create (sys_context);
   connectable->connectable_cache = lw6sys_cache_new (sys_context, NULL, connectable_cache_hash_size, connectable_cache_delay_sec * LW6SYS_TICKS_PER_SEC);
   ret = (connectable->connectable_cache_mutex != NULL && connectable->connectable_cache != NULL);
 
@@ -40,7 +41,7 @@ _lw6net_connectable_init (_lw6net_connectable_t * connectable, int connectable_c
 }
 
 void
-_lw6net_connectable_quit (_lw6net_connectable_t * connectable)
+_lw6net_connectable_quit (lw6sys_context_t * sys_context, _lw6net_connectable_t * connectable)
 {
   if (connectable->connectable_cache)
     {
@@ -56,6 +57,7 @@ _lw6net_connectable_quit (_lw6net_connectable_t * connectable)
 /**
  * lw6net_is_connectable
  *
+ * @sys_context: global system context
  * @ip: IP address
  * @port: IP port
  *
@@ -68,13 +70,13 @@ _lw6net_connectable_quit (_lw6net_connectable_t * connectable)
  * Return value: 1 if connectable, 0 if not.
  */
 int
-lw6net_is_connectable (const char *ip, int port)
+lw6net_is_connectable (lw6sys_context_t * sys_context, const char *ip, int port)
 {
   int ret = 1;			// by default, connectable
   char *key = NULL;
   _lw6net_connectable_t *connectable = &(_lw6net_global_context->connectable);
 
-  key = lw6sys_new_sprintf ("%s:%d", ip, port);
+  key = lw6sys_new_sprintf (sys_context, "%s:%d", ip, port);
   if (key)
     {
       if (lw6sys_mutex_lock (sys_context, connectable->connectable_cache_mutex))
@@ -105,6 +107,7 @@ lw6net_is_connectable (const char *ip, int port)
 /**
  * lw6net_set_connectable
  *
+ * @sys_context: global system context
  * @ip: IP address
  * @port: IP port
  * @status: status, set to 1 if connectable, 0 if not
@@ -120,13 +123,13 @@ lw6net_is_connectable (const char *ip, int port)
  * Return value: none.
  */
 void
-lw6net_set_connectable (const char *ip, int port, int status)
+lw6net_set_connectable (lw6sys_context_t * sys_context, const char *ip, int port, int status)
 {
   char *key = NULL;
   _lw6net_connectable_t *connectable = &(_lw6net_global_context->connectable);
 
 
-  key = lw6sys_new_sprintf ("%s:%d", ip, port);
+  key = lw6sys_new_sprintf (sys_context, "%s:%d", ip, port);
   if (key)
     {
       if (lw6sys_mutex_lock (sys_context, connectable->connectable_cache_mutex))

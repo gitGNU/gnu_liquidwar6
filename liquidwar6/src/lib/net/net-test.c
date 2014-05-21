@@ -61,14 +61,17 @@
 typedef struct _lw6net_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
 } _lw6net_test_data_t;
 
-static _lw6net_test_data_t _test_data = { 0 };
+static _lw6net_test_data_t _test_data = { 0, NULL };
 
 static void
 _test_address ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -76,9 +79,9 @@ _test_address ()
     char *str = NULL;
 
     ret = 0;
-    if (_lw6net_inet_aton (&in, _TEST_HOST_IP))
+    if (_lw6net_inet_aton (sys_context, &in, _TEST_HOST_IP))
       {
-	str = _lw6net_inet_ntoa (in);
+	str = _lw6net_inet_ntoa (sys_context, in);
 	if (str)
 	  {
 	    if (lw6sys_str_is_same (sys_context, _TEST_HOST_IP, str))
@@ -102,12 +105,14 @@ static void
 _test_dns ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     char *ip = NULL;
 
-    if (lw6net_dns_is_ip (_TEST_HOST_IP) && !lw6net_dns_is_ip (_TEST_HOST_OK))
+    if (lw6net_dns_is_ip (sys_context, _TEST_HOST_IP) && !lw6net_dns_is_ip (sys_context, _TEST_HOST_OK))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("trivial IP parsing reports \"%s\" is an IP but not \"%s\""), _TEST_HOST_IP, _TEST_HOST_OK);
       }
@@ -117,33 +122,33 @@ _test_dns ()
 		    _x_ ("trivial IP parsing failed to report \"%s\" as an IP and \"%s\" as not"), _TEST_HOST_IP, _TEST_HOST_OK);
 	ret = 0;
       }
-    ip = lw6net_dns_gethostbyname (_TEST_HOST_IP);
+    ip = lw6net_dns_gethostbyname (sys_context, _TEST_HOST_IP);
     if (ip)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("gethostbyname on \"%s\" returns \"%s\""), _TEST_HOST_IP, ip);
-	LW6SYS_FREE (ip);
+	LW6SYS_FREE (sys_context, ip);
       }
     else
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("gethostbyname on \"%s\" failed"), _TEST_HOST_IP);
 	ret = 0;
       }
-    ip = lw6net_dns_gethostbyname (_TEST_HOST_OK);
+    ip = lw6net_dns_gethostbyname (sys_context, _TEST_HOST_OK);
     if (ip)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("gethostbyname on \"%s\" returns \"%s\""), _TEST_HOST_OK, ip);
-	LW6SYS_FREE (ip);
+	LW6SYS_FREE (sys_context, ip);
       }
     else
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("gethostbyname on \"%s\" failed"), _TEST_HOST_OK);
 	ret = 0;
       }
-    ip = lw6net_dns_gethostbyname (_TEST_HOST_KO);
+    ip = lw6net_dns_gethostbyname (sys_context, _TEST_HOST_KO);
     if (ip)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("gethostbyname on \"%s\" returns \"%s\", this is... surprising"), _TEST_HOST_KO, ip);
-	LW6SYS_FREE (ip);
+	LW6SYS_FREE (sys_context, ip);
 	ret = 0;
       }
     else
@@ -162,6 +167,8 @@ static void
 _test_if ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -169,18 +176,18 @@ _test_if ()
     char *public_url = NULL;
 
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("trying to guess local interface IP"));
-    ip = lw6net_if_guess_local ();
+    ip = lw6net_if_guess_local (sys_context);
     if (ip)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("local interface IP is \"%s\""), ip);
-	LW6SYS_FREE (ip);
+	LW6SYS_FREE (sys_context, ip);
       }
     else
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		    _x_ ("unable to guess local interface, this is a problem only if machine *really* has no network available"));
       }
-    public_url = lw6net_if_guess_public_url (LW6NET_ADDRESS_ANY, _TEST_PORT);
+    public_url = lw6net_if_guess_public_url (sys_context, LW6NET_ADDRESS_ANY, _TEST_PORT);
     if (public_url)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("public URL on default port would be \"%s\""), public_url);
@@ -191,7 +198,7 @@ _test_if ()
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to guess public URL"));
 	ret = 0;
       }
-    public_url = lw6net_if_guess_public_url (_TEST_UNREACHABLE_IP, LW6NET_HTTP_PORT);
+    public_url = lw6net_if_guess_public_url (sys_context, _TEST_UNREACHABLE_IP, LW6NET_HTTP_PORT);
     if (public_url)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("public URL on http port with IP %s would be \"%s\""), _TEST_UNREACHABLE_IP, public_url);
@@ -208,7 +215,7 @@ _test_if ()
 }
 
 static int
-prepare_2_tcp_socks (int *sock1, int *sock2)
+_prepare_2_tcp_socks (lw6sys_context_t * sys_context, int *sock1, int *sock2)
 {
   int ret = 0;
   int listening_sock = -1;
@@ -218,18 +225,18 @@ prepare_2_tcp_socks (int *sock1, int *sock2)
   int accept_port = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("listening on port %d (TCP)"), _TEST_PORT);
-  listening_sock = lw6net_tcp_listen (LW6NET_ADDRESS_ANY, _TEST_PORT);
+  listening_sock = lw6net_tcp_listen (sys_context, LW6NET_ADDRESS_ANY, _TEST_PORT);
   if (listening_sock >= 0)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("TCP socket %d listening on port %d"), listening_sock, _TEST_PORT);
 
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("trying to connect on localhost %s:%d"), LW6NET_ADDRESS_LOOPBACK, _TEST_PORT);
-      connect_sock = lw6net_tcp_connect (LW6NET_ADDRESS_LOOPBACK, _TEST_PORT, _TEST_TCP_CONNECT_DELAY);
-      if (lw6net_socket_is_valid (connect_sock))
+      connect_sock = lw6net_tcp_connect (sys_context, LW6NET_ADDRESS_LOOPBACK, _TEST_PORT, _TEST_TCP_CONNECT_DELAY);
+      if (lw6net_socket_is_valid (sys_context, connect_sock))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("TCP socket %d connected on %s:%d"), connect_sock, LW6NET_ADDRESS_LOOPBACK, _TEST_PORT);
-	  accept_sock = lw6net_tcp_accept (&accept_ip, &accept_port, listening_sock, _TEST_TCP_ACCEPT_DELAY);
-	  if (lw6net_socket_is_valid (accept_sock))
+	  accept_sock = lw6net_tcp_accept (sys_context, &accept_ip, &accept_port, listening_sock, _TEST_TCP_ACCEPT_DELAY);
+	  if (lw6net_socket_is_valid (sys_context, accept_sock))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("TCP socket %d accepted %s:%d"), accept_sock, accept_ip, accept_port);
 	    }
@@ -239,7 +246,7 @@ prepare_2_tcp_socks (int *sock1, int *sock2)
 	    }
 	}
     }
-  if (lw6net_socket_is_valid (accept_sock) && lw6net_socket_is_valid (connect_sock))
+  if (lw6net_socket_is_valid (sys_context, accept_sock) && lw6net_socket_is_valid (sys_context, connect_sock))
     {
       (*sock1) = accept_sock;
       (*sock2) = connect_sock;
@@ -247,19 +254,19 @@ prepare_2_tcp_socks (int *sock1, int *sock2)
     }
   else
     {
-      if (lw6net_socket_is_valid (accept_sock))
+      if (lw6net_socket_is_valid (sys_context, accept_sock))
 	{
-	  lw6net_socket_close (&accept_sock);
+	  lw6net_socket_close (sys_context, &accept_sock);
 	}
-      if (lw6net_socket_is_valid (connect_sock))
+      if (lw6net_socket_is_valid (sys_context, connect_sock))
 	{
-	  lw6net_socket_close (&connect_sock);
+	  lw6net_socket_close (sys_context, &connect_sock);
 	}
       (*sock1) = (*sock2) = LW6NET_SOCKET_INVALID;
     }
-  if (lw6net_socket_is_valid (listening_sock))
+  if (lw6net_socket_is_valid (sys_context, listening_sock))
     {
-      lw6net_socket_close (&listening_sock);
+      lw6net_socket_close (sys_context, &listening_sock);
     }
 
   return ret;
@@ -272,6 +279,8 @@ static void
 _test_tcp ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -296,12 +305,12 @@ _test_tcp ()
     int bytes_per_sec = 0;
     int internal_tcp_buffer_size = 0;
 
-    sock1 = lw6net_tcp_connect (_TEST_UNREACHABLE_IP, _TEST_UNREACHABLE_PORT, _TEST_TCP_CONNECT_DELAY);
-    if (!lw6net_socket_is_valid (sock1))
+    sock1 = lw6net_tcp_connect (sys_context, _TEST_UNREACHABLE_IP, _TEST_UNREACHABLE_PORT, _TEST_TCP_CONNECT_DELAY);
+    if (!lw6net_socket_is_valid (sys_context, sock1))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("unable to connect on \"%s:%d\", this is fine"), _TEST_UNREACHABLE_IP, _TEST_UNREACHABLE_PORT);
-	sock1 = lw6net_tcp_connect (_TEST_UNREACHABLE_IP, _TEST_UNREACHABLE_PORT, _TEST_TCP_CONNECT_DELAY);
-	if (!lw6net_socket_is_valid (sock1))
+	sock1 = lw6net_tcp_connect (sys_context, _TEST_UNREACHABLE_IP, _TEST_UNREACHABLE_PORT, _TEST_TCP_CONNECT_DELAY);
+	if (!lw6net_socket_is_valid (sys_context, sock1))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			_x_
@@ -312,7 +321,7 @@ _test_tcp ()
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			_x_ ("was able to connect on \"%s:%d\" the second time this is (very!) strange..."), _TEST_UNREACHABLE_IP, _TEST_UNREACHABLE_PORT);
-	    lw6net_socket_close (&sock1);
+	    lw6net_socket_close (sys_context, &sock1);
 	    ret = 0;
 	  }
       }
@@ -320,11 +329,11 @@ _test_tcp ()
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		    _x_ ("was able to connect on \"%s:%d\", this is strange..."), _TEST_UNREACHABLE_IP, _TEST_UNREACHABLE_PORT);
-	lw6net_socket_close (&sock1);
+	lw6net_socket_close (sys_context, &sock1);
 	ret = 0;
       }
 
-    if (prepare_2_tcp_socks (&sock1, &sock2))
+    if (_prepare_2_tcp_socks (sys_context, &sock1, &sock2))
       {
 
 	size = strlen (_TEST_BUF1_STR) + 1;
@@ -333,12 +342,12 @@ _test_tcp ()
 
 	if (buf1_send && buf1_recv)
 	  {
-	    if (lw6net_tcp_send (&sock1, buf1_send, size, _TEST_TCP_STREAM_DELAY, 1))
+	    if (lw6net_tcp_send (sys_context, &sock1, buf1_send, size, _TEST_TCP_STREAM_DELAY, 1))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("sent \"%s\" on TCP socket %d"), buf1_send, sock1);
-		received = lw6net_tcp_peek (&sock2, NULL, size, _TEST_TCP_STREAM_DELAY);
+		received = lw6net_tcp_peek (sys_context, &sock2, NULL, size, _TEST_TCP_STREAM_DELAY);
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d bytes available on TCP socket %d"), received, sock2);
-		if (received == size && lw6net_tcp_recv (&sock2, buf1_recv, size, _TEST_TCP_STREAM_DELAY, 1))
+		if (received == size && lw6net_tcp_recv (sys_context, &sock2, buf1_recv, size, _TEST_TCP_STREAM_DELAY, 1))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("received \"%s\" on TCP socket %d"), buf1_recv, sock2);
 		    ret_tmp1 = 1;
@@ -353,19 +362,19 @@ _test_tcp ()
 	buf2_recv = LW6SYS_CALLOC (sys_context, strlen (_TEST_BUF2_STR) + 1);
 	if (buf2_send && buf2_recv)
 	  {
-	    massive_begin_timestamp = lw6sys_get_timestamp ();
+	    massive_begin_timestamp = lw6sys_get_timestamp (sys_context);
 	    for (j = 0;
 		 j < _TEST_TCP_MASSIVE_N && sent_i < _TEST_TCP_MASSIVE_N
-		 && lw6net_tcp_is_alive (&sock1) && received_i < _TEST_TCP_MASSIVE_N && lw6net_tcp_is_alive (&sock2); ++j)
+		 && lw6net_tcp_is_alive (sys_context, &sock1) && received_i < _TEST_TCP_MASSIVE_N && lw6net_tcp_is_alive (sys_context, &sock2); ++j)
 	      {
 		send_failed = 0;
-		for (i = 0; i < _TEST_TCP_MASSIVE_N && sent_i < _TEST_TCP_MASSIVE_N && !send_failed && lw6net_tcp_is_alive (&sock1); ++i)
+		for (i = 0; i < _TEST_TCP_MASSIVE_N && sent_i < _TEST_TCP_MASSIVE_N && !send_failed && lw6net_tcp_is_alive (sys_context, &sock1); ++i)
 		  {
 		    if (!(sent_i % _TEST_TCP_MASSIVE_STEP))
 		      {
 			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("TCP massive data test, send sent_i=%d"), sent_i);
 		      }
-		    if (lw6net_tcp_send (&sock1, buf2_send, size, _TEST_TCP_STREAM_DELAY, 1))
+		    if (lw6net_tcp_send (sys_context, &sock1, buf2_send, size, _TEST_TCP_STREAM_DELAY, 1))
 		      {
 			sent_i++;
 		      }
@@ -385,15 +394,15 @@ _test_tcp ()
 		      }
 		  }
 
-		for (i = 0; i < _TEST_TCP_MASSIVE_N && received_i < sent_i && lw6net_tcp_is_alive (&sock2); ++i)
+		for (i = 0; i < _TEST_TCP_MASSIVE_N && received_i < sent_i && lw6net_tcp_is_alive (sys_context, &sock2); ++i)
 		  {
 		    {
 		      if (!(received_i % _TEST_TCP_MASSIVE_STEP))
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("TCP massive data test, recv received_i=%d"), received_i);
 			}
-		      received = lw6net_tcp_peek (&sock2, NULL, size, _TEST_TCP_STREAM_DELAY);
-		      if (received == size && lw6net_tcp_recv (&sock2, buf2_recv, size, _TEST_TCP_STREAM_DELAY, 1))
+		      received = lw6net_tcp_peek (sys_context, &sock2, NULL, size, _TEST_TCP_STREAM_DELAY);
+		      if (received == size && lw6net_tcp_recv (sys_context, &sock2, buf2_recv, size, _TEST_TCP_STREAM_DELAY, 1))
 			{
 			  received_i++;
 			}
@@ -405,7 +414,7 @@ _test_tcp ()
 		    }
 		  }
 	      }
-	    massive_end_timestamp = lw6sys_get_timestamp ();
+	    massive_end_timestamp = lw6sys_get_timestamp (sys_context);
 	    massive_duration = massive_end_timestamp - massive_begin_timestamp;
 	    if (massive_duration)
 	      {
@@ -463,11 +472,11 @@ _test_tcp ()
       }
     if (sock1 >= 0)
       {
-	lw6net_socket_close (&sock1);
+	lw6net_socket_close (sys_context, &sock1);
       }
     if (sock2 >= 0)
       {
-	lw6net_socket_close (&sock2);
+	lw6net_socket_close (sys_context, &sock2);
       }
   }
 
@@ -475,18 +484,18 @@ _test_tcp ()
 }
 
 static int
-prepare_2_udp_socks (int *sock1, int *sock2)
+_prepare_2_udp_socks (lw6sys_context_t * sys_context, int *sock1, int *sock2)
 {
   int ret = 0;
   int server_sock = -1;
   int client_sock = -1;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("listening on port %d (UDP)"), _TEST_PORT);
-  server_sock = lw6net_udp_server (LW6NET_ADDRESS_ANY, _TEST_PORT);
+  server_sock = lw6net_udp_server (sys_context, LW6NET_ADDRESS_ANY, _TEST_PORT);
   if (server_sock >= 0)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("UDP socket %d listening on port %d"), server_sock, _TEST_PORT);
-      client_sock = lw6net_udp_client ();
+      client_sock = lw6net_udp_client (sys_context);
     }
   if (server_sock >= 0 && client_sock >= 0)
     {
@@ -498,11 +507,11 @@ prepare_2_udp_socks (int *sock1, int *sock2)
     {
       if (server_sock >= 0)
 	{
-	  lw6net_socket_close (&server_sock);
+	  lw6net_socket_close (sys_context, &server_sock);
 	}
       if (client_sock >= 0)
 	{
-	  lw6net_socket_close (&client_sock);
+	  lw6net_socket_close (sys_context, &client_sock);
 	}
       (*sock1) = (*sock2) = LW6NET_SOCKET_INVALID;
     }
@@ -517,6 +526,8 @@ static void
 _test_udp ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -529,7 +540,7 @@ _test_udp ()
     char *incoming_ip = NULL;
     int incoming_port = 0;
 
-    if (prepare_2_udp_socks (&sock1, &sock2))
+    if (_prepare_2_udp_socks (sys_context, &sock1, &sock2))
       {
 	size = strlen (_TEST_BUF1_STR) + 1;
 	buf1_send = lw6sys_str_copy (sys_context, _TEST_BUF1_STR);
@@ -537,17 +548,17 @@ _test_udp ()
 
 	if (buf1_send && buf1_recv)
 	  {
-	    if (lw6net_udp_send (sock2, buf1_send, size, LW6NET_ADDRESS_LOOPBACK, _TEST_PORT) == size)
+	    if (lw6net_udp_send (sys_context, sock2, buf1_send, size, LW6NET_ADDRESS_LOOPBACK, _TEST_PORT) == size)
 	      {
 		lw6sys_delay (sys_context, _TEST_UDP_DELAY);
-		if (lw6net_udp_peek (sock1, buf1_recv, size, &incoming_ip, &incoming_port) == size)
+		if (lw6net_udp_peek (sys_context, sock1, buf1_recv, size, &incoming_ip, &incoming_port) == size)
 		  {
 		    if (incoming_ip)
 		      {
 			lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d bytes available on socket %d (%s:%d)"), size, sock1, incoming_ip, incoming_port);
 			LW6SYS_FREE (sys_context, incoming_ip);
 		      }
-		    if (lw6net_udp_recv (sock1, buf1_recv, size, &incoming_ip, &incoming_port) == size)
+		    if (lw6net_udp_recv (sys_context, sock1, buf1_recv, size, &incoming_ip, &incoming_port) == size)
 		      {
 			if (incoming_ip)
 			  {
@@ -571,11 +582,11 @@ _test_udp ()
       }
     if (sock1 >= 0)
       {
-	lw6net_socket_close (&sock1);
+	lw6net_socket_close (sys_context, &sock1);
       }
     if (sock2 >= 0)
       {
-	lw6net_socket_close (&sock2);
+	lw6net_socket_close (sys_context, &sock2);
       }
 
     if (!ret_tmp)
@@ -588,7 +599,7 @@ _test_udp ()
 }
 
 void
-_udp_lines_callback (void *func_data, void *data)
+_udp_lines_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   char *line = (char *) data;
 
@@ -602,6 +613,8 @@ static void
 _test_line ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -611,16 +624,17 @@ _test_line ()
     int i;
     char *line;
 
-    if (prepare_2_tcp_socks (&sock1, &sock2))
+    if (_prepare_2_tcp_socks (sys_context, &sock1, &sock2))
       {
-	if (lw6net_send_line_tcp (&sock1, _TEST_LINE1) && lw6net_send_line_tcp (&sock1, _TEST_LINE2) && lw6net_send_line_tcp (&sock1, _TEST_LINE3))
+	if (lw6net_send_line_tcp (sys_context, &sock1, _TEST_LINE1) && lw6net_send_line_tcp (sys_context, &sock1, _TEST_LINE2)
+	    && lw6net_send_line_tcp (sys_context, &sock1, _TEST_LINE3))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("lines sent"));
 	    ret_tmp = 1;
 	    for (i = 0; i < 4; ++i)
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("receiving line %d"), i + 1);
-		line = lw6net_recv_line_tcp (&sock2);
+		line = lw6net_recv_line_tcp (sys_context, &sock2);
 		if (line)
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("received line \"%s\""), line);
@@ -637,13 +651,13 @@ _test_line ()
 	      }
 	  }
       }
-    if (lw6net_socket_is_valid (sock1))
+    if (lw6net_socket_is_valid (sys_context, sock1))
       {
-	lw6net_socket_close (&sock1);
+	lw6net_socket_close (sys_context, &sock1);
       }
-    if (lw6net_socket_is_valid (sock2))
+    if (lw6net_socket_is_valid (sys_context, sock2))
       {
-	lw6net_socket_close (&sock2);
+	lw6net_socket_close (sys_context, &sock2);
       }
 
     if (!ret_tmp)
@@ -662,21 +676,22 @@ _test_line ()
     int incoming_port;
     lw6sys_list_t *list = NULL;
 
-    if (prepare_2_udp_socks (&sock1, &sock2))
+    if (_prepare_2_udp_socks (sys_context, &sock1, &sock2))
       {
 	if (lw6net_send_line_udp
-	    (sock2, _TEST_LINE1, LW6NET_ADDRESS_LOOPBACK,
+	    (sys_context, sock2, _TEST_LINE1, LW6NET_ADDRESS_LOOPBACK,
 	     _TEST_PORT)
-	    && lw6net_send_line_udp (sock2, _TEST_LINE2,
-				     LW6NET_ADDRESS_LOOPBACK, _TEST_PORT) && lw6net_send_line_udp (sock2, _TEST_LINE3, LW6NET_ADDRESS_LOOPBACK, _TEST_PORT))
+	    && lw6net_send_line_udp (sys_context, sock2, _TEST_LINE2,
+				     LW6NET_ADDRESS_LOOPBACK, _TEST_PORT)
+	    && lw6net_send_line_udp (sys_context, sock2, _TEST_LINE3, LW6NET_ADDRESS_LOOPBACK, _TEST_PORT))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("lines sent"));
-	    lw6sys_idle ();
+	    lw6sys_idle (sys_context);
 	    ret_tmp = 1;
 	    for (i = 0; i < 4; ++i)
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("receiving line %d"), i + 1);
-		line = lw6net_recv_line_udp (sock1, &incoming_ip, &incoming_port);
+		line = lw6net_recv_line_udp (sys_context, sock1, &incoming_ip, &incoming_port);
 		if (line)
 		  {
 		    if (incoming_ip)
@@ -696,28 +711,28 @@ _test_line ()
 		  }
 	      }
 	  }
-	if (lw6net_udp_send (sock2, _TEST_LINES_OK, strlen (_TEST_LINES_OK), LW6NET_ADDRESS_LOOPBACK, _TEST_PORT))
+	if (lw6net_udp_send (sys_context, sock2, _TEST_LINES_OK, strlen (_TEST_LINES_OK), LW6NET_ADDRESS_LOOPBACK, _TEST_PORT))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("lines sent"));
-	    lw6sys_idle ();
-	    list = lw6net_recv_lines_udp (sock1, &incoming_ip, &incoming_port);
+	    lw6sys_idle (sys_context);
+	    list = lw6net_recv_lines_udp (sys_context, sock1, &incoming_ip, &incoming_port);
 	    if (list)
 	      {
-		lw6sys_list_map (list, _udp_lines_callback, NULL);
-		lw6sys_list_free (list);
+		lw6sys_list_map (sys_context, list, _udp_lines_callback, NULL);
+		lw6sys_list_free (sys_context, list);
 		LW6SYS_FREE (sys_context, incoming_ip);
 	      }
 	  }
-	if (lw6net_udp_send (sock2, _TEST_LINES_OK, strlen (_TEST_LINES_KO), LW6NET_ADDRESS_LOOPBACK, _TEST_PORT))
+	if (lw6net_udp_send (sys_context, sock2, _TEST_LINES_OK, strlen (_TEST_LINES_KO), LW6NET_ADDRESS_LOOPBACK, _TEST_PORT))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("lines sent"));
-	    lw6sys_idle ();
-	    list = lw6net_recv_lines_udp (sock1, &incoming_ip, &incoming_port);
+	    lw6sys_idle (sys_context);
+	    list = lw6net_recv_lines_udp (sys_context, sock1, &incoming_ip, &incoming_port);
 	    if (list)
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("received lines, when it should have returned an error"));
 		ret_tmp = 0;
-		lw6sys_list_free (list);
+		lw6sys_list_free (sys_context, list);
 		LW6SYS_FREE (sys_context, incoming_ip);
 	      }
 	    else
@@ -726,13 +741,13 @@ _test_line ()
 	      }
 	  }
       }
-    if (lw6net_socket_is_valid (sock1))
+    if (lw6net_socket_is_valid (sys_context, sock1))
       {
-	lw6net_socket_close (&sock1);
+	lw6net_socket_close (sys_context, &sock1);
       }
-    if (lw6net_socket_is_valid (sock2))
+    if (lw6net_socket_is_valid (sys_context, sock2))
       {
-	lw6net_socket_close (&sock2);
+	lw6net_socket_close (sys_context, &sock2);
       }
 
     if (!ret_tmp)
@@ -748,12 +763,13 @@ static int
 _setup_init ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = NULL;
   const int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libnet CUnit test suite"));
 
-  if (lw6net_init (argc, argv, _TEST_NET_LOG))
+  if (lw6net_init (sys_context, argc, argv, _TEST_NET_LOG))
     {
       ret = CUE_SUCCESS;
     }
@@ -765,10 +781,11 @@ static int
 _setup_quit ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = NULL;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libnet CUnit test suite"));
 
-  lw6net_quit ();
+  lw6net_quit (sys_context);
   ret = CUE_SUCCESS;
 
   return ret;
@@ -777,6 +794,7 @@ _setup_quit ()
 /**
  * lw6net_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libnet module.
@@ -784,10 +802,12 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6net_test_register (int mode)
+lw6net_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -820,6 +840,7 @@ lw6net_test_register (int mode)
 /**
  * lw6net_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @net module test suite, testing most (if not all...)
@@ -828,11 +849,13 @@ lw6net_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6net_test_run (int mode)
+lw6net_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

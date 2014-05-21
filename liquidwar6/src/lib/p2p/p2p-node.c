@@ -113,7 +113,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 	}
       else
 	{
-	  node->public_url = lw6net_if_guess_public_url (bind_ip, bind_port);
+	  node->public_url = lw6net_if_guess_public_url (sys_context, bind_ip, bind_port);
 	}
       if (password)
 	{
@@ -480,10 +480,10 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("polling node TCP"));
 
-  if (lw6net_socket_is_valid (node->listener->tcp_sock))
+  if (lw6net_socket_is_valid (sys_context, node->listener->tcp_sock))
     {
-      sock = lw6net_tcp_accept (&ip, &port, node->listener->tcp_sock, node->db->data.consts.accept_delay);
-      if (lw6net_socket_is_valid (sock) && ip != NULL && port > 0)
+      sock = lw6net_tcp_accept (sys_context, &ip, &port, node->listener->tcp_sock, node->db->data.consts.accept_delay);
+      if (lw6net_socket_is_valid (sys_context, sock) && ip != NULL && port > 0)
 	{
 	  tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
 	  if (tcp_accepter)
@@ -548,10 +548,10 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
   memset (buf, 0, LW6NET_UDP_MINIMAL_BUF_SIZE + 1);
   if (node->listener->udp_sock >= 0)
     {
-      if (lw6net_udp_peek (node->listener->udp_sock, buf, LW6NET_UDP_MINIMAL_BUF_SIZE, &ip1, &port1))
+      if (lw6net_udp_peek (sys_context, node->listener->udp_sock, buf, LW6NET_UDP_MINIMAL_BUF_SIZE, &ip1, &port1))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("received data from %s:%d"), ip1, port1);
-	  line = lw6net_recv_line_udp (node->listener->udp_sock, &ip2, &port2);
+	  line = lw6net_recv_line_udp (sys_context, node->listener->udp_sock, &ip2, &port2);
 	  if (line)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("UDP connection from %s:%d"), ip2, port2);
@@ -625,7 +625,7 @@ _tcp_accepter_reply (void *func_data, void *data)
   char *remote_url = NULL;
   int tentacle_index = -1;
 
-  lw6net_tcp_peek (&(tcp_accepter->sock), tcp_accepter->first_line, LW6SRV_PROTOCOL_BUFFER_SIZE, 0);
+  lw6net_tcp_peek (sys_context, &(tcp_accepter->sock), tcp_accepter->first_line, LW6SRV_PROTOCOL_BUFFER_SIZE, 0);
 
   for (i = 0; i < node->backends.nb_srv_backends && ret; ++i)
     {
@@ -633,7 +633,7 @@ _tcp_accepter_reply (void *func_data, void *data)
       if (analyse_tcp_ret & LW6SRV_ANALYSE_DEAD)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("dead accepter, scheduling it for deletion"));
-	  lw6net_socket_close (&(tcp_accepter->sock));
+	  lw6net_socket_close (sys_context, &(tcp_accepter->sock));
 	  ret = 0;
 	}
       else
@@ -694,7 +694,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 		    }
 		  else
 		    {
-		      lw6net_socket_close (&(tcp_accepter->sock));
+		      lw6net_socket_close (sys_context, &(tcp_accepter->sock));
 		    }
 		}
 	    }

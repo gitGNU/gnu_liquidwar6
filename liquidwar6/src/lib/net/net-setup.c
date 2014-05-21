@@ -34,6 +34,7 @@ _lw6net_context_t *_lw6net_global_context = NULL;
 /**
  * lw6net_init
  *
+ * @sys_context: global system context
  * @argc: argc as passed to @main
  * @argv: argv as passed to @main
  * @net_log: 1 if you want to enable net log, 0 if not
@@ -45,7 +46,7 @@ _lw6net_context_t *_lw6net_global_context = NULL;
  * Return value: non-zero if success
  */
 int
-lw6net_init (int argc, const char *argv[], int net_log)
+lw6net_init (lw6sys_context_t * sys_context, int argc, const char *argv[], int net_log)
 {
   int ok = 0;
 
@@ -69,7 +70,7 @@ lw6net_init (int argc, const char *argv[], int net_log)
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("WSAStartup() failed with code %d \"%s\""), err, _lw6net_wsa_str (err));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("WSAStartup() failed with code %d \"%s\""), err, _lw6net_wsa_str (sys_context, err));
 	}
 #else
       /*
@@ -98,14 +99,14 @@ lw6net_init (int argc, const char *argv[], int net_log)
 	}
 #endif
 
-      ok = ok && _lw6net_const_init (argc, argv, &(_lw6net_global_context->const_data));
-      ok = ok && _lw6net_counters_init (argc, argv, &(_lw6net_global_context->counters));
-      ok = ok && _lw6net_log_init (argc, argv, &(_lw6net_global_context->log), net_log);
+      ok = ok && _lw6net_const_init (sys_context, argc, argv, &(_lw6net_global_context->const_data));
+      ok = ok && _lw6net_counters_init (sys_context, argc, argv, &(_lw6net_global_context->counters));
+      ok = ok && _lw6net_log_init (sys_context, argc, argv, &(_lw6net_global_context->log), net_log);
       ok = ok
-	&& _lw6net_dns_init (&(_lw6net_global_context->dns),
+	&& _lw6net_dns_init (sys_context, &(_lw6net_global_context->dns),
 			     _lw6net_global_context->const_data.dns_cache_hash_size, _lw6net_global_context->const_data.dns_cache_delay_sec);
       ok = ok
-	&& _lw6net_connectable_init (&(_lw6net_global_context->connectable),
+	&& _lw6net_connectable_init (sys_context, &(_lw6net_global_context->connectable),
 				     _lw6net_global_context->const_data.connectable_cache_hash_size,
 				     _lw6net_global_context->const_data.connectable_cache_delay_sec);
     }
@@ -130,13 +131,15 @@ lw6net_init (int argc, const char *argv[], int net_log)
 /**
  * lw6net_quit:
  *
+ * @sys_context: global system context
+ *
  * Frees memory, joins active threads, and releases everything
  * set up by network code.
  *
  * Return value: void
  */
 void
-lw6net_quit ()
+lw6net_quit (lw6sys_context_t * sys_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("net quit"));
 
@@ -146,11 +149,11 @@ lw6net_quit ()
 
   if (_lw6net_global_context)
     {
-      _lw6net_connectable_quit (&(_lw6net_global_context->connectable));
-      _lw6net_dns_quit (&(_lw6net_global_context->dns));
-      _lw6net_log_quit (&(_lw6net_global_context->log));
-      _lw6net_counters_quit (&(_lw6net_global_context->counters));
-      _lw6net_const_quit (&(_lw6net_global_context->const_data));
+      _lw6net_connectable_quit (sys_context, &(_lw6net_global_context->connectable));
+      _lw6net_dns_quit (sys_context, &(_lw6net_global_context->dns));
+      _lw6net_log_quit (sys_context, &(_lw6net_global_context->log));
+      _lw6net_counters_quit (sys_context, &(_lw6net_global_context->counters));
+      _lw6net_const_quit (sys_context, &(_lw6net_global_context->const_data));
       LW6SYS_FREE (sys_context, _lw6net_global_context);
     }
 

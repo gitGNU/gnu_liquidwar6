@@ -41,7 +41,7 @@ _mod_tcpd_process_oob (_mod_tcpd_context_t * tcpd_context, lw6nod_info_t * node_
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process tcpd oob"));
   if (_mod_tcpd_oob_should_continue (tcpd_context, oob_data))
     {
-      request_line = lw6net_recv_line_tcp (&(oob_data->sock));
+      request_line = lw6net_recv_line_tcp (sys_context, &(oob_data->sock));
       if (request_line)
 	{
 	  if (lw6msg_oob_analyse_request (&syntax_ok, &command, &password_ok,
@@ -112,15 +112,15 @@ _mod_tcpd_process_oob (_mod_tcpd_context_t * tcpd_context, lw6nod_info_t * node_
 	}
     }
 
-  if (lw6net_tcp_is_alive (&(oob_data->sock)))
+  if (lw6net_tcp_is_alive (sys_context, &(oob_data->sock)))
     {
       if (response)
 	{
-	  lw6net_tcp_send (&(oob_data->sock), response, strlen (response), tcpd_context->data.consts.error_timeout * 1000, 1);
+	  lw6net_tcp_send (sys_context, &(oob_data->sock), response, strlen (response), tcpd_context->data.consts.error_timeout * 1000, 1);
 	}
       else
 	{
-	  lw6net_send_line_tcp (&(oob_data->sock), LW6MSG_ERROR);
+	  lw6net_send_line_tcp (sys_context, &(oob_data->sock), LW6MSG_ERROR);
 	}
     }
 
@@ -129,7 +129,7 @@ _mod_tcpd_process_oob (_mod_tcpd_context_t * tcpd_context, lw6nod_info_t * node_
       LW6SYS_FREE (sys_context, response);
     }
 
-  lw6net_socket_close (&(oob_data->sock));
+  lw6net_socket_close (sys_context, &(oob_data->sock));
 
   return ret;
 }
@@ -139,7 +139,8 @@ _mod_tcpd_oob_should_continue (_mod_tcpd_context_t * tcpd_context, lw6srv_oob_da
 {
   int ret = 0;
 
-  ret = (_mod_tcpd_timeout_ok (tcpd_context, oob_data->creation_timestamp) && lw6net_tcp_is_alive (&(oob_data->sock)) && (!oob_data->do_not_finish));
+  ret = (_mod_tcpd_timeout_ok (tcpd_context, oob_data->creation_timestamp) && lw6net_tcp_is_alive (sys_context, &(oob_data->sock))
+	 && (!oob_data->do_not_finish));
 
   return ret;
 }

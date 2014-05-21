@@ -67,7 +67,7 @@ _mod_tcpd_close (_mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * conne
 
   if (specific_data)
     {
-      lw6net_socket_close (&(specific_data->sock));
+      lw6net_socket_close (sys_context, &(specific_data->sock));
       LW6SYS_FREE (sys_context, specific_data);
     }
   lw6cnx_connection_free (connection);

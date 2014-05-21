@@ -154,7 +154,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context, _mod_httpd_respo
       first_line = lw6sys_new_sprintf (sys_context, "HTTP/%s %d %s", httpd_context->data.consts.http_version, status, tmp);
       if (first_line)
 	{
-	  lw6net_send_line_tcp (sock, first_line);
+	  lw6net_send_line_tcp (sys_context, sock, first_line);
 
 	  now_str = lw6sys_date_rfc1123 (0);
 	  if (now_str)
@@ -162,14 +162,14 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context, _mod_httpd_respo
 	      line = lw6sys_new_sprintf (sys_context, "Server: %s", lw6sys_build_get_package_tarname ());
 	      if (line)
 		{
-		  lw6net_send_line_tcp (sock, line);
+		  lw6net_send_line_tcp (sys_context, sock, line);
 		  LW6SYS_FREE (sys_context, line);
 		  line = NULL;
 		}
 	      line = lw6sys_new_sprintf (sys_context, "Date: %s", now_str);
 	      if (line)
 		{
-		  lw6net_send_line_tcp (sock, line);
+		  lw6net_send_line_tcp (sys_context, sock, line);
 		  LW6SYS_FREE (sys_context, line);
 		  line = NULL;
 		}
@@ -178,7 +178,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context, _mod_httpd_respo
 		  line = lw6sys_new_sprintf ("WWW-Authenticate: Basic realm=\"%s\"", httpd_context->data.consts.auth_realm);
 		  if (line)
 		    {
-		      lw6net_send_line_tcp (sock, line);
+		      lw6net_send_line_tcp (sys_context, sock, line);
 		      LW6SYS_FREE (sys_context, line);
 		      line = NULL;
 		    }
@@ -186,14 +186,14 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context, _mod_httpd_respo
 	      line = lw6sys_new_sprintf (sys_context, "Last-Modified: %s", now_str);
 	      if (line)
 		{
-		  lw6net_send_line_tcp (sock, line);
+		  lw6net_send_line_tcp (sys_context, sock, line);
 		  LW6SYS_FREE (sys_context, line);
 		  line = NULL;
 		}
 	      if (response->no_cache)
 		{
-		  lw6net_send_line_tcp (sock, "Pragma: no-cache");
-		  lw6net_send_line_tcp (sock, "Cache-Control: no-cache");
+		  lw6net_send_line_tcp (sys_context, sock, "Pragma: no-cache");
+		  lw6net_send_line_tcp (sys_context, sock, "Cache-Control: no-cache");
 		  expire_delta = -httpd_context->data.consts.in_the_past;
 		}
 	      else
@@ -201,7 +201,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context, _mod_httpd_respo
 		  line = lw6sys_new_sprintf (sys_context, "Cache-Control: max-age=%d", httpd_context->data.consts.max_age);
 		  if (line)
 		    {
-		      lw6net_send_line_tcp (sock, line);
+		      lw6net_send_line_tcp (sys_context, sock, line);
 		      LW6SYS_FREE (sys_context, line);
 		      line = NULL;
 		    }
@@ -213,7 +213,7 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context, _mod_httpd_respo
 		  line = lw6sys_new_sprintf (sys_context, "Expires: %s", expire_str);
 		  if (line)
 		    {
-		      lw6net_send_line_tcp (sock, line);
+		      lw6net_send_line_tcp (sys_context, sock, line);
 		      LW6SYS_FREE (sys_context, line);
 		      line = NULL;
 		    }
@@ -224,25 +224,25 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context, _mod_httpd_respo
 		  line = lw6sys_new_sprintf (sys_context, "Refresh: %d; url=%s", response->refresh_sec, response->refresh_url);
 		  if (line)
 		    {
-		      lw6net_send_line_tcp (sock, line);
+		      lw6net_send_line_tcp (sys_context, sock, line);
 		      LW6SYS_FREE (sys_context, line);
 		      line = NULL;
 		    }
 		}
 	      LW6SYS_FREE (sys_context, now_str);
 	    }
-	  lw6net_send_line_tcp (sock, "Connection: close");
+	  lw6net_send_line_tcp (sys_context, sock, "Connection: close");
 	  line = lw6sys_new_sprintf (sys_context, "Content-Length: %d", response->content_size);
 	  if (line)
 	    {
-	      lw6net_send_line_tcp (sock, line);
+	      lw6net_send_line_tcp (sys_context, sock, line);
 	      LW6SYS_FREE (sys_context, line);
 	      line = NULL;
 	    }
 	  line = lw6sys_new_sprintf (sys_context, "Content-Type: %s", response->content_type);
 	  if (line)
 	    {
-	      lw6net_send_line_tcp (sock, line);
+	      lw6net_send_line_tcp (sys_context, sock, line);
 	      LW6SYS_FREE (sys_context, line);
 	      line = NULL;
 	    }
@@ -250,10 +250,10 @@ _mod_httpd_response_send (_mod_httpd_context_t * httpd_context, _mod_httpd_respo
 	  LW6SYS_FREE (sys_context, first_line);
 	  first_line = NULL;
 	}
-      lw6net_send_line_tcp (sock, "");
-      if (lw6net_tcp_is_alive (sock) && !headers_only)
+      lw6net_send_line_tcp (sys_context, sock, "");
+      if (lw6net_tcp_is_alive (sys_context, sock) && !headers_only)
 	{
-	  ret = lw6net_tcp_send (sock, response->content_data, response->content_size, httpd_context->data.consts.error_timeout * 1000, 1);
+	  ret = lw6net_tcp_send (sys_context, sock, response->content_data, response->content_size, httpd_context->data.consts.error_timeout * 1000, 1);
 	}
     }
 

@@ -199,7 +199,7 @@ _setup_init_listener ()
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libsrv-listener CUnit test suite"));
 
-  if (lw6net_init (argc, argv, _TEST_NET_LOG))
+  if (lw6net_init (sys_context, argc, argv, _TEST_NET_LOG))
     {
       _test_data.backend[0] = lw6srv_create_backend (argc, argv, "tcpd");
       _test_data.backend[1] = lw6srv_create_backend (argc, argv, "udpd");
@@ -296,7 +296,7 @@ lw6srv_test_register (int mode)
       lw6sys_test_register (sys_context, mode);
       lw6glb_test_register (sys_context, mode);
       lw6cfg_test_register (sys_context, mode);
-      lw6net_test_register (mode);
+      lw6net_test_register (sys_context, mode);
       lw6nod_test_register (mode);
       lw6cnx_test_register (mode);
       lw6msg_test_register (mode);

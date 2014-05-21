@@ -34,7 +34,7 @@
 #define _UDP_SEND_FILE "udp-send.log"
 
 int
-_lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log, int net_log)
+_lw6net_log_init (lw6sys_context_t * sys_context, int argc, const char *argv[], _lw6net_log_t * log, int net_log)
 {
   int ret = 0;
   char *user_dir;
@@ -52,13 +52,13 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log, int net_log
 	   * afterwards and clean files if needed, just
 	   * to avoid old traces to fill your HD.
 	   */
-	  if (net_log && !lw6sys_dir_exists (net_dir))
+	  if (net_log && !lw6sys_dir_exists (sys_context, net_dir))
 	    {
-	      lw6sys_create_dir (net_dir);
+	      lw6sys_create_dir (sys_context, net_dir);
 	    }
-	  if (lw6sys_dir_exists (net_dir))
+	  if (lw6sys_dir_exists (sys_context, net_dir))
 	    {
-	      log->tcp_recv_filename = lw6sys_path_concat (net_dir, _TCP_RECV_FILE);
+	      log->tcp_recv_filename = lw6sys_path_concat (sys_context, net_dir, _TCP_RECV_FILE);
 	      if (log->tcp_recv_filename)
 		{
 		  if (lw6sys_file_exists (sys_context, log->tcp_recv_filename))
@@ -71,7 +71,7 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log, int net_log
 		      log->tcp_recv_filename = NULL;
 		    }
 		}
-	      log->tcp_send_filename = lw6sys_path_concat (net_dir, _TCP_SEND_FILE);
+	      log->tcp_send_filename = lw6sys_path_concat (sys_context, net_dir, _TCP_SEND_FILE);
 	      if (log->tcp_send_filename)
 		{
 		  if (lw6sys_file_exists (sys_context, log->tcp_send_filename))
@@ -84,7 +84,7 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log, int net_log
 		      log->tcp_send_filename = NULL;
 		    }
 		}
-	      log->udp_recv_filename = lw6sys_path_concat (net_dir, _UDP_RECV_FILE);
+	      log->udp_recv_filename = lw6sys_path_concat (sys_context, net_dir, _UDP_RECV_FILE);
 	      if (log->udp_recv_filename)
 		{
 		  if (lw6sys_file_exists (sys_context, log->udp_recv_filename))
@@ -97,7 +97,7 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log, int net_log
 		      log->udp_recv_filename = NULL;
 		    }
 		}
-	      log->udp_send_filename = lw6sys_path_concat (net_dir, _UDP_SEND_FILE);
+	      log->udp_send_filename = lw6sys_path_concat (sys_context, net_dir, _UDP_SEND_FILE);
 	      if (log->udp_send_filename)
 		{
 		  if (lw6sys_file_exists (sys_context, log->udp_send_filename))
@@ -129,7 +129,7 @@ _lw6net_log_init (int argc, const char *argv[], _lw6net_log_t * log, int net_log
 }
 
 void
-_lw6net_log_quit (_lw6net_log_t * log)
+_lw6net_log_quit (lw6sys_context_t * sys_context, _lw6net_log_t * log)
 {
   if (log->tcp_recv_filename)
     {
@@ -151,7 +151,7 @@ _lw6net_log_quit (_lw6net_log_t * log)
 }
 
 static int
-_log (const char *filename, const char *buf, int len)
+_log (lw6sys_context_t * sys_context, const char *filename, const char *buf, int len)
 {
   int ret = 0;
   char *buf_base64 = NULL;
@@ -192,25 +192,25 @@ _log (const char *filename, const char *buf, int len)
 }
 
 int
-_lw6net_log_tcp_recv (_lw6net_log_t * log, const char *buf, int len)
+_lw6net_log_tcp_recv (lw6sys_context_t * sys_context, _lw6net_log_t * log, const char *buf, int len)
 {
-  return _log (log->tcp_recv_filename, buf, len);
+  return _log (sys_context, log->tcp_recv_filename, buf, len);
 }
 
 int
-_lw6net_log_tcp_send (_lw6net_log_t * log, const char *buf, int len)
+_lw6net_log_tcp_send (lw6sys_context_t * sys_context, _lw6net_log_t * log, const char *buf, int len)
 {
-  return _log (log->tcp_send_filename, buf, len);
+  return _log (sys_context, log->tcp_send_filename, buf, len);
 }
 
 int
-_lw6net_log_udp_recv (_lw6net_log_t * log, const char *buf, int len)
+_lw6net_log_udp_recv (lw6sys_context_t * sys_context, _lw6net_log_t * log, const char *buf, int len)
 {
-  return _log (log->udp_recv_filename, buf, len);
+  return _log (sys_context, log->udp_recv_filename, buf, len);
 }
 
 int
-_lw6net_log_udp_send (_lw6net_log_t * log, const char *buf, int len)
+_lw6net_log_udp_send (lw6sys_context_t * sys_context, _lw6net_log_t * log, const char *buf, int len)
 {
-  return _log (log->udp_send_filename, buf, len);
+  return _log (sys_context, log->udp_send_filename, buf, len);
 }

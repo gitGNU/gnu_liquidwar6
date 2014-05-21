@@ -120,7 +120,7 @@ _mod_httpd_reply_thread_join (void *callback_data)
 
   if (reply_thread_data)
     {
-      lw6net_socket_close (&(reply_thread_data->sock));
+      lw6net_socket_close (sys_context, &(reply_thread_data->sock));
       LW6SYS_FREE (sys_context, reply_thread_data);
     }
 }
@@ -157,7 +157,7 @@ _mod_httpd_reply_thread_should_continue (_mod_httpd_reply_thread_data_t * reply_
 
   ret = (_mod_httpd_timeout_ok (reply_thread_data->httpd_context,
 				reply_thread_data->creation_timestamp)
-	 && lw6net_tcp_is_alive (&(reply_thread_data->sock)) && (!reply_thread_data->do_not_finish));
+	 && lw6net_tcp_is_alive (sys_context, &(reply_thread_data->sock)) && (!reply_thread_data->do_not_finish));
 
   return ret;
 }

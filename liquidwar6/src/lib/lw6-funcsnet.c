@@ -34,7 +34,7 @@
  * In setup.c
  */
 static SCM
-_scm_lw6net_init (SCM net_log)
+_scm_lw6net_init (sys_context, SCM net_log)
 {
   SCM ret = SCM_BOOL_F;
   int c_net_log = 0;
@@ -45,7 +45,7 @@ _scm_lw6net_init (SCM net_log)
   SCM_ASSERT (SCM_BOOLP (net_log), net_log, SCM_ARG1, __FUNCTION__);
 
   c_net_log = SCM_NFALSEP (net_log);
-  if (lw6net_init (lw6_global.argc, lw6_global.argv, c_net_log))
+  if (lw6net_init (sys_context, lw6_global.argc, lw6_global.argv, c_net_log))
     {
       lw6_global.net_initialized = 1;
       ret = SCM_BOOL_F;

@@ -66,9 +66,9 @@ _mod_udp_close (_mod_udp_context_t * udp_context, lw6cnx_connection_t * connecti
 
   if (specific_data)
     {
-      if (lw6net_socket_is_valid (specific_data->sock))
+      if (lw6net_socket_is_valid (sys_context, specific_data->sock))
 	{
-	  lw6net_socket_close (&(specific_data->sock));
+	  lw6net_socket_close (sys_context, &(specific_data->sock));
 	}
       LW6SYS_FREE (sys_context, specific_data);
     }

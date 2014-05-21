@@ -37,16 +37,16 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
   char *given_url = NULL;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connecting in TCP on %s:%d"), ip, parsed_url->port);
-  sock = lw6net_tcp_connect (ip, parsed_url->port, tcp_context->data.consts.connect_timeout * 1000);
-  if (lw6net_socket_is_valid (sock))
+  sock = lw6net_tcp_connect (sys_context, ip, parsed_url->port, tcp_context->data.consts.connect_timeout * 1000);
+  if (lw6net_socket_is_valid (sys_context, sock))
     {
       request = lw6msg_oob_generate_request (LW6MSG_OOB_PING, url, node_info->const_info.password, node_info->const_info.ref_info.url);
       if (request)
 	{
-	  if (lw6net_send_line_tcp (&sock, request))
+	  if (lw6net_send_line_tcp (sys_context, &sock, request))
 	    {
 	      lw6sys_snooze ();
-	      while (!ret && _mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && ((response = lw6net_recv_line_tcp (&sock)) == NULL))
+	      while (!ret && _mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && ((response = lw6net_recv_line_tcp (sys_context, &sock)) == NULL))
 		{
 		  lw6sys_snooze ();
 		}
@@ -80,7 +80,7 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 	    }
 	  LW6SYS_FREE (sys_context, request);
 	}
-      lw6net_socket_close (&sock);
+      lw6net_socket_close (sys_context, &sock);
     }
 
   return ret;
@@ -101,8 +101,8 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
   assoc = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
   if (assoc)
     {
-      sock = lw6net_tcp_connect (ip, parsed_url->port, tcp_context->data.consts.connect_timeout * 1000);
-      if (lw6net_socket_is_valid (sock))
+      sock = lw6net_tcp_connect (sys_context, ip, parsed_url->port, tcp_context->data.consts.connect_timeout * 1000);
+      if (lw6net_socket_is_valid (sys_context, sock))
 	{
 	  request = lw6msg_oob_generate_request (LW6MSG_OOB_INFO, url, node_info->const_info.password, node_info->const_info.ref_info.url);
 	  if (request)
@@ -115,7 +115,7 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 	       * logical.
 	       */
 	      origin = lw6sys_get_timestamp ();
-	      if (lw6net_send_line_tcp (&sock, request))
+	      if (lw6net_send_line_tcp (sys_context, &sock, request))
 		{
 		  /*
 		   * Here we use idle and not snooze for we're concerned
@@ -124,7 +124,8 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 		  lw6sys_idle ();
 		  while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && !eom)
 		    {
-		      while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && ((response = lw6net_recv_line_tcp (&sock)) == NULL) && !eom)
+		      while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && ((response = lw6net_recv_line_tcp (sys_context, &sock)) == NULL)
+			     && !eom)
 			{
 			  /*
 			   * Here we use idle and not snooze for we're concerned
@@ -164,7 +165,7 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 		}
 	      LW6SYS_FREE (sys_context, request);
 	    }
-	  lw6net_socket_close (&sock);
+	  lw6net_socket_close (sys_context, &sock);
 	}
       if (assoc)
 	{
@@ -197,18 +198,19 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connecting in TCP on %s:%d"), ip, parsed_url->port);
 
-  sock = lw6net_tcp_connect (ip, parsed_url->port, tcp_context->data.consts.connect_timeout * 1000);
-  if (lw6net_socket_is_valid (sock))
+  sock = lw6net_tcp_connect (sys_context, ip, parsed_url->port, tcp_context->data.consts.connect_timeout * 1000);
+  if (lw6net_socket_is_valid (sys_context, sock))
     {
       request = lw6msg_oob_generate_request (LW6MSG_OOB_LIST, url, node_info->const_info.password, node_info->const_info.ref_info.url);
       if (request)
 	{
-	  if (lw6net_send_line_tcp (&sock, request))
+	  if (lw6net_send_line_tcp (sys_context, &sock, request))
 	    {
 	      lw6sys_snooze ();
 	      while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && !eom)
 		{
-		  while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && ((response = lw6net_recv_line_tcp (&sock)) == NULL) && !eom)
+		  while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && ((response = lw6net_recv_line_tcp (sys_context, &sock)) == NULL)
+			 && !eom)
 		    {
 		      lw6sys_snooze ();
 		    }
@@ -245,7 +247,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 	    }
 	  LW6SYS_FREE (sys_context, request);
 	}
-      lw6net_socket_close (&sock);
+      lw6net_socket_close (sys_context, &sock);
     }
 
   return ret;
@@ -270,7 +272,7 @@ _mod_tcp_process_oob (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_inf
 	}
       else
 	{
-	  ip = lw6net_dns_gethostbyname (parsed_url->host);
+	  ip = lw6net_dns_gethostbyname (sys_context, parsed_url->host);
 	  if (ip)
 	    {
 	      if (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock))
@@ -320,6 +322,6 @@ _mod_tcp_oob_should_continue (_mod_tcp_context_t * tcp_context, lw6cli_oob_data_
   int ret = 0;
   ret = (_mod_tcp_timeout_ok (tcp_context,
 			      oob_data->creation_timestamp)
-	 && ((!lw6net_socket_is_valid (*sock)) || lw6net_tcp_is_alive (sock)) && (!oob_data->do_not_finish));
+	 && ((!lw6net_socket_is_valid (sys_context, *sock)) || lw6net_tcp_is_alive (sys_context, sock)) && (!oob_data->do_not_finish));
   return ret;
 }

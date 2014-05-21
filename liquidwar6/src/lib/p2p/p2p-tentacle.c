@@ -52,7 +52,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
        * probably have already initialized the DNS cache
        * so response will be fast.
        */
-      tentacle->remote_ip = lw6net_dns_gethostbyname (parsed_url->host);
+      tentacle->remote_ip = lw6net_dns_gethostbyname (sys_context, parsed_url->host);
       tentacle->remote_port = parsed_url->port;
       if (real_remote_ip)
 	{

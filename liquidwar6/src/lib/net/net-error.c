@@ -22,11 +22,11 @@
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
-#endif
+#endif // HAVE_CONFIG_H
 
 #ifndef LW6_MS_WINDOWS
 #include <errno.h>
-#endif
+#endif // LW6_MS_WINDOWS
 
 #include "net.h"
 #include "net-internal.h"
@@ -39,7 +39,7 @@
  * winsock error.
  */
 char *
-_lw6net_wsa_str (int wsa_int)
+_lw6net_wsa_str (lw6sys_context_t * sys_context, int wsa_int)
 {
   char *ret = "WSA_UNKNOWN";
 
@@ -52,477 +52,477 @@ _lw6net_wsa_str (int wsa_int)
     case WSA_INVALID_HANDLE:
       ret = "WSA_INVALID_HANDLE";
       break;
-#endif
+#endif // WSA_INVALID_HANDLE
 #ifdef WSA_NOT_ENOUGH_MEMORY
     case WSA_NOT_ENOUGH_MEMORY:
       ret = "WSA_NOT_ENOUGH_MEMORY";
       break;
-#endif
+#endif // WSA_NOT_ENOUGH_MEMORY
 #ifdef WSA_INVALID_PARAMETER
     case WSA_INVALID_PARAMETER:
       ret = "WSA_INVALID_PARAMETER";
       break;
-#endif
+#endif // WSA_INVALID_PARAMETER
 #ifdef WSA_OPERATION_ABORTED
     case WSA_OPERATION_ABORTED:
       ret = "WSA_OPERATION_ABORTED";
       break;
-#endif
+#endif // WSA_OPERATION_ABORTED
 #ifdef WSA_IO_INCOMPLETE
     case WSA_IO_INCOMPLETE:
       ret = "WSA_IO_INCOMPLETE";
       break;
-#endif
+#endif // WSA_IO_INCOMPLETE
 #ifdef WSA_IO_PENDING
     case WSA_IO_PENDING:
       ret = "WSA_IO_PENDING";
       break;
-#endif
+#endif // WSA_IO_PENDING
 #ifdef WSAEINTR
     case WSAEINTR:
       ret = "WSAEINTR";
       break;
-#endif
+#endif // WSAEINTR
 #ifdef WSAEBADF
     case WSAEBADF:
       ret = "WSAEBADF";
       break;
-#endif
+#endif // WSAEBADF
 #ifdef WSAEACCES
     case WSAEACCES:
       ret = "WSAEACCES";
       break;
-#endif
+#endif // WSAEACCES
 #ifdef WSAEFAULT
     case WSAEFAULT:
       ret = "WSAEFAULT";
       break;
-#endif
+#endif // WSAEFAULT
 #ifdef WSAEINVAL
     case WSAEINVAL:
       ret = "WSAEINVAL";
       break;
-#endif
+#endif // WSAEINVAL
 #ifdef WSAEMFILE
     case WSAEMFILE:
       ret = "WSAEMFILE";
       break;
-#endif
+#endif // WSAEMFILE
 #ifdef WSAEWOULDBLOCK
     case WSAEWOULDBLOCK:
       ret = "WSAEWOULDBLOCK";
       break;
-#endif
+#endif // WSAEWOULDBLOCK
 #ifdef WSAEINPROGRESS
     case WSAEINPROGRESS:
       ret = "WSAEINPROGRESS";
       break;
-#endif
+#endif // WSAEINPROGRESS
 #ifdef WSAEALREADY
     case WSAEALREADY:
       ret = "WSAEALREADY";
       break;
-#endif
+#endif // WSAEALREADY
 #ifdef WSAENOTSOCK
     case WSAENOTSOCK:
       ret = "WSAENOTSOCK";
       break;
-#endif
+#endif // WSAENOTSOCK
 #ifdef WSAEDESTADDRREQ
     case WSAEDESTADDRREQ:
       ret = "WSAEDESTADDRREQ";
       break;
-#endif
+#endif // WSAEDESTADDRREQ
 #ifdef WSAEMSGSIZE
     case WSAEMSGSIZE:
       ret = "WSAEMSGSIZE";
       break;
-#endif
+#endif // WSAEMSGSIZE
 #ifdef WSAEPROTOTYPE
     case WSAEPROTOTYPE:
       ret = "WSAEPROTOTYPE";
       break;
-#endif
+#endif // WSAEPROTOTYPE
 #ifdef WSAENOPROTOOPT
     case WSAENOPROTOOPT:
       ret = "WSAENOPROTOOPT";
       break;
-#endif
+#endif // WSAENOPROTOOPT
 #ifdef WSAEPROTONOSUPPORT
     case WSAEPROTONOSUPPORT:
       ret = "WSAEPROTONOSUPPORT";
       break;
-#endif
+#endif // WSAEPROTONOSUPPORT
 #ifdef WSAESOCKTNOSUPPORT
     case WSAESOCKTNOSUPPORT:
       ret = "WSAESOCKTNOSUPPORT";
       break;
-#endif
+#endif // WSAESOCKTNOSUPPORT
 #ifdef WSAEOPNOTSUPP
     case WSAEOPNOTSUPP:
       ret = "WSAEOPNOTSUPP";
       break;
-#endif
+#endif // WSAEOPNOTSUPP
 #ifdef WSAEPFNOSUPPORT
     case WSAEPFNOSUPPORT:
       ret = "WSAEPFNOSUPPORT";
       break;
-#endif
+#endif // WSAEPFNOSUPPORT
 #ifdef WSAEAFNOSUPPORT
     case WSAEAFNOSUPPORT:
       ret = "WSAEAFNOSUPPORT";
       break;
-#endif
+#endif // WSAEAFNOSUPPORT
 #ifdef WSAEADDRINUSE
     case WSAEADDRINUSE:
       ret = "WSAEADDRINUSE";
       break;
-#endif
+#endif // WSAEADDRINUSE
 #ifdef WSAEADDRNOTAVAIL
     case WSAEADDRNOTAVAIL:
       ret = "WSAEADDRNOTAVAIL";
       break;
-#endif
+#endif // WSAEADDRNOTAVAIL
 #ifdef WSAENETDOWN
     case WSAENETDOWN:
       ret = "WSAENETDOWN";
       break;
-#endif
+#endif // WSAENETDOWN
 #ifdef WSAENETUNREACH
     case WSAENETUNREACH:
       ret = "WSAENETUNREACH";
       break;
-#endif
+#endif // WSAENETUNREACH
 #ifdef WSAENETRESET
     case WSAENETRESET:
       ret = "WSAENETRESET";
       break;
-#endif
+#endif // WSAENETRESET
 #ifdef WSAECONNABORTED
     case WSAECONNABORTED:
       ret = "WSAECONNABORTED";
       break;
-#endif
+#endif // WSAECONNABORTED
 #ifdef WSAECONNRESET
     case WSAECONNRESET:
       ret = "WSAECONNRESET";
       break;
-#endif
+#endif // WSAECONNRESET
 #ifdef WSAENOBUFS
     case WSAENOBUFS:
       ret = "WSAENOBUFS";
       break;
-#endif
+#endif // WSAENOBUFS
 #ifdef WSAEISCONN
     case WSAEISCONN:
       ret = "WSAEISCONN";
       break;
-#endif
+#endif // WSAEISCONN
 #ifdef WSAENOTCONN
     case WSAENOTCONN:
       ret = "WSAENOTCONN";
       break;
-#endif
+#endif // WSAENOTCONN
 #ifdef WSAESHUTDOWN
     case WSAESHUTDOWN:
       ret = "WSAESHUTDOWN";
       break;
-#endif
+#endif // WSAESHUTDOWN
 #ifdef WSAETOOMANYREFS
     case WSAETOOMANYREFS:
       ret = "WSAETOOMANYREFS";
       break;
-#endif
+#endif // WSAETOOMANYREFS
 #ifdef WSAETIMEDOUT
     case WSAETIMEDOUT:
       ret = "WSAETIMEDOUT";
       break;
-#endif
+#endif // WSAETIMEDOUT
 #ifdef WSAECONNREFUSED
     case WSAECONNREFUSED:
       ret = "WSAECONNREFUSED";
       break;
-#endif
+#endif // WSAECONNREFUSED
 #ifdef WSAELOOP
     case WSAELOOP:
       ret = "WSAELOOP";
       break;
-#endif
+#endif // WSAELOOP
 #ifdef WSAENAMETOOLONG
     case WSAENAMETOOLONG:
       ret = "WSAENAMETOOLONG";
       break;
-#endif
+#endif // WSAENAMETOOLONG
 #ifdef WSAEHOSTDOWN
     case WSAEHOSTDOWN:
       ret = "WSAEHOSTDOWN";
       break;
-#endif
+#endif // WSAEHOSTDOWN
 #ifdef WSAEHOSTUNREACH
     case WSAEHOSTUNREACH:
       ret = "WSAEHOSTUNREACH";
       break;
-#endif
+#endif // WSAEHOSTUNREACH
 #ifdef WSAENOTEMPTY
     case WSAENOTEMPTY:
       ret = "WSAENOTEMPTY";
       break;
-#endif
+#endif // WSAENOTEMPTY
 #ifdef WSAEPROCLIM
     case WSAEPROCLIM:
       ret = "WSAEPROCLIM";
       break;
-#endif
+#endif // WSAEPROCLIM
 #ifdef WSAEUSERS
     case WSAEUSERS:
       ret = "WSAEUSERS";
       break;
-#endif
+#endif // WSAEUSERS
 #ifdef WSAEDQUOT
     case WSAEDQUOT:
       ret = "WSAEDQUOT";
       break;
-#endif
+#endif // WSAEDQUOT
 #ifdef WSAESTALE
     case WSAESTALE:
       ret = "WSAESTALE";
       break;
-#endif
+#endif // WSAESTALE
 #ifdef WSAEREMOTE
     case WSAEREMOTE:
       ret = "WSAEREMOTE";
       break;
-#endif
+#endif // WSAEREMOTE
 #ifdef WSASYSNOTREADY
     case WSASYSNOTREADY:
       ret = "WSASYSNOTREADY";
       break;
-#endif
+#endif // WSASYSNOTREADY
 #ifdef WSAVERNOTSUPPORTED
     case WSAVERNOTSUPPORTED:
       ret = "WSAVERNOTSUPPORTED";
       break;
-#endif
+#endif // WSAVERNOTSUPPORTED
 #ifdef WSANOTINITIALISED
     case WSANOTINITIALISED:
       ret = "WSANOTINITIALISED";
       break;
-#endif
+#endif // WSANOTINITIALISED
 #ifdef WSAEDISCON
     case WSAEDISCON:
       ret = "WSAEDISCON";
       break;
-#endif
+#endif // WSAEDISCON
 #ifdef WSAENOMORE
     case WSAENOMORE:
       ret = "WSAENOMORE";
       break;
-#endif
+#endif // WSAENOMORE
 #ifdef WSAECANCELLED
     case WSAECANCELLED:
       ret = "WSAECANCELLED";
       break;
-#endif
+#endif // WSAECANCELLED
 #ifdef WSAEINVALIDPROCTABLE
     case WSAEINVALIDPROCTABLE:
       ret = "WSAEINVALIDPROCTABLE";
       break;
-#endif
+#endif // WSAEINVALIDPROCTABLE
 #ifdef WSAEINVALIDPROVIDER
     case WSAEINVALIDPROVIDER:
       ret = "WSAEINVALIDPROVIDER";
       break;
-#endif
+#endif // WSAEINVALIDPROVIDER
 #ifdef WSAEPROVIDERFAILEDINIT
     case WSAEPROVIDERFAILEDINIT:
       ret = "WSAEPROVIDERFAILEDINIT";
       break;
-#endif
+#endif // WSAEPROVIDERFAILEDINIT
 #ifdef WSASYSCALLFAILURE
     case WSASYSCALLFAILURE:
       ret = "WSASYSCALLFAILURE";
       break;
-#endif
+#endif // WSASYSCALLFAILURE
 #ifdef WSASERVICE_NOT_FOUND
     case WSASERVICE_NOT_FOUND:
       ret = "WSASERVICE_NOT_FOUND";
       break;
-#endif
+#endif // WSASERVICE_NOT_FOUND
 #ifdef WSATYPE_NOT_FOUND
     case WSATYPE_NOT_FOUND:
       ret = "WSATYPE_NOT_FOUND";
       break;
-#endif
+#endif // WSATYPE_NOT_FOUND
 #ifdef WSA_E_NO_MORE
     case WSA_E_NO_MORE:
       ret = "WSA_E_NO_MORE";
       break;
-#endif
+#endif // WSA_E_NO_MORE
 #ifdef WSA_E_CANCELLED
     case WSA_E_CANCELLED:
       ret = "WSA_E_CANCELLED";
       break;
-#endif
+#endif // WSA_E_CANCELLED
 #ifdef WSAEREFUSED
     case WSAEREFUSED:
       ret = "WSAEREFUSED";
       break;
-#endif
+#endif // WSAEREFUSED
 #ifdef WSAHOST_NOT_FOUND
     case WSAHOST_NOT_FOUND:
       ret = "WSAHOST_NOT_FOUND";
       break;
-#endif
+#endif // WSAHOST_NOT_FOUND
 #ifdef WSATRY_AGAIN
     case WSATRY_AGAIN:
       ret = "WSATRY_AGAIN";
       break;
-#endif
+#endif // WSATRY_AGAIN
 #ifdef WSANO_RECOVERY
     case WSANO_RECOVERY:
       ret = "WSANO_RECOVERY";
       break;
-#endif
+#endif // WSANO_RECOVERY
 #ifdef WSANO_DATA
     case WSANO_DATA:
       ret = "WSANO_DATA";
       break;
-#endif
+#endif // WSANO_DATA
 #ifdef WSA_QOS_RECEIVERS
     case WSA_QOS_RECEIVERS:
       ret = "WSA_QOS_RECEIVERS";
       break;
-#endif
+#endif // WSA_QOS_RECEIVERS
 #ifdef WSA_QOS_SENDERS
     case WSA_QOS_SENDERS:
       ret = "WSA_QOS_SENDERS";
       break;
-#endif
+#endif // WSA_QOS_SENDERS
 #ifdef WSA_QOS_NO_SENDERS
     case WSA_QOS_NO_SENDERS:
       ret = "WSA_QOS_NO_SENDERS";
       break;
-#endif
+#endif // WSA_QOS_NO_SENDERS
 #ifdef WSA_QOS_NO_RECEIVERS
     case WSA_QOS_NO_RECEIVERS:
       ret = "WSA_QOS_NO_RECEIVERS";
       break;
-#endif
+#endif // WSA_QOS_NO_RECEIVERS
 #ifdef WSA_QOS_REQUEST_CONFIRMED
     case WSA_QOS_REQUEST_CONFIRMED:
       ret = "WSA_QOS_REQUEST_CONFIRMED";
       break;
-#endif
+#endif // WSA_QOS_REQUEST_CONFIRMED
 #ifdef WSA_QOS_ADMISSION_FAILURE
     case WSA_QOS_ADMISSION_FAILURE:
       ret = "WSA_QOS_ADMISSION_FAILURE";
       break;
-#endif
+#endif // WSA_QOS_ADMISSION_FAILURE
 #ifdef WSA_QOS_POLICY_FAILURE
     case WSA_QOS_POLICY_FAILURE:
       ret = "WSA_QOS_POLICY_FAILURE";
       break;
-#endif
+#endif // WSA_QOS_POLICY_FAILURE
 #ifdef WSA_QOS_BAD_STYLE
     case WSA_QOS_BAD_STYLE:
       ret = "WSA_QOS_BAD_STYLE";
       break;
-#endif
+#endif // WSA_QOS_BAD_STYLE
 #ifdef WSA_QOS_BAD_OBJECT
     case WSA_QOS_BAD_OBJECT:
       ret = "WSA_QOS_BAD_OBJECT";
       break;
-#endif
+#endif // WSA_QOS_BAD_OBJECT
 #ifdef WSA_QOS_TRAFFIC_CTRL_ERROR
     case WSA_QOS_TRAFFIC_CTRL_ERROR:
       ret = "WSA_QOS_TRAFFIC_CTRL_ERROR";
       break;
-#endif
+#endif // WSA_QOS_TRAFFIC_CTRL_ERROR
 #ifdef WSA_QOS_GENERIC_ERROR
     case WSA_QOS_GENERIC_ERROR:
       ret = "WSA_QOS_GENERIC_ERROR";
       break;
-#endif
+#endif // WSA_QOS_GENERIC_ERROR
 #ifdef WSA_QOS_ESERVICETYPE
     case WSA_QOS_ESERVICETYPE:
       ret = "WSA_QOS_ESERVICETYPE";
       break;
-#endif
+#endif // WSA_QOS_ESERVICETYPE
 #ifdef WSA_QOS_EFLOWSPEC
     case WSA_QOS_EFLOWSPEC:
       ret = "WSA_QOS_EFLOWSPEC";
       break;
-#endif
+#endif // WSA_QOS_EFLOWSPEC
 #ifdef WSA_QOS_EPROVSPECBUF
     case WSA_QOS_EPROVSPECBUF:
       ret = "WSA_QOS_EPROVSPECBUF";
       break;
-#endif
+#endif // WSA_QOS_EPROVSPECBUF
 #ifdef WSA_QOS_EFILTERSTYLE
     case WSA_QOS_EFILTERSTYLE:
       ret = "WSA_QOS_EFILTERSTYLE";
       break;
-#endif
+#endif // WSA_QOS_EFILTERSTYLE
 #ifdef WSA_QOS_EFILTERTYPE
     case WSA_QOS_EFILTERTYPE:
       ret = "WSA_QOS_EFILTERTYPE";
       break;
-#endif
+#endif // WSA_QOS_EFILTERTYPE
 #ifdef WSA_QOS_EFILTERCOUNT
     case WSA_QOS_EFILTERCOUNT:
       ret = "WSA_QOS_EFILTERCOUNT";
       break;
-#endif
+#endif // WSA_QOS_EFILTERCOUNT
 #ifdef WSA_QOS_EOBJLENGTH
     case WSA_QOS_EOBJLENGTH:
       ret = "WSA_QOS_EOBJLENGTH";
       break;
-#endif
+#endif // WSA_QOS_EOBJLENGTH
 #ifdef WSA_QOS_EFLOWCOUNT
     case WSA_QOS_EFLOWCOUNT:
       ret = "WSA_QOS_EFLOWCOUNT";
       break;
-#endif
+#endif // WSA_QOS_EFLOWCOUNT
 #ifdef WSA_QOS_EUNKOWNPSOBJ
     case WSA_QOS_EUNKOWNPSOBJ:
       ret = "WSA_QOS_EUNKOWNPSOBJ";
       break;
-#endif
+#endif // WSA_QOS_EUNKOWNPSOBJ
 #ifdef WSA_QOS_EPOLICYOBJ
     case WSA_QOS_EPOLICYOBJ:
       ret = "WSA_QOS_EPOLICYOBJ";
       break;
-#endif
+#endif // WSA_QOS_EPOLICYOBJ
 #ifdef WSA_QOS_EFLOWDESC
     case WSA_QOS_EFLOWDESC:
       ret = "WSA_QOS_EFLOWDESC";
       break;
-#endif
+#endif // WSA_QOS_EFLOWDESC
 #ifdef WSA_QOS_EPSFLOWSPEC
     case WSA_QOS_EPSFLOWSPEC:
       ret = "WSA_QOS_EPSFLOWSPEC";
       break;
-#endif
+#endif // WSA_QOS_EPSFLOWSPEC
 #ifdef WSA_QOS_EPSFILTERSPEC
     case WSA_QOS_EPSFILTERSPEC:
       ret = "WSA_QOS_EPSFILTERSPEC";
       break;
-#endif
+#endif // WSA_QOS_EPSFILTERSPEC
 #ifdef WSA_QOS_ESDMODEOBJ
     case WSA_QOS_ESDMODEOBJ:
       ret = "WSA_QOS_ESDMODEOBJ";
       break;
-#endif
+#endif // WSA_QOS_ESDMODEOBJ
 #ifdef WSA_QOS_ESHAPERATEOBJ
     case WSA_QOS_ESHAPERATEOBJ:
       ret = "WSA_QOS_ESHAPERATEOBJ";
       break;
-#endif
+#endif // WSA_QOS_ESHAPERATEOBJ
 #ifdef WSA_QOS_RESERVED_PETYPE
     case WSA_QOS_RESERVED_PETYPE:
       ret = "WSA_QOS_RESERVED_PETYPE";
       break;
-#endif
+#endif // WSA_QOS_RESERVED_PETYPE
     }
 
   return ret;
@@ -532,6 +532,8 @@ _lw6net_wsa_str (int wsa_int)
 /**
  * lw6net_last_error:
  *
+ * @sys_context: global system context
+ *
  * Reports the last network error. This is basically a debug function,
  * designed mostly for Microsoft Winsock API, but can be safely called
  * on any platform.
@@ -540,7 +542,7 @@ _lw6net_wsa_str (int wsa_int)
  *   on the platform you're working on.
  */
 int
-lw6net_last_error ()
+lw6net_last_error (lw6sys_context_t * sys_context)
 {
   int ret = 0;
 
@@ -548,16 +550,16 @@ lw6net_last_error ()
   ret = WSAGetLastError ();
   if (ret || errno)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("winsock error %d \"%s\""), ret, _lw6net_wsa_str (ret));
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("winsock error %d \"%s\""), ret, _lw6net_wsa_str (sys_context, ret));
     }
-#else
+#else // LW6_MS_WINDOWS
   ret = errno;
 
   if (ret)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("socket error %d \"%s\""), ret, lw6sys_log_errno_str (ret));
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("socket error %d \"%s\""), ret, lw6sys_log_errno_str (sys_context, ret));
     }
-#endif
+#endif // LW6_MS_WINDOWS
 
   return ret;
 }

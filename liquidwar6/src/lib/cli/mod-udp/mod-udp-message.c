@@ -47,7 +47,7 @@ _mod_udp_send (_mod_udp_context_t * udp_context,
     {
       if (lw6cnx_connection_lock_send (connection))
 	{
-	  if (lw6net_send_line_udp (specific_data->sock, line, connection->remote_ip, connection->remote_port))
+	  if (lw6net_send_line_udp (sys_context, specific_data->sock, line, connection->remote_ip, connection->remote_port))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udp sent \"%s\""), line);
 	      ret = 1;
@@ -82,9 +82,9 @@ _mod_udp_poll (_mod_udp_context_t * udp_context, lw6cnx_connection_t * connectio
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udp poll"));
   memset (buf, 0, LW6NET_UDP_MINIMAL_BUF_SIZE + 1);
-  if (lw6net_udp_peek (specific_data->sock, buf, LW6NET_UDP_MINIMAL_BUF_SIZE, NULL, NULL))
+  if (lw6net_udp_peek (sys_context, specific_data->sock, buf, LW6NET_UDP_MINIMAL_BUF_SIZE, NULL, NULL))
     {
-      envelope_line = lw6net_recv_line_udp (specific_data->sock, NULL, NULL);
+      envelope_line = lw6net_recv_line_udp (sys_context, specific_data->sock, NULL, NULL);
       if (envelope_line)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udp received envelope \"%s\""), envelope_line);

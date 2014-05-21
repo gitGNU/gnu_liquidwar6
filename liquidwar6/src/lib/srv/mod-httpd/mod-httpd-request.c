@@ -160,7 +160,7 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_
    * need to go further, we'll just return NULL and skip
    * even the 500 error default trick, it's not even worth it.
    */
-  if (lw6net_tcp_peek (&(oob_data->sock), &b, sizeof (b), 0) > 0)
+  if (lw6net_tcp_peek (sys_context, &(oob_data->sock), &b, sizeof (b), 0) > 0)
     {
       request = (_mod_httpd_request_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_httpd_request_t));
       if (request)
@@ -169,7 +169,7 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_
 
 	  if (_mod_httpd_oob_should_continue (httpd_context, oob_data))
 	    {
-	      request->first_line = lw6net_recv_line_tcp (&(oob_data->sock));
+	      request->first_line = lw6net_recv_line_tcp (sys_context, &(oob_data->sock));
 	      if (request->first_line)
 		{
 		  if (_parse_first_line (request))
@@ -180,7 +180,7 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_
 			}
 		      while ((!eof) && _mod_httpd_oob_should_continue (httpd_context, oob_data))
 			{
-			  line = lw6net_recv_line_tcp (&(oob_data->sock));
+			  line = lw6net_recv_line_tcp (sys_context, &(oob_data->sock));
 			  if (line)
 			    {
 			      if (strlen (line) == 0)
@@ -239,7 +239,7 @@ _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t * reply_thread_data
 
       if (_mod_httpd_reply_thread_should_continue (reply_thread_data))
 	{
-	  request->first_line = lw6net_recv_line_tcp (&(reply_thread_data->sock));
+	  request->first_line = lw6net_recv_line_tcp (sys_context, &(reply_thread_data->sock));
 	  if (request->first_line)
 	    {
 	      if (_parse_first_line (request))
@@ -250,7 +250,7 @@ _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t * reply_thread_data
 		    }
 		  while ((!eof) && _mod_httpd_reply_thread_should_continue (reply_thread_data))
 		    {
-		      line = lw6net_recv_line_tcp (&(reply_thread_data->sock));
+		      line = lw6net_recv_line_tcp (sys_context, &(reply_thread_data->sock));
 		      if (line)
 			{
 			  if (strlen (line) == 0)

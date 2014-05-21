@@ -47,7 +47,7 @@ _mod_tcpd_analyse_tcp (_mod_tcpd_context_t * tcpd_context,
       (*remote_url) = NULL;
     }
 
-  if (lw6net_tcp_is_alive (&(tcp_accepter->sock)))
+  if (lw6net_tcp_is_alive (sys_context, &(tcp_accepter->sock)))
     {
       if (lw6sys_chr_is_eol (line[0])
 	  || lw6sys_str_starts_with_no_case (sys_context, line,
@@ -133,9 +133,9 @@ _mod_tcpd_feed_with_tcp (_mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t
   if (specific_data)
     {
       tmp_sock = tcp_accepter->sock;
-      if (lw6net_socket_is_valid (specific_data->sock))
+      if (lw6net_socket_is_valid (sys_context, specific_data->sock))
 	{
-	  if (!lw6net_tcp_is_alive (&(specific_data->sock)))
+	  if (!lw6net_tcp_is_alive (sys_context, &(specific_data->sock)))
 	    {
 	      /*
 	       * Close our old socket, use the new one
@@ -148,7 +148,7 @@ _mod_tcpd_feed_with_tcp (_mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			  _x_ ("double connection from \"%s\" (%s:%d), ignoring"), connection->remote_url, connection->remote_ip, connection->remote_port);
-	      lw6net_socket_close (&(tcp_accepter->sock));
+	      lw6net_socket_close (sys_context, &(tcp_accepter->sock));
 	    }
 	}
       else

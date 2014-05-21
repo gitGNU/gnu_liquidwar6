@@ -408,7 +408,7 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_t * no
       _mod_httpd_request_free (request);
     }
 
-  lw6net_socket_close (&(oob_data->sock));
+  lw6net_socket_close (sys_context, &(oob_data->sock));
 
   return ret;
 }
@@ -418,7 +418,8 @@ _mod_httpd_oob_should_continue (_mod_httpd_context_t * httpd_context, lw6srv_oob
 {
   int ret = 0;
 
-  ret = (_mod_httpd_timeout_ok (httpd_context, oob_data->creation_timestamp) && lw6net_tcp_is_alive (&(oob_data->sock)) && (!oob_data->do_not_finish));
+  ret = (_mod_httpd_timeout_ok (httpd_context, oob_data->creation_timestamp) && lw6net_tcp_is_alive (sys_context, &(oob_data->sock))
+	 && (!oob_data->do_not_finish));
 
   return ret;
 }

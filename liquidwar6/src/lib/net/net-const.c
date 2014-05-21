@@ -30,7 +30,7 @@
 #define CONST_FILE "net/net-const.xml"
 
 static void
-read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   _lw6net_const_data_t *const_data;
 
@@ -53,7 +53,7 @@ read_callback (void *callback_data, const char *element, const char *key, const 
  * Loads constants.
  */
 int
-_lw6net_const_init (int argc, const char *argv[], _lw6net_const_data_t * const_data)
+_lw6net_const_init (lw6sys_context_t * sys_context, int argc, const char *argv[], _lw6net_const_data_t * const_data)
 {
   int ret = 0;
   char *const_file = NULL;
@@ -69,7 +69,7 @@ _lw6net_const_init (int argc, const char *argv[], _lw6net_const_data_t * const_d
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), const_file);
 
-	  ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, read_callback, (void *) const_data);
+	  ret = lw6cfg_read_key_value_xml_file (sys_context, const_file, _read_callback, (void *) const_data);
 	  LW6SYS_FREE (sys_context, const_file);
 	}
       LW6SYS_FREE (sys_context, data_root_dir);
@@ -90,7 +90,7 @@ _lw6net_const_init (int argc, const char *argv[], _lw6net_const_data_t * const_d
  * Unload constants, free memory
  */
 void
-_lw6net_const_quit (_lw6net_const_data_t * const_data)
+_lw6net_const_quit (lw6sys_context_t * sys_context, _lw6net_const_data_t * const_data)
 {
   memset (const_data, 0, sizeof (_lw6net_const_data_t));
 }

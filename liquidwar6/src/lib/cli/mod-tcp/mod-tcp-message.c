@@ -46,11 +46,11 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 			      connection->local_id_int, connection->remote_id_int, logical_from_id, logical_to_id, message);
   if (line)
     {
-      if (specific_data->state == _MOD_TCP_STATE_CONNECTED && lw6net_socket_is_valid (specific_data->sock))
+      if (specific_data->state == _MOD_TCP_STATE_CONNECTED && lw6net_socket_is_valid (sys_context, specific_data->sock))
 	{
 	  if (lw6cnx_connection_lock_send (connection))
 	    {
-	      if (lw6net_send_line_tcp (&(specific_data->sock), line))
+	      if (lw6net_send_line_tcp (sys_context, &(specific_data->sock), line))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcp sent \"%s\""), line);
 		  specific_data->last_send_success_timestamp = now;
@@ -101,7 +101,7 @@ _mod_tcp_can_send (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * conne
   int ret = 0;
   _mod_tcp_specific_data_t *specific_data = (_mod_tcp_specific_data_t *) connection->backend_specific_data;
 
-  ret = specific_data->state == _MOD_TCP_STATE_CONNECTED && lw6net_socket_is_valid (specific_data->sock);
+  ret = specific_data->state == _MOD_TCP_STATE_CONNECTED && lw6net_socket_is_valid (sys_context, specific_data->sock);
 
   return ret;
 }
@@ -152,7 +152,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connectio
 	  lw6sys_thread_join (specific_data->connect_thread);
 	  specific_data->connect_thread = NULL;
 	}
-      if (lw6net_socket_is_valid (specific_data->sock))
+      if (lw6net_socket_is_valid (sys_context, specific_data->sock))
 	{
 	  specific_data->state = _MOD_TCP_STATE_CONNECTED;
 	  /*
@@ -167,24 +167,24 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connectio
 	}
       break;
     case _MOD_TCP_STATE_CONNECTED:
-      if (lw6net_socket_is_valid (specific_data->sock))
+      if (lw6net_socket_is_valid (sys_context, specific_data->sock))
 	{
 	  /*
 	   * Note: we don't explicitely close socket here, even if it's not
 	   * alive, in fact it's the recv/send code that will do it if needed
 	   * as it acts on the pointer directly.
 	   */
-	  if (lw6net_tcp_is_alive (&(specific_data->sock)))
+	  if (lw6net_tcp_is_alive (sys_context, &(specific_data->sock)))
 	    {
 	      /*
 	       * Recv
 	       */
 	      memset (buffer, 0, LW6CLI_CONTENT_BUFFER_SIZE + 1);
-	      if (lw6net_tcp_peek (&(specific_data->sock), buffer, LW6CLI_CONTENT_BUFFER_SIZE, 0))
+	      if (lw6net_tcp_peek (sys_context, &(specific_data->sock), buffer, LW6CLI_CONTENT_BUFFER_SIZE, 0))
 		{
 		  if (strchr (buffer, '\n'))
 		    {
-		      envelope_line = lw6net_recv_line_tcp (&(specific_data->sock));
+		      envelope_line = lw6net_recv_line_tcp (sys_context, &(specific_data->sock));
 		      if (envelope_line)
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcp received envelope \"%s\""), envelope_line);

@@ -76,7 +76,7 @@ _mod_tcp_close (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connecti
 	  lw6sys_thread_join (specific_data->connect_thread);
 	  specific_data->connect_thread = NULL;
 	}
-      lw6net_socket_close (&(specific_data->sock));
+      lw6net_socket_close (sys_context, &(specific_data->sock));
       LW6SYS_FREE (sys_context, specific_data);
     }
   lw6cnx_connection_free (connection);
@@ -113,10 +113,10 @@ _mod_tcp_connect_func (void *func_data)
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connecting on %s:%d"), connection->remote_ip, connection->remote_port);
 
   sock = specific_data->sock;
-  if (!lw6net_socket_is_valid (sock))
+  if (!lw6net_socket_is_valid (sys_context, sock))
     {
-      sock = lw6net_tcp_connect (connection->remote_ip, connection->remote_port, tcp_context->data.consts.connect_timeout * 1000);
-      if (lw6net_socket_is_valid (sock))
+      sock = lw6net_tcp_connect (sys_context, connection->remote_ip, connection->remote_port, tcp_context->data.consts.connect_timeout * 1000);
+      if (lw6net_socket_is_valid (sys_context, sock))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connected on %s:%d"), connection->remote_ip, connection->remote_port);
 	  specific_data->sock = sock;

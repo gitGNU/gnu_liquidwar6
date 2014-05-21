@@ -241,7 +241,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context, lw6nod_info_t * node_
 	    {
 	      password_checksum = lw6cnx_password_checksum (oob_data->public_url, node_info->const_info.password);
 	    }
-	  ip = lw6net_dns_gethostbyname (parsed_url->host);
+	  ip = lw6net_dns_gethostbyname (sys_context, parsed_url->host);
 	  if (ip)
 	    {
 	      if (_mod_http_oob_should_continue (http_context, oob_data))
@@ -258,13 +258,14 @@ _mod_http_process_oob (_mod_http_context_t * http_context, lw6nod_info_t * node_
 		       * we can find out right away that something is wrong,
 		       * we just return immediately.
 		       */
-		      tcp_connect_sock = lw6net_tcp_connect (ip, parsed_url->port, http_context->data.consts.connect_timeout * LW6SYS_TICKS_PER_SEC);
-		      if (lw6net_socket_is_valid (tcp_connect_sock))
+		      tcp_connect_sock =
+			lw6net_tcp_connect (sys_context, ip, parsed_url->port, http_context->data.consts.connect_timeout * LW6SYS_TICKS_PER_SEC);
+		      if (lw6net_socket_is_valid (sys_context, tcp_connect_sock))
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				      _x_ ("TCP check before HTTP request, connected to \"%s\" on %s:%d"), oob_data->public_url, ip, parsed_url->port);
 			  tcp_connect_ok = 1;
-			  lw6net_socket_close (&tcp_connect_sock);
+			  lw6net_socket_close (sys_context, &tcp_connect_sock);
 			}
 		      else
 			{

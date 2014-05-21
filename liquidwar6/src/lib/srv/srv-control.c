@@ -47,9 +47,9 @@ lw6srv_start (const char *ip, int port)
     {
       listener->ip = lw6sys_str_copy (ip);
       listener->port = port;
-      listener->tcp_sock = lw6net_tcp_listen (ip, port);
+      listener->tcp_sock = lw6net_tcp_listen (sys_context, ip, port);
       listener->tcp_accepters = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6srv_tcp_accepter_free);
-      listener->udp_sock = lw6net_udp_server (ip, port);
+      listener->udp_sock = lw6net_udp_server (sys_context, ip, port);
       listener->udp_buffers = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6srv_udp_buffer_free);
       if (listener->ip && listener->port && (listener->tcp_sock >= 0) && listener->tcp_accepters && (listener->udp_sock >= 0) && listener->udp_buffers)
 	{
@@ -70,7 +70,7 @@ _accepter_close_callback (void *func_data, void *data)
 {
   lw6srv_tcp_accepter_t *tcp_accepter = (lw6srv_tcp_accepter_t *) data;
 
-  lw6net_socket_close (&(tcp_accepter->sock));
+  lw6net_socket_close (sys_context, &(tcp_accepter->sock));
 }
 
 /**
@@ -91,13 +91,13 @@ lw6srv_stop (lw6srv_listener_t * listener)
 	{
 	  lw6sys_list_free (listener->udp_buffers);
 	}
-      lw6net_socket_close (&(listener->udp_sock));
+      lw6net_socket_close (sys_context, &(listener->udp_sock));
       if (listener->tcp_accepters)
 	{
 	  lw6sys_list_map (listener->tcp_accepters, _accepter_close_callback, NULL);
 	  lw6sys_list_free (listener->tcp_accepters);
 	}
-      lw6net_socket_close (&(listener->tcp_sock));
+      lw6net_socket_close (sys_context, &(listener->tcp_sock));
       if (listener->ip)
 	{
 	  LW6SYS_FREE (sys_context, listener->ip);

@@ -95,11 +95,11 @@ _mod_udpd_process_oob (_mod_udpd_context_t * udpd_context, lw6nod_info_t * node_
   if (response)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("sending OOB response \"%s\" on UDP to %s:%d"), response, oob_data->remote_ip, oob_data->remote_port);
-      lw6net_udp_send (oob_data->sock, response, strlen (response), oob_data->remote_ip, oob_data->remote_port);
+      lw6net_udp_send (sys_context, oob_data->sock, response, strlen (response), oob_data->remote_ip, oob_data->remote_port);
     }
   else
     {
-      lw6net_send_line_udp (oob_data->sock, LW6MSG_ERROR, oob_data->remote_ip, oob_data->remote_port);
+      lw6net_send_line_udp (sys_context, oob_data->sock, LW6MSG_ERROR, oob_data->remote_ip, oob_data->remote_port);
     }
 
   if (response)
