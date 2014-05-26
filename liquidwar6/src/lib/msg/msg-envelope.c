@@ -287,7 +287,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 		  pos = seek;
 		  if (lw6msg_word_first_x (&received_password, &seek, pos))
 		    {
-		      if (lw6cnx_password_verify (local_url, password, received_password.buf))
+		      if (lw6cnx_password_verify (sys_context, local_url, password, received_password.buf))
 			{
 			  pos = seek;
 			  if (lw6msg_word_first_x (&tmp_word, &seek, pos))

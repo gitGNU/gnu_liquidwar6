@@ -39,7 +39,7 @@ _mod_udpd_open (_mod_udpd_context_t * udpd_context,
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_mod_udpd_open \"%s\""), remote_url);
   ret =
-    lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
+    lw6cnx_connection_new (sys_context, local_url, remote_url, remote_ip, remote_port,
 			   password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
   if (ret)
     {
@@ -70,7 +70,7 @@ _mod_udpd_close (_mod_udpd_context_t * udpd_context, lw6cnx_connection_t * conne
     {
       LW6SYS_FREE (sys_context, specific_data);
     }
-  lw6cnx_connection_free (connection);
+  lw6cnx_connection_free (sys_context, connection);
 }
 
 int

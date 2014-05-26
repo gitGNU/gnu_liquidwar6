@@ -50,12 +50,13 @@
 typedef struct _lw6cnx_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
 } _lw6cnx_test_data_t;
 
-static _lw6cnx_test_data_t _test_data = { 0 };
+static _lw6cnx_test_data_t _test_data = { 0, NULL };
 
 static void
-_recv_callback_func (void *recv_callback_data,
+_recv_callback_func (lw6sys_context_t * sys_context, void *recv_callback_data,
 		     lw6cnx_connection_t * connection,
 		     u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
 {
@@ -69,24 +70,26 @@ static void
 _test_connection ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     lw6cnx_connection_t *cnx = NULL;
     int64_t now = 0;
 
-    now = lw6sys_get_timestamp ();
+    now = lw6sys_get_timestamp (sys_context);
     cnx =
-      lw6cnx_connection_new (_TEST_LOCAL_URL, _TEST_REMOTE_URL,
+      lw6cnx_connection_new (sys_context, _TEST_LOCAL_URL, _TEST_REMOTE_URL,
 			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT,
 			     _TEST_PASSWORD, _TEST_LOCAL_ID, _TEST_REMOTE_ID, _TEST_DNS_OK, _TEST_NETWORK_RELIABILITY, _recv_callback_func, NULL);
     if (LW6SYS_TEST_ACK (cnx))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("cnx_connection object creation works"));
-	if (LW6SYS_TEST_ACK (lw6cnx_connection_should_send_foo (cnx, now)))
+	if (LW6SYS_TEST_ACK (lw6cnx_connection_should_send_foo (sys_context, cnx, now)))
 	  {
-	    lw6cnx_connection_init_foo_bar_key (cnx, now, _TEST_NEXT_FOO_DELAY);
-	    if (LW6SYS_TEST_ACK (!lw6cnx_connection_should_send_foo (cnx, now)))
+	    lw6cnx_connection_init_foo_bar_key (sys_context, cnx, now, _TEST_NEXT_FOO_DELAY);
+	    if (LW6SYS_TEST_ACK (!lw6cnx_connection_should_send_foo (sys_context, cnx, now)))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("cnx_connection foo scheduling works"));
 	      }
@@ -103,10 +106,10 @@ _test_connection ()
 	    ret = 0;
 	  }
 
-	if (LW6SYS_TEST_ACK (lw6cnx_connection_lock_send (cnx)))
+	if (LW6SYS_TEST_ACK (lw6cnx_connection_lock_send (sys_context, cnx)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("acquired send mutex"));
-	    lw6cnx_connection_unlock_send (cnx);
+	    lw6cnx_connection_unlock_send (sys_context, cnx);
 	  }
 	else
 	  {
@@ -114,9 +117,9 @@ _test_connection ()
 	    ret = 0;
 	  }
 
-	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("connection filter returns %d"), lw6cnx_connection_reliability_filter (cnx));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("connection filter returns %d"), lw6cnx_connection_reliability_filter (sys_context, cnx));
 
-	lw6cnx_connection_free (cnx);
+	lw6cnx_connection_free (sys_context, cnx);
       }
     else
       {
@@ -128,12 +131,12 @@ _test_connection ()
      * Trying with some NULL fields
      */
     cnx =
-      lw6cnx_connection_new (_TEST_LOCAL_URL, _TEST_REMOTE_URL,
+      lw6cnx_connection_new (sys_context, _TEST_LOCAL_URL, _TEST_REMOTE_URL,
 			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT, NULL, _TEST_LOCAL_ID, _TEST_REMOTE_ID, _TEST_DNS_OK, _TEST_NETWORK_RELIABILITY, NULL, NULL);
     if (LW6SYS_TEST_ACK (cnx))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("cnx_connection object creation works, even with \"some\" NULLs"));
-	lw6cnx_connection_free (cnx);
+	lw6cnx_connection_free (sys_context, cnx);
       }
     else
       {
@@ -152,12 +155,14 @@ static void
 _test_password ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     char *checksum = NULL;
 
-    checksum = lw6cnx_password_checksum (NULL, NULL);
+    checksum = lw6cnx_password_checksum (sys_context, NULL, NULL);
     if (LW6SYS_TEST_ACK (checksum))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("checksum for password NULL is \"%s\""), checksum);
@@ -167,7 +172,7 @@ _test_password ()
       {
 	ret = 0;
       }
-    checksum = lw6cnx_password_checksum (NULL, "");
+    checksum = lw6cnx_password_checksum (sys_context, NULL, "");
     if (LW6SYS_TEST_ACK (checksum))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("checksum for empty password is \"%s\""), checksum);
@@ -177,7 +182,7 @@ _test_password ()
       {
 	ret = 0;
       }
-    checksum = lw6cnx_password_checksum (_TEST_PASSWORD_SEED, "");
+    checksum = lw6cnx_password_checksum (sys_context, _TEST_PASSWORD_SEED, "");
     if (LW6SYS_TEST_ACK (checksum))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("checksum for empty password with seed \"%s\" is \"%s\""), _TEST_PASSWORD_SEED, checksum);
@@ -187,7 +192,7 @@ _test_password ()
       {
 	ret = 0;
       }
-    checksum = lw6cnx_password_checksum (_TEST_PASSWORD_SEED, _TEST_PASSWORD1);
+    checksum = lw6cnx_password_checksum (sys_context, _TEST_PASSWORD_SEED, _TEST_PASSWORD1);
     if (LW6SYS_TEST_ACK (checksum))
       {
 	if (LW6SYS_TEST_ACK (lw6sys_str_is_same (sys_context, checksum, _TEST_PASSWORD_CHECKSUM)))
@@ -200,7 +205,7 @@ _test_password ()
 			_x_ ("checksum for password \"%s\" is \"%s\", should be \"%s\""), _TEST_PASSWORD1, checksum, _TEST_PASSWORD_CHECKSUM);
 	    ret = 0;
 	  }
-	if (LW6SYS_TEST_ACK (lw6cnx_password_verify (_TEST_PASSWORD_SEED, _TEST_PASSWORD1, _TEST_PASSWORD1)))
+	if (LW6SYS_TEST_ACK (lw6cnx_password_verify (sys_context, _TEST_PASSWORD_SEED, _TEST_PASSWORD1, _TEST_PASSWORD1)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("same password test works"));
 	  }
@@ -208,7 +213,7 @@ _test_password ()
 	  {
 	    ret = 0;
 	  }
-	if (LW6SYS_TEST_ACK (lw6cnx_password_verify (_TEST_PASSWORD_SEED, _TEST_PASSWORD1, checksum)))
+	if (LW6SYS_TEST_ACK (lw6cnx_password_verify (sys_context, _TEST_PASSWORD_SEED, _TEST_PASSWORD1, checksum)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("same password test works using checksum"));
 	  }
@@ -216,7 +221,7 @@ _test_password ()
 	  {
 	    ret = 0;
 	  }
-	if (LW6SYS_TEST_ACK (lw6cnx_password_verify (_TEST_PASSWORD_SEED, NULL, _TEST_PASSWORD2)))
+	if (LW6SYS_TEST_ACK (lw6cnx_password_verify (sys_context, _TEST_PASSWORD_SEED, NULL, _TEST_PASSWORD2)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("same password test works when it's NULL here"));
 	  }
@@ -224,7 +229,7 @@ _test_password ()
 	  {
 	    ret = 0;
 	  }
-	if (LW6SYS_TEST_ACK (!lw6cnx_password_verify (_TEST_PASSWORD_SEED, _TEST_PASSWORD1, _TEST_PASSWORD2)))
+	if (LW6SYS_TEST_ACK (!lw6cnx_password_verify (sys_context, _TEST_PASSWORD_SEED, _TEST_PASSWORD1, _TEST_PASSWORD2)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("same password test detects wrong passwords"));
 	  }
@@ -232,7 +237,7 @@ _test_password ()
 	  {
 	    ret = 0;
 	  }
-	if (LW6SYS_TEST_ACK (!lw6cnx_password_verify (NULL, _TEST_PASSWORD1, _TEST_PASSWORD2)))
+	if (LW6SYS_TEST_ACK (!lw6cnx_password_verify (sys_context, NULL, _TEST_PASSWORD1, _TEST_PASSWORD2)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("same password test detects wrong seed"));
 	  }
@@ -258,25 +263,27 @@ static void
 _test_ticket_table ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     lw6cnx_ticket_table_t ticket_table;
     u_int32_t ticket = 0;
 
-    lw6cnx_ticket_table_zero (&ticket_table);
-    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_init (&ticket_table, _TEST_TICKET_TABLE_HASH_SIZE)))
+    lw6cnx_ticket_table_zero (sys_context, &ticket_table);
+    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_init (sys_context, &ticket_table, _TEST_TICKET_TABLE_HASH_SIZE)))
       {
-	ticket = lw6cnx_ticket_table_get_recv (&ticket_table, _TEST_TICKET_TABLE_ID1);
+	ticket = lw6cnx_ticket_table_get_recv (sys_context, &ticket_table, _TEST_TICKET_TABLE_ID1);
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ticket generated %08x"), ticket);
-	ticket = lw6cnx_ticket_table_get_recv (&ticket_table, _TEST_TICKET_TABLE_ID2);
+	ticket = lw6cnx_ticket_table_get_recv (sys_context, &ticket_table, _TEST_TICKET_TABLE_ID2);
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ticket generated %08x"), ticket);
-	if (LW6SYS_TEST_ACK (!lw6cnx_ticket_table_was_recv_exchanged (&ticket_table, _TEST_TICKET_TABLE_ID1)))
+	if (LW6SYS_TEST_ACK (!lw6cnx_ticket_table_was_recv_exchanged (sys_context, &ticket_table, _TEST_TICKET_TABLE_ID1)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("recv ticket reported as *not* exchanged, this is right"));
-	    lw6cnx_ticket_table_ack_recv (&ticket_table, _TEST_TICKET_TABLE_ID1, _TEST_TICKET_ACK_DELAY_MSEC);
+	    lw6cnx_ticket_table_ack_recv (sys_context, &ticket_table, _TEST_TICKET_TABLE_ID1, _TEST_TICKET_ACK_DELAY_MSEC);
 
-	    if (LW6SYS_TEST_ACK (!lw6cnx_ticket_table_was_recv_exchanged (&ticket_table, _TEST_TICKET_TABLE_ID1)))
+	    if (LW6SYS_TEST_ACK (!lw6cnx_ticket_table_was_recv_exchanged (sys_context, &ticket_table, _TEST_TICKET_TABLE_ID1)))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 			    _x_ ("recv ticket still *not* reported as exchanged, this is right, we need to wait for %d msec"), _TEST_TICKET_ACK_DELAY_MSEC);
@@ -289,7 +296,7 @@ _test_ticket_table ()
 
 	    lw6sys_delay (sys_context, _TEST_TICKET_ACK_DELAY_MSEC + 1);
 
-	    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_was_recv_exchanged (&ticket_table, _TEST_TICKET_TABLE_ID1)))
+	    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_was_recv_exchanged (sys_context, &ticket_table, _TEST_TICKET_TABLE_ID1)))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("recv ticket now reported as exchanged, this is right"));
 	      }
@@ -299,9 +306,9 @@ _test_ticket_table ()
 		ret = 0;
 	      }
 
-	    lw6cnx_ticket_table_ack_recv (&ticket_table, _TEST_TICKET_TABLE_ID1, _TEST_TICKET_ACK_DELAY_MSEC);
+	    lw6cnx_ticket_table_ack_recv (sys_context, &ticket_table, _TEST_TICKET_TABLE_ID1, _TEST_TICKET_ACK_DELAY_MSEC);
 
-	    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_was_recv_exchanged (&ticket_table, _TEST_TICKET_TABLE_ID1)))
+	    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_was_recv_exchanged (sys_context, &ticket_table, _TEST_TICKET_TABLE_ID1)))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("recv ticket still reported as exchanged after double ack, this is right"));
 	      }
@@ -317,11 +324,11 @@ _test_ticket_table ()
 	    ret = 0;
 	  }
 
-	if (LW6SYS_TEST_ACK (!lw6cnx_ticket_table_get_send (&ticket_table, _TEST_TICKET_TABLE_ID1)))
+	if (LW6SYS_TEST_ACK (!lw6cnx_ticket_table_get_send (sys_context, &ticket_table, _TEST_TICKET_TABLE_ID1)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("send ticket does not exist yet, this is right"));
-	    lw6cnx_ticket_table_set_send (&ticket_table, _TEST_TICKET_TABLE_ID1, lw6sys_generate_id_32 ());
-	    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_get_send (&ticket_table, _TEST_TICKET_TABLE_ID1)))
+	    lw6cnx_ticket_table_set_send (sys_context, &ticket_table, _TEST_TICKET_TABLE_ID1, lw6sys_generate_id_32 (sys_context));
+	    if (LW6SYS_TEST_ACK (lw6cnx_ticket_table_get_send (sys_context, &ticket_table, _TEST_TICKET_TABLE_ID1)))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("send ticket now exists, this is right"));
 	      }
@@ -336,7 +343,7 @@ _test_ticket_table ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("send ticket does exist, this is wrong"));
 	    ret = 0;
 	  }
-	lw6cnx_ticket_table_clear (&ticket_table);
+	lw6cnx_ticket_table_clear (sys_context, &ticket_table);
       }
   }
   LW6SYS_TEST_FUNCTION_END;
@@ -345,20 +352,27 @@ _test_ticket_table ()
 static int
 _setup_init ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libcnx CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libcnx CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 /**
  * lw6cnx_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libcnx module.
@@ -366,10 +380,12 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6cnx_test_register (int mode)
+lw6cnx_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -399,6 +415,7 @@ lw6cnx_test_register (int mode)
 /**
  * lw6cnx_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @cnx module test suite, testing most (if not all...)
@@ -407,11 +424,13 @@ lw6cnx_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6cnx_test_run (int mode)
+lw6cnx_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

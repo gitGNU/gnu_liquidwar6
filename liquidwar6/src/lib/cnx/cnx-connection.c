@@ -33,6 +33,7 @@
 /**
  * lw6cnx_connection_new
  *
+ * @sys_context: global system context
  * @local_url: the local public URL
  * @remote_url: the remote public URL
  * @remote_ip: the remote IP address
@@ -55,7 +56,7 @@
  * Return value: newly allocated object.
  */
 lw6cnx_connection_t *
-lw6cnx_connection_new (const char *local_url, const char *remote_url,
+lw6cnx_connection_new (lw6sys_context_t * sys_context, const char *local_url, const char *remote_url,
 		       const char *remote_ip, int remote_port,
 		       const char *password, u_int64_t local_id,
 		       u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
@@ -71,12 +72,12 @@ lw6cnx_connection_new (const char *local_url, const char *remote_url,
       ret->remote_port = remote_port;
       if (password && strlen (password) > 0)
 	{
-	  ret->password = lw6sys_str_copy (password);
-	  ret->password_send_checksum = lw6cnx_password_checksum (remote_url, password);
+	  ret->password = lw6sys_str_copy (sys_context, password);
+	  ret->password_send_checksum = lw6cnx_password_checksum (sys_context, remote_url, password);
 	}
       else
 	{
-	  ret->password = lw6sys_str_copy ("");
+	  ret->password = lw6sys_str_copy (sys_context, "");
 	  ret->password_send_checksum = lw6sys_str_copy (sys_context, _DEFAULT_SEND_PASSWORD_CHECKSUM);
 	}
       ret->local_id_int = local_id;
@@ -87,7 +88,7 @@ lw6cnx_connection_new (const char *local_url, const char *remote_url,
       ret->network_reliability = network_reliability;
       ret->recv_callback_func = recv_callback_func;
       ret->recv_callback_data = recv_callback_data;
-      ret->send_mutex = lw6sys_mutex_create ();
+      ret->send_mutex = lw6sys_mutex_create (sys_context);
       ret->ping_msec = LW6CNX_WORST_PING_MSEC;
 
       if (ret->local_url && ret->remote_url && ret->remote_ip && ret->password
@@ -97,7 +98,7 @@ lw6cnx_connection_new (const char *local_url, const char *remote_url,
 	}
       else
 	{
-	  lw6cnx_connection_free (ret);
+	  lw6cnx_connection_free (sys_context, ret);
 	  ret = NULL;
 	}
     }
@@ -108,6 +109,7 @@ lw6cnx_connection_new (const char *local_url, const char *remote_url,
 /**
  * lw6cnx_connection_free
  *
+ * @sys_context: global system context
  * @connection: object to free
  *
  * Frees a connection object. It's the responsibility of
@@ -116,7 +118,7 @@ lw6cnx_connection_new (const char *local_url, const char *remote_url,
  * Return value: none.
  */
 void
-lw6cnx_connection_free (lw6cnx_connection_t * connection)
+lw6cnx_connection_free (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection)
 {
   if (connection->local_url)
     {
@@ -156,6 +158,7 @@ lw6cnx_connection_free (lw6cnx_connection_t * connection)
 /**
  * lw6cnx_connection_should_send_foo
  *
+ * @sys_context: global system context
  * @connection: the connection concerned
  * @now: the current timestamp
  *
@@ -164,7 +167,7 @@ lw6cnx_connection_free (lw6cnx_connection_t * connection)
  * Return value: 1 if true, 0 if false.
  */
 int
-lw6cnx_connection_should_send_foo (lw6cnx_connection_t * connection, int64_t now)
+lw6cnx_connection_should_send_foo (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection, int64_t now)
 {
   return (now > connection->next_send_foo_timestamp);
 }
@@ -172,6 +175,7 @@ lw6cnx_connection_should_send_foo (lw6cnx_connection_t * connection, int64_t now
 /**
  * lw6cnx_connection_init_foo_bar_key
  *
+ * @sys_context: global system context
  * @connection: the connection concerned
  * @now: the current timestamp
  * @next_foo_delay: the delay (msec) before next foo message is sent
@@ -181,7 +185,7 @@ lw6cnx_connection_should_send_foo (lw6cnx_connection_t * connection, int64_t now
  * Return value: none.
  */
 void
-lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection, int64_t now, int next_foo_delay)
+lw6cnx_connection_init_foo_bar_key (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection, int64_t now, int next_foo_delay)
 {
   if (connection->foo_bar_key)
     {
@@ -195,12 +199,13 @@ lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection, int64_t no
     }
   connection->last_send_foo_timestamp = now;
   connection->next_send_foo_timestamp = now + next_foo_delay / 2 + lw6sys_random (sys_context, next_foo_delay);
-  connection->foo_bar_key = lw6sys_generate_id_32 ();
+  connection->foo_bar_key = lw6sys_generate_id_32 (sys_context);
 }
 
 /**
  * lw6cnx_connection_lock_send
  *
+ * @sys_context: global system context
  * @connection: the connexion to lock
  *
  * Acquires a "send" lock on the connexion, the idea is to avoid
@@ -211,7 +216,7 @@ lw6cnx_connection_init_foo_bar_key (lw6cnx_connection_t * connection, int64_t no
  * Return value: 1 on success, 0 if not.
  */
 int
-lw6cnx_connection_lock_send (lw6cnx_connection_t * connection)
+lw6cnx_connection_lock_send (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection)
 {
   return lw6sys_mutex_lock (sys_context, connection->send_mutex);
 }
@@ -219,6 +224,7 @@ lw6cnx_connection_lock_send (lw6cnx_connection_t * connection)
 /**
  * lw6cnx_connection_unlock_send
  *
+ * @sys_context: global system context
  * @connection: the connexion to lock
  *
  * Releases a "send" lock on the connexion, the idea is to avoid
@@ -229,7 +235,7 @@ lw6cnx_connection_lock_send (lw6cnx_connection_t * connection)
  * Return value: none.
  */
 void
-lw6cnx_connection_unlock_send (lw6cnx_connection_t * connection)
+lw6cnx_connection_unlock_send (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection)
 {
   lw6sys_mutex_unlock (sys_context, connection->send_mutex);
 }
@@ -237,6 +243,7 @@ lw6cnx_connection_unlock_send (lw6cnx_connection_t * connection)
 /**
  * lw6cnx_connection_reliability_filter
  *
+ * @sys_context: global system context
  * @connection: the connexion concerned
  *
  * Will filter and return true only in "rare" cases when packets
@@ -245,7 +252,7 @@ lw6cnx_connection_unlock_send (lw6cnx_connection_t * connection)
  * Return value: 1 if message must be sent/received, 0 if not
  */
 int
-lw6cnx_connection_reliability_filter (lw6cnx_connection_t * connection)
+lw6cnx_connection_reliability_filter (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection)
 {
   int ret = 0;
 

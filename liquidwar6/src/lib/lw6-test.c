@@ -489,7 +489,7 @@ lw6_test_register (int mode)
       lw6img_test_register (sys_context, mode);
       lw6net_test_register (sys_context, mode);
       lw6nod_test_register (sys_context, mode);
-      lw6cnx_test_register (mode);
+      lw6cnx_test_register (sys_context, mode);
       lw6msg_test_register (mode);
       lw6cli_test_register (mode);
       lw6srv_test_register (mode);

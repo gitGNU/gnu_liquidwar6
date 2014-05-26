@@ -171,14 +171,14 @@ _mod_httpd_reply_thread_response (_mod_httpd_reply_thread_data_t * reply_thread_
   _mod_httpd_response_t *response = NULL;
   char *send_buffer = NULL;
 
-  if (lw6cnx_connection_lock_send (cnx))
+  if (lw6cnx_connection_lock_send (sys_context, cnx))
     {
       if (specific_data->send_buffer)
 	{
 	  send_buffer = specific_data->send_buffer;
 	  specific_data->send_buffer = NULL;
 	}
-      lw6cnx_connection_unlock_send (cnx);
+      lw6cnx_connection_unlock_send (sys_context, cnx);
     }
 
   if (!send_buffer)

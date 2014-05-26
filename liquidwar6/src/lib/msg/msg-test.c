@@ -557,7 +557,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		     _TEST_DESCRIPTION, _TEST_PASSWORD, _TEST_BENCH, _TEST_OPEN_RELAY, _TEST_UPTIME, _TEST_IDLE_SCREENSHOT_SIZE, _TEST_IDLE_SCREENSHOT_DATA);
   if (info)
     {
-      password_checksum = lw6cnx_password_checksum (_TEST_URL, _TEST_PASSWORD);
+      password_checksum = lw6cnx_password_checksum (sys_context, _TEST_URL, _TEST_PASSWORD);
       if (password_checksum)
 	{
 	  msg = lw6msg_cmd_generate_hello (info);
@@ -1797,7 +1797,7 @@ lw6msg_test_register (int mode)
       lw6sys_test_register (sys_context, mode);
       lw6glb_test_register (sys_context, mode);
       lw6nod_test_register (sys_context, mode);
-      lw6cnx_test_register (mode);
+      lw6cnx_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6msg", _setup_init, _setup_quit);

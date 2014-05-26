@@ -171,7 +171,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 	}
       if (ret)
 	{
-	  ret = lw6cnx_ticket_table_init (&(node->ticket_table), node->db->data.consts.ticket_table_hash_size);
+	  ret = lw6cnx_ticket_table_init (sys_context, &(node->ticket_table), node->db->data.consts.ticket_table_hash_size);
 	}
     }
 
@@ -266,7 +266,7 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
   if (node)
     {
       _lw6p2p_node_close (node);
-      lw6cnx_ticket_table_clear (&(node->ticket_table));
+      lw6cnx_ticket_table_clear (sys_context, &(node->ticket_table));
       if (node->cli_oobs)
 	{
 	  lw6sys_list_free (sys_context, node->cli_oobs);
@@ -918,10 +918,10 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
 	      while ((atom_str = lw6sys_list_pop_front (sys_context, &atom_str_list)) != NULL)
 		{
 		  logical_ticket_sig =
-		    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send (&(node->ticket_table), remote_id_str), node->node_id_int, remote_id_int, atom_str);
-		  if (!_lw6p2p_tentacle_send_best (&
-						   (node->tentacles
-						    [i]), now, &(node->ticket_table), logical_ticket_sig, node->node_id_int, remote_id_int, atom_str, 1))
+		    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send (sys_context, &(node->ticket_table), remote_id_str), node->node_id_int, remote_id_int,
+					    atom_str);
+		  if (!_lw6p2p_tentacle_send_best
+		      (&(node->tentacles[i]), now, &(node->ticket_table), logical_ticket_sig, node->node_id_int, remote_id_int, atom_str, 1))
 		    {
 		      ret = 0;
 		    }
@@ -1061,7 +1061,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * 
 
 			      logical_ticket_sig =
 				lw6msg_ticket_calc_sig
-				(lw6cnx_ticket_table_get_send (&(node->ticket_table), remote_id_str), node->node_id_int, remote_id_int, msg);
+				(lw6cnx_ticket_table_get_send (sys_context, &(node->ticket_table), remote_id_str), node->node_id_int, remote_id_int, msg);
 
 			      /*
 			       * Some hesitation on what to put in the
@@ -1908,7 +1908,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
 			{
 			  ticket_sig =
 			    lw6msg_ticket_calc_sig
-			    (lw6cnx_ticket_table_get_send (&(node->ticket_table), remote_id_str), node->node_id_int, remote_id, msg_join);
+			    (lw6cnx_ticket_table_get_send (sys_context, &(node->ticket_table), remote_id_str), node->node_id_int, remote_id, msg_join);
 			  ret = _lw6p2p_tentacle_send_redundant (tentacle, now, &(node->ticket_table), ticket_sig, node->node_id_int, remote_id, msg_join);
 			  if (ret)
 			    {

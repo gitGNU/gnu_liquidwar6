@@ -219,7 +219,7 @@ lw6msg_oob_generate_request (const char *command, const char *remote_url, const 
 
   if (remote_url && strlen (remote_url) > 0 && password && strlen (password) > 0)
     {
-      password_checksum = lw6cnx_password_checksum (remote_url, password);
+      password_checksum = lw6cnx_password_checksum (sys_context, remote_url, password);
     }
   if (password_checksum)
     {
@@ -379,7 +379,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 	       * We only check password now that we have chosen which
 	       * field is password, even if the value is NULL
 	       */
-	      if (lw6cnx_password_verify (local_url, password, received_password))
+	      if (lw6cnx_password_verify (sys_context, local_url, password, received_password))
 		{
 		  (*password_ok) = 1;
 		}

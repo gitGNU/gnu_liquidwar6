@@ -29,6 +29,7 @@
 /**
  * lw6cnx_ticket_table_zero
  *
+ * @sys_context: global system context
  * @ticket_table: the ticket table to fill with zero
  *
  * Fills the ticket table struct with 0s.
@@ -36,7 +37,7 @@
  * Return value: none.
  */
 void
-lw6cnx_ticket_table_zero (lw6cnx_ticket_table_t * ticket_table)
+lw6cnx_ticket_table_zero (lw6sys_context_t * sys_context, lw6cnx_ticket_table_t * ticket_table)
 {
   memset (ticket_table, 0, sizeof (lw6cnx_ticket_table_t));
 }
@@ -44,6 +45,7 @@ lw6cnx_ticket_table_zero (lw6cnx_ticket_table_t * ticket_table)
 /**
  * lw6cnx_ticket_table_init
  *
+ * @sys_context: global system context
  * @ticket_table: the ticket table to init
  * @hash_size: the hash size for both recv/send hashs
  *
@@ -55,13 +57,13 @@ lw6cnx_ticket_table_zero (lw6cnx_ticket_table_t * ticket_table)
  * Return value: none.
  */
 int
-lw6cnx_ticket_table_init (lw6cnx_ticket_table_t * ticket_table, int hash_size)
+lw6cnx_ticket_table_init (lw6sys_context_t * sys_context, lw6cnx_ticket_table_t * ticket_table, int hash_size)
 {
   int ret = 0;
 
-  ticket_table->recv_spinlock = lw6sys_spinlock_create ();
-  ticket_table->recv_ack_spinlock = lw6sys_spinlock_create ();
-  ticket_table->send_spinlock = lw6sys_spinlock_create ();
+  ticket_table->recv_spinlock = lw6sys_spinlock_create (sys_context);
+  ticket_table->recv_ack_spinlock = lw6sys_spinlock_create (sys_context);
+  ticket_table->send_spinlock = lw6sys_spinlock_create (sys_context);
   ticket_table->recv_table = lw6sys_hash_new (sys_context, lw6sys_free_callback, hash_size);
   ticket_table->recv_ack_table = lw6sys_hash_new (sys_context, lw6sys_free_callback, hash_size);
   ticket_table->send_table = lw6sys_hash_new (sys_context, lw6sys_free_callback, hash_size);
@@ -70,7 +72,7 @@ lw6cnx_ticket_table_init (lw6cnx_ticket_table_t * ticket_table, int hash_size)
 	 && ticket_table->send_spinlock && ticket_table->recv_table && ticket_table->recv_ack_table && ticket_table->send_table);
   if (!ret)
     {
-      lw6cnx_ticket_table_clear (ticket_table);
+      lw6cnx_ticket_table_clear (sys_context, ticket_table);
     }
 
   return ret;
@@ -79,6 +81,7 @@ lw6cnx_ticket_table_init (lw6cnx_ticket_table_t * ticket_table, int hash_size)
 /**
  * lw6cnx_ticket_table_clear
  *
+ * @sys_context: global system context
  * @ticket_table: the ticket table to clear
  *
  * Clears the object (frees memory).
@@ -86,7 +89,7 @@ lw6cnx_ticket_table_init (lw6cnx_ticket_table_t * ticket_table, int hash_size)
  * Return value: none.
  */
 void
-lw6cnx_ticket_table_clear (lw6cnx_ticket_table_t * ticket_table)
+lw6cnx_ticket_table_clear (lw6sys_context_t * sys_context, lw6cnx_ticket_table_t * ticket_table)
 {
   if (ticket_table->recv_spinlock)
     {
@@ -112,12 +115,13 @@ lw6cnx_ticket_table_clear (lw6cnx_ticket_table_t * ticket_table)
     {
       lw6sys_hash_free (sys_context, ticket_table->send_table);
     }
-  lw6cnx_ticket_table_zero (ticket_table);
+  lw6cnx_ticket_table_zero (sys_context, ticket_table);
 }
 
 /**
  * lw6cnx_ticket_table_get_recv
  *
+ * @sys_context: global system context
  * @ticket_table: the ticket table to query
  * @peer_id: the id of remote node
  *
@@ -128,7 +132,7 @@ lw6cnx_ticket_table_clear (lw6cnx_ticket_table_t * ticket_table)
  * Return value: the ticket used to check incoming messages.
  */
 u_int64_t
-lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table, const char *peer_id)
+lw6cnx_ticket_table_get_recv (lw6sys_context_t * sys_context, lw6cnx_ticket_table_t * ticket_table, const char *peer_id)
 {
   u_int64_t recv_ticket = 0;
   u_int64_t *recv_ticket_ptr = NULL;
@@ -145,7 +149,7 @@ lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table, const char *
     }
   else
     {
-      recv_ticket = lw6sys_generate_id_64 ();
+      recv_ticket = lw6sys_generate_id_64 (sys_context);
       recv_ticket_ptr = (u_int64_t *) LW6SYS_MALLOC (sys_context, sizeof (u_int64_t));
       if (recv_ticket_ptr)
 	{
@@ -164,6 +168,7 @@ lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table, const char *
 /**
  * lw6cnx_ticket_table_ack_recv
  *
+ * @sys_context: global system context
  * @ticket_table: the ticket table to query
  * @peer_id: the id of remote node
  * @ack_delay_msec: delay before which we'll consider the ticket as really received
@@ -179,7 +184,7 @@ lw6cnx_ticket_table_get_recv (lw6cnx_ticket_table_t * ticket_table, const char *
  * Return value: none.
  */
 void
-lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table, const char *peer_id, int ack_delay_msec)
+lw6cnx_ticket_table_ack_recv (lw6sys_context_t * sys_context, lw6cnx_ticket_table_t * ticket_table, const char *peer_id, int ack_delay_msec)
 {
   int64_t *limit = NULL;
   int useless = 0;
@@ -187,7 +192,7 @@ lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table, const char *
   limit = (int64_t *) LW6SYS_MALLOC (sys_context, sizeof (int64_t));
   if (limit)
     {
-      (*limit) = lw6sys_get_timestamp (sys_context,) + ack_delay_msec;
+      (*limit) = lw6sys_get_timestamp (sys_context) + ack_delay_msec;
       if (lw6sys_spinlock_lock (sys_context, ticket_table->recv_ack_spinlock))
 	{
 	  /*
@@ -224,6 +229,7 @@ lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table, const char *
 /**
  * lw6cnx_ticket_table_was_recv_exchanged
  *
+ * @sys_context: global system context
  * @ticket_table: the ticket table to query
  * @peer_id: the id of remote node
  *
@@ -235,13 +241,13 @@ lw6cnx_ticket_table_ack_recv (lw6cnx_ticket_table_t * ticket_table, const char *
  * Return value: the ticket used to check incoming messages.
  */
 int
-lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table, const char *peer_id)
+lw6cnx_ticket_table_was_recv_exchanged (lw6sys_context_t * sys_context, lw6cnx_ticket_table_t * ticket_table, const char *peer_id)
 {
   int ret = 0;
   int64_t now;
   int64_t *limit;
 
-  now = lw6sys_get_timestamp ();
+  now = lw6sys_get_timestamp (sys_context);
   if (lw6sys_spinlock_lock (sys_context, ticket_table->recv_ack_spinlock))
     {
       limit = (int64_t *) lw6sys_hash_get (sys_context, ticket_table->recv_ack_table, peer_id);
@@ -265,6 +271,7 @@ lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table, co
 /**
  * lw6cnx_ticket_table_get_send
  *
+ * @sys_context: global system context
  * @ticket_table: the ticket table to query
  * @peer_id: the id of remote node
  *
@@ -275,7 +282,7 @@ lw6cnx_ticket_table_was_recv_exchanged (lw6cnx_ticket_table_t * ticket_table, co
  * Return value: the ticket used to stamp outgoing messages.
  */
 u_int64_t
-lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t * ticket_table, const char *peer_id)
+lw6cnx_ticket_table_get_send (lw6sys_context_t * sys_context, lw6cnx_ticket_table_t * ticket_table, const char *peer_id)
 {
   u_int64_t send_ticket = 0;
   u_int64_t *send_ticket_ptr = NULL;
@@ -301,6 +308,7 @@ lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t * ticket_table, const char *
 /**
  * lw6cnx_ticket_table_set_send
  *
+ * @sys_context: global system context
  * @ticket_table: the ticket table to query
  * @peer_id: the id of remote node
  * @send_ticket: the ticket to use to stamp outgoing messages
@@ -313,7 +321,7 @@ lw6cnx_ticket_table_get_send (lw6cnx_ticket_table_t * ticket_table, const char *
  * Return value: NULL
  */
 void
-lw6cnx_ticket_table_set_send (lw6cnx_ticket_table_t * ticket_table, const char *peer_id, u_int64_t send_ticket)
+lw6cnx_ticket_table_set_send (lw6sys_context_t * sys_context, lw6cnx_ticket_table_t * ticket_table, const char *peer_id, u_int64_t send_ticket)
 {
   u_int64_t *send_ticket_ptr = NULL;
 

@@ -48,7 +48,7 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
     {
       if (lw6net_socket_is_valid (sys_context, specific_data->sock))
 	{
-	  if (lw6cnx_connection_lock_send (connection))
+	  if (lw6cnx_connection_lock_send (sys_context, connection))
 	    {
 	      if (lw6net_send_line_tcp (sys_context, &(specific_data->sock), line))
 		{
@@ -56,7 +56,7 @@ _mod_tcpd_send (_mod_tcpd_context_t * tcpd_context,
 		  specific_data->last_send_success_timestamp = now;
 		  ret = 1;
 		}
-	      lw6cnx_connection_unlock_send (connection);
+	      lw6cnx_connection_unlock_send (sys_context, connection);
 	    }
 	}
       else

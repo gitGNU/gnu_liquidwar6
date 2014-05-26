@@ -47,7 +47,7 @@ _mod_httpd_send (_mod_httpd_context_t * httpd_context,
 			      connection->local_id_int, connection->remote_id_int, logical_from_id, logical_to_id, message);
   if (line)
     {
-      if (lw6cnx_connection_lock_send (connection))
+      if (lw6cnx_connection_lock_send (sys_context, connection))
 	{
 	  if (specific_data->send_buffer)
 	    {
@@ -73,7 +73,7 @@ _mod_httpd_send (_mod_httpd_context_t * httpd_context,
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_httpd scheduled send \"%s\""), line);
 	    }
-	  lw6cnx_connection_unlock_send (connection);
+	  lw6cnx_connection_unlock_send (sys_context, connection);
 	}
       LW6SYS_FREE (sys_context, line);
     }

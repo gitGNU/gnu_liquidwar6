@@ -29,6 +29,7 @@
 /**
  * lw6cnx_password_checksum
  *
+ * @sys_context: global system context
  * @seed: a seed to blur the password, can be NULL
  * @password: the password, can be NULL
  *
@@ -47,7 +48,7 @@
  * Return value: a dynamically allocated string
  */
 char *
-lw6cnx_password_checksum (const char *seed, const char *password)
+lw6cnx_password_checksum (lw6sys_context_t * sys_context, const char *seed, const char *password)
 {
   char *ret = NULL;
 
@@ -62,11 +63,11 @@ lw6cnx_password_checksum (const char *seed, const char *password)
        * URL whereas the password is supposed to
        * be secret...
        */
-      ret = lw6glb_sha1_hmac_80_str (password, seed);
+      ret = lw6glb_sha1_hmac_80_str (sys_context, password, seed);
     }
   else
     {
-      ret = lw6sys_str_copy ("");
+      ret = lw6sys_str_copy (sys_context, "");
     }
 
   return ret;
@@ -75,6 +76,7 @@ lw6cnx_password_checksum (const char *seed, const char *password)
 /**
  * lw6cnx_password_verify
  *
+ * @sys_context: global system context
  * @seed: a seed to blur the password, can be NULL
  * @password_here: the local password, can be NULL
  * @password_received: the password received from network, can be NULL
@@ -87,7 +89,7 @@ lw6cnx_password_checksum (const char *seed, const char *password)
  * Return value: 1 if OK, passwords are the same, 0 if not.
  */
 int
-lw6cnx_password_verify (const char *seed, const char *password_here, const char *password_received)
+lw6cnx_password_verify (lw6sys_context_t * sys_context, const char *seed, const char *password_here, const char *password_received)
 {
   int ret = 0;
   char *checksum = NULL;
@@ -106,7 +108,7 @@ lw6cnx_password_verify (const char *seed, const char *password_here, const char 
 	}
       else
 	{
-	  checksum = lw6cnx_password_checksum (seed, password_here);
+	  checksum = lw6cnx_password_checksum (sys_context, seed, password_here);
 	  if (checksum)
 	    {
 	      if (!(strcmp (checksum, password_received)))

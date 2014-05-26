@@ -46,14 +46,14 @@ _mod_udpd_send (_mod_udpd_context_t * udpd_context,
 			      connection->local_id_int, connection->remote_id_int, logical_from_id, logical_to_id, message);
   if (line)
     {
-      if (lw6cnx_connection_lock_send (connection))
+      if (lw6cnx_connection_lock_send (sys_context, connection))
 	{
 	  if (lw6net_send_line_udp (sys_context, specific_data->sock, line, connection->remote_ip, specific_data->remote_port))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udpd sent \"%s\""), line);
 	      ret = 1;
 	    }
-	  lw6cnx_connection_unlock_send (connection);
+	  lw6cnx_connection_unlock_send (sys_context, connection);
 	}
       LW6SYS_FREE (sys_context, line);
     }

@@ -82,7 +82,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
       if (lw6msg_cmd_analyse_ticket (&remote_node_info, &ticket, message))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("received ticket from \"%s\""), cnx->remote_url);
-	  lw6cnx_ticket_table_set_send (&(node->ticket_table), cnx->remote_id_str, ticket);
+	  lw6cnx_ticket_table_set_send (sys_context, &(node->ticket_table), cnx->remote_id_str, ticket);
 	}
       else
 	{
@@ -496,8 +496,8 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
   u_int64_t recv_ticket = 0;
   int was_recv_exchanged = 0;
 
-  recv_ticket = lw6cnx_ticket_table_get_recv (ticket_table, remote_id_str);
-  was_recv_exchanged = lw6cnx_ticket_table_was_recv_exchanged (ticket_table, remote_id_str);
+  recv_ticket = lw6cnx_ticket_table_get_recv (sys_context, ticket_table, remote_id_str);
+  was_recv_exchanged = lw6cnx_ticket_table_was_recv_exchanged (sys_context, ticket_table, remote_id_str);
   if (lw6msg_ticket_check_sig (recv_ticket, remote_id_int, local_id_int, message, ticket_sig))
     {
       if (was_recv_exchanged)
@@ -516,7 +516,7 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
 			   LW6SYS_PRINTF_LL
 			   "x\", registering the ticket as received, will be valid in %d seconds"),
 		      remote_id_str, (long long) local_id_int, message, (long long) recv_ticket, hint_timeout);
-	  lw6cnx_ticket_table_ack_recv (ticket_table, remote_id_str, hint_timeout * LW6SYS_TICKS_PER_SEC);
+	  lw6cnx_ticket_table_ack_recv (sys_context, ticket_table, remote_id_str, hint_timeout * LW6SYS_TICKS_PER_SEC);
 	}
       ret = 1;
     }
@@ -579,7 +579,7 @@ _lw6p2p_recv_callback (void *recv_callback_data,
 	   * to do it, and there's no way to trap it in generic cli/srv
 	   * code.
 	   */
-	  if (lw6cnx_connection_reliability_filter (connection))
+	  if (lw6cnx_connection_reliability_filter (sys_context, connection))
 	    {
 	      physical_sig_ok =
 		_check_sig (&(node->ticket_table), connection->remote_id_int,

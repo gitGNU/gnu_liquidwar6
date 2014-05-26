@@ -134,7 +134,7 @@ _parse_header (_mod_httpd_request_t * request, char *line, char *public_url, cha
 		    }
 		  if (public_url && received_password)
 		    {
-		      request->password_ok = lw6cnx_password_verify (public_url, password, received_password);
+		      request->password_ok = lw6cnx_password_verify (sys_context, public_url, password, received_password);
 		    }
 		  LW6SYS_FREE (sys_context, clear_authorization);
 		}

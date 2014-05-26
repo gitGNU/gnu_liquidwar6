@@ -38,7 +38,7 @@ _mod_tcp_open (_mod_tcp_context_t * tcp_context, const char *local_url,
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_mod_tcp_open \"%s\""), remote_url);
   ret =
-    lw6cnx_connection_new (local_url, remote_url, remote_ip, remote_port,
+    lw6cnx_connection_new (sys_context, local_url, remote_url, remote_ip, remote_port,
 			   password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
   if (ret)
     {
@@ -79,7 +79,7 @@ _mod_tcp_close (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connecti
       lw6net_socket_close (sys_context, &(specific_data->sock));
       LW6SYS_FREE (sys_context, specific_data);
     }
-  lw6cnx_connection_free (connection);
+  lw6cnx_connection_free (sys_context, connection);
 }
 
 int

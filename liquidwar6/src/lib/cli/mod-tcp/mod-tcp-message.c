@@ -48,7 +48,7 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
     {
       if (specific_data->state == _MOD_TCP_STATE_CONNECTED && lw6net_socket_is_valid (sys_context, specific_data->sock))
 	{
-	  if (lw6cnx_connection_lock_send (connection))
+	  if (lw6cnx_connection_lock_send (sys_context, connection))
 	    {
 	      if (lw6net_send_line_tcp (sys_context, &(specific_data->sock), line))
 		{
@@ -60,7 +60,7 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 		{
 		  specific_data->last_send_fail_timestamp = now;
 		}
-	      lw6cnx_connection_unlock_send (connection);
+	      lw6cnx_connection_unlock_send (sys_context, connection);
 	    }
 	}
       else
@@ -159,7 +159,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connectio
 	   * We schedule a foo/bar soon so that connection does not stay
 	   * "idle" and fires a server error because of a timeout.
 	   */
-	  lw6cnx_connection_init_foo_bar_key (connection, lw6sys_get_timestamp (), LW6SYS_SLEEP_DELAY);
+	  lw6cnx_connection_init_foo_bar_key (sys_context, connection, lw6sys_get_timestamp (), LW6SYS_SLEEP_DELAY);
 	}
       else
 	{

@@ -239,7 +239,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context, lw6nod_info_t * node_
 	{
 	  if (node_info->const_info.password && strlen (node_info->const_info.password) > 0)
 	    {
-	      password_checksum = lw6cnx_password_checksum (oob_data->public_url, node_info->const_info.password);
+	      password_checksum = lw6cnx_password_checksum (sys_context, oob_data->public_url, node_info->const_info.password);
 	    }
 	  ip = lw6net_dns_gethostbyname (sys_context, parsed_url->host);
 	  if (ip)

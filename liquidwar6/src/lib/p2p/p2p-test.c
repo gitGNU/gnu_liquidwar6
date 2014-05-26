@@ -511,8 +511,8 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 
   data->ret = 1;
 
-  lw6cnx_ticket_table_zero (&ticket_table);
-  if (lw6cnx_ticket_table_init (&ticket_table, _TEST_TENTACLE_TICKET_TABLE_HASH_SIZE))
+  lw6cnx_ticket_table_zero (sys_context, &ticket_table);
+  if (lw6cnx_ticket_table_init (sys_context, &ticket_table, _TEST_TENTACLE_TICKET_TABLE_HASH_SIZE))
     {
       if (_lw6p2p_tentacle_init
 	  (&(data->tentacle), &(data->backends), data->listener,
@@ -602,7 +602,7 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to init tentacle1"));
 	  data->ret = 0;
 	}
-      lw6cnx_ticket_table_clear (&ticket_table);
+      lw6cnx_ticket_table_clear (sys_context, &ticket_table);
     }
   else
     {
@@ -627,8 +627,8 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 
   data->ret = 1;
 
-  lw6cnx_ticket_table_zero (&ticket_table);
-  if (lw6cnx_ticket_table_init (&ticket_table, _TEST_TENTACLE_TICKET_TABLE_HASH_SIZE))
+  lw6cnx_ticket_table_zero (sys_context, &ticket_table);
+  if (lw6cnx_ticket_table_init (sys_context, &ticket_table, _TEST_TENTACLE_TICKET_TABLE_HASH_SIZE))
     {
       if (_lw6p2p_tentacle_init
 	  (&(data->tentacle), &(data->backends), data->listener,
@@ -718,7 +718,7 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to init tentacle2"));
 	  data->ret = 0;
 	}
-      lw6cnx_ticket_table_clear (&ticket_table);
+      lw6cnx_ticket_table_clear (sys_context, &ticket_table);
     }
   else
     {
@@ -2288,7 +2288,7 @@ lw6p2p_test_register (int mode)
       lw6cfg_test_register (sys_context, mode);
       lw6net_test_register (sys_context, mode);
       lw6nod_test_register (sys_context, mode);
-      lw6cnx_test_register (mode);
+      lw6cnx_test_register (sys_context, mode);
       lw6msg_test_register (mode);
       lw6cli_test_register (mode);
       lw6srv_test_register (mode);

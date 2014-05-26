@@ -380,7 +380,7 @@ lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
 
   if (backend->send)
     {
-      if (lw6cnx_connection_reliability_filter (connection))
+      if (lw6cnx_connection_reliability_filter (sys_context, connection))
 	{
 	  ret = backend->send (backend->srv_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
 	}
