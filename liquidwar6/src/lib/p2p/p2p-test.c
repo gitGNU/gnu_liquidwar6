@@ -373,7 +373,7 @@ _test_tentacle_poll_step1_accept_tcp (lw6srv_listener_t * listener, int64_t now)
       sock = lw6net_tcp_accept (sys_context, &ip, &port, listener->tcp_sock, _TEST_TENTACLE_ACCEPT_DELAY);
       if (lw6net_socket_is_valid (sys_context, sock) && ip != NULL && port > 0)
 	{
-	  tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
+	  tcp_accepter = lw6srv_tcp_accepter_new (sys_context, ip, port, sock);
 	  if (tcp_accepter)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("TCP connection from %s:%d"), ip, port);
@@ -431,7 +431,7 @@ _test_tentacle_poll_step2_recv_udp (lw6srv_listener_t * listener, int64_t now)
 	  if (line)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("UDP connection from %s:%d"), ip2, port2);
-	      udp_buffer = lw6srv_udp_buffer_new (ip2, port2, line);
+	      udp_buffer = lw6srv_udp_buffer_new (sys_context, ip2, port2, line);
 	      if (udp_buffer)
 		{
 		  lw6sys_list_push_front (sys_context, &(listener->udp_buffers), udp_buffer);
@@ -746,7 +746,7 @@ _tentacle_with_backends (char *cli_backends, char *srv_backends)
 
   if (ret)
     {
-      tentacle_data1.listener = lw6srv_start (_TEST_TENTACLE_BIND_IP1, _TEST_TENTACLE_BIND_PORT1);
+      tentacle_data1.listener = lw6srv_start (sys_context, _TEST_TENTACLE_BIND_IP1, _TEST_TENTACLE_BIND_PORT1);
       if (LW6SYS_TEST_ACK (tentacle_data1.listener))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("listener1 listening on ip=%s port=%d"), _TEST_TENTACLE_BIND_IP1, _TEST_TENTACLE_BIND_PORT1);
@@ -776,7 +776,7 @@ _tentacle_with_backends (char *cli_backends, char *srv_backends)
 
   if (ret)
     {
-      tentacle_data2.listener = lw6srv_start (_TEST_TENTACLE_BIND_IP2, _TEST_TENTACLE_BIND_PORT2);
+      tentacle_data2.listener = lw6srv_start (sys_context, _TEST_TENTACLE_BIND_IP2, _TEST_TENTACLE_BIND_PORT2);
       if (LW6SYS_TEST_ACK (tentacle_data2.listener))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("listener2 listening on ip=%s port=%d"), _TEST_TENTACLE_BIND_IP2, _TEST_TENTACLE_BIND_PORT2);
@@ -843,12 +843,12 @@ _tentacle_with_backends (char *cli_backends, char *srv_backends)
   _lw6p2p_backends_clear_cli (&(tentacle_data2.backends));
   if (tentacle_data1.listener)
     {
-      lw6srv_stop (tentacle_data1.listener);
+      lw6srv_stop (sys_context, tentacle_data1.listener);
       tentacle_data1.listener = NULL;
     }
   if (tentacle_data2.listener)
     {
-      lw6srv_stop (tentacle_data2.listener);
+      lw6srv_stop (sys_context, tentacle_data2.listener);
       tentacle_data2.listener = NULL;
     }
   ret = ret && tentacle_data1.ret && tentacle_data2.ret;
@@ -880,7 +880,7 @@ _test_tentacle ()
     ret = ret && _tentacle_with_backends ("tcp", "tcpd");
     ret = ret && _tentacle_with_backends ("udp", "udpd");
     _tentacle_with_backends ("http", "httpd");	// even if fails, keep going since http is optional
-    ret = ret && _tentacle_with_backends (lw6cli_default_backends (), lw6srv_default_backends ());
+    ret = ret && _tentacle_with_backends (lw6cli_default_backends (sys_context,), lw6srv_default_backends ());
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -982,7 +982,7 @@ _test_node_init ()
 	 */
 	node =
 	  lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
-			   lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+			   lw6srv_default_backends (sys_context,), _TEST_NODE_BIND_IP,
 			   _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
 			   0LL,
 			   _TEST_NODE_PUBLIC_URL1,
@@ -1520,7 +1520,7 @@ _test_node_cmd ()
     ret = ret && _cmd_with_backends ("tcp", "tcpd");
     ret = ret && _cmd_with_backends ("udp", "udpd");
     _cmd_with_backends ("http", "httpd");	// even if fails, keep going since http is optional
-    ret = ret && _cmd_with_backends (lw6cli_default_backends (), lw6srv_default_backends ());
+    ret = ret && _cmd_with_backends (lw6cli_default_backends (sys_context,), lw6srv_default_backends ());
     _cmd_with_backends ("", _TEST_BOGUS_BACKEND);
     _cmd_with_backends (_TEST_BOGUS_BACKEND, "");
   }
@@ -1584,9 +1584,9 @@ _test_node_oob ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    ret = ret && _oob_with_backends (lw6cli_default_backends (), lw6srv_default_backends ());
+    ret = ret && _oob_with_backends (lw6cli_default_backends (sys_context,), lw6srv_default_backends ());
     ret = ret && _oob_with_backends ("", lw6srv_default_backends ());
-    ret = ret && _oob_with_backends (lw6cli_default_backends (), "");
+    ret = ret && _oob_with_backends (lw6cli_default_backends (sys_context,), "");
     _oob_with_backends ("", _TEST_BOGUS_BACKEND);
     _oob_with_backends (_TEST_BOGUS_BACKEND, "");
   }
@@ -1633,7 +1633,7 @@ _test_node_msg ()
 	 */
 	node =
 	  lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
-			   lw6srv_default_backends (), _TEST_NODE_BIND_IP,
+			   lw6srv_default_backends (sys_context,), _TEST_NODE_BIND_IP,
 			   _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
 			   0LL,
 			   _TEST_NODE_PUBLIC_URL1,
@@ -2227,7 +2227,7 @@ _test_node_api ()
     ret = ret && _api_with_backends ("tcp", "tcpd");
     ret = ret && _api_with_backends ("udp", "udpd");
     _api_with_backends ("http", "httpd");	// even if fails, keep going since http is optional
-    ret = ret && _api_with_backends (lw6cli_default_backends (), lw6srv_default_backends ());
+    ret = ret && _api_with_backends (lw6cli_default_backends (sys_context,), lw6srv_default_backends ());
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -2293,8 +2293,8 @@ lw6p2p_test_register (int mode)
       lw6nod_test_register (sys_context, mode);
       lw6cnx_test_register (sys_context, mode);
       lw6msg_test_register (sys_context, mode);
-      lw6cli_test_register (mode);
-      lw6srv_test_register (mode);
+      lw6cli_test_register (sys_context, mode);
+      lw6srv_test_register (sys_context, mode);
       lw6dat_test_register (mode);
     }
 

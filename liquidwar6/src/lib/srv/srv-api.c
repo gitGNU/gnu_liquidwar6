@@ -43,7 +43,7 @@ _warning (const char *func_name)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6srv_init (lw6srv_backend_t * backend, lw6srv_listener_t * listener)
+lw6srv_init (sys_context, lw6srv_backend_t * backend, lw6srv_listener_t * listener)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -70,7 +70,7 @@ lw6srv_init (lw6srv_backend_t * backend, lw6srv_listener_t * listener)
  * Closes a srv, but does not free all ressources.
  */
 void
-lw6srv_quit (lw6srv_backend_t * backend)
+lw6srv_quit (sys_context, lw6srv_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -111,7 +111,8 @@ lw6srv_quit (lw6srv_backend_t * backend)
  * Return value: bitwise flag.
  */
 int
-lw6srv_analyse_tcp (lw6srv_backend_t * backend, lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
+lw6srv_analyse_tcp (sys_context, lw6srv_backend_t * backend, lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id,
+		    char **remote_url)
 {
   int ret = 0;
 
@@ -149,7 +150,8 @@ lw6srv_analyse_tcp (lw6srv_backend_t * backend, lw6srv_tcp_accepter_t * tcp_acce
  * Return value: bitwise flag.
  */
 int
-lw6srv_analyse_udp (lw6srv_backend_t * backend, lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
+lw6srv_analyse_udp (sys_context, lw6srv_backend_t * backend, lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id,
+		    char **remote_url)
 {
   int ret = 0;
 
@@ -181,7 +183,7 @@ lw6srv_analyse_udp (lw6srv_backend_t * backend, lw6srv_udp_buffer_t * udp_buffer
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6srv_process_oob (lw6srv_backend_t * backend, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
+lw6srv_process_oob (sys_context, lw6srv_backend_t * backend, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
 
@@ -229,7 +231,7 @@ lw6srv_process_oob (lw6srv_backend_t * backend, lw6nod_info_t * node_info, lw6sr
  * Return value: new connection object.
  */
 lw6cnx_connection_t *
-lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
+lw6srv_open (sys_context, lw6srv_backend_t * backend, lw6srv_listener_t * listener,
 	     const char *local_url, const char *remote_url,
 	     const char *remote_ip, int remote_port, const char *password,
 	     u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
@@ -272,7 +274,7 @@ lw6srv_open (lw6srv_backend_t * backend, lw6srv_listener_t * listener,
  * Return value: 1 some data processed, else 0
  */
 int
-lw6srv_feed_with_tcp (lw6srv_backend_t * backend, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
+lw6srv_feed_with_tcp (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
 
@@ -306,7 +308,7 @@ lw6srv_feed_with_tcp (lw6srv_backend_t * backend, lw6cnx_connection_t * connecti
  * Return value: 1 some data processed, else 0
  */
 int
-lw6srv_feed_with_udp (lw6srv_backend_t * backend, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
+lw6srv_feed_with_udp (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 
@@ -337,7 +339,7 @@ lw6srv_feed_with_udp (lw6srv_backend_t * backend, lw6cnx_connection_t * connecti
  * Return value: none.
  */
 void
-lw6srv_close (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
+lw6srv_close (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -371,7 +373,7 @@ lw6srv_close (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
  * Return value: 1 on success, 0 if not
  */
 int
-lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
+lw6srv_send (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
 	     int64_t now, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
 {
   int ret = 0;
@@ -419,7 +421,7 @@ lw6srv_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
  * Return value: 1 if it can be used to send messages, 0 if not ready.
  */
 int
-lw6srv_can_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
+lw6srv_can_send (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   int ret = 0;
 
@@ -450,7 +452,7 @@ lw6srv_can_send (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
  * Return value: none.
  */
 void
-lw6srv_poll (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
+lw6srv_poll (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -477,7 +479,7 @@ lw6srv_poll (lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
  * Return value: dynamically allocated string.
  */
 char *
-lw6srv_repr (const lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
+lw6srv_repr (sys_context, const lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 

@@ -29,6 +29,7 @@
 /**
  * lw6cli_oob_new
  *
+ * @sys_context: global system context
  * @public_url: the address of the distant server to test
  * @verify_callback_func: a function which will be called when a node has been verified
  * @verify_callback_data: additionnal data passed to the callback func
@@ -42,14 +43,14 @@
  * Return value: new object
  */
 lw6cli_oob_t *
-lw6cli_oob_new (const char *public_url, lw6cli_verify_callback_func_t verify_callback_func, void *verify_callback_data)
+lw6cli_oob_new (lw6sys_context_t * sys_context, const char *public_url, lw6cli_verify_callback_func_t verify_callback_func, void *verify_callback_data)
 {
   lw6cli_oob_t *oob = NULL;
 
   oob = (lw6cli_oob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6cli_oob_t));
   if (oob)
     {
-      oob->data.creation_timestamp = lw6sys_get_timestamp ();
+      oob->data.creation_timestamp = lw6sys_get_timestamp (sys_context);
       oob->data.do_not_finish = 0;
       oob->data.public_url = lw6sys_url_canonize (sys_context, public_url);
       oob->data.verify_callback_func = verify_callback_func;
@@ -60,7 +61,7 @@ lw6cli_oob_new (const char *public_url, lw6cli_verify_callback_func_t verify_cal
     {
       if (!oob->data.public_url)
 	{
-	  lw6cli_oob_free (oob);
+	  lw6cli_oob_free (sys_context, oob);
 	  oob = NULL;
 	}
     }
@@ -71,6 +72,7 @@ lw6cli_oob_new (const char *public_url, lw6cli_verify_callback_func_t verify_cal
 /**
  * lw6cli_oob_free
  *
+ * @sys_context: global system context
  * @oob: the object to free
  *
  * Frees an OOB structure.
@@ -78,7 +80,7 @@ lw6cli_oob_new (const char *public_url, lw6cli_verify_callback_func_t verify_cal
  * Return value: none
  */
 void
-lw6cli_oob_free (lw6cli_oob_t * oob)
+lw6cli_oob_free (lw6sys_context_t * sys_context, lw6cli_oob_t * oob)
 {
   if (oob)
     {

@@ -28,7 +28,7 @@
 #include "mod-http-internal.h"
 
 char *
-_mod_http_repr (_mod_http_context_t * http_context, lw6cnx_connection_t * connection)
+_mod_http_repr (lw6sys_context_t * sys_context, _mod_http_context_t * http_context, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 

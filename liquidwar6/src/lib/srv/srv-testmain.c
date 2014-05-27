@@ -42,9 +42,9 @@ main (int argc, const char *argv[])
 
   if (CU_initialize_registry () == CUE_SUCCESS)
     {
-      if (lw6srv_test_register (mode))
+      if (lw6srv_test_register (sys_context, mode))
 	{
-	  ret = lw6srv_test_run (mode);
+	  ret = lw6srv_test_run (sys_context, mode);
 	}
       CU_cleanup_registry ();
     }

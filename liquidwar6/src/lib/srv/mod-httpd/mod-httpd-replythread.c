@@ -28,7 +28,7 @@
 #include "mod-httpd-internal.h"
 
 void
-_mod_httpd_reply_thread_func (void *callback_data)
+_mod_httpd_reply_thread_func (sys_context, void *callback_data)
 {
   _mod_httpd_reply_thread_data_t *reply_thread_data = (_mod_httpd_reply_thread_data_t *) callback_data;
   _mod_httpd_context_t *httpd_context = reply_thread_data->httpd_context;
@@ -46,9 +46,9 @@ _mod_httpd_reply_thread_func (void *callback_data)
 
   if (reply_thread_data)
     {
-      if (_mod_httpd_reply_thread_should_continue (reply_thread_data))
+      if (_mod_httpd_reply_thread_should_continue (sys_context, reply_thread_data))
 	{
-	  request = _mod_httpd_request_parse_cmd (reply_thread_data);
+	  request = _mod_httpd_request_parse_cmd (sys_context, reply_thread_data);
 	  if (request)
 	    {
 	      if (request->get_head_post == _MOD_HTTPD_GET)
@@ -78,7 +78,7 @@ _mod_httpd_reply_thread_func (void *callback_data)
 		       * need to reply right back to
 		       * a ping for instance.
 		       */
-		      response = _mod_httpd_reply_thread_response (reply_thread_data);
+		      response = _mod_httpd_reply_thread_response (sys_context, reply_thread_data);
 		      LW6SYS_FREE (sys_context, msg);
 		    }
 		}
@@ -88,33 +88,33 @@ _mod_httpd_reply_thread_func (void *callback_data)
 		   * We don't accept HEAD or POST for in-band
 		   * messages.
 		   */
-		  response = _mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_405);
+		  response = _mod_httpd_http_error (sys_context, httpd_context, _MOD_HTTPD_STATUS_405);
 		}
 	      if (!response)
 		{
-		  response = _mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_500);
+		  response = _mod_httpd_http_error (sys_context, httpd_context, _MOD_HTTPD_STATUS_500);
 		}
 	      if (response)
 		{
-		  if (_mod_httpd_response_send (httpd_context, response, &(reply_thread_data->sock), 0))
+		  if (_mod_httpd_response_send (sys_context, httpd_context, response, &(reply_thread_data->sock), 0))
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_httpd sent %d bytes"), response->content_size);
-		      _mod_httpd_log (httpd_context, request, response);
+		      _mod_httpd_log (sys_context, httpd_context, request, response);
 		    }
 		  else
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request \"%s\" failed"), request->uri);
 		    }
-		  _mod_httpd_response_free (response);
+		  _mod_httpd_response_free (sys_context, response);
 		}
-	      _mod_httpd_request_free (request);
+	      _mod_httpd_request_free (sys_context, request);
 	    }
 	}
     }
 }
 
 void
-_mod_httpd_reply_thread_join (void *callback_data)
+_mod_httpd_reply_thread_join (sys_context, void *callback_data)
 {
   _mod_httpd_reply_thread_data_t *reply_thread_data = (_mod_httpd_reply_thread_data_t *) callback_data;
 
@@ -126,7 +126,7 @@ _mod_httpd_reply_thread_join (void *callback_data)
 }
 
 void
-_mod_httpd_reply_thread_free_list_item (void *data)
+_mod_httpd_reply_thread_free_list_item (sys_context, void *data)
 {
   _mod_httpd_reply_thread_data_t *reply_thread_data = NULL;
   lw6sys_thread_handler_t *handler = (lw6sys_thread_handler_t *) data;
@@ -138,7 +138,7 @@ _mod_httpd_reply_thread_free_list_item (void *data)
 }
 
 int
-_mod_httpd_reply_thread_filter (void *func_data, void *data)
+_mod_httpd_reply_thread_filter (sys_context, void *func_data, void *data)
 {
   int ret = 0;
 
@@ -151,11 +151,11 @@ _mod_httpd_reply_thread_filter (void *func_data, void *data)
 }
 
 int
-_mod_httpd_reply_thread_should_continue (_mod_httpd_reply_thread_data_t * reply_thread_data)
+_mod_httpd_reply_thread_should_continue (sys_context, _mod_httpd_reply_thread_data_t * reply_thread_data)
 {
   int ret = 0;
 
-  ret = (_mod_httpd_timeout_ok (reply_thread_data->httpd_context,
+  ret = (_mod_httpd_timeout_ok (sys_context, reply_thread_data->httpd_context,
 				reply_thread_data->creation_timestamp)
 	 && lw6net_tcp_is_alive (sys_context, &(reply_thread_data->sock)) && (!reply_thread_data->do_not_finish));
 
@@ -163,7 +163,7 @@ _mod_httpd_reply_thread_should_continue (_mod_httpd_reply_thread_data_t * reply_
 }
 
 _mod_httpd_response_t *
-_mod_httpd_reply_thread_response (_mod_httpd_reply_thread_data_t * reply_thread_data)
+_mod_httpd_reply_thread_response (sys_context, _mod_httpd_reply_thread_data_t * reply_thread_data)
 {
   _mod_httpd_context_t *httpd_context = reply_thread_data->httpd_context;
   lw6cnx_connection_t *cnx = reply_thread_data->cnx;

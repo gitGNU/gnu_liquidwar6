@@ -143,7 +143,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
       ret = (node->mutex && node->bind_ip && node->node_id_str && node->public_url && node->password && node->node_info);
       if (ret)
 	{
-	  node->listener = lw6srv_start (node->bind_ip, node->bind_port);
+	  node->listener = lw6srv_start (sys_context, node->bind_ip, node->bind_port);
 	  /*
 	   * Now deciding the node can't be created without
 	   * the listener being OK means, basically, we can't
@@ -485,7 +485,7 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
       sock = lw6net_tcp_accept (sys_context, &ip, &port, node->listener->tcp_sock, node->db->data.consts.accept_delay);
       if (lw6net_socket_is_valid (sys_context, sock) && ip != NULL && port > 0)
 	{
-	  tcp_accepter = lw6srv_tcp_accepter_new (ip, port, sock);
+	  tcp_accepter = lw6srv_tcp_accepter_new (sys_context, ip, port, sock);
 	  if (tcp_accepter)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("TCP connection from %s:%d"), ip, port);
@@ -555,7 +555,7 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
 	  if (line)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("UDP connection from %s:%d"), ip2, port2);
-	      udp_buffer = lw6srv_udp_buffer_new (ip2, port2, line);
+	      udp_buffer = lw6srv_udp_buffer_new (sys_context, ip2, port2, line);
 	      if (udp_buffer)
 		{
 		  lw6sys_list_push_front (sys_context, &(node->listener->udp_buffers), udp_buffer);
@@ -629,7 +629,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 
   for (i = 0; i < node->backends.nb_srv_backends && ret; ++i)
     {
-      analyse_tcp_ret = lw6srv_analyse_tcp (node->backends.srv_backends[i], tcp_accepter, node->node_info, &remote_id, NULL);
+      analyse_tcp_ret = lw6srv_analyse_tcp (sys_context, node->backends.srv_backends[i], tcp_accepter, node->node_info, &remote_id, NULL);
       if (analyse_tcp_ret & LW6SRV_ANALYSE_DEAD)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("dead accepter, scheduling it for deletion"));
@@ -669,7 +669,8 @@ _tcp_accepter_reply (void *func_data, void *data)
 		       * message at the beginning of each incoming
 		       * connection.
 		       */
-		      analyse_tcp_ret = lw6srv_analyse_tcp (node->backends.srv_backends[i], tcp_accepter, node->node_info, &remote_id, &remote_url);
+		      analyse_tcp_ret =
+			lw6srv_analyse_tcp (sys_context, node->backends.srv_backends[i], tcp_accepter, node->node_info, &remote_id, &remote_url);
 		      if (remote_id != 0 && remote_url != NULL)
 			{
 			  if (_lw6p2p_node_register_tentacle (node, remote_url, tcp_accepter->client_id.client_ip, remote_id))
@@ -690,7 +691,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 		  if (tentacle_index >= 0 && tentacle_index < LW6P2P_MAX_NB_TENTACLES)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("feed srv (tcp)"));
-		      lw6srv_feed_with_tcp (node->backends.srv_backends[i], node->tentacles[tentacle_index].srv_connections[i], tcp_accepter);
+		      lw6srv_feed_with_tcp (sys_context, node->backends.srv_backends[i], node->tentacles[tentacle_index].srv_connections[i], tcp_accepter);
 		    }
 		  else
 		    {
@@ -719,7 +720,7 @@ _udp_buffer_reply (void *func_data, void *data)
 
   for (i = 0; i < node->backends.nb_srv_backends && ret; ++i)
     {
-      analyse_udp_ret = lw6srv_analyse_udp (node->backends.srv_backends[i], udp_buffer, node->node_info, &remote_id, NULL);
+      analyse_udp_ret = lw6srv_analyse_udp (sys_context, node->backends.srv_backends[i], udp_buffer, node->node_info, &remote_id, NULL);
       if (analyse_udp_ret & LW6SRV_ANALYSE_DEAD)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("dead buffer, scheduling it for deletion"));
@@ -759,7 +760,7 @@ _udp_buffer_reply (void *func_data, void *data)
 		       * message at the beginning of each incoming
 		       * connection.
 		       */
-		      analyse_udp_ret = lw6srv_analyse_udp (node->backends.srv_backends[i], udp_buffer, node->node_info, &remote_id, &remote_url);
+		      analyse_udp_ret = lw6srv_analyse_udp (sys_context, node->backends.srv_backends[i], udp_buffer, node->node_info, &remote_id, &remote_url);
 		      if (remote_id != 0 && remote_url != NULL)
 			{
 			  if (_lw6p2p_node_register_tentacle (node, remote_url, udp_buffer->client_id.client_ip, remote_id))
@@ -780,7 +781,7 @@ _udp_buffer_reply (void *func_data, void *data)
 		  if (tentacle_index >= 0 && tentacle_index < LW6P2P_MAX_NB_TENTACLES)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("feed srv (udp)"));
-		      lw6srv_feed_with_udp (node->backends.srv_backends[i], node->tentacles[tentacle_index].srv_connections[i], udp_buffer);
+		      lw6srv_feed_with_udp (sys_context, node->backends.srv_backends[i], node->tentacles[tentacle_index].srv_connections[i], udp_buffer);
 		    }
 		}
 	    }
@@ -1234,7 +1235,7 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 
 	  if (node->listener)
 	    {
-	      lw6srv_stop (node->listener);
+	      lw6srv_stop (sys_context, node->listener);
 	      node->listener = NULL;
 	    }
 	}

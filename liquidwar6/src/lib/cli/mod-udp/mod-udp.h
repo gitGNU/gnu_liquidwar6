@@ -28,9 +28,9 @@
 #define MOD_UDP_BACKEND_ID "udp"
 
 /* mod-udp-backend.c */
-extern lw6sys_module_pedigree_t *mod_udp_get_pedigree ();
-extern lw6cli_backend_t *mod_udp_create_backend ();
+extern lw6sys_module_pedigree_t *mod_udp_get_pedigree (lw6sys_context_t * sys_context);
+extern lw6cli_backend_t *mod_udp_create_backend (lw6sys_context_t * sys_context);
 extern void mod_udp_is_GPL_compatible ();
 extern void mod_udp_is_dlclose_safe ();
 
-#endif
+#endif // LIQUIDWAR6CLI_UDP_H

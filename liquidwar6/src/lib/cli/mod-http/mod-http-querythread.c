@@ -28,7 +28,7 @@
 #include "mod-http-internal.h"
 
 void
-_mod_http_query_thread_func (void *callback_data)
+_mod_http_query_thread_func (lw6sys_context_t * sys_context, void *callback_data)
 {
   _mod_http_query_thread_data_t *query_thread_data = (_mod_http_query_thread_data_t *) callback_data;
   char *response = NULL;
@@ -42,7 +42,7 @@ _mod_http_query_thread_func (void *callback_data)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("processing \"%s\""), query_thread_data->url);
 	  response =
-	    _mod_http_get (query_thread_data->http_context,
+	    _mod_http_get (sys_context, query_thread_data->http_context,
 			   query_thread_data->url,
 			   query_thread_data->cnx->password_send_checksum, query_thread_data->cnx->remote_ip, query_thread_data->cnx->remote_port);
 	  if (response)
@@ -59,7 +59,7 @@ _mod_http_query_thread_func (void *callback_data)
 		    {
 		      seek_c = (*seek);
 		      (*seek) = '\0';
-		      _mod_http_query_thread_process_response_line (query_thread_data, pos);
+		      _mod_http_query_thread_process_response_line (sys_context, query_thread_data, pos);
 		      (*seek) = seek_c;
 		    }
 		  if (lw6sys_chr_is_eol (*seek))
@@ -76,7 +76,7 @@ _mod_http_query_thread_func (void *callback_data)
 }
 
 void
-_mod_http_query_thread_join (void *callback_data)
+_mod_http_query_thread_join (lw6sys_context_t * sys_context, void *callback_data)
 {
   _mod_http_query_thread_data_t *query_thread_data = (_mod_http_query_thread_data_t *) callback_data;
 
@@ -92,13 +92,13 @@ _mod_http_query_thread_join (void *callback_data)
 }
 
 void
-_mod_http_query_thread_free_list_item (void *data)
+_mod_http_query_thread_free_list_item (lw6sys_context_t * sys_context, void *data)
 {
   lw6sys_thread_join (sys_context, data);
 }
 
 int
-_mod_http_query_thread_filter (void *func_data, void *data)
+_mod_http_query_thread_filter (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   int ret = 0;
 
@@ -111,7 +111,7 @@ _mod_http_query_thread_filter (void *func_data, void *data)
 }
 
 int
-_mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t * query_thread_data, const char *response_line)
+_mod_http_query_thread_process_response_line (lw6sys_context_t * sys_context, _mod_http_query_thread_data_t * query_thread_data, const char *response_line)
 {
   int ret = 0;
   lw6cnx_connection_t *cnx = query_thread_data->cnx;
@@ -125,7 +125,7 @@ _mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t * qu
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_http received envelope \"%s\""), response_line);
   if (lw6msg_envelope_analyse
-      (response_line, LW6MSG_ENVELOPE_MODE_TELNET,
+      (sys_context, response_line, LW6MSG_ENVELOPE_MODE_TELNET,
        cnx->local_url, cnx->password,
        cnx->remote_id_int,
        cnx->local_id_int, &msg, &physical_ticket_sig, &logical_ticket_sig, &physical_from_id, &physical_to_id, &logical_from_id, &logical_to_id, NULL))
@@ -134,7 +134,8 @@ _mod_http_query_thread_process_response_line (_mod_http_query_thread_data_t * qu
       ret = 1;
       if (cnx->recv_callback_func)
 	{
-	  cnx->recv_callback_func (cnx->recv_callback_data, (void *) cnx, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg);
+	  cnx->recv_callback_func (sys_context, cnx->recv_callback_data, (void *) cnx, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id,
+				   msg);
 	}
       else
 	{

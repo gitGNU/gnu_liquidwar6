@@ -38,7 +38,7 @@
  * Return value: new listener object.
  */
 lw6srv_listener_t *
-lw6srv_start (const char *ip, int port)
+lw6srv_start (sys_context, const char *ip, int port)
 {
   lw6srv_listener_t *listener = NULL;
 
@@ -57,7 +57,7 @@ lw6srv_start (const char *ip, int port)
 	}
       else
 	{
-	  lw6srv_stop (listener);
+	  lw6srv_stop (sys_context, listener);
 	  listener = NULL;
 	}
     }
@@ -83,7 +83,7 @@ _accepter_close_callback (void *func_data, void *data)
  * Return value: none.
  */
 void
-lw6srv_stop (lw6srv_listener_t * listener)
+lw6srv_stop (sys_context, lw6srv_listener_t * listener)
 {
   if (listener)
     {

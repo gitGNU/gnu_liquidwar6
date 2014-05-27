@@ -62,7 +62,7 @@ mod_udpd_is_dlclose_safe ()
 static void *
 _init (int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
 {
-  _mod_udpd_context_t *udpd_context = _mod_udpd_init (argc, argv, properties, listener);
+  _mod_udpd_context_t *udpd_context = _mod_udpd_init (sys_context, argc, argv, properties, listener);
 
   return (void *) udpd_context;
 }
@@ -74,7 +74,7 @@ _quit (void *srv_context)
 
   if (udpd_context)
     {
-      _mod_udpd_quit (udpd_context);
+      _mod_udpd_quit (sys_context, udpd_context);
     }
 }
 
@@ -86,7 +86,7 @@ _analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_in
 
   if (udpd_context)
     {
-      ret = _mod_udpd_analyse_tcp (udpd_context, tcp_accepter, node_info, remote_id, remote_url);
+      ret = _mod_udpd_analyse_tcp (sys_context, udpd_context, tcp_accepter, node_info, remote_id, remote_url);
     }
 
   return ret;
@@ -100,7 +100,7 @@ _analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t
 
   if (udpd_context)
     {
-      ret = _mod_udpd_analyse_udp (udpd_context, udp_buffer, node_info, remote_id, remote_url);
+      ret = _mod_udpd_analyse_udp (sys_context, udpd_context, udp_buffer, node_info, remote_id, remote_url);
     }
 
   return ret;
@@ -114,7 +114,7 @@ _process_oob (void *srv_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * 
 
   if (udpd_context)
     {
-      ret = _mod_udpd_process_oob (udpd_context, node_info, oob_data);
+      ret = _mod_udpd_process_oob (sys_context, udpd_context, node_info, oob_data);
     }
 
   return ret;
@@ -132,7 +132,7 @@ _open (void *srv_context, lw6srv_listener_t * listener, const char *local_url,
   if (udpd_context)
     {
       ret =
-	_mod_udpd_open (udpd_context, listener, local_url, remote_url,
+	_mod_udpd_open (sys_context, udpd_context, listener, local_url, remote_url,
 			remote_ip, remote_port, password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
     }
 
@@ -147,7 +147,7 @@ _feed_with_tcp (void *srv_context, lw6cnx_connection_t * connection, lw6srv_tcp_
 
   if (connection)
     {
-      ret = _mod_udpd_feed_with_tcp (udpd_context, connection, tcp_accepter);
+      ret = _mod_udpd_feed_with_tcp (sys_context, udpd_context, connection, tcp_accepter);
     }
 
   return ret;
@@ -161,7 +161,7 @@ _feed_with_udp (void *srv_context, lw6cnx_connection_t * connection, lw6srv_udp_
 
   if (connection)
     {
-      ret = _mod_udpd_feed_with_udp (udpd_context, connection, udp_buffer);
+      ret = _mod_udpd_feed_with_udp (sys_context, udpd_context, connection, udp_buffer);
     }
 
   return ret;
@@ -174,7 +174,7 @@ _close (void *srv_context, lw6cnx_connection_t * connection)
 
   if (udpd_context)
     {
-      _mod_udpd_close (udpd_context, connection);
+      _mod_udpd_close (sys_context, udpd_context, connection);
     }
 }
 
@@ -187,7 +187,7 @@ _send (void *srv_context, lw6cnx_connection_t * connection, int64_t now,
 
   if (udpd_context)
     {
-      ret = _mod_udpd_send (udpd_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
+      ret = _mod_udpd_send (sys_context, udpd_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
     }
 
   return ret;
@@ -201,7 +201,7 @@ _can_send (void *srv_context, lw6cnx_connection_t * connection)
 
   if (udpd_context)
     {
-      ret = _mod_udpd_can_send (udpd_context, connection);
+      ret = _mod_udpd_can_send (sys_context, udpd_context, connection);
     }
 
   return ret;
@@ -214,7 +214,7 @@ _poll (void *srv_context, lw6cnx_connection_t * connection)
 
   if (udpd_context)
     {
-      _mod_udpd_poll (udpd_context, connection);
+      _mod_udpd_poll (sys_context, udpd_context, connection);
     }
 }
 
@@ -226,7 +226,7 @@ _repr (void *srv_context, lw6cnx_connection_t * connection)
 
   if (udpd_context)
     {
-      ret = _mod_udpd_repr (udpd_context, connection);
+      ret = _mod_udpd_repr (sys_context, udpd_context, connection);
     }
 
   return ret;

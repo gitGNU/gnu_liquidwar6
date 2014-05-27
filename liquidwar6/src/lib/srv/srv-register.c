@@ -64,7 +64,7 @@ lw6srv_default_backends ()
  * Return value: hash containing id/name pairs.
  */
 lw6sys_assoc_t *
-lw6srv_get_backends (int argc, const char *argv[])
+lw6srv_get_backends (sys_context, int argc, const char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 
@@ -114,7 +114,7 @@ lw6srv_get_backends (int argc, const char *argv[])
  * Return value: srv backend.
  */
 lw6srv_backend_t *
-lw6srv_create_backend (int argc, const char *argv[], const char *name)
+lw6srv_create_backend (sys_context, int argc, const char *argv[], const char *name)
 {
   lw6srv_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE
@@ -193,7 +193,7 @@ lw6srv_create_backend (int argc, const char *argv[], const char *name)
       backend->name = lw6sys_str_copy (sys_context, name);
       if (!(backend->name))
 	{
-	  lw6srv_destroy_backend (backend);
+	  lw6srv_destroy_backend (sys_context, backend);
 	}
     }
 
@@ -210,7 +210,7 @@ lw6srv_create_backend (int argc, const char *argv[], const char *name)
  * Return value: none.
  */
 void
-lw6srv_destroy_backend (lw6srv_backend_t * backend)
+lw6srv_destroy_backend (sys_context, lw6srv_backend_t * backend)
 {
 #ifndef LW6_ALLINONE
   lw6dyn_dlclose_backend (sys_context, backend->dl_handle);

@@ -31,7 +31,7 @@
 #define _ACCESS_LOG_FILE "access_log.txt"
 
 _mod_httpd_context_t *
-_mod_httpd_init (int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
+_mod_httpd_init (sys_context, int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
 {
   _mod_httpd_context_t *httpd_context = NULL;
   char *user_dir;
@@ -47,7 +47,7 @@ _mod_httpd_init (int argc, const char *argv[], lw6cnx_properties_t * properties,
       data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
       if (data_dir)
 	{
-	  if (_mod_httpd_load_data (&(httpd_context->data), data_dir))
+	  if (_mod_httpd_load_data (sys_context, &(httpd_context->data), data_dir))
 	    {
 	      properties->hint_timeout = httpd_context->data.consts.error_timeout;
 	      properties->ping_alter_base = httpd_context->data.consts.ping_alter_base;
@@ -105,7 +105,7 @@ _mod_httpd_init (int argc, const char *argv[], lw6cnx_properties_t * properties,
 
       if (!ok)
 	{
-	  _mod_httpd_quit (httpd_context);
+	  _mod_httpd_quit (sys_context, httpd_context);
 	  httpd_context = NULL;
 	}
     }
@@ -119,7 +119,7 @@ _mod_httpd_init (int argc, const char *argv[], lw6cnx_properties_t * properties,
 }
 
 void
-_mod_httpd_quit (_mod_httpd_context_t * httpd_context)
+_mod_httpd_quit (sys_context, _mod_httpd_context_t * httpd_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("httpd quit"));
 
@@ -132,7 +132,7 @@ _mod_httpd_quit (_mod_httpd_context_t * httpd_context)
       LW6SYS_FREE (sys_context, httpd_context->access_log_file);
     }
 
-  _mod_httpd_unload_data (&(httpd_context->data));
+  _mod_httpd_unload_data (sys_context, &(httpd_context->data));
 
   LW6SYS_FREE (sys_context, httpd_context);
 }

@@ -43,7 +43,7 @@
  * Return value: new object
  */
 lw6srv_oob_t *
-lw6srv_oob_new (const char *remote_ip, int remote_port, int sock, const char *first_line)
+lw6srv_oob_new (sys_context, const char *remote_ip, int remote_port, int sock, const char *first_line)
 {
   lw6srv_oob_t *oob = NULL;
 
@@ -65,7 +65,7 @@ lw6srv_oob_new (const char *remote_ip, int remote_port, int sock, const char *fi
     {
       if (!oob->data.remote_ip)
 	{
-	  lw6srv_oob_free (oob);
+	  lw6srv_oob_free (sys_context, oob);
 	  oob = NULL;
 	}
     }
@@ -83,7 +83,7 @@ lw6srv_oob_new (const char *remote_ip, int remote_port, int sock, const char *fi
  * Return value: none
  */
 void
-lw6srv_oob_free (lw6srv_oob_t * oob)
+lw6srv_oob_free (sys_context, lw6srv_oob_t * oob)
 {
   if (oob)
     {

@@ -62,7 +62,7 @@ mod_tcpd_is_dlclose_safe ()
 static void *
 _init (int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
 {
-  _mod_tcpd_context_t *tcpd_context = _mod_tcpd_init (argc, argv, properties, listener);
+  _mod_tcpd_context_t *tcpd_context = _mod_tcpd_init (sys_context, argc, argv, properties, listener);
 
   return (void *) tcpd_context;
 }
@@ -74,7 +74,7 @@ _quit (void *srv_context)
 
   if (tcpd_context)
     {
-      _mod_tcpd_quit (tcpd_context);
+      _mod_tcpd_quit (sys_context, tcpd_context);
     }
 }
 
@@ -86,7 +86,7 @@ _analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_in
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_analyse_tcp (tcpd_context, tcp_accepter, node_info, remote_id, remote_url);
+      ret = _mod_tcpd_analyse_tcp (sys_context, tcpd_context, tcp_accepter, node_info, remote_id, remote_url);
     }
 
   return ret;
@@ -100,7 +100,7 @@ _analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_analyse_udp (tcpd_context, udp_buffer, node_info, remote_id, remote_url);
+      ret = _mod_tcpd_analyse_udp (sys_context, tcpd_context, udp_buffer, node_info, remote_id, remote_url);
     }
 
   return ret;
@@ -114,7 +114,7 @@ _process_oob (void *srv_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * 
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_process_oob (tcpd_context, node_info, oob_data);
+      ret = _mod_tcpd_process_oob (sys_context, tcpd_context, node_info, oob_data);
     }
 
   return ret;
@@ -132,7 +132,7 @@ _open (void *srv_context, lw6srv_listener_t * listener, const char *local_url,
   if (tcpd_context)
     {
       ret =
-	_mod_tcpd_open (tcpd_context, listener, local_url, remote_url,
+	_mod_tcpd_open (sys_context, tcpd_context, listener, local_url, remote_url,
 			remote_ip, remote_port, password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
     }
 
@@ -147,7 +147,7 @@ _feed_with_tcp (void *srv_context, lw6cnx_connection_t * connection, lw6srv_tcp_
 
   if (connection)
     {
-      ret = _mod_tcpd_feed_with_tcp (tcpd_context, connection, tcp_accepter);
+      ret = _mod_tcpd_feed_with_tcp (sys_context, tcpd_context, connection, tcp_accepter);
     }
 
   return ret;
@@ -161,7 +161,7 @@ _feed_with_udp (void *srv_context, lw6cnx_connection_t * connection, lw6srv_udp_
 
   if (connection)
     {
-      ret = _mod_tcpd_feed_with_udp (tcpd_context, connection, udp_buffer);
+      ret = _mod_tcpd_feed_with_udp (sys_context, tcpd_context, connection, udp_buffer);
     }
 
   return ret;
@@ -173,7 +173,7 @@ _close (void *srv_context, lw6cnx_connection_t * connection)
   _mod_tcpd_context_t *tcpd_context = (_mod_tcpd_context_t *) srv_context;
   if (tcpd_context)
     {
-      _mod_tcpd_close (tcpd_context, connection);
+      _mod_tcpd_close (sys_context, tcpd_context, connection);
     }
 }
 
@@ -186,7 +186,7 @@ _send (void *srv_context, lw6cnx_connection_t * connection, int64_t now,
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_send (tcpd_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
+      ret = _mod_tcpd_send (sys_context, tcpd_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
     }
 
   return ret;
@@ -200,7 +200,7 @@ _can_send (void *srv_context, lw6cnx_connection_t * connection)
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_can_send (tcpd_context, connection);
+      ret = _mod_tcpd_can_send (sys_context, tcpd_context, connection);
     }
 
   return ret;
@@ -213,7 +213,7 @@ _poll (void *srv_context, lw6cnx_connection_t * connection)
 
   if (tcpd_context)
     {
-      _mod_tcpd_poll (tcpd_context, connection);
+      _mod_tcpd_poll (sys_context, tcpd_context, connection);
     }
 }
 
@@ -225,7 +225,7 @@ _repr (void *srv_context, lw6cnx_connection_t * connection)
 
   if (tcpd_context)
     {
-      ret = _mod_tcpd_repr (tcpd_context, connection);
+      ret = _mod_tcpd_repr (sys_context, tcpd_context, connection);
     }
 
   return ret;

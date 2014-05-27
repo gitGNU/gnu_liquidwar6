@@ -31,7 +31,7 @@
 #define _CONSTS_FILE "tcp-const.xml"
 
 static void
-_read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_tcp_consts_t *consts;
 
@@ -48,7 +48,7 @@ _read_callback (void *callback_data, const char *element, const char *key, const
 }
 
 static int
-_load_consts (_mod_tcp_consts_t * consts, const char *consts_file)
+_load_consts (lw6sys_context_t * sys_context, _mod_tcp_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
@@ -60,7 +60,7 @@ _load_consts (_mod_tcp_consts_t * consts, const char *consts_file)
 }
 
 int
-_mod_tcp_load_data (_mod_tcp_data_t * tcp_data, const char *data_dir)
+_mod_tcp_load_data (lw6sys_context_t * sys_context, _mod_tcp_data_t * tcp_data, const char *data_dir)
 {
   int ret = 0;
   char *tcp_subdir = NULL;
@@ -69,10 +69,10 @@ _mod_tcp_load_data (_mod_tcp_data_t * tcp_data, const char *data_dir)
   tcp_subdir = lw6sys_path_concat (sys_context, data_dir, _TCP_SUBDIR);
   if (tcp_subdir)
     {
-      consts_file = lw6sys_path_concat (tcp_subdir, _CONSTS_FILE);
+      consts_file = lw6sys_path_concat (sys_context, tcp_subdir, _CONSTS_FILE);
       if (consts_file)
 	{
-	  ret = _load_consts (&(tcp_data->consts), consts_file);
+	  ret = _load_consts (sys_context, &(tcp_data->consts), consts_file);
 	  LW6SYS_FREE (sys_context, consts_file);
 	}
       LW6SYS_FREE (sys_context, tcp_subdir);
@@ -82,7 +82,7 @@ _mod_tcp_load_data (_mod_tcp_data_t * tcp_data, const char *data_dir)
 }
 
 static int
-_unload_consts (_mod_tcp_consts_t * consts)
+_unload_consts (lw6sys_context_t * sys_context, _mod_tcp_consts_t * consts)
 {
   int ret = 1;
 
@@ -92,7 +92,7 @@ _unload_consts (_mod_tcp_consts_t * consts)
 }
 
 void
-_mod_tcp_unload_data (_mod_tcp_data_t * tcp_data)
+_mod_tcp_unload_data (lw6sys_context_t * sys_context, _mod_tcp_data_t * tcp_data)
 {
-  _unload_consts (&(tcp_data->consts));
+  _unload_consts (sys_context, &(tcp_data->consts));
 }

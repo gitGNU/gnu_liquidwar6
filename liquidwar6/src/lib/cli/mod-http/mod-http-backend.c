@@ -60,40 +60,40 @@ mod_http_is_dlclose_safe ()
 }
 
 static void *
-_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
+_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6cnx_properties_t * properties)
 {
-  _mod_http_context_t *http_context = _mod_http_init (argc, argv, properties);
+  _mod_http_context_t *http_context = _mod_http_init (sys_context, argc, argv, properties);
 
   return (void *) http_context;
 }
 
 static void
-_quit (void *cli_context)
+_quit (lw6sys_context_t * sys_context, void *cli_context)
 {
   _mod_http_context_t *http_context = (_mod_http_context_t *) cli_context;
 
   if (http_context)
     {
-      _mod_http_quit (http_context);
+      _mod_http_quit (sys_context, http_context);
     }
 }
 
 static int
-_process_oob (void *cli_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
+_process_oob (lw6sys_context_t * sys_context, void *cli_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
 {
   _mod_http_context_t *http_context = (_mod_http_context_t *) cli_context;
   int ret = 0;
 
   if (http_context)
     {
-      ret = _mod_http_process_oob (http_context, node_info, oob_data);
+      ret = _mod_http_process_oob (sys_context, http_context, node_info, oob_data);
     }
 
   return ret;
 }
 
 static lw6cnx_connection_t *
-_open (void *cli_context, const char *local_url, const char *remote_url,
+_open (lw6sys_context_t * sys_context, void *cli_context, const char *local_url, const char *remote_url,
        const char *remote_ip, int remote_port, const char *password,
        u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
 {
@@ -103,7 +103,7 @@ _open (void *cli_context, const char *local_url, const char *remote_url,
   if (http_context)
     {
       ret =
-	_mod_http_open (http_context, local_url, remote_url, remote_ip,
+	_mod_http_open (sys_context, http_context, local_url, remote_url, remote_ip,
 			remote_port, password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
     }
 
@@ -111,18 +111,18 @@ _open (void *cli_context, const char *local_url, const char *remote_url,
 }
 
 static void
-_close (void *cli_context, lw6cnx_connection_t * connection)
+_close (lw6sys_context_t * sys_context, void *cli_context, lw6cnx_connection_t * connection)
 {
   _mod_http_context_t *http_context = (_mod_http_context_t *) cli_context;
 
   if (http_context)
     {
-      _mod_http_close (http_context, connection);
+      _mod_http_close (sys_context, http_context, connection);
     }
 }
 
 static int
-_send (void *cli_context, lw6cnx_connection_t * connection, int64_t now,
+_send (lw6sys_context_t * sys_context, void *cli_context, lw6cnx_connection_t * connection, int64_t now,
        u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
 {
   _mod_http_context_t *http_context = (_mod_http_context_t *) cli_context;
@@ -130,46 +130,46 @@ _send (void *cli_context, lw6cnx_connection_t * connection, int64_t now,
 
   if (http_context)
     {
-      ret = _mod_http_send (http_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
+      ret = _mod_http_send (sys_context, http_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
     }
 
   return ret;
 }
 
 static int
-_can_send (void *cli_context, lw6cnx_connection_t * connection)
+_can_send (lw6sys_context_t * sys_context, void *cli_context, lw6cnx_connection_t * connection)
 {
   _mod_http_context_t *http_context = (_mod_http_context_t *) cli_context;
   int ret = 0;
 
   if (http_context)
     {
-      ret = _mod_http_can_send (http_context, connection);
+      ret = _mod_http_can_send (sys_context, http_context, connection);
     }
 
   return ret;
 }
 
 static void
-_poll (void *cli_context, lw6cnx_connection_t * connection)
+_poll (lw6sys_context_t * sys_context, void *cli_context, lw6cnx_connection_t * connection)
 {
   _mod_http_context_t *http_context = (_mod_http_context_t *) cli_context;
 
   if (http_context)
     {
-      _mod_http_poll (http_context, connection);
+      _mod_http_poll (sys_context, http_context, connection);
     }
 }
 
 static char *
-_repr (void *cli_context, lw6cnx_connection_t * connection)
+_repr (lw6sys_context_t * sys_context, void *cli_context, lw6cnx_connection_t * connection)
 {
   _mod_http_context_t *http_context = (_mod_http_context_t *) cli_context;
   char *ret = NULL;
 
   if (http_context)
     {
-      ret = _mod_http_repr (http_context, connection);
+      ret = _mod_http_repr (sys_context, http_context, connection);
     }
 
   return ret;
@@ -178,13 +178,15 @@ _repr (void *cli_context, lw6cnx_connection_t * connection)
 /**
  * mod_http_get_pedigree
  *
+ * @sys_context: global system context
+ *
  * Returns the pedigree for mod-http, giving details about the module,
  * including name, description, licence, date/time of compilation.
  *
  * Return value: dynamically allocated object.
  */
 lw6sys_module_pedigree_t *
-mod_http_get_pedigree ()
+mod_http_get_pedigree (lw6sys_context_t * sys_context)
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
@@ -208,12 +210,14 @@ mod_http_get_pedigree ()
 /**
  * mod_http_create_backend
  *
+ * @sys_context: global system context
+ *
  * Creates a mod-http backend.
  *
  * Return value: backend pointer.
  */
 lw6cli_backend_t *
-mod_http_create_backend ()
+mod_http_create_backend (lw6sys_context_t * sys_context)
 {
   lw6cli_backend_t *backend;
 

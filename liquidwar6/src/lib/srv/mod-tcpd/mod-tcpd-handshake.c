@@ -28,7 +28,7 @@
 #include "mod-tcpd-internal.h"
 
 int
-_mod_tcpd_analyse_tcp (_mod_tcpd_context_t * tcpd_context,
+_mod_tcpd_analyse_tcp (sys_context, _mod_tcpd_context_t * tcpd_context,
 		       lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
@@ -102,7 +102,7 @@ _mod_tcpd_analyse_tcp (_mod_tcpd_context_t * tcpd_context,
 }
 
 int
-_mod_tcpd_analyse_udp (_mod_tcpd_context_t * tcpd_context,
+_mod_tcpd_analyse_udp (sys_context, _mod_tcpd_context_t * tcpd_context,
 		       lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
@@ -124,7 +124,7 @@ _mod_tcpd_analyse_udp (_mod_tcpd_context_t * tcpd_context,
 }
 
 int
-_mod_tcpd_feed_with_tcp (_mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
+_mod_tcpd_feed_with_tcp (sys_context, _mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
   _mod_tcpd_specific_data_t *specific_data = (_mod_tcpd_specific_data_t *) connection->backend_specific_data;;
@@ -169,7 +169,7 @@ _mod_tcpd_feed_with_tcp (_mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t
 }
 
 int
-_mod_tcpd_feed_with_udp (_mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
+_mod_tcpd_feed_with_udp (sys_context, _mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 

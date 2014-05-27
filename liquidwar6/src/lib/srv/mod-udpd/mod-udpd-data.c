@@ -58,7 +58,7 @@ _load_consts (_mod_udpd_consts_t * consts, const char *consts_file)
 }
 
 int
-_mod_udpd_load_data (_mod_udpd_data_t * udpd_data, const char *data_dir)
+_mod_udpd_load_data (sys_context, _mod_udpd_data_t * udpd_data, const char *data_dir)
 {
   int ret = 0;
   char *udpd_subdir = NULL;
@@ -90,7 +90,7 @@ _unload_consts (_mod_udpd_consts_t * consts)
 }
 
 void
-_mod_udpd_unload_data (_mod_udpd_data_t * udpd_data)
+_mod_udpd_unload_data (sys_context, _mod_udpd_data_t * udpd_data)
 {
   _unload_consts (&(udpd_data->consts));
 }

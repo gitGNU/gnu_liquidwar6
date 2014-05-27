@@ -28,7 +28,7 @@
 #include "mod-tcpd-internal.h"
 
 lw6cnx_connection_t *
-_mod_tcpd_open (_mod_tcpd_context_t * tcpd_context,
+_mod_tcpd_open (sys_context, _mod_tcpd_context_t * tcpd_context,
 		lw6srv_listener_t * listener, const char *local_url,
 		const char *remote_url, const char *remote_ip,
 		int remote_port, const char *password, u_int64_t local_id,
@@ -52,7 +52,7 @@ _mod_tcpd_open (_mod_tcpd_context_t * tcpd_context,
 	}
       else
 	{
-	  _mod_tcpd_close (tcpd_context, ret);
+	  _mod_tcpd_close (sys_context, tcpd_context, ret);
 	  ret = NULL;
 	}
     }
@@ -61,7 +61,7 @@ _mod_tcpd_open (_mod_tcpd_context_t * tcpd_context,
 }
 
 void
-_mod_tcpd_close (_mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection)
+_mod_tcpd_close (sys_context, _mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection)
 {
   _mod_tcpd_specific_data_t *specific_data = (_mod_tcpd_specific_data_t *) connection->backend_specific_data;;
 
@@ -74,7 +74,7 @@ _mod_tcpd_close (_mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * conne
 }
 
 int
-_mod_tcpd_timeout_ok (_mod_tcpd_context_t * tcpd_context, int64_t origin_timestamp)
+_mod_tcpd_timeout_ok (sys_context, _mod_tcpd_context_t * tcpd_context, int64_t origin_timestamp)
 {
   int ret = 0;
   int d = 0;

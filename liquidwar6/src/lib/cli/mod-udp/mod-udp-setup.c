@@ -28,7 +28,7 @@
 #include "mod-udp-internal.h"
 
 _mod_udp_context_t *
-_mod_udp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
+_mod_udp_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6cnx_properties_t * properties)
 {
   _mod_udp_context_t *udp_context = NULL;
   char *data_dir = NULL;
@@ -42,7 +42,7 @@ _mod_udp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
       data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
       if (data_dir)
 	{
-	  if (_mod_udp_load_data (&(udp_context->data), data_dir))
+	  if (_mod_udp_load_data (sys_context, &(udp_context->data), data_dir))
 	    {
 	      properties->hint_timeout = udp_context->data.consts.global_timeout;
 	      properties->ping_alter_base = udp_context->data.consts.ping_alter_base;
@@ -55,7 +55,7 @@ _mod_udp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 	}
       if (!ok)
 	{
-	  _mod_udp_quit (udp_context);
+	  _mod_udp_quit (sys_context, udp_context);
 	  udp_context = NULL;
 	}
     }
@@ -69,9 +69,9 @@ _mod_udp_init (int argc, const char *argv[], lw6cnx_properties_t * properties)
 }
 
 void
-_mod_udp_quit (_mod_udp_context_t * udp_context)
+_mod_udp_quit (lw6sys_context_t * sys_context, _mod_udp_context_t * udp_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("udp quit"));
-  _mod_udp_unload_data (&(udp_context->data));
+  _mod_udp_unload_data (sys_context, &(udp_context->data));
   LW6SYS_FREE (sys_context, udp_context);
 }

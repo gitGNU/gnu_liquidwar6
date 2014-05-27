@@ -28,7 +28,7 @@
 #include "mod-tcp-internal.h"
 
 int
-_mod_tcp_send (_mod_tcp_context_t * tcp_context,
+_mod_tcp_send (lw6sys_context_t * sys_context, _mod_tcp_context_t * tcp_context,
 	       lw6cnx_connection_t * connection,
 	       int64_t now,
 	       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
@@ -96,7 +96,7 @@ _mod_tcp_send (_mod_tcp_context_t * tcp_context,
 }
 
 int
-_mod_tcp_can_send (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connection)
+_mod_tcp_can_send (lw6sys_context_t * sys_context, _mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connection)
 {
   int ret = 0;
   _mod_tcp_specific_data_t *specific_data = (_mod_tcp_specific_data_t *) connection->backend_specific_data;
@@ -107,7 +107,7 @@ _mod_tcp_can_send (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * conne
 }
 
 void
-_mod_tcp_poll (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connection)
+_mod_tcp_poll (lw6sys_context_t * sys_context, _mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connection)
 {
   _mod_tcp_specific_data_t *specific_data = (_mod_tcp_specific_data_t *) connection->backend_specific_data;
   _mod_tcp_connect_data_t *connect_data = NULL;
@@ -131,7 +131,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connectio
 	  connect_data->tcp_context = tcp_context;
 	  connect_data->connection = connection;
 	  specific_data->state = _MOD_TCP_STATE_CONNECTING;
-	  specific_data->connect_thread = lw6sys_thread_create (_mod_tcp_connect_func, NULL, connect_data);
+	  specific_data->connect_thread = lw6sys_thread_create (sys_context, _mod_tcp_connect_func, NULL, connect_data);
 	  if (specific_data->connect_thread)
 	    {
 	      // OK
@@ -149,7 +149,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connectio
     case _MOD_TCP_STATE_CONNECT_DONE:
       if (specific_data->connect_thread)
 	{
-	  lw6sys_thread_join (specific_data->connect_thread);
+	  lw6sys_thread_join (sys_context, specific_data->connect_thread);
 	  specific_data->connect_thread = NULL;
 	}
       if (lw6net_socket_is_valid (sys_context, specific_data->sock))
@@ -159,7 +159,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connectio
 	   * We schedule a foo/bar soon so that connection does not stay
 	   * "idle" and fires a server error because of a timeout.
 	   */
-	  lw6cnx_connection_init_foo_bar_key (sys_context, connection, lw6sys_get_timestamp (), LW6SYS_SLEEP_DELAY);
+	  lw6cnx_connection_init_foo_bar_key (sys_context, connection, lw6sys_get_timestamp (sys_context), LW6SYS_SLEEP_DELAY);
 	}
       else
 	{
@@ -189,7 +189,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connectio
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcp received envelope \"%s\""), envelope_line);
 			  if (lw6msg_envelope_analyse
-			      (envelope_line, LW6MSG_ENVELOPE_MODE_TELNET,
+			      (sys_context, envelope_line, LW6MSG_ENVELOPE_MODE_TELNET,
 			       connection->local_url, connection->password,
 			       connection->remote_id_int,
 			       connection->local_id_int, &msg,
@@ -199,7 +199,7 @@ _mod_tcp_poll (_mod_tcp_context_t * tcp_context, lw6cnx_connection_t * connectio
 			      if (connection->recv_callback_func)
 				{
 				  connection->recv_callback_func
-				    (connection->recv_callback_data,
+				    (sys_context, connection->recv_callback_data,
 				     (void *) connection, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg);
 				}
 			      else

@@ -72,7 +72,7 @@ _mod_httpd_response_from_bin (_mod_httpd_context_t *
 	}
       else
 	{
-	  _mod_httpd_response_free (response);
+	  _mod_httpd_response_free (sys_context, response);
 	  response = NULL;
 	}
     }
@@ -92,7 +92,7 @@ _mod_httpd_response_from_str (_mod_httpd_context_t *
 }
 
 void
-_mod_httpd_response_free (_mod_httpd_response_t * response)
+_mod_httpd_response_free (sys_context, _mod_httpd_response_t * response)
 {
   if (response)
     {
@@ -113,7 +113,7 @@ _mod_httpd_response_free (_mod_httpd_response_t * response)
 }
 
 int
-_mod_httpd_response_send (_mod_httpd_context_t * httpd_context, _mod_httpd_response_t * response, int *sock, int headers_only)
+_mod_httpd_response_send (sys_context, _mod_httpd_context_t * httpd_context, _mod_httpd_response_t * response, int *sock, int headers_only)
 {
   int ret = 0;
   char *first_line = NULL;

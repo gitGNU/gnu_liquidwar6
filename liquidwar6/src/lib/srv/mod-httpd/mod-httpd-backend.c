@@ -62,7 +62,7 @@ mod_httpd_is_dlclose_safe ()
 static void *
 _init (int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
 {
-  _mod_httpd_context_t *httpd_context = _mod_httpd_init (argc, argv, properties, listener);
+  _mod_httpd_context_t *httpd_context = _mod_httpd_init (sys_context, argc, argv, properties, listener);
 
   return (void *) httpd_context;
 }
@@ -74,7 +74,7 @@ _quit (void *srv_context)
 
   if (httpd_context)
     {
-      _mod_httpd_quit (httpd_context);
+      _mod_httpd_quit (sys_context, httpd_context);
     }
 }
 
@@ -86,7 +86,7 @@ _analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_in
 
   if (httpd_context)
     {
-      ret = _mod_httpd_analyse_tcp (httpd_context, tcp_accepter, node_info, remote_id, remote_url);
+      ret = _mod_httpd_analyse_tcp (sys_context, httpd_context, tcp_accepter, node_info, remote_id, remote_url);
     }
 
   return ret;
@@ -100,7 +100,7 @@ _analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t
 
   if (httpd_context)
     {
-      ret = _mod_httpd_analyse_udp (httpd_context, udp_buffer, node_info, remote_id, remote_url);
+      ret = _mod_httpd_analyse_udp (sys_context, httpd_context, udp_buffer, node_info, remote_id, remote_url);
     }
 
   return ret;
@@ -114,7 +114,7 @@ _process_oob (void *srv_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * 
 
   if (httpd_context)
     {
-      ret = _mod_httpd_process_oob (httpd_context, node_info, oob_data);
+      ret = _mod_httpd_process_oob (sys_context, httpd_context, node_info, oob_data);
     }
 
   return ret;
@@ -132,7 +132,7 @@ _open (void *srv_context, lw6srv_listener_t * listener, const char *local_url,
   if (httpd_context)
     {
       ret =
-	_mod_httpd_open (httpd_context, listener, local_url, remote_url,
+	_mod_httpd_open (sys_context, httpd_context, listener, local_url, remote_url,
 			 remote_ip, remote_port, password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
     }
 
@@ -147,7 +147,7 @@ _feed_with_tcp (void *srv_context, lw6cnx_connection_t * connection, lw6srv_tcp_
 
   if (connection)
     {
-      ret = _mod_httpd_feed_with_tcp (httpd_context, connection, tcp_accepter);
+      ret = _mod_httpd_feed_with_tcp (sys_context, httpd_context, connection, tcp_accepter);
     }
 
   return ret;
@@ -161,7 +161,7 @@ _feed_with_udp (void *srv_context, lw6cnx_connection_t * connection, lw6srv_udp_
 
   if (connection)
     {
-      ret = _mod_httpd_feed_with_udp (httpd_context, connection, udp_buffer);
+      ret = _mod_httpd_feed_with_udp (sys_context, httpd_context, connection, udp_buffer);
     }
 
   return ret;
@@ -174,7 +174,7 @@ _close (void *srv_context, lw6cnx_connection_t * connection)
 
   if (connection)
     {
-      _mod_httpd_close (httpd_context, connection);
+      _mod_httpd_close (sys_context, httpd_context, connection);
     }
 }
 
@@ -187,7 +187,7 @@ _send (void *srv_context, lw6cnx_connection_t * connection, int64_t now,
 
   if (connection)
     {
-      ret = _mod_httpd_send (httpd_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
+      ret = _mod_httpd_send (sys_context, httpd_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
     }
 
   return ret;
@@ -201,7 +201,7 @@ _can_send (void *srv_context, lw6cnx_connection_t * connection)
 
   if (httpd_context)
     {
-      ret = _mod_httpd_can_send (httpd_context, connection);
+      ret = _mod_httpd_can_send (sys_context, httpd_context, connection);
     }
 
   return ret;
@@ -214,7 +214,7 @@ _poll (void *srv_context, lw6cnx_connection_t * connection)
 
   if (connection)
     {
-      _mod_httpd_poll (httpd_context, connection);
+      _mod_httpd_poll (sys_context, httpd_context, connection);
     }
 }
 
@@ -226,7 +226,7 @@ _repr (void *srv_context, lw6cnx_connection_t * connection)
 
   if (connection)
     {
-      ret = _mod_httpd_repr (httpd_context, connection);
+      ret = _mod_httpd_repr (sys_context, httpd_context, connection);
     }
 
   return ret;

@@ -28,7 +28,7 @@
 #include "mod-httpd-internal.h"
 
 _mod_httpd_response_t *
-_mod_httpd_http_error (_mod_httpd_context_t * httpd_context, int status)
+_mod_httpd_http_error (sys_context, _mod_httpd_context_t * httpd_context, int status)
 {
   _mod_httpd_response_t *response = NULL;
   char *content = NULL;

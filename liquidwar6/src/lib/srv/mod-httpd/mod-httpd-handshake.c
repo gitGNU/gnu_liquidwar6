@@ -28,7 +28,7 @@
 #include "mod-httpd-internal.h"
 
 int
-_mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
+_mod_httpd_analyse_tcp (sys_context, _mod_httpd_context_t * httpd_context,
 			lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
@@ -122,7 +122,7 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
    * suspect some hacker seeing this when administrating is box
    * will find out the random he was trying was Liquid War 6...
    */
-  if (lw6net_tcp_is_alive (sys_context, &(tcp_accepter->sock)) && !_mod_httpd_timeout_ok (httpd_context, tcp_accepter->creation_timestamp))
+  if (lw6net_tcp_is_alive (sys_context, &(tcp_accepter->sock)) && !_mod_httpd_timeout_ok (sys_context, httpd_context, tcp_accepter->creation_timestamp))
     {
       if (line_size > 0)
 	{
@@ -141,7 +141,7 @@ _mod_httpd_analyse_tcp (_mod_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_analyse_udp (_mod_httpd_context_t * httpd_context,
+_mod_httpd_analyse_udp (sys_context, _mod_httpd_context_t * httpd_context,
 			lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
@@ -163,7 +163,7 @@ _mod_httpd_analyse_udp (_mod_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
+_mod_httpd_feed_with_tcp (sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
   _mod_httpd_specific_data_t *specific_data = (_mod_httpd_specific_data_t *) connection->backend_specific_data;
@@ -204,7 +204,7 @@ _mod_httpd_feed_with_tcp (_mod_httpd_context_t * httpd_context, lw6cnx_connectio
 }
 
 int
-_mod_httpd_feed_with_udp (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
+_mod_httpd_feed_with_udp (sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 

@@ -38,7 +38,7 @@
  * Return value: none
  */
 lw6srv_udp_buffer_t *
-lw6srv_udp_buffer_new (char *client_ip, int client_port, char *line)
+lw6srv_udp_buffer_new (sys_context, char *client_ip, int client_port, char *line)
 {
   lw6srv_udp_buffer_t *ret = NULL;
 
@@ -63,7 +63,7 @@ lw6srv_udp_buffer_new (char *client_ip, int client_port, char *line)
  * Return value: none
  */
 void
-lw6srv_udp_buffer_free (lw6srv_udp_buffer_t * udp_buffer)
+lw6srv_udp_buffer_free (sys_context, lw6srv_udp_buffer_t * udp_buffer)
 {
   if (udp_buffer->client_id.client_ip)
     {

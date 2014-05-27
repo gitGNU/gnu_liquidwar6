@@ -37,7 +37,7 @@ _lw6p2p_cli_oob_callback_data_new (lw6cli_backend_t * backend, _lw6p2p_node_t * 
     {
       ret->backend = backend;
       ret->node_info = node->node_info;
-      ret->cli_oob = lw6cli_oob_new (public_url, _lw6p2p_cli_oob_verify_callback_func, (void *) node);
+      ret->cli_oob = lw6cli_oob_new (sys_context, public_url, _lw6p2p_cli_oob_verify_callback_func, (void *) node);
       if (!ret->cli_oob)
 	{
 	  LW6SYS_FREE (sys_context, ret);
@@ -55,7 +55,7 @@ _lw6p2p_cli_oob_callback_data_free (_lw6p2p_cli_oob_callback_data_t * cli_oob)
     {
       if (cli_oob->cli_oob)
 	{
-	  lw6cli_oob_free (cli_oob->cli_oob);
+	  lw6cli_oob_free (sys_context, cli_oob->cli_oob);
 	}
       LW6SYS_FREE (sys_context, cli_oob);
     }
@@ -96,7 +96,7 @@ _lw6p2p_cli_oob_callback (void *callback_data)
   _lw6p2p_cli_oob_callback_data_t *cli_oob = (_lw6p2p_cli_oob_callback_data_t *) callback_data;
   int ret = 0;
 
-  ret = lw6cli_process_oob (cli_oob->backend, cli_oob->node_info, &(cli_oob->cli_oob->data));
+  ret = lw6cli_process_oob (sys_context, cli_oob->backend, cli_oob->node_info, &(cli_oob->cli_oob->data));
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_cli_oob_callback done ret=%d"), ret);
 }

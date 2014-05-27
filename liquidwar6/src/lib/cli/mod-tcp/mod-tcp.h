@@ -28,9 +28,9 @@
 #define MOD_TCP_BACKEND_ID "tcp"
 
 /* mod-tcp-backend.c */
-extern lw6sys_module_pedigree_t *mod_tcp_get_pedigree ();
-extern lw6cli_backend_t *mod_tcp_create_backend ();
+extern lw6sys_module_pedigree_t *mod_tcp_get_pedigree (lw6sys_context_t * sys_context);
+extern lw6cli_backend_t *mod_tcp_create_backend (lw6sys_context_t * sys_context);
 extern void mod_tcp_is_GPL_compatible ();
 extern void mod_tcp_is_dlclose_safe ();
 
-#endif
+#endif // LIQUIDWAR6CLI_TCP_H

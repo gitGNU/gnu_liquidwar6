@@ -28,7 +28,7 @@
 #include "mod-udp-internal.h"
 
 lw6cnx_connection_t *
-_mod_udp_open (_mod_udp_context_t * udp_context, const char *local_url,
+_mod_udp_open (lw6sys_context_t * sys_context, _mod_udp_context_t * udp_context, const char *local_url,
 	       const char *remote_url, const char *remote_ip, int remote_port,
 	       const char *password, u_int64_t local_id, u_int64_t remote_id,
 	       int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
@@ -46,12 +46,12 @@ _mod_udp_open (_mod_udp_context_t * udp_context, const char *local_url,
       specific_data = (_udp_specific_data_t *) ret->backend_specific_data;
       if (ret->backend_specific_data)
 	{
-	  specific_data->sock = lw6net_udp_client ();
+	  specific_data->sock = lw6net_udp_client (sys_context);
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("open udp connection with \"%s\""), remote_url);
 	}
       else
 	{
-	  _mod_udp_close (udp_context, ret);
+	  _mod_udp_close (sys_context, udp_context, ret);
 	  ret = NULL;
 	}
     }
@@ -60,7 +60,7 @@ _mod_udp_open (_mod_udp_context_t * udp_context, const char *local_url,
 }
 
 void
-_mod_udp_close (_mod_udp_context_t * udp_context, lw6cnx_connection_t * connection)
+_mod_udp_close (lw6sys_context_t * sys_context, _mod_udp_context_t * udp_context, lw6cnx_connection_t * connection)
 {
   _udp_specific_data_t *specific_data = (_udp_specific_data_t *) connection->backend_specific_data;
 
@@ -76,7 +76,7 @@ _mod_udp_close (_mod_udp_context_t * udp_context, lw6cnx_connection_t * connecti
 }
 
 int
-_mod_udp_timeout_ok (_mod_udp_context_t * udp_context, int64_t origin_timestamp, int broadcast)
+_mod_udp_timeout_ok (lw6sys_context_t * sys_context, _mod_udp_context_t * udp_context, int64_t origin_timestamp, int broadcast)
 {
   int ret = 0;
   int d = 0;
@@ -88,7 +88,7 @@ _mod_udp_timeout_ok (_mod_udp_context_t * udp_context, int64_t origin_timestamp,
    * some time assumed to be reasonnable (depends on settings)
    * it will be over.
    */
-  d = abs (lw6sys_get_timestamp (sys_context,) - origin_timestamp);
+  d = abs (lw6sys_get_timestamp (sys_context) - origin_timestamp);
   ret = (broadcast ? (d < udp_context->data.consts.broadcast_timeout * 1000) : (d < udp_context->data.consts.global_timeout * 1000));
 
   return ret;

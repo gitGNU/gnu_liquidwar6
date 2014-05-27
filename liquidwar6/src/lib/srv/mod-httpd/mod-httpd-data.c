@@ -138,7 +138,7 @@ _load_htdocs (_mod_httpd_htdocs_t * htdocs, const char *htdocs_dir)
 }
 
 int
-_mod_httpd_load_data (_mod_httpd_data_t * httpd_data, const char *data_dir)
+_mod_httpd_load_data (sys_context, _mod_httpd_data_t * httpd_data, const char *data_dir)
 {
   int ret = 0;
   char *httpd_subdir = NULL;
@@ -261,7 +261,7 @@ _unload_htdocs (_mod_httpd_htdocs_t * htdocs)
 }
 
 void
-_mod_httpd_unload_data (_mod_httpd_data_t * httpd_data)
+_mod_httpd_unload_data (sys_context, _mod_httpd_data_t * httpd_data)
 {
   _unload_htdocs (&(httpd_data->htdocs));
   _unload_consts (&(httpd_data->consts));

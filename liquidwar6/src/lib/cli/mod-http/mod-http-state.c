@@ -28,7 +28,7 @@
 #include "mod-http-internal.h"
 
 lw6cnx_connection_t *
-_mod_http_open (_mod_http_context_t * http_context, const char *local_url,
+_mod_http_open (lw6sys_context_t * sys_context, _mod_http_context_t * http_context, const char *local_url,
 		const char *remote_url, const char *remote_ip,
 		int remote_port, const char *password, u_int64_t local_id,
 		u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
@@ -53,13 +53,13 @@ _mod_http_open (_mod_http_context_t * http_context, const char *local_url,
 	    }
 	  else
 	    {
-	      _mod_http_close (http_context, ret);
+	      _mod_http_close (sys_context, http_context, ret);
 	      ret = NULL;
 	    }
 	}
       else
 	{
-	  _mod_http_close (http_context, ret);
+	  _mod_http_close (sys_context, http_context, ret);
 	  ret = NULL;
 	}
     }
@@ -68,7 +68,7 @@ _mod_http_open (_mod_http_context_t * http_context, const char *local_url,
 }
 
 void
-_mod_http_close (_mod_http_context_t * http_context, lw6cnx_connection_t * connection)
+_mod_http_close (lw6sys_context_t * sys_context, _mod_http_context_t * http_context, lw6cnx_connection_t * connection)
 {
   _mod_http_specific_data_t *specific_data = (_mod_http_specific_data_t *) connection->backend_specific_data;
 
@@ -76,7 +76,7 @@ _mod_http_close (_mod_http_context_t * http_context, lw6cnx_connection_t * conne
     {
       if (specific_data->query_threads)
 	{
-	  lw6sys_list_free (specific_data->query_threads);
+	  lw6sys_list_free (sys_context, specific_data->query_threads);
 	}
       LW6SYS_FREE (sys_context, specific_data);
     }
@@ -84,7 +84,7 @@ _mod_http_close (_mod_http_context_t * http_context, lw6cnx_connection_t * conne
 }
 
 int
-_mod_http_timeout_ok (_mod_http_context_t * http_context, int64_t origin_timestamp)
+_mod_http_timeout_ok (lw6sys_context_t * sys_context, _mod_http_context_t * http_context, int64_t origin_timestamp)
 {
   int ret = 0;
   int d = 0;
@@ -96,7 +96,7 @@ _mod_http_timeout_ok (_mod_http_context_t * http_context, int64_t origin_timesta
    * some time assumed to be reasonnable (depends on settings)
    * it will be over.
    */
-  d = abs (lw6sys_get_timestamp (sys_context,) - origin_timestamp);
+  d = abs (lw6sys_get_timestamp (sys_context) - origin_timestamp);
   ret = (d < (http_context->data.consts.global_timeout * 1000));
 
   return ret;

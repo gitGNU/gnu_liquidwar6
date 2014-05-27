@@ -28,7 +28,8 @@
 #include "mod-http-internal.h"
 
 static int
-_do_ping (_mod_http_context_t * http_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url, char *ip)
+_do_ping (lw6sys_context_t * sys_context, _mod_http_context_t * http_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url,
+	  lw6sys_url_t * parsed_url, char *ip)
 {
   int ret = 0;
   char *response = NULL;
@@ -39,10 +40,10 @@ _do_ping (_mod_http_context_t * http_context, lw6nod_info_t * node_info, lw6cli_
   ping_url = lw6sys_str_concat (sys_context, url, _MOD_HTTP_OOB_PING_TXT);
   if (ping_url)
     {
-      response = _mod_http_get (http_context, ping_url, NULL, ip, parsed_url->port);
+      response = _mod_http_get (sys_context, http_context, ping_url, NULL, ip, parsed_url->port);
       if (response)
 	{
-	  if (_mod_http_oob_should_continue (http_context, oob_data))
+	  if (_mod_http_oob_should_continue (sys_context, http_context, oob_data))
 	    {
 	      given_url = lw6msg_oob_analyse_pong (sys_context, response);
 	      if (given_url)
@@ -74,7 +75,7 @@ _do_ping (_mod_http_context_t * http_context, lw6nod_info_t * node_info, lw6cli_
 }
 
 static int
-_do_info (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
+_do_info (lw6sys_context_t * sys_context, _mod_http_context_t * http_context, lw6nod_info_t * node_info,
 	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url, char *ip, char *password_checksum)
 {
   int ret = 0;
@@ -90,14 +91,14 @@ _do_info (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
   assoc = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
   if (assoc)
     {
-      origin = lw6sys_get_timestamp ();
+      origin = lw6sys_get_timestamp (sys_context);
       info_url = lw6sys_str_concat (sys_context, url, _MOD_HTTP_OOB_INFO_TXT);
       if (info_url)
 	{
-	  response = _mod_http_get (http_context, info_url, password_checksum, ip, parsed_url->port);
+	  response = _mod_http_get (sys_context, http_context, info_url, password_checksum, ip, parsed_url->port);
 	  if (response)
 	    {
-	      if (_mod_http_oob_should_continue (http_context, oob_data))
+	      if (_mod_http_oob_should_continue (sys_context, http_context, oob_data))
 		{
 		  pos = seek = response;
 		  while (*seek)
@@ -140,10 +141,10 @@ _do_info (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 	  if (oob_data->verify_callback_func)
 	    {
 	      ret =
-		oob_data->verify_callback_func (oob_data->verify_callback_data, url, ip,
-						parsed_url->port, lw6sys_get_timestamp (sys_context,) - origin, assoc);
+		oob_data->verify_callback_func (sys_context, oob_data->verify_callback_data, url, ip,
+						parsed_url->port, lw6sys_get_timestamp (sys_context) - origin, assoc);
 	    }
-	  lw6sys_assoc_free (assoc);
+	  lw6sys_assoc_free (sys_context, assoc);
 	}
     }
 
@@ -151,7 +152,7 @@ _do_info (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 }
 
 static int
-_do_list (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
+_do_list (lw6sys_context_t * sys_context, _mod_http_context_t * http_context, lw6nod_info_t * node_info,
 	  lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url, char *ip, char *password_checksum)
 {
   int ret = 0;
@@ -165,10 +166,10 @@ _do_list (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
   list_url = lw6sys_str_concat (sys_context, url, _MOD_HTTP_OOB_LIST_TXT);
   if (list_url)
     {
-      response = _mod_http_get (http_context, list_url, password_checksum, ip, parsed_url->port);
+      response = _mod_http_get (sys_context, http_context, list_url, password_checksum, ip, parsed_url->port);
       if (response)
 	{
-	  if (_mod_http_oob_should_continue (http_context, oob_data))
+	  if (_mod_http_oob_should_continue (sys_context, http_context, oob_data))
 	    {
 	      ret = 1;
 	      pos = seek = response;
@@ -184,7 +185,7 @@ _do_list (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 		      (*seek) = '\0';
 		      if (strlen (pos) > 0)
 			{
-			  if (lw6sys_url_is_canonized (pos))
+			  if (lw6sys_url_is_canonized (sys_context, pos))
 			    {
 			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_ ("list from %s:%d \"%s\" contains \"%s\", registering it"), ip, parsed_url->port, url, pos);
@@ -216,7 +217,7 @@ _do_list (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 }
 
 int
-_mod_http_process_oob (_mod_http_context_t * http_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
+_mod_http_process_oob (lw6sys_context_t * sys_context, _mod_http_context_t * http_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
 {
   int ret = 0;
   lw6sys_url_t *parsed_url = NULL;
@@ -227,7 +228,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context, lw6nod_info_t * node_
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process http oob url=\"%s\""), oob_data->public_url);
 
-  parsed_url = lw6sys_url_parse (oob_data->public_url);
+  parsed_url = lw6sys_url_parse (sys_context, oob_data->public_url);
   if (parsed_url)
     {
       if (lw6sys_str_is_same (sys_context, parsed_url->host, LW6NET_ADDRESS_BROADCAST))
@@ -244,7 +245,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context, lw6nod_info_t * node_
 	  ip = lw6net_dns_gethostbyname (sys_context, parsed_url->host);
 	  if (ip)
 	    {
-	      if (_mod_http_oob_should_continue (http_context, oob_data))
+	      if (_mod_http_oob_should_continue (sys_context, http_context, oob_data))
 		{
 		  if (http_context->data.consts.tcp_connect_before_http_get)
 		    {
@@ -283,15 +284,16 @@ _mod_http_process_oob (_mod_http_context_t * http_context, lw6nod_info_t * node_
 		    }
 		}
 
-	      if (_mod_http_oob_should_continue (http_context, oob_data) && (tcp_connect_ok || !http_context->data.consts.tcp_connect_before_http_get))
+	      if (_mod_http_oob_should_continue (sys_context, http_context, oob_data)
+		  && (tcp_connect_ok || !http_context->data.consts.tcp_connect_before_http_get))
 		{
-		  if (_do_ping (http_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
+		  if (_do_ping (sys_context, http_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_http client PING on node \"%s\" OK"), oob_data->public_url);
-		      if (_do_info (http_context, node_info, oob_data, oob_data->public_url, parsed_url, ip, password_checksum))
+		      if (_do_info (sys_context, http_context, node_info, oob_data, oob_data->public_url, parsed_url, ip, password_checksum))
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_http client INFO on node \"%s\" OK"), oob_data->public_url);
-			  if (_do_list (http_context, node_info, oob_data, oob_data->public_url, parsed_url, ip, password_checksum))
+			  if (_do_list (sys_context, http_context, node_info, oob_data, oob_data->public_url, parsed_url, ip, password_checksum))
 			    {
 			      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_http client LIST on node \"%s\" OK"), oob_data->public_url);
 			      ret = 1;
@@ -311,7 +313,7 @@ _mod_http_process_oob (_mod_http_context_t * http_context, lw6nod_info_t * node_
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_http client PING on node \"%s\" failed"), oob_data->public_url);
 		    }
 		}
-	      LW6SYS_FREE (ip);
+	      LW6SYS_FREE (sys_context, ip);
 	    }
 	  if (password_checksum)
 	    {
@@ -325,9 +327,9 @@ _mod_http_process_oob (_mod_http_context_t * http_context, lw6nod_info_t * node_
 }
 
 int
-_mod_http_oob_should_continue (_mod_http_context_t * http_context, lw6cli_oob_data_t * oob_data)
+_mod_http_oob_should_continue (lw6sys_context_t * sys_context, _mod_http_context_t * http_context, lw6cli_oob_data_t * oob_data)
 {
   int ret = 0;
-  ret = (_mod_http_timeout_ok (http_context, oob_data->creation_timestamp) && (!oob_data->do_not_finish));
+  ret = (_mod_http_timeout_ok (sys_context, http_context, oob_data->creation_timestamp) && (!oob_data->do_not_finish));
   return ret;
 }

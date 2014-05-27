@@ -28,9 +28,10 @@
 
 #define MOD_TCPD_BACKEND_ID "tcpd"
 
-extern lw6sys_module_pedigree_t *mod_tcpd_get_pedigree ();
-extern lw6srv_backend_t *mod_tcpd_create_backend ();
+/* mod-tcpd-backend.c */
+extern lw6sys_module_pedigree_t *mod_tcpd_get_pedigree (lw6sys_context_t * sys_context);
+extern lw6srv_backend_t *mod_tcpd_create_backend (lw6sys_context_t * sys_context);
 extern void mod_tcpd_is_GPL_compatible ();
 extern void mod_tcpd_is_dlclose_safe ();
 
-#endif
+#endif // LIQUIDWAR6SRV_TCPD_H

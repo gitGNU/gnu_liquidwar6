@@ -28,7 +28,7 @@
 #include "mod-udpd-internal.h"
 
 int
-_mod_udpd_process_oob (_mod_udpd_context_t * udpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
+_mod_udpd_process_oob (sys_context, _mod_udpd_context_t * udpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
   char *request_line = NULL;
@@ -39,7 +39,7 @@ _mod_udpd_process_oob (_mod_udpd_context_t * udpd_context, lw6nod_info_t * node_
   char *response = NULL;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process udpd oob"));
-  if (_mod_udpd_oob_should_continue (udpd_context, oob_data))
+  if (_mod_udpd_oob_should_continue (sys_context, udpd_context, oob_data))
     {
       request_line = oob_data->first_line;
       if (request_line)
@@ -111,11 +111,11 @@ _mod_udpd_process_oob (_mod_udpd_context_t * udpd_context, lw6nod_info_t * node_
 }
 
 int
-_mod_udpd_oob_should_continue (_mod_udpd_context_t * udpd_context, lw6srv_oob_data_t * oob_data)
+_mod_udpd_oob_should_continue (sys_context, _mod_udpd_context_t * udpd_context, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
 
-  ret = (_mod_udpd_timeout_ok (udpd_context, oob_data->creation_timestamp) && (!oob_data->do_not_finish));
+  ret = (_mod_udpd_timeout_ok (sys_context, udpd_context, oob_data->creation_timestamp) && (!oob_data->do_not_finish));
 
   return ret;
 }

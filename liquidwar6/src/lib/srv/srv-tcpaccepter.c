@@ -38,7 +38,7 @@
  * Return value: none
  */
 lw6srv_tcp_accepter_t *
-lw6srv_tcp_accepter_new (char *client_ip, int client_port, int sock)
+lw6srv_tcp_accepter_new (sys_context, char *client_ip, int client_port, int sock)
 {
   lw6srv_tcp_accepter_t *ret = NULL;
 
@@ -64,7 +64,7 @@ lw6srv_tcp_accepter_new (char *client_ip, int client_port, int sock)
  * Return value: none
  */
 void
-lw6srv_tcp_accepter_free (lw6srv_tcp_accepter_t * tcp_accepter)
+lw6srv_tcp_accepter_free (sys_context, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   /*
    * We don't close the socket for it might be used by

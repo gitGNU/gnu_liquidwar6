@@ -28,7 +28,7 @@
 #include "mod-http-internal.h"
 
 int
-_mod_http_send (_mod_http_context_t * http_context,
+_mod_http_send (lw6sys_context_t * sys_context, _mod_http_context_t * http_context,
 		lw6cnx_connection_t * connection,
 		int64_t now,
 		u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
@@ -48,7 +48,7 @@ _mod_http_send (_mod_http_context_t * http_context,
    */
   if (connection->dns_ok)
     {
-      if (lw6sys_list_length (specific_data->query_threads) < http_context->data.consts.max_concurrent_requests)
+      if (lw6sys_list_length (sys_context, specific_data->query_threads) < http_context->data.consts.max_concurrent_requests)
 	{
 	  line = lw6msg_envelope_generate (sys_context, LW6MSG_ENVELOPE_MODE_URL,
 					   lw6sys_build_get_version (),
@@ -75,10 +75,11 @@ _mod_http_send (_mod_http_context_t * http_context,
 		      query_thread_data->http_context = http_context;
 		      query_thread_data->cnx = connection;
 		      query_thread_data->url = url;
-		      thread_handler = lw6sys_thread_create (_mod_http_query_thread_func, _mod_http_query_thread_join, (void *) query_thread_data);
+		      thread_handler =
+			lw6sys_thread_create (sys_context, _mod_http_query_thread_func, _mod_http_query_thread_join, (void *) query_thread_data);
 		      if (thread_handler)
 			{
-			  lw6sys_list_push_back (&(specific_data->query_threads), thread_handler);
+			  lw6sys_list_push_back (sys_context, &(specific_data->query_threads), thread_handler);
 			  ret = 1;
 			}
 		    }
@@ -113,22 +114,22 @@ _mod_http_send (_mod_http_context_t * http_context,
 }
 
 int
-_mod_http_can_send (_mod_http_context_t * http_context, lw6cnx_connection_t * connection)
+_mod_http_can_send (lw6sys_context_t * sys_context, _mod_http_context_t * http_context, lw6cnx_connection_t * connection)
 {
   int ret = 0;
   _mod_http_specific_data_t *specific_data = (_mod_http_specific_data_t *) connection->backend_specific_data;
 
-  ret = connection->dns_ok && (lw6sys_list_length (specific_data->query_threads) < http_context->data.consts.max_concurrent_requests);
+  ret = connection->dns_ok && (lw6sys_list_length (sys_context, specific_data->query_threads) < http_context->data.consts.max_concurrent_requests);
 
   return ret;
 }
 
 void
-_mod_http_poll (_mod_http_context_t * http_context, lw6cnx_connection_t * connection)
+_mod_http_poll (lw6sys_context_t * sys_context, _mod_http_context_t * http_context, lw6cnx_connection_t * connection)
 {
   _mod_http_specific_data_t *specific_data = (_mod_http_specific_data_t *) connection->backend_specific_data;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_http poll"));
 
-  lw6sys_list_filter (&(specific_data->query_threads), _mod_http_query_thread_filter, NULL);
+  lw6sys_list_filter (sys_context, &(specific_data->query_threads), _mod_http_query_thread_filter, NULL);
 }

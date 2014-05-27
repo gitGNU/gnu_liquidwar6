@@ -58,7 +58,7 @@ _load_consts (_mod_tcpd_consts_t * consts, const char *consts_file)
 }
 
 int
-_mod_tcpd_load_data (_mod_tcpd_data_t * tcpd_data, const char *data_dir)
+_mod_tcpd_load_data (sys_context, _mod_tcpd_data_t * tcpd_data, const char *data_dir)
 {
   int ret = 0;
   char *tcpd_subdir = NULL;
@@ -90,7 +90,7 @@ _unload_consts (_mod_tcpd_consts_t * consts)
 }
 
 void
-_mod_tcpd_unload_data (_mod_tcpd_data_t * tcpd_data)
+_mod_tcpd_unload_data (sys_context, _mod_tcpd_data_t * tcpd_data)
 {
   _unload_consts (&(tcpd_data->consts));
 }

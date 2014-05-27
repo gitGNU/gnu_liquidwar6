@@ -27,9 +27,10 @@
 
 #define MOD_UDPD_BACKEND_ID "udpd"
 
-extern lw6sys_module_pedigree_t *mod_udpd_get_pedigree ();
-extern lw6srv_backend_t *mod_udpd_create_backend ();
+/* mod-udpd-backend.c */
+extern lw6sys_module_pedigree_t *mod_udpd_get_pedigree (lw6sys_context_t * sys_context);
+extern lw6srv_backend_t *mod_udpd_create_backend (lw6sys_context_t * sys_context);
 extern void mod_udpd_is_GPL_compatible ();
 extern void mod_udpd_is_dlclose_safe ();
 
-#endif
+#endif // LIQUIDWAR6SRV_UDPD_H

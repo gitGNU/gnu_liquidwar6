@@ -277,7 +277,7 @@ _response_ping_txt (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_i
 }
 
 int
-_mod_httpd_process_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
+_mod_httpd_process_oob (sys_context, _mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
   _mod_httpd_request_t *request = NULL;
@@ -286,7 +286,7 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_t * no
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process httpd oob"));
 
-  request = _mod_httpd_request_parse_oob (httpd_context, node_info, oob_data);
+  request = _mod_httpd_request_parse_oob (sys_context, httpd_context, node_info, oob_data);
   if (request)
     {
       if (request->get_head_post == _MOD_HTTPD_GET || request->get_head_post == _MOD_HTTPD_HEAD)
@@ -355,12 +355,12 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_t * no
 	    }
 	  else
 	    {
-	      response = _mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_401);
+	      response = _mod_httpd_http_error (sys_context, httpd_context, _MOD_HTTPD_STATUS_401);
 	    }
 	}
       if (request->get_head_post == _MOD_HTTPD_POST)
 	{
-	  response = _mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_405);
+	  response = _mod_httpd_http_error (sys_context, httpd_context, _MOD_HTTPD_STATUS_405);
 	}
       if (!response)
 	{
@@ -375,7 +375,7 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_t * no
 	       * of the time it's just that "what's after GET is wrong"
 	       * and this corresponds to 404.
 	       */
-	      response = _mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_404);
+	      response = _mod_httpd_http_error (sys_context, httpd_context, _MOD_HTTPD_STATUS_404);
 	    }
 	  else
 	    {
@@ -388,24 +388,24 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_t * no
 	       * client (if not http client) should figure this means
 	       * error.
 	       */
-	      response = _mod_httpd_http_error (httpd_context, _MOD_HTTPD_STATUS_500);
+	      response = _mod_httpd_http_error (sys_context, httpd_context, _MOD_HTTPD_STATUS_500);
 	    }
 	}
       if (response)
 	{
-	  ret = _mod_httpd_response_send (httpd_context, response, &(oob_data->sock), request->get_head_post == _MOD_HTTPD_HEAD);
+	  ret = _mod_httpd_response_send (sys_context, httpd_context, response, &(oob_data->sock), request->get_head_post == _MOD_HTTPD_HEAD);
 	  if (ret)
 	    {
-	      _mod_httpd_log (httpd_context, request, response);
+	      _mod_httpd_log (sys_context, httpd_context, request, response);
 	    }
 	  else
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request \"%s\" failed"), request->uri);
 	    }
 
-	  _mod_httpd_response_free (response);
+	  _mod_httpd_response_free (sys_context, response);
 	}
-      _mod_httpd_request_free (request);
+      _mod_httpd_request_free (sys_context, request);
     }
 
   lw6net_socket_close (sys_context, &(oob_data->sock));
@@ -414,11 +414,11 @@ _mod_httpd_process_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_t * no
 }
 
 int
-_mod_httpd_oob_should_continue (_mod_httpd_context_t * httpd_context, lw6srv_oob_data_t * oob_data)
+_mod_httpd_oob_should_continue (sys_context, _mod_httpd_context_t * httpd_context, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
 
-  ret = (_mod_httpd_timeout_ok (httpd_context, oob_data->creation_timestamp) && lw6net_tcp_is_alive (sys_context, &(oob_data->sock))
+  ret = (_mod_httpd_timeout_ok (sys_context, httpd_context, oob_data->creation_timestamp) && lw6net_tcp_is_alive (sys_context, &(oob_data->sock))
 	 && (!oob_data->do_not_finish));
 
   return ret;

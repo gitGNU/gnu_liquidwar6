@@ -28,7 +28,7 @@
 #include "mod-tcpd-internal.h"
 
 _mod_tcpd_context_t *
-_mod_tcpd_init (int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
+_mod_tcpd_init (sys_context, int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
 {
   _mod_tcpd_context_t *tcpd_context = NULL;
   char *data_dir = NULL;
@@ -42,7 +42,7 @@ _mod_tcpd_init (int argc, const char *argv[], lw6cnx_properties_t * properties, 
       data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
       if (data_dir)
 	{
-	  if (_mod_tcpd_load_data (&(tcpd_context->data), data_dir))
+	  if (_mod_tcpd_load_data (sys_context, &(tcpd_context->data), data_dir))
 	    {
 	      properties->hint_timeout = tcpd_context->data.consts.error_timeout;
 	      properties->ping_alter_base = tcpd_context->data.consts.ping_alter_base;
@@ -55,7 +55,7 @@ _mod_tcpd_init (int argc, const char *argv[], lw6cnx_properties_t * properties, 
 	}
       if (!ok)
 	{
-	  _mod_tcpd_quit (tcpd_context);
+	  _mod_tcpd_quit (sys_context, tcpd_context);
 	  tcpd_context = NULL;
 	}
     }
@@ -69,9 +69,9 @@ _mod_tcpd_init (int argc, const char *argv[], lw6cnx_properties_t * properties, 
 }
 
 void
-_mod_tcpd_quit (_mod_tcpd_context_t * tcpd_context)
+_mod_tcpd_quit (sys_context, _mod_tcpd_context_t * tcpd_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("tcpd quit"));
-  _mod_tcpd_unload_data (&(tcpd_context->data));
+  _mod_tcpd_unload_data (sys_context, &(tcpd_context->data));
   LW6SYS_FREE (sys_context, tcpd_context);
 }

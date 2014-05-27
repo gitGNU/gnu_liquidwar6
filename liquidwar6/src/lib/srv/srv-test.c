@@ -69,11 +69,11 @@ _test_oob ()
   {
     lw6srv_oob_t *oob;
 
-    oob = lw6srv_oob_new (_TEST_OOB_REMOTE_IP, _TEST_OOB_REMOTE_PORT, _TEST_OOB_INVALID_SOCK, _TEST_LINE);
+    oob = lw6srv_oob_new (sys_context, _TEST_OOB_REMOTE_IP, _TEST_OOB_REMOTE_PORT, _TEST_OOB_INVALID_SOCK, _TEST_LINE);
     if (oob)
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("created oob object"));
-	lw6srv_oob_free (oob);
+	lw6srv_oob_free (sys_context, oob);
       }
     else
       {
@@ -97,11 +97,11 @@ _test_tcp_accepter ()
     ip = lw6sys_str_copy (sys_context, LW6NET_ADDRESS_LOOPBACK);
     if (ip)
       {
-	tcp_accepter = lw6srv_tcp_accepter_new (ip, _TEST_PORT, _TEST_FAKE_SOCK);
+	tcp_accepter = lw6srv_tcp_accepter_new (sys_context, ip, _TEST_PORT, _TEST_FAKE_SOCK);
 	if (tcp_accepter)
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("tcp_accepter %s:%d"), tcp_accepter->client_id.client_ip, tcp_accepter->client_id.client_port);
-	    lw6srv_tcp_accepter_free (tcp_accepter);
+	    lw6srv_tcp_accepter_free (sys_context, tcp_accepter);
 	  }
 	else
 	  {
@@ -132,11 +132,11 @@ _test_udp_buffer ()
 	line = lw6sys_str_copy (sys_context, _TEST_LINE);
 	if (line)
 	  {
-	    udp_buffer = lw6srv_udp_buffer_new (ip, _TEST_PORT, line);
+	    udp_buffer = lw6srv_udp_buffer_new (sys_context, ip, _TEST_PORT, line);
 	    if (udp_buffer)
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("udp_buffer %s:%d"), udp_buffer->client_id.client_ip, udp_buffer->client_id.client_port);
-		lw6srv_udp_buffer_free (udp_buffer);
+		lw6srv_udp_buffer_free (sys_context, udp_buffer);
 	      }
 	    else
 	      {
@@ -205,20 +205,20 @@ _setup_init_listener ()
 
   if (lw6net_init (sys_context, argc, argv, _TEST_NET_LOG))
     {
-      _test_data.backend[0] = lw6srv_create_backend (argc, argv, "tcpd");
-      _test_data.backend[1] = lw6srv_create_backend (argc, argv, "udpd");
-      _test_data.backend[2] = lw6srv_create_backend (argc, argv, "httpd");
+      _test_data.backend[0] = lw6srv_create_backend (sys_context, argc, argv, "tcpd");
+      _test_data.backend[1] = lw6srv_create_backend (sys_context, argc, argv, "udpd");
+      _test_data.backend[2] = lw6srv_create_backend (sys_context, argc, argv, "httpd");
 
       if (_test_data.backend[0] && _test_data.backend[1] && _test_data.backend[2])
 	{
-	  _test_data.listener = lw6srv_start (LW6NET_ADDRESS_ANY, _TEST_PORT);
+	  _test_data.listener = lw6srv_start (sys_context, LW6NET_ADDRESS_ANY, _TEST_PORT);
 	  if (_test_data.listener)
 	    {
 	      for (i = 0; i < _TEST_NB_BACKENDS; ++i)
 		{
 		  if (ok)
 		    {
-		      if (lw6srv_init (_test_data.backend[i], _test_data.listener))
+		      if (lw6srv_init (sys_context, _test_data.backend[i], _test_data.listener))
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 				      _x_
@@ -257,17 +257,17 @@ _setup_quit_listener ()
 	{
 	  for (i = 0; i < _TEST_NB_BACKENDS; ++i)
 	    {
-	      lw6srv_quit (_test_data.backend[i]);
+	      lw6srv_quit (sys_context, _test_data.backend[i]);
 	    }
 	  ret = CUE_SUCCESS;
 	}
-      lw6srv_stop (_test_data.listener);
+      lw6srv_stop (sys_context, _test_data.listener);
       _test_data.listener = NULL;
       if (_test_data.backend[0] && _test_data.backend[1] && _test_data.backend[2])
 	{
 	  for (i = 0; i < _TEST_NB_BACKENDS; ++i)
 	    {
-	      lw6srv_destroy_backend (_test_data.backend[i]);
+	      lw6srv_destroy_backend (sys_context, _test_data.backend[i]);
 	      _test_data.backend[i] = NULL;
 	    }
 	}
@@ -287,7 +287,7 @@ _setup_quit_listener ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6srv_test_register (int mode)
+lw6srv_test_register (sys_context, int mode)
 {
   int ret = 1;
   CU_Suite *suite;
@@ -350,7 +350,7 @@ lw6srv_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6srv_test_run (int mode)
+lw6srv_test_run (sys_context, int mode)
 {
   int ret = 0;
 

@@ -27,6 +27,8 @@
 #include "../cli.h"
 #include "mod-http-internal.h"
 
+static lw6sys_context_t *_my_realloc_sys_context = NULL;
+
 /*
  * Inspired from example getinmemory.c from libcurl documentation
  */
@@ -43,9 +45,9 @@ _my_realloc (void *ptr, size_t size)
   /* There might be a realloc() out there that doesn't like reallocing
      NULL pointers, so we take care of it here */
   if (ptr)
-    return LW6SYS_REALLOC (ptr, size);
+    return LW6SYS_REALLOC (_my_realloc_sys_context, ptr, size);
   else
-    return LW6SYS_MALLOC (sys_context, size);
+    return LW6SYS_MALLOC (_my_realloc_sys_context, size);
 }
 
 static size_t
@@ -65,20 +67,20 @@ _write_memory_callback (void *ptr, size_t size, size_t nmemb, void *data)
 }
 
 static void
-_print_error (char *function, CURLcode res)
+_print_error (lw6sys_context_t * sys_context, char *function, CURLcode res)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("call to curl function \"%s\" failed with code %d \"%s\""), function, res, curl_easy_strerror (res));
 }
 
 char *
-_mod_http_get (_mod_http_context_t * http_context, const char *url, const char *password, const char *ip, int port)
+_mod_http_get (lw6sys_context_t * sys_context, _mod_http_context_t * http_context, const char *url, const char *password, const char *ip, int port)
 {
   char *ret = NULL;
   CURL *curl_handle = NULL;
   CURLcode res = 0;
   _memory_struct_t chunk;
   char *authorization = NULL;
-  int64_t origin = lw6sys_get_timestamp ();
+  int64_t origin = lw6sys_get_timestamp (sys_context);
   int test_sock = LW6NET_SOCKET_INVALID;
   int http_ok = 0;
 
@@ -97,13 +99,13 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url, const char *
        * but in practice we would barely gain any time, and the safety
        * of being sure all CURL functions are serialized has some value.
        */
-      if (lw6net_dns_lock ())
+      if (lw6net_dns_lock (sys_context))
 	{
 	  /*
 	   * Check if timeout is OK for if we had many locks, we can have
 	   * a timeout between now and the end of the call
 	   */
-	  if (_mod_http_timeout_ok (http_context, origin))
+	  if (_mod_http_timeout_ok (sys_context, http_context, origin))
 	    {
 	      /* init the curl session */
 	      curl_handle = curl_easy_init ();
@@ -121,6 +123,14 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url, const char *
 		      res = curl_easy_setopt (curl_handle, CURLOPT_URL, url);
 		      if (res == CURLE_OK)
 			{
+			  /*
+			   * OK, before we ever use _write_memory_callback,
+			   * we set the global (static) sys_context.
+			   * This makes this lib perfectly non-reentrant,
+			   * but this is not our fault, there's no real
+			   * way to pass an extra pointer to these funcs.
+			   */
+			  _my_realloc_sys_context = sys_context;
 			  res = curl_easy_setopt (curl_handle, CURLOPT_WRITEFUNCTION, _write_memory_callback);
 			  if (res == CURLE_OK)
 			    {
@@ -150,7 +160,7 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url, const char *
 					    {
 					      if (password)
 						{
-						  authorization = lw6sys_new_sprintf ("%s:%s", lw6sys_build_get_package_tarname (), password);
+						  authorization = lw6sys_new_sprintf (sys_context, "%s:%s", lw6sys_build_get_package_tarname (), password);
 						  if (authorization)
 						    {
 						      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("using authorization \"%s\""), authorization);
@@ -160,13 +170,13 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url, const char *
 						      res = curl_easy_setopt (curl_handle, CURLOPT_HTTPAUTH, (long) CURLAUTH_ANY);
 						      if (res != CURLE_OK)
 							{
-							  _print_error ("curl_easy_setopt(CURLOPT_HTTPAUTH)", res);
+							  _print_error (sys_context, "curl_easy_setopt(CURLOPT_HTTPAUTH)", res);
 							}
 						      /* set user name and password for the authentication */
 						      res = curl_easy_setopt (curl_handle, CURLOPT_USERPWD, authorization);
 						      if (res != CURLE_OK)
 							{
-							  _print_error ("curl_easy_setopt(CURLOPT_USERPWD)", res);
+							  _print_error (sys_context, "curl_easy_setopt(CURLOPT_USERPWD)", res);
 							}
 						      LW6SYS_FREE (sys_context, authorization);
 						    }
@@ -180,42 +190,42 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url, const char *
 						}
 					      else
 						{
-						  _print_error ("curl_easy_perform", res);
+						  _print_error (sys_context, "curl_easy_perform", res);
 						}
 					    }
 					  else
 					    {
-					      _print_error ("curl_easy_setopt(CURLOPT_USERAGENT)", res);
+					      _print_error (sys_context, "curl_easy_setopt(CURLOPT_USERAGENT)", res);
 					    }
 					}
 				      else
 					{
-					  _print_error ("curl_easy_setopt(CURLOPT_TIMEOUT)", res);
+					  _print_error (sys_context, "curl_easy_setopt(CURLOPT_TIMEOUT)", res);
 					}
 				    }
 				  else
 				    {
-				      _print_error ("curl_easy_setopt(CURLOPT_CONNECTTIMEOUT)", res);
+				      _print_error (sys_context, "curl_easy_setopt(CURLOPT_CONNECTTIMEOUT)", res);
 				    }
 				}
 			      else
 				{
-				  _print_error ("curl_easy_setopt(CURLOPT_WRITEDATA)", res);
+				  _print_error (sys_context, "curl_easy_setopt(CURLOPT_WRITEDATA)", res);
 				}
 			    }
 			  else
 			    {
-			      _print_error ("curl_easy_setopt(CURLOPT_WRITEFUNCTION)", res);
+			      _print_error (sys_context, "curl_easy_setopt(CURLOPT_WRITEFUNCTION)", res);
 			    }
 			}
 		      else
 			{
-			  _print_error ("curl_easy_setopt(CURLOPT_URL)", res);
+			  _print_error (sys_context, "curl_easy_setopt(CURLOPT_URL)", res);
 			}
 		    }
 		  else
 		    {
-		      _print_error ("curl_easy_setopt(CURLOPT_NOSIGNAL)", res);
+		      _print_error (sys_context, "curl_easy_setopt(CURLOPT_NOSIGNAL)", res);
 		    }
 		  /* cleanup curl stuff */
 		  curl_easy_cleanup (curl_handle);
@@ -241,7 +251,7 @@ _mod_http_get (_mod_http_context_t * http_context, const char *url, const char *
 		    }
 		}
 	    }
-	  lw6net_dns_unlock ();
+	  lw6net_dns_unlock (sys_context);
 	}
       if (!ret)
 	{

@@ -28,7 +28,7 @@
 #include "mod-udp-internal.h"
 
 int
-_mod_udp_send (_mod_udp_context_t * udp_context,
+_mod_udp_send (lw6sys_context_t * sys_context, _mod_udp_context_t * udp_context,
 	       lw6cnx_connection_t * connection, int64_t now,
 	       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
 {
@@ -61,13 +61,13 @@ _mod_udp_send (_mod_udp_context_t * udp_context,
 }
 
 int
-_mod_udp_can_send (_mod_udp_context_t * udp_context, lw6cnx_connection_t * connection)
+_mod_udp_can_send (lw6sys_context_t * sys_context, _mod_udp_context_t * udp_context, lw6cnx_connection_t * connection)
 {
   return 1;
 }
 
 void
-_mod_udp_poll (_mod_udp_context_t * udp_context, lw6cnx_connection_t * connection)
+_mod_udp_poll (lw6sys_context_t * sys_context, _mod_udp_context_t * udp_context, lw6cnx_connection_t * connection)
 {
   char buf[LW6NET_UDP_MINIMAL_BUF_SIZE + 1];
   _udp_specific_data_t *specific_data = (_udp_specific_data_t *) connection->backend_specific_data;
@@ -89,7 +89,7 @@ _mod_udp_poll (_mod_udp_context_t * udp_context, lw6cnx_connection_t * connectio
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udp received envelope \"%s\""), envelope_line);
 	  if (lw6msg_envelope_analyse
-	      (envelope_line, LW6MSG_ENVELOPE_MODE_TELNET,
+	      (sys_context, envelope_line, LW6MSG_ENVELOPE_MODE_TELNET,
 	       connection->local_url, connection->password,
 	       connection->remote_id_int, connection->local_id_int, &msg,
 	       &physical_ticket_sig, &logical_ticket_sig, &physical_from_id, &physical_to_id, &logical_from_id, &logical_to_id, NULL))
@@ -97,7 +97,7 @@ _mod_udp_poll (_mod_udp_context_t * udp_context, lw6cnx_connection_t * connectio
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udp analysed msg \"%s\""), msg);
 	      if (connection->recv_callback_func)
 		{
-		  connection->recv_callback_func (connection->recv_callback_data,
+		  connection->recv_callback_func (sys_context, connection->recv_callback_data,
 						  (void *) connection, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg);
 		}
 	      else

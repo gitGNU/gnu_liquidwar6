@@ -28,7 +28,7 @@
 #include "mod-udpd-internal.h"
 
 char *
-_mod_udpd_repr (_mod_udpd_context_t * udpd_context, lw6cnx_connection_t * connection)
+_mod_udpd_repr (sys_context, _mod_udpd_context_t * udpd_context, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 

@@ -58,10 +58,10 @@ _lw6p2p_backends_init_cli (int argc, const char *argv[], _lw6p2p_backends_t * ba
 	    }
 	  if (backends->cli_backends)
 	    {
-	      backends->cli_backends[backends->nb_cli_backends - 1] = lw6cli_create_backend (argc, argv, backend);
+	      backends->cli_backends[backends->nb_cli_backends - 1] = lw6cli_create_backend (sys_context, argc, argv, backend);
 	      if (backends->cli_backends[backends->nb_cli_backends - 1])
 		{
-		  if (lw6cli_init (backends->cli_backends[backends->nb_cli_backends - 1]))
+		  if (lw6cli_init (sys_context, backends->cli_backends[backends->nb_cli_backends - 1]))
 		    {
 		      backends->hint_timeout_max =
 			lw6sys_imax (backends->hint_timeout_max, backends->cli_backends[backends->nb_cli_backends - 1]->properties.hint_timeout);
@@ -69,7 +69,7 @@ _lw6p2p_backends_init_cli (int argc, const char *argv[], _lw6p2p_backends_t * ba
 		    }
 		  else
 		    {
-		      lw6cli_destroy_backend (backends->cli_backends[backends->nb_cli_backends - 1]);
+		      lw6cli_destroy_backend (sys_context, backends->cli_backends[backends->nb_cli_backends - 1]);
 		      backends->cli_backends[backends->nb_cli_backends - 1] = NULL;
 		      backends->nb_cli_backends--;
 		    }
@@ -121,10 +121,10 @@ _lw6p2p_backends_init_srv (int argc, const char *argv[], _lw6p2p_backends_t * ba
 	    }
 	  if (backends->srv_backends)
 	    {
-	      backends->srv_backends[backends->nb_srv_backends - 1] = lw6srv_create_backend (argc, argv, backend);
+	      backends->srv_backends[backends->nb_srv_backends - 1] = lw6srv_create_backend (sys_context, argc, argv, backend);
 	      if (backends->srv_backends[backends->nb_srv_backends - 1])
 		{
-		  if (lw6srv_init (backends->srv_backends[backends->nb_srv_backends - 1], listener))
+		  if (lw6srv_init (sys_context, backends->srv_backends[backends->nb_srv_backends - 1], listener))
 		    {
 		      backends->hint_timeout_max =
 			lw6sys_imax (backends->hint_timeout_max, backends->srv_backends[backends->nb_srv_backends - 1]->properties.hint_timeout);
@@ -137,7 +137,7 @@ _lw6p2p_backends_init_srv (int argc, const char *argv[], _lw6p2p_backends_t * ba
 		    }
 		  else
 		    {
-		      lw6srv_destroy_backend (backends->srv_backends[backends->nb_srv_backends - 1]);
+		      lw6srv_destroy_backend (sys_context, backends->srv_backends[backends->nb_srv_backends - 1]);
 		      backends->srv_backends[backends->nb_srv_backends - 1] = NULL;
 		      backends->nb_srv_backends--;
 		    }
@@ -170,8 +170,8 @@ _lw6p2p_backends_clear_cli (_lw6p2p_backends_t * backends)
 	{
 	  if (backends->cli_backends[i])
 	    {
-	      lw6cli_quit (backends->cli_backends[i]);
-	      lw6cli_destroy_backend (backends->cli_backends[i]);
+	      lw6cli_quit (sys_context, backends->cli_backends[i]);
+	      lw6cli_destroy_backend (sys_context, backends->cli_backends[i]);
 	      backends->cli_backends[i] = NULL;
 	    }
 	}
@@ -192,8 +192,8 @@ _lw6p2p_backends_clear_srv (_lw6p2p_backends_t * backends)
 	{
 	  if (backends->srv_backends[i])
 	    {
-	      lw6srv_quit (backends->srv_backends[i]);
-	      lw6srv_destroy_backend (backends->srv_backends[i]);
+	      lw6srv_quit (sys_context, backends->srv_backends[i]);
+	      lw6srv_destroy_backend (sys_context, backends->srv_backends[i]);
 	      backends->srv_backends[i] = NULL;
 	    }
 	}

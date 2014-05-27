@@ -28,7 +28,7 @@
 #include "mod-tcpd-internal.h"
 
 int
-_mod_tcpd_process_oob (_mod_tcpd_context_t * tcpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
+_mod_tcpd_process_oob (sys_context, _mod_tcpd_context_t * tcpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
   char *request_line = NULL;
@@ -39,7 +39,7 @@ _mod_tcpd_process_oob (_mod_tcpd_context_t * tcpd_context, lw6nod_info_t * node_
   char *response = NULL;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process tcpd oob"));
-  if (_mod_tcpd_oob_should_continue (tcpd_context, oob_data))
+  if (_mod_tcpd_oob_should_continue (sys_context, tcpd_context, oob_data))
     {
       request_line = lw6net_recv_line_tcp (sys_context, &(oob_data->sock));
       if (request_line)
@@ -135,11 +135,11 @@ _mod_tcpd_process_oob (_mod_tcpd_context_t * tcpd_context, lw6nod_info_t * node_
 }
 
 int
-_mod_tcpd_oob_should_continue (_mod_tcpd_context_t * tcpd_context, lw6srv_oob_data_t * oob_data)
+_mod_tcpd_oob_should_continue (sys_context, _mod_tcpd_context_t * tcpd_context, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
 
-  ret = (_mod_tcpd_timeout_ok (tcpd_context, oob_data->creation_timestamp) && lw6net_tcp_is_alive (sys_context, &(oob_data->sock))
+  ret = (_mod_tcpd_timeout_ok (sys_context, tcpd_context, oob_data->creation_timestamp) && lw6net_tcp_is_alive (sys_context, &(oob_data->sock))
 	 && (!oob_data->do_not_finish));
 
   return ret;

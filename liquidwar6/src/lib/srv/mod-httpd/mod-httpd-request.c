@@ -146,7 +146,7 @@ _parse_header (_mod_httpd_request_t * request, char *line, char *public_url, cha
 }
 
 _mod_httpd_request_t *
-_mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
+_mod_httpd_request_parse_oob (sys_context, _mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
 {
   _mod_httpd_request_t *request = NULL;
   int eof = 0;
@@ -167,7 +167,7 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_
 	{
 	  request->client_ip = lw6sys_str_copy (oob_data->remote_ip);
 
-	  if (_mod_httpd_oob_should_continue (httpd_context, oob_data))
+	  if (_mod_httpd_oob_should_continue (sys_context, httpd_context, oob_data))
 	    {
 	      request->first_line = lw6net_recv_line_tcp (sys_context, &(oob_data->sock));
 	      if (request->first_line)
@@ -178,7 +178,7 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_
 			{
 			  request->password_ok = 1;
 			}
-		      while ((!eof) && _mod_httpd_oob_should_continue (httpd_context, oob_data))
+		      while ((!eof) && _mod_httpd_oob_should_continue (sys_context, httpd_context, oob_data))
 			{
 			  line = lw6net_recv_line_tcp (sys_context, &(oob_data->sock));
 			  if (line)
@@ -224,7 +224,7 @@ _mod_httpd_request_parse_oob (_mod_httpd_context_t * httpd_context, lw6nod_info_
 }
 
 _mod_httpd_request_t *
-_mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t * reply_thread_data)
+_mod_httpd_request_parse_cmd (sys_context, _mod_httpd_reply_thread_data_t * reply_thread_data)
 {
   _mod_httpd_request_t *request = NULL;
   lw6cnx_connection_t *cnx = reply_thread_data->cnx;
@@ -237,7 +237,7 @@ _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t * reply_thread_data
     {
       request->client_ip = lw6sys_str_copy (sys_context, cnx->remote_ip);
 
-      if (_mod_httpd_reply_thread_should_continue (reply_thread_data))
+      if (_mod_httpd_reply_thread_should_continue (sys_context, reply_thread_data))
 	{
 	  request->first_line = lw6net_recv_line_tcp (sys_context, &(reply_thread_data->sock));
 	  if (request->first_line)
@@ -248,7 +248,7 @@ _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t * reply_thread_data
 		    {
 		      request->password_ok = 1;
 		    }
-		  while ((!eof) && _mod_httpd_reply_thread_should_continue (reply_thread_data))
+		  while ((!eof) && _mod_httpd_reply_thread_should_continue (sys_context, reply_thread_data))
 		    {
 		      line = lw6net_recv_line_tcp (sys_context, &(reply_thread_data->sock));
 		      if (line)
@@ -292,7 +292,7 @@ _mod_httpd_request_parse_cmd (_mod_httpd_reply_thread_data_t * reply_thread_data
 }
 
 void
-_mod_httpd_request_free (_mod_httpd_request_t * request)
+_mod_httpd_request_free (sys_context, _mod_httpd_request_t * request)
 {
   if (request)
     {

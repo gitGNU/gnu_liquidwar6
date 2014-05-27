@@ -491,8 +491,8 @@ lw6_test_register (int mode)
       lw6nod_test_register (sys_context, mode);
       lw6cnx_test_register (sys_context, mode);
       lw6msg_test_register (sys_context, mode);
-      lw6cli_test_register (mode);
-      lw6srv_test_register (mode);
+      lw6cli_test_register (sys_context, mode);
+      lw6srv_test_register (sys_context, mode);
       lw6dat_test_register (mode);
       lw6p2p_test_register (mode);
       lw6scm_test_register (mode);

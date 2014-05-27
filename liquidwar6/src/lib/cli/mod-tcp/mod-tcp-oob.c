@@ -28,7 +28,8 @@
 #include "mod-tcp-internal.h"
 
 static int
-_do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url, char *ip)
+_do_ping (lw6sys_context_t * sys_context, _mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url,
+	  lw6sys_url_t * parsed_url, char *ip)
 {
   int ret = 0;
   int sock = LW6NET_SOCKET_INVALID;
@@ -45,14 +46,15 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 	{
 	  if (lw6net_send_line_tcp (sys_context, &sock, request))
 	    {
-	      lw6sys_snooze ();
-	      while (!ret && _mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && ((response = lw6net_recv_line_tcp (sys_context, &sock)) == NULL))
+	      lw6sys_snooze (sys_context);
+	      while (!ret && _mod_tcp_oob_should_continue (sys_context, tcp_context, oob_data, &sock)
+		     && ((response = lw6net_recv_line_tcp (sys_context, &sock)) == NULL))
 		{
-		  lw6sys_snooze ();
+		  lw6sys_snooze (sys_context);
 		}
 	      if (response)
 		{
-		  if (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock))
+		  if (_mod_tcp_oob_should_continue (sys_context, tcp_context, oob_data, &sock))
 		    {
 		      given_url = lw6msg_oob_analyse_pong (sys_context, response);
 		      if (given_url)
@@ -87,7 +89,8 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 }
 
 static int
-_do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url, char *ip)
+_do_info (lw6sys_context_t * sys_context, _mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url,
+	  lw6sys_url_t * parsed_url, char *ip)
 {
   int ret = 0;
   int eom = 0;
@@ -114,24 +117,24 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 	       * an advantage over mod-http but after all, this is
 	       * logical.
 	       */
-	      origin = lw6sys_get_timestamp ();
+	      origin = lw6sys_get_timestamp (sys_context);
 	      if (lw6net_send_line_tcp (sys_context, &sock, request))
 		{
 		  /*
 		   * Here we use idle and not snooze for we're concerned
 		   * with the exact time it takes to ping the server.
 		   */
-		  lw6sys_idle ();
-		  while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && !eom)
+		  lw6sys_idle (sys_context);
+		  while (_mod_tcp_oob_should_continue (sys_context, tcp_context, oob_data, &sock) && !eom)
 		    {
-		      while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && ((response = lw6net_recv_line_tcp (sys_context, &sock)) == NULL)
-			     && !eom)
+		      while (_mod_tcp_oob_should_continue (sys_context, tcp_context, oob_data, &sock)
+			     && ((response = lw6net_recv_line_tcp (sys_context, &sock)) == NULL) && !eom)
 			{
 			  /*
 			   * Here we use idle and not snooze for we're concerned
 			   * with the exact time it takes to ping the server.
 			   */
-			  lw6sys_idle ();
+			  lw6sys_idle (sys_context);
 			}
 		      if (response)
 			{
@@ -177,10 +180,10 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 	       * for right values in the assoc.
 	       */
 	      ret =
-		oob_data->verify_callback_func (oob_data->verify_callback_data, url, ip,
-						parsed_url->port, lw6sys_get_timestamp (sys_context,) - origin, assoc);
+		oob_data->verify_callback_func (sys_context, oob_data->verify_callback_data, url, ip,
+						parsed_url->port, lw6sys_get_timestamp (sys_context) - origin, assoc);
 	    }
-	  lw6sys_assoc_free (assoc);
+	  lw6sys_assoc_free (sys_context, assoc);
 	}
     }
 
@@ -188,7 +191,8 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 }
 
 static int
-_do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url, lw6sys_url_t * parsed_url, char *ip)
+_do_list (lw6sys_context_t * sys_context, _mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data, char *url,
+	  lw6sys_url_t * parsed_url, char *ip)
 {
   int ret = 0;
   int eom = 0;
@@ -206,13 +210,13 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 	{
 	  if (lw6net_send_line_tcp (sys_context, &sock, request))
 	    {
-	      lw6sys_snooze ();
-	      while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && !eom)
+	      lw6sys_snooze (sys_context);
+	      while (_mod_tcp_oob_should_continue (sys_context, tcp_context, oob_data, &sock) && !eom)
 		{
-		  while (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock) && ((response = lw6net_recv_line_tcp (sys_context, &sock)) == NULL)
-			 && !eom)
+		  while (_mod_tcp_oob_should_continue (sys_context, tcp_context, oob_data, &sock)
+			 && ((response = lw6net_recv_line_tcp (sys_context, &sock)) == NULL) && !eom)
 		    {
-		      lw6sys_snooze ();
+		      lw6sys_snooze (sys_context);
 		    }
 		  if (response)
 		    {
@@ -224,7 +228,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 			}
 		      else
 			{
-			  if (lw6sys_url_is_canonized (response))
+			  if (lw6sys_url_is_canonized (sys_context, response))
 			    {
 			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 					  _x_ ("list from %s:%d \"%s\" contains \"%s\", registering it"), ip, parsed_url->port, url, response);
@@ -254,7 +258,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 }
 
 int
-_mod_tcp_process_oob (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
+_mod_tcp_process_oob (lw6sys_context_t * sys_context, _mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
 {
   int ret = 0;
   lw6sys_url_t *parsed_url = NULL;
@@ -262,7 +266,7 @@ _mod_tcp_process_oob (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_inf
   int sock = LW6NET_SOCKET_INVALID;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process tcp oob url=\"%s\""), oob_data->public_url);
-  parsed_url = lw6sys_url_parse (oob_data->public_url);
+  parsed_url = lw6sys_url_parse (sys_context, oob_data->public_url);
   if (parsed_url)
     {
       if (lw6sys_str_is_same (sys_context, parsed_url->host, LW6NET_ADDRESS_BROADCAST))
@@ -275,15 +279,15 @@ _mod_tcp_process_oob (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_inf
 	  ip = lw6net_dns_gethostbyname (sys_context, parsed_url->host);
 	  if (ip)
 	    {
-	      if (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock))
+	      if (_mod_tcp_oob_should_continue (sys_context, tcp_context, oob_data, &sock))
 		{
-		  if (_do_ping (tcp_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
+		  if (_do_ping (sys_context, tcp_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_tcp client PING on node \"%s\" OK"), oob_data->public_url);
-		      if (_do_info (tcp_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
+		      if (_do_info (sys_context, tcp_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_tcp client INFO on node \"%s\" OK"), oob_data->public_url);
-			  if (_do_list (tcp_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
+			  if (_do_list (sys_context, tcp_context, node_info, oob_data, oob_data->public_url, parsed_url, ip))
 			    {
 			      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_tcp client LIST on node \"%s\" OK"), oob_data->public_url);
 			      ret = 1;
@@ -303,7 +307,7 @@ _mod_tcp_process_oob (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_inf
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mod_tcp client PING on node \"%s\" failed"), oob_data->public_url);
 		    }
 		}
-	      LW6SYS_FREE (ip);
+	      LW6SYS_FREE (sys_context, ip);
 	    }
 	  else
 	    {
@@ -317,10 +321,10 @@ _mod_tcp_process_oob (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_inf
 }
 
 int
-_mod_tcp_oob_should_continue (_mod_tcp_context_t * tcp_context, lw6cli_oob_data_t * oob_data, int *sock)
+_mod_tcp_oob_should_continue (lw6sys_context_t * sys_context, _mod_tcp_context_t * tcp_context, lw6cli_oob_data_t * oob_data, int *sock)
 {
   int ret = 0;
-  ret = (_mod_tcp_timeout_ok (tcp_context,
+  ret = (_mod_tcp_timeout_ok (sys_context, tcp_context,
 			      oob_data->creation_timestamp)
 	 && ((!lw6net_socket_is_valid (sys_context, *sock)) || lw6net_tcp_is_alive (sys_context, sock)) && (!oob_data->do_not_finish));
   return ret;

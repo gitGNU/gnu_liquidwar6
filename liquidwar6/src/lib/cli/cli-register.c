@@ -41,12 +41,14 @@
 /**
  * lw6cli_default_backends
  *
+ * @sys_context: global system context
+ *
  * Returns the list of the default cli backends.
  *
  * Return value: comma separated string, must not be freed.
  */
 char *
-lw6cli_default_backends ()
+lw6cli_default_backends (lw6sys_context_t * sys_context)
 {
   return _CLI_DEFAULT_BACKENDS;
 }
@@ -54,6 +56,7 @@ lw6cli_default_backends ()
 /**
  * lw6cli_get_backends
  *
+ * @sys_context: global system context
  * @argc: argc, as passed to @main
  * @argv: argv, as passed to @main
  *
@@ -67,7 +70,7 @@ lw6cli_default_backends ()
  * Return value: hash containing id/name pairs.
  */
 lw6sys_assoc_t *
-lw6cli_get_backends (int argc, const char *argv[])
+lw6cli_get_backends (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 #ifdef LW6_ALLINONE
@@ -95,11 +98,11 @@ lw6cli_get_backends (int argc, const char *argv[])
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
-#endif
+#endif // MOD_HTTP
     }
-#else
+#else // LW6_ALLINONE
   ret = lw6dyn_list_backends (sys_context, argc, argv, "cli");
-#endif
+#endif // LW6_ALLINONE
 
   return ret;
 }
@@ -107,6 +110,7 @@ lw6cli_get_backends (int argc, const char *argv[])
 /**
  * lw6cli_create_backend
  *
+ * @sys_context: global system context
  * @argc: argc, as passed to @main
  * @argv: argv, as passed to @main
  * @name: string containing cli key, typically got from @lw6cli_get_backends
@@ -118,7 +122,7 @@ lw6cli_get_backends (int argc, const char *argv[])
  * Return value: cli backend.
  */
 lw6cli_backend_t *
-lw6cli_create_backend (int argc, const char *argv[], const char *name)
+lw6cli_create_backend (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *name)
 {
   lw6cli_backend_t *backend = NULL;
 
@@ -136,7 +140,7 @@ lw6cli_create_backend (int argc, const char *argv[], const char *name)
     {
       backend = mod_http_create_backend ();
     }
-#endif
+#endif //MOD_HTTP
 
   if (backend)
     {
@@ -147,7 +151,7 @@ lw6cli_create_backend (int argc, const char *argv[], const char *name)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("client backend \"%s\" does not exist"), name);
     }
-#else
+#else // LW6_ALLINONE
   lw6dyn_dl_handle_t *backend_handle = NULL;
 
   backend_handle = lw6dyn_dlopen_backend (sys_context, argc, argv, "cli", name);
@@ -185,7 +189,7 @@ lw6cli_create_backend (int argc, const char *argv[], const char *name)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to open client backend \"%s\""), name);
     }
-#endif
+#endif // LW6_ALLINONE
 
   if (backend)
     {
@@ -200,7 +204,7 @@ lw6cli_create_backend (int argc, const char *argv[], const char *name)
       backend->name = lw6sys_str_copy (sys_context, name);
       if (!(backend->name))
 	{
-	  lw6cli_destroy_backend (backend);
+	  lw6cli_destroy_backend (sys_context, backend);
 	}
     }
 
@@ -210,6 +214,7 @@ lw6cli_create_backend (int argc, const char *argv[], const char *name)
 /**
  * lw6cli_destroy_backend
  *
+ * @sys_context: global system context
  * @backend: backend to destroy
  *
  * Destroys a cli backend.
@@ -217,11 +222,11 @@ lw6cli_create_backend (int argc, const char *argv[], const char *name)
  * Return value: none.
  */
 void
-lw6cli_destroy_backend (lw6cli_backend_t * backend)
+lw6cli_destroy_backend (lw6sys_context_t * sys_context, lw6cli_backend_t * backend)
 {
 #ifndef LW6_ALLINONE
   lw6dyn_dlclose_backend (sys_context, backend->dl_handle);
-#endif
+#endif // LW6_ALLINONE
   if (backend->name)
     {
       LW6SYS_FREE (sys_context, backend->name);

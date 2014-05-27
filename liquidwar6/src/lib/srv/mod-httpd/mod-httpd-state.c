@@ -28,7 +28,7 @@
 #include "mod-httpd-internal.h"
 
 lw6cnx_connection_t *
-_mod_httpd_open (_mod_httpd_context_t * httpd_context,
+_mod_httpd_open (sys_context, _mod_httpd_context_t * httpd_context,
 		 lw6srv_listener_t * listener, const char *local_url,
 		 const char *remote_url, const char *remote_ip,
 		 int remote_port, const char *password, u_int64_t local_id,
@@ -55,13 +55,13 @@ _mod_httpd_open (_mod_httpd_context_t * httpd_context,
 	    }
 	  else
 	    {
-	      _mod_httpd_close (httpd_context, ret);
+	      _mod_httpd_close (sys_context, httpd_context, ret);
 	      ret = NULL;
 	    }
 	}
       else
 	{
-	  _mod_httpd_close (httpd_context, ret);
+	  _mod_httpd_close (sys_context, httpd_context, ret);
 	  ret = NULL;
 	}
     }
@@ -70,7 +70,7 @@ _mod_httpd_open (_mod_httpd_context_t * httpd_context,
 }
 
 void
-_mod_httpd_close (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection)
+_mod_httpd_close (sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection)
 {
   _mod_httpd_specific_data_t *specific_data = (_mod_httpd_specific_data_t *) connection->backend_specific_data;;
 
@@ -94,7 +94,7 @@ _mod_httpd_close (_mod_httpd_context_t * httpd_context, lw6cnx_connection_t * co
 }
 
 int
-_mod_httpd_timeout_ok (_mod_httpd_context_t * httpd_context, int64_t origin_timestamp)
+_mod_httpd_timeout_ok (sys_context, _mod_httpd_context_t * httpd_context, int64_t origin_timestamp)
 {
   int ret = 0;
   int d = 0;

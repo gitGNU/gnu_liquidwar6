@@ -27,7 +27,7 @@
 #include "cli.h"
 
 static void
-_warning (const char *func_name)
+_warning (lw6sys_context_t * sys_context, const char *func_name)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("cli backend function \"%s\" is not defined"), func_name);
 }
@@ -35,6 +35,7 @@ _warning (const char *func_name)
 /**
  * lw6cli_init
  *
+ * @sys_context: global system context
  * @backend: backend to use
  *
  * Initializes a client backend. Must be performed before any other call.
@@ -42,18 +43,18 @@ _warning (const char *func_name)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6cli_init (lw6cli_backend_t * backend)
+lw6cli_init (lw6sys_context_t * sys_context, lw6cli_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   backend->cli_context = NULL;
   if (backend->init)
     {
-      backend->cli_context = backend->init (backend->argc, backend->argv, &(backend->properties));
+      backend->cli_context = backend->init (sys_context, backend->argc, backend->argv, &(backend->properties));
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -64,12 +65,13 @@ lw6cli_init (lw6cli_backend_t * backend)
 /**
  * lw6cli_quit
  *
+ * @sys_context: global system context
  * @backend: unitialize a cli backend
  *
  * Closes a cli, but does not free all ressources.
  */
 void
-lw6cli_quit (lw6cli_backend_t * backend)
+lw6cli_quit (lw6sys_context_t * sys_context, lw6cli_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -81,13 +83,13 @@ lw6cli_quit (lw6cli_backend_t * backend)
        */
       if (backend->cli_context)
 	{
-	  backend->quit (backend->cli_context);
+	  backend->quit (sys_context, backend->cli_context);
 	  backend->cli_context = NULL;
 	}
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -96,6 +98,7 @@ lw6cli_quit (lw6cli_backend_t * backend)
 /**
  * lw6cli_process_oob
  *
+ * @sys_context: global system context
  * @backend: backend to use
  * @node_info: information on the current node
  * @oob_data: data of the out-of-band request
@@ -109,7 +112,7 @@ lw6cli_quit (lw6cli_backend_t * backend)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6cli_process_oob (lw6cli_backend_t * backend, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
+lw6cli_process_oob (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6nod_info_t * node_info, lw6cli_oob_data_t * oob_data)
 {
   int ret = 0;
 
@@ -117,11 +120,11 @@ lw6cli_process_oob (lw6cli_backend_t * backend, lw6nod_info_t * node_info, lw6cl
 
   if (backend->process_oob)
     {
-      ret = backend->process_oob (backend->cli_context, node_info, oob_data);
+      ret = backend->process_oob (sys_context, backend->cli_context, node_info, oob_data);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -132,6 +135,7 @@ lw6cli_process_oob (lw6cli_backend_t * backend, lw6nod_info_t * node_info, lw6cl
 /**
  * lw6cli_open
  *
+ * @sys_context: global system context
  * @backend: backend to use
  * @local_url: our local public url
  * @remote_url: the remote url we want to connect to
@@ -152,7 +156,7 @@ lw6cli_process_oob (lw6cli_backend_t * backend, lw6nod_info_t * node_info, lw6cl
  * Return value: new object.
  */
 lw6cnx_connection_t *
-lw6cli_open (lw6cli_backend_t * backend, const char *local_url,
+lw6cli_open (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, const char *local_url,
 	     const char *remote_url, const char *remote_ip, int remote_port,
 	     const char *password, u_int64_t local_id, u_int64_t remote_id,
 	     int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
@@ -164,7 +168,7 @@ lw6cli_open (lw6cli_backend_t * backend, const char *local_url,
   if (backend->open)
     {
       ret =
-	backend->open (backend->cli_context, local_url, remote_url, remote_ip,
+	backend->open (sys_context, backend->cli_context, local_url, remote_url, remote_ip,
 		       remote_port, password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
       if (ret)
 	{
@@ -173,7 +177,7 @@ lw6cli_open (lw6cli_backend_t * backend, const char *local_url,
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -184,6 +188,7 @@ lw6cli_open (lw6cli_backend_t * backend, const char *local_url,
 /**
  * lw6cli_close
  *
+ * @sys_context: global system context
  * @backend: backend to use
  * @connection: connection to use
  *
@@ -192,17 +197,17 @@ lw6cli_open (lw6cli_backend_t * backend, const char *local_url,
  * Return value: none.
  */
 void
-lw6cli_close (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
+lw6cli_close (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->close)
     {
-      backend->close (backend->cli_context, connection);
+      backend->close (sys_context, backend->cli_context, connection);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -211,6 +216,7 @@ lw6cli_close (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 /**
  * lw6cli_send
  *
+ * @sys_context: global system context
  * @backend: backend to use
  * @connection: connection to use
  * @now: current timestamp
@@ -225,7 +231,7 @@ lw6cli_close (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
+lw6cli_send (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
 	     int64_t now, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
 {
   int ret = 0;
@@ -236,7 +242,9 @@ lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
     {
       if (lw6cnx_connection_reliability_filter (sys_context, connection))
 	{
-	  ret = backend->send (backend->cli_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
+	  ret =
+	    backend->send (sys_context, backend->cli_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id,
+			   message);
 	  ++(connection->sent_nb_total);
 	  if (ret)
 	    {
@@ -261,7 +269,7 @@ lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -272,6 +280,7 @@ lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
 /**
  * lw6cli_can_send
  *
+ * @sys_context: global system context
  * @backend: backend to use
  * @connection: connection to use
  *
@@ -282,7 +291,7 @@ lw6cli_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection,
  * Return value: 1 if it can be used to send messages, 0 if not ready.
  */
 int
-lw6cli_can_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
+lw6cli_can_send (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {
   int ret = 0;
 
@@ -290,11 +299,11 @@ lw6cli_can_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 
   if (backend->send)
     {
-      ret = backend->can_send (backend->cli_context, connection);
+      ret = backend->can_send (sys_context, backend->cli_context, connection);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -305,6 +314,7 @@ lw6cli_can_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 /**
  * lw6cli_poll
  *
+ * @sys_context: global system context
  * @backend: backend to use
  * @connection: connection to use
  *
@@ -315,17 +325,17 @@ lw6cli_can_send (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
  * Return value: none.
  */
 void
-lw6cli_poll (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
+lw6cli_poll (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->poll)
     {
-      backend->poll (backend->cli_context, connection);
+      backend->poll (sys_context, backend->cli_context, connection);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -334,6 +344,7 @@ lw6cli_poll (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 /**
  * lw6cli_repr
  *
+ * @sys_context: global system context
  * @backend: backend to use
  * @connection: connection to represent
  *
@@ -342,7 +353,7 @@ lw6cli_poll (lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
  * Return value: dynamically allocated string.
  */
 char *
-lw6cli_repr (const lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
+lw6cli_repr (lw6sys_context_t * sys_context, const lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 
@@ -350,11 +361,11 @@ lw6cli_repr (const lw6cli_backend_t * backend, lw6cnx_connection_t * connection)
 
   if (backend->repr)
     {
-      ret = backend->repr (backend->cli_context, connection);
+      ret = backend->repr (sys_context, backend->cli_context, connection);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
