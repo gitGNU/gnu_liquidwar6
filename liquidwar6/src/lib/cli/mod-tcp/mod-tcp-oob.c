@@ -40,7 +40,7 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
   sock = lw6net_tcp_connect (sys_context, ip, parsed_url->port, tcp_context->data.consts.connect_timeout * 1000);
   if (lw6net_socket_is_valid (sys_context, sock))
     {
-      request = lw6msg_oob_generate_request (LW6MSG_OOB_PING, url, node_info->const_info.password, node_info->const_info.ref_info.url);
+      request = lw6msg_oob_generate_request (sys_context, LW6MSG_OOB_PING, url, node_info->const_info.password, node_info->const_info.ref_info.url);
       if (request)
 	{
 	  if (lw6net_send_line_tcp (sys_context, &sock, request))
@@ -54,7 +54,7 @@ _do_ping (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 		{
 		  if (_mod_tcp_oob_should_continue (tcp_context, oob_data, &sock))
 		    {
-		      given_url = lw6msg_oob_analyse_pong (response);
+		      given_url = lw6msg_oob_analyse_pong (sys_context, response);
 		      if (given_url)
 			{
 			  if (lw6sys_str_is_same (sys_context, url, given_url))
@@ -104,7 +104,7 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
       sock = lw6net_tcp_connect (sys_context, ip, parsed_url->port, tcp_context->data.consts.connect_timeout * 1000);
       if (lw6net_socket_is_valid (sys_context, sock))
 	{
-	  request = lw6msg_oob_generate_request (LW6MSG_OOB_INFO, url, node_info->const_info.password, node_info->const_info.ref_info.url);
+	  request = lw6msg_oob_generate_request (sys_context, LW6MSG_OOB_INFO, url, node_info->const_info.password, node_info->const_info.ref_info.url);
 	  if (request)
 	    {
 	      /*
@@ -144,7 +144,7 @@ _do_info (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
 			    {
 			      if (assoc)
 				{
-				  if (lw6msg_utils_parse_key_value_to_assoc (&assoc, response))
+				  if (lw6msg_utils_parse_key_value_to_assoc (sys_context, &assoc, response))
 				    {
 				      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("parsed line \"%s\""), response);
 				    }
@@ -201,7 +201,7 @@ _do_list (_mod_tcp_context_t * tcp_context, lw6nod_info_t * node_info, lw6cli_oo
   sock = lw6net_tcp_connect (sys_context, ip, parsed_url->port, tcp_context->data.consts.connect_timeout * 1000);
   if (lw6net_socket_is_valid (sys_context, sock))
     {
-      request = lw6msg_oob_generate_request (LW6MSG_OOB_LIST, url, node_info->const_info.password, node_info->const_info.ref_info.url);
+      request = lw6msg_oob_generate_request (sys_context, LW6MSG_OOB_LIST, url, node_info->const_info.password, node_info->const_info.ref_info.url);
       if (request)
 	{
 	  if (lw6net_send_line_tcp (sys_context, &sock, request))

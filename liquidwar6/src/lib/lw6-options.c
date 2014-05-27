@@ -64,7 +64,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
 	    && lw6dsp_test_register (sys_context, mode) && lw6snd_test_register (sys_context, mode)
 	    && lw6img_test_register (sys_context, mode) && lw6net_test_register (sys_context, mode)
 	    && lw6nod_test_register (sys_context, mode) && lw6cnx_test_register (sys_context, mode)
-	    && lw6msg_test_register (mode) && lw6cli_test_register (mode)
+	    && lw6msg_test_register (sys_context, mode) && lw6cli_test_register (mode)
 	    && lw6srv_test_register (mode) && lw6dat_test_register (mode)
 	    && lw6p2p_test_register (mode) && lw6scm_test_register (mode) && lw6_test_register (mode);
 
@@ -287,7 +287,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	      input = lw6sys_stream_file_to_str (stdin);
 	      if (input)
 		{
-		  output = lw6msg_z_encode (input, 0);
+		  output = lw6msg_z_encode (sys_context, input, 0);
 		  if (output)
 		    {
 		      lw6sys_stream_str_to_file (stdout, output);
@@ -303,7 +303,7 @@ lw6_process_non_run_options (int argc, const char *argv[], int *run_game)
 	      input = lw6sys_stream_file_to_str (stdin);
 	      if (input)
 		{
-		  output = lw6msg_z_decode (input);
+		  output = lw6msg_z_decode (sys_context, input);
 		  if (output)
 		    {
 		      lw6sys_stream_str_to_file (stdout, output);

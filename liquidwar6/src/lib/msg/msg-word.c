@@ -42,7 +42,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first (lw6msg_word_t * word, char **next, const char *msg)
+lw6msg_word_first (sys_context, lw6msg_word_t * word, char **next, const char *msg)
 {
   int ret = 0;
   int i = 0, j = 0;
@@ -131,7 +131,7 @@ lw6msg_word_first (lw6msg_word_t * word, char **next, const char *msg)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_x (lw6msg_word_t * word, char **next, const char *msg)
+lw6msg_word_first_x (sys_context, lw6msg_word_t * word, char **next, const char *msg)
 {
   int ret = 0;
   int i = 0, j = 0;
@@ -218,7 +218,7 @@ lw6msg_word_first_x (lw6msg_word_t * word, char **next, const char *msg)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_base64 (lw6msg_word_t * word, char **next, const char *msg)
+lw6msg_word_first_base64 (sys_context, lw6msg_word_t * word, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t tmp_word;
@@ -226,7 +226,7 @@ lw6msg_word_first_base64 (lw6msg_word_t * word, char **next, const char *msg)
   char *decoded = NULL;
   int decoded_len = 0;
 
-  ret = lw6msg_word_first_x (&tmp_word, &tmp_next, msg);
+  ret = lw6msg_word_first_x (sys_context, &tmp_word, &tmp_next, msg);
   if (ret)
     {
       ret = 0;
@@ -263,7 +263,7 @@ lw6msg_word_first_base64 (lw6msg_word_t * word, char **next, const char *msg)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_32 (int32_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_int_32 (sys_context, int32_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -272,7 +272,7 @@ lw6msg_word_first_int_32 (int32_t * parsed_value, char **next, const char *msg)
     {
       (*parsed_value) = 0;
     }
-  if (lw6msg_word_first_x (&word, next, msg))
+  if (lw6msg_word_first_x (sys_context, &word, next, msg))
     {
       if (parsed_value)
 	{
@@ -297,7 +297,7 @@ lw6msg_word_first_int_32 (int32_t * parsed_value, char **next, const char *msg)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_32_ge0 (int32_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_int_32_ge0 (sys_context, int32_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   int32_t tmp_value = 0;
@@ -306,7 +306,7 @@ lw6msg_word_first_int_32_ge0 (int32_t * parsed_value, char **next, const char *m
     {
       (*parsed_value) = 0;
     }
-  if (lw6msg_word_first_int_32 (&tmp_value, next, msg))
+  if (lw6msg_word_first_int_32 (sys_context, &tmp_value, next, msg))
     {
       if (tmp_value >= 0)
 	{
@@ -338,7 +338,7 @@ lw6msg_word_first_int_32_ge0 (int32_t * parsed_value, char **next, const char *m
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_32_gt0 (int32_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_int_32_gt0 (sys_context, int32_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   int32_t tmp_value = 0;
@@ -347,7 +347,7 @@ lw6msg_word_first_int_32_gt0 (int32_t * parsed_value, char **next, const char *m
     {
       (*parsed_value) = 0;
     }
-  if (lw6msg_word_first_int_32 (&tmp_value, next, msg))
+  if (lw6msg_word_first_int_32 (sys_context, &tmp_value, next, msg))
     {
       if (tmp_value > 0)
 	{
@@ -378,7 +378,7 @@ lw6msg_word_first_int_32_gt0 (int32_t * parsed_value, char **next, const char *m
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_64 (int64_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_int_64 (sys_context, int64_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -387,7 +387,7 @@ lw6msg_word_first_int_64 (int64_t * parsed_value, char **next, const char *msg)
     {
       (*parsed_value) = 0LL;
     }
-  if (lw6msg_word_first_x (&word, next, msg))
+  if (lw6msg_word_first_x (sys_context, &word, next, msg))
     {
       if (parsed_value)
 	{
@@ -412,7 +412,7 @@ lw6msg_word_first_int_64 (int64_t * parsed_value, char **next, const char *msg)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_64_ge0 (int64_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_int_64_ge0 (sys_context, int64_t * parsed_value, char **next, const char *msg)
 {
   int64_t ret = 0;
   int64_t tmp_value = 0;
@@ -421,7 +421,7 @@ lw6msg_word_first_int_64_ge0 (int64_t * parsed_value, char **next, const char *m
     {
       (*parsed_value) = 0LL;
     }
-  if (lw6msg_word_first_int_64 (&tmp_value, next, msg))
+  if (lw6msg_word_first_int_64 (sys_context, &tmp_value, next, msg))
     {
       if (tmp_value >= 0)
 	{
@@ -453,7 +453,7 @@ lw6msg_word_first_int_64_ge0 (int64_t * parsed_value, char **next, const char *m
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_64_gt0 (int64_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_int_64_gt0 (sys_context, int64_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   int64_t tmp_value = 0;
@@ -462,7 +462,7 @@ lw6msg_word_first_int_64_gt0 (int64_t * parsed_value, char **next, const char *m
     {
       (*parsed_value) = 0LL;
     }
-  if (lw6msg_word_first_int_64 (&tmp_value, next, msg))
+  if (lw6msg_word_first_int_64 (sys_context, &tmp_value, next, msg))
     {
       if (tmp_value > 0)
 	{
@@ -493,7 +493,7 @@ lw6msg_word_first_int_64_gt0 (int64_t * parsed_value, char **next, const char *m
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_id_16 (sys_context, u_int16_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -503,7 +503,7 @@ lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next, const char *msg)
     {
       (*parsed_value) = 0;
     }
-  if (lw6msg_word_first_x (&word, next, msg))
+  if (lw6msg_word_first_x (sys_context, &word, next, msg))
     {
       tmp_value = lw6sys_id_atol (sys_context, word.buf);
       if (tmp_value && lw6sys_check_id_16 (tmp_value))
@@ -535,7 +535,7 @@ lw6msg_word_first_id_16 (u_int16_t * parsed_value, char **next, const char *msg)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_id_32 (sys_context, u_int32_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -545,7 +545,7 @@ lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next, const char *msg)
     {
       (*parsed_value) = 0;
     }
-  if (lw6msg_word_first_x (&word, next, msg))
+  if (lw6msg_word_first_x (sys_context, &word, next, msg))
     {
       tmp_value = lw6sys_id_atol (sys_context, word.buf);
       if (tmp_value && lw6sys_check_id_32 (tmp_value))
@@ -577,7 +577,7 @@ lw6msg_word_first_id_32 (u_int32_t * parsed_value, char **next, const char *msg)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_id_64 (u_int64_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_id_64 (sys_context, u_int64_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -587,7 +587,7 @@ lw6msg_word_first_id_64 (u_int64_t * parsed_value, char **next, const char *msg)
     {
       (*parsed_value) = 0;
     }
-  if (lw6msg_word_first_x (&word, next, msg))
+  if (lw6msg_word_first_x (sys_context, &word, next, msg))
     {
       tmp_value = lw6sys_id_atol (sys_context, word.buf);
       if (tmp_value && lw6sys_check_id_64 (tmp_value))

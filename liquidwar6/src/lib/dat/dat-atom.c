@@ -119,7 +119,7 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
   char *next = (char *) full_str;
   lw6msg_word_t word;
 
-  if (lw6msg_word_first (&word, &next, next))
+  if (lw6msg_word_first (sys_context, &word, &next, next))
     {
       ret = 1;
 
@@ -138,11 +138,11 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
 	}
       if (ret)
 	{
-	  if (lw6msg_word_first_int_32_gt0 (serial, &next, next))
+	  if (lw6msg_word_first_int_32_gt0 (sys_context, serial, &next, next))
 	    {
-	      if (lw6msg_word_first_int_32_ge0 (order_i, &next, next))
+	      if (lw6msg_word_first_int_32_ge0 (sys_context, order_i, &next, next))
 		{
-		  if (lw6msg_word_first_int_32_gt0 (order_n, &next, next))
+		  if (lw6msg_word_first_int_32_gt0 (sys_context, order_n, &next, next))
 		    {
 		      /*
 		       * Now this is a "trick", we set cmd to the part that is just
@@ -152,9 +152,9 @@ _lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
 		       * and avoid rewritting it each time we need to read it.
 		       */
 		      (*seq_from_cmd_str_offset) = next - full_str;
-		      if (lw6msg_word_first_int_64_ge0 (seq, &next, next))
+		      if (lw6msg_word_first_int_64_ge0 (sys_context, seq, &next, next))
 			{
-			  if (lw6msg_word_first_id_64 (logical_from, &next, next))
+			  if (lw6msg_word_first_id_64 (sys_context, logical_from, &next, next))
 			    {
 			      (*cmd_str_offset) = next - full_str;
 			      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("successfully parsed \"%s\""), full_str);

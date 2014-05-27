@@ -433,12 +433,12 @@ _lw6dat_stack_put_msg (_lw6dat_stack_t * stack, int64_t * local_seq_last, const 
   char *z = NULL;
 
   next = (char *) msg;
-  if (lw6msg_word_first_int_64_ge0 (&seq, &next, next))
+  if (lw6msg_word_first_int_64_ge0 (sys_context, &seq, &next, next))
     {
-      if (lw6msg_word_first_id_64 (&logical_from, &next, next))
+      if (lw6msg_word_first_id_64 (sys_context, &logical_from, &next, next))
 	{
 	  full_str[_LW6DAT_HEADER_MAX_SIZE + _LW6DAT_ATOM_MAX_SIZE] = '\0';
-	  z = lw6msg_z_encode (next, _LW6DAT_ATOM_MAX_SIZE);
+	  z = lw6msg_z_encode (sys_context, next, _LW6DAT_ATOM_MAX_SIZE);
 	  if (z)
 	    {
 	      len = strlen (z);
@@ -1130,7 +1130,7 @@ _update_msg_list_by_seq_with_search (_lw6dat_stack_t * stack,
 				}
 			    }
 			  // put this message in the queue
-			  unz = lw6msg_z_decode (cmd);
+			  unz = lw6msg_z_decode (sys_context, cmd);
 			  if (unz)
 			    {
 			      if (atom && atom->type == _LW6DAT_ATOM_TYPE_DATA)
@@ -1488,7 +1488,7 @@ _lw6dat_stack_meta_update (_lw6dat_stack_t * stack, lw6msg_meta_array_t * meta_a
   if (stack->node_id)
     {
       serial = _lw6dat_stack_seq2serial (stack, seq);
-      ret = lw6msg_meta_array_set (meta_array, stack->node_id, serial, seq);
+      ret = lw6msg_meta_array_set (sys_context, meta_array, stack->node_id, serial, seq);
     }
 
   return ret;
@@ -1510,7 +1510,7 @@ _lw6dat_stack_meta_put (_lw6dat_stack_t * stack, int64_t seq, lw6msg_meta_array_
 
   serial = _lw6dat_stack_get_serial (stack) + 1;
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("meta_put seq=%" LW6SYS_PRINTF_LL "d serial=%d"), (long long) seq, serial);
-  meta_msg = lw6msg_cmd_generate_meta (serial, i, n, seq, meta_array);
+  meta_msg = lw6msg_cmd_generate_meta (sys_context, serial, i, n, seq, meta_array);
   if (meta_msg)
     {
       ret = _lw6dat_stack_put_atom_str (stack, meta_msg, _LW6DAT_FLAG_REMOTE);

@@ -51,12 +51,12 @@ lw6msg_sort_str_by_seq_callback (const lw6sys_list_t ** list_a, const lw6sys_lis
   str_a = (const char *) ((*list_a)->data);
   str_b = (const char *) ((*list_b)->data);
 
-  if (!(str_a && lw6msg_word_first_int_64 (&seq_a, &next_a, str_a)))
+  if (!(str_a && lw6msg_word_first_int_64 (sys_context, &seq_a, &next_a, str_a)))
     {
       parse_error = 1;
       ret = -1;
     }
-  if (!(str_b && lw6msg_word_first_int_64 (&seq_b, &next_b, str_b)))
+  if (!(str_b && lw6msg_word_first_int_64 (sys_context, &seq_b, &next_b, str_b)))
     {
       parse_error = 1;
       /*

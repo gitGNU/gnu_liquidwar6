@@ -29,6 +29,7 @@
 /**
  * lw6msg_envelope_generate
  *
+ * @sys_context: global system context
  * @mode: mode to use (a la TELNET or URL compatible)
  * @version: the program version to use (note: can be changed when testing)
  * @password_checksum: the password string to send
@@ -46,7 +47,7 @@
  * Return value: newly allocated string.
  */
 char *
-lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
+lw6msg_envelope_generate (lw6sys_context_t * sys_context, lw6msg_envelope_mode_t mode, const char *version,
 			  const char *password_checksum,
 			  u_int32_t physical_ticket_sig,
 			  u_int32_t logical_ticket_sig,
@@ -121,7 +122,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
     }
   else
     {
-      logical_from_id_str = lw6sys_id_ltoa (logical_from_id);
+      logical_from_id_str = lw6sys_id_ltoa (sys_context, logical_from_id);
     }
 
   if (physical_to_id == logical_to_id)
@@ -130,13 +131,13 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
     }
   else
     {
-      logical_to_id_str = lw6sys_id_ltoa (logical_to_id);
+      logical_to_id_str = lw6sys_id_ltoa (sys_context, logical_to_id);
     }
 
   if (logical_from_id_str && logical_to_id_str)
     {
       ret =
-	lw6sys_new_sprintf ("%s%c%s%c%s%c%s%c%s%c%" LW6SYS_PRINTF_LL "x%c%"
+	lw6sys_new_sprintf (sys_context, "%s%c%s%c%s%c%s%c%s%c%" LW6SYS_PRINTF_LL "x%c%"
 			    LW6SYS_PRINTF_LL "x%c%s%c%s%c%s", lw6, sep,
 			    version, sep, password_checksum, sep,
 			    physical_ticket_sig_str, sep,
@@ -175,6 +176,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
 /**
  * lw6msg_envelope_analyse
  *
+ * @sys_context: global system context
  * @envelope: the envelope to analyse
  * @mode: mode to use (a la TELNET or URL compatible)
  * @local_url: the url of local server (usefull for password)
@@ -196,7 +198,7 @@ lw6msg_envelope_generate (lw6msg_envelope_mode_t mode, const char *version,
  * Return value: newly allocated string.
  */
 int
-lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
+lw6msg_envelope_analyse (lw6sys_context_t * sys_context, const char *envelope, lw6msg_envelope_mode_t mode,
 			 const char *local_url, const char *password,
 			 u_int64_t expected_physical_from_id,
 			 u_int64_t expected_physical_to_id, char **msg,
@@ -275,29 +277,29 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 
   pos = envelope;
   seek = (char *) pos;
-  if (lw6msg_word_first_x (&received_lw6, &seek, pos))
+  if (lw6msg_word_first_x (sys_context, &received_lw6, &seek, pos))
     {
       if (lw6sys_str_is_same (sys_context, received_lw6.buf, lw6))
 	{
 	  pos = seek;
-	  if (lw6msg_word_first_x (&received_version, &seek, pos))
+	  if (lw6msg_word_first_x (sys_context, &received_version, &seek, pos))
 	    {
-	      if (lw6sys_version_is_compatible (received_version.buf, version))
+	      if (lw6sys_version_is_compatible (sys_context, received_version.buf, version))
 		{
 		  pos = seek;
-		  if (lw6msg_word_first_x (&received_password, &seek, pos))
+		  if (lw6msg_word_first_x (sys_context, &received_password, &seek, pos))
 		    {
 		      if (lw6cnx_password_verify (sys_context, local_url, password, received_password.buf))
 			{
 			  pos = seek;
-			  if (lw6msg_word_first_x (&tmp_word, &seek, pos))
+			  if (lw6msg_word_first_x (sys_context, &tmp_word, &seek, pos))
 			    {
 			      pos = seek;
 			      /*
 			       * Bad and/or 0 ticket accepted at this stage
 			       */
 			      sscanf (tmp_word.buf, "%x", &received_physical_ticket_sig_int);
-			      if (lw6msg_word_first_x (&tmp_word, &seek, pos))
+			      if (lw6msg_word_first_x (sys_context, &tmp_word, &seek, pos))
 				{
 				  pos = seek;
 				  /*
@@ -308,26 +310,27 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 				    {
 				      received_logical_ticket_sig_int = received_physical_ticket_sig_int;
 				    }
-				  if (lw6msg_word_first_id_64 (&received_physical_from_id, &seek, pos))
+				  if (lw6msg_word_first_id_64 (sys_context, &received_physical_from_id, &seek, pos))
 				    {
 				      if (expected_physical_from_id == 0LL || (expected_physical_from_id == received_physical_from_id))
 					{
 					  pos = seek;
-					  if (lw6msg_word_first_id_64 (&received_physical_to_id, &seek, pos))
+					  if (lw6msg_word_first_id_64 (sys_context, &received_physical_to_id, &seek, pos))
 					    {
 					      if (expected_physical_from_id == 0LL || (expected_physical_to_id == received_physical_to_id))
 						{
 						  pos = seek;
 						  if (lw6msg_word_first_id_64
-						      (&received_logical_from_id, &seek, pos) || lw6msg_word_first_x (&tmp_word, &seek, pos))
+						      (sys_context, &received_logical_from_id, &seek, pos)
+						      || lw6msg_word_first_x (sys_context, &tmp_word, &seek, pos))
 						    {
 						      pos = seek;
 						      if (!received_logical_from_id)
 							{
 							  received_logical_from_id = received_physical_from_id;
 							}
-						      if (lw6msg_word_first_id_64 (&received_logical_to_id, &seek, pos)
-							  || lw6msg_word_first_x (&tmp_word, &seek, pos))
+						      if (lw6msg_word_first_id_64 (sys_context, &received_logical_to_id, &seek, pos)
+							  || lw6msg_word_first_x (sys_context, &tmp_word, &seek, pos))
 							{
 							  pos = seek;
 							  if (!received_logical_to_id)
@@ -339,7 +342,7 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 							    {
 							      if (need_base64)
 								{
-								  (*msg) = lw6glb_base64_decode_str (pos);
+								  (*msg) = lw6glb_base64_decode_str (sys_context, pos);
 								  if (!(*msg))
 								    {
 								      /*
@@ -350,12 +353,12 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 								       *  be called just to check the protocol
 								       */
 								      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("forcing clear text instead of base64"));
-								      (*msg) = lw6sys_str_copy (pos);
+								      (*msg) = lw6sys_str_copy (sys_context, pos);
 								    }
 								}
 							      else
 								{
-								  (*msg) = lw6sys_str_copy (pos);
+								  (*msg) = lw6sys_str_copy (sys_context, pos);
 								}
 							    }
 							  if (physical_ticket_sig)
@@ -384,26 +387,27 @@ lw6msg_envelope_analyse (const char *envelope, lw6msg_envelope_mode_t mode,
 							    }
 							  if (physical_from_url && msg && (*msg))
 							    {
-							      (*physical_from_url) = lw6msg_cmd_guess_from_url (*msg);
+							      (*physical_from_url) = lw6msg_cmd_guess_from_url (sys_context, *msg);
 							    }
 							}
 						      else
 							{
 							  lw6sys_log
-							    (LW6SYS_LOG_INFO,
+							    (sys_context, LW6SYS_LOG_INFO,
 							     _x_ ("can't parse \"logical_to\" (final destination) id in envelope \"%s\""), envelope);
 							}
 						    }
 						  else
 						    {
 						      lw6sys_log
-							(LW6SYS_LOG_INFO, _x_ ("can't parse \"logical_from\" (creator) id in envelope \"%s\""), envelope);
+							(sys_context, LW6SYS_LOG_INFO, _x_ ("can't parse \"logical_from\" (creator) id in envelope \"%s\""),
+							 envelope);
 						    }
 						}
 					      else
 						{
 						  lw6sys_log
-						    (LW6SYS_LOG_INFO,
+						    (sys_context, LW6SYS_LOG_INFO,
 						     _x_
 						     ("wrong \"physical_to\" (receiver) id expected %"
 						      LW6SYS_PRINTF_LL

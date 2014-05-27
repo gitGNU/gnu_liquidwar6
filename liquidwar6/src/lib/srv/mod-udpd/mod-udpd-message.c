@@ -39,7 +39,7 @@ _mod_udpd_send (_mod_udpd_context_t * udpd_context,
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udpd send \"%s\""), message);
   line =
-    lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_TELNET,
+    lw6msg_envelope_generate (sys_context, LW6MSG_ENVELOPE_MODE_TELNET,
 			      lw6sys_build_get_version (),
 			      connection->password_send_checksum,
 			      physical_ticket_sig, logical_ticket_sig,

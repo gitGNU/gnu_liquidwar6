@@ -299,7 +299,7 @@ lw6srv_test_register (int mode)
       lw6net_test_register (sys_context, mode);
       lw6nod_test_register (sys_context, mode);
       lw6cnx_test_register (sys_context, mode);
-      lw6msg_test_register (mode);
+      lw6msg_test_register (sys_context, mode);
 
       /*
        * No lw6dyn_test, see https://savannah.gnu.org/bugs/index.php?35017

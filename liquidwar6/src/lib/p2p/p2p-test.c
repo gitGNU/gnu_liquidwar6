@@ -523,7 +523,7 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 	    {
 	      lw6sys_idle ();
 	      logical_ticket_sig =
-		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+		lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send
 					(&ticket_table,
 					 _TEST_TENTACLE_ID2_STR), _TEST_TENTACLE_ID1, _TEST_TENTACLE_ID2, _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
 	      if (_lw6p2p_tentacle_send_best
@@ -538,7 +538,7 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 			      _x_ ("tentacle 1 couldn't sent \"%s\" (best unreliable)"), _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
 		}
 	      logical_ticket_sig =
-		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+		lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send
 					(&ticket_table,
 					 _TEST_TENTACLE_ID2_STR), _TEST_TENTACLE_ID1, _TEST_TENTACLE_ID2, _TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
 	      if (_lw6p2p_tentacle_send_best
@@ -552,7 +552,7 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("tentacle 1 couldn't send \"%s\" (best reliable)"), _TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
 		}
 	      logical_ticket_sig =
-		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+		lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send
 					(&ticket_table, _TEST_TENTACLE_ID2_STR), _TEST_TENTACLE_ID1, _TEST_TENTACLE_ID2, _TEST_TENTACLE_SEND_REDUNDANT_STR);
 	      if (_lw6p2p_tentacle_send_redundant
 		  (&(data->tentacle), lw6sys_get_timestamp (sys_context,),
@@ -639,7 +639,7 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 	    {
 	      lw6sys_idle ();
 	      logical_ticket_sig =
-		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+		lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send
 					(&ticket_table,
 					 _TEST_TENTACLE_ID1_STR), _TEST_TENTACLE_ID2, _TEST_TENTACLE_ID1, _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
 	      if (_lw6p2p_tentacle_send_best
@@ -654,7 +654,7 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 			      _x_ ("tentacle 2 couldn't send \"%s\" (best unreliable)"), _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR);
 		}
 	      logical_ticket_sig =
-		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+		lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send
 					(&ticket_table,
 					 _TEST_TENTACLE_ID1_STR), _TEST_TENTACLE_ID2, _TEST_TENTACLE_ID1, _TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
 	      if (_lw6p2p_tentacle_send_best
@@ -668,7 +668,7 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("tentacle 2 couldn't send \"%s\" (best reliable)"), _TEST_TENTACLE_SEND_BEST_RELIABLE_STR);
 		}
 	      logical_ticket_sig =
-		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+		lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send
 					(&ticket_table, _TEST_TENTACLE_ID1_STR), _TEST_TENTACLE_ID2, _TEST_TENTACLE_ID1, _TEST_TENTACLE_SEND_REDUNDANT_STR);
 	      if (_lw6p2p_tentacle_send_redundant
 		  (&(data->tentacle), lw6sys_get_timestamp (sys_context,),
@@ -2289,7 +2289,7 @@ lw6p2p_test_register (int mode)
       lw6net_test_register (sys_context, mode);
       lw6nod_test_register (sys_context, mode);
       lw6cnx_test_register (sys_context, mode);
-      lw6msg_test_register (mode);
+      lw6msg_test_register (sys_context, mode);
       lw6cli_test_register (mode);
       lw6srv_test_register (mode);
       lw6dat_test_register (mode);

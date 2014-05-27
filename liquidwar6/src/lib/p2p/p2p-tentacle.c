@@ -383,15 +383,15 @@ _lw6p2p_tentacle_poll_protocol (_lw6p2p_tentacle_t * tentacle,
 
   if (!tentacle->hello_sent)
     {
-      msg = lw6msg_cmd_generate_hello (node_info);
+      msg = lw6msg_cmd_generate_hello (sys_context, node_info);
       if (msg)
 	{
 	  for (i = 0; i < tentacle->nb_cli_connections; ++i)
 	    {
 	      cnx = tentacle->cli_connections[i];
 	      ticket_sig =
-		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send (sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int, cnx->remote_id_int,
-					msg);
+		lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send (sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int,
+					cnx->remote_id_int, msg);
 	      if (lw6cli_send (tentacle->backends->cli_backends[i], cnx, now, ticket_sig, ticket_sig, cnx->local_id_int, cnx->remote_id_int, msg))
 		{
 		  tentacle->hello_sent = 1;
@@ -408,22 +408,22 @@ _lw6p2p_tentacle_poll_protocol (_lw6p2p_tentacle_t * tentacle,
 	{
 	  lw6cnx_connection_init_foo_bar_key (sys_context, cnx, now, consts->foo_delay);
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("preparing foo with foo_bar_key=%08x"), cnx->foo_bar_key);
-	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key, serial);
+	  msg = lw6msg_cmd_generate_foo (sys_context, node_info, cnx->foo_bar_key, serial);
 	  if (msg)
 	    {
 	      ticket_sig =
-		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send (sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int, cnx->remote_id_int,
-					msg);
+		lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send (sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int,
+					cnx->remote_id_int, msg);
 	      lw6cli_send (tentacle->backends->cli_backends[i], cnx, now, ticket_sig, ticket_sig, cnx->local_id_int, cnx->remote_id_int, msg);
 	      LW6SYS_FREE (sys_context, msg);
 	    }
 	  if (!lw6cnx_ticket_table_was_recv_exchanged (sys_context, ticket_table, cnx->remote_id_str))
 	    {
-	      msg = lw6msg_cmd_generate_ticket (node_info, lw6cnx_ticket_table_get_recv (sys_context, ticket_table, cnx->remote_id_str));
+	      msg = lw6msg_cmd_generate_ticket (sys_context, node_info, lw6cnx_ticket_table_get_recv (sys_context, ticket_table, cnx->remote_id_str));
 	      if (msg)
 		{
 		  ticket_sig =
-		    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send (sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int,
+		    lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send (sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int,
 					    cnx->remote_id_int, msg);
 		  lw6cli_send (tentacle->backends->cli_backends[i], cnx, now, ticket_sig, ticket_sig, cnx->local_id_int, cnx->remote_id_int, msg);
 		  LW6SYS_FREE (sys_context, msg);
@@ -439,22 +439,22 @@ _lw6p2p_tentacle_poll_protocol (_lw6p2p_tentacle_t * tentacle,
 	{
 	  lw6cnx_connection_init_foo_bar_key (sys_context, cnx, now, consts->foo_delay);
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("preparing foo with foo_bar_key=%08x"), cnx->foo_bar_key);
-	  msg = lw6msg_cmd_generate_foo (node_info, cnx->foo_bar_key, serial);
+	  msg = lw6msg_cmd_generate_foo (sys_context, node_info, cnx->foo_bar_key, serial);
 	  if (msg)
 	    {
 	      ticket_sig =
-		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send (sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int, cnx->remote_id_int,
-					msg);
+		lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send (sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int,
+					cnx->remote_id_int, msg);
 	      lw6srv_send (tentacle->backends->srv_backends[i], cnx, now, ticket_sig, ticket_sig, cnx->local_id_int, cnx->remote_id_int, msg);
 	      LW6SYS_FREE (sys_context, msg);
 	    }
 	  if (!lw6cnx_ticket_table_was_recv_exchanged (sys_context, ticket_table, cnx->remote_id_str))
 	    {
-	      msg = lw6msg_cmd_generate_ticket (node_info, lw6cnx_ticket_table_get_recv (sys_context, ticket_table, cnx->remote_id_str));
+	      msg = lw6msg_cmd_generate_ticket (sys_context, node_info, lw6cnx_ticket_table_get_recv (sys_context, ticket_table, cnx->remote_id_str));
 	      if (msg)
 		{
 		  ticket_sig =
-		    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send (sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int,
+		    lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send (sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int,
 					    cnx->remote_id_int, msg);
 		  lw6srv_send (tentacle->backends->srv_backends[i], cnx, now, ticket_sig, ticket_sig, cnx->local_id_int, cnx->remote_id_int, msg);
 		  LW6SYS_FREE (sys_context, msg);
@@ -565,8 +565,8 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
   _lw6p2p_packet_t *packet = NULL;
 
   physical_ticket_sig =
-    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send (sys_context, ticket_table, tentacle->remote_id_str), tentacle->local_id_int, tentacle->remote_id_int,
-			    msg);
+    lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send (sys_context, ticket_table, tentacle->remote_id_str), tentacle->local_id_int,
+			    tentacle->remote_id_int, msg);
 
   if (reliable)
     {
@@ -638,8 +638,8 @@ _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("redundant send of \"%s\""), msg);
   physical_ticket_sig =
-    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send (sys_context, ticket_table, tentacle->remote_id_str), tentacle->local_id_int, tentacle->remote_id_int,
-			    msg);
+    lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send (sys_context, ticket_table, tentacle->remote_id_str), tentacle->local_id_int,
+			    tentacle->remote_id_int, msg);
 
   for (i = 0; i < tentacle->nb_cli_connections; ++i)
     {

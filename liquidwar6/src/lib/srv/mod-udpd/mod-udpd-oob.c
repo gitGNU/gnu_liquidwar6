@@ -44,26 +44,26 @@ _mod_udpd_process_oob (_mod_udpd_context_t * udpd_context, lw6nod_info_t * node_
       request_line = oob_data->first_line;
       if (request_line)
 	{
-	  if (lw6msg_oob_analyse_request (&syntax_ok, &command, &password_ok,
+	  if (lw6msg_oob_analyse_request (sys_context, &syntax_ok, &command, &password_ok,
 					  &given_public_url, request_line, node_info->const_info.ref_info.url, node_info->const_info.password))
 	    {
 	      if (lw6sys_str_is_same_no_case (sys_context, command, LW6MSG_OOB_PING))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_ ("mod_udpd %s response to %s:%d"), LW6MSG_OOB_PONG, oob_data->remote_ip, oob_data->remote_port);
-		  response = lw6msg_oob_generate_pong (node_info);
+		  response = lw6msg_oob_generate_pong (sys_context, node_info);
 		}
 	      if (lw6sys_str_is_same_no_case (sys_context, command, LW6MSG_OOB_INFO))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_ ("mod_udpd %s response to %s:%d"), LW6MSG_OOB_INFO, oob_data->remote_ip, oob_data->remote_port);
-		  response = lw6msg_oob_generate_info (node_info);
+		  response = lw6msg_oob_generate_info (sys_context, node_info);
 		}
 	      if (lw6sys_str_is_same_no_case (sys_context, command, LW6MSG_OOB_LIST))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 			      _x_ ("mod_udpd %s response to %s:%d"), LW6MSG_OOB_LIST, oob_data->remote_ip, oob_data->remote_port);
-		  response = lw6msg_oob_generate_list (node_info);
+		  response = lw6msg_oob_generate_list (sys_context, node_info);
 		}
 	      if (given_public_url)
 		{

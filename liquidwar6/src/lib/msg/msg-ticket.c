@@ -43,7 +43,7 @@
  * Return value: the sig, always non-zero
  */
 u_int32_t
-lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id, const char *msg)
+lw6msg_ticket_calc_sig (sys_context, u_int64_t ticket, u_int64_t from_id, u_int64_t to_id, const char *msg)
 {
   u_int32_t calc_sig = 0;
   unsigned char key_buf[3 * sizeof (u_int64_t)];
@@ -92,12 +92,12 @@ lw6msg_ticket_calc_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id, co
  * Return value: 1 if they are the same, 0 if not.
  */
 int
-lw6msg_ticket_check_sig (u_int64_t ticket, u_int64_t from_id, u_int64_t to_id, const char *msg, u_int32_t ticket_sig)
+lw6msg_ticket_check_sig (sys_context, u_int64_t ticket, u_int64_t from_id, u_int64_t to_id, const char *msg, u_int32_t ticket_sig)
 {
   int ret = 0;
   u_int32_t calc_sig = 0;
 
-  calc_sig = lw6msg_ticket_calc_sig (ticket, from_id, to_id, msg);
+  calc_sig = lw6msg_ticket_calc_sig (sys_context, ticket, from_id, to_id, msg);
   if (calc_sig == ticket_sig)
     {
       ret = 1;

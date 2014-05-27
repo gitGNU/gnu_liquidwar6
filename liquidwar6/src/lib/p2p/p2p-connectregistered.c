@@ -109,7 +109,7 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
   char *query = NULL;
   _select_node_by_id_data_t node_by_id_data;
 
-  lw6msg_meta_array_zero (&meta_array);
+  lw6msg_meta_array_zero (sys_context, &meta_array);
   memset (&node_by_id_data, 0, sizeof (_select_node_by_id_data_t));
   lw6dat_warehouse_meta_get (node->warehouse, &meta_array, lw6dat_warehouse_get_seq_max (node->warehouse));
 

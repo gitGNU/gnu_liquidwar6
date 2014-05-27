@@ -27,7 +27,7 @@
 #include "msg.h"
 
 char *
-_generate_info (const char *cmd, lw6nod_info_t * info)
+_generate_info (lw6sys_context_t * sys_context, const char *cmd, lw6nod_info_t * info)
 {
   char *ret = NULL;
   char sep = LW6MSG_TELNET_SEP;
@@ -37,22 +37,22 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
   char *peer_id_list;
   int uptime = 0;
 
-  base64_title = lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null (info->const_info.title));
+  base64_title = lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null (sys_context, info->const_info.title));
   if (base64_title)
     {
-      base64_description = lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null (info->const_info.description));
+      base64_description = lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null (sys_context, info->const_info.description));
       if (base64_description)
 	{
-	  base64_level = lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null (info->dyn_info.level));
+	  base64_level = lw6glb_base64_encode_str (sys_context, lw6sys_str_empty_if_null (sys_context, info->dyn_info.level));
 	  if (base64_level)
 	    {
 	      peer_id_list = lw6nod_info_community_get_peer_id_list_str (sys_context, info);
 	      if (peer_id_list)
 		{
-		  uptime = (lw6sys_get_timestamp () - info->const_info.creation_timestamp) / 1000;
+		  uptime = (lw6sys_get_timestamp (sys_context) - info->const_info.creation_timestamp) / 1000;
 		  ret =
 		    lw6sys_new_sprintf
-		    ("%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d%c%s%c%d%c\"%s\"%c%d%c%d%c%d%c%d%c%d%c%d%c%d%c\"%s\"",
+		    (sys_context, "%s%c%s%c%s%c\"%s\"%c%d%c%s%c%s%c%s%c%s%c%d%c%d%c%d%c%d%c%s%c%d%c\"%s\"%c%d%c%d%c%d%c%d%c%d%c%d%c%d%c\"%s\"",
 		     cmd, sep, info->const_info.program, sep,
 		     info->const_info.version, sep, info->const_info.codename,
 		     sep, info->const_info.stamp, sep,
@@ -61,7 +61,7 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
 		     base64_description, sep, info->const_info.has_password,
 		     sep, info->const_info.bench, sep,
 		     info->const_info.open_relay, sep, uptime, sep,
-		     lw6sys_str_empty_if_null (info->dyn_info.community_id_str),
+		     lw6sys_str_empty_if_null (sys_context, info->dyn_info.community_id_str),
 		     sep, info->dyn_info.round, sep, base64_level, sep,
 		     info->dyn_info.required_bench, sep,
 		     info->dyn_info.nb_colors, sep,
@@ -83,6 +83,7 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
 /**
  * lw6msg_cmd_generate_hello
  *
+ * @sys_context: global system context
  * @info: the node info to use
  *
  * Generate a HELLO command.
@@ -90,11 +91,11 @@ _generate_info (const char *cmd, lw6nod_info_t * info)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_hello (lw6nod_info_t * info)
+lw6msg_cmd_generate_hello (lw6sys_context_t * sys_context, lw6nod_info_t * info)
 {
   char *ret = NULL;
 
-  ret = _generate_info (LW6MSG_CMD_HELLO, info);
+  ret = _generate_info (sys_context, LW6MSG_CMD_HELLO, info);
 
   return ret;
 }
@@ -102,6 +103,7 @@ lw6msg_cmd_generate_hello (lw6nod_info_t * info)
 /**
  * lw6msg_cmd_generate_ticket
  *
+ * @sys_context: global system context
  * @info: the node info to use
  * @ticket: the ticket to send
  *
@@ -110,16 +112,16 @@ lw6msg_cmd_generate_hello (lw6nod_info_t * info)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int64_t ticket)
+lw6msg_cmd_generate_ticket (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int64_t ticket)
 {
   char *ret = NULL;
   char sep = LW6MSG_TELNET_SEP;
   char *info_str = NULL;
 
-  info_str = _generate_info (LW6MSG_CMD_TICKET, info);
+  info_str = _generate_info (sys_context, LW6MSG_CMD_TICKET, info);
   if (info_str)
     {
-      ret = lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "x", info_str, sep, (long long) ticket);
+      ret = lw6sys_new_sprintf (sys_context, "%s%c%" LW6SYS_PRINTF_LL "x", info_str, sep, (long long) ticket);
       LW6SYS_FREE (sys_context, info_str);
     }
 
@@ -129,6 +131,7 @@ lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int64_t ticket)
 /**
  * lw6msg_cmd_generate_foo
  *
+ * @sys_context: global system context
  * @info: the node info to use
  * @key: the key to identify the message
  * @serial: serial number of latest data message
@@ -138,16 +141,16 @@ lw6msg_cmd_generate_ticket (lw6nod_info_t * info, u_int64_t ticket)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_foo (lw6nod_info_t * info, u_int32_t key, int serial)
+lw6msg_cmd_generate_foo (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int32_t key, int serial)
 {
   char *ret = NULL;
   char sep = LW6MSG_TELNET_SEP;
   char *info_str = NULL;
 
-  info_str = _generate_info (LW6MSG_CMD_FOO, info);
+  info_str = _generate_info (sys_context, LW6MSG_CMD_FOO, info);
   if (info_str)
     {
-      ret = lw6sys_new_sprintf ("%s%c%08x%c%d", info_str, sep, key, sep, serial);
+      ret = lw6sys_new_sprintf (sys_context, "%s%c%08x%c%d", info_str, sep, key, sep, serial);
       LW6SYS_FREE (sys_context, info_str);
     }
 
@@ -157,6 +160,7 @@ lw6msg_cmd_generate_foo (lw6nod_info_t * info, u_int32_t key, int serial)
 /**
  * lw6msg_cmd_generate_bar
  *
+ * @sys_context: global system context
  * @info: the node info to use
  * @key: the key to identify the message
  * @serial: serial number of latest data message
@@ -166,16 +170,16 @@ lw6msg_cmd_generate_foo (lw6nod_info_t * info, u_int32_t key, int serial)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key, int serial)
+lw6msg_cmd_generate_bar (lw6sys_context_t * sys_context, lw6nod_info_t * info, u_int32_t key, int serial)
 {
   char *ret = NULL;
   char sep = LW6MSG_TELNET_SEP;
   char *info_str = NULL;
 
-  info_str = _generate_info (LW6MSG_CMD_BAR, info);
+  info_str = _generate_info (sys_context, LW6MSG_CMD_BAR, info);
   if (info_str)
     {
-      ret = lw6sys_new_sprintf ("%s%c%08x%c%d", info_str, sep, key, sep, serial);
+      ret = lw6sys_new_sprintf (sys_context, "%s%c%08x%c%d", info_str, sep, key, sep, serial);
       LW6SYS_FREE (sys_context, info_str);
     }
 
@@ -185,6 +189,7 @@ lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key, int serial)
 /**
  * lw6msg_cmd_generate_join
  *
+ * @sys_context: global system context
  * @info: the node info to use
  * @seq: the current seq
  * @serial: the serial message number to start with
@@ -201,16 +206,16 @@ lw6msg_cmd_generate_bar (lw6nod_info_t * info, u_int32_t key, int serial)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq, int serial)
+lw6msg_cmd_generate_join (lw6sys_context_t * sys_context, lw6nod_info_t * info, int64_t seq, int serial)
 {
   char *ret = NULL;
   char sep = LW6MSG_TELNET_SEP;
   char *info_str = NULL;
 
-  info_str = _generate_info (LW6MSG_CMD_JOIN, info);
+  info_str = _generate_info (sys_context, LW6MSG_CMD_JOIN, info);
   if (info_str)
     {
-      ret = lw6sys_new_sprintf ("%s%c%" LW6SYS_PRINTF_LL "d%c%d", info_str, sep, (long long) seq, sep, serial);
+      ret = lw6sys_new_sprintf (sys_context, "%s%c%" LW6SYS_PRINTF_LL "d%c%d", info_str, sep, (long long) seq, sep, serial);
       LW6SYS_FREE (sys_context, info_str);
     }
 
@@ -220,6 +225,7 @@ lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq, int serial)
 /**
  * lw6msg_cmd_generate_goodbye
  *
+ * @sys_context: global system context
  * @info: the node info to use
  *
  * Generate a GOODBYE command.
@@ -227,11 +233,11 @@ lw6msg_cmd_generate_join (lw6nod_info_t * info, int64_t seq, int serial)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
+lw6msg_cmd_generate_goodbye (lw6sys_context_t * sys_context, lw6nod_info_t * info)
 {
   char *ret = NULL;
 
-  ret = _generate_info (LW6MSG_CMD_GOODBYE, info);
+  ret = _generate_info (sys_context, LW6MSG_CMD_GOODBYE, info);
 
   return ret;
 }
@@ -239,6 +245,7 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
 /**
  * lw6msg_cmd_generate_data
  *
+ * @sys_context: global system context
  * @serial: the message serial number
  * @i: the message index in the group
  * @n: the number of messages in the group
@@ -252,11 +259,11 @@ lw6msg_cmd_generate_goodbye (lw6nod_info_t * info)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_data (int serial, int i, int n, int64_t seq, const char *ker_msg)
+lw6msg_cmd_generate_data (lw6sys_context_t * sys_context, int serial, int i, int n, int64_t seq, const char *ker_msg)
 {
   char *ret = NULL;
 
-  ret = lw6sys_new_sprintf ("%s %d %d %d %" LW6SYS_PRINTF_LL "d %s", LW6MSG_CMD_DATA, serial, i, n, (long long) seq, ker_msg);
+  ret = lw6sys_new_sprintf (sys_context, "%s %d %d %d %" LW6SYS_PRINTF_LL "d %s", LW6MSG_CMD_DATA, serial, i, n, (long long) seq, ker_msg);
 
   return ret;
 }
@@ -264,6 +271,7 @@ lw6msg_cmd_generate_data (int serial, int i, int n, int64_t seq, const char *ker
 /**
  * lw6msg_cmd_generate_meta
  *
+ * @sys_context: global system context
  * @serial: the message serial number
  * @i: the message index in the group
  * @n: the number of messages in the group
@@ -277,16 +285,16 @@ lw6msg_cmd_generate_data (int serial, int i, int n, int64_t seq, const char *ker
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_meta (int serial, int i, int n, int64_t seq, const lw6msg_meta_array_t * meta_array)
+lw6msg_cmd_generate_meta (lw6sys_context_t * sys_context, int serial, int i, int n, int64_t seq, const lw6msg_meta_array_t * meta_array)
 {
   char *ret = NULL;
   char *meta_str = NULL;
 
-  meta_str = lw6msg_meta_array2str (meta_array);
+  meta_str = lw6msg_meta_array2str (sys_context, meta_array);
   if (meta_str)
     {
       ret =
-	lw6sys_new_sprintf ("%s %d %d %d %" LW6SYS_PRINTF_LL "d %"
+	lw6sys_new_sprintf (sys_context, "%s %d %d %d %" LW6SYS_PRINTF_LL "d %"
 			    LW6SYS_PRINTF_LL "x %s", LW6MSG_CMD_META, serial, i, n, (long long) seq, (long long) meta_array->logical_from, meta_str);
       if (ret)
 	{
@@ -310,6 +318,7 @@ lw6msg_cmd_generate_meta (int serial, int i, int n, int64_t seq, const lw6msg_me
 /**
  * lw6msg_cmd_generate_miss
  *
+ * @sys_context: global system context
  * @id_from: id of the node which didn't send data correctly
  * @id_to: id of the node which didn't receive data correctly
  * @serial_min: minimum serial number of unsent/unreceived messages
@@ -322,19 +331,19 @@ lw6msg_cmd_generate_meta (int serial, int i, int n, int64_t seq, const lw6msg_me
  * Return value: newly allocated string.
  */
 char *
-lw6msg_cmd_generate_miss (u_int64_t id_from, u_int64_t id_to, int serial_min, int serial_max)
+lw6msg_cmd_generate_miss (lw6sys_context_t * sys_context, u_int64_t id_from, u_int64_t id_to, int serial_min, int serial_max)
 {
   char *ret = NULL;
 
   ret =
-    lw6sys_new_sprintf ("%s %" LW6SYS_PRINTF_LL "x %" LW6SYS_PRINTF_LL
+    lw6sys_new_sprintf (sys_context, "%s %" LW6SYS_PRINTF_LL "x %" LW6SYS_PRINTF_LL
 			"x %d %d", LW6MSG_CMD_MISS, (long long) id_from, (long long) id_to, serial_min, serial_max);
 
   return ret;
 }
 
 static int
-_analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, const char *msg)
+_analyse_info (lw6sys_context_t * sys_context, lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, const char *msg)
 {
   int ret = 0;
   int still_ok = 1;
@@ -376,7 +385,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing program \"%s\""), pos);
-      if (lw6msg_word_first (&program, &seek, pos))
+      if (lw6msg_word_first (sys_context, &program, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -390,7 +399,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing version \"%s\""), pos);
-      if (lw6msg_word_first (&version, &seek, pos))
+      if (lw6msg_word_first (sys_context, &version, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -404,7 +413,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing codename \"%s\""), pos);
-      if (lw6msg_word_first (&codename, &seek, pos))
+      if (lw6msg_word_first (sys_context, &codename, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -418,7 +427,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing stamp \"%s\""), pos);
-      if (lw6msg_word_first_int_32_gt0 (&stamp, &seek, pos))
+      if (lw6msg_word_first_int_32_gt0 (sys_context, &stamp, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -432,7 +441,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing id \"%s\""), pos);
-      if (lw6msg_word_first_id_64 (&id, &seek, pos))
+      if (lw6msg_word_first_id_64 (sys_context, &id, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -446,7 +455,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing url \"%s\""), pos);
-      if (lw6msg_word_first (&url, &seek, pos) && lw6sys_url_is_canonized (sys_context, url.buf))
+      if (lw6msg_word_first (sys_context, &url, &seek, pos) && lw6sys_url_is_canonized (sys_context, url.buf))
 	{
 	  pos = seek;
 	}
@@ -460,7 +469,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing title \"%s\""), pos);
-      if (lw6msg_word_first_base64 (&title, &seek, pos))
+      if (lw6msg_word_first_base64 (sys_context, &title, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -474,7 +483,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing description \"%s\""), pos);
-      if (lw6msg_word_first_base64 (&description, &seek, pos))
+      if (lw6msg_word_first_base64 (sys_context, &description, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -488,7 +497,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing has_password \"%s\""), pos);
-      if (lw6msg_word_first_int_32 (&has_password, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &has_password, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -502,7 +511,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing bench \"%s\""), pos);
-      if (lw6msg_word_first_int_32 (&bench, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &bench, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -516,7 +525,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing open_relay \"%s\""), pos);
-      if (lw6msg_word_first_int_32 (&open_relay, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &open_relay, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -530,7 +539,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing uptime \"%s\""), pos);
-      if (lw6msg_word_first_int_32 (&uptime, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &uptime, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -544,14 +553,14 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing community id \"%s\""), pos);
-      if (lw6msg_word_first_id_64 (&community_id, &seek, pos))
+      if (lw6msg_word_first_id_64 (sys_context, &community_id, &seek, pos))
 	{
 	  pos = seek;
 	}
     }
   else
     {
-      if (lw6msg_word_first_int_32 (&tmp_int, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &tmp_int, &seek, pos))
 	{
 	  if (!tmp_int)
 	    {
@@ -574,7 +583,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing round \"%s\""), pos);
-      if (lw6msg_word_first_int_32 (&round, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &round, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -588,7 +597,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing level \"%s\""), pos);
-      if (lw6msg_word_first_base64 (&level, &seek, pos))
+      if (lw6msg_word_first_base64 (sys_context, &level, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -602,7 +611,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing required_bench \"%s\""), pos);
-      if (lw6msg_word_first_int_32 (&required_bench, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &required_bench, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -616,7 +625,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing nb_colors \"%s\""), pos);
-      if (lw6msg_word_first_int_32 (&nb_colors, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &nb_colors, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -630,7 +639,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing max_nb_colors \"%s\""), pos);
-      if (lw6msg_word_first_int_32 (&max_nb_colors, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &max_nb_colors, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -644,7 +653,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing nb_cursors \"%s\""), pos);
-      if (lw6msg_word_first_int_32 (&nb_cursors, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &nb_cursors, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -658,7 +667,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing max_nb_cursors \"%s\""), pos);
-      if (lw6msg_word_first_int_32 (&max_nb_cursors, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &max_nb_cursors, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -672,7 +681,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing nb_nodes \"%s\""), pos);
-      if (lw6msg_word_first_int_32 (&nb_nodes, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &nb_nodes, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -686,7 +695,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing max_nb_nodes \"%s\""), pos);
-      if (lw6msg_word_first_int_32 (&max_nb_nodes, &seek, pos))
+      if (lw6msg_word_first_int_32 (sys_context, &max_nb_nodes, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -700,7 +709,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
   if (still_ok)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("analyzing peer_id_list \"%s\""), pos);
-      if (lw6msg_word_first (&peer_id_list, &seek, pos))
+      if (lw6msg_word_first (sys_context, &peer_id_list, &seek, pos))
 	{
 	  pos = seek;
 	}
@@ -754,6 +763,7 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
 /**
  * lw6msg_cmd_analyse_hello
  *
+ * @sys_context: global system context
  * @info: will contain (remote) node info on success
  * @msg: the message to analyse
  *
@@ -762,13 +772,13 @@ _analyse_info (lw6nod_info_t ** info, lw6nod_info_t * local_info, char **next, c
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg)
+lw6msg_cmd_analyse_hello (lw6sys_context_t * sys_context, lw6nod_info_t ** info, const char *msg)
 {
   int ret = 0;
 
   if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_CMD_HELLO))
     {
-      if (_analyse_info (info, NULL, NULL, msg + strlen (LW6MSG_CMD_HELLO)))
+      if (_analyse_info (sys_context, info, NULL, NULL, msg + strlen (LW6MSG_CMD_HELLO)))
 	{
 	  ret = 1;
 	}
@@ -784,6 +794,7 @@ lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg)
 /**
  * lw6msg_cmd_analyse_ticket
  *
+ * @sys_context: global system context
  * @info: will contain (remote) node info on success
  * @ticket: if not NULL, will contain the ticket value on success
  * @msg: the message to analyse
@@ -793,7 +804,7 @@ lw6msg_cmd_analyse_hello (lw6nod_info_t ** info, const char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket, const char *msg)
+lw6msg_cmd_analyse_ticket (lw6sys_context_t * sys_context, lw6nod_info_t ** info, u_int64_t * ticket, const char *msg)
 {
   int ret = 0;
   const char *pos = NULL;
@@ -802,10 +813,10 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket, const char
   if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_CMD_TICKET))
     {
       pos = msg + strlen (LW6MSG_CMD_TICKET);
-      if (_analyse_info (info, NULL, &seek, pos))
+      if (_analyse_info (sys_context, info, NULL, &seek, pos))
 	{
 	  pos = seek;
-	  if (lw6msg_word_first_id_64 (ticket, &seek, pos))
+	  if (lw6msg_word_first_id_64 (sys_context, ticket, &seek, pos))
 	    {
 	      ret = 1;
 	    }
@@ -827,6 +838,7 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket, const char
 /**
  * lw6msg_cmd_analyse_foo
  *
+ * @sys_context: global system context
  * @info: will contain (remote) node info on success
  * @key: if not NULL, will contain the foo/bar key on success
  * @serial: if not NULL, will contain the latest serial number of peer
@@ -837,7 +849,7 @@ lw6msg_cmd_analyse_ticket (lw6nod_info_t ** info, u_int64_t * ticket, const char
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, int *serial, const char *msg)
+lw6msg_cmd_analyse_foo (lw6sys_context_t * sys_context, lw6nod_info_t ** info, u_int32_t * key, int *serial, const char *msg)
 {
   int ret = 0;
   const char *pos = NULL;
@@ -846,13 +858,13 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, int *serial, con
   if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_CMD_FOO))
     {
       pos = msg + strlen (LW6MSG_CMD_FOO);
-      if (_analyse_info (info, NULL, &seek, pos))
+      if (_analyse_info (sys_context, info, NULL, &seek, pos))
 	{
 	  pos = seek;
-	  if (lw6msg_word_first_id_32 (key, &seek, pos))
+	  if (lw6msg_word_first_id_32 (sys_context, key, &seek, pos))
 	    {
 	      pos = seek;
-	      if (lw6msg_word_first_int_32_ge0 (serial, &seek, pos))
+	      if (lw6msg_word_first_int_32_ge0 (sys_context, serial, &seek, pos))
 		{
 		  ret = 1;
 		}
@@ -878,6 +890,7 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, int *serial, con
 /**
  * lw6msg_cmd_analyse_bar
  *
+ * @sys_context: global system context
  * @info: will contain (remote) node info on success
  * @key: if not NULL, will contain the foo/bar key on success
  * @serial: if not NULL, will contain the latest serial number of peer
@@ -888,7 +901,7 @@ lw6msg_cmd_analyse_foo (lw6nod_info_t ** info, u_int32_t * key, int *serial, con
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial, const char *msg)
+lw6msg_cmd_analyse_bar (lw6sys_context_t * sys_context, lw6nod_info_t ** info, u_int32_t * key, int *serial, const char *msg)
 {
   int ret = 0;
   const char *pos = NULL;
@@ -897,13 +910,13 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial, con
   if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_CMD_BAR))
     {
       pos = msg + strlen (LW6MSG_CMD_BAR);
-      if (_analyse_info (info, NULL, &seek, pos))
+      if (_analyse_info (sys_context, info, NULL, &seek, pos))
 	{
 	  pos = seek;
-	  if (lw6msg_word_first_id_32 (key, &seek, pos))
+	  if (lw6msg_word_first_id_32 (sys_context, key, &seek, pos))
 	    {
 	      pos = seek;
-	      if (lw6msg_word_first_int_32_ge0 (serial, &seek, pos))
+	      if (lw6msg_word_first_int_32_ge0 (sys_context, serial, &seek, pos))
 		{
 		  ret = 1;
 		}
@@ -929,6 +942,7 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial, con
 /**
  * lw6msg_cmd_analyse_join
  *
+ * @sys_context: global system context
  * @info: will contain (remote) node info on success
  * @local_info: local node info to be updated (peer_id list), can be NULL
  * @seq: sequence used to initialize communication
@@ -940,7 +954,7 @@ lw6msg_cmd_analyse_bar (lw6nod_info_t ** info, u_int32_t * key, int *serial, con
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_join (lw6nod_info_t ** info, lw6nod_info_t * local_info, int64_t * seq, int *serial, const char *msg)
+lw6msg_cmd_analyse_join (lw6sys_context_t * sys_context, lw6nod_info_t ** info, lw6nod_info_t * local_info, int64_t * seq, int *serial, const char *msg)
 {
   int ret = 0;
   const char *pos = NULL;
@@ -949,13 +963,13 @@ lw6msg_cmd_analyse_join (lw6nod_info_t ** info, lw6nod_info_t * local_info, int6
   if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_CMD_JOIN))
     {
       pos = msg + strlen (LW6MSG_CMD_JOIN);
-      if (_analyse_info (info, local_info, &seek, pos))
+      if (_analyse_info (sys_context, info, local_info, &seek, pos))
 	{
 	  pos = seek;
-	  if (lw6msg_word_first_int_64 (seq, &seek, pos))
+	  if (lw6msg_word_first_int_64 (sys_context, seq, &seek, pos))
 	    {
 	      pos = seek;
-	      if (lw6msg_word_first_int_32 (serial, &seek, pos))
+	      if (lw6msg_word_first_int_32 (sys_context, serial, &seek, pos))
 		{
 		  ret = 1;
 		}
@@ -981,6 +995,7 @@ lw6msg_cmd_analyse_join (lw6nod_info_t ** info, lw6nod_info_t * local_info, int6
 /**
  * lw6msg_cmd_analyse_goodbye
  *
+ * @sys_context: global system context
  * @info: will contain (remote) node info on success
  * @msg: the message to analyse
  *
@@ -989,13 +1004,13 @@ lw6msg_cmd_analyse_join (lw6nod_info_t ** info, lw6nod_info_t * local_info, int6
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
+lw6msg_cmd_analyse_goodbye (lw6sys_context_t * sys_context, lw6nod_info_t ** info, const char *msg)
 {
   int ret = 0;
 
   if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_CMD_GOODBYE))
     {
-      if (_analyse_info (info, NULL, NULL, msg + strlen (LW6MSG_CMD_GOODBYE)))
+      if (_analyse_info (sys_context, info, NULL, NULL, msg + strlen (LW6MSG_CMD_GOODBYE)))
 	{
 	  ret = 1;
 	}
@@ -1011,6 +1026,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
 /**
  * lw6msg_cmd_analyse_data
  *
+ * @sys_context: global system context
  * @serial: will contain serial number on success
  * @i: will contain group index on success
  * @n: will contain group size on success
@@ -1023,7 +1039,7 @@ lw6msg_cmd_analyse_goodbye (lw6nod_info_t ** info, const char *msg)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq, char **ker_msg, const char *msg)
+lw6msg_cmd_analyse_data (lw6sys_context_t * sys_context, int *serial, int *i, int *n, int64_t * seq, char **ker_msg, const char *msg)
 {
   int ret = 0;
   char *seek = NULL;
@@ -1044,25 +1060,25 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq, char **ker_
   pos = msg;
   seek = (char *) pos;
 
-  if (lw6msg_word_first (&data_word, &seek, pos) && lw6sys_str_is_same_no_case (sys_context, data_word.buf, LW6MSG_CMD_DATA))
+  if (lw6msg_word_first (sys_context, &data_word, &seek, pos) && lw6sys_str_is_same_no_case (sys_context, data_word.buf, LW6MSG_CMD_DATA))
     {
       pos = seek;
-      if (lw6msg_word_first_int_32_gt0 (&read_serial, &seek, pos))
+      if (lw6msg_word_first_int_32_gt0 (sys_context, &read_serial, &seek, pos))
 	{
 	  pos = seek;
-	  if (lw6msg_word_first_int_32_ge0 (&read_i, &seek, pos))
+	  if (lw6msg_word_first_int_32_ge0 (sys_context, &read_i, &seek, pos))
 	    {
 	      pos = seek;
-	      if (lw6msg_word_first_int_32_gt0 (&read_n, &seek, pos))
+	      if (lw6msg_word_first_int_32_gt0 (sys_context, &read_n, &seek, pos))
 		{
 		  pos = seek;
-		  if (lw6msg_word_first_int_64_gt0 (&read_seq, &seek, pos))
+		  if (lw6msg_word_first_int_64_gt0 (sys_context, &read_seq, &seek, pos))
 		    {
 		      pos = seek;
-		      if (lw6msg_word_first (&ker_msg_word, &seek, pos))
+		      if (lw6msg_word_first (sys_context, &ker_msg_word, &seek, pos))
 			{
 			  pos = seek;
-			  read_ker_msg = lw6sys_str_copy (ker_msg_word.buf);
+			  read_ker_msg = lw6sys_str_copy (sys_context, ker_msg_word.buf);
 			  if (read_ker_msg)
 			    {
 			      ret = 1;
@@ -1109,6 +1125,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq, char **ker_
 /**
  * lw6msg_cmd_analyse_meta
  *
+ * @sys_context: global system context
  * @serial: will contain serial number on success
  * @i: will contain group index on success
  * @n: will contain group size on success
@@ -1121,7 +1138,7 @@ lw6msg_cmd_analyse_data (int *serial, int *i, int *n, int64_t * seq, char **ker_
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq, lw6msg_meta_array_t * meta_array, const char *msg)
+lw6msg_cmd_analyse_meta (lw6sys_context_t * sys_context, int *serial, int *i, int *n, int64_t * seq, lw6msg_meta_array_t * meta_array, const char *msg)
 {
   int ret = 0;
   char *seek = NULL;
@@ -1140,28 +1157,28 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq, lw6msg_meta
   pos = msg;
   seek = (char *) pos;
 
-  if (lw6msg_word_first (&meta_word, &seek, pos) && lw6sys_str_is_same_no_case (sys_context, meta_word.buf, LW6MSG_CMD_META))
+  if (lw6msg_word_first (sys_context, &meta_word, &seek, pos) && lw6sys_str_is_same_no_case (sys_context, meta_word.buf, LW6MSG_CMD_META))
     {
       pos = seek;
-      if (lw6msg_word_first_int_32_gt0 (&read_serial, &seek, pos))
+      if (lw6msg_word_first_int_32_gt0 (sys_context, &read_serial, &seek, pos))
 	{
 	  pos = seek;
-	  if (lw6msg_word_first_int_32_ge0 (&read_i, &seek, pos))
+	  if (lw6msg_word_first_int_32_ge0 (sys_context, &read_i, &seek, pos))
 	    {
 	      pos = seek;
-	      if (lw6msg_word_first_int_32_gt0 (&read_n, &seek, pos))
+	      if (lw6msg_word_first_int_32_gt0 (sys_context, &read_n, &seek, pos))
 		{
 		  pos = seek;
-		  if (lw6msg_word_first_int_64_gt0 (&read_seq, &seek, pos))
+		  if (lw6msg_word_first_int_64_gt0 (sys_context, &read_seq, &seek, pos))
 		    {
 		      pos = seek;
-		      if (lw6msg_word_first_id_64 (&read_logical_from, &seek, pos))
+		      if (lw6msg_word_first_id_64 (sys_context, &read_logical_from, &seek, pos))
 			{
 			  pos = seek;
-			  if (!lw6sys_str_is_null_or_empty (pos))
+			  if (!lw6sys_str_is_null_or_empty (sys_context, pos))
 			    {
 			      pos = seek;
-			      if (lw6msg_meta_str2array (meta_array, pos))
+			      if (lw6msg_meta_str2array (sys_context, meta_array, pos))
 				{
 				  ret = 1;
 				  (*serial) = read_serial;
@@ -1216,6 +1233,7 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq, lw6msg_meta
 /**
  * lw6msg_cmd_analyse_miss
  *
+ * @sys_context: global system context
  * @id_from: will contain the id of the node which didn't send data correctly
  * @id_to: will contain the id of the node which didn't receive data correctly
  * @serial_min: will contain the minimum serial number of unsent/unreceived messages
@@ -1227,7 +1245,7 @@ lw6msg_cmd_analyse_meta (int *serial, int *i, int *n, int64_t * seq, lw6msg_meta
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to, int *serial_min, int *serial_max, const char *msg)
+lw6msg_cmd_analyse_miss (lw6sys_context_t * sys_context, u_int64_t * id_from, u_int64_t * id_to, int *serial_min, int *serial_max, const char *msg)
 {
   int ret = 0;
   char *seek = NULL;
@@ -1246,19 +1264,19 @@ lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to, int *serial_min
   pos = msg;
   seek = (char *) pos;
 
-  if (lw6msg_word_first (&miss_word, &seek, pos) && lw6sys_str_is_same_no_case (miss_word.buf, LW6MSG_CMD_MISS))
+  if (lw6msg_word_first (sys_context, &miss_word, &seek, pos) && lw6sys_str_is_same_no_case (sys_context, miss_word.buf, LW6MSG_CMD_MISS))
     {
       pos = seek;
-      if (lw6msg_word_first_id_64 (&read_id_from, &seek, pos))
+      if (lw6msg_word_first_id_64 (sys_context, &read_id_from, &seek, pos))
 	{
 	  pos = seek;
-	  if (lw6msg_word_first_id_64 (&read_id_to, &seek, pos))
+	  if (lw6msg_word_first_id_64 (sys_context, &read_id_to, &seek, pos))
 	    {
 	      pos = seek;
-	      if (lw6msg_word_first_int_32_gt0 (&read_serial_min, &seek, pos))
+	      if (lw6msg_word_first_int_32_gt0 (sys_context, &read_serial_min, &seek, pos))
 		{
 		  pos = seek;
-		  if (lw6msg_word_first_int_32_gt0 (&read_serial_max, &seek, pos))
+		  if (lw6msg_word_first_int_32_gt0 (sys_context, &read_serial_max, &seek, pos))
 		    {
 		      ret = 1;
 		      (*id_from) = read_id_from;
@@ -1297,6 +1315,7 @@ lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to, int *serial_min
 /**
  * lw6msg_cmd_guess_from_url
  *
+ * @sys_context: global system context
  * @msg: the message to analyse
  *
  * Analyzes a GOODBYE message.
@@ -1304,7 +1323,7 @@ lw6msg_cmd_analyse_miss (u_int64_t * id_from, u_int64_t * id_to, int *serial_min
  * Return value: the from url, if found (dynamically allocated)
  */
 char *
-lw6msg_cmd_guess_from_url (const char *msg)
+lw6msg_cmd_guess_from_url (lw6sys_context_t * sys_context, const char *msg)
 {
   char *ret = NULL;
   lw6nod_info_t *node_info = NULL;
@@ -1321,7 +1340,7 @@ lw6msg_cmd_guess_from_url (const char *msg)
       if (lw6sys_str_starts_with_no_case (sys_context, msg, *command))
 	{
 	  pos = msg + strlen (*command);
-	  if (_analyse_info (&node_info, NULL, &seek, pos))
+	  if (_analyse_info (sys_context, &node_info, NULL, &seek, pos))
 	    {
 	      ret = lw6sys_str_copy (sys_context, node_info->const_info.ref_info.url);
 	      lw6nod_info_free (sys_context, node_info);

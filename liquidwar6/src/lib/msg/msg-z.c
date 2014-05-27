@@ -89,7 +89,7 @@ _z_decode (char *out_buf, int *out_buf_len, const char *msg, int msg_len)
  * Return value: newly allocated string, 0 terminated, NULL on error.
  */
 char *
-lw6msg_z_encode (const char *msg, int limit)
+lw6msg_z_encode (sys_context, const char *msg, int limit)
 {
   char *ret = NULL;
   int in_len = 0;
@@ -154,7 +154,7 @@ lw6msg_z_encode (const char *msg, int limit)
  * Return value: newly allocated string, 0 terminated, NULL on error.
  */
 char *
-lw6msg_z_decode (const char *msg)
+lw6msg_z_decode (sys_context, const char *msg)
 {
   char *ret = NULL;
   int in_len = 0;

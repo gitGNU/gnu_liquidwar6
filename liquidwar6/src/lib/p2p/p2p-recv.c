@@ -64,7 +64,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 
   if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_HELLO))
     {
-      if (lw6msg_cmd_analyse_hello (&remote_node_info, message))
+      if (lw6msg_cmd_analyse_hello (sys_context, &remote_node_info, message))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("hello from \"%s\""), cnx->remote_url);
 	  /*
@@ -79,7 +79,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_TICKET))
     {
-      if (lw6msg_cmd_analyse_ticket (&remote_node_info, &ticket, message))
+      if (lw6msg_cmd_analyse_ticket (sys_context, &remote_node_info, &ticket, message))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("received ticket from \"%s\""), cnx->remote_url);
 	  lw6cnx_ticket_table_set_send (sys_context, &(node->ticket_table), cnx->remote_id_str, ticket);
@@ -91,7 +91,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_FOO))
     {
-      if (lw6msg_cmd_analyse_foo (&remote_node_info, &foo_bar_key, &serial, message))
+      if (lw6msg_cmd_analyse_foo (sys_context, &remote_node_info, &foo_bar_key, &serial, message))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("received foo from \"%s\""), cnx->remote_url);
 	  lw6dat_warehouse_update_serial_miss_max (node->warehouse, cnx->remote_id_int, serial);
@@ -99,11 +99,11 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 	  uptime = (lw6sys_get_timestamp () - remote_node_info->const_info.creation_timestamp) / 1000;
 	  remote_node_info->const_info.creation_timestamp = now - uptime;
 	  _lw6p2p_node_update_peer_info (node, remote_node_info);
-	  reply_msg = lw6msg_cmd_generate_bar (node->node_info, foo_bar_key, lw6dat_warehouse_get_local_serial (node->warehouse));
+	  reply_msg = lw6msg_cmd_generate_bar (sys_context, node->node_info, foo_bar_key, lw6dat_warehouse_get_local_serial (node->warehouse));
 	  if (reply_msg)
 	    {
 	      logical_ticket_sig =
-		lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+		lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send
 					(&(node->ticket_table), cnx->remote_id_str), cnx->local_id_int, cnx->remote_id_int, reply_msg);
 
 	      tentacle_i = _lw6p2p_node_find_tentacle (node, cnx->remote_id_int);
@@ -129,7 +129,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_BAR))
     {
-      if (lw6msg_cmd_analyse_bar (&remote_node_info, &foo_bar_key, &serial, message))
+      if (lw6msg_cmd_analyse_bar (sys_context, &remote_node_info, &foo_bar_key, &serial, message))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("received bar from \"%s\" foo_bar_key=%08x"), cnx->remote_url, foo_bar_key);
 	  lw6dat_warehouse_update_serial_miss_max (node->warehouse, cnx->remote_id_int, serial);
@@ -219,7 +219,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_JOIN))
     {
-      if (lw6msg_cmd_analyse_join (&remote_node_info, node->node_info, &seq, &serial, message))
+      if (lw6msg_cmd_analyse_join (sys_context, &remote_node_info, node->node_info, &seq, &serial, message))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("received join from \"%s\""), cnx->remote_url);
 	  /*
@@ -234,11 +234,11 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 	       * Seq is 0, this means the peer is a client trying to
 	       * join, we send our local info back and register it.
 	       */
-	      reply_msg = lw6msg_cmd_generate_join (node->node_info, seq_register, lw6dat_warehouse_get_local_serial (node->warehouse));
+	      reply_msg = lw6msg_cmd_generate_join (sys_context, node->node_info, seq_register, lw6dat_warehouse_get_local_serial (node->warehouse));
 	      if (reply_msg)
 		{
 		  logical_ticket_sig =
-		    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send
+		    lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send
 					    (&(node->ticket_table), cnx->remote_id_str), cnx->local_id_int, cnx->remote_id_int, reply_msg);
 		  tentacle_i = _lw6p2p_node_find_tentacle (node, cnx->remote_id_int);
 		  if (tentacle_i >= 0)
@@ -350,7 +350,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_GOODBYE))
     {
-      if (lw6msg_cmd_analyse_goodbye (&remote_node_info, message))
+      if (lw6msg_cmd_analyse_goodbye (sys_context, &remote_node_info, message))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("received goodbye from \"%s\""), cnx->remote_url);
 	  // todo : close cnx
@@ -362,7 +362,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_DATA))
     {
-      if (lw6msg_cmd_analyse_data (&serial, &i, &n, &seq, &ker_message, message))
+      if (lw6msg_cmd_analyse_data (sys_context, &serial, &i, &n, &seq, &ker_message, message))
 	{
 	  /*
 	   * Note that put_atom_str could/should automatically
@@ -392,9 +392,9 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_META))
     {
-      lw6msg_meta_array_zero (&meta_array);
+      lw6msg_meta_array_zero (sys_context, &meta_array);
 
-      if (lw6msg_cmd_analyse_meta (&serial, &i, &n, &seq, &meta_array, message))
+      if (lw6msg_cmd_analyse_meta (sys_context, &serial, &i, &n, &seq, &meta_array, message))
 	{
 	  /*
 	   * While META messages are not returned to the game logical
@@ -455,7 +455,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
     }
   else if (lw6sys_str_starts_with_no_case (message, LW6MSG_CMD_MISS))
     {
-      if (lw6msg_cmd_analyse_miss (&id_from, &id_to, &serial_min, &serial_max, message))
+      if (lw6msg_cmd_analyse_miss (sys_context, &id_from, &id_to, &serial_min, &serial_max, message))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("received MISS from %s id_from=%" LW6SYS_PRINTF_LL
@@ -498,7 +498,7 @@ _check_sig (lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
 
   recv_ticket = lw6cnx_ticket_table_get_recv (sys_context, ticket_table, remote_id_str);
   was_recv_exchanged = lw6cnx_ticket_table_was_recv_exchanged (sys_context, ticket_table, remote_id_str);
-  if (lw6msg_ticket_check_sig (recv_ticket, remote_id_int, local_id_int, message, ticket_sig))
+  if (lw6msg_ticket_check_sig (sys_context, recv_ticket, remote_id_int, local_id_int, message, ticket_sig))
     {
       if (was_recv_exchanged)
 	{

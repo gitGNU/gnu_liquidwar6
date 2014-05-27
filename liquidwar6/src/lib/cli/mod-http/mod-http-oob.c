@@ -44,7 +44,7 @@ _do_ping (_mod_http_context_t * http_context, lw6nod_info_t * node_info, lw6cli_
 	{
 	  if (_mod_http_oob_should_continue (http_context, oob_data))
 	    {
-	      given_url = lw6msg_oob_analyse_pong (response);
+	      given_url = lw6msg_oob_analyse_pong (sys_context, response);
 	      if (given_url)
 		{
 		  if (lw6sys_str_is_same (sys_context, url, given_url))
@@ -112,7 +112,7 @@ _do_info (_mod_http_context_t * http_context, lw6nod_info_t * node_info,
 			  (*seek) = '\0';
 			  if (strlen (pos) > 0)
 			    {
-			      if (lw6msg_utils_parse_key_value_to_assoc (&assoc, pos))
+			      if (lw6msg_utils_parse_key_value_to_assoc (sys_context, &assoc, pos))
 				{
 				  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("parsed line \"%s\""), pos);
 				}

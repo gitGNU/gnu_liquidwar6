@@ -30,6 +30,7 @@
 /**
  * lw6msg_oob_generate_info
  *
+ * @sys_context: global system context
  * @info: the node to generate info about
  *
  * Generates a standard response to the INFO question for OOB
@@ -40,7 +41,7 @@
  * Return value: newly allocated string.
  */
 char *
-lw6msg_oob_generate_info (lw6nod_info_t * info)
+lw6msg_oob_generate_info (lw6sys_context_t * sys_context, lw6nod_info_t * info)
 {
   char *ret = NULL;
   lw6nod_dyn_info_t *dyn_info = NULL;
@@ -53,57 +54,27 @@ lw6msg_oob_generate_info (lw6nod_info_t * info)
     {
       has_password = info->const_info.has_password ? LW6MSG_YES : LW6MSG_NO;
       open_relay = info->const_info.open_relay ? LW6MSG_YES : LW6MSG_NO;
-      uptime = (lw6sys_get_timestamp () - info->const_info.creation_timestamp) / 1000;
+      uptime = (lw6sys_get_timestamp (sys_context) - info->const_info.creation_timestamp) / 1000;
       ret =
 	lw6sys_new_sprintf
-	("%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %d\n%s %s\n%s %d\n%s %s\n%s %d\n%s %s\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n\n",
-	 LW6MSG_OOB_PROGRAM,
-	 lw6sys_build_get_package_tarname (),
-	 LW6MSG_OOB_VERSION,
-	 lw6sys_build_get_version (),
-	 LW6MSG_OOB_CODENAME,
-	 lw6sys_build_get_codename (),
-	 LW6MSG_OOB_STAMP,
-	 lw6sys_build_get_stamp (),
-	 LW6MSG_OOB_ID,
-	 info->const_info.ref_info.id_str,
-	 LW6MSG_OOB_URL,
-	 info->const_info.ref_info.url,
-	 LW6MSG_OOB_TITLE,
-	 info->const_info.title,
-	 LW6MSG_OOB_DESCRIPTION,
-	 info->const_info.description,
-	 LW6MSG_OOB_HAS_PASSWORD,
-	 has_password,
-	 LW6MSG_OOB_BENCH,
-	 info->const_info.bench,
-	 LW6MSG_OOB_OPEN_RELAY,
-	 open_relay,
-	 LW6MSG_OOB_UPTIME,
-	 uptime,
-	 LW6MSG_OOB_COMMUNITY,
-	 lw6sys_str_empty_if_null (dyn_info->community_id_str),
-	 LW6MSG_OOB_ROUND,
-	 dyn_info->round,
-	 LW6MSG_OOB_LEVEL,
-	 lw6sys_str_empty_if_null (dyn_info->level),
-	 LW6MSG_OOB_REQUIRED_BENCH,
-	 dyn_info->required_bench,
-	 LW6MSG_OOB_NB_COLORS,
-	 dyn_info->nb_colors,
-	 LW6MSG_OOB_MAX_NB_COLORS,
-	 dyn_info->max_nb_colors,
-	 LW6MSG_OOB_NB_CURSORS,
-	 dyn_info->nb_cursors,
-	 LW6MSG_OOB_MAX_NB_CURSORS, dyn_info->max_nb_cursors, LW6MSG_OOB_NB_NODES, dyn_info->nb_nodes, LW6MSG_OOB_MAX_NB_NODES, dyn_info->max_nb_nodes);
-      lw6nod_dyn_info_free (dyn_info);
+	(sys_context,
+	 "%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %s\n%s %d\n%s %s\n%s %d\n%s %s\n%s %d\n%s %s\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n%s %d\n\n",
+	 LW6MSG_OOB_PROGRAM, lw6sys_build_get_package_tarname (), LW6MSG_OOB_VERSION, lw6sys_build_get_version (), LW6MSG_OOB_CODENAME,
+	 lw6sys_build_get_codename (), LW6MSG_OOB_STAMP, lw6sys_build_get_stamp (), LW6MSG_OOB_ID, info->const_info.ref_info.id_str, LW6MSG_OOB_URL,
+	 info->const_info.ref_info.url, LW6MSG_OOB_TITLE, info->const_info.title, LW6MSG_OOB_DESCRIPTION, info->const_info.description,
+	 LW6MSG_OOB_HAS_PASSWORD, has_password, LW6MSG_OOB_BENCH, info->const_info.bench, LW6MSG_OOB_OPEN_RELAY, open_relay, LW6MSG_OOB_UPTIME, uptime,
+	 LW6MSG_OOB_COMMUNITY, lw6sys_str_empty_if_null (sys_context, dyn_info->community_id_str), LW6MSG_OOB_ROUND, dyn_info->round, LW6MSG_OOB_LEVEL,
+	 lw6sys_str_empty_if_null (sys_context, dyn_info->level), LW6MSG_OOB_REQUIRED_BENCH, dyn_info->required_bench, LW6MSG_OOB_NB_COLORS,
+	 dyn_info->nb_colors, LW6MSG_OOB_MAX_NB_COLORS, dyn_info->max_nb_colors, LW6MSG_OOB_NB_CURSORS, dyn_info->nb_cursors, LW6MSG_OOB_MAX_NB_CURSORS,
+	 dyn_info->max_nb_cursors, LW6MSG_OOB_NB_NODES, dyn_info->nb_nodes, LW6MSG_OOB_MAX_NB_NODES, dyn_info->max_nb_nodes);
+      lw6nod_dyn_info_free (sys_context, dyn_info);
     }
 
   return ret;
 }
 
 static void
-_add_node_txt (void *func_data, void *data)
+_add_node_txt (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   char **list = (char **) func_data;
   lw6nod_info_t *verified_node = (lw6nod_info_t *) data;
@@ -118,7 +89,7 @@ _add_node_txt (void *func_data, void *data)
     {
       if (strlen (*list) + strlen (verified_node->const_info.ref_info.url) <= LW6NET_PPPOE_MTU - 1)
 	{
-	  tmp = lw6sys_new_sprintf ("%s%s\n", *list, verified_node->const_info.ref_info.url);
+	  tmp = lw6sys_new_sprintf (sys_context, "%s%s\n", *list, verified_node->const_info.ref_info.url);
 	  if (tmp)
 	    {
 	      LW6SYS_FREE (sys_context, *list);
@@ -136,6 +107,7 @@ _add_node_txt (void *func_data, void *data)
 /**
  * lw6msg_oob_generate_list
  *
+ * @sys_context: global system context
  * @info: the node to generate info about
  *
  * Generates a standard response to the LIST question for OOB
@@ -148,7 +120,7 @@ _add_node_txt (void *func_data, void *data)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_oob_generate_list (lw6nod_info_t * info)
+lw6msg_oob_generate_list (lw6sys_context_t * sys_context, lw6nod_info_t * info)
 {
   char *ret = NULL;
   lw6nod_dyn_info_t *dyn_info = NULL;
@@ -171,7 +143,7 @@ lw6msg_oob_generate_list (lw6nod_info_t * info)
 		}
 	    }
 	}
-      lw6nod_dyn_info_free (dyn_info);
+      lw6nod_dyn_info_free (sys_context, dyn_info);
     }
 
   return ret;
@@ -180,6 +152,7 @@ lw6msg_oob_generate_list (lw6nod_info_t * info)
 /**
  * lw6msg_oob_generate_pong
  *
+ * @sys_context: global system context
  * @info: the node to generate info about
  *
  * Generates a standard response to the PING question for OOB
@@ -190,7 +163,7 @@ lw6msg_oob_generate_list (lw6nod_info_t * info)
  * Return value: newly allocated string.
  */
 char *
-lw6msg_oob_generate_pong (lw6nod_info_t * info)
+lw6msg_oob_generate_pong (lw6sys_context_t * sys_context, lw6nod_info_t * info)
 {
   char *ret = NULL;
 
@@ -202,6 +175,7 @@ lw6msg_oob_generate_pong (lw6nod_info_t * info)
 /**
  * lw6msg_oob_generate_request
  *
+ * @sys_context: global system context
  * @command: the command to send (PING, INFO, LIST)
  * @remote_url: the remote URL (used to seed password)
  * @password: the password, can be NULL or ""
@@ -212,7 +186,7 @@ lw6msg_oob_generate_pong (lw6nod_info_t * info)
  * Return value: a newly allocated string
  */
 char *
-lw6msg_oob_generate_request (const char *command, const char *remote_url, const char *password, const char *local_url)
+lw6msg_oob_generate_request (lw6sys_context_t * sys_context, const char *command, const char *remote_url, const char *password, const char *local_url)
 {
   char *ret = NULL;
   char *password_checksum = NULL;
@@ -225,11 +199,11 @@ lw6msg_oob_generate_request (const char *command, const char *remote_url, const 
     {
       if (local_url && strlen (local_url) > 0)
 	{
-	  ret = lw6sys_new_sprintf ("%s %s %s", command, password_checksum, local_url);
+	  ret = lw6sys_new_sprintf (sys_context, "%s %s %s", command, password_checksum, local_url);
 	}
       else
 	{
-	  ret = lw6sys_new_sprintf ("%s %s", command, password_checksum);
+	  ret = lw6sys_new_sprintf (sys_context, "%s %s", command, password_checksum);
 	}
       LW6SYS_FREE (sys_context, password_checksum);
     }
@@ -237,11 +211,11 @@ lw6msg_oob_generate_request (const char *command, const char *remote_url, const 
     {
       if (local_url && strlen (local_url) > 0)
 	{
-	  ret = lw6sys_new_sprintf ("%s %s", command, local_url);
+	  ret = lw6sys_new_sprintf (sys_context, "%s %s", command, local_url);
 	}
       else
 	{
-	  ret = lw6sys_new_sprintf ("%s", command);
+	  ret = lw6sys_new_sprintf (sys_context, "%s", command);
 	}
     }
 
@@ -251,6 +225,7 @@ lw6msg_oob_generate_request (const char *command, const char *remote_url, const 
 /**
  * lw6msg_oob_analyse_request
  *
+ * @sys_context: global system context
  * @syntax_ok: will contain 1 if syntax is OK, 0 if not
  * @command: the command (out param, needs *not* to be freed)
  * @password_ok: will contain 1 if password is OK, 0 if not
@@ -264,7 +239,7 @@ lw6msg_oob_generate_request (const char *command, const char *remote_url, const 
  * Return value: 1 if OK, 0 if not. If 0, check the value of password_ok.
  */
 int
-lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
+lw6msg_oob_analyse_request (lw6sys_context_t * sys_context, int *syntax_ok, char **command, int *password_ok,
 			    char **remote_url, const char *request, const char *local_url, const char *password)
 {
   int ret = 0;
@@ -292,18 +267,18 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 	}
       pos = seek;
 
-      if (lw6sys_str_starts_with_no_case (pos, LW6MSG_OOB_PING))
+      if (lw6sys_str_starts_with_no_case (sys_context, pos, LW6MSG_OOB_PING))
 	{
 	  (*command) = LW6MSG_OOB_PING;
 	  (*password_ok) = 1;
 	  seek += strlen (LW6MSG_OOB_PING);
 	}
-      else if (lw6sys_str_starts_with_no_case (pos, LW6MSG_OOB_INFO))
+      else if (lw6sys_str_starts_with_no_case (sys_context, pos, LW6MSG_OOB_INFO))
 	{
 	  (*command) = LW6MSG_OOB_INFO;
 	  seek += strlen (LW6MSG_OOB_INFO);
 	}
-      else if (lw6sys_str_starts_with_no_case (pos, LW6MSG_OOB_LIST))
+      else if (lw6sys_str_starts_with_no_case (sys_context, pos, LW6MSG_OOB_LIST))
 	{
 	  (*command) = LW6MSG_OOB_LIST;
 	  seek += strlen (LW6MSG_OOB_LIST);
@@ -330,7 +305,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 		    {
 		      seek_c = (*seek);
 		      (*seek) = '\0';
-		      param1 = lw6sys_str_copy (pos);
+		      param1 = lw6sys_str_copy (sys_context, pos);
 		      (*seek) = seek_c;
 		      pos = seek;
 		      while (lw6sys_chr_is_space (*seek))
@@ -348,7 +323,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 			    {
 			      seek_c = (*seek);
 			      (*seek) = '\0';
-			      param2 = lw6sys_str_copy (pos);
+			      param2 = lw6sys_str_copy (sys_context, pos);
 			    }
 			}
 		    }
@@ -418,6 +393,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
 /**
  * lw6msg_oob_analyse_pong
  *
+ * @sys_context: global system context
  * @text: the text of the message to parse
  *
  * Analyses a PONG message and gets the public_url from it, if
@@ -426,7 +402,7 @@ lw6msg_oob_analyse_request (int *syntax_ok, char **command, int *password_ok,
  * Return value: newly allocated string containing public_url if OK, NULL on error.
  */
 char *
-lw6msg_oob_analyse_pong (const char *text)
+lw6msg_oob_analyse_pong (lw6sys_context_t * sys_context, const char *text)
 {
   char *ret = NULL;
   char *copy = NULL;
@@ -436,7 +412,7 @@ lw6msg_oob_analyse_pong (const char *text)
   copy = lw6sys_str_copy (sys_context, text);
   if (copy)
     {
-      if (lw6msg_utils_parse_key_value_to_ptr (&key, &value, text))
+      if (lw6msg_utils_parse_key_value_to_ptr (sys_context, &key, &value, text))
 	{
 	  if (lw6sys_str_is_same (sys_context, key, LW6MSG_OOB_PONG))
 	    {

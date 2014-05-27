@@ -918,8 +918,8 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
 	      while ((atom_str = lw6sys_list_pop_front (sys_context, &atom_str_list)) != NULL)
 		{
 		  logical_ticket_sig =
-		    lw6msg_ticket_calc_sig (lw6cnx_ticket_table_get_send (sys_context, &(node->ticket_table), remote_id_str), node->node_id_int, remote_id_int,
-					    atom_str);
+		    lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send (sys_context, &(node->ticket_table), remote_id_str), node->node_id_int,
+					    remote_id_int, atom_str);
 		  if (!_lw6p2p_tentacle_send_best
 		      (&(node->tentacles[i]), now, &(node->ticket_table), logical_ticket_sig, node->node_id_int, remote_id_int, atom_str, 1))
 		    {
@@ -1049,7 +1049,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * 
 		}
 	      if (!disable_miss)
 		{
-		  msg = lw6msg_cmd_generate_miss (miss->from_id, node->node_id_int, miss->serial_min, miss->serial_max);
+		  msg = lw6msg_cmd_generate_miss (sys_context, miss->from_id, node->node_id_int, miss->serial_min, miss->serial_max);
 		  if (msg)
 		    {
 		      for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
@@ -1903,7 +1903,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
 		       * Generating a JOIN message with 0 seq
 		       * means "I want to connect to you"
 		       */
-		      msg_join = lw6msg_cmd_generate_join (node->node_info, 0, lw6dat_warehouse_get_local_serial (node->warehouse));
+		      msg_join = lw6msg_cmd_generate_join (sys_context, node->node_info, 0, lw6dat_warehouse_get_local_serial (node->warehouse));
 		      if (msg_join)
 			{
 			  ticket_sig =

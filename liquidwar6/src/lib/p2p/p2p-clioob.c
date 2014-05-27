@@ -157,24 +157,24 @@ _lw6p2p_cli_oob_verify_callback_func (void *func_data, const char *url, const ch
 		  if (!lw6sys_str_is_same (sys_context, url, node->public_url) && !lw6sys_str_is_same (sys_context, remote_id, node->node_id_str))
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("confirmed node \"%s\""), url);
-		      has_password_str = lw6msg_utils_get_assoc_str_with_default (assoc, LW6MSG_OOB_HAS_PASSWORD, LW6MSG_NO);
+		      has_password_str = lw6msg_utils_get_assoc_str_with_default (sys_context, assoc, LW6MSG_OOB_HAS_PASSWORD, LW6MSG_NO);
 		      has_password_int = (has_password_str
 					  && lw6sys_str_starts_with_no_case (has_password_str, LW6MSG_YES)) ? _LW6P2P_DB_TRUE : _LW6P2P_DB_FALSE;
-		      bench = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_BENCH, 0);
-		      open_relay_str = lw6msg_utils_get_assoc_str_with_default (assoc, LW6MSG_OOB_OPEN_RELAY, LW6MSG_NO);
+		      bench = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_BENCH, 0);
+		      open_relay_str = lw6msg_utils_get_assoc_str_with_default (sys_context, assoc, LW6MSG_OOB_OPEN_RELAY, LW6MSG_NO);
 		      open_relay_int = (open_relay_str && lw6sys_str_starts_with_no_case (open_relay_str, LW6MSG_YES)) ? _LW6P2P_DB_TRUE : _LW6P2P_DB_FALSE;
 		      now = _lw6p2p_db_now (node->db);
-		      uptime = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_UPTIME, 0);
+		      uptime = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_UPTIME, 0);
 		      community_id = lw6sys_assoc_get (assoc, LW6MSG_OOB_COMMUNITY);
-		      round = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_ROUND, 0);
-		      level = lw6msg_utils_get_assoc_str_with_default (assoc, LW6MSG_OOB_LEVEL, LW6SYS_STR_EMPTY);
-		      required_bench = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_REQUIRED_BENCH, 0);
-		      nb_colors = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_NB_COLORS, 0);
-		      max_nb_colors = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_MAX_NB_COLORS, 0);
-		      nb_cursors = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_NB_CURSORS, 0);
-		      max_nb_cursors = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_MAX_NB_CURSORS, 0);
-		      nb_nodes = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_NB_NODES, 0);
-		      max_nb_nodes = lw6msg_utils_get_assoc_int_with_default (assoc, LW6MSG_OOB_MAX_NB_NODES, 0);
+		      round = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_ROUND, 0);
+		      level = lw6msg_utils_get_assoc_str_with_default (sys_context, assoc, LW6MSG_OOB_LEVEL, LW6SYS_STR_EMPTY);
+		      required_bench = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_REQUIRED_BENCH, 0);
+		      nb_colors = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_NB_COLORS, 0);
+		      max_nb_colors = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_MAX_NB_COLORS, 0);
+		      nb_cursors = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_NB_CURSORS, 0);
+		      max_nb_cursors = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_MAX_NB_CURSORS, 0);
+		      nb_nodes = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_NB_NODES, 0);
+		      max_nb_nodes = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_MAX_NB_NODES, 0);
 
 
 		      ret =

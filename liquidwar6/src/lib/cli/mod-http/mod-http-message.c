@@ -50,7 +50,7 @@ _mod_http_send (_mod_http_context_t * http_context,
     {
       if (lw6sys_list_length (specific_data->query_threads) < http_context->data.consts.max_concurrent_requests)
 	{
-	  line = lw6msg_envelope_generate (LW6MSG_ENVELOPE_MODE_URL,
+	  line = lw6msg_envelope_generate (sys_context, LW6MSG_ENVELOPE_MODE_URL,
 					   lw6sys_build_get_version (),
 					   connection->password_send_checksum,
 					   physical_ticket_sig,

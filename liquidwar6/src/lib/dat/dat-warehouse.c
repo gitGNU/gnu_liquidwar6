@@ -1211,7 +1211,7 @@ _lw6dat_warehouse_meta_put (_lw6dat_warehouse_t * warehouse, int64_t seq)
   local_seq_last = _lw6dat_warehouse_get_local_seq_last (warehouse);
   if (seq >= local_seq_last)
     {
-      lw6msg_meta_array_zero (&meta_array);
+      lw6msg_meta_array_zero (sys_context, &meta_array);
       meta_array.logical_from = _lw6dat_warehouse_get_local_id (warehouse);
       ret = _lw6dat_warehouse_meta_get (warehouse, &meta_array, seq);
       if (ret)
