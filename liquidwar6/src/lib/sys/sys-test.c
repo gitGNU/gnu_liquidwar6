@@ -174,6 +174,10 @@
 #define _TEST_SORT_STR {"9","3","4","5","6","8","7","2","0","1"};
 #define _TEST_SORT_STR_MIN "0"
 #define _TEST_SORT_STR_MAX "9"
+#define _TEST_SORT_TWIN {{9,0},{3,1},{4,2},{5,3},{6,4},{8,5},{7,6},{2,7},{0,8},{1,9}}
+#define _TEST_SORT_TWIN_MIN {0,8}
+#define _TEST_SORT_TWIN_MAX {9,0}
+#define _TEST_SORT_TWIN_FUNC_DATA "this is a user func data"
 #define _TEST_SIGNAL_LOOPS 25
 #define _TEST_SIGNAL_TRAP_ERRORS 1
 #define _TEST_CONVERT_INT 421
@@ -2902,6 +2906,64 @@ _test_signal_more ()
   LW6SYS_TEST_FUNCTION_END;
 }
 
+typedef struct _twin_s
+{
+  int i1;
+  int i2;
+} _twin_t;
+
+static int
+_sort_twin_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
+{
+  int ret = 0;
+  const _twin_t *value_a = (const _twin_t *) ptr_a;
+  const _twin_t *value_b = (const _twin_t *) ptr_b;
+
+  if (value_a->i1 < value_b->i1)
+    {
+      ret = -1;
+    }
+  else if (value_a->i1 > value_b->i1)
+    {
+      ret = 1;
+    }
+  else
+    {
+      if (value_a->i2 < value_b->i2)
+	{
+	  ret = -1;
+	}
+      else if (value_a->i2 > value_b->i2)
+	{
+	  ret = 1;
+	}
+    }
+
+  if (ret < 0)
+    {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("(%d,%d) < (%d,%d), func_data=\"%s\""), value_a->i1, value_a->i2, value_b->i1, value_b->i2,
+		  (const char *) func_data);
+    }
+  else if (ret > 0)
+    {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("(%d,%d) > (%d,%d), func_data=\"%s\""), value_a->i1, value_a->i2, value_b->i1, value_b->i2,
+		  (const char *) func_data);
+    }
+  else
+    {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("(%d,%d) == (%d,%d), func_data=\"%s\""), value_a->i1, value_a->i2, value_b->i1, value_b->i2,
+		  (const char *) func_data);
+    }
+
+  return ret;
+}
+
+static int
+_sort_twin_desc_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
+{
+  return _sort_twin_callback (sys_context, func_data, ptr_b, ptr_a);
+}
+
 /*
  * Testing functions in sort.c
  */
@@ -2925,7 +2987,7 @@ _test_sort ()
 	  {
 	    lw6sys_lifo_push (sys_context, &list, (void *) (array + i));
 	  }
-	lw6sys_sort (sys_context, &list, lw6sys_sort_int_callback);
+	lw6sys_sort (sys_context, &list, lw6sys_sort_int_callback, NULL);
 	if (LW6SYS_TEST_ACK (list))
 	  {
 	    if (LW6SYS_TEST_ACK ((*((int *) (list->data))) == _TEST_SORT_INT_MIN))
@@ -2938,7 +3000,7 @@ _test_sort ()
 		ret = 0;
 	      }
 	  }
-	lw6sys_sort (sys_context, &list, lw6sys_sort_int_desc_callback);
+	lw6sys_sort (sys_context, &list, lw6sys_sort_int_desc_callback, NULL);
 	if (LW6SYS_TEST_ACK (list))
 	  {
 	    if (LW6SYS_TEST_ACK ((*((int *) (list->data))) == _TEST_SORT_INT_MAX))
@@ -2978,7 +3040,7 @@ _test_sort ()
 	  {
 	    lw6sys_lifo_push (sys_context, &list, (void *) (array + i));
 	  }
-	lw6sys_sort (sys_context, &list, lw6sys_sort_float_callback);
+	lw6sys_sort (sys_context, &list, lw6sys_sort_float_callback, NULL);
 	if (LW6SYS_TEST_ACK (list))
 	  {
 	    if (LW6SYS_TEST_ACK ((*((float *) (list->data))) == _TEST_SORT_FLOAT_MIN))
@@ -2991,7 +3053,7 @@ _test_sort ()
 		ret = 0;
 	      }
 	  }
-	lw6sys_sort (sys_context, &list, lw6sys_sort_float_desc_callback);
+	lw6sys_sort (sys_context, &list, lw6sys_sort_float_desc_callback, NULL);
 	if (LW6SYS_TEST_ACK (list))
 	  {
 	    if (LW6SYS_TEST_ACK ((*((float *) (list->data))) == _TEST_SORT_FLOAT_MAX))
@@ -3031,7 +3093,7 @@ _test_sort ()
 	  {
 	    lw6sys_lifo_push (sys_context, &list, (void *) array[i]);
 	  }
-	lw6sys_sort (sys_context, &list, lw6sys_sort_str_callback);
+	lw6sys_sort (sys_context, &list, lw6sys_sort_str_callback, NULL);
 	if (LW6SYS_TEST_ACK (list))
 	  {
 	    if (LW6SYS_TEST_ACK (!strcmp ((char *) (list->data), _TEST_SORT_STR_MIN)))
@@ -3045,7 +3107,7 @@ _test_sort ()
 		ret = 0;
 	      }
 	  }
-	lw6sys_sort (sys_context, &list, lw6sys_sort_str_desc_callback);
+	lw6sys_sort (sys_context, &list, lw6sys_sort_str_desc_callback, NULL);
 	if (LW6SYS_TEST_ACK (list))
 	  {
 	    if (LW6SYS_TEST_ACK (!strcmp ((char *) (list->data), _TEST_SORT_STR_MAX)))
@@ -3056,6 +3118,65 @@ _test_sort ()
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			    _x_ ("max sorted value is \"%s\" and should be \"%s\""), (char *) (list->data), _TEST_SORT_STR_MAX);
+		ret = 0;
+	      }
+	  }
+	if (LW6SYS_TEST_ACK (list))
+	  {
+	    lw6sys_list_free (sys_context, list);
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+      }
+    else
+      {
+	ret = 0;
+      }
+  }
+
+  {
+    lw6sys_list_t *list = NULL;
+    _twin_t array[_TEST_SORT_LENGTH] = _TEST_SORT_TWIN;
+    _twin_t array_min = _TEST_SORT_TWIN_MIN;
+    _twin_t array_max = _TEST_SORT_TWIN_MAX;
+    int i;
+
+    list = lw6sys_list_new (sys_context, NULL);
+    if (LW6SYS_TEST_ACK (list))
+      {
+	for (i = 0; i < _TEST_SORT_LENGTH; ++i)
+	  {
+	    lw6sys_lifo_push (sys_context, &list, (void *) (array + i));
+	  }
+	lw6sys_sort (sys_context, &list, _sort_twin_callback, _TEST_SORT_TWIN_FUNC_DATA);
+	if (LW6SYS_TEST_ACK (list))
+	  {
+	    if (LW6SYS_TEST_ACK (!memcmp ((void *) (list->data), (void *) &array_min, sizeof (_twin_t))))
+	      {
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("min sorted value is (%d,%d)"), array_min.i1, array_min.i2);
+	      }
+	    else
+	      {
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+			    _x_ ("min sorted value is (%d,%d) and should be (%d,%d)"), ((_twin_t *) (list->data))->i1, ((_twin_t *) (list->data))->i2,
+			    array_min.i1, array_min.i2);
+		ret = 0;
+	      }
+	  }
+	lw6sys_sort (sys_context, &list, _sort_twin_desc_callback, _TEST_SORT_TWIN_FUNC_DATA);
+	if (LW6SYS_TEST_ACK (list))
+	  {
+	    if (LW6SYS_TEST_ACK (!memcmp ((void *) (list->data), (void *) &array_max, sizeof (_twin_t))))
+	      {
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("max sorted value is (%d,%d)"), array_max.i1, array_max.i2);
+	      }
+	    else
+	      {
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+			    _x_ ("max sorted value is (%d,%d) and should be (%d,%d)"), ((_twin_t *) (list->data))->i1, ((_twin_t *) (list->data))->i2,
+			    array_max.i1, array_max.i2);
 		ret = 0;
 	      }
 	  }

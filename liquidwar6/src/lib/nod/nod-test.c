@@ -723,7 +723,7 @@ _test_community ()
 static int
 _setup_init ()
 {
-  lw6sys_context_t *sys_context = NULL;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libnod CUnit test suite"));
 
@@ -733,7 +733,7 @@ _setup_init ()
 static int
 _setup_quit ()
 {
-  lw6sys_context_t *sys_context = NULL;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libnod CUnit test suite"));
 

@@ -2237,6 +2237,8 @@ static int
 _setup_init ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   const int argc = _TEST_ARGC;
   const char *argv[] = { _TEST_ARGV0 };
 
@@ -2254,6 +2256,7 @@ static int
 _setup_quit ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libp2p CUnit test suite"));
 

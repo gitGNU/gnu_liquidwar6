@@ -251,12 +251,12 @@ _add_subdirs (lw6sys_context_t * sys_context, lw6sys_list_t ** entries, lw6sys_a
   WIN32_FIND_DATA dir_entry;
   HANDLE dir_handle = INVALID_HANDLE_VALUE;
   char *dir_wildcard = NULL;
-#else
+#else // LW6_MS_WINDOWS
   struct dirent *dir_entry = NULL;
   struct dirent *dir_entry_result = NULL;
   int dir_entry_size = 0;
   DIR *dir_handle = NULL;
-#endif
+#endif // LW6_MS_WINDOWS
   int n = 0;
   int eod = 0;
 
@@ -288,7 +288,7 @@ _add_subdirs (lw6sys_context_t * sys_context, lw6sys_list_t ** entries, lw6sys_a
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("no files in dir \"%s\""), absolute_path);
     }
-#else
+#else // LW6_MS_WINDOWS
   dir_handle = opendir (absolute_path);
   if (dir_handle)
     {
@@ -320,18 +320,18 @@ _add_subdirs (lw6sys_context_t * sys_context, lw6sys_list_t ** entries, lw6sys_a
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("couldn't read map dir \"%s\""), absolute_path);
     }
-#endif
+#endif // LW6_MS_WINDOWS
 }
 
 static int
-entries_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+_entries_sort_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
 {
   int ret = 0;
   const lw6ldr_entry_t *entry_a;
   const lw6ldr_entry_t *entry_b;
 
-  entry_a = (const lw6ldr_entry_t *) ((*list_a)->data);
-  entry_b = (const lw6ldr_entry_t *) ((*list_b)->data);
+  entry_a = (const lw6ldr_entry_t *) ptr_a;
+  entry_b = (const lw6ldr_entry_t *) ptr_b;
 
   if (entry_a->has_subdirs && (!entry_b->has_subdirs))
     {
@@ -401,7 +401,7 @@ _get_entries (lw6sys_context_t * sys_context, const char *map_path, const char *
 
   if (entries)
     {
-      lw6sys_sort (sys_context, &entries, entries_sort_callback);
+      lw6sys_sort (sys_context, &entries, _entries_sort_callback, NULL);
     }
 
   return entries;

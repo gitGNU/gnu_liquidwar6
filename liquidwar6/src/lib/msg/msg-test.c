@@ -160,9 +160,10 @@
 typedef struct _lw6msg_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
 } _lw6msg_test_data_t;
 
-static _lw6msg_test_data_t _test_data = { 0 };
+static _lw6msg_test_data_t _test_data = { 0, NULL };
 
 /*
  * Testing functions in cmd.c
@@ -171,6 +172,8 @@ static void
 _test_cmd ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -236,7 +239,7 @@ _test_cmd ()
 	    LW6SYS_FREE (sys_context, msg);
 	  }
 
-	ticket = lw6sys_generate_id_64 ();
+	ticket = lw6sys_generate_id_64 (sys_context);
 	msg = lw6msg_cmd_generate_ticket (sys_context, info, ticket);
 	if (msg)
 	  {
@@ -276,7 +279,7 @@ _test_cmd ()
 	    LW6SYS_FREE (sys_context, msg);
 	  }
 
-	key = lw6sys_generate_id_32 ();
+	key = lw6sys_generate_id_32 (sys_context);
 	serial = lw6sys_random (sys_context, _TEST_MSG_SERIAL_RANGE);
 	msg = lw6msg_cmd_generate_foo (sys_context, info, key, serial);
 	if (msg)
@@ -317,7 +320,7 @@ _test_cmd ()
 	    LW6SYS_FREE (sys_context, msg);
 	  }
 
-	key = lw6sys_generate_id_32 ();
+	key = lw6sys_generate_id_32 (sys_context);
 	serial = lw6sys_random (sys_context, _TEST_MSG_SERIAL_RANGE);
 	msg = lw6msg_cmd_generate_bar (sys_context, info, key, serial);
 	if (msg)
@@ -535,7 +538,7 @@ _test_cmd ()
 }
 
 static int
-_do_test_envelope (lw6msg_envelope_mode_t mode)
+_do_test_envelope (lw6sys_context_t * sys_context, lw6msg_envelope_mode_t mode)
 {
   int ret = 1;
   lw6nod_info_t *info = NULL;
@@ -574,7 +577,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("envelope generated \"%s\""), envelope);
 		  if (lw6msg_envelope_analyse
-		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
+		      (sys_context, envelope, mode, _TEST_URL, _TEST_PASSWORD,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
 		       &received_physical_ticket_sig,
@@ -600,7 +603,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		    }
 		  lw6sys_str_truncate (sys_context, envelope, _TEST_ENVELOPE_TRUNCATE_LEN);
 		  if (lw6msg_envelope_analyse
-		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
+		      (sys_context, envelope, mode, _TEST_URL, _TEST_PASSWORD,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
 		       &received_physical_ticket_sig,
@@ -625,7 +628,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		    }
 
 		  if (lw6msg_envelope_analyse
-		      (envelope, mode, _TEST_URL, _TEST_PASSWORD_KO,
+		      (sys_context, envelope, mode, _TEST_URL, _TEST_PASSWORD_KO,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
 		       &received_physical_ticket_sig,
@@ -640,7 +643,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("password checking works"));
 		    }
 		  if (lw6msg_envelope_analyse
-		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
+		      (sys_context, envelope, mode, _TEST_URL, _TEST_PASSWORD,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID_KO,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
 		       &received_physical_ticket_sig,
@@ -655,7 +658,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("\"from id\" checking works"));
 		    }
 		  if (lw6msg_envelope_analyse
-		      (envelope, mode, _TEST_URL, _TEST_PASSWORD,
+		      (sys_context, envelope, mode, _TEST_URL, _TEST_PASSWORD,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID_KO, &received_msg,
 		       &received_physical_ticket_sig,
@@ -696,7 +699,7 @@ _do_test_envelope (lw6msg_envelope_mode_t mode)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("envelope generated \"%s\""), envelope);
 		  if (lw6msg_envelope_analyse
-		      (envelope, mode, _TEST_URL, NULL,
+		      (sys_context, envelope, mode, _TEST_URL, NULL,
 		       _TEST_ENVELOPE_PHYSICAL_FROM_ID,
 		       _TEST_ENVELOPE_PHYSICAL_TO_ID, &received_msg,
 		       &received_physical_ticket_sig,
@@ -742,11 +745,13 @@ static void
 _test_envelope ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    ret = ret && _do_test_envelope (LW6MSG_ENVELOPE_MODE_TELNET);
-    ret = ret && _do_test_envelope (LW6MSG_ENVELOPE_MODE_URL);
+    ret = ret && _do_test_envelope (sys_context, LW6MSG_ENVELOPE_MODE_TELNET);
+    ret = ret && _do_test_envelope (sys_context, LW6MSG_ENVELOPE_MODE_URL);
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -759,6 +764,8 @@ static void
 _test_meta ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -833,7 +840,7 @@ _test_meta ()
 	str = lw6msg_meta_array2str (sys_context, &meta_array);
 	if (str)
 	  {
-	    if (lw6sys_str_is_same (str, _TEST_META_STR))
+	    if (lw6sys_str_is_same (sys_context, str, _TEST_META_STR))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("OK, str2array and array2str give the same result \"%s\""), str);
 	      }
@@ -868,6 +875,8 @@ static void
 _test_oob ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -928,7 +937,7 @@ _test_oob ()
 	    LW6SYS_FREE (sys_context, oob);
 	  }
 
-	list = lw6nod_info_new_verified_nodes ();
+	list = lw6nod_info_new_verified_nodes (sys_context);
 	if (list)
 	  {
 	    url = lw6sys_url_http_from_ip_port (sys_context, _TEST_IP_1, _TEST_PORT);
@@ -1137,6 +1146,8 @@ static void
 _test_sort ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -1171,7 +1182,7 @@ _test_sort ()
 		ret = 0;
 	      }
 	  }
-	lw6sys_sort (sys_context, &list, lw6msg_sort_str_by_seq_callback);
+	lw6sys_sort (sys_context, &list, lw6msg_sort_str_by_seq_callback, NULL);
 	while ((str = lw6sys_list_pop_front (sys_context, &list)) != NULL)
 	  {
 	    if (lw6msg_word_first_int_64 (sys_context, &seq, NULL, str))
@@ -1213,6 +1224,8 @@ static void
 _test_ticket ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -1247,12 +1260,12 @@ _test_ticket ()
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ticket_sig check works when same"));
 	if (!lw6msg_ticket_check_sig
-	    (_TEST_TICKET1 + 1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID,
+	    (sys_context, _TEST_TICKET1 + 1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID,
 	     _TEST_TICKET_MSG, ticket1_sig) &&
 	    !lw6msg_ticket_check_sig
-	    (_TEST_TICKET1, _TEST_TICKET_FROM_ID + 1, _TEST_TICKET_TO_ID,
+	    (sys_context, _TEST_TICKET1, _TEST_TICKET_FROM_ID + 1, _TEST_TICKET_TO_ID,
 	     _TEST_TICKET_MSG, ticket1_sig) && !lw6msg_ticket_check_sig
-	    (_TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID + 1, _TEST_TICKET_MSG, ticket1_sig))
+	    (sys_context, _TEST_TICKET1, _TEST_TICKET_FROM_ID, _TEST_TICKET_TO_ID + 1, _TEST_TICKET_MSG, ticket1_sig))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ticket_sig check works when different"));
 	  }
@@ -1271,7 +1284,7 @@ _test_ticket ()
 }
 
 static void
-_key_value_assoc_callback (void *func_data, const char *key, void *value)
+_key_value_assoc_callback (lw6sys_context_t * sys_context, void *func_data, const char *key, void *value)
 {
   char *value_str = (char *) value;
   int *count = (int *) func_data;
@@ -1287,6 +1300,8 @@ static void
 _test_utils ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -1328,7 +1343,7 @@ _test_utils ()
 	lw6msg_utils_parse_key_value_to_assoc (sys_context, &assoc, _TEST_KEY_VALUE_OK_3);
 	lw6msg_utils_parse_key_value_to_assoc (sys_context, &assoc, _TEST_KEY_VALUE_KO);
 	count = 0;
-	lw6sys_assoc_map (assoc, _key_value_assoc_callback, &count);
+	lw6sys_assoc_map (sys_context, assoc, _key_value_assoc_callback, &count);
 	ret = ret && (count == 3);
 
 	value_str = lw6msg_utils_get_assoc_str_with_default (sys_context, assoc, _TEST_DEFAULT_KEY_OK, _TEST_DEFAULT_VALUE_STR);
@@ -1340,7 +1355,7 @@ _test_utils ()
 	value_int = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, _TEST_DEFAULT_KEY_KO, _TEST_DEFAULT_VALUE_INT);
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("value for \"%s\" is %d"), _TEST_DEFAULT_KEY_KO, value_int);
 
-	lw6sys_assoc_free (assoc);
+	lw6sys_assoc_free (sys_context, assoc);
       }
   }
 
@@ -1354,6 +1369,8 @@ static void
 _test_word ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -1618,7 +1635,7 @@ _test_word ()
 }
 
 static int
-_test_z_ok (char *_test_str, int log_all)
+_test_z_ok (lw6sys_context_t * sys_context, char *_test_str, int log_all)
 {
   int ret = 1;
   char *encoded_string = NULL;
@@ -1688,7 +1705,7 @@ _test_z_ok (char *_test_str, int log_all)
 }
 
 static int
-_test_z_ko (char *_test_str, int log_all)
+_test_z_ko (lw6sys_context_t * sys_context, char *_test_str, int log_all)
 {
   int ret = 1;
   char *decoded_string = NULL;
@@ -1729,6 +1746,8 @@ static void
 _test_z ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -1736,25 +1755,25 @@ _test_z ()
     char *z_random_str = NULL;
 
     random_str = lw6sys_str_random (sys_context, _TEST_Z_MSG_4_LEN);
-    ret = _test_z_ok (_TEST_Z_MSG_1, 1) && ret;
-    ret = _test_z_ok (_TEST_Z_MSG_2, 1) && ret;
-    ret = _test_z_ok (_TEST_Z_MSG_3, 1) && ret;
+    ret = _test_z_ok (sys_context, _TEST_Z_MSG_1, 1) && ret;
+    ret = _test_z_ok (sys_context, _TEST_Z_MSG_2, 1) && ret;
+    ret = _test_z_ok (sys_context, _TEST_Z_MSG_3, 1) && ret;
 
     if (random_str)
       {
-	ret = _test_z_ok (random_str, 0) && ret;
+	ret = _test_z_ok (sys_context, random_str, 0) && ret;
       }
 
-    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_1, 1) && ret;
-    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_2, 1) && ret;
-    ret = _test_z_ko (LW6MSG_Z_PREFIX _TEST_Z_MSG_3, 1) && ret;
+    ret = _test_z_ko (sys_context, LW6MSG_Z_PREFIX _TEST_Z_MSG_1, 1) && ret;
+    ret = _test_z_ko (sys_context, LW6MSG_Z_PREFIX _TEST_Z_MSG_2, 1) && ret;
+    ret = _test_z_ko (sys_context, LW6MSG_Z_PREFIX _TEST_Z_MSG_3, 1) && ret;
 
     if (random_str)
       {
 	z_random_str = lw6sys_str_concat (sys_context, LW6MSG_Z_PREFIX, random_str);
 	if (z_random_str)
 	  {
-	    ret = _test_z_ko (z_random_str, 0) && ret;
+	    ret = _test_z_ko (sys_context, z_random_str, 0) && ret;
 	    LW6SYS_FREE (sys_context, z_random_str);
 	  }
 	LW6SYS_FREE (sys_context, random_str);
@@ -1767,20 +1786,27 @@ _test_z ()
 static int
 _setup_init ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libmsg CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 static int
 _setup_quit ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libmsg CUnit test suite"));
+
   return CUE_SUCCESS;
 }
 
 /**
  * lw6msg_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libmsg module.
@@ -1788,10 +1814,12 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6msg_test_register (sys_context, int mode)
+lw6msg_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -1829,6 +1857,7 @@ lw6msg_test_register (sys_context, int mode)
 /**
  * lw6msg_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @msg module test suite, testing most (if not all...)
@@ -1837,11 +1866,13 @@ lw6msg_test_register (sys_context, int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6msg_test_run (sys_context, int mode)
+lw6msg_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

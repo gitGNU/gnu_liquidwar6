@@ -35,7 +35,7 @@
  *  http://www.zlib.net/zlib_how.html
  */
 static int
-_encode_buffer_len (int in_len)
+_encode_buffer_len (lw6sys_context_t * sys_context, int in_len)
 {
   int out_len = 0;
   /*
@@ -50,7 +50,7 @@ _encode_buffer_len (int in_len)
 }
 
 static int
-_z_encode (char *out_buf, int *out_buf_len, const char *msg, int msg_len)
+_z_encode (lw6sys_context_t * sys_context, char *out_buf, int *out_buf_len, const char *msg, int msg_len)
 {
   int ret = 0;
   uLongf _out_buf_len = (*out_buf_len);
@@ -62,7 +62,7 @@ _z_encode (char *out_buf, int *out_buf_len, const char *msg, int msg_len)
 }
 
 static int
-_z_decode (char *out_buf, int *out_buf_len, const char *msg, int msg_len)
+_z_decode (lw6sys_context_t * sys_context, char *out_buf, int *out_buf_len, const char *msg, int msg_len)
 {
   int ret = 0;
   uLongf _out_buf_len = (*out_buf_len);
@@ -76,6 +76,7 @@ _z_decode (char *out_buf, int *out_buf_len, const char *msg, int msg_len)
 /**
  * lw6msg_z_encode
  *
+ * @sys_context: global system context
  * @msg: message to encode
  * @limit: if under this limit (length in bytes), do not encode, return as is
  *
@@ -89,7 +90,7 @@ _z_decode (char *out_buf, int *out_buf_len, const char *msg, int msg_len)
  * Return value: newly allocated string, 0 terminated, NULL on error.
  */
 char *
-lw6msg_z_encode (sys_context, const char *msg, int limit)
+lw6msg_z_encode (lw6sys_context_t * sys_context, const char *msg, int limit)
 {
   char *ret = NULL;
   int in_len = 0;
@@ -100,14 +101,14 @@ lw6msg_z_encode (sys_context, const char *msg, int limit)
   in_len = strlen (msg);
   if (in_len > limit)
     {
-      out_len = _encode_buffer_len (in_len);
+      out_len = _encode_buffer_len (sys_context, in_len);
       out_buf = (char *) LW6SYS_MALLOC (sys_context, out_len);
       if (out_buf)
 	{
-	  z_ret = _z_encode (out_buf, &out_len, msg, in_len);
+	  z_ret = _z_encode (sys_context, out_buf, &out_len, msg, in_len);
 	  if (z_ret == Z_OK)
 	    {
-	      ret = lw6glb_base64_encode_bin_prefix (out_buf, out_len, LW6MSG_Z_PREFIX);
+	      ret = lw6glb_base64_encode_bin_prefix (sys_context, out_buf, out_len, LW6MSG_Z_PREFIX);
 	    }
 	  else
 	    {
@@ -143,6 +144,7 @@ lw6msg_z_encode (sys_context, const char *msg, int limit)
 /**
  * lw6msg_z_decode
  *
+ * @sys_context: global system context
  * @msg: message to decode
  *
  * Z-decode a message, by "Z-encoding" we mean pass the string through
@@ -154,7 +156,7 @@ lw6msg_z_encode (sys_context, const char *msg, int limit)
  * Return value: newly allocated string, 0 terminated, NULL on error.
  */
 char *
-lw6msg_z_decode (sys_context, const char *msg)
+lw6msg_z_decode (lw6sys_context_t * sys_context, const char *msg)
 {
   char *ret = NULL;
   int in_len = 0;
@@ -165,7 +167,7 @@ lw6msg_z_decode (sys_context, const char *msg)
 
   if (lw6sys_str_starts_with_no_case (sys_context, msg, LW6MSG_Z_PREFIX))
     {
-      in_buf = lw6glb_base64_decode_bin_prefix (&in_len, msg, LW6MSG_Z_PREFIX);
+      in_buf = lw6glb_base64_decode_bin_prefix (sys_context, &in_len, msg, LW6MSG_Z_PREFIX);
       if (in_buf)
 	{
 	  out_alloc_len = 1;	// too small, on purpose, to check auto-extend works
@@ -176,7 +178,7 @@ lw6msg_z_decode (sys_context, const char *msg)
 	      ret = (char *) LW6SYS_MALLOC (sys_context, out_alloc_len);
 	      if (ret)
 		{
-		  z_ret = _z_decode (ret, &out_len, in_buf, in_len);
+		  z_ret = _z_decode (sys_context, ret, &out_len, in_buf, in_len);
 		  switch (z_ret)
 		    {
 		    case Z_OK:

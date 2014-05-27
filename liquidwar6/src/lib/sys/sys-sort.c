@@ -31,17 +31,15 @@
 typedef struct _sort_item_s
 {
   lw6sys_context_t *sys_context;
-  lw6sys_sort_callback_func_t *func;
+  lw6sys_sort_callback_func_t func;
   void *func_data;
   void *data;
 } _sort_item_t;
 
 static int
-_sort_callback (const _sort_item_t ** item_a, const _sort_item_t ** item_b)
+_sort_callback (const _sort_item_t * item_a, const _sort_item_t * item_b)
 {
-  int ret = 0;
-
-  return ret;
+  return item_a->func (item_a->sys_context, item_a->func_data, item_a->data, item_b->data);
 }
 
 /**
@@ -49,29 +47,27 @@ _sort_callback (const _sort_item_t ** item_a, const _sort_item_t ** item_b)
  *
  * @sys_context: global system context
  * @func_data: function specific data
- * @list_a: pointer to a list of int item
- * @list_b: pointer to a list of int item
+ * @ptr_a: pointer to an int item
+ * @ptr_b: pointer to an int item
  *
  * A typicall sort callback function, can be passed to @lw6sys_sort
  * to sort a list of integers.
  *
- * Return value: -1 if @list_a < @list_b , 0 if @list_a == @list_b,
- *   1 if @list_a > @list_b
+ * Return value: -1 if @ptr_a < @ptr_b , 0 if @ptr_a == @ptr_b,
+ *   1 if @ptr_a > @ptr_b
  */
 int
-lw6sys_sort_int_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+lw6sys_sort_int_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
 {
   int ret = 0;
-  int a, b;
+  int value_a = *((int *) ptr_a);
+  int value_b = *((int *) ptr_b);
 
-  a = *((int *) ((*list_a)->data));
-  b = *((int *) ((*list_b)->data));
-
-  if (a < b)
+  if (value_a < value_b)
     {
       ret = -1;
     }
-  else if (a > b)
+  else if (value_a > value_b)
     {
       ret = 1;
     }
@@ -84,29 +80,27 @@ lw6sys_sort_int_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** 
  *
  * @sys_context: global system context
  * @func_data: function specific data
- * @list_a: pointer to a list of int item
- * @list_b: pointer to a list of int item
+ * @ptr_a: pointer to an int item
+ * @ptr_b: pointer to an int item
  *
  * A typicall sort callback function, can be passed to @lw6sys_sort
  * to sort a list of integers. This one will sort in reverse mode.
  *
- * Return value: 1 if @list_a < @list_b , 0 if @list_a == @list_b,
- *   -1 if @list_a > @list_b
+ * Return value: 1 if @ptr_a < @ptr_b , 0 if @ptr_a == @ptr_b,
+ *   -1 if @ptr_a > @ptr_b
  */
 int
-lw6sys_sort_int_desc_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+lw6sys_sort_int_desc_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
 {
   int ret = 0;
-  int a, b;
+  int value_a = *((int *) ptr_a);
+  int value_b = *((int *) ptr_b);
 
-  a = *((int *) ((*list_a)->data));
-  b = *((int *) ((*list_b)->data));
-
-  if (a < b)
+  if (value_a < value_b)
     {
       ret = 1;
     }
-  else if (a > b)
+  else if (value_a > value_b)
     {
       ret = -1;
     }
@@ -119,29 +113,27 @@ lw6sys_sort_int_desc_callback (const lw6sys_list_t ** list_a, const lw6sys_list_
  *
  * @sys_context: global system context
  * @func_data: function specific data
- * @list_a: pointer to a list of float item
- * @list_b: pointer to a list of float item
+ * @ptr_a: pointer to a float item
+ * @ptr_b: pointer to a float item
  *
  * A typicall sort callback function, can be passed to @lw6sys_sort
  * to sort a list of floating point numbers.
  *
- * Return value: -1 if @list_a < @list_b , 0 if @list_a == @list_b,
- *   1 if @list_a > @list_b
+ * Return value: -1 if @ptr_a < @ptr_b , 0 if @ptr_a == @ptr_b,
+ *   1 if @ptr_a > @ptr_b
  */
 int
-lw6sys_sort_float_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+lw6sys_sort_float_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
 {
   int ret = 0;
-  float a, b;
+  float value_a = *((float *) ptr_a);
+  float value_b = *((float *) ptr_b);
 
-  a = *((float *) ((*list_a)->data));
-  b = *((float *) ((*list_b)->data));
-
-  if (a < b)
+  if (value_a < value_b)
     {
       ret = -1;
     }
-  else if (a > b)
+  else if (value_a > value_b)
     {
       ret = 1;
     }
@@ -154,30 +146,28 @@ lw6sys_sort_float_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t *
  *
  * @sys_context: global system context
  * @func_data: function specific data
- * @list_a: pointer to a list of float item
- * @list_b: pointer to a list of float item
+ * @ptr_a: pointer to a float item
+ * @ptr_b: pointer to a float item
  *
  * A typicall sort callback function, can be passed to @lw6sys_sort
  * to sort a list of floating point numbers. This one will
  * sort in reverse mode.
  *
- * Return value: 1 if @list_a < @list_b , 0 if @list_a == @list_b,
- *   -1 if @list_a > @list_b
+ * Return value: 1 if @ptr_a < @ptr_b , 0 if @ptr_a == @ptr_b,
+ *   -1 if @ptr_a > @ptr_b
  */
 int
-lw6sys_sort_float_desc_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+lw6sys_sort_float_desc_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
 {
   int ret = 0;
-  float a, b;
+  float value_a = *((float *) ptr_a);
+  float value_b = *((float *) ptr_b);
 
-  a = *((float *) ((*list_a)->data));
-  b = *((float *) ((*list_b)->data));
-
-  if (a < b)
+  if (value_a < value_b)
     {
       ret = 1;
     }
-  else if (a > b)
+  else if (value_a > value_b)
     {
       ret = -1;
     }
@@ -190,21 +180,21 @@ lw6sys_sort_float_desc_callback (const lw6sys_list_t ** list_a, const lw6sys_lis
  *
  * @sys_context: global system context
  * @func_data: function specific data
- * @list_a: pointer to a list of string item
- * @list_b: pointer to a list of string item
+ * @ptr_a: pointer to a string item
+ * @ptr_b: pointer to a string item
  *
  * A typicall sort callback function, can be passed to @lw6sys_sort
  * to sort a list of 0-terminated strings.
  *
- * Return value: -1 if @list_a < @list_b , 0 if @list_a == @list_b,
- *   1 if @list_a > @list_b
+ * Return value: -1 if @ptr_a < @ptr_b , 0 if @ptr_a == @ptr_b,
+ *   1 if @ptr_a > @ptr_b
  */
 int
-lw6sys_sort_str_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+lw6sys_sort_str_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
 {
   int ret = 0;
 
-  ret = strcmp ((char *) ((*list_a)->data), (char *) ((*list_b)->data));
+  ret = strcmp ((const char *) ptr_a, (const char *) ptr_b);
 
   return ret;
 }
@@ -214,22 +204,22 @@ lw6sys_sort_str_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** 
  *
  * @sys_context: global system context
  * @func_data: function specific data
- * @list_a: pointer to a list of string item
- * @list_b: pointer to a list of string item
+ * @ptr_a: pointer to a string item
+ * @ptr_b: pointer to a string item
  *
  * A typicall sort callback function, can be passed to @lw6sys_sort
  * to sort a list of 0-terminated strings. This one will sort
  * in reverse mode.
  *
- * Return value: 1 if @list_a < @list_b , 0 if @list_a == @list_b,
- *   -1 if @list_a > @list_b
+ * Return value: 1 if @ptr_a < @ptr_b , 0 if @ptr_a == @ptr_b,
+ *   -1 if @ptr_a > @ptr_b
  */
 int
-lw6sys_sort_str_desc_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+lw6sys_sort_str_desc_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
 {
   int ret = 0;
 
-  ret = -strcmp ((char *) ((*list_a)->data), (char *) ((*list_b)->data));
+  ret = -strcmp ((const char *) ptr_a, (const char *) ptr_b);
 
   return ret;
 }
@@ -252,36 +242,38 @@ void
 lw6sys_sort (lw6sys_context_t * sys_context, lw6sys_list_t ** list, lw6sys_sort_callback_func_t sort_func, void *func_data)
 {
   int length, i;
-  lw6sys_list_t **array;
+  _sort_item_t *array;
   lw6sys_list_t *pos;
-  lw6sys_list_t *end;
 
   length = lw6sys_list_length (sys_context, *list);
   if (length > 0)
     {
-      array = (lw6sys_list_t **) LW6SYS_CALLOC (sys_context, length * sizeof (lw6sys_list_t *));
+      array = (_sort_item_t *) LW6SYS_CALLOC (sys_context, length * sizeof (_sort_item_t));
       if (array)
 	{
 	  for (pos = (*list), i = 0; pos->next_item != NULL; pos = lw6sys_list_next (sys_context, pos), i++)
 	    {
-	      array[i] = pos;
+	      array[i].sys_context = sys_context;
+	      array[i].func = sort_func;
+	      array[i].func_data = func_data;
+	      array[i].data = pos->data;
 	    }
 	  if (i != length)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("sort error, i=%d, length=%d"), i, length);
 	    }
-	  end = pos;
 
 	  // do the sort using a function that knows how to do the job
-	  qsort (array, length, sizeof (lw6sys_list_t *), (void *) sort_func);
+	  qsort (array, length, sizeof (_sort_item_t), (void *) _sort_callback);
 
-	  for (i = 0; i < length - 1; ++i)
+	  for (pos = (*list), i = 0; pos->next_item != NULL; pos = lw6sys_list_next (sys_context, pos), i++)
 	    {
-	      array[i]->next_item = array[i + 1];
+	      pos->data = array[i].data;
 	    }
-	  array[length - 1]->next_item = end;
-
-	  (*list) = array[0];
+	  if (i != length)
+	    {
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("sort error, i=%d, length=%d"), i, length);
+	    }
 
 	  LW6SYS_FREE (sys_context, array);
 	}

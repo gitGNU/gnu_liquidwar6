@@ -29,6 +29,7 @@
 /**
  * lw6msg_ticket_calc_sig
  *
+ * @sys_context: global system context
  * @ticket: the (private) ticket to use
  * @from_id: the sender/creator
  * @to_id: the receiver/target
@@ -43,7 +44,7 @@
  * Return value: the sig, always non-zero
  */
 u_int32_t
-lw6msg_ticket_calc_sig (sys_context, u_int64_t ticket, u_int64_t from_id, u_int64_t to_id, const char *msg)
+lw6msg_ticket_calc_sig (lw6sys_context_t * sys_context, u_int64_t ticket, u_int64_t from_id, u_int64_t to_id, const char *msg)
 {
   u_int32_t calc_sig = 0;
   unsigned char key_buf[3 * sizeof (u_int64_t)];
@@ -51,10 +52,10 @@ lw6msg_ticket_calc_sig (sys_context, u_int64_t ticket, u_int64_t from_id, u_int6
   if (ticket)
     {
       memset (key_buf, 0, 3 * sizeof (u_int64_t));
-      lw6sys_serialize_int64 (key_buf, ticket);
-      lw6sys_serialize_int64 (key_buf + sizeof (u_int64_t), from_id);
-      lw6sys_serialize_int64 (key_buf + 2 * sizeof (u_int64_t), to_id);
-      calc_sig = lw6glb_sha1_hmac_32_bin ((char *) key_buf, 3 * sizeof (u_int64_t), msg, strlen (msg));
+      lw6sys_serialize_int64 (sys_context, key_buf, ticket);
+      lw6sys_serialize_int64 (sys_context, key_buf + sizeof (u_int64_t), from_id);
+      lw6sys_serialize_int64 (sys_context, key_buf + 2 * sizeof (u_int64_t), to_id);
+      calc_sig = lw6glb_sha1_hmac_32_bin (sys_context, (char *) key_buf, 3 * sizeof (u_int64_t), msg, strlen (msg));
       if (!calc_sig)
 	{
 	  /*
@@ -81,6 +82,7 @@ lw6msg_ticket_calc_sig (sys_context, u_int64_t ticket, u_int64_t from_id, u_int6
 /**
  * lw6msg_ticket_check_sig
  *
+ * @sys_context: global system context
  * @ticket: the (private) ticket to use
  * @from_id: the sender/creator
  * @to_id: the receiver/target
@@ -92,7 +94,7 @@ lw6msg_ticket_calc_sig (sys_context, u_int64_t ticket, u_int64_t from_id, u_int6
  * Return value: 1 if they are the same, 0 if not.
  */
 int
-lw6msg_ticket_check_sig (sys_context, u_int64_t ticket, u_int64_t from_id, u_int64_t to_id, const char *msg, u_int32_t ticket_sig)
+lw6msg_ticket_check_sig (lw6sys_context_t * sys_context, u_int64_t ticket, u_int64_t from_id, u_int64_t to_id, const char *msg, u_int32_t ticket_sig)
 {
   int ret = 0;
   u_int32_t calc_sig = 0;

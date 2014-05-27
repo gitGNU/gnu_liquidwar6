@@ -210,7 +210,7 @@ _test_command ()
 	    if (LW6SYS_TEST_ACK (ret))
 	      {
 		ret = 0;
-		lw6sys_sort (sys_context, &commands, _lw6pil_command_sort_callback);
+		lw6sys_sort (sys_context, &commands, _lw6pil_command_sort_callback, NULL);
 		lw6sys_list_map (sys_context, commands, _command_map_func, &ret);
 	      }
 	    if (LW6SYS_TEST_ACK (commands))

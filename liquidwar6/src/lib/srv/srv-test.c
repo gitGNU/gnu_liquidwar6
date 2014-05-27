@@ -175,6 +175,8 @@ _test_dummy ()
 static int
 _setup_init ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init libsrv CUnit test suite"));
 
   return CUE_SUCCESS;
@@ -183,6 +185,8 @@ _setup_init ()
 static int
 _setup_quit ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libsrv CUnit test suite"));
 
   return CUE_SUCCESS;

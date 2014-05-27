@@ -508,7 +508,7 @@ lw6sys_list_t;
  * Should you need it in your callback, you need
  * to add in to the structures compared.
  */
-typedef int (*lw6sys_sort_callback_func_t) (lw6sys_context_t * sys_context, void *func_data, const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
+typedef int (*lw6sys_sort_callback_func_t) (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b);
 
 /**
  * The hexa (for hexadecimal) serializer is a tool used
@@ -1199,12 +1199,12 @@ extern void lw6sys_signal_send_quit (lw6sys_context_t * sys_context);
 extern int lw6sys_signal_poll_quit (lw6sys_context_t * sys_context);
 
 /* sys-sort.c */
-extern int lw6sys_sort_int_callback (lw6sys_context_t * sys_context, void *func_data, const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
-extern int lw6sys_sort_int_desc_callback (lw6sys_context_t * sys_context, void *func_data, const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
-extern int lw6sys_sort_float_callback (lw6sys_context_t * sys_context, void *func_data, const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
-extern int lw6sys_sort_float_desc_callback (lw6sys_context_t * sys_context, void *func_data, const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
-extern int lw6sys_sort_str_callback (lw6sys_context_t * sys_context, void *func_data, const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
-extern int lw6sys_sort_str_desc_callback (lw6sys_context_t * sys_context, void *func_data, const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
+extern int lw6sys_sort_int_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b);
+extern int lw6sys_sort_int_desc_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b);
+extern int lw6sys_sort_float_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b);
+extern int lw6sys_sort_float_desc_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b);
+extern int lw6sys_sort_str_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b);
+extern int lw6sys_sort_str_desc_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b);
 extern void lw6sys_sort (lw6sys_context_t * sys_context, lw6sys_list_t ** list, lw6sys_sort_callback_func_t sort_func, void *func_data);
 
 /* sys-spinlock.c */

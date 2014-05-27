@@ -29,17 +29,19 @@
 /**
  * lw6msg_sort_str_by_seq_callback
  *
- * @list_a: pointer to a list of int item
- * @list_b: pointer to a list of int item
+ * @sys_context: global system context
+ * @func_data: function specific data
+ * @ptr_a: pointer to a string
+ * @ptr_b: pointer to a string
  *
  * Sort callback for a list containing strings which begin by a seq number,
  * will sort with lower seq number first.
  *
- * Return value: -1 if @list_a < @list_b , 0 if @list_a == @list_b,
- *   1 if @list_a > @list_b
+ * Return value: -1 if @ptr_a < @ptr_b , 0 if @ptr_a == @ptr_b,
+ *   1 if @ptr_a > @ptr_b
  */
 int
-lw6msg_sort_str_by_seq_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+lw6msg_sort_str_by_seq_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
 {
   int ret = 0;
   const char *str_a = NULL;
@@ -48,8 +50,8 @@ lw6msg_sort_str_by_seq_callback (const lw6sys_list_t ** list_a, const lw6sys_lis
   int parse_error = 0;
   char *next_a = NULL, *next_b = NULL;
 
-  str_a = (const char *) ((*list_a)->data);
-  str_b = (const char *) ((*list_b)->data);
+  str_a = (const char *) ptr_a;
+  str_b = (const char *) ptr_b;
 
   if (!(str_a && lw6msg_word_first_int_64 (sys_context, &seq_a, &next_a, str_a)))
     {

@@ -61,7 +61,7 @@ typedef struct _lw6pil_spread_data_s
 extern void _lw6pil_bench_dummy_nop (lw6sys_context_t * sys_context, int64_t * dummy);
 
 /* pil-command.c */
-extern int _lw6pil_command_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
+extern int _lw6pil_command_sort_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b);
 
 /* pil-compute.c */
 extern void _lw6pil_compute_thread_func (lw6sys_context_t * sys_context, lw6pil_worker_t * worker);

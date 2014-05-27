@@ -31,6 +31,7 @@
 /**
  * lw6msg_word_first
  *
+ * @sys_context: global system context
  * @word: will contain the parsed word
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
  * @msg: the message to parse
@@ -42,7 +43,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first (sys_context, lw6msg_word_t * word, char **next, const char *msg)
+lw6msg_word_first (lw6sys_context_t * sys_context, lw6msg_word_t * word, char **next, const char *msg)
 {
   int ret = 0;
   int i = 0, j = 0;
@@ -117,6 +118,7 @@ lw6msg_word_first (sys_context, lw6msg_word_t * word, char **next, const char *m
 /**
  * lw6msg_word_first_x
  *
+ * @sys_context: global system context
  * @word: will contain the parsed word
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
  * @msg: the message to parse
@@ -131,7 +133,7 @@ lw6msg_word_first (sys_context, lw6msg_word_t * word, char **next, const char *m
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_x (sys_context, lw6msg_word_t * word, char **next, const char *msg)
+lw6msg_word_first_x (lw6sys_context_t * sys_context, lw6msg_word_t * word, char **next, const char *msg)
 {
   int ret = 0;
   int i = 0, j = 0;
@@ -206,6 +208,7 @@ lw6msg_word_first_x (sys_context, lw6msg_word_t * word, char **next, const char 
 /**
  * lw6msg_word_first_base64
  *
+ * @sys_context: global system context
  * @word: will contain the parsed word
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
  * @msg: the message to parse
@@ -218,7 +221,7 @@ lw6msg_word_first_x (sys_context, lw6msg_word_t * word, char **next, const char 
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_base64 (sys_context, lw6msg_word_t * word, char **next, const char *msg)
+lw6msg_word_first_base64 (lw6sys_context_t * sys_context, lw6msg_word_t * word, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t tmp_word;
@@ -254,6 +257,7 @@ lw6msg_word_first_base64 (sys_context, lw6msg_word_t * word, char **next, const 
 /**
  * lw6msg_word_first_int_32
  *
+ * @sys_context: global system context
  * @parsed_value: will contain the parsed value
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
  * @msg: the message to parse
@@ -263,7 +267,7 @@ lw6msg_word_first_base64 (sys_context, lw6msg_word_t * word, char **next, const 
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_32 (sys_context, int32_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_int_32 (lw6sys_context_t * sys_context, int32_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -287,6 +291,7 @@ lw6msg_word_first_int_32 (sys_context, int32_t * parsed_value, char **next, cons
 /**
  * lw6msg_word_first_int_32_ge0
  *
+ * @sys_context: global system context
  * @parsed_value: will contain the parsed value
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
  * @msg: the message to parse
@@ -297,7 +302,7 @@ lw6msg_word_first_int_32 (sys_context, int32_t * parsed_value, char **next, cons
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_32_ge0 (sys_context, int32_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_int_32_ge0 (lw6sys_context_t * sys_context, int32_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   int32_t tmp_value = 0;
@@ -328,6 +333,7 @@ lw6msg_word_first_int_32_ge0 (sys_context, int32_t * parsed_value, char **next, 
 /**
  * lw6msg_word_first_int_32_gt0
  *
+ * @sys_context: global system context
  * @parsed_value: will contain the parsed value
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
  * @msg: the message to parse
@@ -338,7 +344,7 @@ lw6msg_word_first_int_32_ge0 (sys_context, int32_t * parsed_value, char **next, 
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_32_gt0 (sys_context, int32_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_int_32_gt0 (lw6sys_context_t * sys_context, int32_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   int32_t tmp_value = 0;
@@ -369,6 +375,7 @@ lw6msg_word_first_int_32_gt0 (sys_context, int32_t * parsed_value, char **next, 
 /**
  * lw6msg_word_first_int_64
  *
+ * @sys_context: global system context
  * @parsed_value: will contain the parsed value
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
  * @msg: the message to parse
@@ -378,7 +385,7 @@ lw6msg_word_first_int_32_gt0 (sys_context, int32_t * parsed_value, char **next, 
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_64 (sys_context, int64_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_int_64 (lw6sys_context_t * sys_context, int64_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -402,6 +409,7 @@ lw6msg_word_first_int_64 (sys_context, int64_t * parsed_value, char **next, cons
 /**
  * lw6msg_word_first_int_64_ge0
  *
+ * @sys_context: global system context
  * @parsed_value: will contain the parsed value
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
  * @msg: the message to parse
@@ -412,7 +420,7 @@ lw6msg_word_first_int_64 (sys_context, int64_t * parsed_value, char **next, cons
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_64_ge0 (sys_context, int64_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_int_64_ge0 (lw6sys_context_t * sys_context, int64_t * parsed_value, char **next, const char *msg)
 {
   int64_t ret = 0;
   int64_t tmp_value = 0;
@@ -443,6 +451,7 @@ lw6msg_word_first_int_64_ge0 (sys_context, int64_t * parsed_value, char **next, 
 /**
  * lw6msg_word_first_int_64_gt0
  *
+ * @sys_context: global system context
  * @parsed_value: will contain the parsed value
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
  * @msg: the message to parse
@@ -453,7 +462,7 @@ lw6msg_word_first_int_64_ge0 (sys_context, int64_t * parsed_value, char **next, 
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_int_64_gt0 (sys_context, int64_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_int_64_gt0 (lw6sys_context_t * sys_context, int64_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   int64_t tmp_value = 0;
@@ -484,6 +493,7 @@ lw6msg_word_first_int_64_gt0 (sys_context, int64_t * parsed_value, char **next, 
 /**
  * lw6msg_word_first_id_16
  *
+ * @sys_context: global system context
  * @parsed_value: will contain the parsed value
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
  * @msg: the message to parse
@@ -493,7 +503,7 @@ lw6msg_word_first_int_64_gt0 (sys_context, int64_t * parsed_value, char **next, 
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_id_16 (sys_context, u_int16_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_id_16 (lw6sys_context_t * sys_context, u_int16_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -506,7 +516,7 @@ lw6msg_word_first_id_16 (sys_context, u_int16_t * parsed_value, char **next, con
   if (lw6msg_word_first_x (sys_context, &word, next, msg))
     {
       tmp_value = lw6sys_id_atol (sys_context, word.buf);
-      if (tmp_value && lw6sys_check_id_16 (tmp_value))
+      if (tmp_value && lw6sys_check_id_16 (sys_context, tmp_value))
 	{
 	  if (parsed_value)
 	    {
@@ -526,6 +536,7 @@ lw6msg_word_first_id_16 (sys_context, u_int16_t * parsed_value, char **next, con
 /**
  * lw6msg_word_first_id_32
  *
+ * @sys_context: global system context
  * @parsed_value: will contain the parsed value
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
  * @msg: the message to parse
@@ -535,7 +546,7 @@ lw6msg_word_first_id_16 (sys_context, u_int16_t * parsed_value, char **next, con
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_id_32 (sys_context, u_int32_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_id_32 (lw6sys_context_t * sys_context, u_int32_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -548,7 +559,7 @@ lw6msg_word_first_id_32 (sys_context, u_int32_t * parsed_value, char **next, con
   if (lw6msg_word_first_x (sys_context, &word, next, msg))
     {
       tmp_value = lw6sys_id_atol (sys_context, word.buf);
-      if (tmp_value && lw6sys_check_id_32 (tmp_value))
+      if (tmp_value && lw6sys_check_id_32 (sys_context, tmp_value))
 	{
 	  if (parsed_value)
 	    {
@@ -568,6 +579,7 @@ lw6msg_word_first_id_32 (sys_context, u_int32_t * parsed_value, char **next, con
 /**
  * lw6msg_word_first_id_64
  *
+ * @sys_context: global system context
  * @parsed_value: will contain the parsed value
  * @next: if NOT NULL, will contain a (non freeable) pointer on remaining message
  * @msg: the message to parse
@@ -577,7 +589,7 @@ lw6msg_word_first_id_32 (sys_context, u_int32_t * parsed_value, char **next, con
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6msg_word_first_id_64 (sys_context, u_int64_t * parsed_value, char **next, const char *msg)
+lw6msg_word_first_id_64 (lw6sys_context_t * sys_context, u_int64_t * parsed_value, char **next, const char *msg)
 {
   int ret = 0;
   lw6msg_word_t word;
@@ -590,7 +602,7 @@ lw6msg_word_first_id_64 (sys_context, u_int64_t * parsed_value, char **next, con
   if (lw6msg_word_first_x (sys_context, &word, next, msg))
     {
       tmp_value = lw6sys_id_atol (sys_context, word.buf);
-      if (tmp_value && lw6sys_check_id_64 (tmp_value))
+      if (tmp_value && lw6sys_check_id_64 (sys_context, tmp_value))
 	{
 	  if (parsed_value)
 	    {

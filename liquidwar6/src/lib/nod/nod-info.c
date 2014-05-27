@@ -423,14 +423,14 @@ lw6nod_info_new_verified_nodes (lw6sys_context_t * sys_context)
 }
 
 static int
-_verified_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+_verified_sort_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
 {
   int ret = 0;
   const lw6nod_info_t *a;
   const lw6nod_info_t *b;
 
-  a = (const lw6nod_info_t *) ((*list_a)->data);
-  b = (const lw6nod_info_t *) ((*list_b)->data);
+  a = (const lw6nod_info_t *) ptr_a;
+  b = (const lw6nod_info_t *) ptr_b;
 
   if (a->const_info.title && b->const_info.title)
     {
@@ -466,7 +466,7 @@ lw6nod_info_set_verified_nodes (lw6sys_context_t * sys_context, lw6nod_info_t * 
 {
   int ret = 0;
 
-  lw6sys_sort (sys_context, &list, _verified_sort_callback);
+  lw6sys_sort (sys_context, &list, _verified_sort_callback, NULL);
 
   if (list)
     {

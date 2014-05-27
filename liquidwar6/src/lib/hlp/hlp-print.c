@@ -104,7 +104,7 @@ _print_content_callback (lw6sys_context_t * sys_context, void *func_data, void *
 void
 lw6hlp_print_keyword (lw6sys_context_t * sys_context, lw6sys_list_t ** list, FILE * f)
 {
-  lw6sys_sort (sys_context, list, lw6sys_sort_str_callback);
+  lw6sys_sort (sys_context, list, lw6sys_sort_str_callback, NULL);
   lw6sys_list_map (sys_context, *list, _print_keyword_callback, (void *) f);
 }
 
@@ -124,7 +124,7 @@ lw6hlp_print_keyword (lw6sys_context_t * sys_context, lw6sys_list_t ** list, FIL
 void
 lw6hlp_print_content (lw6sys_context_t * sys_context, lw6sys_list_t ** list, FILE * f)
 {
-  lw6sys_sort (sys_context, list, lw6sys_sort_str_callback);
+  lw6sys_sort (sys_context, list, lw6sys_sort_str_callback, NULL);
   lw6sys_list_map (sys_context, *list, _print_content_callback, (void *) f);
 }
 

@@ -29,6 +29,7 @@
 /**
  * lw6msg_utils_parse_key_value_to_ptr
  *
+ * @sys_context: global system context
  * @key: will contain the key detected
  * @value: will contain the value detected
  * @line: the line to analyse
@@ -39,7 +40,7 @@
  * Return value: 1 if line OK (and in this case @key and @value are set), 0 if not.
  */
 int
-lw6msg_utils_parse_key_value_to_ptr (sys_context, char **key, char **value, const char *line)
+lw6msg_utils_parse_key_value_to_ptr (lw6sys_context_t * sys_context, char **key, char **value, const char *line)
 {
   int ret = 0;
   char *seek = NULL;
@@ -66,7 +67,7 @@ lw6msg_utils_parse_key_value_to_ptr (sys_context, char **key, char **value, cons
 	}
       seek_c = *seek;
       (*seek) = '\0';
-      (*key) = lw6sys_str_copy (pos);
+      (*key) = lw6sys_str_copy (sys_context, pos);
       (*seek) = seek_c;
       pos = seek;
       while (lw6sys_chr_is_space (*seek) || ((*seek) == ':') || ((*seek) == '='))
@@ -81,7 +82,7 @@ lw6msg_utils_parse_key_value_to_ptr (sys_context, char **key, char **value, cons
 	}
       seek_c = *seek;
       (*seek) = '\0';
-      (*value) = lw6sys_str_copy (pos);
+      (*value) = lw6sys_str_copy (sys_context, pos);
 
       if (*key && *value && strlen (*key) > 0)
 	{
@@ -114,6 +115,7 @@ lw6msg_utils_parse_key_value_to_ptr (sys_context, char **key, char **value, cons
 /**
  * lw6msg_utils_parse_key_value_to_assoc
  *
+ * @sys_context: global system context
  * @assoc: an assoc object which will contain the result
  * @line: the line to analyse
  *
@@ -124,7 +126,7 @@ lw6msg_utils_parse_key_value_to_ptr (sys_context, char **key, char **value, cons
  * Return value: 1 if line OK (and in this case @assoc is updated), 0 if not.
  */
 int
-lw6msg_utils_parse_key_value_to_assoc (sys_context, lw6sys_assoc_t ** assoc, const char *line)
+lw6msg_utils_parse_key_value_to_assoc (lw6sys_context_t * sys_context, lw6sys_assoc_t ** assoc, const char *line)
 {
   int ret = 0;
   char *key = NULL;
@@ -135,7 +137,7 @@ lw6msg_utils_parse_key_value_to_assoc (sys_context, lw6sys_assoc_t ** assoc, con
     {
       if (key && value)
 	{
-	  lw6sys_assoc_set (assoc, key, value);
+	  lw6sys_assoc_set (sys_context, assoc, key, value);
 	  if ((*assoc) == NULL)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("assoc_set failed, assoc is now NULL"));
@@ -150,6 +152,7 @@ lw6msg_utils_parse_key_value_to_assoc (sys_context, lw6sys_assoc_t ** assoc, con
 /**
  * lw6msg_utils_get_assoc_str_with_default
  *
+ * @sys_context: global system context
  * @assoc: the string assoc to query
  * @key: the key to find in the assoc
  * @default_value: the default value to return
@@ -162,11 +165,11 @@ lw6msg_utils_parse_key_value_to_assoc (sys_context, lw6sys_assoc_t ** assoc, con
  * Return value: a string, must not be freed.
  */
 char *
-lw6msg_utils_get_assoc_str_with_default (sys_context, lw6sys_assoc_t * assoc, const char *key, const char *default_value)
+lw6msg_utils_get_assoc_str_with_default (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc, const char *key, const char *default_value)
 {
   char *ret = NULL;
 
-  ret = lw6sys_assoc_get (assoc, key);
+  ret = lw6sys_assoc_get (sys_context, assoc, key);
   if (!ret)
     {
       ret = (char *) default_value;
@@ -178,6 +181,7 @@ lw6msg_utils_get_assoc_str_with_default (sys_context, lw6sys_assoc_t * assoc, co
 /**
  * lw6msg_utils_get_assoc_int_with_default
  *
+ * @sys_context: global system context
  * @assoc: the string assoc to query
  * @key: the key to find in the assoc
  * @default_value: the default value to return
@@ -190,12 +194,12 @@ lw6msg_utils_get_assoc_str_with_default (sys_context, lw6sys_assoc_t * assoc, co
  * Return value: a string, must not be freed.
  */
 int
-lw6msg_utils_get_assoc_int_with_default (sys_context, lw6sys_assoc_t * assoc, const char *key, int default_value)
+lw6msg_utils_get_assoc_int_with_default (lw6sys_context_t * sys_context, lw6sys_assoc_t * assoc, const char *key, int default_value)
 {
   int ret = 0;
   char *tmp = NULL;
 
-  tmp = lw6sys_assoc_get (assoc, key);
+  tmp = lw6sys_assoc_get (sys_context, assoc, key);
   if (tmp)
     {
       ret = lw6sys_atoi (sys_context, tmp);

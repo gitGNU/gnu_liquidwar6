@@ -87,6 +87,7 @@ static int
 _setup_init_tcp ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
@@ -115,6 +116,7 @@ static int
 _setup_quit_tcp ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libcli-tcp CUnit test suite"));
 
@@ -133,6 +135,7 @@ static int
 _setup_init_udp ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
@@ -161,6 +164,7 @@ static int
 _setup_quit_udp ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libcli-udp CUnit test suite"));
 
@@ -180,6 +184,7 @@ static int
 _setup_init_http ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
 
@@ -208,6 +213,7 @@ static int
 _setup_quit_http ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libcli-http CUnit test suite"));
 

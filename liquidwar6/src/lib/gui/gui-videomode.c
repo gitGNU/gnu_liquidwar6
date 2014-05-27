@@ -36,14 +36,14 @@ typedef struct video_mode_sort_s
 } video_mode_sort_t;
 
 static int
-_video_mode_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+_video_mode_sort_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
 {
   int ret = 0;
   const video_mode_sort_t *a;
   const video_mode_sort_t *b;
 
-  a = (video_mode_sort_t *) ((*list_a)->data);
-  b = (video_mode_sort_t *) ((*list_b)->data);
+  a = (video_mode_sort_t *) ptr_a;
+  b = (video_mode_sort_t *) ptr_b;
 
   if (a->distance < b->distance)
     {
@@ -116,7 +116,7 @@ lw6gui_video_mode_find_closest (lw6sys_context_t * sys_context, lw6gui_video_mod
 	{
 	  lw6sys_list_map (sys_context, available, &_video_mode_copy_callback, &sorted);
 	  lw6sys_list_map (sys_context, sorted, &_video_mode_distance_callback, (void *) wished);
-	  lw6sys_sort (sys_context, &sorted, _video_mode_sort_callback);
+	  lw6sys_sort (sys_context, &sorted, _video_mode_sort_callback, NULL);
 
 	  if (sorted->data)
 	    {

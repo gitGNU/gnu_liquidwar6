@@ -490,11 +490,11 @@ lw6pil_command_free (lw6sys_context_t * sys_context, lw6pil_command_t * command)
 }
 
 int
-_lw6pil_command_sort_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+_lw6pil_command_sort_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
 {
   int ret = 0;
-  const lw6pil_command_t *command_a = (const lw6pil_command_t *) ((*list_a)->data);
-  const lw6pil_command_t *command_b = (const lw6pil_command_t *) ((*list_b)->data);
+  const lw6pil_command_t *command_a = (const lw6pil_command_t *) ptr_a;
+  const lw6pil_command_t *command_b = (const lw6pil_command_t *) ptr_b;
 
   if (command_a->seq < command_b->seq)
     {

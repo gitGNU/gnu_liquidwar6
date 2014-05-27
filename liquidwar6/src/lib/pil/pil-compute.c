@@ -72,7 +72,7 @@ _lw6pil_compute_thread_func (lw6sys_context_t * sys_context, lw6pil_worker_t * w
 
       if (commands)
 	{
-	  lw6sys_sort (sys_context, &commands, _lw6pil_command_sort_callback);
+	  lw6sys_sort (sys_context, &commands, _lw6pil_command_sort_callback, NULL);
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker global compute begin %d"), worker->current_round);
 	  lw6sys_mutex_lock (sys_context, worker->global_mutex);
 	  while (worker->run && commands && (command = lw6sys_list_pop_front (sys_context, &commands)) != NULL)

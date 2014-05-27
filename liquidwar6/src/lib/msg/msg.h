@@ -195,7 +195,7 @@ extern int lw6msg_oob_analyse_request (lw6sys_context_t * sys_context, int *synt
 extern char *lw6msg_oob_analyse_pong (lw6sys_context_t * sys_context, const char *text);
 
 /* msg-sort.c */
-int lw6msg_sort_str_by_seq_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b);
+int lw6msg_sort_str_by_seq_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b);
 
 /* msg-test.c */
 extern int lw6msg_test_register (lw6sys_context_t * sys_context, int mode);
