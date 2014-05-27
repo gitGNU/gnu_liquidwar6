@@ -384,7 +384,7 @@ lw6sys_hash_sort_and_map (lw6sys_context_t * sys_context, lw6sys_hash_t * hash, 
       keys = lw6sys_hash_keys (sys_context, hash);
       if (keys)
 	{
-	  lw6sys_sort (sys_context, &keys, lw6sys_sort_str_callback);
+	  lw6sys_sort (sys_context, &keys, lw6sys_sort_str_callback, NULL);
 	  if (keys)
 	    {
 	      current_key = keys;

@@ -428,7 +428,7 @@ lw6sys_assoc_sort_and_map (lw6sys_context_t * sys_context, lw6sys_assoc_t * asso
       keys = lw6sys_assoc_keys (sys_context, assoc);
       if (keys)
 	{
-	  lw6sys_sort (sys_context, &keys, lw6sys_sort_str_callback);
+	  lw6sys_sort (sys_context, &keys, lw6sys_sort_str_callback, NULL);
 	  if (keys)
 	    {
 	      current_key = keys;

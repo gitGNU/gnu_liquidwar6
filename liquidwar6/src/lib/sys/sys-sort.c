@@ -28,9 +28,27 @@
 
 #include "sys.h"
 
+typedef struct _sort_item_s
+{
+  lw6sys_context_t *sys_context;
+  lw6sys_sort_callback_func_t *func;
+  void *func_data;
+  void *data;
+} _sort_item_t;
+
+static int
+_sort_callback (const _sort_item_t ** item_a, const _sort_item_t ** item_b)
+{
+  int ret = 0;
+
+  return ret;
+}
+
 /**
  * lw6sys_sort_int_callback
  *
+ * @sys_context: global system context
+ * @func_data: function specific data
  * @list_a: pointer to a list of int item
  * @list_b: pointer to a list of int item
  *
@@ -64,6 +82,8 @@ lw6sys_sort_int_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** 
 /**
  * lw6sys_sort_int_desc_callback
  *
+ * @sys_context: global system context
+ * @func_data: function specific data
  * @list_a: pointer to a list of int item
  * @list_b: pointer to a list of int item
  *
@@ -97,6 +117,8 @@ lw6sys_sort_int_desc_callback (const lw6sys_list_t ** list_a, const lw6sys_list_
 /**
  * lw6sys_sort_float_callback
  *
+ * @sys_context: global system context
+ * @func_data: function specific data
  * @list_a: pointer to a list of float item
  * @list_b: pointer to a list of float item
  *
@@ -130,6 +152,8 @@ lw6sys_sort_float_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t *
 /**
  * lw6sys_sort_float_desc_callback
  *
+ * @sys_context: global system context
+ * @func_data: function specific data
  * @list_a: pointer to a list of float item
  * @list_b: pointer to a list of float item
  *
@@ -165,6 +189,7 @@ lw6sys_sort_float_desc_callback (const lw6sys_list_t ** list_a, const lw6sys_lis
  * lw6sys_sort_str_callback
  *
  * @sys_context: global system context
+ * @func_data: function specific data
  * @list_a: pointer to a list of string item
  * @list_b: pointer to a list of string item
  *
@@ -187,6 +212,8 @@ lw6sys_sort_str_callback (const lw6sys_list_t ** list_a, const lw6sys_list_t ** 
 /**
  * lw6sys_sort_str_desc_callback
  *
+ * @sys_context: global system context
+ * @func_data: function specific data
  * @list_a: pointer to a list of string item
  * @list_b: pointer to a list of string item
  *
@@ -213,6 +240,7 @@ lw6sys_sort_str_desc_callback (const lw6sys_list_t ** list_a, const lw6sys_list_
  * @sys_context: global system context
  * @list: the list to sort, might be modified by the function
  * @sort_func: the callback function used to sort
+ * @func_data: function specific data
  *
  * A general sorting function. Internally, will use the glibc @qsort
  * function, but this one is adapted to the LW6 specific data
@@ -221,7 +249,7 @@ lw6sys_sort_str_desc_callback (const lw6sys_list_t ** list_a, const lw6sys_list_
  * any callback, provided it has the right prototype.
  */
 void
-lw6sys_sort (lw6sys_context_t * sys_context, lw6sys_list_t ** list, lw6sys_sort_callback_func_t sort_func)
+lw6sys_sort (lw6sys_context_t * sys_context, lw6sys_list_t ** list, lw6sys_sort_callback_func_t sort_func, void *func_data)
 {
   int length, i;
   lw6sys_list_t **array;
