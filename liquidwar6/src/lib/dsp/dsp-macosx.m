@@ -31,7 +31,7 @@
 #import <Cocoa/Cocoa.h>
 
 void *
-_lw6dsp_macosx_thread_init ()
+_lw6dsp_macosx_thread_init (lw6sys_context_t * sys_context)
 {
   void *ret;
   NSAutoreleasePool *autoreleasepool = NULL;
@@ -65,19 +65,19 @@ _lw6dsp_macosx_thread_init ()
 
   autoreleasepool =[[NSAutoreleasePool alloc] init];
   ret = (void *) autoreleasepool;
-  lw6sys_log (LW6SYS_LOG_INFO, _("Cocoa release pool alloc at address %p"), ret);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _("Cocoa release pool alloc at address %p"), ret);
 
   return ret;
 }
 
 void
-_lw6dsp_macosx_thread_quit (void *ptr)
+_lw6dsp_macosx_thread_quit (lw6sys_context_t * sys_context, void *ptr)
 {
   NSAutoreleasePool *autoreleasepool = NULL;
 
   autoreleasepool = (NSAutoreleasePool *) ptr;
 
-  lw6sys_log (LW6SYS_LOG_INFO, _("Cocoa release pool release at address %p"), ptr);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _("Cocoa release pool release at address %p"), ptr);
   [autoreleasepool release];
 }
 #endif

@@ -79,20 +79,20 @@ lw6cli_get_backends (lw6sys_context_t * sys_context, int argc, const char *argv[
   ret = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
   if (ret)
     {
-      module_pedigree = mod_tcp_get_pedigree ();
+      module_pedigree = mod_tcp_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
-      module_pedigree = mod_udp_get_pedigree ();
+      module_pedigree = mod_udp_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
 #ifdef MOD_HTTP
-      module_pedigree = mod_http_get_pedigree ();
+      module_pedigree = mod_http_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
@@ -129,16 +129,16 @@ lw6cli_create_backend (lw6sys_context_t * sys_context, int argc, const char *arg
 #ifdef LW6_ALLINONE
   if (name && !strcmp (name, "tcp"))
     {
-      backend = mod_tcp_create_backend ();
+      backend = mod_tcp_create_backend (sys_context);
     }
   if (name && !strcmp (name, "udp"))
     {
-      backend = mod_udp_create_backend ();
+      backend = mod_udp_create_backend (sys_context);
     }
 #ifdef MOD_HTTP
   if (name && !strcmp (name, "http"))
     {
-      backend = mod_http_create_backend ();
+      backend = mod_http_create_backend (sys_context);
     }
 #endif //MOD_HTTP
 

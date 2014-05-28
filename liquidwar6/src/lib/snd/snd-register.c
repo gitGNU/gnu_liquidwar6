@@ -60,7 +60,7 @@ lw6snd_get_backends (lw6sys_context_t * sys_context, int argc, const char *argv[
   if (ret)
     {
 #ifdef MOD_CSOUND
-      module_pedigree = mod_csound_get_pedigree ();
+      module_pedigree = mod_csound_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
@@ -68,7 +68,7 @@ lw6snd_get_backends (lw6sys_context_t * sys_context, int argc, const char *argv[
 	}
 #endif
 #ifdef MOD_OGG
-      module_pedigree = mod_ogg_get_pedigree ();
+      module_pedigree = mod_ogg_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
@@ -105,13 +105,13 @@ lw6snd_create_backend (lw6sys_context_t * sys_context, int argc, const char *arg
 #ifdef MOD_CSOUND
   if (name && !strcmp (name, "csound"))
     {
-      backend = mod_csound_create_backend ();
+      backend = mod_csound_create_backend (sys_context);
     }
 #endif
 #ifdef MOD_OGG
   if (name && !strcmp (name, "ogg"))
     {
-      backend = mod_ogg_create_backend ();
+      backend = mod_ogg_create_backend (sys_context);
     }
 #endif
 

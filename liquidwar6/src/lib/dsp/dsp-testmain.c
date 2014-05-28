@@ -58,10 +58,10 @@ _run (lw6sys_context_t * sys_context, void *data)
 #ifdef LW6_MAC_OS_X
 int
 main (int argc, char *argv[])
-#else
+#else // LW6_MAC_OS_X
 int
 main (int argc, const char *argv[])
-#endif
+#endif // LW6_MAC_OS_X
 {
   int ret = 0;
   lw6sys_context_t *sys_context = NULL;
@@ -71,11 +71,11 @@ main (int argc, const char *argv[])
 
   lw6sys_log_clear (sys_context, NULL);
   _mode = lw6sys_arg_test_mode (sys_context, argc, (const char **) argv);
-#ifdef LW6_MAC_OS_X
-  lw6sys_vthread_run (sys_context, run, NULL, NULL);
-#else
+#ifdef LW6_MAC_OS_X // LW6_MAC_OS_X
+  lw6sys_vthread_run (sys_context, _run, NULL, NULL);
+#else // LW6_MAC_OS_X
   _run (sys_context, NULL);
-#endif
+#endif // LW6_MAC_OS_X
   ret = _ret;
 
   LW6SYS_TEST_OUTPUT;

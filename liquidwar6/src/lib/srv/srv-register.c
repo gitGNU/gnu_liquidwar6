@@ -74,19 +74,19 @@ lw6srv_get_backends (sys_context, int argc, const char *argv[])
   ret = lw6sys_assoc_new (sys_context, lw6sys_free_callback);
   if (ret)
     {
-      module_pedigree = mod_tcpd_get_pedigree ();
+      module_pedigree = mod_tcpd_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
-      module_pedigree = mod_udpd_get_pedigree ();
+      module_pedigree = mod_udpd_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
-      module_pedigree = mod_httpd_get_pedigree ();
+      module_pedigree = mod_httpd_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
@@ -120,15 +120,15 @@ lw6srv_create_backend (sys_context, int argc, const char *argv[], const char *na
 #ifdef LW6_ALLINONE
   if (name && !strcmp (name, "tcpd"))
     {
-      backend = mod_tcpd_create_backend ();
+      backend = mod_tcpd_create_backend (sys_context);
     }
   if (name && !strcmp (name, "udpd"))
     {
-      backend = mod_udpd_create_backend ();
+      backend = mod_udpd_create_backend (sys_context);
     }
   if (name && !strcmp (name, "httpd"))
     {
-      backend = mod_httpd_create_backend ();
+      backend = mod_httpd_create_backend (sys_context);
     }
 
   if (backend)

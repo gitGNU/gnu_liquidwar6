@@ -71,7 +71,7 @@ lw6gfx_get_backends (lw6sys_context_t * sys_context, int argc, const char *argv[
   if (ret)
     {
 #ifdef MOD_GL1
-      module_pedigree = mod_gl1_get_pedigree ();
+      module_pedigree = mod_gl1_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
@@ -79,7 +79,7 @@ lw6gfx_get_backends (lw6sys_context_t * sys_context, int argc, const char *argv[
 	}
 #else // MOD_GL1
 #ifdef MOD_GLES2
-      module_pedigree = mod_gles2_get_pedigree ();
+      module_pedigree = mod_gles2_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
@@ -88,7 +88,7 @@ lw6gfx_get_backends (lw6sys_context_t * sys_context, int argc, const char *argv[
 
 #else // MOD_GLES2
 #ifdef MOD_SOFT
-      module_pedigree = mod_soft_get_pedigree ();
+      module_pedigree = mod_soft_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
@@ -96,7 +96,7 @@ lw6gfx_get_backends (lw6sys_context_t * sys_context, int argc, const char *argv[
 	}
 #else // MOD_SOFT
 #ifdef MOD_CACA
-      module_pedigree = mod_caca_get_pedigree ();
+      module_pedigree = mod_caca_get_pedigree (sys_context);
       if (module_pedigree)
 	{
 	  lw6sys_assoc_set (sys_context, &ret, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));
@@ -136,25 +136,25 @@ lw6gfx_create_backend (lw6sys_context_t * sys_context, int argc, const char *arg
 #ifdef MOD_GL1
   if (name && !strcmp (name, "gl1"))
     {
-      backend = mod_gl1_create_backend ();
+      backend = mod_gl1_create_backend (sys_context);
     }
 #else // MOD_GL1
 #ifdef MOD_GLES2
   if (name && !strcmp (name, "gles2"))
     {
-      backend = mod_gles2_create_backend ();
+      backend = mod_gles2_create_backend (sys_context);
     }
 #else // MOD_GLES2
 #ifdef MOD_SOFT
   if (name && !strcmp (name, "soft"))
     {
-      backend = mod_soft_create_backend ();
+      backend = mod_soft_create_backend (sys_context);
     }
 #else // MOD_SOFT
 #ifdef MOD_CACA
   if (name && !strcmp (name, "caca"))
     {
-      backend = mod_caca_create_backend ();
+      backend = mod_caca_create_backend (sys_context);
     }
 #endif // MOD_CACA
 #endif // MOD_SOFT
