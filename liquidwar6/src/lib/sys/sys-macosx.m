@@ -32,7 +32,7 @@
 #import <Cocoa/Cocoa.h>
 
 void
-_lw6sys_macosx_alert (char *title, char *msg)
+_lw6sys_macosx_alert (lw6sys_context_t * sys_context, const char *title, const char *msg)
 {
   @try
   {
