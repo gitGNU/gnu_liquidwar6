@@ -33,24 +33,24 @@
 #define _HTTP_BASIC "Basic"
 
 static int
-_parse_first_line (_mod_httpd_request_t * request)
+_parse_first_line (lw6sys_context_t * sys_context, _mod_httpd_request_t * request)
 {
   int ret = 0;
   char *pos = NULL;
   char *seek = NULL;
   char seek_c = '\0';
 
-  if (lw6sys_str_starts_with (request->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING))
+  if (lw6sys_str_starts_with (sys_context, request->first_line, _MOD_HTTPD_PROTOCOL_GET_STRING))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("this is a GET"));
       request->get_head_post = _MOD_HTTPD_GET;
     }
-  if (lw6sys_str_starts_with (request->first_line, _MOD_HTTPD_PROTOCOL_HEAD_STRING))
+  if (lw6sys_str_starts_with (sys_context, request->first_line, _MOD_HTTPD_PROTOCOL_HEAD_STRING))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("this is a HEAD"));
       request->get_head_post = _MOD_HTTPD_HEAD;
     }
-  if (lw6sys_str_starts_with (request->first_line, _MOD_HTTPD_PROTOCOL_POST_STRING))
+  if (lw6sys_str_starts_with (sys_context, request->first_line, _MOD_HTTPD_PROTOCOL_POST_STRING))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("this is a POST"));
       request->get_head_post = _MOD_HTTPD_POST;
@@ -76,7 +76,7 @@ _parse_first_line (_mod_httpd_request_t * request)
     }
   seek_c = (*seek);
   (*seek) = '\0';
-  request->uri = lw6sys_str_copy (pos);
+  request->uri = lw6sys_str_copy (sys_context, pos);
   (*seek) = seek_c;
 
   if (request->uri)
@@ -102,7 +102,7 @@ _parse_first_line (_mod_httpd_request_t * request)
 }
 
 static int
-_parse_header (_mod_httpd_request_t * request, char *line, char *public_url, char *password)
+_parse_header (lw6sys_context_t * sys_context, _mod_httpd_request_t * request, char *line, char *public_url, char *password)
 {
   int ret = 1;
   char *basic = NULL;
@@ -113,7 +113,7 @@ _parse_header (_mod_httpd_request_t * request, char *line, char *public_url, cha
 
   if (lw6sys_str_starts_with (sys_context, line, _HTTP_AUTHORIZATION))
     {
-      if (!lw6sys_str_is_null_or_empty (password))
+      if (!lw6sys_str_is_null_or_empty (sys_context, password))
 	{
 	  basic = strstr (line, _HTTP_BASIC);
 	  if (basic)
@@ -123,7 +123,7 @@ _parse_header (_mod_httpd_request_t * request, char *line, char *public_url, cha
 		{
 		  seek++;
 		}
-	      clear_authorization = lw6glb_base64_decode_str (seek);
+	      clear_authorization = lw6glb_base64_decode_str (sys_context, seek);
 	      if (clear_authorization)
 		{
 		  double_dot = strrchr (clear_authorization, ':');
@@ -146,7 +146,7 @@ _parse_header (_mod_httpd_request_t * request, char *line, char *public_url, cha
 }
 
 _mod_httpd_request_t *
-_mod_httpd_request_parse_oob (sys_context, _mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
+_mod_httpd_request_parse_oob (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
 {
   _mod_httpd_request_t *request = NULL;
   int eof = 0;
@@ -165,16 +165,16 @@ _mod_httpd_request_parse_oob (sys_context, _mod_httpd_context_t * httpd_context,
       request = (_mod_httpd_request_t *) LW6SYS_CALLOC (sys_context, sizeof (_mod_httpd_request_t));
       if (request)
 	{
-	  request->client_ip = lw6sys_str_copy (oob_data->remote_ip);
+	  request->client_ip = lw6sys_str_copy (sys_context, oob_data->remote_ip);
 
 	  if (_mod_httpd_oob_should_continue (sys_context, httpd_context, oob_data))
 	    {
 	      request->first_line = lw6net_recv_line_tcp (sys_context, &(oob_data->sock));
 	      if (request->first_line)
 		{
-		  if (_parse_first_line (request))
+		  if (_parse_first_line (sys_context, request))
 		    {
-		      if (lw6sys_str_is_null_or_empty (node_info->const_info.password))
+		      if (lw6sys_str_is_null_or_empty (sys_context, node_info->const_info.password))
 			{
 			  request->password_ok = 1;
 			}
@@ -189,7 +189,7 @@ _mod_httpd_request_parse_oob (sys_context, _mod_httpd_context_t * httpd_context,
 				}
 			      else
 				{
-				  _parse_header (request, line, node_info->const_info.ref_info.url, node_info->const_info.password);
+				  _parse_header (sys_context, request, line, node_info->const_info.ref_info.url, node_info->const_info.password);
 				}
 			      LW6SYS_FREE (sys_context, line);
 			    }
@@ -224,7 +224,7 @@ _mod_httpd_request_parse_oob (sys_context, _mod_httpd_context_t * httpd_context,
 }
 
 _mod_httpd_request_t *
-_mod_httpd_request_parse_cmd (sys_context, _mod_httpd_reply_thread_data_t * reply_thread_data)
+_mod_httpd_request_parse_cmd (lw6sys_context_t * sys_context, _mod_httpd_reply_thread_data_t * reply_thread_data)
 {
   _mod_httpd_request_t *request = NULL;
   lw6cnx_connection_t *cnx = reply_thread_data->cnx;
@@ -242,7 +242,7 @@ _mod_httpd_request_parse_cmd (sys_context, _mod_httpd_reply_thread_data_t * repl
 	  request->first_line = lw6net_recv_line_tcp (sys_context, &(reply_thread_data->sock));
 	  if (request->first_line)
 	    {
-	      if (_parse_first_line (request))
+	      if (_parse_first_line (sys_context, request))
 		{
 		  if (lw6sys_str_is_null_or_empty (sys_context, cnx->password))
 		    {
@@ -259,7 +259,7 @@ _mod_httpd_request_parse_cmd (sys_context, _mod_httpd_reply_thread_data_t * repl
 			    }
 			  else
 			    {
-			      _parse_header (request, line, cnx->local_url, cnx->password);
+			      _parse_header (sys_context, request, line, cnx->local_url, cnx->password);
 			    }
 			  LW6SYS_FREE (sys_context, line);
 			}
@@ -292,7 +292,7 @@ _mod_httpd_request_parse_cmd (sys_context, _mod_httpd_reply_thread_data_t * repl
 }
 
 void
-_mod_httpd_request_free (sys_context, _mod_httpd_request_t * request)
+_mod_httpd_request_free (lw6sys_context_t * sys_context, _mod_httpd_request_t * request)
 {
   if (request)
     {

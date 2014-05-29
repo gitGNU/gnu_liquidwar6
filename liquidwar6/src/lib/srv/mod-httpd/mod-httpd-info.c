@@ -28,7 +28,7 @@
 #include "mod-httpd-internal.h"
 
 char *
-_mod_httpd_repr (sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection)
+_mod_httpd_repr (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 

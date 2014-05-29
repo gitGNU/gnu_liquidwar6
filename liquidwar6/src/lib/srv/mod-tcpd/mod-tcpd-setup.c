@@ -28,7 +28,7 @@
 #include "mod-tcpd-internal.h"
 
 _mod_tcpd_context_t *
-_mod_tcpd_init (sys_context, int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
+_mod_tcpd_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
 {
   _mod_tcpd_context_t *tcpd_context = NULL;
   char *data_dir = NULL;
@@ -69,7 +69,7 @@ _mod_tcpd_init (sys_context, int argc, const char *argv[], lw6cnx_properties_t *
 }
 
 void
-_mod_tcpd_quit (sys_context, _mod_tcpd_context_t * tcpd_context)
+_mod_tcpd_quit (lw6sys_context_t * sys_context, _mod_tcpd_context_t * tcpd_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("tcpd quit"));
   _mod_tcpd_unload_data (sys_context, &(tcpd_context->data));

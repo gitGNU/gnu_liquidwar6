@@ -29,6 +29,7 @@
 /**
  * lw6srv_udp_buffer_new
  *
+ * @sys_context: global system context
  * @client_ip: the client ip, will be freed when object is freed, do not free it
  * @client_port: the client port
  * @line: the line received, will be freed when object is freed, do not free it
@@ -38,7 +39,7 @@
  * Return value: none
  */
 lw6srv_udp_buffer_t *
-lw6srv_udp_buffer_new (sys_context, char *client_ip, int client_port, char *line)
+lw6srv_udp_buffer_new (lw6sys_context_t * sys_context, char *client_ip, int client_port, char *line)
 {
   lw6srv_udp_buffer_t *ret = NULL;
 
@@ -56,6 +57,7 @@ lw6srv_udp_buffer_new (sys_context, char *client_ip, int client_port, char *line
 /**
  * lw6srv_udp_buffer_free
  *
+ * @sys_context: global system context
  * @udp_buffer: the object to free
  *
  * Frees a udp_buffer object.
@@ -63,7 +65,7 @@ lw6srv_udp_buffer_new (sys_context, char *client_ip, int client_port, char *line
  * Return value: none
  */
 void
-lw6srv_udp_buffer_free (sys_context, lw6srv_udp_buffer_t * udp_buffer)
+lw6srv_udp_buffer_free (lw6sys_context_t * sys_context, lw6srv_udp_buffer_t * udp_buffer)
 {
   if (udp_buffer->client_id.client_ip)
     {

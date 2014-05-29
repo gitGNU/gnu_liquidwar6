@@ -28,13 +28,13 @@
 #include "mod-httpd-internal.h"
 
 int
-_mod_httpd_log (sys_context, _mod_httpd_context_t * httpd_context, _mod_httpd_request_t * request, _mod_httpd_response_t * response)
+_mod_httpd_log (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, _mod_httpd_request_t * request, _mod_httpd_response_t * response)
 {
   int ret = 0;
   FILE *f = NULL;
   char *date_str = NULL;
 
-  date_str = lw6sys_date_clf ();
+  date_str = lw6sys_date_clf (sys_context);
   if (date_str)
     {
       if (lw6sys_mutex_lock (sys_context, httpd_context->access_log_mutex))

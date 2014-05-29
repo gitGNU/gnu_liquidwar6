@@ -28,7 +28,7 @@
 #include "mod-udpd-internal.h"
 
 lw6cnx_connection_t *
-_mod_udpd_open (sys_context, _mod_udpd_context_t * udpd_context,
+_mod_udpd_open (lw6sys_context_t * sys_context, _mod_udpd_context_t * udpd_context,
 		lw6srv_listener_t * listener, const char *local_url,
 		const char *remote_url, const char *remote_ip,
 		int remote_port, const char *password, u_int64_t local_id,
@@ -62,7 +62,7 @@ _mod_udpd_open (sys_context, _mod_udpd_context_t * udpd_context,
 }
 
 void
-_mod_udpd_close (sys_context, _mod_udpd_context_t * udpd_context, lw6cnx_connection_t * connection)
+_mod_udpd_close (lw6sys_context_t * sys_context, _mod_udpd_context_t * udpd_context, lw6cnx_connection_t * connection)
 {
   _mod_udpd_specific_data_t *specific_data = (_mod_udpd_specific_data_t *) connection->backend_specific_data;;
 
@@ -74,7 +74,7 @@ _mod_udpd_close (sys_context, _mod_udpd_context_t * udpd_context, lw6cnx_connect
 }
 
 int
-_mod_udpd_timeout_ok (sys_context, _mod_udpd_context_t * udpd_context, int64_t origin_timestamp)
+_mod_udpd_timeout_ok (lw6sys_context_t * sys_context, _mod_udpd_context_t * udpd_context, int64_t origin_timestamp)
 {
   int ret = 0;
   int d = 0;
@@ -86,7 +86,7 @@ _mod_udpd_timeout_ok (sys_context, _mod_udpd_context_t * udpd_context, int64_t o
    * some time assumed to be reasonnable (depends on settings)
    * it will be over.
    */
-  d = abs (lw6sys_get_timestamp (sys_context,) - origin_timestamp);
+  d = abs (lw6sys_get_timestamp (sys_context) - origin_timestamp);
   ret = (d < (udpd_context->data.consts.error_timeout * 1000));
 
   return ret;

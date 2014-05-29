@@ -304,7 +304,7 @@ lw6dsp_quit (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend)
 #ifdef LW6_MAC_OS_X
       if (data->macosx_thread_handler)
 	{
-	  _lw6dsp_macosx_thread_quit (sys_context,data->macosx_thread_handler);
+	  _lw6dsp_macosx_thread_quit (sys_context, data->macosx_thread_handler);
 	}
 #endif // LW6_MAC_OS_X
       if (lw6sys_vthread_is_running (sys_context))

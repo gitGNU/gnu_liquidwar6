@@ -31,7 +31,7 @@
 #define _DUMMY_RANGE 1000000
 
 static void
-_add_node_html (void *func_data, void *data)
+_add_node_html (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   char **list = (char **) func_data;
   char *tmp = NULL;
@@ -60,16 +60,16 @@ _add_node_html (void *func_data, void *data)
 	  escaped_title = lw6sys_escape_html_attribute (sys_context, title);
 	  if (escaped_title)
 	    {
-	      escaped_description = lw6sys_escape_html_attribute (description);
+	      escaped_description = lw6sys_escape_html_attribute (sys_context, description);
 	      if (escaped_description)
 		{
 		  if (strlen (*list) > 0)
 		    {
-		      tmp = lw6sys_new_sprintf ("%s, <a href=\"%s\" title=\"%s\">%s</a>", *list, escaped_url, escaped_description, escaped_title);
+		      tmp = lw6sys_new_sprintf (sys_context, "%s, <a href=\"%s\" title=\"%s\">%s</a>", *list, escaped_url, escaped_description, escaped_title);
 		    }
 		  else
 		    {
-		      tmp = lw6sys_new_sprintf ("<a href=\"%s\" title=\"%s\">%s</a>", escaped_url, escaped_description, escaped_title);
+		      tmp = lw6sys_new_sprintf (sys_context, "<a href=\"%s\" title=\"%s\">%s</a>", escaped_url, escaped_description, escaped_title);
 		    }
 		  LW6SYS_FREE (sys_context, escaped_description);
 		}
@@ -86,7 +86,7 @@ _add_node_html (void *func_data, void *data)
 }
 
 static _mod_httpd_response_t *
-_response_index_html (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6nod_dyn_info_t * dyn_info)
+_response_index_html (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6nod_dyn_info_t * dyn_info)
 {
   _mod_httpd_response_t *response = NULL;
   char *content = NULL;
@@ -117,7 +117,7 @@ _response_index_html (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node
 	      screenshot_url = lw6sys_str_concat (sys_context, node_info->const_info.ref_info.url, _SCREENSHOT_JPEG_REFRESH);
 	      if (screenshot_url)
 		{
-		  uptime = lw6sys_readable_uptime (sys_context, lw6sys_get_timestamp () - node_info->const_info.creation_timestamp);
+		  uptime = lw6sys_readable_uptime (sys_context, lw6sys_get_timestamp (sys_context) - node_info->const_info.creation_timestamp);
 		  if (uptime)
 		    {
 		      list = lw6sys_str_copy (sys_context, LW6SYS_STR_EMPTY);
@@ -170,7 +170,7 @@ _response_index_html (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node
 			  if (content)
 			    {
 			      response =
-				_mod_httpd_response_from_str (httpd_context,
+				_mod_httpd_response_from_str (sys_context, httpd_context,
 							      _MOD_HTTPD_STATUS_200,
 							      1,
 							      httpd_context->data.consts.refresh_index_header,
@@ -195,7 +195,7 @@ _response_index_html (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node
 }
 
 static _mod_httpd_response_t *
-_response_screenshot_jpeg (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6nod_dyn_info_t * dyn_info)
+_response_screenshot_jpeg (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6nod_dyn_info_t * dyn_info)
 {
   _mod_httpd_response_t *response = NULL;
   int screenshot_size = 0;
@@ -218,7 +218,7 @@ _response_screenshot_jpeg (_mod_httpd_context_t * httpd_context, lw6nod_info_t *
       if (screenshot_size > 0 && screenshot_data != NULL)
 	{
 	  response =
-	    _mod_httpd_response_from_bin (httpd_context,
+	    _mod_httpd_response_from_bin (sys_context, httpd_context,
 					  _MOD_HTTPD_STATUS_200, 1,
 					  httpd_context->data.consts.refresh_screenshot_header,
 					  refresh_url, httpd_context->data.consts.content_type_jpeg, screenshot_size, screenshot_data);
@@ -229,7 +229,7 @@ _response_screenshot_jpeg (_mod_httpd_context_t * httpd_context, lw6nod_info_t *
 }
 
 static _mod_httpd_response_t *
-_response_info_txt (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info)
+_response_info_txt (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info)
 {
   _mod_httpd_response_t *response = NULL;
   char *content = NULL;
@@ -237,7 +237,8 @@ _response_info_txt (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_i
   content = lw6msg_oob_generate_info (sys_context, node_info);
   if (content)
     {
-      response = _mod_httpd_response_from_str (httpd_context, _MOD_HTTPD_STATUS_200, 1, 0, NULL, httpd_context->data.consts.content_type_txt, content);
+      response =
+	_mod_httpd_response_from_str (sys_context, httpd_context, _MOD_HTTPD_STATUS_200, 1, 0, NULL, httpd_context->data.consts.content_type_txt, content);
       LW6SYS_FREE (sys_context, content);
     }
 
@@ -245,7 +246,7 @@ _response_info_txt (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_i
 }
 
 static _mod_httpd_response_t *
-_response_list_txt (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info)
+_response_list_txt (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info)
 {
   _mod_httpd_response_t *response = NULL;
   char *content = NULL;
@@ -253,7 +254,8 @@ _response_list_txt (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_i
   content = lw6msg_oob_generate_list (sys_context, node_info);
   if (content)
     {
-      response = _mod_httpd_response_from_str (httpd_context, _MOD_HTTPD_STATUS_200, 1, 0, NULL, httpd_context->data.consts.content_type_txt, content);
+      response =
+	_mod_httpd_response_from_str (sys_context, httpd_context, _MOD_HTTPD_STATUS_200, 1, 0, NULL, httpd_context->data.consts.content_type_txt, content);
       LW6SYS_FREE (sys_context, content);
     }
 
@@ -261,7 +263,7 @@ _response_list_txt (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_i
 }
 
 static _mod_httpd_response_t *
-_response_ping_txt (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info)
+_response_ping_txt (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info)
 {
   _mod_httpd_response_t *response = NULL;
   char *content = NULL;
@@ -269,7 +271,8 @@ _response_ping_txt (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_i
   content = lw6msg_oob_generate_pong (sys_context, node_info);
   if (content)
     {
-      response = _mod_httpd_response_from_str (httpd_context, _MOD_HTTPD_STATUS_200, 1, 0, NULL, httpd_context->data.consts.content_type_txt, content);
+      response =
+	_mod_httpd_response_from_str (sys_context, httpd_context, _MOD_HTTPD_STATUS_200, 1, 0, NULL, httpd_context->data.consts.content_type_txt, content);
       LW6SYS_FREE (sys_context, content);
     }
 
@@ -277,7 +280,7 @@ _response_ping_txt (_mod_httpd_context_t * httpd_context, lw6nod_info_t * node_i
 }
 
 int
-_mod_httpd_process_oob (sys_context, _mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
+_mod_httpd_process_oob (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
   _mod_httpd_request_t *request = NULL;
@@ -301,13 +304,13 @@ _mod_httpd_process_oob (sys_context, _mod_httpd_context_t * httpd_context, lw6no
 		    {
 		      if (!strcmp (request->uri, _MOD_HTTPD_OOB_ROOT) || !strcmp (request->uri, _MOD_HTTPD_OOB_INDEX_HTML))
 			{
-			  response = _response_index_html (httpd_context, node_info, dyn_info);
+			  response = _response_index_html (sys_context, httpd_context, node_info, dyn_info);
 			}
 		      if (!strcmp (request->uri, _MOD_HTTPD_OOB_SCREENSHOT_JPEG))
 			{
-			  response = _response_screenshot_jpeg (httpd_context, node_info, dyn_info);
+			  response = _response_screenshot_jpeg (sys_context, httpd_context, node_info, dyn_info);
 			}
-		      lw6nod_dyn_info_free (dyn_info);
+		      lw6nod_dyn_info_free (sys_context, dyn_info);
 		    }
 		  else
 		    {
@@ -318,34 +321,34 @@ _mod_httpd_process_oob (sys_context, _mod_httpd_context_t * httpd_context, lw6no
 		{
 		  if (!strcmp (request->uri, _MOD_HTTPD_OOB_INFO_TXT))
 		    {
-		      response = _response_info_txt (httpd_context, node_info);
+		      response = _response_info_txt (sys_context, httpd_context, node_info);
 		    }
 		  if (!strcmp (request->uri, _MOD_HTTPD_OOB_LIST_TXT))
 		    {
-		      response = _response_list_txt (httpd_context, node_info);
+		      response = _response_list_txt (sys_context, httpd_context, node_info);
 		    }
 		  if (!strcmp (request->uri, _MOD_HTTPD_OOB_PING_TXT))
 		    {
-		      response = _response_ping_txt (httpd_context, node_info);
+		      response = _response_ping_txt (sys_context, httpd_context, node_info);
 		    }
 		  if (!strcmp (request->uri, _MOD_HTTPD_OOB_ROBOTS_TXT))
 		    {
 		      response =
-			_mod_httpd_response_from_str (httpd_context,
+			_mod_httpd_response_from_str (sys_context, httpd_context,
 						      _MOD_HTTPD_STATUS_200,
 						      0, 0, NULL, httpd_context->data.consts.content_type_txt, httpd_context->data.htdocs.robots_txt);
 		    }
 		  if (!strcmp (request->uri, _MOD_HTTPD_OOB_GPL_TXT))
 		    {
 		      response =
-			_mod_httpd_response_from_str (httpd_context,
+			_mod_httpd_response_from_str (sys_context, httpd_context,
 						      _MOD_HTTPD_STATUS_200,
 						      0, 0, NULL, httpd_context->data.consts.content_type_txt, httpd_context->data.htdocs.gpl_txt);
 		    }
 		  if (!strcmp (request->uri, _MOD_HTTPD_OOB_FAVICON_ICO))
 		    {
 		      response =
-			_mod_httpd_response_from_bin (httpd_context,
+			_mod_httpd_response_from_bin (sys_context, httpd_context,
 						      _MOD_HTTPD_STATUS_200,
 						      0, 0, NULL,
 						      httpd_context->data.consts.content_type_txt,
@@ -414,7 +417,7 @@ _mod_httpd_process_oob (sys_context, _mod_httpd_context_t * httpd_context, lw6no
 }
 
 int
-_mod_httpd_oob_should_continue (sys_context, _mod_httpd_context_t * httpd_context, lw6srv_oob_data_t * oob_data)
+_mod_httpd_oob_should_continue (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
 

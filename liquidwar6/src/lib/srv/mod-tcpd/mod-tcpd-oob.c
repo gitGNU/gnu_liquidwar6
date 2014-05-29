@@ -28,7 +28,7 @@
 #include "mod-tcpd-internal.h"
 
 int
-_mod_tcpd_process_oob (sys_context, _mod_tcpd_context_t * tcpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
+_mod_tcpd_process_oob (lw6sys_context_t * sys_context, _mod_tcpd_context_t * tcpd_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
   char *request_line = NULL;
@@ -83,7 +83,7 @@ _mod_tcpd_process_oob (sys_context, _mod_tcpd_context_t * tcpd_context, lw6nod_i
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_ ("mod_tcpd %s response to %s:%d"), LW6MSG_FORBIDDEN, oob_data->remote_ip, oob_data->remote_port);
-		      response = lw6sys_new_sprintf ("%s\n", LW6MSG_FORBIDDEN);
+		      response = lw6sys_new_sprintf (sys_context, "%s\n", LW6MSG_FORBIDDEN);
 		    }
 		  else
 		    {
@@ -98,13 +98,13 @@ _mod_tcpd_process_oob (sys_context, _mod_tcpd_context_t * tcpd_context, lw6nod_i
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_ ("mod_tcpd %s response to %s:%d"), LW6MSG_FORBIDDEN, oob_data->remote_ip, oob_data->remote_port);
-		      response = lw6sys_new_sprintf ("%s\n", LW6MSG_FORBIDDEN);
+		      response = lw6sys_new_sprintf (sys_context, "%s\n", LW6MSG_FORBIDDEN);
 		    }
 		  else
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				  _x_ ("mod_tcpd %s response to %s:%d"), LW6MSG_ERROR, oob_data->remote_ip, oob_data->remote_port);
-		      response = lw6sys_new_sprintf ("%s\n", LW6MSG_ERROR);
+		      response = lw6sys_new_sprintf (sys_context, "%s\n", LW6MSG_ERROR);
 		    }
 		}
 	    }
@@ -135,7 +135,7 @@ _mod_tcpd_process_oob (sys_context, _mod_tcpd_context_t * tcpd_context, lw6nod_i
 }
 
 int
-_mod_tcpd_oob_should_continue (sys_context, _mod_tcpd_context_t * tcpd_context, lw6srv_oob_data_t * oob_data)
+_mod_tcpd_oob_should_continue (lw6sys_context_t * sys_context, _mod_tcpd_context_t * tcpd_context, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
 

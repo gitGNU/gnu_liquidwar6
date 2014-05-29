@@ -38,7 +38,7 @@
  * Return value: none
  */
 lw6srv_tcp_accepter_t *
-lw6srv_tcp_accepter_new (sys_context, char *client_ip, int client_port, int sock)
+lw6srv_tcp_accepter_new (lw6sys_context_t * sys_context, char *client_ip, int client_port, int sock)
 {
   lw6srv_tcp_accepter_t *ret = NULL;
 
@@ -48,7 +48,7 @@ lw6srv_tcp_accepter_new (sys_context, char *client_ip, int client_port, int sock
       ret->client_id.client_ip = client_ip;	// we'll destroy this ourselves
       ret->client_id.client_port = client_port;
       ret->sock = sock;
-      ret->creation_timestamp = lw6sys_get_timestamp ();
+      ret->creation_timestamp = lw6sys_get_timestamp (sys_context);
     }
 
   return ret;
@@ -64,7 +64,7 @@ lw6srv_tcp_accepter_new (sys_context, char *client_ip, int client_port, int sock
  * Return value: none
  */
 void
-lw6srv_tcp_accepter_free (sys_context, lw6srv_tcp_accepter_t * tcp_accepter)
+lw6srv_tcp_accepter_free (lw6sys_context_t * sys_context, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   /*
    * We don't close the socket for it might be used by

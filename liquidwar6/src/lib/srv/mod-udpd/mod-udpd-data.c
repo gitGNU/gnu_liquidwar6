@@ -31,7 +31,7 @@
 #define _CONSTS_FILE "udpd-const.xml"
 
 static void
-_read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_udpd_consts_t *consts;
 
@@ -46,7 +46,7 @@ _read_callback (void *callback_data, const char *element, const char *key, const
 }
 
 static int
-_load_consts (_mod_udpd_consts_t * consts, const char *consts_file)
+_load_consts (lw6sys_context_t * sys_context, _mod_udpd_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
@@ -58,7 +58,7 @@ _load_consts (_mod_udpd_consts_t * consts, const char *consts_file)
 }
 
 int
-_mod_udpd_load_data (sys_context, _mod_udpd_data_t * udpd_data, const char *data_dir)
+_mod_udpd_load_data (lw6sys_context_t * sys_context, _mod_udpd_data_t * udpd_data, const char *data_dir)
 {
   int ret = 0;
   char *udpd_subdir = NULL;
@@ -70,7 +70,7 @@ _mod_udpd_load_data (sys_context, _mod_udpd_data_t * udpd_data, const char *data
       consts_file = lw6sys_path_concat (sys_context, udpd_subdir, _CONSTS_FILE);
       if (consts_file)
 	{
-	  ret = _load_consts (&(udpd_data->consts), consts_file);
+	  ret = _load_consts (sys_context, &(udpd_data->consts), consts_file);
 	  LW6SYS_FREE (sys_context, consts_file);
 	}
       LW6SYS_FREE (sys_context, udpd_subdir);
@@ -80,7 +80,7 @@ _mod_udpd_load_data (sys_context, _mod_udpd_data_t * udpd_data, const char *data
 }
 
 static int
-_unload_consts (_mod_udpd_consts_t * consts)
+_unload_consts (lw6sys_context_t * sys_context, _mod_udpd_consts_t * consts)
 {
   int ret = 1;
 
@@ -90,7 +90,7 @@ _unload_consts (_mod_udpd_consts_t * consts)
 }
 
 void
-_mod_udpd_unload_data (sys_context, _mod_udpd_data_t * udpd_data)
+_mod_udpd_unload_data (lw6sys_context_t * sys_context, _mod_udpd_data_t * udpd_data)
 {
-  _unload_consts (&(udpd_data->consts));
+  _unload_consts (sys_context, &(udpd_data->consts));
 }

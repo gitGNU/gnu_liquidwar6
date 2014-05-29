@@ -41,7 +41,7 @@
 #define _HTTP_500 "Internal Server Error"
 
 _mod_httpd_response_t *
-_mod_httpd_response_from_bin (_mod_httpd_context_t *
+_mod_httpd_response_from_bin (lw6sys_context_t * sys_context, _mod_httpd_context_t *
 			      httpd_context,
 			      int status,
 			      int no_cache, int refresh_sec, const char *refresh_url, const char *content_type, int content_size, void *content_data)
@@ -81,18 +81,19 @@ _mod_httpd_response_from_bin (_mod_httpd_context_t *
 }
 
 _mod_httpd_response_t *
-_mod_httpd_response_from_str (_mod_httpd_context_t *
+_mod_httpd_response_from_str (lw6sys_context_t * sys_context, _mod_httpd_context_t *
 			      httpd_context, int status, int no_cache, int refresh_sec, const char *refresh_url, const char *content_type, const char *content)
 {
   _mod_httpd_response_t *response = NULL;
 
-  response = _mod_httpd_response_from_bin (httpd_context, status, no_cache, refresh_sec, refresh_url, content_type, strlen (content), (void *) content);
+  response =
+    _mod_httpd_response_from_bin (sys_context, httpd_context, status, no_cache, refresh_sec, refresh_url, content_type, strlen (content), (void *) content);
 
   return response;
 }
 
 void
-_mod_httpd_response_free (sys_context, _mod_httpd_response_t * response)
+_mod_httpd_response_free (lw6sys_context_t * sys_context, _mod_httpd_response_t * response)
 {
   if (response)
     {
@@ -113,7 +114,7 @@ _mod_httpd_response_free (sys_context, _mod_httpd_response_t * response)
 }
 
 int
-_mod_httpd_response_send (sys_context, _mod_httpd_context_t * httpd_context, _mod_httpd_response_t * response, int *sock, int headers_only)
+_mod_httpd_response_send (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, _mod_httpd_response_t * response, int *sock, int headers_only)
 {
   int ret = 0;
   char *first_line = NULL;
@@ -156,7 +157,7 @@ _mod_httpd_response_send (sys_context, _mod_httpd_context_t * httpd_context, _mo
 	{
 	  lw6net_send_line_tcp (sys_context, sock, first_line);
 
-	  now_str = lw6sys_date_rfc1123 (0);
+	  now_str = lw6sys_date_rfc1123 (sys_context, 0);
 	  if (now_str)
 	    {
 	      line = lw6sys_new_sprintf (sys_context, "Server: %s", lw6sys_build_get_package_tarname ());
@@ -175,7 +176,7 @@ _mod_httpd_response_send (sys_context, _mod_httpd_context_t * httpd_context, _mo
 		}
 	      if (status == _MOD_HTTPD_STATUS_401)
 		{
-		  line = lw6sys_new_sprintf ("WWW-Authenticate: Basic realm=\"%s\"", httpd_context->data.consts.auth_realm);
+		  line = lw6sys_new_sprintf (sys_context, "WWW-Authenticate: Basic realm=\"%s\"", httpd_context->data.consts.auth_realm);
 		  if (line)
 		    {
 		      lw6net_send_line_tcp (sys_context, sock, line);

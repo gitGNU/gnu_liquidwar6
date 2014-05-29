@@ -60,7 +60,7 @@ mod_httpd_is_dlclose_safe ()
 }
 
 static void *
-_init (int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
+_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
 {
   _mod_httpd_context_t *httpd_context = _mod_httpd_init (sys_context, argc, argv, properties, listener);
 
@@ -68,7 +68,7 @@ _init (int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_li
 }
 
 static void
-_quit (void *srv_context)
+_quit (lw6sys_context_t * sys_context, void *srv_context)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
 
@@ -79,7 +79,8 @@ _quit (void *srv_context)
 }
 
 static int
-_analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
+_analyse_tcp (lw6sys_context_t * sys_context, void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id,
+	      char **remote_url)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
@@ -93,7 +94,8 @@ _analyse_tcp (void *srv_context, lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_in
 }
 
 static int
-_analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
+_analyse_udp (lw6sys_context_t * sys_context, void *srv_context, lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id,
+	      char **remote_url)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
@@ -107,7 +109,7 @@ _analyse_udp (void *srv_context, lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t
 }
 
 static int
-_process_oob (void *srv_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
+_process_oob (lw6sys_context_t * sys_context, void *srv_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
@@ -121,7 +123,7 @@ _process_oob (void *srv_context, lw6nod_info_t * node_info, lw6srv_oob_data_t * 
 }
 
 static lw6cnx_connection_t *
-_open (void *srv_context, lw6srv_listener_t * listener, const char *local_url,
+_open (lw6sys_context_t * sys_context, void *srv_context, lw6srv_listener_t * listener, const char *local_url,
        const char *remote_url, const char *remote_ip,
        int remote_port, const char *password,
        u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
@@ -140,7 +142,7 @@ _open (void *srv_context, lw6srv_listener_t * listener, const char *local_url,
 }
 
 static int
-_feed_with_tcp (void *srv_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
+_feed_with_tcp (lw6sys_context_t * sys_context, void *srv_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
@@ -154,7 +156,7 @@ _feed_with_tcp (void *srv_context, lw6cnx_connection_t * connection, lw6srv_tcp_
 }
 
 static int
-_feed_with_udp (void *srv_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
+_feed_with_udp (lw6sys_context_t * sys_context, void *srv_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
@@ -168,7 +170,7 @@ _feed_with_udp (void *srv_context, lw6cnx_connection_t * connection, lw6srv_udp_
 }
 
 static void
-_close (void *srv_context, lw6cnx_connection_t * connection)
+_close (lw6sys_context_t * sys_context, void *srv_context, lw6cnx_connection_t * connection)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
 
@@ -179,7 +181,7 @@ _close (void *srv_context, lw6cnx_connection_t * connection)
 }
 
 static int
-_send (void *srv_context, lw6cnx_connection_t * connection, int64_t now,
+_send (lw6sys_context_t * sys_context, void *srv_context, lw6cnx_connection_t * connection, int64_t now,
        u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
@@ -194,7 +196,7 @@ _send (void *srv_context, lw6cnx_connection_t * connection, int64_t now,
 }
 
 static int
-_can_send (void *srv_context, lw6cnx_connection_t * connection)
+_can_send (lw6sys_context_t * sys_context, void *srv_context, lw6cnx_connection_t * connection)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   int ret = 0;
@@ -208,7 +210,7 @@ _can_send (void *srv_context, lw6cnx_connection_t * connection)
 }
 
 static void
-_poll (void *srv_context, lw6cnx_connection_t * connection)
+_poll (lw6sys_context_t * sys_context, void *srv_context, lw6cnx_connection_t * connection)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
 
@@ -219,7 +221,7 @@ _poll (void *srv_context, lw6cnx_connection_t * connection)
 }
 
 static char *
-_repr (void *srv_context, lw6cnx_connection_t * connection)
+_repr (lw6sys_context_t * sys_context, void *srv_context, lw6cnx_connection_t * connection)
 {
   _mod_httpd_context_t *httpd_context = (_mod_httpd_context_t *) srv_context;
   char *ret = NULL;
@@ -232,8 +234,18 @@ _repr (void *srv_context, lw6cnx_connection_t * connection)
   return ret;
 }
 
+/**
+ * mod_httpd_get_pedigree
+ *
+ * @sys_context: global system context
+ *
+ * Returns the pedigree for mod-httpd, giving details about the module,
+ * including name, description, licence, date/time of compilation.
+ *
+ * Return value: dynamically allocated object.
+ */
 lw6sys_module_pedigree_t *
-mod_httpd_get_pedigree ()
+mod_httpd_get_pedigree (lw6sys_context_t * sys_context)
 {
   lw6sys_module_pedigree_t *module_pedigree = NULL;
 
@@ -254,8 +266,17 @@ mod_httpd_get_pedigree ()
   return module_pedigree;
 }
 
+/**
+ * mod_httpd_create_backend
+ *
+ * @sys_context: global system context
+ *
+ * Creates a mod-httpd backend.
+ *
+ * Return value: backend pointer.
+ */
 lw6srv_backend_t *
-mod_httpd_create_backend ()
+mod_httpd_create_backend (lw6sys_context_t * sys_context)
 {
   lw6srv_backend_t *backend;
 

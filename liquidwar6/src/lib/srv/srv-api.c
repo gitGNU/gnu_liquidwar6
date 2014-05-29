@@ -27,7 +27,7 @@
 #include "srv.h"
 
 static void
-_warning (const char *func_name)
+_warning (lw6sys_context_t * sys_context, const char *func_name)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("srv backend function \"%s\" is not defined"), func_name);
 }
@@ -35,6 +35,7 @@ _warning (const char *func_name)
 /**
  * lw6srv_init
  *
+ * @sys_context: global system context
  * @backend: backend to use
  * @listener: listener object to use when constructing the backend.
  *
@@ -43,18 +44,18 @@ _warning (const char *func_name)
  * Return value: 1 on success, 0 on failure
  */
 int
-lw6srv_init (sys_context, lw6srv_backend_t * backend, lw6srv_listener_t * listener)
+lw6srv_init (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6srv_listener_t * listener)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   backend->srv_context = NULL;
   if (backend->init)
     {
-      backend->srv_context = backend->init (backend->argc, backend->argv, &(backend->properties), listener);
+      backend->srv_context = backend->init (sys_context, backend->argc, backend->argv, &(backend->properties), listener);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -65,12 +66,13 @@ lw6srv_init (sys_context, lw6srv_backend_t * backend, lw6srv_listener_t * listen
 /**
  * lw6srv_quit
  *
+ * @sys_context: global system context
  * @backend: unitialize a srv backend
  *
  * Closes a srv, but does not free all ressources.
  */
 void
-lw6srv_quit (sys_context, lw6srv_backend_t * backend)
+lw6srv_quit (lw6sys_context_t * sys_context, lw6srv_backend_t * backend)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
@@ -82,13 +84,13 @@ lw6srv_quit (sys_context, lw6srv_backend_t * backend)
        */
       if (backend->srv_context)
 	{
-	  backend->quit (backend->srv_context);
+	  backend->quit (sys_context, backend->srv_context);
 	  backend->srv_context = NULL;
 	}
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
   LW6SYS_BACKEND_FUNCTION_END;
 }
@@ -96,6 +98,7 @@ lw6srv_quit (sys_context, lw6srv_backend_t * backend)
 /**
  * lw6srv_analyse_tcp
  *
+ * @sys_context: global system context
  * @backend: server backend to use
  * @tcp_accepter: TCP mode accepter
  * @node_info: this node information
@@ -111,8 +114,8 @@ lw6srv_quit (sys_context, lw6srv_backend_t * backend)
  * Return value: bitwise flag.
  */
 int
-lw6srv_analyse_tcp (sys_context, lw6srv_backend_t * backend, lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id,
-		    char **remote_url)
+lw6srv_analyse_tcp (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info,
+		    u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
 
@@ -120,11 +123,11 @@ lw6srv_analyse_tcp (sys_context, lw6srv_backend_t * backend, lw6srv_tcp_accepter
 
   if (backend->analyse_tcp)
     {
-      ret = backend->analyse_tcp (backend->srv_context, tcp_accepter, node_info, remote_id, remote_url);
+      ret = backend->analyse_tcp (sys_context, backend->srv_context, tcp_accepter, node_info, remote_id, remote_url);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -135,6 +138,7 @@ lw6srv_analyse_tcp (sys_context, lw6srv_backend_t * backend, lw6srv_tcp_accepter
 /**
  * lw6srv_analyse_tcp
  *
+ * @sys_context: global system context
  * @backend: server backend to use
  * @udp_buffer: UDP buffer
  * @node_info: this node information
@@ -150,8 +154,8 @@ lw6srv_analyse_tcp (sys_context, lw6srv_backend_t * backend, lw6srv_tcp_accepter
  * Return value: bitwise flag.
  */
 int
-lw6srv_analyse_udp (sys_context, lw6srv_backend_t * backend, lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id,
-		    char **remote_url)
+lw6srv_analyse_udp (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info,
+		    u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
 
@@ -159,11 +163,11 @@ lw6srv_analyse_udp (sys_context, lw6srv_backend_t * backend, lw6srv_udp_buffer_t
 
   if (backend->analyse_udp)
     {
-      ret = backend->analyse_udp (backend->srv_context, udp_buffer, node_info, remote_id, remote_url);
+      ret = backend->analyse_udp (sys_context, backend->srv_context, udp_buffer, node_info, remote_id, remote_url);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -174,6 +178,7 @@ lw6srv_analyse_udp (sys_context, lw6srv_backend_t * backend, lw6srv_udp_buffer_t
 /**
  * lw6srv_process_oob
  *
+ * @sys_context: global system context
  * @backend: server backend to use
  * @node_info: this node information
  * @oob_data: OOB data received
@@ -183,7 +188,7 @@ lw6srv_analyse_udp (sys_context, lw6srv_backend_t * backend, lw6srv_udp_buffer_t
  * Return value: 1 if OK, 0 if not.
  */
 int
-lw6srv_process_oob (sys_context, lw6srv_backend_t * backend, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
+lw6srv_process_oob (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6nod_info_t * node_info, lw6srv_oob_data_t * oob_data)
 {
   int ret = 0;
 
@@ -191,11 +196,11 @@ lw6srv_process_oob (sys_context, lw6srv_backend_t * backend, lw6nod_info_t * nod
 
   if (backend->process_oob)
     {
-      ret = backend->process_oob (backend->srv_context, node_info, oob_data);
+      ret = backend->process_oob (sys_context, backend->srv_context, node_info, oob_data);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -206,6 +211,7 @@ lw6srv_process_oob (sys_context, lw6srv_backend_t * backend, lw6nod_info_t * nod
 /**
  * lw6srv_open
  *
+ * @sys_context: global system context
  * @backend: server backend to use
  * @lw6srv_listener: listener object
  * @local_url: local url to use (to send to peer)
@@ -231,7 +237,7 @@ lw6srv_process_oob (sys_context, lw6srv_backend_t * backend, lw6nod_info_t * nod
  * Return value: new connection object.
  */
 lw6cnx_connection_t *
-lw6srv_open (sys_context, lw6srv_backend_t * backend, lw6srv_listener_t * listener,
+lw6srv_open (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6srv_listener_t * listener,
 	     const char *local_url, const char *remote_url,
 	     const char *remote_ip, int remote_port, const char *password,
 	     u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
@@ -243,7 +249,7 @@ lw6srv_open (sys_context, lw6srv_backend_t * backend, lw6srv_listener_t * listen
   if (backend->open)
     {
       ret =
-	backend->open (backend->srv_context, listener, local_url, remote_url,
+	backend->open (sys_context, backend->srv_context, listener, local_url, remote_url,
 		       remote_ip, remote_port, password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
       if (ret)
 	{
@@ -252,7 +258,7 @@ lw6srv_open (sys_context, lw6srv_backend_t * backend, lw6srv_listener_t * listen
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -263,7 +269,8 @@ lw6srv_open (sys_context, lw6srv_backend_t * backend, lw6srv_listener_t * listen
 /**
  * lw6srv_feed_with_tcp
  *
- * @beckend: server backend to use
+ * @sys_context: global system context
+ * @backend: server backend to use
  * @connection: connection to use
  * @tcp_accepter: TCP accepter holding data
  *
@@ -274,7 +281,7 @@ lw6srv_open (sys_context, lw6srv_backend_t * backend, lw6srv_listener_t * listen
  * Return value: 1 some data processed, else 0
  */
 int
-lw6srv_feed_with_tcp (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
+lw6srv_feed_with_tcp (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
 
@@ -282,11 +289,11 @@ lw6srv_feed_with_tcp (sys_context, lw6srv_backend_t * backend, lw6cnx_connection
 
   if (backend->feed_with_tcp)
     {
-      ret = backend->feed_with_tcp (backend->srv_context, connection, tcp_accepter);
+      ret = backend->feed_with_tcp (sys_context, backend->srv_context, connection, tcp_accepter);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -297,7 +304,8 @@ lw6srv_feed_with_tcp (sys_context, lw6srv_backend_t * backend, lw6cnx_connection
 /**
  * lw6srv_feed_with_udp
  *
- * @beckend: server backend to use
+ * @sys_context: global system context
+ * @backend: server backend to use
  * @connection: connection to use
  * @tcp_accepter: TCP accepter holding data
  *
@@ -308,7 +316,7 @@ lw6srv_feed_with_tcp (sys_context, lw6srv_backend_t * backend, lw6cnx_connection
  * Return value: 1 some data processed, else 0
  */
 int
-lw6srv_feed_with_udp (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
+lw6srv_feed_with_udp (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 
@@ -316,11 +324,11 @@ lw6srv_feed_with_udp (sys_context, lw6srv_backend_t * backend, lw6cnx_connection
 
   if (backend->feed_with_udp)
     {
-      ret = backend->feed_with_udp (backend->srv_context, connection, udp_buffer);
+      ret = backend->feed_with_udp (sys_context, backend->srv_context, connection, udp_buffer);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -331,6 +339,7 @@ lw6srv_feed_with_udp (sys_context, lw6srv_backend_t * backend, lw6cnx_connection
 /**
  * lw6srv_close
  *
+ * @sys_context: global system context
  * @backend: server backend to use
  * @connection: connection to close
  *
@@ -339,17 +348,17 @@ lw6srv_feed_with_udp (sys_context, lw6srv_backend_t * backend, lw6cnx_connection
  * Return value: none.
  */
 void
-lw6srv_close (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
+lw6srv_close (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->close)
     {
-      backend->close (backend->srv_context, connection);
+      backend->close (sys_context, backend->srv_context, connection);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -358,6 +367,7 @@ lw6srv_close (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * con
 /**
  * lw6srv_send
  *
+ * @sys_context: global system context
  * @backend: server backend to use
  * @connection: connection to use
  * @now: current timestamp
@@ -373,7 +383,7 @@ lw6srv_close (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * con
  * Return value: 1 on success, 0 if not
  */
 int
-lw6srv_send (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
+lw6srv_send (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
 	     int64_t now, u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
 {
   int ret = 0;
@@ -384,7 +394,9 @@ lw6srv_send (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * conn
     {
       if (lw6cnx_connection_reliability_filter (sys_context, connection))
 	{
-	  ret = backend->send (backend->srv_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, message);
+	  ret =
+	    backend->send (sys_context, backend->srv_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id,
+			   message);
 	}
       else
 	{
@@ -400,7 +412,7 @@ lw6srv_send (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * conn
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -411,6 +423,7 @@ lw6srv_send (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * conn
 /**
  * lw6srv_can_send
  *
+ * @sys_context: global system context
  * @backend: server backend to use
  * @connection: connection to use
  *
@@ -421,7 +434,7 @@ lw6srv_send (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * conn
  * Return value: 1 if it can be used to send messages, 0 if not ready.
  */
 int
-lw6srv_can_send (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
+lw6srv_can_send (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   int ret = 0;
 
@@ -429,11 +442,11 @@ lw6srv_can_send (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * 
 
   if (backend->send)
     {
-      ret = backend->can_send (backend->srv_context, connection);
+      ret = backend->can_send (sys_context, backend->srv_context, connection);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -444,6 +457,7 @@ lw6srv_can_send (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * 
 /**
  * lw6srv_poll
  *
+ * @sys_context: global system context
  * @backend: server backend to use
  * @connection: connection to use
  *
@@ -452,17 +466,17 @@ lw6srv_can_send (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * 
  * Return value: none.
  */
 void
-lw6srv_poll (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
+lw6srv_poll (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   LW6SYS_BACKEND_FUNCTION_BEGIN;
 
   if (backend->poll)
     {
-      backend->poll (backend->srv_context, connection);
+      backend->poll (sys_context, backend->srv_context, connection);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;
@@ -471,6 +485,7 @@ lw6srv_poll (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * conn
 /**
  * lw6srv_repr
  *
+ * @sys_context: global system context
  * @backend: backend to use
  * @connection: connection to represent
  *
@@ -479,7 +494,7 @@ lw6srv_poll (sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * conn
  * Return value: dynamically allocated string.
  */
 char *
-lw6srv_repr (sys_context, const lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
+lw6srv_repr (lw6sys_context_t * sys_context, const lw6srv_backend_t * backend, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 
@@ -487,11 +502,11 @@ lw6srv_repr (sys_context, const lw6srv_backend_t * backend, lw6cnx_connection_t 
 
   if (backend->repr)
     {
-      ret = backend->repr (backend->srv_context, connection);
+      ret = backend->repr (sys_context, backend->srv_context, connection);
     }
   else
     {
-      _warning (__FUNCTION__);
+      _warning (sys_context, __FUNCTION__);
     }
 
   LW6SYS_BACKEND_FUNCTION_END;

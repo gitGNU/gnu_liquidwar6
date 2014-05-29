@@ -31,7 +31,7 @@
 #define _ACCESS_LOG_FILE "access_log.txt"
 
 _mod_httpd_context_t *
-_mod_httpd_init (sys_context, int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
+_mod_httpd_init (lw6sys_context_t * sys_context, int argc, const char *argv[], lw6cnx_properties_t * properties, lw6srv_listener_t * listener)
 {
   _mod_httpd_context_t *httpd_context = NULL;
   char *user_dir;
@@ -78,9 +78,9 @@ _mod_httpd_init (sys_context, int argc, const char *argv[], lw6cnx_properties_t 
 		      httpd_context->access_log_file = lw6sys_path_concat (sys_context, httpd_dir, _ACCESS_LOG_FILE);
 		      if (httpd_context->access_log_file)
 			{
-			  if (lw6sys_clear_file (httpd_context->access_log_file))
+			  if (lw6sys_clear_file (sys_context, httpd_context->access_log_file))
 			    {
-			      httpd_context->access_log_mutex = lw6sys_mutex_create ();
+			      httpd_context->access_log_mutex = lw6sys_mutex_create (sys_context);
 			      if (httpd_context->access_log_mutex)
 				{
 				  ok = 1;
@@ -119,7 +119,7 @@ _mod_httpd_init (sys_context, int argc, const char *argv[], lw6cnx_properties_t 
 }
 
 void
-_mod_httpd_quit (sys_context, _mod_httpd_context_t * httpd_context)
+_mod_httpd_quit (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("httpd quit"));
 

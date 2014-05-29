@@ -54,16 +54,19 @@
 typedef struct _lw6srv_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
   lw6srv_backend_t *backend[_TEST_NB_BACKENDS];
   lw6srv_listener_t *listener;
 } _lw6srv_test_data_t;
 
-static _lw6srv_test_data_t _test_data = { 0, {NULL, NULL, NULL}, NULL };
+static _lw6srv_test_data_t _test_data = { 0, NULL, {NULL, NULL, NULL}, NULL };
 
 static void
 _test_oob ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -88,6 +91,8 @@ static void
 _test_tcp_accepter ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -106,7 +111,7 @@ _test_tcp_accepter ()
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create tcp_accepter object"));
-	    LW6SYS_FREE (ip);
+	    LW6SYS_FREE (sys_context, ip);
 	    ret = 0;
 	  }
       }
@@ -119,6 +124,8 @@ static void
 _test_udp_buffer ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -142,13 +149,13 @@ _test_udp_buffer ()
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create udp_buffer object"));
 		LW6SYS_FREE (sys_context, line);
-		LW6SYS_FREE (ip);
+		LW6SYS_FREE (sys_context, ip);
 		ret = 0;
 	      }
 	  }
 	else
 	  {
-	    LW6SYS_FREE (ip);
+	    LW6SYS_FREE (sys_context, ip);
 	  }
       }
   }
@@ -163,6 +170,8 @@ static void
 _test_dummy ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
@@ -196,6 +205,7 @@ static int
 _setup_init_listener ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int argc = _TEST_ARGC;
   const char *argv[_TEST_ARGC] = { _TEST_ARGV0 };
   int i = 0;
@@ -247,6 +257,7 @@ static int
 _setup_quit_listener ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   int i = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit libsrv-listener CUnit test suite"));
@@ -272,7 +283,7 @@ _setup_quit_listener ()
 	    }
 	}
     }
-  lw6net_quit ();
+  lw6net_quit (sys_context);
 
   return ret;
 }
@@ -280,6 +291,7 @@ _setup_quit_listener ()
 /**
  * lw6srv_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the libsrv module.
@@ -287,10 +299,12 @@ _setup_quit_listener ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6srv_test_register (sys_context, int mode)
+lw6srv_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
   CU_Suite *suite;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -342,6 +356,7 @@ lw6srv_test_register (sys_context, int mode)
 /**
  * lw6srv_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the @srv module test suite, testing most (if not all...)
@@ -350,11 +365,13 @@ lw6srv_test_register (sys_context, int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6srv_test_run (sys_context, int mode)
+lw6srv_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       ret = _test_data.ret;

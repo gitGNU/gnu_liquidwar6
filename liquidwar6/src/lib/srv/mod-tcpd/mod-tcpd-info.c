@@ -28,7 +28,7 @@
 #include "mod-tcpd-internal.h"
 
 char *
-_mod_tcpd_repr (sys_context, _mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection)
+_mod_tcpd_repr (lw6sys_context_t * sys_context, _mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection)
 {
   char *ret = NULL;
 

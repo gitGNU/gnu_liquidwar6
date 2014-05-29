@@ -463,6 +463,6 @@ _lw6dsp_thread_join (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
     }
 
 #ifdef LW6_MAC_OS_X
-  _lw6dsp_macosx_thread_quit (sys_context,data->macosx_vthread_handler);
+  _lw6dsp_macosx_thread_quit (sys_context, data->macosx_vthread_handler);
 #endif // LW6_MAC_OS_X
 }

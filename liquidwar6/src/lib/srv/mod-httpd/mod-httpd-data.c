@@ -37,7 +37,7 @@
 #define _FAVICON_ICO_FILE "favicon.ico"
 
 static void
-_read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t * sys_context, void *callback_data, const char *element, const char *key, const char *value)
 {
   _mod_httpd_consts_t *consts;
 
@@ -74,7 +74,7 @@ _read_callback (void *callback_data, const char *element, const char *key, const
 }
 
 static int
-_load_consts (_mod_httpd_consts_t * consts, const char *consts_file)
+_load_consts (lw6sys_context_t * sys_context, _mod_httpd_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
@@ -94,38 +94,38 @@ _load_consts (_mod_httpd_consts_t * consts, const char *consts_file)
 }
 
 static int
-_load_htdocs (_mod_httpd_htdocs_t * htdocs, const char *htdocs_dir)
+_load_htdocs (lw6sys_context_t * sys_context, _mod_httpd_htdocs_t * htdocs, const char *htdocs_dir)
 {
   int ret = 1;
   char *filename = NULL;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("loading htdocs from \"%s\""), htdocs_dir);
 
-  filename = lw6sys_path_concat (htdocs_dir, _INDEX_HTML_FILE);
+  filename = lw6sys_path_concat (sys_context, htdocs_dir, _INDEX_HTML_FILE);
   if (filename)
     {
       htdocs->index_html = lw6sys_read_file_content (sys_context, filename);
       LW6SYS_FREE (sys_context, filename);
     }
-  filename = lw6sys_path_concat (htdocs_dir, _ERROR_HTML_FILE);
+  filename = lw6sys_path_concat (sys_context, htdocs_dir, _ERROR_HTML_FILE);
   if (filename)
     {
       htdocs->error_html = lw6sys_read_file_content (sys_context, filename);
       LW6SYS_FREE (sys_context, filename);
     }
-  filename = lw6sys_path_concat (htdocs_dir, _ROBOTS_TXT_FILE);
+  filename = lw6sys_path_concat (sys_context, htdocs_dir, _ROBOTS_TXT_FILE);
   if (filename)
     {
       htdocs->robots_txt = lw6sys_read_file_content (sys_context, filename);
       LW6SYS_FREE (sys_context, filename);
     }
-  filename = lw6sys_path_concat (htdocs_dir, _GPL_TXT_FILE);
+  filename = lw6sys_path_concat (sys_context, htdocs_dir, _GPL_TXT_FILE);
   if (filename)
     {
       htdocs->gpl_txt = lw6sys_read_file_content (sys_context, filename);
       LW6SYS_FREE (sys_context, filename);
     }
-  filename = lw6sys_path_concat (htdocs_dir, _FAVICON_ICO_FILE);
+  filename = lw6sys_path_concat (sys_context, htdocs_dir, _FAVICON_ICO_FILE);
   if (filename)
     {
       htdocs->favicon_ico_data = lw6sys_read_file_content_bin (sys_context, &(htdocs->favicon_ico_size), filename);
@@ -138,7 +138,7 @@ _load_htdocs (_mod_httpd_htdocs_t * htdocs, const char *htdocs_dir)
 }
 
 int
-_mod_httpd_load_data (sys_context, _mod_httpd_data_t * httpd_data, const char *data_dir)
+_mod_httpd_load_data (lw6sys_context_t * sys_context, _mod_httpd_data_t * httpd_data, const char *data_dir)
 {
   int ret = 0;
   char *httpd_subdir = NULL;
@@ -152,7 +152,7 @@ _mod_httpd_load_data (sys_context, _mod_httpd_data_t * httpd_data, const char *d
       htdocs_dir = lw6sys_path_concat (sys_context, httpd_subdir, _HTDOCS_DIR);
       if (consts_file && htdocs_dir)
 	{
-	  ret = _load_consts (&(httpd_data->consts), consts_file) && _load_htdocs (&(httpd_data->htdocs), htdocs_dir);
+	  ret = _load_consts (sys_context, &(httpd_data->consts), consts_file) && _load_htdocs (sys_context, &(httpd_data->htdocs), htdocs_dir);
 	}
       if (consts_file)
 	{
@@ -169,7 +169,7 @@ _mod_httpd_load_data (sys_context, _mod_httpd_data_t * httpd_data, const char *d
 }
 
 static int
-_unload_consts (_mod_httpd_consts_t * consts)
+_unload_consts (lw6sys_context_t * sys_context, _mod_httpd_consts_t * consts)
 {
   int ret = 1;
 
@@ -231,7 +231,7 @@ _unload_consts (_mod_httpd_consts_t * consts)
 }
 
 static int
-_unload_htdocs (_mod_httpd_htdocs_t * htdocs)
+_unload_htdocs (lw6sys_context_t * sys_context, _mod_httpd_htdocs_t * htdocs)
 {
   int ret = 1;
 
@@ -261,8 +261,8 @@ _unload_htdocs (_mod_httpd_htdocs_t * htdocs)
 }
 
 void
-_mod_httpd_unload_data (sys_context, _mod_httpd_data_t * httpd_data)
+_mod_httpd_unload_data (lw6sys_context_t * sys_context, _mod_httpd_data_t * httpd_data)
 {
-  _unload_htdocs (&(httpd_data->htdocs));
-  _unload_consts (&(httpd_data->consts));
+  _unload_htdocs (sys_context, &(httpd_data->htdocs));
+  _unload_consts (sys_context, &(httpd_data->consts));
 }

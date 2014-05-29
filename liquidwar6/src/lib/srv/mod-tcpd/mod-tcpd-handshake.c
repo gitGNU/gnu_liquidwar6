@@ -28,7 +28,7 @@
 #include "mod-tcpd-internal.h"
 
 int
-_mod_tcpd_analyse_tcp (sys_context, _mod_tcpd_context_t * tcpd_context,
+_mod_tcpd_analyse_tcp (lw6sys_context_t * sys_context, _mod_tcpd_context_t * tcpd_context,
 		       lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
@@ -58,11 +58,11 @@ _mod_tcpd_analyse_tcp (sys_context, _mod_tcpd_context_t * tcpd_context,
 	  ret |= (LW6SRV_ANALYSE_UNDERSTANDABLE | LW6SRV_ANALYSE_OOB);
 	}
 
-      if (lw6sys_str_starts_with_no_case (line, _MOD_TCPD_PROTOCOL_LW6_STRING))
+      if (lw6sys_str_starts_with_no_case (sys_context, line, _MOD_TCPD_PROTOCOL_LW6_STRING))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("recognized tcpd protocol"));
 	  if (lw6msg_envelope_analyse
-	      (line, LW6MSG_ENVELOPE_MODE_TELNET,
+	      (sys_context, line, LW6MSG_ENVELOPE_MODE_TELNET,
 	       node_info->const_info.ref_info.url,
 	       node_info->const_info.password, 0, node_info->const_info.ref_info.id_int, &msg, NULL, NULL, remote_id, NULL, NULL, NULL, remote_url))
 	    {
@@ -102,7 +102,7 @@ _mod_tcpd_analyse_tcp (sys_context, _mod_tcpd_context_t * tcpd_context,
 }
 
 int
-_mod_tcpd_analyse_udp (sys_context, _mod_tcpd_context_t * tcpd_context,
+_mod_tcpd_analyse_udp (lw6sys_context_t * sys_context, _mod_tcpd_context_t * tcpd_context,
 		       lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
@@ -124,7 +124,8 @@ _mod_tcpd_analyse_udp (sys_context, _mod_tcpd_context_t * tcpd_context,
 }
 
 int
-_mod_tcpd_feed_with_tcp (sys_context, _mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
+_mod_tcpd_feed_with_tcp (lw6sys_context_t * sys_context, _mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection,
+			 lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
   _mod_tcpd_specific_data_t *specific_data = (_mod_tcpd_specific_data_t *) connection->backend_specific_data;;
@@ -169,7 +170,8 @@ _mod_tcpd_feed_with_tcp (sys_context, _mod_tcpd_context_t * tcpd_context, lw6cnx
 }
 
 int
-_mod_tcpd_feed_with_udp (sys_context, _mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
+_mod_tcpd_feed_with_udp (lw6sys_context_t * sys_context, _mod_tcpd_context_t * tcpd_context, lw6cnx_connection_t * connection,
+			 lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 

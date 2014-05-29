@@ -28,7 +28,7 @@
 #include "mod-httpd-internal.h"
 
 void
-_mod_httpd_reply_thread_func (sys_context, void *callback_data)
+_mod_httpd_reply_thread_func (lw6sys_context_t * sys_context, void *callback_data)
 {
   _mod_httpd_reply_thread_data_t *reply_thread_data = (_mod_httpd_reply_thread_data_t *) callback_data;
   _mod_httpd_context_t *httpd_context = reply_thread_data->httpd_context;
@@ -56,7 +56,7 @@ _mod_httpd_reply_thread_func (sys_context, void *callback_data)
 		  envelope_line = request->uri;
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_httpd received envelope \"%s\""), envelope_line);
 		  if (lw6msg_envelope_analyse
-		      (envelope_line, LW6MSG_ENVELOPE_MODE_URL,
+		      (sys_context, envelope_line, LW6MSG_ENVELOPE_MODE_URL,
 		       cnx->local_url, cnx->password,
 		       cnx->remote_id_int,
 		       cnx->local_id_int, &msg,
@@ -66,7 +66,7 @@ _mod_httpd_reply_thread_func (sys_context, void *callback_data)
 		      if (cnx->recv_callback_func)
 			{
 			  cnx->recv_callback_func
-			    (cnx->recv_callback_data, (void *) cnx, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg);
+			    (sys_context, cnx->recv_callback_data, (void *) cnx, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg);
 			}
 		      else
 			{
@@ -114,7 +114,7 @@ _mod_httpd_reply_thread_func (sys_context, void *callback_data)
 }
 
 void
-_mod_httpd_reply_thread_join (sys_context, void *callback_data)
+_mod_httpd_reply_thread_join (lw6sys_context_t * sys_context, void *callback_data)
 {
   _mod_httpd_reply_thread_data_t *reply_thread_data = (_mod_httpd_reply_thread_data_t *) callback_data;
 
@@ -126,7 +126,7 @@ _mod_httpd_reply_thread_join (sys_context, void *callback_data)
 }
 
 void
-_mod_httpd_reply_thread_free_list_item (sys_context, void *data)
+_mod_httpd_reply_thread_free_list_item (lw6sys_context_t * sys_context, void *data)
 {
   _mod_httpd_reply_thread_data_t *reply_thread_data = NULL;
   lw6sys_thread_handler_t *handler = (lw6sys_thread_handler_t *) data;
@@ -138,7 +138,7 @@ _mod_httpd_reply_thread_free_list_item (sys_context, void *data)
 }
 
 int
-_mod_httpd_reply_thread_filter (sys_context, void *func_data, void *data)
+_mod_httpd_reply_thread_filter (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   int ret = 0;
 
@@ -151,7 +151,7 @@ _mod_httpd_reply_thread_filter (sys_context, void *func_data, void *data)
 }
 
 int
-_mod_httpd_reply_thread_should_continue (sys_context, _mod_httpd_reply_thread_data_t * reply_thread_data)
+_mod_httpd_reply_thread_should_continue (lw6sys_context_t * sys_context, _mod_httpd_reply_thread_data_t * reply_thread_data)
 {
   int ret = 0;
 
@@ -163,7 +163,7 @@ _mod_httpd_reply_thread_should_continue (sys_context, _mod_httpd_reply_thread_da
 }
 
 _mod_httpd_response_t *
-_mod_httpd_reply_thread_response (sys_context, _mod_httpd_reply_thread_data_t * reply_thread_data)
+_mod_httpd_reply_thread_response (lw6sys_context_t * sys_context, _mod_httpd_reply_thread_data_t * reply_thread_data)
 {
   _mod_httpd_context_t *httpd_context = reply_thread_data->httpd_context;
   lw6cnx_connection_t *cnx = reply_thread_data->cnx;
@@ -188,7 +188,8 @@ _mod_httpd_reply_thread_response (sys_context, _mod_httpd_reply_thread_data_t * 
 
   if (send_buffer)
     {
-      response = _mod_httpd_response_from_str (httpd_context, _MOD_HTTPD_STATUS_200, 0, 0, NULL, httpd_context->data.consts.content_type_txt, send_buffer);
+      response =
+	_mod_httpd_response_from_str (sys_context, httpd_context, _MOD_HTTPD_STATUS_200, 0, 0, NULL, httpd_context->data.consts.content_type_txt, send_buffer);
       LW6SYS_FREE (sys_context, send_buffer);
     }
 

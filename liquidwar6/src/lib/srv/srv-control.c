@@ -29,6 +29,7 @@
 /**
  * lw6srv_start
  *
+ * @sys_context: global system context
  * @ip: ip address to listen on
  * @port: port IP to bind to
  *
@@ -38,14 +39,14 @@
  * Return value: new listener object.
  */
 lw6srv_listener_t *
-lw6srv_start (sys_context, const char *ip, int port)
+lw6srv_start (lw6sys_context_t * sys_context, const char *ip, int port)
 {
   lw6srv_listener_t *listener = NULL;
 
   listener = LW6SYS_CALLOC (sys_context, sizeof (lw6srv_listener_t));
   if (listener)
     {
-      listener->ip = lw6sys_str_copy (ip);
+      listener->ip = lw6sys_str_copy (sys_context, ip);
       listener->port = port;
       listener->tcp_sock = lw6net_tcp_listen (sys_context, ip, port);
       listener->tcp_accepters = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6srv_tcp_accepter_free);
@@ -66,7 +67,7 @@ lw6srv_start (sys_context, const char *ip, int port)
 }
 
 static void
-_accepter_close_callback (void *func_data, void *data)
+_accepter_close_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   lw6srv_tcp_accepter_t *tcp_accepter = (lw6srv_tcp_accepter_t *) data;
 
@@ -76,6 +77,7 @@ _accepter_close_callback (void *func_data, void *data)
 /**
  * lw6srv_stop
  *
+ * @sys_context: global system context
  * @listener: listener to stop
  *
  * Stops a listener object, and frees it.
@@ -83,19 +85,19 @@ _accepter_close_callback (void *func_data, void *data)
  * Return value: none.
  */
 void
-lw6srv_stop (sys_context, lw6srv_listener_t * listener)
+lw6srv_stop (lw6sys_context_t * sys_context, lw6srv_listener_t * listener)
 {
   if (listener)
     {
       if (listener->udp_buffers)
 	{
-	  lw6sys_list_free (listener->udp_buffers);
+	  lw6sys_list_free (sys_context, listener->udp_buffers);
 	}
       lw6net_socket_close (sys_context, &(listener->udp_sock));
       if (listener->tcp_accepters)
 	{
-	  lw6sys_list_map (listener->tcp_accepters, _accepter_close_callback, NULL);
-	  lw6sys_list_free (listener->tcp_accepters);
+	  lw6sys_list_map (sys_context, listener->tcp_accepters, _accepter_close_callback, NULL);
+	  lw6sys_list_free (sys_context, listener->tcp_accepters);
 	}
       lw6net_socket_close (sys_context, &(listener->tcp_sock));
       if (listener->ip)

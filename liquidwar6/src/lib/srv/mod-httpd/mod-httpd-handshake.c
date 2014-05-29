@@ -28,7 +28,7 @@
 #include "mod-httpd-internal.h"
 
 int
-_mod_httpd_analyse_tcp (sys_context, _mod_httpd_context_t * httpd_context,
+_mod_httpd_analyse_tcp (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context,
 			lw6srv_tcp_accepter_t * tcp_accepter, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
@@ -59,7 +59,7 @@ _mod_httpd_analyse_tcp (sys_context, _mod_httpd_context_t * httpd_context,
   if (strlen (line) >= _MOD_HTTPD_PROTOCOL_UNDERSTANDABLE_SIZE || strchr (line, '\n'))
     {
       if (lw6sys_str_starts_with
-	  (line, _MOD_HTTPD_PROTOCOL_GET_STRING)
+	  (sys_context, line, _MOD_HTTPD_PROTOCOL_GET_STRING)
 	  || lw6sys_str_starts_with (sys_context, line,
 				     _MOD_HTTPD_PROTOCOL_POST_STRING) || lw6sys_str_starts_with (sys_context, line, _MOD_HTTPD_PROTOCOL_HEAD_STRING))
 	{
@@ -73,11 +73,11 @@ _mod_httpd_analyse_tcp (sys_context, _mod_httpd_context_t * httpd_context,
 	    {
 	      pos++;
 	    }
-	  if (lw6sys_str_starts_with (pos, _MOD_HTTPD_PROTOCOL_LW6_STRING))
+	  if (lw6sys_str_starts_with (sys_context, pos, _MOD_HTTPD_PROTOCOL_LW6_STRING))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("httpd LW6 message \"%s\""), pos);
 	      if (lw6msg_envelope_analyse
-		  (pos, LW6MSG_ENVELOPE_MODE_URL,
+		  (sys_context, pos, LW6MSG_ENVELOPE_MODE_URL,
 		   node_info->const_info.ref_info.url,
 		   node_info->const_info.password, 0, node_info->const_info.ref_info.id_int, &msg, NULL, NULL, remote_id, NULL, NULL, NULL, remote_url))
 		{
@@ -141,7 +141,7 @@ _mod_httpd_analyse_tcp (sys_context, _mod_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_analyse_udp (sys_context, _mod_httpd_context_t * httpd_context,
+_mod_httpd_analyse_udp (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context,
 			lw6srv_udp_buffer_t * udp_buffer, lw6nod_info_t * node_info, u_int64_t * remote_id, char **remote_url)
 {
   int ret = 0;
@@ -163,7 +163,8 @@ _mod_httpd_analyse_udp (sys_context, _mod_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_feed_with_tcp (sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter)
+_mod_httpd_feed_with_tcp (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection,
+			  lw6srv_tcp_accepter_t * tcp_accepter)
 {
   int ret = 0;
   _mod_httpd_specific_data_t *specific_data = (_mod_httpd_specific_data_t *) connection->backend_specific_data;
@@ -180,12 +181,12 @@ _mod_httpd_feed_with_tcp (sys_context, _mod_httpd_context_t * httpd_context, lw6
 	  reply_thread_data->httpd_context = httpd_context;
 	  reply_thread_data->cnx = connection;
 	  reply_thread_data->sock = tcp_accepter->sock;
-	  reply_thread_data->creation_timestamp = lw6sys_get_timestamp ();
+	  reply_thread_data->creation_timestamp = lw6sys_get_timestamp (sys_context);
 	  reply_thread_data->do_not_finish = 0;
-	  thread_handler = lw6sys_thread_create (_mod_httpd_reply_thread_func, _mod_httpd_reply_thread_join, (void *) reply_thread_data);
+	  thread_handler = lw6sys_thread_create (sys_context, _mod_httpd_reply_thread_func, _mod_httpd_reply_thread_join, (void *) reply_thread_data);
 	  if (thread_handler)
 	    {
-	      lw6sys_list_push_back (&(specific_data->reply_threads), thread_handler);
+	      lw6sys_list_push_back (sys_context, &(specific_data->reply_threads), thread_handler);
 	      ret = 1;
 	    }
 	}
@@ -204,7 +205,8 @@ _mod_httpd_feed_with_tcp (sys_context, _mod_httpd_context_t * httpd_context, lw6
 }
 
 int
-_mod_httpd_feed_with_udp (sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection, lw6srv_udp_buffer_t * udp_buffer)
+_mod_httpd_feed_with_udp (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection,
+			  lw6srv_udp_buffer_t * udp_buffer)
 {
   int ret = 0;
 

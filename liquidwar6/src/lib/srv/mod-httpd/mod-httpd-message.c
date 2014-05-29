@@ -28,7 +28,7 @@
 #include "mod-httpd-internal.h"
 
 int
-_mod_httpd_send (sys_context, _mod_httpd_context_t * httpd_context,
+_mod_httpd_send (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context,
 		 lw6cnx_connection_t * connection,
 		 int64_t now,
 		 u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
@@ -51,7 +51,7 @@ _mod_httpd_send (sys_context, _mod_httpd_context_t * httpd_context,
 	{
 	  if (specific_data->send_buffer)
 	    {
-	      tmp = lw6sys_new_sprintf ("%s%s\n", specific_data->send_buffer, line);
+	      tmp = lw6sys_new_sprintf (sys_context, "%s%s\n", specific_data->send_buffer, line);
 	      if (tmp)
 		{
 		  LW6SYS_FREE (sys_context, specific_data->send_buffer);
@@ -62,7 +62,7 @@ _mod_httpd_send (sys_context, _mod_httpd_context_t * httpd_context,
 	    }
 	  else
 	    {
-	      specific_data->send_buffer = lw6sys_new_sprintf ("%s\n", line);
+	      specific_data->send_buffer = lw6sys_new_sprintf (sys_context, "%s\n", line);
 	      if (specific_data->send_buffer)
 		{
 		  ret = 1;
@@ -82,17 +82,17 @@ _mod_httpd_send (sys_context, _mod_httpd_context_t * httpd_context,
 }
 
 int
-_mod_httpd_can_send (sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection)
+_mod_httpd_can_send (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection)
 {
   return 1;
 }
 
 void
-_mod_httpd_poll (sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection)
+_mod_httpd_poll (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_context, lw6cnx_connection_t * connection)
 {
   _mod_httpd_specific_data_t *specific_data = (_mod_httpd_specific_data_t *) connection->backend_specific_data;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_httpd poll"));
 
-  lw6sys_list_filter (&(specific_data->reply_threads), _mod_httpd_reply_thread_filter, NULL);
+  lw6sys_list_filter (sys_context, &(specific_data->reply_threads), _mod_httpd_reply_thread_filter, NULL);
 }

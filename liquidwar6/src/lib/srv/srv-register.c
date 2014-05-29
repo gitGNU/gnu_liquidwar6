@@ -38,12 +38,14 @@
 /**
  * lw6srv_default_backends
  *
+ * @sys_context: global system context
+ *
  * Returns the list of the default srv backends.
  *
  * Return value: comma separated string, must not be freed.
  */
 char *
-lw6srv_default_backends ()
+lw6srv_default_backends (lw6sys_context_t * sys_context)
 {
   return _SRV_DEFAULT_BACKENDS;
 }
@@ -51,6 +53,7 @@ lw6srv_default_backends ()
 /**
  * lw6srv_get_backends
  *
+ * @sys_context: global system context
  * @argc: argc, as passed to @main
  * @argv: argv, as passed to @main
  *
@@ -64,7 +67,7 @@ lw6srv_default_backends ()
  * Return value: hash containing id/name pairs.
  */
 lw6sys_assoc_t *
-lw6srv_get_backends (sys_context, int argc, const char *argv[])
+lw6srv_get_backends (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   lw6sys_assoc_t *ret = NULL;
 
@@ -93,9 +96,9 @@ lw6srv_get_backends (sys_context, int argc, const char *argv[])
 	  LW6SYS_FREE (sys_context, module_pedigree);
 	}
     }
-#else
+#else // LW6_ALLINONE
   ret = lw6dyn_list_backends (sys_context, argc, argv, "srv");
-#endif
+#endif // LW6_ALLINONE
 
   return ret;
 }
@@ -103,6 +106,7 @@ lw6srv_get_backends (sys_context, int argc, const char *argv[])
 /**
  * lw6srv_create_backend
  *
+ * @sys_context: global system context
  * @argc: argc, as passed to @main
  * @argv: argv, as passed to @main
  * @name: string containing srv key, typically got from @lw6srv_get_backends
@@ -114,7 +118,7 @@ lw6srv_get_backends (sys_context, int argc, const char *argv[])
  * Return value: srv backend.
  */
 lw6srv_backend_t *
-lw6srv_create_backend (sys_context, int argc, const char *argv[], const char *name)
+lw6srv_create_backend (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *name)
 {
   lw6srv_backend_t *backend = NULL;
 #ifdef LW6_ALLINONE
@@ -140,7 +144,7 @@ lw6srv_create_backend (sys_context, int argc, const char *argv[], const char *na
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("server backend \"%s\" does not exist"), name);
     }
-#else
+#else // LW6_ALLINONE
   lw6dyn_dl_handle_t *backend_handle = NULL;
 
   backend_handle = lw6dyn_dlopen_backend (sys_context, argc, argv, "srv", name);
@@ -178,7 +182,7 @@ lw6srv_create_backend (sys_context, int argc, const char *argv[], const char *na
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to open server backend \"%s\""), name);
     }
-#endif
+#endif // LW6_ALLINONE
 
   if (backend)
     {
@@ -203,6 +207,7 @@ lw6srv_create_backend (sys_context, int argc, const char *argv[], const char *na
 /**
  * lw6srv_destroy_backend
  *
+ * @sys_context: global system context
  * @backend: backend to destroy
  *
  * Destroys a srv backend.
@@ -210,11 +215,11 @@ lw6srv_create_backend (sys_context, int argc, const char *argv[], const char *na
  * Return value: none.
  */
 void
-lw6srv_destroy_backend (sys_context, lw6srv_backend_t * backend)
+lw6srv_destroy_backend (lw6sys_context_t * sys_context, lw6srv_backend_t * backend)
 {
 #ifndef LW6_ALLINONE
   lw6dyn_dlclose_backend (sys_context, backend->dl_handle);
-#endif
+#endif // LW6_ALLINONE
   if (backend->name)
     {
       LW6SYS_FREE (sys_context, backend->name);

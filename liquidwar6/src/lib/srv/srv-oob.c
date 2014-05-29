@@ -29,6 +29,7 @@
 /**
  * lw6srv_oob_new
  *
+ * @sys_context: global system context
  * @remote_ip: remote IP address
  * @remote_port: remote port
  * @sock: the socket handler (either TCP or UDP)
@@ -43,14 +44,14 @@
  * Return value: new object
  */
 lw6srv_oob_t *
-lw6srv_oob_new (sys_context, const char *remote_ip, int remote_port, int sock, const char *first_line)
+lw6srv_oob_new (lw6sys_context_t * sys_context, const char *remote_ip, int remote_port, int sock, const char *first_line)
 {
   lw6srv_oob_t *oob = NULL;
 
   oob = (lw6srv_oob_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6srv_oob_t));
   if (oob)
     {
-      oob->data.creation_timestamp = lw6sys_get_timestamp ();
+      oob->data.creation_timestamp = lw6sys_get_timestamp (sys_context);
       oob->data.do_not_finish = 0;
       oob->data.remote_ip = lw6sys_str_copy (sys_context, remote_ip);
       oob->data.remote_port = remote_port;
@@ -76,6 +77,7 @@ lw6srv_oob_new (sys_context, const char *remote_ip, int remote_port, int sock, c
 /**
  * lw6srv_oob_free
  *
+ * @sys_context: global system context
  * @oob: the object to free
  *
  * Frees an OOB structure.
@@ -83,7 +85,7 @@ lw6srv_oob_new (sys_context, const char *remote_ip, int remote_port, int sock, c
  * Return value: none
  */
 void
-lw6srv_oob_free (sys_context, lw6srv_oob_t * oob)
+lw6srv_oob_free (lw6sys_context_t * sys_context, lw6srv_oob_t * oob)
 {
   if (oob)
     {
