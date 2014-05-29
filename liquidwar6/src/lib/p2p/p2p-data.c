@@ -35,7 +35,7 @@
 #define _SCREENSHOT_FILE "idle.jpg"
 
 static void
-_read_callback (void *callback_data, const char *element, const char *key, const char *value)
+_read_callback (lw6sys_context_t *sys_context,void *callback_data, const char *element, const char *key, const char *value)
 {
   _lw6p2p_consts_t *consts;
 
@@ -67,7 +67,7 @@ _read_callback (void *callback_data, const char *element, const char *key, const
 }
 
 static int
-_load_consts (_lw6p2p_consts_t * consts, const char *consts_file)
+_load_consts (lw6sys_context_t *sys_context,_lw6p2p_consts_t * consts, const char *consts_file)
 {
   int ret = 0;
 
@@ -78,13 +78,13 @@ _load_consts (_lw6p2p_consts_t * consts, const char *consts_file)
 }
 
 static int
-_read_query (lw6sys_hash_t * queries, const char *sql_dir, const char *query_file)
+_read_query (lw6sys_context_t *sys_context,lw6sys_hash_t * queries, const char *sql_dir, const char *query_file)
 {
   int ret = 0;
   char *filename = NULL;
   char *query = NULL;
 
-  filename = lw6sys_path_concat (sql_dir, query_file);
+  filename = lw6sys_path_concat (sys_context,sql_dir, query_file);
   if (filename)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("reading \"%s\""), filename);
@@ -105,7 +105,7 @@ _read_query (lw6sys_hash_t * queries, const char *sql_dir, const char *query_fil
 }
 
 static void
-_check_query_not_null (void *func_data, const char *key, void *value)
+_check_query_not_null (lw6sys_context_t *sys_context,void *func_data, const char *key, void *value)
 {
   int *ret = (int *) func_data;
   char *query = (char *) value;
@@ -122,7 +122,7 @@ _check_query_not_null (void *func_data, const char *key, void *value)
 }
 
 static int
-_load_sql (_lw6p2p_sql_t * sql, const char *sql_dir)
+_load_sql (lw6sys_context_t *sys_context,_lw6p2p_sql_t * sql, const char *sql_dir)
 {
   int ret = 0;
 
@@ -131,39 +131,39 @@ _load_sql (_lw6p2p_sql_t * sql, const char *sql_dir)
     {
       ret = 1;
 
-      _read_query (sql->queries, sql_dir, _LW6P2P_CLEAN_DATABASE_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_CREATE_DATABASE_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_DELETE_CONNECTION_BY_PTR_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_DELETE_NODE_BY_ID_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_DELETE_NODE_BY_URL_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_DELETE_OLD_NODE_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_INSERT_CONNECTION_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_INSERT_LOCAL_NODE_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_INSERT_DISCOVERED_NODE_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_CONNECTION_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_NODE_BY_ID_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_NODE_BY_URL_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_UNVERIFIED_NODE_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_OTHER_NODE_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_AVAILABLE_NODE_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_UPDATE_NODE_INFO_SQL);
-      _read_query (sql->queries, sql_dir, _LW6P2P_UPDATE_NODE_NET_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_CLEAN_DATABASE_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_CREATE_DATABASE_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_DELETE_CONNECTION_BY_PTR_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_DELETE_NODE_BY_ID_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_DELETE_NODE_BY_URL_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_DELETE_OLD_NODE_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_INSERT_CONNECTION_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_INSERT_LOCAL_NODE_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_INSERT_DISCOVERED_NODE_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_SELECT_CONNECTION_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_SELECT_NODE_BY_ID_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_SELECT_NODE_BY_URL_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_SELECT_UNVERIFIED_NODE_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_SELECT_OTHER_NODE_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_SELECT_AVAILABLE_NODE_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_UPDATE_NODE_INFO_SQL);
+      _read_query (sys_context,sql->queries, sql_dir, _LW6P2P_UPDATE_NODE_NET_SQL);
 
-      lw6sys_hash_map (sql->queries, _check_query_not_null, &ret);
+      lw6sys_hash_map (sys_context,sql->queries, _check_query_not_null, &ret);
     }
 
   return ret;
 }
 
 static int
-_load_screenshot (_lw6p2p_screenshot_t * screenshot, const char *screenshot_file)
+_load_screenshot (lw6sys_context_t *sys_context,_lw6p2p_screenshot_t * screenshot, const char *screenshot_file)
 {
   int ret = 0;
 
-  if (lw6sys_file_exists (screenshot_file))
+  if (lw6sys_file_exists (sys_context,screenshot_file))
     {
-      screenshot->data = lw6sys_read_file_content_bin (&(screenshot->size), screenshot_file);
+      screenshot->data = lw6sys_read_file_content_bin (sys_context,&(screenshot->size), screenshot_file);
       if (screenshot->data && screenshot->size > 0)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("read screenshot \"%s\", %d bytes"), screenshot_file, screenshot->size);
@@ -183,7 +183,7 @@ _load_screenshot (_lw6p2p_screenshot_t * screenshot, const char *screenshot_file
 }
 
 int
-_lw6p2p_data_load (sys_context,_lw6p2p_data_t * data, const char *data_dir)
+_lw6p2p_data_load (lw6sys_context_t *sys_context,_lw6p2p_data_t * data, const char *data_dir)
 {
   int ret = 0;
   char *p2p_subdir = NULL;
@@ -195,17 +195,17 @@ _lw6p2p_data_load (sys_context,_lw6p2p_data_t * data, const char *data_dir)
   p2p_subdir = lw6sys_path_concat (sys_context, data_dir, _P2P_SUBDIR);
   if (p2p_subdir)
     {
-      consts_file = lw6sys_path_concat (p2p_subdir, _CONSTS_FILE);
-      sql_dir = lw6sys_path_concat (p2p_subdir, _SQL_DIR);
-      screenshot_dir = lw6sys_path_concat (p2p_subdir, _SCREENSHOT_DIR);
+      consts_file = lw6sys_path_concat (sys_context,p2p_subdir, _CONSTS_FILE);
+      sql_dir = lw6sys_path_concat (sys_context,p2p_subdir, _SQL_DIR);
+      screenshot_dir = lw6sys_path_concat (sys_context,p2p_subdir, _SCREENSHOT_DIR);
       if (screenshot_dir)
 	{
-	  screenshot_file = lw6sys_path_concat (screenshot_dir, _SCREENSHOT_FILE);
+	  screenshot_file = lw6sys_path_concat (sys_context,screenshot_dir, _SCREENSHOT_FILE);
 	}
       if (consts_file && sql_dir && screenshot_file)
 	{
-	  ret = _load_consts (&(data->consts), consts_file)
-	    && _load_sql (&(data->sql), sql_dir) && _load_screenshot (&(data->idle_screenshot), screenshot_file);
+	  ret = _load_consts (sys_context,&(data->consts), consts_file)
+	    && _load_sql (sys_context,&(data->sql), sql_dir) && _load_screenshot (sys_context,&(data->idle_screenshot), screenshot_file);
 	}
       if (consts_file)
 	{
@@ -230,7 +230,7 @@ _lw6p2p_data_load (sys_context,_lw6p2p_data_t * data, const char *data_dir)
 }
 
 static int
-_unload_consts (_lw6p2p_consts_t * consts)
+_unload_consts (lw6sys_context_t *sys_context,_lw6p2p_consts_t * consts)
 {
   int ret = 1;
 
@@ -240,13 +240,13 @@ _unload_consts (_lw6p2p_consts_t * consts)
 }
 
 static int
-_unload_sql (_lw6p2p_sql_t * sql)
+_unload_sql (lw6sys_context_t *sys_context,_lw6p2p_sql_t * sql)
 {
   int ret = 1;
 
   if (sql->queries)
     {
-      lw6sys_hash_free (sql->queries);
+      lw6sys_hash_free (sys_context,sql->queries);
       sql->queries = NULL;
     }
 
@@ -254,7 +254,7 @@ _unload_sql (_lw6p2p_sql_t * sql)
 }
 
 static int
-_unload_screenshot (_lw6p2p_screenshot_t * screenshot)
+_unload_screenshot (lw6sys_context_t *sys_context,_lw6p2p_screenshot_t * screenshot)
 {
   int ret = 1;
 
@@ -268,11 +268,11 @@ _unload_screenshot (_lw6p2p_screenshot_t * screenshot)
 }
 
 int
-_lw6p2p_data_unload (sys_context,_lw6p2p_data_t * data)
+_lw6p2p_data_unload (lw6sys_context_t *sys_context,_lw6p2p_data_t * data)
 {
   int ret = 0;
 
-  ret = _unload_consts (&(data->consts)) && _unload_sql (&(data->sql)) && _unload_screenshot (&(data->idle_screenshot));
+  ret = _unload_consts (sys_context,&(data->consts)) && _unload_sql (sys_context,&(data->sql)) && _unload_screenshot (sys_context,&(data->idle_screenshot));
 
   return ret;
 }

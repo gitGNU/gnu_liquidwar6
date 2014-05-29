@@ -29,6 +29,7 @@
 
 typedef struct _select_node_by_id_data_s
 {
+  lw6sys_context_t *sys_context;
   char *node_id;
   char *node_url;
   char *node_ip;
@@ -40,6 +41,7 @@ _select_node_by_id_callback (void *func_data, int nb_fields, char **fields_value
 {
   int ret = 0;
   _select_node_by_id_data_t *node_by_id_data = (_select_node_by_id_data_t *) func_data;
+  lw6sys_context_t *sys_context=node_by_id_data->sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("select_node_by_id_callback called with %d fields"), nb_fields);
   /*
@@ -79,13 +81,13 @@ _select_node_by_id_callback (void *func_data, int nb_fields, char **fields_value
 }
 
 int
-_lw6p2p_connect_registered_nodes_if_needed (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_connect_registered_nodes_if_needed (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
   int64_t now = 0;
   int delay = node->db->data.consts.connect_registered_nodes_delay;
 
-  now = lw6sys_get_timestamp ();
+  now = lw6sys_get_timestamp (sys_context);
   if (node->connect_registered.next_connect_registered_nodes_timestamp < now)
     {
       node->connect_registered.next_connect_registered_nodes_timestamp = now + delay / 2 + lw6sys_random (sys_context, delay);
@@ -101,7 +103,7 @@ _lw6p2p_connect_registered_nodes_if_needed (sys_context,_lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_connect_registered_nodes (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_connect_registered_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int ret = 1;
   int index = 0;
@@ -111,6 +113,7 @@ _lw6p2p_connect_registered_nodes (sys_context,_lw6p2p_node_t * node)
 
   lw6msg_meta_array_zero (sys_context, &meta_array);
   memset (&node_by_id_data, 0, sizeof (_select_node_by_id_data_t));
+  node_by_id_data.sys_context=sys_context;
   lw6dat_warehouse_meta_get (sys_context, node->warehouse, &meta_array, lw6dat_warehouse_get_seq_max (sys_context, node->warehouse));
 
   for (index = 0; index < LW6MSG_NB_META_ARRAY_ITEMS; ++index)
@@ -118,7 +121,7 @@ _lw6p2p_connect_registered_nodes (sys_context,_lw6p2p_node_t * node)
       if (meta_array.items[index].node_id)
 	{
 	  if (_lw6p2p_node_is_peer_registered
-	      (node, meta_array.items[index].node_id) && !_lw6p2p_node_is_peer_connected (sys_context,node, meta_array.items[index].node_id))
+	      (sys_context,node, meta_array.items[index].node_id) && !_lw6p2p_node_is_peer_connected (sys_context,node, meta_array.items[index].node_id))
 	    {
 	      /*
 	       * OK, we found a node which is registered in the

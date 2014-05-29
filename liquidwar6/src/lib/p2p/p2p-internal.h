@@ -80,7 +80,7 @@
 
 #define _LW6P2P_NODE_DEFAULT_SEQ_0 0LL
 
-typedef int (*_lw6p2p_db_callback_t) (lw6sys_context_t *sys_context,void *func_data, int nb_fields, char **fields_values, char **fields_names);
+typedef int (*_lw6p2p_db_callback_t) (void *func_data, int nb_fields, char **fields_values, char **fields_names);
 
 typedef struct _lw6p2p_consts_s
 {
