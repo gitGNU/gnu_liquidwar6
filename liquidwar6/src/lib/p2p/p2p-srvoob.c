@@ -50,7 +50,7 @@ _lw6p2p_srv_oob_callback_data_new (lw6srv_backend_t * backend,
 }
 
 void
-_lw6p2p_srv_oob_callback_data_free (_lw6p2p_srv_oob_callback_data_t * srv_oob)
+_lw6p2p_srv_oob_callback_data_free (sys_context,_lw6p2p_srv_oob_callback_data_t * srv_oob)
 {
   if (srv_oob)
     {
@@ -63,7 +63,7 @@ _lw6p2p_srv_oob_callback_data_free (_lw6p2p_srv_oob_callback_data_t * srv_oob)
 }
 
 int
-_lw6p2p_srv_oob_filter (_lw6p2p_srv_oob_callback_data_t * srv_oob)
+_lw6p2p_srv_oob_filter (sys_context,_lw6p2p_srv_oob_callback_data_t * srv_oob)
 {
   int ret = 1;
   lw6sys_thread_handler_t *thread;
@@ -92,7 +92,7 @@ _lw6p2p_srv_oob_filter (_lw6p2p_srv_oob_callback_data_t * srv_oob)
 }
 
 void
-_lw6p2p_srv_oob_callback (void *callback_data)
+_lw6p2p_srv_oob_callback (sys_context,void *callback_data)
 {
   _lw6p2p_srv_oob_callback_data_t *srv_oob = (_lw6p2p_srv_oob_callback_data_t *) callback_data;
   int ret = 0;

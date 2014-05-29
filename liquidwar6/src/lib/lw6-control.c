@@ -73,13 +73,13 @@ _release_node_close (void *func_data, const char *key, void *value)
   node_smob = (lw6_node_smob_t *) value;
   if (node_smob && node_smob->c_node)
     {
-      repr = lw6p2p_node_repr (node_smob->c_node);
+      repr = lw6p2p_node_repr (sys_context,node_smob->c_node);
       if (repr)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("release node \"%s\""), repr);
 	  LW6SYS_FREE (sys_context, repr);
 	}
-      lw6p2p_node_close (node_smob->c_node);
+      lw6p2p_node_close (sys_context,node_smob->c_node);
     }
 }
 

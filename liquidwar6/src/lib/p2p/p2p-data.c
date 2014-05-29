@@ -183,7 +183,7 @@ _load_screenshot (_lw6p2p_screenshot_t * screenshot, const char *screenshot_file
 }
 
 int
-_lw6p2p_data_load (_lw6p2p_data_t * data, const char *data_dir)
+_lw6p2p_data_load (sys_context,_lw6p2p_data_t * data, const char *data_dir)
 {
   int ret = 0;
   char *p2p_subdir = NULL;
@@ -268,7 +268,7 @@ _unload_screenshot (_lw6p2p_screenshot_t * screenshot)
 }
 
 int
-_lw6p2p_data_unload (_lw6p2p_data_t * data)
+_lw6p2p_data_unload (sys_context,_lw6p2p_data_t * data)
 {
   int ret = 0;
 

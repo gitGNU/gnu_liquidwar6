@@ -28,7 +28,7 @@
 #include "p2p-internal.h"
 
 int
-_lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
+_lw6p2p_tentacle_init (sys_context,_lw6p2p_tentacle_t * tentacle,
 		       _lw6p2p_backends_t * backends,
 		       lw6srv_listener_t * listener, const char *local_url,
 		       const char *remote_url, const char *real_remote_ip,
@@ -194,7 +194,7 @@ _lw6p2p_tentacle_init (_lw6p2p_tentacle_t * tentacle,
 }
 
 void
-_lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
+_lw6p2p_tentacle_clear (sys_context,_lw6p2p_tentacle_t * tentacle)
 {
   int i = 0;
 
@@ -256,7 +256,7 @@ _lw6p2p_tentacle_clear (_lw6p2p_tentacle_t * tentacle)
 }
 
 int
-_lw6p2p_tentacle_enabled (_lw6p2p_tentacle_t * tentacle)
+_lw6p2p_tentacle_enabled (sys_context,_lw6p2p_tentacle_t * tentacle)
 {
   int ret = 0;
 
@@ -363,14 +363,14 @@ _send_best_filter (void *func_data, void *data)
        * until we get a real "best" one, we go redundant.
        */
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("couldn't really find a \"best\" connection for now, fallback on redundant mode"));
-      _lw6p2p_tentacle_send_redundant (tentacle, now, ticket_table, logical_ticket_sig, logical_from_id, logical_to_id, msg);
+      _lw6p2p_tentacle_send_redundant (sys_context,tentacle, now, ticket_table, logical_ticket_sig, logical_from_id, logical_to_id, msg);
     }
 
   return keep;
 }
 
 void
-_lw6p2p_tentacle_poll_protocol (_lw6p2p_tentacle_t * tentacle,
+_lw6p2p_tentacle_poll_protocol (sys_context,_lw6p2p_tentacle_t * tentacle,
 				lw6nod_info_t * node_info, lw6cnx_ticket_table_t * ticket_table, const _lw6p2p_consts_t * consts, int serial)
 {
   int i = 0;
@@ -465,7 +465,7 @@ _lw6p2p_tentacle_poll_protocol (_lw6p2p_tentacle_t * tentacle,
 }
 
 void
-_lw6p2p_tentacle_poll_queues (_lw6p2p_tentacle_t * tentacle, lw6cnx_ticket_table_t * ticket_table)
+_lw6p2p_tentacle_poll_queues (sys_context,_lw6p2p_tentacle_t * tentacle, lw6cnx_ticket_table_t * ticket_table)
 {
   int i = 0;
   int64_t now = 0LL;
@@ -492,7 +492,7 @@ _lw6p2p_tentacle_poll_queues (_lw6p2p_tentacle_t * tentacle, lw6cnx_ticket_table
       send_best_data.tentacle = tentacle;
       send_best_data.now = now;
       send_best_data.ticket_table = ticket_table;
-      send_best_data.best_cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle, 1);
+      send_best_data.best_cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context,tentacle, 1);
       if (send_best_data.best_cnx)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("flushing unsent_reliable_queue"));
@@ -519,7 +519,7 @@ _lw6p2p_tentacle_poll_queues (_lw6p2p_tentacle_t * tentacle, lw6cnx_ticket_table
       send_best_data.tentacle = tentacle;
       send_best_data.now = now;
       send_best_data.ticket_table = ticket_table;
-      send_best_data.best_cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle, 0);
+      send_best_data.best_cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context,tentacle, 0);
       if (send_best_data.best_cnx)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("flushing unsent_unreliable_queue"));
@@ -541,7 +541,7 @@ _lw6p2p_tentacle_poll_queues (_lw6p2p_tentacle_t * tentacle, lw6cnx_ticket_table
 }
 
 void
-_lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
+_lw6p2p_tentacle_poll (sys_context,_lw6p2p_tentacle_t * tentacle,
 		       lw6nod_info_t * node_info, lw6cnx_ticket_table_t * ticket_table, const _lw6p2p_consts_t * consts, int serial)
 {
   /*
@@ -549,13 +549,13 @@ _lw6p2p_tentacle_poll (_lw6p2p_tentacle_t * tentacle,
    * be in conflict with code from the recv callback. Normally this
    * should not be a problem.
    */
-  _lw6p2p_tentacle_poll_protocol (tentacle, node_info, ticket_table, consts, serial);
-  _lw6p2p_tentacle_poll_queues (tentacle, ticket_table);
+  _lw6p2p_tentacle_poll_protocol (sys_context,tentacle, node_info, ticket_table, consts, serial);
+  _lw6p2p_tentacle_poll_queues (sys_context,tentacle, ticket_table);
 }
 
 
 int
-_lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
+_lw6p2p_tentacle_send_best (sys_context,_lw6p2p_tentacle_t * tentacle,
 			    int64_t now,
 			    lw6cnx_ticket_table_t * ticket_table,
 			    u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *msg, int reliable)
@@ -576,7 +576,7 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 	}
       if (tentacle->unsent_reliable_queue)
 	{
-	  packet = _lw6p2p_packet_new (logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
+	  packet = _lw6p2p_packet_new (sys_context,logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
 	  if (packet)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("message \"%s\" not sent, pushing it to unsent_reliable_queue"), packet->msg);
@@ -599,7 +599,7 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
     }
   if (tentacle->unsent_unreliable_queue)
     {
-      packet = _lw6p2p_packet_new (logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
+      packet = _lw6p2p_packet_new (sys_context,logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
       if (packet)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("message \"%s\" not sent, pushing it to unsent_unreliable_queue"), packet->msg);
@@ -626,7 +626,7 @@ _lw6p2p_tentacle_send_best (_lw6p2p_tentacle_t * tentacle,
 }
 
 int
-_lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
+_lw6p2p_tentacle_send_redundant (sys_context,_lw6p2p_tentacle_t * tentacle,
 				 int64_t now,
 				 lw6cnx_ticket_table_t * ticket_table,
 				 u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *msg)
@@ -661,7 +661,7 @@ _lw6p2p_tentacle_send_redundant (_lw6p2p_tentacle_t * tentacle,
 }
 
 lw6cnx_connection_t *
-_lw6p2p_tentacle_find_connection_with_foo_bar_key (_lw6p2p_tentacle_t * tentacle, u_int32_t foo_bar_key)
+_lw6p2p_tentacle_find_connection_with_foo_bar_key (sys_context,_lw6p2p_tentacle_t * tentacle, u_int32_t foo_bar_key)
 {
   lw6cnx_connection_t *ret = NULL;
   lw6cnx_connection_t *cnx = NULL;
@@ -689,7 +689,7 @@ _lw6p2p_tentacle_find_connection_with_foo_bar_key (_lw6p2p_tentacle_t * tentacle
 }
 
 lw6cnx_connection_t *
-_lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t * tentacle, int reliable)
+_lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context,_lw6p2p_tentacle_t * tentacle, int reliable)
 {
   lw6cnx_connection_t *ret = NULL;
   lw6cnx_connection_t *cnx = NULL;
@@ -726,7 +726,7 @@ _lw6p2p_tentacle_find_connection_with_lowest_ping (_lw6p2p_tentacle_t * tentacle
    */
   if (reliable && !ret)
     {
-      ret = _lw6p2p_tentacle_find_connection_with_lowest_ping (tentacle, 0);
+      ret = _lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context,tentacle, 0);
     }
 
   if (ret)

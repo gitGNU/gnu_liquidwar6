@@ -1647,7 +1647,7 @@ print_db (SCM db, SCM port, scm_print_state * pstate)
   lw6p2p_db_t *c_db = lw6_scm_to_db (db);
   char *repr = NULL;
 
-  repr = lw6p2p_db_repr (c_db);
+  repr = lw6p2p_db_repr (sys_context,c_db);
 
   scm_puts ("#<" SMOB_TYPE_DB " ", port);
   if (repr)
@@ -1685,7 +1685,7 @@ lw6_make_scm_db (lw6p2p_db_t * c_db)
       id = smob_id (SMOB_TYPE_DB, c_db->id);
       if (id)
 	{
-	  repr = lw6p2p_db_repr (c_db);
+	  repr = lw6p2p_db_repr (sys_context,c_db);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating db smob \"%s\""), repr);
@@ -1742,14 +1742,14 @@ lw6_free_db_smob (lw6_db_smob_t * db_smob)
 {
   char *repr = NULL;
 
-  repr = lw6p2p_db_repr (db_smob->c_db);
+  repr = lw6p2p_db_repr (sys_context,db_smob->c_db);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing db smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6p2p_db_close (db_smob->c_db);
+  lw6p2p_db_close (sys_context,db_smob->c_db);
   LW6SYS_FREE (sys_context, db_smob);
 }
 
@@ -1801,7 +1801,7 @@ print_node (SCM node, SCM port, scm_print_state * pstate)
   lw6p2p_node_t *c_node = lw6_scm_to_node (node);
   char *repr = NULL;
 
-  repr = lw6p2p_node_repr (c_node);
+  repr = lw6p2p_node_repr (sys_context,c_node);
 
   scm_puts ("#<" SMOB_TYPE_NODE " ", port);
   if (repr)
@@ -1844,7 +1844,7 @@ lw6_make_scm_node (lw6p2p_node_t * c_node, SCM db)
       id = smob_id (SMOB_TYPE_NODE, c_node->id);
       if (id)
 	{
-	  repr = lw6p2p_node_repr (c_node);
+	  repr = lw6p2p_node_repr (sys_context,c_node);
 	  if (repr)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("creating node smob \"%s\""), repr);
@@ -1901,14 +1901,14 @@ lw6_free_node_smob (lw6_node_smob_t * node_smob)
 {
   char *repr = NULL;
 
-  repr = lw6p2p_node_repr (node_smob->c_node);
+  repr = lw6p2p_node_repr (sys_context,node_smob->c_node);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing node smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6p2p_node_free (node_smob->c_node);
+  lw6p2p_node_free (sys_context,node_smob->c_node);
   LW6SYS_FREE (sys_context, node_smob);
 }
 

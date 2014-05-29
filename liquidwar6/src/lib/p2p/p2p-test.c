@@ -256,9 +256,9 @@ _test_db ()
     char *repr = NULL;
 
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
-		_x_ ("default database name is \"%s\" but we use \"%s\" for some tests"), lw6p2p_db_default_name (), _TEST_DB_NAME12);
+		_x_ ("default database name is \"%s\" but we use \"%s\" for some tests"), lw6p2p_db_default_name (sys_context,), _TEST_DB_NAME12);
 
-    db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
+    db = lw6p2p_db_open (sys_context,argc, argv, _TEST_DB_NAME12);
     if (LW6SYS_TEST_ACK (db))
       {
 	repr = lw6p2p_db_repr (db);
@@ -275,7 +275,7 @@ _test_db ()
 	ret = 0;
       }
 
-    if (LW6SYS_TEST_ACK (lw6p2p_db_reset (argc, argv, _TEST_DB_NAME12)))
+    if (LW6SYS_TEST_ACK (lw6p2p_db_reset (sys_context,argc, argv, _TEST_DB_NAME12)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("deleted db"));
       }
@@ -567,7 +567,7 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 
 	      _test_tentacle_poll_step1_accept_tcp (data->listener, now);
 	      _test_tentacle_poll_step2_recv_udp (data->listener, now);
-	      _lw6p2p_tentacle_poll_queues (&data->tentacle, &ticket_table);
+	      _lw6p2p_tentacle_poll_queues (sys_context,&data->tentacle, &ticket_table);
 
 	      /*
 	       * Snoozing a bit to avoid filling up buffers
@@ -595,7 +595,7 @@ _test_tentacle1_thread_callback (void *tentacle_data)
 	      data->ret = 0;
 	    }
 
-	  _lw6p2p_tentacle_clear (&(data->tentacle));
+	  _lw6p2p_tentacle_clear (sys_context,&(data->tentacle));
 	}
       else
 	{
@@ -683,7 +683,7 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 
 	      _test_tentacle_poll_step1_accept_tcp (data->listener, now);
 	      _test_tentacle_poll_step2_recv_udp (data->listener, now);
-	      _lw6p2p_tentacle_poll_queues (&data->tentacle, &ticket_table);
+	      _lw6p2p_tentacle_poll_queues (sys_context,&data->tentacle, &ticket_table);
 
 	      /*
 	       * Snoozing a bit to avoid filling up buffers
@@ -711,7 +711,7 @@ _test_tentacle2_thread_callback (void *tentacle_data)
 	      data->ret = 0;
 	    }
 
-	  _lw6p2p_tentacle_clear (&(data->tentacle));
+	  _lw6p2p_tentacle_clear (sys_context,&(data->tentacle));
 	}
       else
 	{
@@ -750,9 +750,9 @@ _tentacle_with_backends (char *cli_backends, char *srv_backends)
       if (LW6SYS_TEST_ACK (tentacle_data1.listener))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("listener1 listening on ip=%s port=%d"), _TEST_TENTACLE_BIND_IP1, _TEST_TENTACLE_BIND_PORT1);
-	  if (LW6SYS_TEST_ACK (_lw6p2p_backends_init_cli (argc, argv, &(tentacle_data1.backends), cli_backends)))
+	  if (LW6SYS_TEST_ACK (_lw6p2p_backends_init_cli (sys_context,argc, argv, &(tentacle_data1.backends), cli_backends)))
 	    {
-	      if (LW6SYS_TEST_ACK (_lw6p2p_backends_init_srv (argc, argv, &(tentacle_data1.backends), srv_backends, tentacle_data1.listener)))
+	      if (LW6SYS_TEST_ACK (_lw6p2p_backends_init_srv (sys_context,argc, argv, &(tentacle_data1.backends), srv_backends, tentacle_data1.listener)))
 		{
 		}
 	      else
@@ -780,9 +780,9 @@ _tentacle_with_backends (char *cli_backends, char *srv_backends)
       if (LW6SYS_TEST_ACK (tentacle_data2.listener))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("listener2 listening on ip=%s port=%d"), _TEST_TENTACLE_BIND_IP2, _TEST_TENTACLE_BIND_PORT2);
-	  if (LW6SYS_TEST_ACK (_lw6p2p_backends_init_cli (argc, argv, &(tentacle_data2.backends), cli_backends)))
+	  if (LW6SYS_TEST_ACK (_lw6p2p_backends_init_cli (sys_context,argc, argv, &(tentacle_data2.backends), cli_backends)))
 	    {
-	      if (LW6SYS_TEST_ACK (_lw6p2p_backends_init_srv (argc, argv, &(tentacle_data2.backends), srv_backends, tentacle_data2.listener)))
+	      if (LW6SYS_TEST_ACK (_lw6p2p_backends_init_srv (sys_context,argc, argv, &(tentacle_data2.backends), srv_backends, tentacle_data2.listener)))
 		{
 		}
 	      else
@@ -837,10 +837,10 @@ _tentacle_with_backends (char *cli_backends, char *srv_backends)
 	}
     }
 
-  _lw6p2p_backends_clear_srv (&(tentacle_data1.backends));
-  _lw6p2p_backends_clear_cli (&(tentacle_data1.backends));
-  _lw6p2p_backends_clear_srv (&(tentacle_data2.backends));
-  _lw6p2p_backends_clear_cli (&(tentacle_data2.backends));
+  _lw6p2p_backends_clear_srv (sys_context,&(tentacle_data1.backends));
+  _lw6p2p_backends_clear_cli (sys_context,&(tentacle_data1.backends));
+  _lw6p2p_backends_clear_srv (sys_context,&(tentacle_data2.backends));
+  _lw6p2p_backends_clear_cli (sys_context,&(tentacle_data2.backends));
   if (tentacle_data1.listener)
     {
       lw6srv_stop (sys_context, tentacle_data1.listener);
@@ -902,17 +902,17 @@ _test_packet ()
     u_int32_t checksum_2 = 0;
 
     packet_1 =
-      _lw6p2p_packet_new (_TEST_PACKET_LOGICAL_TICKET_SIG_1,
+      _lw6p2p_packet_new (sys_context,_TEST_PACKET_LOGICAL_TICKET_SIG_1,
 			  _TEST_PACKET_PHYSICAL_TICKET_SIG_1, _TEST_PACKET_LOGICAL_FROM_ID_1, _TEST_PACKET_LOGICAL_TO_ID_1, _TEST_PACKET_MSG_1);
     if (LW6SYS_TEST_ACK (packet_1))
       {
 	packet_2 =
-	  _lw6p2p_packet_new (_TEST_PACKET_LOGICAL_TICKET_SIG_2,
+	  _lw6p2p_packet_new (sys_context,_TEST_PACKET_LOGICAL_TICKET_SIG_2,
 			      _TEST_PACKET_PHYSICAL_TICKET_SIG_2, _TEST_PACKET_LOGICAL_FROM_ID_2, _TEST_PACKET_LOGICAL_TO_ID_2, _TEST_PACKET_MSG_2);
 	if (LW6SYS_TEST_ACK (packet_2))
 	  {
-	    checksum_1 = _lw6p2p_packet_checksum (packet_1);
-	    checksum_2 = _lw6p2p_packet_checksum (packet_2);
+	    checksum_1 = _lw6p2p_packet_checksum (sys_context,packet_1);
+	    checksum_2 = _lw6p2p_packet_checksum (sys_context,packet_2);
 	    if (LW6SYS_TEST_ACK (checksum_1 == _TEST_PACKET_CHECKSUM_1 && checksum_2 == _TEST_PACKET_CHECKSUM_2))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("packet checksums OK (%08x,%08x)"), checksum_1, checksum_2);
@@ -925,7 +925,7 @@ _test_packet ()
 			    checksum_1, checksum_2, _TEST_PACKET_CHECKSUM_1, _TEST_PACKET_CHECKSUM_2);
 		ret = 0;
 	      }
-	    if (LW6SYS_TEST_ACK (_lw6p2p_packet_compare (packet_1, packet_2) == _TEST_PACKET_COMPARE))
+	    if (LW6SYS_TEST_ACK (_lw6p2p_packet_compare (sys_context,packet_1, packet_2) == _TEST_PACKET_COMPARE))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("packet compare works as expected"));
 	      }
@@ -934,13 +934,13 @@ _test_packet ()
 		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("packet compare does not work as expected"));
 		ret = 0;
 	      }
-	    _lw6p2p_packet_free (packet_2);
+	    _lw6p2p_packet_free (sys_context,packet_2);
 	  }
 	else
 	  {
 	    ret = 0;
 	  }
-	_lw6p2p_packet_free (packet_1);
+	_lw6p2p_packet_free (sys_context,packet_1);
       }
     else
       {
@@ -974,14 +974,14 @@ _test_node_init ()
     int64_t seq_draft = 0LL;
     int64_t seq_reference = 0LL;
 
-    db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
+    db = lw6p2p_db_open (sys_context,argc, argv, _TEST_DB_NAME12);
     if (LW6SYS_TEST_ACK (db))
       {
 	/*
 	 * Passing 0LL as a node id will cause automatic generation of an id
 	 */
 	node =
-	  lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
+	  lw6p2p_node_new (sys_context,argc, argv, db, lw6cli_default_backends (),
 			   lw6srv_default_backends (sys_context,), _TEST_NODE_BIND_IP,
 			   _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
 			   0LL,
@@ -990,33 +990,33 @@ _test_node_init ()
 			   _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY, _TEST_NODE_KNOWN_NODES1, _TEST_NODE_NETWORK_RELIABILITY, _TEST_NODE_TROJAN);
 	if (LW6SYS_TEST_ACK (node))
 	  {
-	    repr = lw6p2p_node_repr (node);
+	    repr = lw6p2p_node_repr (sys_context,node);
 	    if (LW6SYS_TEST_ACK (repr))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("created node \"%s\""), repr);
 		LW6SYS_FREE (sys_context, repr);
 	      }
-	    id_str = lw6sys_id_ltoa (sys_context, lw6p2p_node_get_id (node));
+	    id_str = lw6sys_id_ltoa (sys_context, lw6p2p_node_get_id (sys_context,node));
 	    if (LW6SYS_TEST_ACK (id_str))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("get_id returns %s"), id_str);
 		LW6SYS_FREE (sys_context, id_str);
 	      }
-	    local_seq_0 = lw6p2p_node_get_local_seq_0 (node);
+	    local_seq_0 = lw6p2p_node_get_local_seq_0 (sys_context,node);
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("local_seq_0=%" LW6SYS_PRINTF_LL "d"), (long long) local_seq_0);
-	    local_seq_last = lw6p2p_node_get_local_seq_last (node);
+	    local_seq_last = lw6p2p_node_get_local_seq_last (sys_context,node);
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("local_seq_last=%" LW6SYS_PRINTF_LL "d"), (long long) local_seq_last);
-	    seq_min = lw6p2p_node_get_seq_min (node);
+	    seq_min = lw6p2p_node_get_seq_min (sys_context,node);
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("seq_min=%" LW6SYS_PRINTF_LL "d"), (long long) seq_min);
-	    seq_max = lw6p2p_node_get_seq_max (node);
+	    seq_max = lw6p2p_node_get_seq_max (sys_context,node);
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("seq_max=%" LW6SYS_PRINTF_LL "d"), (long long) seq_max);
-	    seq_draft = lw6p2p_node_get_seq_draft (node);
+	    seq_draft = lw6p2p_node_get_seq_draft (sys_context,node);
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("seq_draft=%" LW6SYS_PRINTF_LL "d"), (long long) seq_draft);
-	    seq_reference = lw6p2p_node_get_seq_reference (node);
+	    seq_reference = lw6p2p_node_get_seq_reference (sys_context,node);
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("seq_reference=%" LW6SYS_PRINTF_LL "d"), (long long) seq_reference);
-	    lw6p2p_node_close (node);
-	    lw6p2p_node_close (node);	// yes, do it twice just to check
-	    lw6p2p_node_free (node);
+	    lw6p2p_node_close (sys_context,node);
+	    lw6p2p_node_close (sys_context,node);	// yes, do it twice just to check
+	    lw6p2p_node_free (sys_context,node);
 	  }
 	else
 	  {
@@ -1058,11 +1058,11 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
        * different ID than before to somewhat "not connect very well",
        * at least for some time.
        */
-      lw6p2p_db_reset (argc, argv, _TEST_DB_NAME12);
-      (*db12) = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
+      lw6p2p_db_reset (sys_context,argc, argv, _TEST_DB_NAME12);
+      (*db12) = lw6p2p_db_open (sys_context,argc, argv, _TEST_DB_NAME12);
       if (*db12)
 	{
-	  repr = lw6p2p_db_repr (*db12);
+	  repr = lw6p2p_db_repr (sys_context,*db12);
 	  if (LW6SYS_TEST_ACK (repr))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
@@ -1080,11 +1080,11 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
        * different ID than before to somewhat "not connect very well",
        * at least for some time.
        */
-      lw6p2p_db_reset (argc, argv, _TEST_DB_NAME34);
-      (*db34) = lw6p2p_db_open (argc, argv, _TEST_DB_NAME34);
+      lw6p2p_db_reset (sys_context,argc, argv, _TEST_DB_NAME34);
+      (*db34) = lw6p2p_db_open (sys_context,argc, argv, _TEST_DB_NAME34);
       if (*db34)
 	{
-	  repr = lw6p2p_db_repr (*db34);
+	  repr = lw6p2p_db_repr (sys_context,*db34);
 	  if (LW6SYS_TEST_ACK (repr))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
@@ -1102,11 +1102,11 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
        * different ID than before to somewhat "not connect very well",
        * at least for some time.
        */
-      lw6p2p_db_reset (argc, argv, _TEST_DB_NAME56);
-      (*db56) = lw6p2p_db_open (argc, argv, _TEST_DB_NAME56);
+      lw6p2p_db_reset (sys_context,argc, argv, _TEST_DB_NAME56);
+      (*db56) = lw6p2p_db_open (sys_context,argc, argv, _TEST_DB_NAME56);
       if (*db56)
 	{
-	  repr = lw6p2p_db_repr (*db56);
+	  repr = lw6p2p_db_repr (sys_context,*db56);
 	  if (LW6SYS_TEST_ACK (repr))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("created db \"%s\""), repr);
@@ -1119,7 +1119,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
       if (node1)
 	{
 	  (*node1) =
-	    lw6p2p_node_new (argc, argv, *db12, cli_backends,
+	    lw6p2p_node_new (sys_context,argc, argv, *db12, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
 			     lw6sys_generate_id_64 (),
@@ -1129,7 +1129,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 			     _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY, _TEST_NODE_KNOWN_NODES1, _TEST_NODE_NETWORK_RELIABILITY, _TEST_NODE_TROJAN);
 	  if (*node1)
 	    {
-	      repr = lw6p2p_node_repr (*node1);
+	      repr = lw6p2p_node_repr (sys_context,*node1);
 	      if (LW6SYS_TEST_ACK (repr))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("created node1 \"%s\""), repr);
@@ -1141,7 +1141,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
       if (node2)
 	{
 	  (*node2) =
-	    lw6p2p_node_new (argc, argv, *db12, cli_backends,
+	    lw6p2p_node_new (sys_context,argc, argv, *db12, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT2, _TEST_NODE_BROADCAST,
 			     lw6sys_generate_id_64 (),
@@ -1150,7 +1150,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 			     _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY, _TEST_NODE_KNOWN_NODES2, _TEST_NODE_NETWORK_RELIABILITY, _TEST_NODE_TROJAN);
 	  if (*node2)
 	    {
-	      repr = lw6p2p_node_repr (*node2);
+	      repr = lw6p2p_node_repr (sys_context,*node2);
 	      if (LW6SYS_TEST_ACK (repr))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("created node2 \"%s\""), repr);
@@ -1164,7 +1164,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
       if (node3)
 	{
 	  (*node3) =
-	    lw6p2p_node_new (argc, argv, *db34, cli_backends,
+	    lw6p2p_node_new (sys_context,argc, argv, *db34, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT3, _TEST_NODE_BROADCAST,
 			     lw6sys_generate_id_64 (),
@@ -1174,7 +1174,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 			     _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY, _TEST_NODE_KNOWN_NODES3, _TEST_NODE_NETWORK_RELIABILITY, _TEST_NODE_TROJAN);
 	  if (*node3)
 	    {
-	      repr = lw6p2p_node_repr (*node3);
+	      repr = lw6p2p_node_repr (sys_context,*node3);
 	      if (LW6SYS_TEST_ACK (repr))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("created node3 \"%s\""), repr);
@@ -1186,7 +1186,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
       if (node4)
 	{
 	  (*node4) =
-	    lw6p2p_node_new (argc, argv, *db34, cli_backends,
+	    lw6p2p_node_new (sys_context,argc, argv, *db34, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT4, _TEST_NODE_BROADCAST,
 			     lw6sys_generate_id_64 (),
@@ -1195,7 +1195,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 			     _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY, _TEST_NODE_KNOWN_NODES4, _TEST_NODE_NETWORK_RELIABILITY, _TEST_NODE_TROJAN);
 	  if (*node4)
 	    {
-	      repr = lw6p2p_node_repr (*node4);
+	      repr = lw6p2p_node_repr (sys_context,*node4);
 	      if (LW6SYS_TEST_ACK (repr))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("created node4 \"%s\""), repr);
@@ -1210,7 +1210,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
       if (node5)
 	{
 	  (*node5) =
-	    lw6p2p_node_new (argc, argv, *db56, cli_backends,
+	    lw6p2p_node_new (sys_context,argc, argv, *db56, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT5, _TEST_NODE_BROADCAST,
 			     lw6sys_generate_id_64 (),
@@ -1220,7 +1220,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 			     _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY, _TEST_NODE_KNOWN_NODES5, _TEST_NODE_NETWORK_RELIABILITY, _TEST_NODE_TROJAN);
 	  if (*node5)
 	    {
-	      repr = lw6p2p_node_repr (*node5);
+	      repr = lw6p2p_node_repr (sys_context,*node5);
 	      if (LW6SYS_TEST_ACK (repr))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("created node5 \"%s\""), repr);
@@ -1232,7 +1232,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
       if (node6)
 	{
 	  (*node6) =
-	    lw6p2p_node_new (argc, argv, *db56, cli_backends,
+	    lw6p2p_node_new (sys_context,argc, argv, *db56, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
 			     _TEST_NODE_BIND_PORT6, _TEST_NODE_BROADCAST,
 			     lw6sys_generate_id_64 (),
@@ -1241,7 +1241,7 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
 			     _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY, _TEST_NODE_KNOWN_NODES6, _TEST_NODE_NETWORK_RELIABILITY, _TEST_NODE_TROJAN);
 	  if (*node6)
 	    {
-	      repr = lw6p2p_node_repr (*node6);
+	      repr = lw6p2p_node_repr (sys_context,*node6);
 	      if (LW6SYS_TEST_ACK (repr))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("created node6 \"%s\""), repr);
@@ -1261,47 +1261,47 @@ _init_nodes (char *cli_backends, char *srv_backends, lw6p2p_db_t ** db12,
     {
       if (node1 && *node1)
 	{
-	  lw6p2p_node_free (*node1);
+	  lw6p2p_node_free (sys_context,*node1);
 	  (*node1) = NULL;
 	}
       if (node2 && *node2)
 	{
-	  lw6p2p_node_free (*node2);
+	  lw6p2p_node_free (sys_context,*node2);
 	  (*node2) = NULL;
 	}
       if (node3 && *node3)
 	{
-	  lw6p2p_node_free (*node3);
+	  lw6p2p_node_free (sys_context,*node3);
 	  (*node3) = NULL;
 	}
       if (node4 && *node4)
 	{
-	  lw6p2p_node_free (*node4);
+	  lw6p2p_node_free (sys_context,*node4);
 	  (*node4) = NULL;
 	}
       if (node5 && *node5)
 	{
-	  lw6p2p_node_free (*node4);
+	  lw6p2p_node_free (sys_context,*node4);
 	  (*node4) = NULL;
 	}
       if (node6 && *node6)
 	{
-	  lw6p2p_node_free (*node6);
+	  lw6p2p_node_free (sys_context,*node6);
 	  (*node6) = NULL;
 	}
       if (db12 && *db12)
 	{
-	  lw6p2p_db_close (*db12);
+	  lw6p2p_db_close (sys_context,*db12);
 	  (*db12) = NULL;
 	}
       if (db34 && *db34)
 	{
-	  lw6p2p_db_close (*db34);
+	  lw6p2p_db_close (sys_context,*db34);
 	  (*db34) = NULL;
 	}
       if (db56 && *db56)
 	{
-	  lw6p2p_db_close (*db56);
+	  lw6p2p_db_close (sys_context,*db56);
 	  (*db56) = NULL;
 	}
     }
@@ -1315,45 +1315,45 @@ _quit_nodes (lw6p2p_db_t * db12, lw6p2p_db_t * db34, lw6p2p_db_t * db56,
 {
   if (node1)
     {
-      lw6p2p_node_close (node1);
-      lw6p2p_node_free (node1);
+      lw6p2p_node_close (sys_context,node1);
+      lw6p2p_node_free (sys_context,node1);
     }
   if (node2)
     {
-      lw6p2p_node_close (node2);
-      lw6p2p_node_free (node2);
+      lw6p2p_node_close (sys_context,node2);
+      lw6p2p_node_free (sys_context,node2);
     }
   if (node3)
     {
-      lw6p2p_node_close (node3);
-      lw6p2p_node_free (node3);
+      lw6p2p_node_close (sys_context,node3);
+      lw6p2p_node_free (sys_context,node3);
     }
   if (node4)
     {
-      lw6p2p_node_close (node4);
-      lw6p2p_node_free (node4);
+      lw6p2p_node_close (sys_context,node4);
+      lw6p2p_node_free (sys_context,node4);
     }
   if (node5)
     {
-      lw6p2p_node_close (node5);
-      lw6p2p_node_free (node5);
+      lw6p2p_node_close (sys_context,node5);
+      lw6p2p_node_free (sys_context,node5);
     }
   if (node6)
     {
-      lw6p2p_node_close (node6);
-      lw6p2p_node_free (node6);
+      lw6p2p_node_close (sys_context,node6);
+      lw6p2p_node_free (sys_context,node6);
     }
   if (db12)
     {
-      lw6p2p_db_close (db12);
+      lw6p2p_db_close (sys_context,db12);
     }
   if (db34)
     {
-      lw6p2p_db_close (db34);
+      lw6p2p_db_close (sys_context,db34);
     }
   if (db56)
     {
-      lw6p2p_db_close (db56);
+      lw6p2p_db_close (sys_context,db56);
     }
 }
 
@@ -1367,27 +1367,27 @@ _poll_nodes (lw6p2p_node_t * node1, lw6p2p_node_t * node2, lw6p2p_node_t * node3
     {
       if (node1)
 	{
-	  lw6p2p_node_poll (node1, NULL);
+	  lw6p2p_node_poll (sys_context,node1, NULL);
 	}
       if (node2)
 	{
-	  lw6p2p_node_poll (node2, NULL);
+	  lw6p2p_node_poll (sys_context,node2, NULL);
 	}
       if (node3)
 	{
-	  lw6p2p_node_poll (node3, NULL);
+	  lw6p2p_node_poll (sys_context,node3, NULL);
 	}
       if (node4)
 	{
-	  lw6p2p_node_poll (node4, NULL);
+	  lw6p2p_node_poll (sys_context,node4, NULL);
 	}
       if (node5)
 	{
-	  lw6p2p_node_poll (node5, NULL);
+	  lw6p2p_node_poll (sys_context,node5, NULL);
 	}
       if (node6)
 	{
-	  lw6p2p_node_poll (node6, NULL);
+	  lw6p2p_node_poll (sys_context,node6, NULL);
 	}
     }
   lw6sys_idle ();
@@ -1435,64 +1435,64 @@ _cmd_with_backends (char *cli_backends, char *srv_backends)
     {
       if (LW6SYS_TEST_ACK (_lw6p2p_node_register_tentacle
 			   ((_lw6p2p_node_t *) node1, _TEST_NODE_PUBLIC_URL2,
-			    _TEST_NODE_IP2, lw6p2p_node_get_id (node2))
+			    _TEST_NODE_IP2, lw6p2p_node_get_id (sys_context,node2))
 			   &&
-			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+			   _lw6p2p_node_register_tentacle (sys_context,(_lw6p2p_node_t *)
 							   node2,
 							   _TEST_NODE_PUBLIC_URL1,
 							   _TEST_NODE_IP1,
 							   lw6p2p_node_get_id
 							   (node1))
 			   &&
-			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+			   _lw6p2p_node_register_tentacle (sys_context,(_lw6p2p_node_t *)
 							   node1,
 							   _TEST_NODE_PUBLIC_URL3,
 							   _TEST_NODE_IP3,
 							   lw6p2p_node_get_id
 							   (node3))
 			   &&
-			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+			   _lw6p2p_node_register_tentacle (sys_context,(_lw6p2p_node_t *)
 							   node3,
 							   _TEST_NODE_PUBLIC_URL1,
 							   _TEST_NODE_IP1,
 							   lw6p2p_node_get_id
 							   (node1))
 			   &&
-			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+			   _lw6p2p_node_register_tentacle (sys_context,(_lw6p2p_node_t *)
 							   node1,
 							   _TEST_NODE_PUBLIC_URL4,
 							   _TEST_NODE_IP4,
 							   lw6p2p_node_get_id
 							   (node4))
 			   &&
-			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+			   _lw6p2p_node_register_tentacle (sys_context,(_lw6p2p_node_t *)
 							   node4,
 							   _TEST_NODE_PUBLIC_URL1,
 							   _TEST_NODE_IP1,
 							   lw6p2p_node_get_id
 							   (node1))
 			   &&
-			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+			   _lw6p2p_node_register_tentacle (sys_context,(_lw6p2p_node_t *)
 							   node4,
 							   _TEST_NODE_PUBLIC_URL2,
 							   _TEST_NODE_IP2,
 							   lw6p2p_node_get_id
 							   (node2))
 			   &&
-			   _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *)
+			   _lw6p2p_node_register_tentacle (sys_context,(_lw6p2p_node_t *)
 							   node6,
 							   _TEST_NODE_PUBLIC_URL2,
 							   _TEST_NODE_IP2,
 							   lw6p2p_node_get_id
 							   (node2))
-			   && _lw6p2p_node_register_tentacle ((_lw6p2p_node_t *) node5, _TEST_NODE_PUBLIC_URL1, _TEST_NODE_IP1, lw6p2p_node_get_id (node1))))
+			   && _lw6p2p_node_register_tentacle (sys_context,(_lw6p2p_node_t *) node5, _TEST_NODE_PUBLIC_URL1, _TEST_NODE_IP1, lw6p2p_node_get_id (sys_context,node1))))
 	{
 	  while (lw6sys_get_timestamp (sys_context,) < end_timestamp)
 	    {
 	      _poll_nodes (node1, node2, node3, node4, node5, node6);
 	    }
 
-	  entries = lw6p2p_node_get_entries (node1, 0);
+	  entries = lw6p2p_node_get_entries (sys_context,node1, 0);
 	  if (entries)
 	    {
 	      lw6sys_list_map (sys_context, entries, _print_entry_callback, (void *) node1);
@@ -1557,12 +1557,12 @@ _oob_with_backends (char *cli_backends, char *srv_backends)
 	{
 	  _poll_nodes (node1, node2, node3, node4, node5, node6);
 	}
-      ret = lw6p2p_node_refresh_peer (node1, lw6p2p_node_get_id (node2), _TEST_NODE_UNREACHABLE_URL) && ret;
-      ret = lw6p2p_node_refresh_peer (node2, lw6p2p_node_get_id (node3), _TEST_NODE_UNREACHABLE_URL) && ret;
-      ret = lw6p2p_node_refresh_peer (node3, lw6p2p_node_get_id (node4), _TEST_NODE_UNREACHABLE_URL) && ret;
-      ret = lw6p2p_node_refresh_peer (node4, lw6p2p_node_get_id (node5), _TEST_NODE_UNREACHABLE_URL) && ret;
-      ret = lw6p2p_node_refresh_peer (node5, lw6p2p_node_get_id (node6), _TEST_NODE_UNREACHABLE_URL) && ret;
-      ret = lw6p2p_node_refresh_peer (node6, lw6p2p_node_get_id (node1), _TEST_NODE_UNREACHABLE_URL) && ret;
+      ret = lw6p2p_node_refresh_peer (sys_context,node1, lw6p2p_node_get_id (sys_context,node2), _TEST_NODE_UNREACHABLE_URL) && ret;
+      ret = lw6p2p_node_refresh_peer (sys_context,node2, lw6p2p_node_get_id (sys_context,node3), _TEST_NODE_UNREACHABLE_URL) && ret;
+      ret = lw6p2p_node_refresh_peer (sys_context,node3, lw6p2p_node_get_id (sys_context,node4), _TEST_NODE_UNREACHABLE_URL) && ret;
+      ret = lw6p2p_node_refresh_peer (sys_context,node4, lw6p2p_node_get_id (sys_context,node5), _TEST_NODE_UNREACHABLE_URL) && ret;
+      ret = lw6p2p_node_refresh_peer (sys_context,node5, lw6p2p_node_get_id (sys_context,node6), _TEST_NODE_UNREACHABLE_URL) && ret;
+      ret = lw6p2p_node_refresh_peer (sys_context,node6, lw6p2p_node_get_id (sys_context,node1), _TEST_NODE_UNREACHABLE_URL) && ret;
       while (lw6sys_get_timestamp (sys_context,) < end_timestamp)
 	{
 	  _poll_nodes (node1, node2, node3, node4, node5, node6);
@@ -1625,14 +1625,14 @@ _test_node_msg ()
     memset (&progress, 0, sizeof (lw6sys_progress_t));
     lw6sys_progress_default (sys_context, &progress, &progress_value);
 
-    db = lw6p2p_db_open (argc, argv, _TEST_DB_NAME12);
+    db = lw6p2p_db_open (sys_context,argc, argv, _TEST_DB_NAME12);
     if (LW6SYS_TEST_ACK (db))
       {
 	/*
 	 * Passing 0LL as a node id will cause automatic generation of an id
 	 */
 	node =
-	  lw6p2p_node_new (argc, argv, db, lw6cli_default_backends (),
+	  lw6p2p_node_new (sys_context,argc, argv, db, lw6cli_default_backends (),
 			   lw6srv_default_backends (sys_context,), _TEST_NODE_BIND_IP,
 			   _TEST_NODE_BIND_PORT1, _TEST_NODE_BROADCAST,
 			   0LL,
@@ -1641,7 +1641,7 @@ _test_node_msg ()
 			   _TEST_NODE_BENCH, _TEST_NODE_OPEN_RELAY, _TEST_NODE_KNOWN_NODES1, _TEST_NODE_NETWORK_RELIABILITY, _TEST_NODE_TROJAN);
 	if (LW6SYS_TEST_ACK (node))
 	  {
-	    node_id = lw6p2p_node_get_id (node);
+	    node_id = lw6p2p_node_get_id (sys_context,node);
 	    seq = _TEST_NODE_MSG_SEQ_0;
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("step 1, seq_max=%" LW6SYS_PRINTF_LL "d"), (long long) seq);
 	    for (i = 0, k = 0; i < _TEST_NODE_MSG_NB_SEQS; ++i)
@@ -1659,16 +1659,16 @@ _test_node_msg ()
 			  {
 			    checksums[k] = lw6sys_checksum_str (sys_context, msg);
 			    msgs[k] = msg;
-			    lw6p2p_node_put_local_msg (node, msg);
+			    lw6p2p_node_put_local_msg (sys_context,node, msg);
 			  }
 			LW6SYS_FREE (sys_context, random_str);
 		      }
 		  }
 	      }
-	    seq = lw6p2p_node_get_seq_max (node);
+	    seq = lw6p2p_node_get_seq_max (sys_context,node);
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("step 2, seq_max=%" LW6SYS_PRINTF_LL "d"), (long long) seq);
 	    k = 0;
-	    while ((msg = lw6p2p_node_get_next_draft_msg (node, &progress)) != NULL)
+	    while ((msg = lw6p2p_node_get_next_draft_msg (sys_context,node, &progress)) != NULL)
 	      {
 		checksum = lw6sys_checksum_str (sys_context, msg);
 		/*
@@ -1710,7 +1710,7 @@ _test_node_msg ()
 		  }
 	      }
 
-	    lw6p2p_node_free (node);
+	    lw6p2p_node_free (sys_context,node);
 	  }
 	else
 	  {
@@ -1752,7 +1752,7 @@ _test_node_api_node1_callback (void *api_data)
 
   while (lw6sys_get_timestamp (sys_context,) < end_timestamp && !(*(data->done)))
     {
-      lw6p2p_node_poll (data->node, &(data->progress));
+      lw6p2p_node_poll (sys_context,data->node, &(data->progress));
       lw6sys_idle ();
     }
 }
@@ -1778,7 +1778,7 @@ _test_node_api_node2_callback (void *api_data)
   /*
    * This node acts as a server.
    */
-  data->ret = lw6p2p_node_server_start (data->node, _TEST_NODE_API_SEQ_0);
+  data->ret = lw6p2p_node_server_start (sys_context,data->node, _TEST_NODE_API_SEQ_0);
   if (data->ret)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("\"%s\" is ready"), ((_lw6p2p_node_t *) data->node)->public_url);
@@ -1788,19 +1788,19 @@ _test_node_api_node2_callback (void *api_data)
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("could not start \"%s\""), ((_lw6p2p_node_t *) data->node)->public_url);
     }
 
-  node_id = lw6p2p_node_get_id (data->node);
-  seq = lw6p2p_node_get_seq_max (data->node);
+  node_id = lw6p2p_node_get_id (sys_context,data->node);
+  seq = lw6p2p_node_get_seq_max (sys_context,data->node);
   seq++;			// fake we're going next round...
   while (lw6sys_get_timestamp (sys_context,) < begin_timestamp)
     {
-      lw6p2p_node_poll (data->node, &(data->progress));
+      lw6p2p_node_poll (sys_context,data->node, &(data->progress));
       lw6sys_idle ();
     }
   while (lw6sys_get_timestamp (sys_context,) < end_timestamp && !(*(data->done)))
     {
-      lw6p2p_node_poll (data->node, &(data->progress));
+      lw6p2p_node_poll (sys_context,data->node, &(data->progress));
       lw6sys_idle ();
-      if (lw6p2p_node_is_dump_needed (data->node))
+      if (lw6p2p_node_is_dump_needed (sys_context,data->node))
 	{
 	  dump = lw6sys_str_random_words (sys_context, _TEST_NODE_API_DUMP_SIZE);
 	  if (dump)
@@ -1814,7 +1814,7 @@ _test_node_api_node2_callback (void *api_data)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("node2 dump draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg);
+		  lw6p2p_node_put_local_msg (sys_context,data->node, msg);
 		  LW6SYS_FREE (sys_context, msg);
 		}
 	      msg =
@@ -1828,7 +1828,7 @@ _test_node_api_node2_callback (void *api_data)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("node2 draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg);
+		  lw6p2p_node_put_local_msg (sys_context,data->node, msg);
 		  LW6SYS_FREE (sys_context, msg);
 		}
 	      seq++;		// fake we're going next round...
@@ -1843,7 +1843,7 @@ _test_node_api_node2_callback (void *api_data)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("node2 draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg);
+		  lw6p2p_node_put_local_msg (sys_context,data->node, msg);
 		  LW6SYS_FREE (sys_context, msg);
 		}
 	      msg =
@@ -1857,7 +1857,7 @@ _test_node_api_node2_callback (void *api_data)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("node2 draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg);
+		  lw6p2p_node_put_local_msg (sys_context,data->node, msg);
 		  LW6SYS_FREE (sys_context, msg);
 		}
 
@@ -1883,7 +1883,7 @@ _test_node_api_node2_callback (void *api_data)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("node2 final draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg);
+		  lw6p2p_node_put_local_msg (sys_context,data->node, msg);
 		  LW6SYS_FREE (sys_context, msg);
 		}
 
@@ -1908,7 +1908,7 @@ _test_node_api_node2_callback (void *api_data)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("node2 draft message is \"%s\""), msg);
 		    }
-		  lw6p2p_node_put_local_msg (data->node, msg);
+		  lw6p2p_node_put_local_msg (sys_context,data->node, msg);
 		  LW6SYS_FREE (sys_context, msg);
 		}
 	      next_msgn_timestamp = lw6sys_get_timestamp (sys_context,) + _TEST_NODE_API_MSGN_DELAY_MSEC;
@@ -1918,7 +1918,7 @@ _test_node_api_node2_callback (void *api_data)
 
   if (data->ret)
     {
-      lw6p2p_node_disconnect (data->node);
+      lw6p2p_node_disconnect (sys_context,data->node);
     }
 }
 
@@ -1933,7 +1933,7 @@ _test_node_api_node3_callback (void *api_data)
   end_timestamp = lw6sys_get_timestamp (sys_context,) + _TEST_NODE_API_DURATION_THREAD;
   while (lw6sys_get_timestamp (sys_context,) < end_timestamp && !(*(data->done)))
     {
-      lw6p2p_node_poll (data->node, &(data->progress));
+      lw6p2p_node_poll (sys_context,data->node, &(data->progress));
       lw6sys_idle ();
     }
 }
@@ -1959,24 +1959,24 @@ _test_node_api_node4_callback (void *api_data)
    * This node acts as a client.
    */
   lw6sys_delay (sys_context, _TEST_NODE_API_DURATION_JOIN);
-  if (LW6SYS_TEST_ACK (lw6p2p_node_client_join (data->node, data->peer_id, _TEST_NODE_PUBLIC_URL2, &(data->progress))))
+  if (LW6SYS_TEST_ACK (lw6p2p_node_client_join (sys_context,data->node, data->peer_id, _TEST_NODE_PUBLIC_URL2, &(data->progress))))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("\"%s\" joined \"%s\""), ((_lw6p2p_node_t *) data->node)->public_url, _TEST_NODE_PUBLIC_URL2);
 
       while (lw6sys_get_timestamp (sys_context,) < begin_timestamp)
 	{
-	  lw6p2p_node_poll (data->node, &(data->progress));
+	  lw6p2p_node_poll (sys_context,data->node, &(data->progress));
 	  lw6sys_idle ();
 	}
 
-      seq = lw6p2p_node_get_seq_max (data->node);
+      seq = lw6p2p_node_get_seq_max (sys_context,data->node);
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("node4 before loop seq_max=%" LW6SYS_PRINTF_LL "d"), (long long) seq);
       while (lw6sys_get_timestamp (sys_context,) < end_timestamp && !(*(data->done)))
 	{
-	  lw6p2p_node_poll (data->node, &(data->progress));
+	  lw6p2p_node_poll (sys_context,data->node, &(data->progress));
 	  lw6sys_idle ();
 
-	  while ((msg = lw6p2p_node_get_next_reference_msg (data->node, &(data->progress))) != NULL)
+	  while ((msg = lw6p2p_node_get_next_reference_msg (sys_context,data->node, &(data->progress))) != NULL)
 	    {
 	      len = strlen (msg);
 	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("node4 received reference message len=%d"), len);
@@ -1987,7 +1987,7 @@ _test_node_api_node4_callback (void *api_data)
 	      ++reference_received;
 	      LW6SYS_FREE (sys_context, msg);
 	    }
-	  while ((msg = lw6p2p_node_get_next_draft_msg (data->node, &(data->progress))) != NULL)
+	  while ((msg = lw6p2p_node_get_next_draft_msg (sys_context,data->node, &(data->progress))) != NULL)
 	    {
 	      len = strlen (msg);
 	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("node4 received draft message len=%d"), len);
@@ -2015,7 +2015,7 @@ _test_node_api_node4_callback (void *api_data)
 	      (*(data->done)) = 1;
 	    }
 	}
-      seq = lw6p2p_node_get_seq_max (data->node);
+      seq = lw6p2p_node_get_seq_max (sys_context,data->node);
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("node4 after loop seq_max=%" LW6SYS_PRINTF_LL "d"), (long long) seq);
       /*
        * We don't test the draft received value for its exact value since
@@ -2040,7 +2040,7 @@ _test_node_api_node4_callback (void *api_data)
 		      _TEST_NODE_API_NODE4_REFERENCE_RECEIVED,
 		      long_draft_received, _TEST_NODE_API_NODE4_LONG_DRAFT_RECEIVED, short_draft_received, _TEST_NODE_API_NODE4_SHORT_DRAFT_RECEIVED);
 	}
-      lw6p2p_node_disconnect (data->node);
+      lw6p2p_node_disconnect (sys_context,data->node);
     }
   else
     {
@@ -2060,7 +2060,7 @@ _test_node_api_node5_callback (void *api_data)
 
   while (lw6sys_get_timestamp (sys_context,) < end_timestamp && !(*(data->done)))
     {
-      lw6p2p_node_poll (data->node, &(data->progress));
+      lw6p2p_node_poll (sys_context,data->node, &(data->progress));
       lw6sys_idle ();
     }
 }
@@ -2077,7 +2077,7 @@ _test_node_api_node6_callback (void *api_data)
 
   while (lw6sys_get_timestamp (sys_context,) < end_timestamp && !(*(data->done)))
     {
-      lw6p2p_node_poll (data->node, &(data->progress));
+      lw6p2p_node_poll (sys_context,data->node, &(data->progress));
       lw6sys_idle ();
     }
 }
@@ -2146,7 +2146,7 @@ _api_with_backends (char *cli_backends, char *srv_backends)
       lw6sys_progress_begin (sys_context, &(api_data5.progress));
       lw6sys_progress_begin (sys_context, &(api_data6.progress));
 
-      api_data4.peer_id = lw6p2p_node_get_id (node2);
+      api_data4.peer_id = lw6p2p_node_get_id (sys_context,node2);
 
       thread1 = lw6sys_thread_create (_test_node_api_node1_callback, NULL, (void *) &api_data1);
       thread2 = lw6sys_thread_create (_test_node_api_node2_callback, NULL, (void *) &api_data2);
@@ -2276,7 +2276,7 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6p2p_test_register (int mode)
+lw6p2p_test_register (sys_context,int mode)
 {
   int ret = 1;
   CU_Suite *suite;
@@ -2338,7 +2338,7 @@ lw6p2p_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6p2p_test_run (int mode)
+lw6p2p_test_run (sys_context,int mode)
 {
   int ret = 0;
 

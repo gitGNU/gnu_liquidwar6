@@ -58,20 +58,20 @@ static volatile u_int32_t seq_id = 0;
  * Return value: a pointer on the newly created objects.
  */
 lw6p2p_node_t *
-lw6p2p_node_new (int argc, const char *argv[], lw6p2p_db_t * db,
+lw6p2p_node_new (sys_context,int argc, const char *argv[], lw6p2p_db_t * db,
 		 char *client_backends, char *server_backends, char *bind_ip,
 		 int bind_port, int broadcast, u_int64_t node_id,
 		 char *public_url, char *title,
 		 char *description, char *password, int bench, int open_relay, char *known_nodes, int network_reliability, int trojan)
 {
-  return (lw6p2p_node_t *) _lw6p2p_node_new (argc, argv, (_lw6p2p_db_t *) db,
+  return (lw6p2p_node_t *) _lw6p2p_node_new (sys_context,argc, argv, (_lw6p2p_db_t *) db,
 					     client_backends, server_backends,
 					     bind_ip, bind_port, broadcast,
 					     node_id, public_url, title, description, password, bench, open_relay, known_nodes, network_reliability, trojan);
 }
 
 _lw6p2p_node_t *
-_lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
+_lw6p2p_node_new (sys_context,int argc, const char *argv[], _lw6p2p_db_t * db,
 		  char *client_backends, char *server_backends, char *bind_ip,
 		  int bind_port, int broadcast, u_int64_t node_id,
 		  char *public_url, char *title,
@@ -156,8 +156,8 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 	  ret = (node->listener != NULL);
 	}
 
-      ret = ret && _lw6p2p_backends_init_cli (argc, argv, &(node->backends), client_backends);
-      ret = ret && _lw6p2p_backends_init_srv (argc, argv, &(node->backends), server_backends, node->listener);
+      ret = ret && _lw6p2p_backends_init_cli (sys_context,argc, argv, &(node->backends), client_backends);
+      ret = ret && _lw6p2p_backends_init_srv (sys_context,argc, argv, &(node->backends), server_backends, node->listener);
 
       if (ret)
 	{
@@ -192,7 +192,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 		    lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 					(node->db,
 					 _LW6P2P_INSERT_LOCAL_NODE_SQL),
-					_lw6p2p_db_now (node->db),
+					_lw6p2p_db_now (sys_context,node->db),
 					lw6sys_build_get_version (),
 					lw6sys_build_get_codename (),
 					lw6sys_atoi (sys_context,
@@ -203,10 +203,10 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 					node->node_info->const_info.bench, node->node_info->const_info.open_relay, node->bind_ip, node->bind_port);
 		  if (query)
 		    {
-		      if (_lw6p2p_db_lock (node->db))
+		      if (_lw6p2p_db_lock (sys_context,node->db))
 			{
-			  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
-			  _lw6p2p_db_unlock (node->db);
+			  ret = _lw6p2p_db_exec_ignore_data (sys_context,node->db, query);
+			  _lw6p2p_db_unlock (sys_context,node->db);
 			}
 		      LW6SYS_FREE (sys_context, query);
 		    }
@@ -226,7 +226,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 
   if ((!ret) && node)
     {
-      _lw6p2p_node_free (node);
+      _lw6p2p_node_free (sys_context,node);
       node = NULL;
     }
 
@@ -255,17 +255,17 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
  * Return value: none.
  */
 void
-lw6p2p_node_free (lw6p2p_node_t * node)
+lw6p2p_node_free (sys_context,lw6p2p_node_t * node)
 {
-  _lw6p2p_node_free ((_lw6p2p_node_t *) node);
+  _lw6p2p_node_free (sys_context,(_lw6p2p_node_t *) node);
 }
 
 void
-_lw6p2p_node_free (_lw6p2p_node_t * node)
+_lw6p2p_node_free (sys_context,_lw6p2p_node_t * node)
 {
   if (node)
     {
-      _lw6p2p_node_close (node);
+      _lw6p2p_node_close (sys_context,node);
       lw6cnx_ticket_table_clear (sys_context, &(node->ticket_table));
       if (node->cli_oobs)
 	{
@@ -333,13 +333,13 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
  * Return value: a dynamically allocated string
  */
 char *
-lw6p2p_node_repr (const lw6p2p_node_t * node)
+lw6p2p_node_repr (sys_context,const lw6p2p_node_t * node)
 {
-  return _lw6p2p_node_repr ((_lw6p2p_node_t *) node);
+  return _lw6p2p_node_repr (sys_context,(_lw6p2p_node_t *) node);
 }
 
 char *
-_lw6p2p_node_repr (const _lw6p2p_node_t * node)
+_lw6p2p_node_repr (sys_context,const _lw6p2p_node_t * node)
 {
   char *repr = NULL;
   int nb_nodes = 0;
@@ -377,7 +377,7 @@ _lw6p2p_node_repr (const _lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_lock (_lw6p2p_node_t * node)
+_lw6p2p_node_lock (sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -396,7 +396,7 @@ _lw6p2p_node_lock (_lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_unlock (_lw6p2p_node_t * node)
+_lw6p2p_node_unlock (sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -415,7 +415,7 @@ _lw6p2p_node_unlock (_lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_trylock (_lw6p2p_node_t * node)
+_lw6p2p_node_trylock (sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -429,13 +429,13 @@ _lw6p2p_node_trylock (_lw6p2p_node_t * node)
 static int
 _node_lock (lw6p2p_node_t * node)
 {
-  return _lw6p2p_node_lock ((_lw6p2p_node_t *) node);
+  return _lw6p2p_node_lock (sys_context,(_lw6p2p_node_t *) node);
 }
 
 static int
 _node_unlock (lw6p2p_node_t * node)
 {
-  return _lw6p2p_node_unlock ((_lw6p2p_node_t *) node);
+  return _lw6p2p_node_unlock (sys_context,(_lw6p2p_node_t *) node);
 }
 
 /**
@@ -450,7 +450,7 @@ _node_unlock (lw6p2p_node_t * node)
  * Return value: 1 on success, 0 on error.
  */
 int
-lw6p2p_node_poll (lw6p2p_node_t * node, lw6sys_progress_t * progress)
+lw6p2p_node_poll (sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   int ret = 0;
 
@@ -461,7 +461,7 @@ lw6p2p_node_poll (lw6p2p_node_t * node, lw6sys_progress_t * progress)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_poll ((_lw6p2p_node_t *) node, progress);
+      ret = _lw6p2p_node_poll (sys_context,(_lw6p2p_node_t *) node, progress);
       _node_unlock (node);
     }
 
@@ -657,7 +657,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 		}
 	      else
 		{
-		  tentacle_index = _lw6p2p_node_find_tentacle (node, remote_id);
+		  tentacle_index = _lw6p2p_node_find_tentacle (sys_context,node, remote_id);
 		  if (tentacle_index < 0)
 		    {
 		      /*
@@ -673,9 +673,9 @@ _tcp_accepter_reply (void *func_data, void *data)
 			lw6srv_analyse_tcp (sys_context, node->backends.srv_backends[i], tcp_accepter, node->node_info, &remote_id, &remote_url);
 		      if (remote_id != 0 && remote_url != NULL)
 			{
-			  if (_lw6p2p_node_register_tentacle (node, remote_url, tcp_accepter->client_id.client_ip, remote_id))
+			  if (_lw6p2p_node_register_tentacle (sys_context,node, remote_url, tcp_accepter->client_id.client_ip, remote_id))
 			    {
-			      tentacle_index = _lw6p2p_node_find_tentacle (node, remote_id);
+			      tentacle_index = _lw6p2p_node_find_tentacle (sys_context,node, remote_id);
 			    }
 			  else
 			    {
@@ -748,7 +748,7 @@ _udp_buffer_reply (void *func_data, void *data)
 		}
 	      else
 		{
-		  tentacle_index = _lw6p2p_node_find_tentacle (node, remote_id);
+		  tentacle_index = _lw6p2p_node_find_tentacle (sys_context,node, remote_id);
 		  if (tentacle_index < 0)
 		    {
 		      /*
@@ -763,9 +763,9 @@ _udp_buffer_reply (void *func_data, void *data)
 		      analyse_udp_ret = lw6srv_analyse_udp (sys_context, node->backends.srv_backends[i], udp_buffer, node->node_info, &remote_id, &remote_url);
 		      if (remote_id != 0 && remote_url != NULL)
 			{
-			  if (_lw6p2p_node_register_tentacle (node, remote_url, udp_buffer->client_id.client_ip, remote_id))
+			  if (_lw6p2p_node_register_tentacle (sys_context,node, remote_url, udp_buffer->client_id.client_ip, remote_id))
 			    {
-			      tentacle_index = _lw6p2p_node_find_tentacle (node, remote_id);
+			      tentacle_index = _lw6p2p_node_find_tentacle (sys_context,node, remote_id);
 			    }
 			  else
 			    {
@@ -802,11 +802,11 @@ _poll_step3_reply (_lw6p2p_node_t * node, int64_t now)
    * the reply process might trigger recv callbacks which
    * require lock access.
    */
-  if (_lw6p2p_node_unlock (node))
+  if (_lw6p2p_node_unlock (sys_context,node))
     {
       lw6sys_list_filter (sys_context, &(node->listener->tcp_accepters), _tcp_accepter_reply, node);
       lw6sys_list_filter (sys_context, &(node->listener->udp_buffers), _udp_buffer_reply, node);
-      _lw6p2p_node_lock (node);
+      _lw6p2p_node_lock (sys_context,node);
     }
 
   return ret;
@@ -818,7 +818,7 @@ _cli_oob_filter (void *func_data, void *data)
   int ret = 0;
   _lw6p2p_cli_oob_callback_data_t *cli_oob = (_lw6p2p_cli_oob_callback_data_t *) data;
 
-  ret = _lw6p2p_cli_oob_filter (cli_oob);
+  ret = _lw6p2p_cli_oob_filter (sys_context,cli_oob);
 
   return ret;
 }
@@ -839,7 +839,7 @@ _srv_oob_filter (void *func_data, void *data)
   int ret = 0;
   _lw6p2p_srv_oob_callback_data_t *srv_oob = (_lw6p2p_srv_oob_callback_data_t *) data;
 
-  ret = _lw6p2p_srv_oob_filter (srv_oob);
+  ret = _lw6p2p_srv_oob_filter (sys_context,srv_oob);
 
   return ret;
 }
@@ -859,7 +859,7 @@ _poll_step6_explore_discover_nodes (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
-  ret = _lw6p2p_explore_discover_nodes_if_needed (node);
+  ret = _lw6p2p_explore_discover_nodes_if_needed (sys_context,node);
 
   return ret;
 }
@@ -869,7 +869,7 @@ _poll_step7_flush_discovered_nodes (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
-  ret = _lw6p2p_flush_discovered_nodes_if_needed (node);
+  ret = _lw6p2p_flush_discovered_nodes_if_needed (sys_context,node);
 
   return ret;
 }
@@ -879,7 +879,7 @@ _poll_step8_explore_verify_nodes (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
-  ret = _lw6p2p_explore_verify_nodes_if_needed (node);
+  ret = _lw6p2p_explore_verify_nodes_if_needed (sys_context,node);
 
   return ret;
 }
@@ -889,7 +889,7 @@ _poll_step9_flush_verified_nodes (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
-  ret = _lw6p2p_flush_verified_nodes_if_needed (node);
+  ret = _lw6p2p_flush_verified_nodes_if_needed (sys_context,node);
 
   return ret;
 }
@@ -908,7 +908,7 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
 
   for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
     {
-      if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
+      if (_lw6p2p_tentacle_enabled (sys_context,&(node->tentacles[i])))
 	{
 	  send_i = 0;
 	  remote_id_int = node->tentacles[i].remote_id_int;
@@ -957,17 +957,17 @@ _poll_step11_tentacles (_lw6p2p_node_t * node, int64_t now)
    * a socket, UDP or TCP). So we don't want to be in locked
    * when those are fired.
    */
-  if (_lw6p2p_node_unlock (node))
+  if (_lw6p2p_node_unlock (sys_context,node))
     {
       for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
 	{
-	  if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
+	  if (_lw6p2p_tentacle_enabled (sys_context,&(node->tentacles[i])))
 	    {
-	      _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info,
+	      _lw6p2p_tentacle_poll (sys_context,&(node->tentacles[i]), node->node_info,
 				     &(node->ticket_table), &(node->db->data.consts), lw6dat_warehouse_get_local_serial (sys_context, node->warehouse));
 	    }
 	}
-      _lw6p2p_node_lock (node);
+      _lw6p2p_node_lock (sys_context,node);
     }
 
   return ret;
@@ -999,7 +999,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * 
 	    {
 	      nb_atom_parts_since_last_poll = lw6dat_warehouse_get_nb_atom_parts_since_last_poll (sys_context, node->warehouse, miss->from_id);
 	      disable_miss = (nb_atom_parts_since_last_poll > node->db->data.consts.received_atom_parts_per_poll_to_disable_miss) ? 1 : 0;
-	      tentacle_i = _lw6p2p_node_find_tentacle (node, miss->from_id);
+	      tentacle_i = _lw6p2p_node_find_tentacle (sys_context,node, miss->from_id);
 	      if (tentacle_i >= 0)
 		{
 		  /*
@@ -1055,7 +1055,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * 
 		    {
 		      for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
 			{
-			  if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
+			  if (_lw6p2p_tentacle_enabled (sys_context,&(node->tentacles[i])))
 			    {
 			      remote_id_int = node->tentacles[i].remote_id_int;
 			      remote_id_str = node->tentacles[i].remote_id_str;
@@ -1099,7 +1099,7 @@ _poll_step13_connect_registered (_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
-  ret = _lw6p2p_connect_registered_nodes_if_needed (node);
+  ret = _lw6p2p_connect_registered_nodes_if_needed (sys_context,node);
 
   return ret;
 }
@@ -1109,7 +1109,7 @@ _poll_step13_connect_registered (_lw6p2p_node_t * node, int64_t now)
  * This function *must* be called in locked mode
  */
 int
-_lw6p2p_node_poll (_lw6p2p_node_t * node, lw6sys_progress_t * progress)
+_lw6p2p_node_poll (sys_context,_lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   int ret = 1;
   int64_t now = 0LL;
@@ -1146,7 +1146,7 @@ _lw6p2p_node_poll (_lw6p2p_node_t * node, lw6sys_progress_t * progress)
  * Return value: 1 on success, 0 on error.
  */
 void
-lw6p2p_node_close (lw6p2p_node_t * node)
+lw6p2p_node_close (sys_context,lw6p2p_node_t * node)
 {
   /*
    * We lock in public function, the private one does not use
@@ -1155,13 +1155,13 @@ lw6p2p_node_close (lw6p2p_node_t * node)
    */
   if (_node_lock (node))
     {
-      _lw6p2p_node_close ((_lw6p2p_node_t *) node);
+      _lw6p2p_node_close (sys_context,(_lw6p2p_node_t *) node);
       _node_unlock (node);
     }
 }
 
 void
-_lw6p2p_node_close (_lw6p2p_node_t * node)
+_lw6p2p_node_close (sys_context,_lw6p2p_node_t * node)
 {
   char *query = NULL;
   _lw6p2p_srv_oob_callback_data_t *srv_oob = NULL;
@@ -1179,30 +1179,30 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 	{
 	  node->closed = 1;
 
-	  if (_lw6p2p_db_lock (node->db))
+	  if (_lw6p2p_db_lock (sys_context,node->db))
 	    {
-	      query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (node->db, _LW6P2P_DELETE_NODE_BY_ID_SQL), node->node_id_str);
+	      query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (sys_context,node->db, _LW6P2P_DELETE_NODE_BY_ID_SQL), node->node_id_str);
 	      if (query)
 		{
-		  _lw6p2p_db_exec_ignore_data (node->db, query);
+		  _lw6p2p_db_exec_ignore_data (sys_context,node->db, query);
 		  LW6SYS_FREE (sys_context, query);
 		}
 	      /*
 	       * OK this is paranoid, we already deleted it by ID but...
 	       * who knows, well, never be too sure ;)
 	       */
-	      query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (node->db, _LW6P2P_DELETE_NODE_BY_URL_SQL), node->public_url);
+	      query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (sys_context,node->db, _LW6P2P_DELETE_NODE_BY_URL_SQL), node->public_url);
 	      if (query)
 		{
-		  _lw6p2p_db_exec_ignore_data (node->db, query);
+		  _lw6p2p_db_exec_ignore_data (sys_context,node->db, query);
 		  LW6SYS_FREE (sys_context, query);
 		}
-	      _lw6p2p_db_unlock (node->db);
+	      _lw6p2p_db_unlock (sys_context,node->db);
 	    }
 
 	  for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
 	    {
-	      _lw6p2p_tentacle_clear (&(node->tentacles[i]));
+	      _lw6p2p_tentacle_clear (sys_context,&(node->tentacles[i]));
 	    }
 
 	  if (node->srv_oobs)
@@ -1210,7 +1210,7 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 	      while (node->srv_oobs && !lw6sys_list_is_empty (sys_context, node->srv_oobs))
 		{
 		  srv_oob = (_lw6p2p_srv_oob_callback_data_t *) lw6sys_list_pop_front (sys_context, &(node->srv_oobs));
-		  _lw6p2p_srv_oob_callback_data_free (srv_oob);
+		  _lw6p2p_srv_oob_callback_data_free (sys_context,srv_oob);
 		}
 	      if (!(node->srv_oobs))
 		{
@@ -1222,7 +1222,7 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 	      while (node->cli_oobs && !lw6sys_list_is_empty (sys_context, node->cli_oobs))
 		{
 		  cli_oob = (_lw6p2p_cli_oob_callback_data_t *) lw6sys_list_pop_front (sys_context, &(node->cli_oobs));
-		  _lw6p2p_cli_oob_callback_data_free (cli_oob);
+		  _lw6p2p_cli_oob_callback_data_free (sys_context,cli_oob);
 		}
 	      if (!(node->cli_oobs))
 		{
@@ -1230,8 +1230,8 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
 		}
 	    }
 
-	  _lw6p2p_backends_clear_srv (&(node->backends));
-	  _lw6p2p_backends_clear_cli (&(node->backends));
+	  _lw6p2p_backends_clear_srv (sys_context,&(node->backends));
+	  _lw6p2p_backends_clear_cli (sys_context,&(node->backends));
 
 	  if (node->listener)
 	    {
@@ -1261,17 +1261,17 @@ _lw6p2p_node_close (_lw6p2p_node_t * node)
  * Return value: numerical id.
  */
 u_int64_t
-lw6p2p_node_get_id (lw6p2p_node_t * node)
+lw6p2p_node_get_id (sys_context,lw6p2p_node_t * node)
 {
   u_int64_t id = 0;
 
-  id = _lw6p2p_node_get_id ((_lw6p2p_node_t *) node);
+  id = _lw6p2p_node_get_id (sys_context,(_lw6p2p_node_t *) node);
 
   return id;
 }
 
 u_int64_t
-_lw6p2p_node_get_id (_lw6p2p_node_t * node)
+_lw6p2p_node_get_id (sys_context,_lw6p2p_node_t * node)
 {
   u_int64_t id = 0;
 
@@ -1293,7 +1293,7 @@ _select_node_by_url_callback (void *func_data, int nb_fields, char **fields_valu
 }
 
 int
-_lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
+_lw6p2p_node_insert_discovered (sys_context,_lw6p2p_node_t * node, char *public_url)
 {
   int ret = 1;
   char *query = NULL;
@@ -1307,12 +1307,12 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
       escaped_public_url = lw6sys_escape_sql_value (sys_context, canonized_public_url);
       if (escaped_public_url)
 	{
-	  if (_lw6p2p_db_lock (node->db))
+	  if (_lw6p2p_db_lock (sys_context,node->db))
 	    {
-	      query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (node->db, _LW6P2P_SELECT_NODE_BY_URL_SQL), escaped_public_url);
+	      query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (sys_context,node->db, _LW6P2P_SELECT_NODE_BY_URL_SQL), escaped_public_url);
 	      if (query)
 		{
-		  ret = _lw6p2p_db_exec (node->db, query, _select_node_by_url_callback, (void *) &count) && ret;
+		  ret = _lw6p2p_db_exec (sys_context,node->db, query, _select_node_by_url_callback, (void *) &count) && ret;
 		  LW6SYS_FREE (sys_context, query);
 		  if (count > 0)
 		    {
@@ -1322,10 +1322,10 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
 		    {
 		      query =
 			lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
-					    (node->db, _LW6P2P_INSERT_DISCOVERED_NODE_SQL), escaped_public_url, _lw6p2p_db_now (node->db));
+					    (node->db, _LW6P2P_INSERT_DISCOVERED_NODE_SQL), escaped_public_url, _lw6p2p_db_now (sys_context,node->db));
 		      if (query)
 			{
-			  ret = _lw6p2p_db_exec_ignore_data (node->db, query) && ret;
+			  ret = _lw6p2p_db_exec_ignore_data (sys_context,node->db, query) && ret;
 			  LW6SYS_FREE (sys_context, query);
 			}
 		      else
@@ -1338,7 +1338,7 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
 		{
 		  ret = 0;
 		}
-	      _lw6p2p_db_unlock (node->db);
+	      _lw6p2p_db_unlock (sys_context,node->db);
 	    }
 	  LW6SYS_FREE (sys_context, escaped_public_url);
 	}
@@ -1349,7 +1349,7 @@ _lw6p2p_node_insert_discovered (_lw6p2p_node_t * node, char *public_url)
 }
 
 int
-_lw6p2p_node_update_peer_info_x (_lw6p2p_node_t * node, const char *version,
+_lw6p2p_node_update_peer_info_x (sys_context,_lw6p2p_node_t * node, const char *version,
 				 const char *codename, int stamp,
 				 const char *id, const char *url,
 				 const char *title, const char *description,
@@ -1401,10 +1401,10 @@ _lw6p2p_node_update_peer_info_x (_lw6p2p_node_t * node, const char *version,
 			      max_nb_colors, nb_cursors, max_nb_cursors, nb_nodes, max_nb_nodes, available, escaped_url);
   if (query)
     {
-      if (_lw6p2p_db_lock (node->db))
+      if (_lw6p2p_db_lock (sys_context,node->db))
 	{
-	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
-	  _lw6p2p_db_unlock (node->db);
+	  ret = _lw6p2p_db_exec_ignore_data (sys_context,node->db, query);
+	  _lw6p2p_db_unlock (sys_context,node->db);
 	}
       LW6SYS_FREE (sys_context, query);
     }
@@ -1446,12 +1446,12 @@ _lw6p2p_node_update_peer_info_x (_lw6p2p_node_t * node, const char *version,
 }
 
 int
-_lw6p2p_node_update_peer_info (_lw6p2p_node_t * node, lw6nod_info_t * peer_info)
+_lw6p2p_node_update_peer_info (sys_context,_lw6p2p_node_t * node, lw6nod_info_t * peer_info)
 {
   int ret = 1;
 
   ret =
-    _lw6p2p_node_update_peer_info_x (node, peer_info->const_info.version,
+    _lw6p2p_node_update_peer_info_x (sys_context,node, peer_info->const_info.version,
 				     peer_info->const_info.codename,
 				     peer_info->const_info.stamp,
 				     peer_info->const_info.ref_info.id_str,
@@ -1461,7 +1461,7 @@ _lw6p2p_node_update_peer_info (_lw6p2p_node_t * node, lw6nod_info_t * peer_info)
 				     peer_info->const_info.has_password,
 				     peer_info->const_info.bench,
 				     peer_info->const_info.open_relay,
-				     _lw6p2p_db_timestamp (node->db,
+				     _lw6p2p_db_timestamp (sys_context,node->db,
 							   peer_info->const_info.creation_timestamp),
 				     lw6sys_str_empty_if_null (peer_info->dyn_info.community_id_str),
 				     peer_info->dyn_info.round,
@@ -1476,7 +1476,7 @@ _lw6p2p_node_update_peer_info (_lw6p2p_node_t * node, lw6nod_info_t * peer_info)
 }
 
 int
-_lw6p2p_node_update_peer_net (_lw6p2p_node_t * node, const char *id, const char *url, const char *ip, int port, int last_ping_timestamp, int ping_delay_msec)
+_lw6p2p_node_update_peer_net (sys_context,_lw6p2p_node_t * node, const char *id, const char *url, const char *ip, int port, int last_ping_timestamp, int ping_delay_msec)
 {
   int ret = 1;
   char *query = NULL;
@@ -1490,10 +1490,10 @@ _lw6p2p_node_update_peer_net (_lw6p2p_node_t * node, const char *id, const char 
 			      (node->db, _LW6P2P_UPDATE_NODE_NET_SQL), ip, port, last_ping_timestamp, ping_delay_msec, escaped_url);
   if (query)
     {
-      if (_lw6p2p_db_lock (node->db))
+      if (_lw6p2p_db_lock (sys_context,node->db))
 	{
-	  ret = _lw6p2p_db_exec_ignore_data (node->db, query);
-	  _lw6p2p_db_unlock (node->db);
+	  ret = _lw6p2p_db_exec_ignore_data (sys_context,node->db, query);
+	  _lw6p2p_db_unlock (sys_context,node->db);
 	}
       LW6SYS_FREE (sys_context, query);
     }
@@ -1511,7 +1511,7 @@ _lw6p2p_node_update_peer_net (_lw6p2p_node_t * node, const char *id, const char 
 }
 
 int
-_lw6p2p_node_update_local (_lw6p2p_node_t * node, lw6nod_info_t * node_info)
+_lw6p2p_node_update_local (sys_context,_lw6p2p_node_t * node, lw6nod_info_t * node_info)
 {
   int ret = 1;
 
@@ -1519,24 +1519,24 @@ _lw6p2p_node_update_local (_lw6p2p_node_t * node, lw6nod_info_t * node_info)
    * Call the generic update_peer function for that matter, in fact
    * the update is pretty much the same except for the IP/port & timeout
    */
-  ret = _lw6p2p_node_update_peer_info (node, node_info) && ret;
+  ret = _lw6p2p_node_update_peer_info (sys_context,node, node_info) && ret;
 
   ret =
-    _lw6p2p_node_update_peer_net (node, node_info->const_info.ref_info.id_str,
+    _lw6p2p_node_update_peer_net (sys_context,node, node_info->const_info.ref_info.id_str,
 				  node_info->const_info.ref_info.url, node->bind_ip, node->bind_port, 0, 0) && ret;
 
   return ret;
 }
 
 int
-_lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node)
+_lw6p2p_node_find_free_tentacle (sys_context,_lw6p2p_node_t * node)
 {
   int ret = -1;
   int i;
 
   for (i = 0; i < LW6P2P_MAX_NB_TENTACLES && ret < 0; ++i)
     {
-      if (!_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
+      if (!_lw6p2p_tentacle_enabled (sys_context,&(node->tentacles[i])))
 	{
 	  ret = i;
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("found free tentacle %d"), i);
@@ -1547,7 +1547,7 @@ _lw6p2p_node_find_free_tentacle (_lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_find_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
+_lw6p2p_node_find_tentacle (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id)
 {
   int ret = -1;
   int i;
@@ -1567,19 +1567,19 @@ _lw6p2p_node_find_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
 }
 
 int
-_lw6p2p_node_register_tentacle (_lw6p2p_node_t * node, const char *remote_url, const char *real_remote_ip, u_int64_t remote_id)
+_lw6p2p_node_register_tentacle (sys_context,_lw6p2p_node_t * node, const char *remote_url, const char *real_remote_ip, u_int64_t remote_id)
 {
   int ret = 0;
   int i = 0;
 
-  i = _lw6p2p_node_find_tentacle (node, remote_id);
+  i = _lw6p2p_node_find_tentacle (sys_context,node, remote_id);
   if (i < 0)
     {
-      i = _lw6p2p_node_find_free_tentacle (node);
+      i = _lw6p2p_node_find_free_tentacle (sys_context,node);
       if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
 	{
 	  ret =
-	    _lw6p2p_tentacle_init (&(node->tentacles[i]), &(node->backends),
+	    _lw6p2p_tentacle_init (sys_context,&(node->tentacles[i]), &(node->backends),
 				   node->listener,
 				   node->public_url, remote_url,
 				   real_remote_ip, node->password,
@@ -1599,15 +1599,15 @@ _lw6p2p_node_register_tentacle (_lw6p2p_node_t * node, const char *remote_url, c
 }
 
 int
-_lw6p2p_node_unregister_tentacle (_lw6p2p_node_t * node, u_int64_t remote_id)
+_lw6p2p_node_unregister_tentacle (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id)
 {
   int ret = 0;
   int i = 0;
 
-  i = _lw6p2p_node_find_tentacle (node, remote_id);
+  i = _lw6p2p_node_find_tentacle (sys_context,node, remote_id);
   if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
     {
-      _lw6p2p_tentacle_clear (&(node->tentacles[i]));
+      _lw6p2p_tentacle_clear (sys_context,&(node->tentacles[i]));
       ret = 1;
     }
   else
@@ -1680,7 +1680,7 @@ _get_entries_callback (void *func_data, int nb_fields, char **fields_values, cha
 }
 
 lw6sys_list_t *
-_lw6p2p_node_get_entries (_lw6p2p_node_t * node, int skip_local)
+_lw6p2p_node_get_entries (sys_context,_lw6p2p_node_t * node, int skip_local)
 {
   lw6sys_list_t *ret;
   char *query = NULL;
@@ -1695,14 +1695,14 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node, int skip_local)
        * something, or forgetting something if things change
        * between the two calls
        */
-      if (_lw6p2p_db_lock (node->db))
+      if (_lw6p2p_db_lock (sys_context,node->db))
 	{
 	  query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
 				      (node->db, _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL), skip_local ? node->node_id_str : LW6SYS_STR_EMPTY);
 	  if (query)
 	    {
-	      _lw6p2p_db_exec (node->db, query, _get_entries_callback, &ret);
-	      _lw6p2p_db_unlock (node->db);
+	      _lw6p2p_db_exec (sys_context,node->db, query, _get_entries_callback, &ret);
+	      _lw6p2p_db_unlock (sys_context,node->db);
 	    }
 	  LW6SYS_FREE (sys_context, query);
 
@@ -1710,13 +1710,13 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node, int skip_local)
 				      (node->db, _LW6P2P_SELECT_AVAILABLE_NODE_SQL), skip_local ? node->node_id_str : LW6SYS_STR_EMPTY);
 	  if (query)
 	    {
-	      if (_lw6p2p_db_lock (node->db))
+	      if (_lw6p2p_db_lock (sys_context,node->db))
 		{
-		  _lw6p2p_db_exec (node->db, query, _get_entries_callback, &ret);
+		  _lw6p2p_db_exec (sys_context,node->db, query, _get_entries_callback, &ret);
 		}
 	      LW6SYS_FREE (sys_context, query);
 	    }
-	  _lw6p2p_db_unlock (node->db);
+	  _lw6p2p_db_unlock (sys_context,node->db);
 	}
     }
 
@@ -1738,7 +1738,7 @@ _lw6p2p_node_get_entries (_lw6p2p_node_t * node, int skip_local)
  * Return value: list object containing @lw6p2p_entry_t objects
  */
 lw6sys_list_t *
-lw6p2p_node_get_entries (lw6p2p_node_t * node, int skip_local)
+lw6p2p_node_get_entries (sys_context,lw6p2p_node_t * node, int skip_local)
 {
   lw6sys_list_t *ret = NULL;
 
@@ -1749,7 +1749,7 @@ lw6p2p_node_get_entries (lw6p2p_node_t * node, int skip_local)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_get_entries ((_lw6p2p_node_t *) node, skip_local);
+      ret = _lw6p2p_node_get_entries (sys_context,(_lw6p2p_node_t *) node, skip_local);
       _node_unlock (node);
     }
 
@@ -1757,7 +1757,7 @@ lw6p2p_node_get_entries (lw6p2p_node_t * node, int skip_local)
 }
 
 int
-_lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0)
+_lw6p2p_node_server_start (sys_context,_lw6p2p_node_t * node, int64_t seq_0)
 {
   int ret = 0;
 
@@ -1769,11 +1769,11 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0)
    * to "restarting" so we just clear everything and hell, it's
    * just ready to serve.
    */
-  _lw6p2p_node_disconnect (node);
+  _lw6p2p_node_disconnect (sys_context,node);
 
   lw6nod_info_update (sys_context, node->node_info, lw6sys_generate_id_64 (),
 		      0, NULL, node->node_info->const_info.bench / LW6P2P_BENCH_NETWORK_DIVIDE, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
-  _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (sys_context,), seq_0);
+  _lw6p2p_node_calibrate (sys_context,node, lw6sys_get_timestamp (sys_context,), seq_0);
   lw6dat_warehouse_set_local_seq_0 (sys_context, node->warehouse, seq_0);
 
   ret = 1;
@@ -1793,7 +1793,7 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6p2p_node_server_start (lw6p2p_node_t * node, int64_t seq_0)
+lw6p2p_node_server_start (sys_context,lw6p2p_node_t * node, int64_t seq_0)
 {
   int ret = 0;
 
@@ -1804,7 +1804,7 @@ lw6p2p_node_server_start (lw6p2p_node_t * node, int64_t seq_0)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_server_start ((_lw6p2p_node_t *) node, seq_0);
+      ret = _lw6p2p_node_server_start (sys_context,(_lw6p2p_node_t *) node, seq_0);
       _node_unlock (node);
     }
 
@@ -1815,7 +1815,7 @@ lw6p2p_node_server_start (lw6p2p_node_t * node, int64_t seq_0)
  * This function *must* be called in locked mode
  */
 int
-_lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url, lw6sys_progress_t * progress)
+_lw6p2p_node_client_join (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url, lw6sys_progress_t * progress)
 {
   int ret = 1;
   int i;
@@ -1826,7 +1826,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
   int64_t now = 0LL;
   int64_t limit_timestamp = 0LL;
 
-  _lw6p2p_node_disconnect (node);
+  _lw6p2p_node_disconnect (sys_context,node);
 
   now = lw6sys_get_timestamp ();
 
@@ -1836,7 +1836,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
       if ((!lw6nod_info_community_has_id (sys_context, node->node_info, remote_id))
 	  && (!lw6nod_info_community_has_url (sys_context, node->node_info, remote_url)))
 	{
-	  i = _lw6p2p_node_find_tentacle (node, remote_id);
+	  i = _lw6p2p_node_find_tentacle (sys_context,node, remote_id);
 	  if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
 	    {
 	      tentacle = &(node->tentacles[i]);
@@ -1857,7 +1857,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
 	    }
 	  if (ret && !tentacle)
 	    {
-	      i = _lw6p2p_node_find_free_tentacle (node);
+	      i = _lw6p2p_node_find_free_tentacle (sys_context,node);
 	      if (i >= 0 && i < LW6P2P_MAX_NB_TENTACLES)
 		{
 		  tentacle = &(node->tentacles[i]);
@@ -1877,7 +1877,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
 		  lw6nod_info_community_add (sys_context, node->node_info, remote_id, remote_url);
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trying to join  %" LW6SYS_PRINTF_LL "x at \"%s\""), (long long) remote_id, remote_url);
 		  ret =
-		    _lw6p2p_tentacle_init (tentacle, &(node->backends),
+		    _lw6p2p_tentacle_init (sys_context,tentacle, &(node->backends),
 					   node->listener, node->public_url,
 					   remote_url, NULL, node->password,
 					   node->node_id_int, remote_id, node->network_reliability, _lw6p2p_recv_callback, (void *) node);
@@ -1888,8 +1888,8 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
 		      limit_timestamp = now + node->db->data.consts.join_delay;
 		      while (!tentacle->data_exchanged && lw6sys_get_timestamp (sys_context,) < limit_timestamp)
 			{
-			  _lw6p2p_node_poll (node, progress);
-			  if (_lw6p2p_node_unlock (node))
+			  _lw6p2p_node_poll (sys_context,node, progress);
+			  if (_lw6p2p_node_unlock (sys_context,node))
 			    {
 			      /*
 			       * Used to be lw6sys_idle but was generating
@@ -1897,7 +1897,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
 			       * of magnitude more reasonnable.
 			       */
 			      lw6sys_snooze ();
-			      _lw6p2p_node_lock (node);
+			      _lw6p2p_node_lock (sys_context,node);
 			    }
 			}
 		      /*
@@ -1910,7 +1910,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
 			  ticket_sig =
 			    lw6msg_ticket_calc_sig
 			    (lw6cnx_ticket_table_get_send (sys_context, &(node->ticket_table), remote_id_str), node->node_id_int, remote_id, msg_join);
-			  ret = _lw6p2p_tentacle_send_redundant (tentacle, now, &(node->ticket_table), ticket_sig, node->node_id_int, remote_id, msg_join);
+			  ret = _lw6p2p_tentacle_send_redundant (sys_context,tentacle, now, &(node->ticket_table), ticket_sig, node->node_id_int, remote_id, msg_join);
 			  if (ret)
 			    {
 			      ret = 0;
@@ -1918,11 +1918,11 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
 			      limit_timestamp = now + node->db->data.consts.join_delay;
 			      while (!tentacle->joined && lw6sys_get_timestamp () < limit_timestamp)
 				{
-				  _lw6p2p_node_poll (node, progress);
-				  if (_lw6p2p_node_unlock (node))
+				  _lw6p2p_node_poll (sys_context,node, progress);
+				  if (_lw6p2p_node_unlock (sys_context,node))
 				    {
 				      lw6sys_idle ();
-				      _lw6p2p_node_lock (node);
+				      _lw6p2p_node_lock (sys_context,node);
 				    }
 				}
 			      if (tentacle->joined)
@@ -1973,7 +1973,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6p2p_node_client_join (lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url, lw6sys_progress_t * progress)
+lw6p2p_node_client_join (sys_context,lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url, lw6sys_progress_t * progress)
 {
   int ret = 0;
 
@@ -1984,7 +1984,7 @@ lw6p2p_node_client_join (lw6p2p_node_t * node, u_int64_t remote_id, const char *
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_client_join ((_lw6p2p_node_t *) node, remote_id, remote_url, progress);
+      ret = _lw6p2p_node_client_join (sys_context,(_lw6p2p_node_t *) node, remote_id, remote_url, progress);
       _node_unlock (node);
     }
 
@@ -1995,7 +1995,7 @@ lw6p2p_node_client_join (lw6p2p_node_t * node, u_int64_t remote_id, const char *
  * This function *must* be called in locked mode
  */
 int
-_lw6p2p_node_refresh_peer (_lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url)
+_lw6p2p_node_refresh_peer (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url)
 {
   int ret = 1;
   char *url_from_id = NULL;
@@ -2005,11 +2005,11 @@ _lw6p2p_node_refresh_peer (_lw6p2p_node_t * node, u_int64_t remote_id, const cha
     {
       if (!lw6sys_str_is_same (sys_context, remote_url, url_from_id))
 	{
-	  _lw6p2p_explore_start_verify_node (node, url_from_id);
+	  _lw6p2p_explore_start_verify_node (sys_context,node, url_from_id);
 	}
       LW6SYS_FREE (sys_context, url_from_id);
     }
-  _lw6p2p_explore_start_verify_node (node, remote_url);
+  _lw6p2p_explore_start_verify_node (sys_context,node, remote_url);
 
   return ret;
 }
@@ -2027,7 +2027,7 @@ _lw6p2p_node_refresh_peer (_lw6p2p_node_t * node, u_int64_t remote_id, const cha
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6p2p_node_refresh_peer (lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url)
+lw6p2p_node_refresh_peer (sys_context,lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url)
 {
   int ret = 0;
 
@@ -2038,7 +2038,7 @@ lw6p2p_node_refresh_peer (lw6p2p_node_t * node, u_int64_t remote_id, const char 
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_refresh_peer ((_lw6p2p_node_t *) node, remote_id, remote_url);
+      ret = _lw6p2p_node_refresh_peer (sys_context,(_lw6p2p_node_t *) node, remote_id, remote_url);
       _node_unlock (node);
     }
 
@@ -2046,7 +2046,7 @@ lw6p2p_node_refresh_peer (lw6p2p_node_t * node, u_int64_t remote_id, const char 
 }
 
 void
-_lw6p2p_node_disconnect (_lw6p2p_node_t * node)
+_lw6p2p_node_disconnect (sys_context,_lw6p2p_node_t * node)
 {
   int i;
 
@@ -2059,7 +2059,7 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
 
   for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
     {
-      _lw6p2p_tentacle_clear (&(node->tentacles[i]));
+      _lw6p2p_tentacle_clear (sys_context,&(node->tentacles[i]));
     }
   lw6nod_info_community_reset (sys_context, node->node_info);
   lw6nod_info_update (sys_context, node->node_info, LW6NOD_COMMUNITY_ID_NONE, 0, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
@@ -2090,7 +2090,7 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
  * Return value: 1 on success, 0 on failure.
  */
 void
-lw6p2p_node_disconnect (lw6p2p_node_t * node)
+lw6p2p_node_disconnect (sys_context,lw6p2p_node_t * node)
 {
   /*
    * We lock in public function, the private one does not use
@@ -2099,13 +2099,13 @@ lw6p2p_node_disconnect (lw6p2p_node_t * node)
    */
   if (_node_lock (node))
     {
-      _lw6p2p_node_disconnect ((_lw6p2p_node_t *) node);
+      _lw6p2p_node_disconnect (sys_context,(_lw6p2p_node_t *) node);
       _node_unlock (node);
     }
 }
 
 int
-_lw6p2p_node_update_info (_lw6p2p_node_t * node,
+_lw6p2p_node_update_info (sys_context,_lw6p2p_node_t * node,
 			  int round, const char *level,
 			  int nb_colors, int max_nb_colors,
 			  int nb_cursors, int max_nb_cursors, int nb_nodes, int max_nb_nodes, int game_screenshot_size, void *game_screenshot_data)
@@ -2117,7 +2117,7 @@ _lw6p2p_node_update_info (_lw6p2p_node_t * node,
 			node->node_info->dyn_info.community_id_int, round,
 			level, node->node_info->dyn_info.required_bench,
 			nb_colors, max_nb_colors, nb_cursors, max_nb_cursors,
-			nb_nodes, max_nb_nodes, NULL, game_screenshot_size, game_screenshot_data) && _lw6p2p_node_update_local (node, node->node_info);
+			nb_nodes, max_nb_nodes, NULL, game_screenshot_size, game_screenshot_data) && _lw6p2p_node_update_local (sys_context,node, node->node_info);
 
   return ret;
 }
@@ -2143,7 +2143,7 @@ _lw6p2p_node_update_info (_lw6p2p_node_t * node,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6p2p_node_update_info (lw6p2p_node_t * node,
+lw6p2p_node_update_info (sys_context,lw6p2p_node_t * node,
 			 int round, const char *level,
 			 int nb_colors, int max_nb_colors,
 			 int nb_cursors, int max_nb_cursors, int nb_nodes, int max_nb_nodes, int game_screenshot_size, void *game_screenshot_data)
@@ -2156,7 +2156,7 @@ lw6p2p_node_update_info (lw6p2p_node_t * node,
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_update_info ((_lw6p2p_node_t *) node,
+      ret = _lw6p2p_node_update_info (sys_context,(_lw6p2p_node_t *) node,
 				      round, level,
 				      nb_colors, max_nb_colors,
 				      nb_cursors, max_nb_cursors, nb_nodes, max_nb_nodes, game_screenshot_size, game_screenshot_data);
@@ -2167,7 +2167,7 @@ lw6p2p_node_update_info (lw6p2p_node_t * node,
 }
 
 void
-_lw6p2p_node_calibrate (_lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
+_lw6p2p_node_calibrate (sys_context,_lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 {
   node->calibrate_timestamp = timestamp;
   node->calibrate_seq = seq;
@@ -2186,7 +2186,7 @@ _lw6p2p_node_calibrate (_lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
  * Return value: none.
  */
 void
-lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
+lw6p2p_node_calibrate (sys_context,lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 {
   /*
    * We lock in public function, the private one does not use
@@ -2195,13 +2195,13 @@ lw6p2p_node_calibrate (lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
    */
   if (_node_lock (node))
     {
-      _lw6p2p_node_calibrate ((_lw6p2p_node_t *) node, timestamp, seq);
+      _lw6p2p_node_calibrate (sys_context,(_lw6p2p_node_t *) node, timestamp, seq);
       _node_unlock (node);
     }
 }
 
 int64_t
-_lw6p2p_node_get_local_seq_0 (_lw6p2p_node_t * node)
+_lw6p2p_node_get_local_seq_0 (sys_context,_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2222,7 +2222,7 @@ _lw6p2p_node_get_local_seq_0 (_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_local_seq_0 (lw6p2p_node_t * node)
+lw6p2p_node_get_local_seq_0 (sys_context,lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2233,7 +2233,7 @@ lw6p2p_node_get_local_seq_0 (lw6p2p_node_t * node)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_get_local_seq_0 ((_lw6p2p_node_t *) node);
+      ret = _lw6p2p_node_get_local_seq_0 (sys_context,(_lw6p2p_node_t *) node);
       _node_unlock (node);
     }
 
@@ -2241,7 +2241,7 @@ lw6p2p_node_get_local_seq_0 (lw6p2p_node_t * node)
 }
 
 int64_t
-_lw6p2p_node_get_local_seq_last (_lw6p2p_node_t * node)
+_lw6p2p_node_get_local_seq_last (sys_context,_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2264,7 +2264,7 @@ _lw6p2p_node_get_local_seq_last (_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_local_seq_last (lw6p2p_node_t * node)
+lw6p2p_node_get_local_seq_last (sys_context,lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2275,7 +2275,7 @@ lw6p2p_node_get_local_seq_last (lw6p2p_node_t * node)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_get_local_seq_last ((_lw6p2p_node_t *) node);
+      ret = _lw6p2p_node_get_local_seq_last (sys_context,(_lw6p2p_node_t *) node);
       _node_unlock (node);
     }
 
@@ -2283,7 +2283,7 @@ lw6p2p_node_get_local_seq_last (lw6p2p_node_t * node)
 }
 
 int64_t
-_lw6p2p_node_get_seq_min (_lw6p2p_node_t * node)
+_lw6p2p_node_get_seq_min (sys_context,_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2304,7 +2304,7 @@ _lw6p2p_node_get_seq_min (_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_seq_min (lw6p2p_node_t * node)
+lw6p2p_node_get_seq_min (sys_context,lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2315,7 +2315,7 @@ lw6p2p_node_get_seq_min (lw6p2p_node_t * node)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_get_seq_min ((_lw6p2p_node_t *) node);
+      ret = _lw6p2p_node_get_seq_min (sys_context,(_lw6p2p_node_t *) node);
       _node_unlock (node);
     }
 
@@ -2323,7 +2323,7 @@ lw6p2p_node_get_seq_min (lw6p2p_node_t * node)
 }
 
 int64_t
-_lw6p2p_node_get_seq_max (_lw6p2p_node_t * node)
+_lw6p2p_node_get_seq_max (sys_context,_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2344,7 +2344,7 @@ _lw6p2p_node_get_seq_max (_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_seq_max (lw6p2p_node_t * node)
+lw6p2p_node_get_seq_max (sys_context,lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2355,7 +2355,7 @@ lw6p2p_node_get_seq_max (lw6p2p_node_t * node)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_get_seq_max ((_lw6p2p_node_t *) node);
+      ret = _lw6p2p_node_get_seq_max (sys_context,(_lw6p2p_node_t *) node);
       _node_unlock (node);
     }
 
@@ -2363,7 +2363,7 @@ lw6p2p_node_get_seq_max (lw6p2p_node_t * node)
 }
 
 int64_t
-_lw6p2p_node_get_seq_draft (_lw6p2p_node_t * node)
+_lw6p2p_node_get_seq_draft (sys_context,_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2385,7 +2385,7 @@ _lw6p2p_node_get_seq_draft (_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_seq_draft (lw6p2p_node_t * node)
+lw6p2p_node_get_seq_draft (sys_context,lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2396,7 +2396,7 @@ lw6p2p_node_get_seq_draft (lw6p2p_node_t * node)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_get_seq_draft ((_lw6p2p_node_t *) node);
+      ret = _lw6p2p_node_get_seq_draft (sys_context,(_lw6p2p_node_t *) node);
       _node_unlock (node);
     }
 
@@ -2404,7 +2404,7 @@ lw6p2p_node_get_seq_draft (lw6p2p_node_t * node)
 }
 
 int64_t
-_lw6p2p_node_get_seq_reference (_lw6p2p_node_t * node)
+_lw6p2p_node_get_seq_reference (sys_context,_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2426,7 +2426,7 @@ _lw6p2p_node_get_seq_reference (_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_seq_reference (lw6p2p_node_t * node)
+lw6p2p_node_get_seq_reference (sys_context,lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2437,7 +2437,7 @@ lw6p2p_node_get_seq_reference (lw6p2p_node_t * node)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_get_seq_reference ((_lw6p2p_node_t *) node);
+      ret = _lw6p2p_node_get_seq_reference (sys_context,(_lw6p2p_node_t *) node);
       _node_unlock (node);
     }
 
@@ -2445,11 +2445,11 @@ lw6p2p_node_get_seq_reference (lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_is_peer_connected (_lw6p2p_node_t * node, u_int64_t peer_id)
+_lw6p2p_node_is_peer_connected (sys_context,_lw6p2p_node_t * node, u_int64_t peer_id)
 {
   int ret = 0;
 
-  ret = (peer_id == node->node_id_int) || (_lw6p2p_node_find_tentacle (node, peer_id) >= 0);
+  ret = (peer_id == node->node_id_int) || (_lw6p2p_node_find_tentacle (sys_context,node, peer_id) >= 0);
 
   return ret;
 }
@@ -2468,7 +2468,7 @@ _lw6p2p_node_is_peer_connected (_lw6p2p_node_t * node, u_int64_t peer_id)
  * Return value: 1 if connected, 0 if not.
  */
 int
-lw6p2p_node_is_peer_connected (lw6p2p_node_t * node, u_int64_t peer_id)
+lw6p2p_node_is_peer_connected (sys_context,lw6p2p_node_t * node, u_int64_t peer_id)
 {
   int64_t ret = 0LL;
 
@@ -2479,7 +2479,7 @@ lw6p2p_node_is_peer_connected (lw6p2p_node_t * node, u_int64_t peer_id)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_is_peer_connected ((_lw6p2p_node_t *) node, peer_id);
+      ret = _lw6p2p_node_is_peer_connected (sys_context,(_lw6p2p_node_t *) node, peer_id);
       _node_unlock (node);
     }
 
@@ -2487,7 +2487,7 @@ lw6p2p_node_is_peer_connected (lw6p2p_node_t * node, u_int64_t peer_id)
 }
 
 int
-_lw6p2p_node_is_peer_registered (_lw6p2p_node_t * node, u_int64_t peer_id)
+_lw6p2p_node_is_peer_registered (sys_context,_lw6p2p_node_t * node, u_int64_t peer_id)
 {
   int ret = 0;
 
@@ -2512,7 +2512,7 @@ _lw6p2p_node_is_peer_registered (_lw6p2p_node_t * node, u_int64_t peer_id)
  * Return value: 1 if registered, 0 if not.
  */
 int
-lw6p2p_node_is_peer_registered (lw6p2p_node_t * node, u_int64_t peer_id)
+lw6p2p_node_is_peer_registered (sys_context,lw6p2p_node_t * node, u_int64_t peer_id)
 {
   int64_t ret = 0LL;
 
@@ -2523,7 +2523,7 @@ lw6p2p_node_is_peer_registered (lw6p2p_node_t * node, u_int64_t peer_id)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_is_peer_registered ((_lw6p2p_node_t *) node, peer_id);
+      ret = _lw6p2p_node_is_peer_registered (sys_context,(_lw6p2p_node_t *) node, peer_id);
       _node_unlock (node);
     }
 
@@ -2531,7 +2531,7 @@ lw6p2p_node_is_peer_registered (lw6p2p_node_t * node, u_int64_t peer_id)
 }
 
 int
-_lw6p2p_node_is_seed_needed (_lw6p2p_node_t * node)
+_lw6p2p_node_is_seed_needed (sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -2559,7 +2559,7 @@ _lw6p2p_node_is_seed_needed (_lw6p2p_node_t * node)
  * Return value: 1 if SEED must be sent.
  */
 int
-lw6p2p_node_is_seed_needed (lw6p2p_node_t * node)
+lw6p2p_node_is_seed_needed (sys_context,lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -2570,7 +2570,7 @@ lw6p2p_node_is_seed_needed (lw6p2p_node_t * node)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_is_seed_needed ((_lw6p2p_node_t *) node);
+      ret = _lw6p2p_node_is_seed_needed (sys_context,(_lw6p2p_node_t *) node);
       _node_unlock (node);
     }
 
@@ -2578,7 +2578,7 @@ lw6p2p_node_is_seed_needed (lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_is_dump_needed (_lw6p2p_node_t * node)
+_lw6p2p_node_is_dump_needed (sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -2606,7 +2606,7 @@ _lw6p2p_node_is_dump_needed (_lw6p2p_node_t * node)
  * Return value: 1 if DUMP must be sent.
  */
 int
-lw6p2p_node_is_dump_needed (lw6p2p_node_t * node)
+lw6p2p_node_is_dump_needed (sys_context,lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -2617,7 +2617,7 @@ lw6p2p_node_is_dump_needed (lw6p2p_node_t * node)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_is_dump_needed ((_lw6p2p_node_t *) node);
+      ret = _lw6p2p_node_is_dump_needed (sys_context,(_lw6p2p_node_t *) node);
       _node_unlock (node);
     }
 
@@ -2625,7 +2625,7 @@ lw6p2p_node_is_dump_needed (lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg)
+_lw6p2p_node_put_local_msg (sys_context,_lw6p2p_node_t * node, const char *msg)
 {
   int ret = 0;
 
@@ -2649,7 +2649,7 @@ _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg)
  * Return value: 1 on success, 0 on error
  */
 int
-lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg)
+lw6p2p_node_put_local_msg (sys_context,lw6p2p_node_t * node, const char *msg)
 {
   int ret = 0;
 
@@ -2660,7 +2660,7 @@ lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg)
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_put_local_msg ((_lw6p2p_node_t *) node, msg);
+      ret = _lw6p2p_node_put_local_msg (sys_context,(_lw6p2p_node_t *) node, msg);
       _node_unlock (node);
     }
 
@@ -2668,7 +2668,7 @@ lw6p2p_node_put_local_msg (lw6p2p_node_t * node, const char *msg)
 }
 
 char *
-_lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node, lw6sys_progress_t * progress)
+_lw6p2p_node_get_next_reference_msg (sys_context,_lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   char *ret = NULL;
   int64_t seq_reference = 0LL;
@@ -2705,7 +2705,7 @@ _lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node, lw6sys_progress_t * 
  * Return value: newly allocated string, must be freed.
  */
 char *
-lw6p2p_node_get_next_reference_msg (lw6p2p_node_t * node, lw6sys_progress_t * progress)
+lw6p2p_node_get_next_reference_msg (sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   char *ret = NULL;
 
@@ -2716,7 +2716,7 @@ lw6p2p_node_get_next_reference_msg (lw6p2p_node_t * node, lw6sys_progress_t * pr
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_get_next_reference_msg ((_lw6p2p_node_t *) node, progress);
+      ret = _lw6p2p_node_get_next_reference_msg (sys_context,(_lw6p2p_node_t *) node, progress);
       _node_unlock (node);
     }
 
@@ -2724,7 +2724,7 @@ lw6p2p_node_get_next_reference_msg (lw6p2p_node_t * node, lw6sys_progress_t * pr
 }
 
 char *
-_lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node, lw6sys_progress_t * progress)
+_lw6p2p_node_get_next_draft_msg (sys_context,_lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   char *ret = NULL;
   int64_t seq_draft = 0LL;
@@ -2788,7 +2788,7 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node, lw6sys_progress_t * prog
  * Return value: newly allocated string, must be freed.
  */
 char *
-lw6p2p_node_get_next_draft_msg (lw6p2p_node_t * node, lw6sys_progress_t * progress)
+lw6p2p_node_get_next_draft_msg (sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   char *ret = NULL;
 
@@ -2799,7 +2799,7 @@ lw6p2p_node_get_next_draft_msg (lw6p2p_node_t * node, lw6sys_progress_t * progre
    */
   if (_node_lock (node))
     {
-      ret = _lw6p2p_node_get_next_draft_msg ((_lw6p2p_node_t *) node, progress);
+      ret = _lw6p2p_node_get_next_draft_msg (sys_context,(_lw6p2p_node_t *) node, progress);
       _node_unlock (node);
     }
 
