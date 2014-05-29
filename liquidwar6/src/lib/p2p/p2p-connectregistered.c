@@ -29,7 +29,6 @@
 
 typedef struct _select_node_by_id_data_s
 {
-  lw6sys_context_t *sys_context;
   char *node_id;
   char *node_url;
   char *node_ip;
@@ -37,11 +36,10 @@ typedef struct _select_node_by_id_data_s
 } _select_node_by_id_data_t;
 
 static int
-_select_node_by_id_callback (void *func_data, int nb_fields, char **fields_values, char **fields_names)
+_select_node_by_id_callback (lw6sys_context_t *sys_context, void *func_data, int nb_fields, char **fields_values, char **fields_names)
 {
   int ret = 0;
   _select_node_by_id_data_t *node_by_id_data = (_select_node_by_id_data_t *) func_data;
-  lw6sys_context_t *sys_context=node_by_id_data->sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("select_node_by_id_callback called with %d fields"), nb_fields);
   /*
@@ -113,7 +111,6 @@ _lw6p2p_connect_registered_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t *
 
   lw6msg_meta_array_zero (sys_context, &meta_array);
   memset (&node_by_id_data, 0, sizeof (_select_node_by_id_data_t));
-  node_by_id_data.sys_context=sys_context;
   lw6dat_warehouse_meta_get (sys_context, node->warehouse, &meta_array, lw6dat_warehouse_get_seq_max (sys_context, node->warehouse));
 
   for (index = 0; index < LW6MSG_NB_META_ARRAY_ITEMS; ++index)

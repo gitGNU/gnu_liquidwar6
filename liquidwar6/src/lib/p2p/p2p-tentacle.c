@@ -28,7 +28,7 @@
 #include "p2p-internal.h"
 
 int
-_lw6p2p_tentacle_init (sys_context,_lw6p2p_tentacle_t * tentacle,
+_lw6p2p_tentacle_init (lw6sys_context_t *sys_context,_lw6p2p_tentacle_t * tentacle,
 		       _lw6p2p_backends_t * backends,
 		       lw6srv_listener_t * listener, const char *local_url,
 		       const char *remote_url, const char *real_remote_ip,
@@ -194,7 +194,7 @@ _lw6p2p_tentacle_init (sys_context,_lw6p2p_tentacle_t * tentacle,
 }
 
 void
-_lw6p2p_tentacle_clear (sys_context,_lw6p2p_tentacle_t * tentacle)
+_lw6p2p_tentacle_clear (lw6sys_context_t *sys_context,_lw6p2p_tentacle_t * tentacle)
 {
   int i = 0;
 
@@ -256,7 +256,7 @@ _lw6p2p_tentacle_clear (sys_context,_lw6p2p_tentacle_t * tentacle)
 }
 
 int
-_lw6p2p_tentacle_enabled (sys_context,_lw6p2p_tentacle_t * tentacle)
+_lw6p2p_tentacle_enabled (lw6sys_context_t *sys_context,_lw6p2p_tentacle_t * tentacle)
 {
   int ret = 0;
 
@@ -275,7 +275,7 @@ typedef struct _send_best_data_s
 _send_best_data_t;
 
 static int
-_send_best_filter (void *func_data, void *data)
+_send_best_filter (lw6sys_context_t *sys_context,void *func_data, void *data)
 {
   int keep = 1;
   int found_cnx = 0;
@@ -370,7 +370,7 @@ _send_best_filter (void *func_data, void *data)
 }
 
 void
-_lw6p2p_tentacle_poll_protocol (sys_context,_lw6p2p_tentacle_t * tentacle,
+_lw6p2p_tentacle_poll_protocol (lw6sys_context_t *sys_context,_lw6p2p_tentacle_t * tentacle,
 				lw6nod_info_t * node_info, lw6cnx_ticket_table_t * ticket_table, const _lw6p2p_consts_t * consts, int serial)
 {
   int i = 0;
@@ -465,7 +465,7 @@ _lw6p2p_tentacle_poll_protocol (sys_context,_lw6p2p_tentacle_t * tentacle,
 }
 
 void
-_lw6p2p_tentacle_poll_queues (sys_context,_lw6p2p_tentacle_t * tentacle, lw6cnx_ticket_table_t * ticket_table)
+_lw6p2p_tentacle_poll_queues (lw6sys_context_t *sys_context,_lw6p2p_tentacle_t * tentacle, lw6cnx_ticket_table_t * ticket_table)
 {
   int i = 0;
   int64_t now = 0LL;
@@ -541,7 +541,7 @@ _lw6p2p_tentacle_poll_queues (sys_context,_lw6p2p_tentacle_t * tentacle, lw6cnx_
 }
 
 void
-_lw6p2p_tentacle_poll (sys_context,_lw6p2p_tentacle_t * tentacle,
+_lw6p2p_tentacle_poll (lw6sys_context_t *sys_context,_lw6p2p_tentacle_t * tentacle,
 		       lw6nod_info_t * node_info, lw6cnx_ticket_table_t * ticket_table, const _lw6p2p_consts_t * consts, int serial)
 {
   /*
@@ -555,7 +555,7 @@ _lw6p2p_tentacle_poll (sys_context,_lw6p2p_tentacle_t * tentacle,
 
 
 int
-_lw6p2p_tentacle_send_best (sys_context,_lw6p2p_tentacle_t * tentacle,
+_lw6p2p_tentacle_send_best (lw6sys_context_t *sys_context,_lw6p2p_tentacle_t * tentacle,
 			    int64_t now,
 			    lw6cnx_ticket_table_t * ticket_table,
 			    u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *msg, int reliable)
@@ -626,7 +626,7 @@ _lw6p2p_tentacle_send_best (sys_context,_lw6p2p_tentacle_t * tentacle,
 }
 
 int
-_lw6p2p_tentacle_send_redundant (sys_context,_lw6p2p_tentacle_t * tentacle,
+_lw6p2p_tentacle_send_redundant (lw6sys_context_t *sys_context,_lw6p2p_tentacle_t * tentacle,
 				 int64_t now,
 				 lw6cnx_ticket_table_t * ticket_table,
 				 u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *msg)
@@ -661,7 +661,7 @@ _lw6p2p_tentacle_send_redundant (sys_context,_lw6p2p_tentacle_t * tentacle,
 }
 
 lw6cnx_connection_t *
-_lw6p2p_tentacle_find_connection_with_foo_bar_key (sys_context,_lw6p2p_tentacle_t * tentacle, u_int32_t foo_bar_key)
+_lw6p2p_tentacle_find_connection_with_foo_bar_key (lw6sys_context_t *sys_context,_lw6p2p_tentacle_t * tentacle, u_int32_t foo_bar_key)
 {
   lw6cnx_connection_t *ret = NULL;
   lw6cnx_connection_t *cnx = NULL;
@@ -689,7 +689,7 @@ _lw6p2p_tentacle_find_connection_with_foo_bar_key (sys_context,_lw6p2p_tentacle_
 }
 
 lw6cnx_connection_t *
-_lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context,_lw6p2p_tentacle_t * tentacle, int reliable)
+_lw6p2p_tentacle_find_connection_with_lowest_ping (lw6sys_context_t *sys_context,_lw6p2p_tentacle_t * tentacle, int reliable)
 {
   lw6cnx_connection_t *ret = NULL;
   lw6cnx_connection_t *cnx = NULL;

@@ -80,7 +80,12 @@
 
 #define _LW6P2P_NODE_DEFAULT_SEQ_0 0LL
 
-typedef int (*_lw6p2p_db_callback_t) (void *func_data, int nb_fields, char **fields_values, char **fields_names);
+typedef int (*_lw6p2p_db_callback_t) (lw6sys_context_t *sys_context, void *func_data, int nb_fields, char **fields_values, char **fields_names);
+
+typedef struct _lw6p2p_db_callback_data_s{
+  lw6sys_context_t *sys_context;
+  _lw6p2p_db_callback_t callback_func;
+} _lw6p2p_db_callback_data_t;
 
 typedef struct _lw6p2p_consts_s
 {
@@ -291,6 +296,7 @@ extern void _lw6p2p_db_log (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, cha
 extern int _lw6p2p_db_lock (lw6sys_context_t *sys_context,_lw6p2p_db_t * db);
 extern int _lw6p2p_db_unlock (lw6sys_context_t *sys_context,_lw6p2p_db_t * db);
 extern int _lw6p2p_db_trylock (lw6sys_context_t *sys_context,_lw6p2p_db_t * db);
+extern int _lw6p2p_db_sql_callback(void *func_data, int nb_fields, char **fields_values, char **fields_names);
 extern int _lw6p2p_db_exec_ignore_data (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *sql);
 extern int _lw6p2p_db_exec (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *sql, _lw6p2p_db_callback_t func, void *func_data);
 extern int _lw6p2p_db_create_database (lw6sys_context_t *sys_context,_lw6p2p_db_t * db);

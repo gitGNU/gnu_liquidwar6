@@ -357,6 +357,21 @@ _lw6p2p_db_trylock (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
   return ret;
 }
 
+int _lw6p2p_db_sql_callback(void *func_data, int nb_fields, char **fields_values, char **fields_names) {
+  int ret=0;
+  _lw6p2p_db_callback_data_t *callback_data=(_lw6p2p_db_callback_data_t *) func_data;
+
+  if (callback_data && callback_data->sys_context) {
+    lw6sys_context_t *sys_context=callback_data->sys_context;
+
+    if (callback_data->callback_func) {
+      ret=callback_data->callback_func(sys_context,func_data,nb_fields,fields_values,fields_names);
+    }
+  }
+
+  return ret;
+}
+
 int
 _lw6p2p_db_exec_ignore_data (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *sql)
 {
@@ -373,8 +388,11 @@ _lw6p2p_db_exec (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *sql, _lw
   int ret = 0;
   int errcode = 0;
   char *errmsg = NULL;
+  _lw6p2p_db_callback_data_t callback_data;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("executing SQL statement \"%s\""), sql);
+  memset (&callback_data,0,sizeof(callback_data));
+
   if (_lw6p2p_db_trylock (sys_context,db))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to execute SQL statement \"%s\" while DB is not locked"), sql);
@@ -382,8 +400,11 @@ _lw6p2p_db_exec (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *sql, _lw
     }
   else
     {
+      callback_data.sys_context=sys_context;
+      callback_data.callback_func=func;
+
       _lw6p2p_db_log (sys_context,db, sql);
-      errcode = sqlite3_exec (db->handler, sql, func, func_data, &errmsg);
+      errcode = sqlite3_exec (db->handler, sql, _lw6p2p_db_sql_callback, func_data, &errmsg);
       if (errcode == SQLITE_OK)
 	{
 	  ret = 1;

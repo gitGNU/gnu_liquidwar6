@@ -32,6 +32,7 @@ static volatile u_int32_t seq_id = 0;
 /**
  * lw6p2p_node_new
  *
+ * @sys_context: global system context
  * @argc: number of args, as passed to @main
  * @argv: args array, as passed to @main
  * @db: the database to use
@@ -58,7 +59,7 @@ static volatile u_int32_t seq_id = 0;
  * Return value: a pointer on the newly created objects.
  */
 lw6p2p_node_t *
-lw6p2p_node_new (sys_context,int argc, const char *argv[], lw6p2p_db_t * db,
+lw6p2p_node_new (lw6sys_context_t *sys_context,int argc, const char *argv[], lw6p2p_db_t * db,
 		 char *client_backends, char *server_backends, char *bind_ip,
 		 int bind_port, int broadcast, u_int64_t node_id,
 		 char *public_url, char *title,
@@ -71,7 +72,7 @@ lw6p2p_node_new (sys_context,int argc, const char *argv[], lw6p2p_db_t * db,
 }
 
 _lw6p2p_node_t *
-_lw6p2p_node_new (sys_context,int argc, const char *argv[], _lw6p2p_db_t * db,
+_lw6p2p_node_new (lw6sys_context_t *sys_context,int argc, const char *argv[], _lw6p2p_db_t * db,
 		  char *client_backends, char *server_backends, char *bind_ip,
 		  int bind_port, int broadcast, u_int64_t node_id,
 		  char *public_url, char *title,
@@ -92,7 +93,7 @@ _lw6p2p_node_new (sys_context,int argc, const char *argv[], _lw6p2p_db_t * db,
 	{
 	  node->id = ++seq_id;
 	}
-      node->mutex = lw6sys_mutex_create ();
+      node->mutex = lw6sys_mutex_create (sys_context);
       node->closed = 0;
       node->db = db;
       node->bind_ip = lw6sys_str_copy (sys_context, bind_ip);
@@ -103,7 +104,7 @@ _lw6p2p_node_new (sys_context,int argc, const char *argv[], _lw6p2p_db_t * db,
        */
       if (!lw6sys_check_id_64 (sys_context, node_id))
 	{
-	  node_id = lw6sys_generate_id_64 ();
+	  node_id = lw6sys_generate_id_64 (sys_context);
 	}
       node->node_id_int = node_id;
       node->node_id_str = lw6sys_id_ltoa (sys_context, node->node_id_int);
@@ -117,11 +118,11 @@ _lw6p2p_node_new (sys_context,int argc, const char *argv[], _lw6p2p_db_t * db,
 	}
       if (password)
 	{
-	  node->password = lw6sys_str_copy (password);
+	  node->password = lw6sys_str_copy (sys_context,password);
 	}
       else
 	{
-	  node->password = lw6sys_str_copy ("");
+	  node->password = lw6sys_str_copy (sys_context,"");
 	}
       node->node_info =
 	lw6nod_info_new (sys_context, lw6sys_build_get_package_tarname (),
@@ -136,7 +137,7 @@ _lw6p2p_node_new (sys_context,int argc, const char *argv[], _lw6p2p_db_t * db,
 	}
       else
 	{
-	  node->known_nodes = lw6sys_str_copy ("");
+	  node->known_nodes = lw6sys_str_copy (sys_context,"");
 	}
       node->network_reliability = network_reliability;
       node->trojan = trojan;
@@ -190,7 +191,7 @@ _lw6p2p_node_new (sys_context,int argc, const char *argv[], _lw6p2p_db_t * db,
 		{
 		  query =
 		    lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
-					(node->db,
+					(sys_context,node->db,
 					 _LW6P2P_INSERT_LOCAL_NODE_SQL),
 					_lw6p2p_db_now (sys_context,node->db),
 					lw6sys_build_get_version (),
@@ -248,6 +249,7 @@ _lw6p2p_node_new (sys_context,int argc, const char *argv[], _lw6p2p_db_t * db,
 /**
  * lw6p2p_node_free
  *
+ * @sys_context: global system context
  * @node: the node to free
  *
  * Frees a node object, all network communications will be shut.
@@ -255,13 +257,13 @@ _lw6p2p_node_new (sys_context,int argc, const char *argv[], _lw6p2p_db_t * db,
  * Return value: none.
  */
 void
-lw6p2p_node_free (sys_context,lw6p2p_node_t * node)
+lw6p2p_node_free (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   _lw6p2p_node_free (sys_context,(_lw6p2p_node_t *) node);
 }
 
 void
-_lw6p2p_node_free (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_free (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   if (node)
     {
@@ -326,6 +328,7 @@ _lw6p2p_node_free (sys_context,_lw6p2p_node_t * node)
 /**
  * lw6p2p_node_repr
  *
+ * @sys_context: global system context
  * @node: the node to work on
  *
  * Gives a readable representation of the node
@@ -333,13 +336,13 @@ _lw6p2p_node_free (sys_context,_lw6p2p_node_t * node)
  * Return value: a dynamically allocated string
  */
 char *
-lw6p2p_node_repr (sys_context,const lw6p2p_node_t * node)
+lw6p2p_node_repr (lw6sys_context_t *sys_context,const lw6p2p_node_t * node)
 {
   return _lw6p2p_node_repr (sys_context,(_lw6p2p_node_t *) node);
 }
 
 char *
-_lw6p2p_node_repr (sys_context,const _lw6p2p_node_t * node)
+_lw6p2p_node_repr (lw6sys_context_t *sys_context,const _lw6p2p_node_t * node)
 {
   char *repr = NULL;
   int nb_nodes = 0;
@@ -359,7 +362,7 @@ _lw6p2p_node_repr (sys_context,const _lw6p2p_node_t * node)
 	  seq_reference = lw6dat_warehouse_get_seq_reference (sys_context, node->warehouse);
 	}
       repr =
-	lw6sys_new_sprintf (_x_
+	lw6sys_new_sprintf (sys_context,_x_
 			    ("%u %s %s:%d %s (%d nodes, seq_min=%"
 			     LW6SYS_PRINTF_LL "d, seq_max=%" LW6SYS_PRINTF_LL
 			     "d, seq_draft=%" LW6SYS_PRINTF_LL
@@ -377,7 +380,7 @@ _lw6p2p_node_repr (sys_context,const _lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_lock (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_lock (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -396,7 +399,7 @@ _lw6p2p_node_lock (sys_context,_lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_unlock (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_unlock (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -415,7 +418,7 @@ _lw6p2p_node_unlock (sys_context,_lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_trylock (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_trylock (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -427,13 +430,13 @@ _lw6p2p_node_trylock (sys_context,_lw6p2p_node_t * node)
 }
 
 static int
-_node_lock (lw6p2p_node_t * node)
+_node_lock (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   return _lw6p2p_node_lock (sys_context,(_lw6p2p_node_t *) node);
 }
 
 static int
-_node_unlock (lw6p2p_node_t * node)
+_node_unlock (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   return _lw6p2p_node_unlock (sys_context,(_lw6p2p_node_t *) node);
 }
@@ -441,6 +444,7 @@ _node_unlock (lw6p2p_node_t * node)
 /**
  * lw6p2p_node_poll
  *
+ * @sys_context: global system context
  * @node: the node to poll
  * @progress: progress indicator to show the advancement
  *
@@ -450,7 +454,7 @@ _node_unlock (lw6p2p_node_t * node)
  * Return value: 1 on success, 0 on error.
  */
 int
-lw6p2p_node_poll (sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress)
+lw6p2p_node_poll (lw6sys_context_t *sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   int ret = 0;
 
@@ -459,17 +463,17 @@ lw6p2p_node_poll (sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_poll (sys_context,(_lw6p2p_node_t *) node, progress);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 static int
-_poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
+_poll_step1_accept_tcp (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
   char *ip = NULL;
@@ -525,14 +529,14 @@ _poll_step1_accept_tcp (_lw6p2p_node_t * node, int64_t now)
 
   if (ip)
     {
-      LW6SYS_FREE (ip);
+      LW6SYS_FREE (sys_context,ip);
     }
 
   return ret;
 }
 
 static int
-_poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
+_poll_step2_recv_udp (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
   char buf[LW6NET_UDP_MINIMAL_BUF_SIZE + 1];
@@ -613,7 +617,7 @@ _poll_step2_recv_udp (_lw6p2p_node_t * node, int64_t now)
 }
 
 static int
-_tcp_accepter_reply (void *func_data, void *data)
+_tcp_accepter_reply (lw6sys_context_t *sys_context,void *func_data, void *data)
 {
   int ret = 1;
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
@@ -645,13 +649,13 @@ _tcp_accepter_reply (void *func_data, void *data)
 	      if (analyse_tcp_ret & LW6SRV_ANALYSE_OOB)
 		{
 		  srv_oob =
-		    _lw6p2p_srv_oob_callback_data_new (node->backends.srv_backends[i],
+		    _lw6p2p_srv_oob_callback_data_new (sys_context,node->backends.srv_backends[i],
 						       node->node_info,
 						       tcp_accepter->client_id.client_ip, tcp_accepter->client_id.client_port, tcp_accepter->sock, NULL);
 		  if (srv_oob)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process srv_oob (tcp)"));
-		      srv_oob->srv_oob->thread = lw6sys_thread_create (_lw6p2p_srv_oob_callback, NULL, srv_oob);
+		      srv_oob->srv_oob->thread = lw6sys_thread_create (sys_context,_lw6p2p_srv_oob_callback, NULL, srv_oob);
 		      lw6sys_lifo_push (sys_context, &(node->srv_oobs), srv_oob);
 		    }
 		}
@@ -706,7 +710,7 @@ _tcp_accepter_reply (void *func_data, void *data)
 }
 
 static int
-_udp_buffer_reply (void *func_data, void *data)
+_udp_buffer_reply (lw6sys_context_t *sys_context,void *func_data, void *data)
 {
   int ret = 1;
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
@@ -735,14 +739,14 @@ _udp_buffer_reply (void *func_data, void *data)
 	      if (analyse_udp_ret & LW6SRV_ANALYSE_OOB)
 		{
 		  srv_oob =
-		    _lw6p2p_srv_oob_callback_data_new (node->backends.srv_backends[i],
+		    _lw6p2p_srv_oob_callback_data_new (sys_context,node->backends.srv_backends[i],
 						       node->node_info,
 						       udp_buffer->client_id.client_ip,
 						       udp_buffer->client_id.client_port, node->listener->udp_sock, udp_buffer->line);
 		  if (srv_oob)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process srv_oob (udp)"));
-		      srv_oob->srv_oob->thread = lw6sys_thread_create (_lw6p2p_srv_oob_callback, NULL, srv_oob);
+		      srv_oob->srv_oob->thread = lw6sys_thread_create (sys_context,_lw6p2p_srv_oob_callback, NULL, srv_oob);
 		      lw6sys_lifo_push (sys_context, &(node->srv_oobs), srv_oob);
 		    }
 		}
@@ -792,7 +796,7 @@ _udp_buffer_reply (void *func_data, void *data)
 }
 
 static int
-_poll_step3_reply (_lw6p2p_node_t * node, int64_t now)
+_poll_step3_reply (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
 
@@ -813,7 +817,7 @@ _poll_step3_reply (_lw6p2p_node_t * node, int64_t now)
 }
 
 static int
-_cli_oob_filter (void *func_data, void *data)
+_cli_oob_filter (lw6sys_context_t *sys_context,void *func_data, void *data)
 {
   int ret = 0;
   _lw6p2p_cli_oob_callback_data_t *cli_oob = (_lw6p2p_cli_oob_callback_data_t *) data;
@@ -824,7 +828,7 @@ _cli_oob_filter (void *func_data, void *data)
 }
 
 static int
-_poll_step4_cli_oob (_lw6p2p_node_t * node, int64_t now)
+_poll_step4_cli_oob (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
 
@@ -834,7 +838,7 @@ _poll_step4_cli_oob (_lw6p2p_node_t * node, int64_t now)
 }
 
 static int
-_srv_oob_filter (void *func_data, void *data)
+_srv_oob_filter (lw6sys_context_t *sys_context,void *func_data, void *data)
 {
   int ret = 0;
   _lw6p2p_srv_oob_callback_data_t *srv_oob = (_lw6p2p_srv_oob_callback_data_t *) data;
@@ -845,7 +849,7 @@ _srv_oob_filter (void *func_data, void *data)
 }
 
 static int
-_poll_step5_srv_oob (_lw6p2p_node_t * node, int64_t now)
+_poll_step5_srv_oob (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
 
@@ -855,7 +859,7 @@ _poll_step5_srv_oob (_lw6p2p_node_t * node, int64_t now)
 }
 
 static int
-_poll_step6_explore_discover_nodes (_lw6p2p_node_t * node, int64_t now)
+_poll_step6_explore_discover_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
@@ -865,7 +869,7 @@ _poll_step6_explore_discover_nodes (_lw6p2p_node_t * node, int64_t now)
 }
 
 static int
-_poll_step7_flush_discovered_nodes (_lw6p2p_node_t * node, int64_t now)
+_poll_step7_flush_discovered_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
@@ -875,7 +879,7 @@ _poll_step7_flush_discovered_nodes (_lw6p2p_node_t * node, int64_t now)
 }
 
 static int
-_poll_step8_explore_verify_nodes (_lw6p2p_node_t * node, int64_t now)
+_poll_step8_explore_verify_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
@@ -885,7 +889,7 @@ _poll_step8_explore_verify_nodes (_lw6p2p_node_t * node, int64_t now)
 }
 
 static int
-_poll_step9_flush_verified_nodes (_lw6p2p_node_t * node, int64_t now)
+_poll_step9_flush_verified_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
@@ -895,7 +899,7 @@ _poll_step9_flush_verified_nodes (_lw6p2p_node_t * node, int64_t now)
 }
 
 static int
-_poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
+_poll_step10_send_atoms (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
   int i = 0;
@@ -922,7 +926,7 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
 		    lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send (sys_context, &(node->ticket_table), remote_id_str), node->node_id_int,
 					    remote_id_int, atom_str);
 		  if (!_lw6p2p_tentacle_send_best
-		      (&(node->tentacles[i]), now, &(node->ticket_table), logical_ticket_sig, node->node_id_int, remote_id_int, atom_str, 1))
+		      (sys_context,&(node->tentacles[i]), now, &(node->ticket_table), logical_ticket_sig, node->node_id_int, remote_id_int, atom_str, 1))
 		    {
 		      ret = 0;
 		    }
@@ -942,7 +946,7 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
  * This function *must* be called in locked mode
  */
 static int
-_poll_step11_tentacles (_lw6p2p_node_t * node, int64_t now)
+_poll_step11_tentacles (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 1;
   int i = 0;
@@ -974,7 +978,7 @@ _poll_step11_tentacles (_lw6p2p_node_t * node, int64_t now)
 }
 
 static int
-_poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * progress)
+_poll_step12_miss_list (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * progress)
 {
   int ret = 1;
   lw6sys_list_t *list = NULL;
@@ -1062,7 +1066,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * 
 
 			      logical_ticket_sig =
 				lw6msg_ticket_calc_sig
-				(lw6cnx_ticket_table_get_send (sys_context, &(node->ticket_table), remote_id_str), node->node_id_int, remote_id_int, msg);
+				(sys_context,lw6cnx_ticket_table_get_send (sys_context, &(node->ticket_table), remote_id_str), node->node_id_int, remote_id_int, msg);
 
 			      /*
 			       * Some hesitation on what to put in the
@@ -1070,7 +1074,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * 
 			       * us is not such a bad idea as we are
 			       * at the initiative of saying "this is missing"
 			       */
-			      _lw6p2p_tentacle_send_best (&
+			      _lw6p2p_tentacle_send_best (sys_context,&
 							  (node->tentacles
 							   [i]), now, &(node->ticket_table), logical_ticket_sig, node->node_id_int, remote_id_int, msg, 1);
 			    }
@@ -1095,7 +1099,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * 
  * This function *must* be called in locked mode
  */
 static int
-_poll_step13_connect_registered (_lw6p2p_node_t * node, int64_t now)
+_poll_step13_connect_registered (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t now)
 {
   int ret = 0;
 
@@ -1109,26 +1113,26 @@ _poll_step13_connect_registered (_lw6p2p_node_t * node, int64_t now)
  * This function *must* be called in locked mode
  */
 int
-_lw6p2p_node_poll (sys_context,_lw6p2p_node_t * node, lw6sys_progress_t * progress)
+_lw6p2p_node_poll (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   int ret = 1;
   int64_t now = 0LL;
 
-  now = lw6sys_get_timestamp ();
+  now = lw6sys_get_timestamp (sys_context);
 
-  ret = _poll_step1_accept_tcp (node, now) && ret;
-  ret = _poll_step2_recv_udp (node, now) && ret;
-  ret = _poll_step3_reply (node, now) && ret;
-  ret = _poll_step4_cli_oob (node, now) && ret;
-  ret = _poll_step5_srv_oob (node, now) && ret;
-  ret = _poll_step6_explore_discover_nodes (node, now) && ret;
-  ret = _poll_step7_flush_discovered_nodes (node, now) && ret;
-  ret = _poll_step8_explore_verify_nodes (node, now) && ret;
-  ret = _poll_step9_flush_verified_nodes (node, now) && ret;
-  ret = _poll_step10_send_atoms (node, now) && ret;
-  ret = _poll_step11_tentacles (node, now) && ret;
-  ret = _poll_step12_miss_list (node, now, progress) && ret;
-  ret = _poll_step13_connect_registered (node, now) && ret;
+  ret = _poll_step1_accept_tcp (sys_context,node, now) && ret;
+  ret = _poll_step2_recv_udp (sys_context,node, now) && ret;
+  ret = _poll_step3_reply (sys_context,node, now) && ret;
+  ret = _poll_step4_cli_oob (sys_context,node, now) && ret;
+  ret = _poll_step5_srv_oob (sys_context,node, now) && ret;
+  ret = _poll_step6_explore_discover_nodes (sys_context,node, now) && ret;
+  ret = _poll_step7_flush_discovered_nodes (sys_context,node, now) && ret;
+  ret = _poll_step8_explore_verify_nodes (sys_context,node, now) && ret;
+  ret = _poll_step9_flush_verified_nodes (sys_context,node, now) && ret;
+  ret = _poll_step10_send_atoms (sys_context,node, now) && ret;
+  ret = _poll_step11_tentacles (sys_context,node, now) && ret;
+  ret = _poll_step12_miss_list (sys_context,node, now, progress) && ret;
+  ret = _poll_step13_connect_registered (sys_context,node, now) && ret;
 
   return ret;
 }
@@ -1136,6 +1140,7 @@ _lw6p2p_node_poll (sys_context,_lw6p2p_node_t * node, lw6sys_progress_t * progre
 /**
  * lw6p2p_node_close
  *
+ * @sys_context: global system context
  * @node: the node to close
  *
  * Closes a p2p node. Closing is necessary in some contexts, for instance
@@ -1146,22 +1151,22 @@ _lw6p2p_node_poll (sys_context,_lw6p2p_node_t * node, lw6sys_progress_t * progre
  * Return value: 1 on success, 0 on error.
  */
 void
-lw6p2p_node_close (sys_context,lw6p2p_node_t * node)
+lw6p2p_node_close (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   /*
    * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       _lw6p2p_node_close (sys_context,(_lw6p2p_node_t *) node);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 }
 
 void
-_lw6p2p_node_close (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_close (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   char *query = NULL;
   _lw6p2p_srv_oob_callback_data_t *srv_oob = NULL;
@@ -1253,6 +1258,7 @@ _lw6p2p_node_close (sys_context,_lw6p2p_node_t * node)
 /**
  * lw6p2p_node_get_id
  *
+ * @sys_context: global system context
  * @node: the node to query
  *
  * Returns the node id, an id which is supposed to uniquely identify
@@ -1261,7 +1267,7 @@ _lw6p2p_node_close (sys_context,_lw6p2p_node_t * node)
  * Return value: numerical id.
  */
 u_int64_t
-lw6p2p_node_get_id (sys_context,lw6p2p_node_t * node)
+lw6p2p_node_get_id (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   u_int64_t id = 0;
 
@@ -1271,7 +1277,7 @@ lw6p2p_node_get_id (sys_context,lw6p2p_node_t * node)
 }
 
 u_int64_t
-_lw6p2p_node_get_id (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_get_id (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   u_int64_t id = 0;
 
@@ -1281,7 +1287,7 @@ _lw6p2p_node_get_id (sys_context,_lw6p2p_node_t * node)
 }
 
 static int
-_select_node_by_url_callback (void *func_data, int nb_fields, char **fields_values, char **fields_names)
+_select_node_by_url_callback (lw6sys_context_t *sys_context,void *func_data, int nb_fields, char **fields_values, char **fields_names)
 {
   int ret = 0;
   int *count = (int *) func_data;
@@ -1293,7 +1299,7 @@ _select_node_by_url_callback (void *func_data, int nb_fields, char **fields_valu
 }
 
 int
-_lw6p2p_node_insert_discovered (sys_context,_lw6p2p_node_t * node, char *public_url)
+_lw6p2p_node_insert_discovered (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, char *public_url)
 {
   int ret = 1;
   char *query = NULL;
@@ -1322,7 +1328,7 @@ _lw6p2p_node_insert_discovered (sys_context,_lw6p2p_node_t * node, char *public_
 		    {
 		      query =
 			lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
-					    (node->db, _LW6P2P_INSERT_DISCOVERED_NODE_SQL), escaped_public_url, _lw6p2p_db_now (sys_context,node->db));
+					    (sys_context,node->db, _LW6P2P_INSERT_DISCOVERED_NODE_SQL), escaped_public_url, _lw6p2p_db_now (sys_context,node->db));
 		      if (query)
 			{
 			  ret = _lw6p2p_db_exec_ignore_data (sys_context,node->db, query) && ret;
@@ -1349,7 +1355,7 @@ _lw6p2p_node_insert_discovered (sys_context,_lw6p2p_node_t * node, char *public_
 }
 
 int
-_lw6p2p_node_update_peer_info_x (sys_context,_lw6p2p_node_t * node, const char *version,
+_lw6p2p_node_update_peer_info_x (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, const char *version,
 				 const char *codename, int stamp,
 				 const char *id, const char *url,
 				 const char *title, const char *description,
@@ -1373,24 +1379,24 @@ _lw6p2p_node_update_peer_info_x (sys_context,_lw6p2p_node_t * node, const char *
 
   escaped_version = lw6sys_escape_sql_value (sys_context, version);
   escaped_codename = lw6sys_escape_sql_value (sys_context, codename);
-  escaped_id = lw6sys_escape_sql_value (id);
+  escaped_id = lw6sys_escape_sql_value (sys_context,id);
   escaped_url = lw6sys_escape_sql_value (sys_context, url);
   escaped_title = lw6sys_escape_sql_value (sys_context, title);
-  escaped_description = lw6sys_escape_sql_value (description);
+  escaped_description = lw6sys_escape_sql_value (sys_context,description);
   escaped_community_id = lw6sys_escape_sql_value (sys_context, community_id);
   escaped_level = lw6sys_escape_sql_value (sys_context, level);
   // todo : test for bench to set available the right way
-  available = ((!lw6sys_str_is_null_or_empty (id))
+  available = ((!lw6sys_str_is_null_or_empty (sys_context,id))
 	       &&
-	       (lw6sys_str_is_same
-		(version, node->node_info->const_info.version))
+	       (lw6sys_version_is_compatible
+		(sys_context,version, node->node_info->const_info.version))
 	       && (required_bench <= node->node_info->const_info.bench)
 	       && (!lw6sys_str_is_same (sys_context, id, node->node_id_str))
 	       && (!lw6sys_str_is_null_or_empty (sys_context, level))
 	       && (nb_colors < max_nb_colors) && (nb_cursors < max_nb_cursors) && (nb_nodes < max_nb_nodes)) ? 1 : 0;
 
   query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
-			      (node->db,
+			      (sys_context,node->db,
 			       _LW6P2P_UPDATE_NODE_INFO_SQL),
 			      creation_timestamp, escaped_version,
 			      escaped_codename, stamp,
@@ -1446,7 +1452,7 @@ _lw6p2p_node_update_peer_info_x (sys_context,_lw6p2p_node_t * node, const char *
 }
 
 int
-_lw6p2p_node_update_peer_info (sys_context,_lw6p2p_node_t * node, lw6nod_info_t * peer_info)
+_lw6p2p_node_update_peer_info (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, lw6nod_info_t * peer_info)
 {
   int ret = 1;
 
@@ -1463,9 +1469,9 @@ _lw6p2p_node_update_peer_info (sys_context,_lw6p2p_node_t * node, lw6nod_info_t 
 				     peer_info->const_info.open_relay,
 				     _lw6p2p_db_timestamp (sys_context,node->db,
 							   peer_info->const_info.creation_timestamp),
-				     lw6sys_str_empty_if_null (peer_info->dyn_info.community_id_str),
+				     lw6sys_str_empty_if_null (sys_context,peer_info->dyn_info.community_id_str),
 				     peer_info->dyn_info.round,
-				     lw6sys_str_empty_if_null (peer_info->dyn_info.level),
+				     lw6sys_str_empty_if_null (sys_context,peer_info->dyn_info.level),
 				     peer_info->dyn_info.required_bench,
 				     peer_info->dyn_info.nb_colors,
 				     peer_info->dyn_info.max_nb_colors,
@@ -1476,18 +1482,18 @@ _lw6p2p_node_update_peer_info (sys_context,_lw6p2p_node_t * node, lw6nod_info_t 
 }
 
 int
-_lw6p2p_node_update_peer_net (sys_context,_lw6p2p_node_t * node, const char *id, const char *url, const char *ip, int port, int last_ping_timestamp, int ping_delay_msec)
+_lw6p2p_node_update_peer_net (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, const char *id, const char *url, const char *ip, int port, int last_ping_timestamp, int ping_delay_msec)
 {
   int ret = 1;
   char *query = NULL;
   char *escaped_id = NULL;
   char *escaped_url = NULL;
 
-  escaped_id = lw6sys_escape_sql_value (id);
+  escaped_id = lw6sys_escape_sql_value (sys_context,id);
   escaped_url = lw6sys_escape_sql_value (sys_context, url);
 
   query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
-			      (node->db, _LW6P2P_UPDATE_NODE_NET_SQL), ip, port, last_ping_timestamp, ping_delay_msec, escaped_url);
+			      (sys_context,node->db, _LW6P2P_UPDATE_NODE_NET_SQL), ip, port, last_ping_timestamp, ping_delay_msec, escaped_url);
   if (query)
     {
       if (_lw6p2p_db_lock (sys_context,node->db))
@@ -1511,7 +1517,7 @@ _lw6p2p_node_update_peer_net (sys_context,_lw6p2p_node_t * node, const char *id,
 }
 
 int
-_lw6p2p_node_update_local (sys_context,_lw6p2p_node_t * node, lw6nod_info_t * node_info)
+_lw6p2p_node_update_local (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, lw6nod_info_t * node_info)
 {
   int ret = 1;
 
@@ -1529,7 +1535,7 @@ _lw6p2p_node_update_local (sys_context,_lw6p2p_node_t * node, lw6nod_info_t * no
 }
 
 int
-_lw6p2p_node_find_free_tentacle (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_find_free_tentacle (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int ret = -1;
   int i;
@@ -1547,7 +1553,7 @@ _lw6p2p_node_find_free_tentacle (sys_context,_lw6p2p_node_t * node)
 }
 
 int
-_lw6p2p_node_find_tentacle (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id)
+_lw6p2p_node_find_tentacle (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, u_int64_t remote_id)
 {
   int ret = -1;
   int i;
@@ -1567,7 +1573,7 @@ _lw6p2p_node_find_tentacle (sys_context,_lw6p2p_node_t * node, u_int64_t remote_
 }
 
 int
-_lw6p2p_node_register_tentacle (sys_context,_lw6p2p_node_t * node, const char *remote_url, const char *real_remote_ip, u_int64_t remote_id)
+_lw6p2p_node_register_tentacle (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, const char *remote_url, const char *real_remote_ip, u_int64_t remote_id)
 {
   int ret = 0;
   int i = 0;
@@ -1599,7 +1605,7 @@ _lw6p2p_node_register_tentacle (sys_context,_lw6p2p_node_t * node, const char *r
 }
 
 int
-_lw6p2p_node_unregister_tentacle (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id)
+_lw6p2p_node_unregister_tentacle (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, u_int64_t remote_id)
 {
   int ret = 0;
   int i = 0;
@@ -1619,7 +1625,7 @@ _lw6p2p_node_unregister_tentacle (sys_context,_lw6p2p_node_t * node, u_int64_t r
 }
 
 int
-_get_entries_callback (void *func_data, int nb_fields, char **fields_values, char **fields_names)
+_get_entries_callback (lw6sys_context_t *sys_context,void *func_data, int nb_fields, char **fields_values, char **fields_names)
 {
   int ret = 0;
   lw6sys_list_t **list = (lw6sys_list_t **) func_data;
@@ -1628,8 +1634,8 @@ _get_entries_callback (void *func_data, int nb_fields, char **fields_values, cha
   if (nb_fields == _LW6P2P_DB_NODE_NB_FIELDS)
     {
       entry =
-	lw6p2p_entry_new (lw6sys_atoi
-			  (fields_values
+	lw6p2p_entry_new (sys_context,lw6sys_atoi
+			  (sys_context,fields_values
 			   [_LW6P2P_DB_NODE_ORDER_CREATION_TIMESTAMP]),
 			  fields_values[_LW6P2P_DB_NODE_ORDER_VERSION],
 			  fields_values[_LW6P2P_DB_NODE_ORDER_CODENAME],
@@ -1672,7 +1678,7 @@ _get_entries_callback (void *func_data, int nb_fields, char **fields_values, cha
 				       [_LW6P2P_DB_NODE_ORDER_PING_DELAY_MSEC]), lw6sys_atob (sys_context, fields_values[_LW6P2P_DB_NODE_ORDER_AVAILABLE]));
       if (entry)
 	{
-	  lw6sys_list_push_front (list, entry);
+	  lw6sys_list_push_front (sys_context,list, entry);
 	}
     }
 
@@ -1680,7 +1686,7 @@ _get_entries_callback (void *func_data, int nb_fields, char **fields_values, cha
 }
 
 lw6sys_list_t *
-_lw6p2p_node_get_entries (sys_context,_lw6p2p_node_t * node, int skip_local)
+_lw6p2p_node_get_entries (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int skip_local)
 {
   lw6sys_list_t *ret;
   char *query = NULL;
@@ -1698,7 +1704,7 @@ _lw6p2p_node_get_entries (sys_context,_lw6p2p_node_t * node, int skip_local)
       if (_lw6p2p_db_lock (sys_context,node->db))
 	{
 	  query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
-				      (node->db, _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL), skip_local ? node->node_id_str : LW6SYS_STR_EMPTY);
+				      (sys_context,node->db, _LW6P2P_SELECT_UNAVAILABLE_NODE_SQL), skip_local ? node->node_id_str : LW6SYS_STR_EMPTY);
 	  if (query)
 	    {
 	      _lw6p2p_db_exec (sys_context,node->db, query, _get_entries_callback, &ret);
@@ -1707,7 +1713,7 @@ _lw6p2p_node_get_entries (sys_context,_lw6p2p_node_t * node, int skip_local)
 	  LW6SYS_FREE (sys_context, query);
 
 	  query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query
-				      (node->db, _LW6P2P_SELECT_AVAILABLE_NODE_SQL), skip_local ? node->node_id_str : LW6SYS_STR_EMPTY);
+				      (sys_context,node->db, _LW6P2P_SELECT_AVAILABLE_NODE_SQL), skip_local ? node->node_id_str : LW6SYS_STR_EMPTY);
 	  if (query)
 	    {
 	      if (_lw6p2p_db_lock (sys_context,node->db))
@@ -1726,6 +1732,7 @@ _lw6p2p_node_get_entries (sys_context,_lw6p2p_node_t * node, int skip_local)
 /**
  * lw6p2p_node_get_entries
  *
+ * @sys_context: global system context
  * @node: node to query
  * @skip_local: wether to skip local node, 1 to skip, 0 to keep
  *
@@ -1738,7 +1745,7 @@ _lw6p2p_node_get_entries (sys_context,_lw6p2p_node_t * node, int skip_local)
  * Return value: list object containing @lw6p2p_entry_t objects
  */
 lw6sys_list_t *
-lw6p2p_node_get_entries (sys_context,lw6p2p_node_t * node, int skip_local)
+lw6p2p_node_get_entries (lw6sys_context_t *sys_context,lw6p2p_node_t * node, int skip_local)
 {
   lw6sys_list_t *ret = NULL;
 
@@ -1747,17 +1754,17 @@ lw6p2p_node_get_entries (sys_context,lw6p2p_node_t * node, int skip_local)
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_get_entries (sys_context,(_lw6p2p_node_t *) node, skip_local);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 int
-_lw6p2p_node_server_start (sys_context,_lw6p2p_node_t * node, int64_t seq_0)
+_lw6p2p_node_server_start (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t seq_0)
 {
   int ret = 0;
 
@@ -1771,9 +1778,9 @@ _lw6p2p_node_server_start (sys_context,_lw6p2p_node_t * node, int64_t seq_0)
    */
   _lw6p2p_node_disconnect (sys_context,node);
 
-  lw6nod_info_update (sys_context, node->node_info, lw6sys_generate_id_64 (),
+  lw6nod_info_update (sys_context, node->node_info, lw6sys_generate_id_64 (sys_context),
 		      0, NULL, node->node_info->const_info.bench / LW6P2P_BENCH_NETWORK_DIVIDE, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
-  _lw6p2p_node_calibrate (sys_context,node, lw6sys_get_timestamp (sys_context,), seq_0);
+  _lw6p2p_node_calibrate (sys_context,node, lw6sys_get_timestamp (sys_context), seq_0);
   lw6dat_warehouse_set_local_seq_0 (sys_context, node->warehouse, seq_0);
 
   ret = 1;
@@ -1784,6 +1791,7 @@ _lw6p2p_node_server_start (sys_context,_lw6p2p_node_t * node, int64_t seq_0)
 /**
  * lw6p2p_node_server_start
  *
+ * @sys_context: global system context
  * @node: node to start
  * @seq_0: seq when starting the server
  *
@@ -1793,7 +1801,7 @@ _lw6p2p_node_server_start (sys_context,_lw6p2p_node_t * node, int64_t seq_0)
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6p2p_node_server_start (sys_context,lw6p2p_node_t * node, int64_t seq_0)
+lw6p2p_node_server_start (lw6sys_context_t *sys_context,lw6p2p_node_t * node, int64_t seq_0)
 {
   int ret = 0;
 
@@ -1802,10 +1810,10 @@ lw6p2p_node_server_start (sys_context,lw6p2p_node_t * node, int64_t seq_0)
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_server_start (sys_context,(_lw6p2p_node_t *) node, seq_0);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
@@ -1815,7 +1823,7 @@ lw6p2p_node_server_start (sys_context,lw6p2p_node_t * node, int64_t seq_0)
  * This function *must* be called in locked mode
  */
 int
-_lw6p2p_node_client_join (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url, lw6sys_progress_t * progress)
+_lw6p2p_node_client_join (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url, lw6sys_progress_t * progress)
 {
   int ret = 1;
   int i;
@@ -1828,7 +1836,7 @@ _lw6p2p_node_client_join (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id
 
   _lw6p2p_node_disconnect (sys_context,node);
 
-  now = lw6sys_get_timestamp ();
+  now = lw6sys_get_timestamp (sys_context);
 
   remote_id_str = lw6sys_id_ltoa (sys_context, remote_id);
   if (remote_id_str)
@@ -1886,7 +1894,7 @@ _lw6p2p_node_client_join (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id
 		      ret = 0;
 
 		      limit_timestamp = now + node->db->data.consts.join_delay;
-		      while (!tentacle->data_exchanged && lw6sys_get_timestamp (sys_context,) < limit_timestamp)
+		      while (!tentacle->data_exchanged && lw6sys_get_timestamp (sys_context) < limit_timestamp)
 			{
 			  _lw6p2p_node_poll (sys_context,node, progress);
 			  if (_lw6p2p_node_unlock (sys_context,node))
@@ -1896,7 +1904,7 @@ _lw6p2p_node_client_join (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id
 			       * way too many calls, snooze is an order
 			       * of magnitude more reasonnable.
 			       */
-			      lw6sys_snooze ();
+			      lw6sys_snooze (sys_context);
 			      _lw6p2p_node_lock (sys_context,node);
 			    }
 			}
@@ -1909,19 +1917,19 @@ _lw6p2p_node_client_join (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id
 			{
 			  ticket_sig =
 			    lw6msg_ticket_calc_sig
-			    (lw6cnx_ticket_table_get_send (sys_context, &(node->ticket_table), remote_id_str), node->node_id_int, remote_id, msg_join);
+			    (sys_context,lw6cnx_ticket_table_get_send (sys_context, &(node->ticket_table), remote_id_str), node->node_id_int, remote_id, msg_join);
 			  ret = _lw6p2p_tentacle_send_redundant (sys_context,tentacle, now, &(node->ticket_table), ticket_sig, node->node_id_int, remote_id, msg_join);
 			  if (ret)
 			    {
 			      ret = 0;
 
 			      limit_timestamp = now + node->db->data.consts.join_delay;
-			      while (!tentacle->joined && lw6sys_get_timestamp () < limit_timestamp)
+			      while (!tentacle->joined && lw6sys_get_timestamp (sys_context) < limit_timestamp)
 				{
 				  _lw6p2p_node_poll (sys_context,node, progress);
 				  if (_lw6p2p_node_unlock (sys_context,node))
 				    {
-				      lw6sys_idle ();
+				      lw6sys_idle (sys_context);
 				      _lw6p2p_node_lock (sys_context,node);
 				    }
 				}
@@ -1961,6 +1969,7 @@ _lw6p2p_node_client_join (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id
 /**
  * lw6p2p_node_client_join
  *
+ * @sys_context: global system context
  * @node: node to use
  * @remote_id: id of remote node to join
  * @remote_url: url of remote node to join
@@ -1973,7 +1982,7 @@ _lw6p2p_node_client_join (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6p2p_node_client_join (sys_context,lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url, lw6sys_progress_t * progress)
+lw6p2p_node_client_join (lw6sys_context_t *sys_context,lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url, lw6sys_progress_t * progress)
 {
   int ret = 0;
 
@@ -1982,10 +1991,10 @@ lw6p2p_node_client_join (sys_context,lw6p2p_node_t * node, u_int64_t remote_id, 
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_client_join (sys_context,(_lw6p2p_node_t *) node, remote_id, remote_url, progress);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
@@ -1995,7 +2004,7 @@ lw6p2p_node_client_join (sys_context,lw6p2p_node_t * node, u_int64_t remote_id, 
  * This function *must* be called in locked mode
  */
 int
-_lw6p2p_node_refresh_peer (sys_context,_lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url)
+_lw6p2p_node_refresh_peer (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url)
 {
   int ret = 1;
   char *url_from_id = NULL;
@@ -2017,6 +2026,7 @@ _lw6p2p_node_refresh_peer (sys_context,_lw6p2p_node_t * node, u_int64_t remote_i
 /**
  * lw6p2p_node_refresh_peer
  *
+ * @sys_context: global system context
  * @node: node to use
  * @remote_id: id of remote node to refresh
  * @remote_url: url of remote node to refresh
@@ -2027,7 +2037,7 @@ _lw6p2p_node_refresh_peer (sys_context,_lw6p2p_node_t * node, u_int64_t remote_i
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6p2p_node_refresh_peer (sys_context,lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url)
+lw6p2p_node_refresh_peer (lw6sys_context_t *sys_context,lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url)
 {
   int ret = 0;
 
@@ -2036,17 +2046,17 @@ lw6p2p_node_refresh_peer (sys_context,lw6p2p_node_t * node, u_int64_t remote_id,
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_refresh_peer (sys_context,(_lw6p2p_node_t *) node, remote_id, remote_url);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 void
-_lw6p2p_node_disconnect (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_disconnect (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int i;
 
@@ -2081,6 +2091,7 @@ _lw6p2p_node_disconnect (sys_context,_lw6p2p_node_t * node)
 /**
  * lw6p2p_node_disconnect
  *
+ * @sys_context: global system context
  * @node: node to disconnect
  *
  * Disconnects a node, if node was previously connected to other
@@ -2090,22 +2101,22 @@ _lw6p2p_node_disconnect (sys_context,_lw6p2p_node_t * node)
  * Return value: 1 on success, 0 on failure.
  */
 void
-lw6p2p_node_disconnect (sys_context,lw6p2p_node_t * node)
+lw6p2p_node_disconnect (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   /*
    * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       _lw6p2p_node_disconnect (sys_context,(_lw6p2p_node_t *) node);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 }
 
 int
-_lw6p2p_node_update_info (sys_context,_lw6p2p_node_t * node,
+_lw6p2p_node_update_info (lw6sys_context_t *sys_context,_lw6p2p_node_t * node,
 			  int round, const char *level,
 			  int nb_colors, int max_nb_colors,
 			  int nb_cursors, int max_nb_cursors, int nb_nodes, int max_nb_nodes, int game_screenshot_size, void *game_screenshot_data)
@@ -2125,6 +2136,7 @@ _lw6p2p_node_update_info (sys_context,_lw6p2p_node_t * node,
 /**
  * lw6p2p_node_update_info
  *
+ * @sys_context: global system context
  * @node: node to update
  * @round: the current round (can have an offset with real round number)
  * @level: the name of the current level (map)
@@ -2143,7 +2155,7 @@ _lw6p2p_node_update_info (sys_context,_lw6p2p_node_t * node,
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6p2p_node_update_info (sys_context,lw6p2p_node_t * node,
+lw6p2p_node_update_info (lw6sys_context_t *sys_context,lw6p2p_node_t * node,
 			 int round, const char *level,
 			 int nb_colors, int max_nb_colors,
 			 int nb_cursors, int max_nb_cursors, int nb_nodes, int max_nb_nodes, int game_screenshot_size, void *game_screenshot_data)
@@ -2154,20 +2166,20 @@ lw6p2p_node_update_info (sys_context,lw6p2p_node_t * node,
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_update_info (sys_context,(_lw6p2p_node_t *) node,
 				      round, level,
 				      nb_colors, max_nb_colors,
 				      nb_cursors, max_nb_cursors, nb_nodes, max_nb_nodes, game_screenshot_size, game_screenshot_data);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 void
-_lw6p2p_node_calibrate (sys_context,_lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
+_lw6p2p_node_calibrate (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 {
   node->calibrate_timestamp = timestamp;
   node->calibrate_seq = seq;
@@ -2176,6 +2188,7 @@ _lw6p2p_node_calibrate (sys_context,_lw6p2p_node_t * node, int64_t timestamp, in
 /**
  * lw6p2p_node_calibrate
  *
+ * @sys_context: global system context
  * @node: the object to calibrate
  * @timestamp: the current ticks setting (1000 ticks per second)
  * @seq: the round expected to be returned with this ticks value
@@ -2186,22 +2199,22 @@ _lw6p2p_node_calibrate (sys_context,_lw6p2p_node_t * node, int64_t timestamp, in
  * Return value: none.
  */
 void
-lw6p2p_node_calibrate (sys_context,lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
+lw6p2p_node_calibrate (lw6sys_context_t *sys_context,lw6p2p_node_t * node, int64_t timestamp, int64_t seq)
 {
   /*
    * We lock in public function, the private one does not use
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       _lw6p2p_node_calibrate (sys_context,(_lw6p2p_node_t *) node, timestamp, seq);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 }
 
 int64_t
-_lw6p2p_node_get_local_seq_0 (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_get_local_seq_0 (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2213,6 +2226,7 @@ _lw6p2p_node_get_local_seq_0 (sys_context,_lw6p2p_node_t * node)
 /**
  * lw6p2p_node_get_local_seq_0
  *
+ * @sys_context: global system context
  * @node: the object to query
  *
  * Gets the reference local seq_0 for this node, the information
@@ -2222,7 +2236,7 @@ _lw6p2p_node_get_local_seq_0 (sys_context,_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_local_seq_0 (sys_context,lw6p2p_node_t * node)
+lw6p2p_node_get_local_seq_0 (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2231,17 +2245,17 @@ lw6p2p_node_get_local_seq_0 (sys_context,lw6p2p_node_t * node)
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_get_local_seq_0 (sys_context,(_lw6p2p_node_t *) node);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 int64_t
-_lw6p2p_node_get_local_seq_last (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_get_local_seq_last (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2253,6 +2267,7 @@ _lw6p2p_node_get_local_seq_last (sys_context,_lw6p2p_node_t * node)
 /**
  * lw6p2p_node_get_local_seq_last
  *
+ * @sys_context: global system context
  * @node: the object to query
  *
  * Gets the local seq_last for this node, the information
@@ -2264,7 +2279,7 @@ _lw6p2p_node_get_local_seq_last (sys_context,_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_local_seq_last (sys_context,lw6p2p_node_t * node)
+lw6p2p_node_get_local_seq_last (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2273,17 +2288,17 @@ lw6p2p_node_get_local_seq_last (sys_context,lw6p2p_node_t * node)
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_get_local_seq_last (sys_context,(_lw6p2p_node_t *) node);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 int64_t
-_lw6p2p_node_get_seq_min (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_get_seq_min (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2295,6 +2310,7 @@ _lw6p2p_node_get_seq_min (sys_context,_lw6p2p_node_t * node)
 /**
  * lw6p2p_node_get_seq_min
  *
+ * @sys_context: global system context
  * @node: the object to query
  *
  * Gets the minimum seq registered, not of utmost importance but
@@ -2304,7 +2320,7 @@ _lw6p2p_node_get_seq_min (sys_context,_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_seq_min (sys_context,lw6p2p_node_t * node)
+lw6p2p_node_get_seq_min (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2313,17 +2329,17 @@ lw6p2p_node_get_seq_min (sys_context,lw6p2p_node_t * node)
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_get_seq_min (sys_context,(_lw6p2p_node_t *) node);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 int64_t
-_lw6p2p_node_get_seq_max (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_get_seq_max (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2335,6 +2351,7 @@ _lw6p2p_node_get_seq_max (sys_context,_lw6p2p_node_t * node)
 /**
  * lw6p2p_node_get_seq_max
  *
+ * @sys_context: global system context
  * @node: the object to query
  *
  * Gets the maximum seq registered, this is typically used for guessing
@@ -2344,7 +2361,7 @@ _lw6p2p_node_get_seq_max (sys_context,_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_seq_max (sys_context,lw6p2p_node_t * node)
+lw6p2p_node_get_seq_max (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2353,17 +2370,17 @@ lw6p2p_node_get_seq_max (sys_context,lw6p2p_node_t * node)
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_get_seq_max (sys_context,(_lw6p2p_node_t *) node);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 int64_t
-_lw6p2p_node_get_seq_draft (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_get_seq_draft (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2375,6 +2392,7 @@ _lw6p2p_node_get_seq_draft (sys_context,_lw6p2p_node_t * node)
 /**
  * lw6p2p_node_get_seq_draft
  *
+ * @sys_context: global system context
  * @node: the object to query
  *
  * Gets the seq of the current draft as the warehouse understands it.
@@ -2385,7 +2403,7 @@ _lw6p2p_node_get_seq_draft (sys_context,_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_seq_draft (sys_context,lw6p2p_node_t * node)
+lw6p2p_node_get_seq_draft (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2394,17 +2412,17 @@ lw6p2p_node_get_seq_draft (sys_context,lw6p2p_node_t * node)
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_get_seq_draft (sys_context,(_lw6p2p_node_t *) node);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 int64_t
-_lw6p2p_node_get_seq_reference (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_get_seq_reference (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2416,6 +2434,7 @@ _lw6p2p_node_get_seq_reference (sys_context,_lw6p2p_node_t * node)
 /**
  * lw6p2p_node_get_seq_reference
  *
+ * @sys_context: global system context
  * @node: the object to query
  *
  * Gets the seq of the current reference as the warehouse understands it.
@@ -2426,7 +2445,7 @@ _lw6p2p_node_get_seq_reference (sys_context,_lw6p2p_node_t * node)
  * Return value: the seq.
  */
 int64_t
-lw6p2p_node_get_seq_reference (sys_context,lw6p2p_node_t * node)
+lw6p2p_node_get_seq_reference (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
@@ -2435,17 +2454,17 @@ lw6p2p_node_get_seq_reference (sys_context,lw6p2p_node_t * node)
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_get_seq_reference (sys_context,(_lw6p2p_node_t *) node);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 int
-_lw6p2p_node_is_peer_connected (sys_context,_lw6p2p_node_t * node, u_int64_t peer_id)
+_lw6p2p_node_is_peer_connected (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, u_int64_t peer_id)
 {
   int ret = 0;
 
@@ -2457,6 +2476,7 @@ _lw6p2p_node_is_peer_connected (sys_context,_lw6p2p_node_t * node, u_int64_t pee
 /**
  * lw6p2p_node_is_peer_connected
  *
+ * @sys_context: global system context
  * @node: the object to query
  * @peer_id: id of the peer we want to check
  *
@@ -2468,7 +2488,7 @@ _lw6p2p_node_is_peer_connected (sys_context,_lw6p2p_node_t * node, u_int64_t pee
  * Return value: 1 if connected, 0 if not.
  */
 int
-lw6p2p_node_is_peer_connected (sys_context,lw6p2p_node_t * node, u_int64_t peer_id)
+lw6p2p_node_is_peer_connected (lw6sys_context_t *sys_context,lw6p2p_node_t * node, u_int64_t peer_id)
 {
   int64_t ret = 0LL;
 
@@ -2477,17 +2497,17 @@ lw6p2p_node_is_peer_connected (sys_context,lw6p2p_node_t * node, u_int64_t peer_
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_is_peer_connected (sys_context,(_lw6p2p_node_t *) node, peer_id);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 int
-_lw6p2p_node_is_peer_registered (sys_context,_lw6p2p_node_t * node, u_int64_t peer_id)
+_lw6p2p_node_is_peer_registered (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, u_int64_t peer_id)
 {
   int ret = 0;
 
@@ -2499,6 +2519,7 @@ _lw6p2p_node_is_peer_registered (sys_context,_lw6p2p_node_t * node, u_int64_t pe
 /**
  * lw6p2p_node_is_peer_registered
  *
+ * @sys_context: global system context
  * @node: the object to query
  * @peer_id: id of the peer we want to check
  *
@@ -2512,7 +2533,7 @@ _lw6p2p_node_is_peer_registered (sys_context,_lw6p2p_node_t * node, u_int64_t pe
  * Return value: 1 if registered, 0 if not.
  */
 int
-lw6p2p_node_is_peer_registered (sys_context,lw6p2p_node_t * node, u_int64_t peer_id)
+lw6p2p_node_is_peer_registered (lw6sys_context_t *sys_context,lw6p2p_node_t * node, u_int64_t peer_id)
 {
   int64_t ret = 0LL;
 
@@ -2521,17 +2542,17 @@ lw6p2p_node_is_peer_registered (sys_context,lw6p2p_node_t * node, u_int64_t peer
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_is_peer_registered (sys_context,(_lw6p2p_node_t *) node, peer_id);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 int
-_lw6p2p_node_is_seed_needed (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_is_seed_needed (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -2548,6 +2569,7 @@ _lw6p2p_node_is_seed_needed (sys_context,_lw6p2p_node_t * node)
 /**
  * lw6p2p_node_is_seed_needed
  *
+ * @sys_context: global system context
  * @node: node to query
  *
  * Returns true (1) if the local node needs to send a SEED message.
@@ -2559,7 +2581,7 @@ _lw6p2p_node_is_seed_needed (sys_context,_lw6p2p_node_t * node)
  * Return value: 1 if SEED must be sent.
  */
 int
-lw6p2p_node_is_seed_needed (sys_context,lw6p2p_node_t * node)
+lw6p2p_node_is_seed_needed (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -2568,17 +2590,17 @@ lw6p2p_node_is_seed_needed (sys_context,lw6p2p_node_t * node)
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_is_seed_needed (sys_context,(_lw6p2p_node_t *) node);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 int
-_lw6p2p_node_is_dump_needed (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_node_is_dump_needed (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -2595,6 +2617,7 @@ _lw6p2p_node_is_dump_needed (sys_context,_lw6p2p_node_t * node)
 /**
  * lw6p2p_node_is_dump_needed
  *
+ * @sys_context: global system context
  * @node: node to query
  *
  * Returns true (1) if the local node needs to send a DUMP message.
@@ -2606,7 +2629,7 @@ _lw6p2p_node_is_dump_needed (sys_context,_lw6p2p_node_t * node)
  * Return value: 1 if DUMP must be sent.
  */
 int
-lw6p2p_node_is_dump_needed (sys_context,lw6p2p_node_t * node)
+lw6p2p_node_is_dump_needed (lw6sys_context_t *sys_context,lw6p2p_node_t * node)
 {
   int ret = 0;
 
@@ -2615,17 +2638,17 @@ lw6p2p_node_is_dump_needed (sys_context,lw6p2p_node_t * node)
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_is_dump_needed (sys_context,(_lw6p2p_node_t *) node);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 int
-_lw6p2p_node_put_local_msg (sys_context,_lw6p2p_node_t * node, const char *msg)
+_lw6p2p_node_put_local_msg (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, const char *msg)
 {
   int ret = 0;
 
@@ -2640,6 +2663,7 @@ _lw6p2p_node_put_local_msg (sys_context,_lw6p2p_node_t * node, const char *msg)
 /**
  * lw6p2p_node_put_local_msg
  *
+ * @sys_context: global system context
  * @node: node object to use
  * @msg: message
  *
@@ -2649,7 +2673,7 @@ _lw6p2p_node_put_local_msg (sys_context,_lw6p2p_node_t * node, const char *msg)
  * Return value: 1 on success, 0 on error
  */
 int
-lw6p2p_node_put_local_msg (sys_context,lw6p2p_node_t * node, const char *msg)
+lw6p2p_node_put_local_msg (lw6sys_context_t *sys_context,lw6p2p_node_t * node, const char *msg)
 {
   int ret = 0;
 
@@ -2658,17 +2682,17 @@ lw6p2p_node_put_local_msg (sys_context,lw6p2p_node_t * node, const char *msg)
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_put_local_msg (sys_context,(_lw6p2p_node_t *) node, msg);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 char *
-_lw6p2p_node_get_next_reference_msg (sys_context,_lw6p2p_node_t * node, lw6sys_progress_t * progress)
+_lw6p2p_node_get_next_reference_msg (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   char *ret = NULL;
   int64_t seq_reference = 0LL;
@@ -2694,6 +2718,7 @@ _lw6p2p_node_get_next_reference_msg (sys_context,_lw6p2p_node_t * node, lw6sys_p
 /**
  * lw6p2p_node_get_next_reference_msg
  *
+ * @sys_context: global system context
  * @node: node to query
  * @progress: progress indicator (read/write)
  *
@@ -2705,7 +2730,7 @@ _lw6p2p_node_get_next_reference_msg (sys_context,_lw6p2p_node_t * node, lw6sys_p
  * Return value: newly allocated string, must be freed.
  */
 char *
-lw6p2p_node_get_next_reference_msg (sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress)
+lw6p2p_node_get_next_reference_msg (lw6sys_context_t *sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   char *ret = NULL;
 
@@ -2714,17 +2739,17 @@ lw6p2p_node_get_next_reference_msg (sys_context,lw6p2p_node_t * node, lw6sys_pro
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_get_next_reference_msg (sys_context,(_lw6p2p_node_t *) node, progress);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;
 }
 
 char *
-_lw6p2p_node_get_next_draft_msg (sys_context,_lw6p2p_node_t * node, lw6sys_progress_t * progress)
+_lw6p2p_node_get_next_draft_msg (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   char *ret = NULL;
   int64_t seq_draft = 0LL;
@@ -2777,6 +2802,7 @@ _lw6p2p_node_get_next_draft_msg (sys_context,_lw6p2p_node_t * node, lw6sys_progr
 /**
  * lw6p2p_node_get_next_draft_msg
  *
+ * @sys_context: global system context
  * @node: node to query
  * @progress: progress indicator (read/write)
  *
@@ -2788,7 +2814,7 @@ _lw6p2p_node_get_next_draft_msg (sys_context,_lw6p2p_node_t * node, lw6sys_progr
  * Return value: newly allocated string, must be freed.
  */
 char *
-lw6p2p_node_get_next_draft_msg (sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress)
+lw6p2p_node_get_next_draft_msg (lw6sys_context_t *sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress)
 {
   char *ret = NULL;
 
@@ -2797,10 +2823,10 @@ lw6p2p_node_get_next_draft_msg (sys_context,lw6p2p_node_t * node, lw6sys_progres
    * the lock, because it could be used in other functions
    * that are themselves locked...
    */
-  if (_node_lock (node))
+  if (_node_lock (sys_context,node))
     {
       ret = _lw6p2p_node_get_next_draft_msg (sys_context,(_lw6p2p_node_t *) node, progress);
-      _node_unlock (node);
+      _node_unlock (sys_context,node);
     }
 
   return ret;

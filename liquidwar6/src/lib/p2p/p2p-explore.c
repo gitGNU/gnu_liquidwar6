@@ -28,13 +28,13 @@
 #include "p2p-internal.h"
 
 int
-_lw6p2p_explore_discover_nodes_if_needed (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_explore_discover_nodes_if_needed (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
   int64_t now = 0;
   int delay = node->db->data.consts.explore_discover_nodes_delay;
 
-  now = lw6sys_get_timestamp ();
+  now = lw6sys_get_timestamp (sys_context);
   if (node->explore.next_discover_nodes_timestamp < now)
     {
       node->explore.next_discover_nodes_timestamp = now + delay / 2 + lw6sys_random (sys_context, delay);
@@ -50,7 +50,7 @@ _lw6p2p_explore_discover_nodes_if_needed (sys_context,_lw6p2p_node_t * node)
 }
 
 static void
-_known_nodes_callback (void *func_data, void *data)
+_known_nodes_callback (lw6sys_context_t *sys_context,void *func_data, void *data)
 {
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
   char *public_url = (char *) data;
@@ -63,7 +63,7 @@ _known_nodes_callback (void *func_data, void *data)
 }
 
 int
-_lw6p2p_explore_discover_nodes (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_explore_discover_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
   lw6sys_list_t *list = NULL;
@@ -76,8 +76,8 @@ _lw6p2p_explore_discover_nodes (sys_context,_lw6p2p_node_t * node)
       list = lw6sys_str_split_config_item (sys_context, node->known_nodes);
       if (list)
 	{
-	  lw6sys_list_map (list, _known_nodes_callback, node);
-	  lw6sys_list_free (list);
+	  lw6sys_list_map (sys_context,list, _known_nodes_callback, node);
+	  lw6sys_list_free (sys_context,list);
 	}
     }
 
@@ -100,7 +100,7 @@ _lw6p2p_explore_discover_nodes (sys_context,_lw6p2p_node_t * node)
 	      if (cli_oob)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process cli_oob (broadcast) url=\"%s\""), broadcast_url);
-		  cli_oob->cli_oob->thread = lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL, cli_oob);
+		  cli_oob->cli_oob->thread = lw6sys_thread_create (sys_context,_lw6p2p_cli_oob_callback, NULL, cli_oob);
 		  lw6sys_lifo_push (sys_context, &(node->cli_oobs), cli_oob);
 		}
 	      LW6SYS_FREE (sys_context, broadcast_url);
@@ -114,7 +114,7 @@ _lw6p2p_explore_discover_nodes (sys_context,_lw6p2p_node_t * node)
 		  if (cli_oob)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process cli_oob (broadcast) url=\"%s\""), broadcast_url);
-		      cli_oob->cli_oob->thread = lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL, cli_oob);
+		      cli_oob->cli_oob->thread = lw6sys_thread_create (sys_context,_lw6p2p_cli_oob_callback, NULL, cli_oob);
 		      lw6sys_lifo_push (sys_context, &(node->cli_oobs), cli_oob);
 		    }
 		  LW6SYS_FREE (sys_context, broadcast_url);
@@ -131,7 +131,7 @@ _lw6p2p_explore_discover_nodes (sys_context,_lw6p2p_node_t * node)
 }
 
 void
-_lw6p2p_explore_start_verify_node (sys_context,_lw6p2p_node_t * node, const char *public_url)
+_lw6p2p_explore_start_verify_node (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, const char *public_url)
 {
   _lw6p2p_cli_oob_callback_data_t *cli_oob = NULL;
   int i;
@@ -154,20 +154,20 @@ _lw6p2p_explore_start_verify_node (sys_context,_lw6p2p_node_t * node, const char
       if (cli_oob)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process cli_oob url=\"%s\""), public_url);
-	  cli_oob->cli_oob->thread = lw6sys_thread_create (_lw6p2p_cli_oob_callback, NULL, cli_oob);
+	  cli_oob->cli_oob->thread = lw6sys_thread_create (sys_context,_lw6p2p_cli_oob_callback, NULL, cli_oob);
 	  lw6sys_lifo_push (sys_context, &(node->cli_oobs), cli_oob);
 	}
     }
 }
 
 int
-_lw6p2p_explore_verify_nodes_if_needed (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_explore_verify_nodes_if_needed (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
   int64_t now = 0;
   int delay = node->db->data.consts.explore_verify_nodes_delay;
 
-  now = lw6sys_get_timestamp ();
+  now = lw6sys_get_timestamp (sys_context);
   if (node->explore.next_verify_nodes_timestamp < now)
     {
       node->explore.next_verify_nodes_timestamp = now + delay / 2 + lw6sys_random (sys_context, delay);
@@ -182,10 +182,11 @@ _lw6p2p_explore_verify_nodes_if_needed (sys_context,_lw6p2p_node_t * node)
   return ret;
 }
 
-int
-_select_unverified_node_callback (void *func_data, int nb_fields, char **fields_values, char **fields_names)
+static int
+_select_unverified_node_callback (lw6sys_context_t *sys_context,void *func_data, int nb_fields, char **fields_values, char **fields_names)
 {
   int ret = 0;
+
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
 
   if (nb_fields == 1)
@@ -209,7 +210,7 @@ _select_unverified_node_callback (void *func_data, int nb_fields, char **fields_
 }
 
 int
-_lw6p2p_explore_verify_nodes (sys_context,_lw6p2p_node_t * node)
+_lw6p2p_explore_verify_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
 {
   int ret = 0;
   char *query = NULL;
