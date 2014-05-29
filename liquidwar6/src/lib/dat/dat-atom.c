@@ -27,13 +27,13 @@
 #include "dat-internal.h"
 
 void
-_lw6dat_atom_zero (_lw6dat_atom_t * atom)
+_lw6dat_atom_zero (lw6sys_context_t * sys_context, _lw6dat_atom_t * atom)
 {
   memset (atom, 0, sizeof (_lw6dat_atom_t));
 }
 
 void
-_lw6dat_atom_clear (_lw6dat_atom_t * atom)
+_lw6dat_atom_clear (lw6sys_context_t * sys_context, _lw6dat_atom_t * atom)
 {
   if (atom->full_str_if_longer)
     {
@@ -43,7 +43,7 @@ _lw6dat_atom_clear (_lw6dat_atom_t * atom)
 }
 
 int
-_lw6dat_atom_set_full_str (_lw6dat_atom_t * atom, const char *full_str)
+_lw6dat_atom_set_full_str (lw6sys_context_t * sys_context, _lw6dat_atom_t * atom, const char *full_str)
 {
   int ret = 0;
   int len = 0;
@@ -92,7 +92,7 @@ _lw6dat_atom_set_full_str (_lw6dat_atom_t * atom, const char *full_str)
 }
 
 char *
-_lw6dat_atom_get_full_str (_lw6dat_atom_t * atom)
+_lw6dat_atom_get_full_str (lw6sys_context_t * sys_context, _lw6dat_atom_t * atom)
 {
   char *ret = NULL;
 
@@ -112,7 +112,7 @@ _lw6dat_atom_get_full_str (_lw6dat_atom_t * atom)
 }
 
 int
-_lw6dat_atom_parse_from_cmd (int *type, int *serial, int *order_i,
+_lw6dat_atom_parse_from_cmd (lw6sys_context_t * sys_context, int *type, int *serial, int *order_i,
 			     int *order_n, int64_t * seq, u_int64_t * logical_from, int *seq_from_cmd_str_offset, int *cmd_str_offset, const char *full_str)
 {
   int ret = 0;

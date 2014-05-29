@@ -39,7 +39,7 @@
  * Return value: new dynamically allocated object
  */
 lw6dat_miss_t *
-lw6dat_miss_new (u_int64_t from_id, int serial_min, int serial_max)
+lw6dat_miss_new (lw6sys_context_t * sys_context, u_int64_t from_id, int serial_min, int serial_max)
 {
   lw6dat_miss_t *miss = NULL;
 
@@ -64,7 +64,7 @@ lw6dat_miss_new (u_int64_t from_id, int serial_min, int serial_max)
  * Return value: none.
  */
 void
-lw6dat_miss_free (lw6dat_miss_t * miss)
+lw6dat_miss_free (lw6sys_context_t * sys_context, lw6dat_miss_t * miss)
 {
   if (miss)
     {
@@ -87,7 +87,7 @@ lw6dat_miss_free (lw6dat_miss_t * miss)
  * Return value: none.
  */
 void
-lw6dat_miss_sync (lw6dat_miss_t * dst, lw6dat_miss_t * src)
+lw6dat_miss_sync (lw6sys_context_t * sys_context, lw6dat_miss_t * dst, lw6dat_miss_t * src)
 {
   if (dst && src)
     {
@@ -110,7 +110,7 @@ lw6dat_miss_sync (lw6dat_miss_t * dst, lw6dat_miss_t * src)
  * Return value: 1 if same, else 0.
  */
 int
-lw6dat_miss_is_same (lw6dat_miss_t * a, lw6dat_miss_t * b)
+lw6dat_miss_is_same (lw6sys_context_t * sys_context, lw6dat_miss_t * a, lw6dat_miss_t * b)
 {
   int ret = 0;
 
@@ -137,7 +137,7 @@ lw6dat_miss_is_same (lw6dat_miss_t * a, lw6dat_miss_t * b)
  * Return value: 1 if included, else 0.
  */
 int
-lw6dat_miss_is_included (lw6dat_miss_t * a, lw6dat_miss_t * b)
+lw6dat_miss_is_included (lw6sys_context_t * sys_context, lw6dat_miss_t * a, lw6dat_miss_t * b)
 {
   int ret = 0;
 
@@ -164,7 +164,7 @@ lw6dat_miss_is_included (lw6dat_miss_t * a, lw6dat_miss_t * b)
  * Return value: 1 if included, else 0.
  */
 int
-lw6dat_miss_overlaps (lw6dat_miss_t * a, lw6dat_miss_t * b)
+lw6dat_miss_overlaps (lw6sys_context_t * sys_context, lw6dat_miss_t * a, lw6dat_miss_t * b)
 {
   int ret = 0;
 

@@ -29,7 +29,7 @@
 #define _SEQ_RANGE_CHECK_LIMIT 1000
 
 int
-_lw6dat_warehouse_init (_lw6dat_warehouse_t * warehouse, u_int64_t local_node_id, int64_t seq_0)
+_lw6dat_warehouse_init (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, u_int64_t local_node_id, int64_t seq_0)
 {
   int ok = 0;
   int stack_index = 0;
@@ -40,14 +40,14 @@ _lw6dat_warehouse_init (_lw6dat_warehouse_t * warehouse, u_int64_t local_node_id
     {
       if (stack_index == _LW6DAT_LOCAL_NODE_INDEX)
 	{
-	  if (_lw6dat_stack_init (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]), local_node_id, _LW6DAT_SERIAL_START, seq_0))
+	  if (_lw6dat_stack_init (sys_context, &(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]), local_node_id, _LW6DAT_SERIAL_START, seq_0))
 	    {
 	      ok = 1;
 	    }
 	}
       else
 	{
-	  _lw6dat_stack_clear (&(warehouse->stacks[stack_index]));
+	  _lw6dat_stack_clear (sys_context, &(warehouse->stacks[stack_index]));
 	}
     }
 
@@ -60,6 +60,7 @@ _lw6dat_warehouse_init (_lw6dat_warehouse_t * warehouse, u_int64_t local_node_id
  * Initializes a warehouse object. Won't free anything, will just
  * erase values if they're here
  *
+ * @sys_context: global system context
  * @warehouse: object to initialize
  * @local_node_id: id of local node, used to handle local messages
  * @seq_0: initial seq number
@@ -67,13 +68,13 @@ _lw6dat_warehouse_init (_lw6dat_warehouse_t * warehouse, u_int64_t local_node_id
  * Return value: new object, allocated dynamically
  */
 int
-lw6dat_warehouse_init (lw6dat_warehouse_t * warehouse, u_int64_t local_node_id, int64_t seq_0)
+lw6dat_warehouse_init (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t local_node_id, int64_t seq_0)
 {
-  return _lw6dat_warehouse_init ((_lw6dat_warehouse_t *) warehouse, local_node_id, seq_0);
+  return _lw6dat_warehouse_init (sys_context, (_lw6dat_warehouse_t *) warehouse, local_node_id, seq_0);
 }
 
 _lw6dat_warehouse_t *
-_lw6dat_warehouse_new (u_int64_t local_node_id, int64_t seq_0)
+_lw6dat_warehouse_new (lw6sys_context_t * sys_context, u_int64_t local_node_id, int64_t seq_0)
 {
   _lw6dat_warehouse_t *warehouse;
   int ok = 0;
@@ -81,11 +82,11 @@ _lw6dat_warehouse_new (u_int64_t local_node_id, int64_t seq_0)
   warehouse = (_lw6dat_warehouse_t *) LW6SYS_MALLOC (sys_context, sizeof (_lw6dat_warehouse_t));
   if (warehouse)
     {
-      ok = _lw6dat_warehouse_init (warehouse, local_node_id, seq_0);
+      ok = _lw6dat_warehouse_init (sys_context, warehouse, local_node_id, seq_0);
     }
   if (warehouse && !ok)
     {
-      _lw6dat_warehouse_free (warehouse);
+      _lw6dat_warehouse_free (sys_context, warehouse);
       warehouse = NULL;
     }
 
@@ -97,25 +98,26 @@ _lw6dat_warehouse_new (u_int64_t local_node_id, int64_t seq_0)
  *
  * Creates a new warehouse object.
  *
+ * @sys_context: global system context
  * @local_node_id: id of local node, used to handle local messages
  * @seq_0: initial seq number
  *
  * Return value: new object, allocated dynamically
  */
 lw6dat_warehouse_t *
-lw6dat_warehouse_new (u_int64_t local_node_id, int64_t seq_0)
+lw6dat_warehouse_new (lw6sys_context_t * sys_context, u_int64_t local_node_id, int64_t seq_0)
 {
   lw6dat_warehouse_t *warehouse;
 
-  warehouse = (lw6dat_warehouse_t *) _lw6dat_warehouse_new (local_node_id, seq_0);
+  warehouse = (lw6dat_warehouse_t *) _lw6dat_warehouse_new (sys_context, local_node_id, seq_0);
 
   return warehouse;
 }
 
 void
-_lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_free (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
-  _lw6dat_warehouse_clear (warehouse);
+  _lw6dat_warehouse_clear (sys_context, warehouse);
 
   LW6SYS_FREE (sys_context, warehouse);
 }
@@ -123,6 +125,7 @@ _lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse)
 /**
  * lw6dat_warehouse_free
  *
+ * @sys_context: global system context
  * @warehouse: the object to free
  *
  * Frees a warehouse object.
@@ -130,13 +133,13 @@ _lw6dat_warehouse_free (_lw6dat_warehouse_t * warehouse)
  * Return value: new object, allocated dynamically
  */
 void
-lw6dat_warehouse_free (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_free (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
-  _lw6dat_warehouse_free ((_lw6dat_warehouse_t *) warehouse);
+  _lw6dat_warehouse_free (sys_context, (_lw6dat_warehouse_t *) warehouse);
 }
 
 void
-_lw6dat_warehouse_clear (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_clear (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   int i;
 
@@ -145,7 +148,7 @@ _lw6dat_warehouse_clear (_lw6dat_warehouse_t * warehouse)
     {
       if (warehouse->stacks[i].node_id != 0)
 	{
-	  _lw6dat_stack_clear (&(warehouse->stacks[i]));
+	  _lw6dat_stack_clear (sys_context, &(warehouse->stacks[i]));
 	}
     }
 }
@@ -153,6 +156,7 @@ _lw6dat_warehouse_clear (_lw6dat_warehouse_t * warehouse)
 /**
  * lw6dat_warehouse_clear
  *
+ * @sys_context: global system context
  * @warehouse: the object to clear
  *
  * Clears a warehouse object. Clears means emptying everything
@@ -161,13 +165,13 @@ _lw6dat_warehouse_clear (_lw6dat_warehouse_t * warehouse)
  * Return value: none.
  */
 void
-lw6dat_warehouse_clear (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_clear (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
-  _lw6dat_warehouse_clear ((_lw6dat_warehouse_t *) warehouse);
+  _lw6dat_warehouse_clear (sys_context, (_lw6dat_warehouse_t *) warehouse);
 }
 
 void
-_lw6dat_warehouse_purge (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_purge (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   int i;
 
@@ -175,7 +179,7 @@ _lw6dat_warehouse_purge (_lw6dat_warehouse_t * warehouse)
     {
       if (warehouse->stacks[i].node_id != 0)
 	{
-	  _lw6dat_stack_purge (&(warehouse->stacks[i]));
+	  _lw6dat_stack_purge (sys_context, &(warehouse->stacks[i]));
 	}
     }
 }
@@ -183,6 +187,7 @@ _lw6dat_warehouse_purge (_lw6dat_warehouse_t * warehouse)
 /**
  * lw6dat_warehouse_purge
  *
+ * @sys_context: global system context
  * @warehouse: the object to purge
  *
  * Purges a warehouse object. Purges means emptying everything
@@ -191,13 +196,13 @@ _lw6dat_warehouse_purge (_lw6dat_warehouse_t * warehouse)
  * Return value: none.
  */
 void
-lw6dat_warehouse_purge (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_purge (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
-  _lw6dat_warehouse_purge ((_lw6dat_warehouse_t *) warehouse);
+  _lw6dat_warehouse_purge (sys_context, (_lw6dat_warehouse_t *) warehouse);
 }
 
 int
-_lw6dat_warehouse_get_stack_index (_lw6dat_warehouse_t * warehouse, u_int64_t node_id)
+_lw6dat_warehouse_get_stack_index (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, u_int64_t node_id)
 {
   int ret = -1;
   int i;
@@ -214,7 +219,7 @@ _lw6dat_warehouse_get_stack_index (_lw6dat_warehouse_t * warehouse, u_int64_t no
 }
 
 int
-_lw6dat_warehouse_get_nb_nodes (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_get_nb_nodes (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   int ret = 0;
   int stack_index;
@@ -233,6 +238,7 @@ _lw6dat_warehouse_get_nb_nodes (_lw6dat_warehouse_t * warehouse)
 /**
  * lw6dat_warehouse_get_nb_nodes
  *
+ * @sys_context: global system context
  * @warehouse: the warehouse object to query.
  *
  * Tells how many nodes are registered in the object.
@@ -240,13 +246,13 @@ _lw6dat_warehouse_get_nb_nodes (_lw6dat_warehouse_t * warehouse)
  * Return value: integer, number of nodes
  */
 int
-lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_get_nb_nodes (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
-  return _lw6dat_warehouse_get_nb_nodes ((_lw6dat_warehouse_t *) warehouse);
+  return _lw6dat_warehouse_get_nb_nodes (sys_context, (_lw6dat_warehouse_t *) warehouse);
 }
 
 u_int64_t
-_lw6dat_warehouse_get_local_id (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_get_local_id (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   u_int64_t ret = 0;
 
@@ -258,6 +264,7 @@ _lw6dat_warehouse_get_local_id (_lw6dat_warehouse_t * warehouse)
 /**
  * lw6dat_warehouse_get_local_id
  *
+ * @sys_context: global system context
  * @warehouse: the warehouse object to query.
  *
  * Returns the local id.
@@ -265,17 +272,17 @@ _lw6dat_warehouse_get_local_id (_lw6dat_warehouse_t * warehouse)
  * Return value: 64-bit id.
  */
 u_int64_t
-lw6dat_warehouse_get_local_id (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_get_local_id (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
-  return _lw6dat_warehouse_get_local_id ((_lw6dat_warehouse_t *) warehouse);
+  return _lw6dat_warehouse_get_local_id (sys_context, (_lw6dat_warehouse_t *) warehouse);
 }
 
 int
-_lw6dat_warehouse_get_local_serial (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_get_local_serial (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   int ret = 0;
 
-  ret = _lw6dat_stack_get_serial (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]));
+  ret = _lw6dat_stack_get_serial (sys_context, &(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]));
 
   return ret;
 }
@@ -283,6 +290,7 @@ _lw6dat_warehouse_get_local_serial (_lw6dat_warehouse_t * warehouse)
 /**
  * lw6dat_warehouse_get_local_serial
  *
+ * @sys_context: global system context
  * @warehouse: the warehouse object to query.
  *
  * Returns the latest (highest) serial number given for local node.
@@ -290,13 +298,13 @@ _lw6dat_warehouse_get_local_serial (_lw6dat_warehouse_t * warehouse)
  * Return value: integer, latest serial number
  */
 int
-lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_get_local_serial (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
-  return _lw6dat_warehouse_get_local_serial ((_lw6dat_warehouse_t *) warehouse);
+  return _lw6dat_warehouse_get_local_serial (sys_context, (_lw6dat_warehouse_t *) warehouse);
 }
 
 int64_t
-_lw6dat_warehouse_get_local_seq_0 (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_get_local_seq_0 (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   /*
      return warehouse->
@@ -308,6 +316,7 @@ _lw6dat_warehouse_get_local_seq_0 (_lw6dat_warehouse_t * warehouse)
 /**
  * lw6dat_warehouse_get_local_seq_0
  *
+ * @sys_context: global system context
  * @warehouse: the warehouse object to query
  *
  * Gives the warehouse seq_0 number, any seq below does not make sense.
@@ -315,13 +324,13 @@ _lw6dat_warehouse_get_local_seq_0 (_lw6dat_warehouse_t * warehouse)
  * Return value: long integer.
  */
 int64_t
-lw6dat_warehouse_get_local_seq_0 (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_get_local_seq_0 (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
-  return _lw6dat_warehouse_get_local_seq_0 ((_lw6dat_warehouse_t *) warehouse);
+  return _lw6dat_warehouse_get_local_seq_0 (sys_context, (_lw6dat_warehouse_t *) warehouse);
 }
 
 void
-_lw6dat_warehouse_set_local_seq_0 (_lw6dat_warehouse_t * warehouse, int64_t seq_0)
+_lw6dat_warehouse_set_local_seq_0 (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, int64_t seq_0)
 {
   int stack_index = 0;
 
@@ -335,6 +344,7 @@ _lw6dat_warehouse_set_local_seq_0 (_lw6dat_warehouse_t * warehouse, int64_t seq_
 /**
  * lw6dat_warehouse_set_local_seq_0
  *
+ * @sys_context: global system context
  * @warehouse: the warehouse object to modify
  * @seq_0: the new seq value
  *
@@ -343,13 +353,13 @@ _lw6dat_warehouse_set_local_seq_0 (_lw6dat_warehouse_t * warehouse, int64_t seq_
  * Return value: none.
  */
 void
-lw6dat_warehouse_set_local_seq_0 (lw6dat_warehouse_t * warehouse, int64_t seq_0)
+lw6dat_warehouse_set_local_seq_0 (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, int64_t seq_0)
 {
-  _lw6dat_warehouse_set_local_seq_0 ((_lw6dat_warehouse_t *) warehouse, seq_0);
+  _lw6dat_warehouse_set_local_seq_0 (sys_context, (_lw6dat_warehouse_t *) warehouse, seq_0);
 }
 
 int64_t
-_lw6dat_warehouse_get_local_seq_last (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_get_local_seq_last (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   return warehouse->local_seq_last;
 }
@@ -357,6 +367,7 @@ _lw6dat_warehouse_get_local_seq_last (_lw6dat_warehouse_t * warehouse)
 /**
  * lw6dat_warehouse_get_local_seq_last
  *
+ * @sys_context: global system context
  * @warehouse: the warehouse object to query
  *
  * Gives the warehouse seq_last number, this is the seq that corresponds
@@ -367,13 +378,13 @@ _lw6dat_warehouse_get_local_seq_last (_lw6dat_warehouse_t * warehouse)
  * Return value: long integer.
  */
 int64_t
-lw6dat_warehouse_get_local_seq_last (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_get_local_seq_last (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
-  return _lw6dat_warehouse_get_local_seq_last ((_lw6dat_warehouse_t *) warehouse);
+  return _lw6dat_warehouse_get_local_seq_last (sys_context, (_lw6dat_warehouse_t *) warehouse);
 }
 
 int
-_lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse, u_int64_t node_id, int serial_0, int64_t seq_0)
+_lw6dat_warehouse_register_node (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, u_int64_t node_id, int serial_0, int64_t seq_0)
 {
   int ret = -1;
   int stack_index = -1;
@@ -382,14 +393,14 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse, u_int64_t node
 	      _x_ ("registering %" LW6SYS_PRINTF_LL "x serial_0=%d seq_0=%" LW6SYS_PRINTF_LL "d"), (long long) node_id, serial_0, (long long) seq_0);
 
   serial_0 = lw6sys_imax (serial_0, _LW6DAT_SERIAL_START);
-  ret = _lw6dat_warehouse_get_stack_index (warehouse, node_id);
+  ret = _lw6dat_warehouse_get_stack_index (sys_context, warehouse, node_id);
   if (ret < 0)
     {
       for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS && ret < 0; ++stack_index)
 	{
 	  if (warehouse->stacks[stack_index].node_id == 0)
 	    {
-	      if (_lw6dat_stack_init (&(warehouse->stacks[stack_index]), node_id, serial_0, seq_0))
+	      if (_lw6dat_stack_init (sys_context, &(warehouse->stacks[stack_index]), node_id, serial_0, seq_0))
 		{
 		  ret = stack_index;
 		}
@@ -399,7 +410,7 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse, u_int64_t node
   else if (ret >= 0 && ret < LW6DAT_MAX_NB_STACKS)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("registering already registered node"));
-      _lw6dat_stack_shift (&(warehouse->stacks[ret]), serial_0, seq_0);
+      _lw6dat_stack_shift (sys_context, &(warehouse->stacks[ret]), serial_0, seq_0);
     }
   else
     {
@@ -448,6 +459,7 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse, u_int64_t node
 /**
  * lw6dat_warehouse_register_node
  *
+ * @sys_context: global system context
  * @warehouse: object to update
  * @node_id: id of node to register
  * @serial_0: serial number of first message
@@ -459,17 +471,17 @@ _lw6dat_warehouse_register_node (_lw6dat_warehouse_t * warehouse, u_int64_t node
  * Return value: the stack index of the registered node, <0 is invalid.
  */
 int
-lw6dat_warehouse_register_node (lw6dat_warehouse_t * warehouse, u_int64_t node_id, int serial_0, int64_t seq_0)
+lw6dat_warehouse_register_node (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t node_id, int serial_0, int64_t seq_0)
 {
-  return _lw6dat_warehouse_register_node ((_lw6dat_warehouse_t *) warehouse, node_id, serial_0, seq_0);
+  return _lw6dat_warehouse_register_node (sys_context, (_lw6dat_warehouse_t *) warehouse, node_id, serial_0, seq_0);
 }
 
 int
-_lw6dat_warehouse_is_node_registered (_lw6dat_warehouse_t * warehouse, u_int64_t node_id)
+_lw6dat_warehouse_is_node_registered (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, u_int64_t node_id)
 {
   int ret = 0;
 
-  ret = (_lw6dat_warehouse_get_stack_index (warehouse, node_id) >= 0);
+  ret = (_lw6dat_warehouse_get_stack_index (sys_context, warehouse, node_id) >= 0);
 
   return ret;
 }
@@ -477,6 +489,7 @@ _lw6dat_warehouse_is_node_registered (_lw6dat_warehouse_t * warehouse, u_int64_t
 /**
  * lw6dat_warehouse_is_node_registered
  *
+ * @sys_context: global system context
  * @warehouse: object to update
  * @node_id: id of node to register
  *
@@ -485,13 +498,13 @@ _lw6dat_warehouse_is_node_registered (_lw6dat_warehouse_t * warehouse, u_int64_t
  * Return value: 1 if registered, 0 if not.
  */
 int
-lw6dat_warehouse_is_node_registered (lw6dat_warehouse_t * warehouse, u_int64_t node_id)
+lw6dat_warehouse_is_node_registered (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t node_id)
 {
-  return _lw6dat_warehouse_is_node_registered ((_lw6dat_warehouse_t *) warehouse, node_id);
+  return _lw6dat_warehouse_is_node_registered (sys_context, (_lw6dat_warehouse_t *) warehouse, node_id);
 }
 
 int
-_lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
+_lw6dat_warehouse_put_atom (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse,
 			    u_int64_t logical_from,
 			    int type, int serial, int order_i, int order_n, int64_t seq, const char *full_str, int seq_from_cmd_str_offset, int cmd_str_offset)
 {
@@ -499,7 +512,7 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
   int send_flag = 0;
   int ret = 0;
 
-  stack_index = _lw6dat_warehouse_get_stack_index (warehouse, logical_from);
+  stack_index = _lw6dat_warehouse_get_stack_index (sys_context, warehouse, logical_from);
   /*
    * Previous versions of the code used to have a reg attribute
    * for messages to self-register nodes on the fly. This has been
@@ -510,7 +523,7 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
     {
       send_flag = _lw6dat_not_flag (stack_index);
       ret =
-	_lw6dat_stack_put_atom (&(warehouse->stacks[stack_index]), type,
+	_lw6dat_stack_put_atom (sys_context, &(warehouse->stacks[stack_index]), type,
 				serial, order_i, order_n, seq, full_str, seq_from_cmd_str_offset, cmd_str_offset, send_flag);
     }
   else
@@ -523,7 +536,7 @@ _lw6dat_warehouse_put_atom (_lw6dat_warehouse_t * warehouse,
 }
 
 int
-_lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse, u_int64_t logical_from, const char *full_str)
+_lw6dat_warehouse_put_atom_str (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, u_int64_t logical_from, const char *full_str)
 {
   int ret = 0;
   int type = 0;
@@ -541,7 +554,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse, u_int64_t logic
    * logical ids match, and else we'd parse the message twice
    * in most cases.
    */
-  if (_lw6dat_atom_parse_from_cmd (&type, &serial, &order_i, &order_n, &seq, &logical_from2, &seq_from_cmd_str_offset, &cmd_str_offset, full_str))
+  if (_lw6dat_atom_parse_from_cmd (sys_context, &type, &serial, &order_i, &order_n, &seq, &logical_from2, &seq_from_cmd_str_offset, &cmd_str_offset, full_str))
     {
       if (logical_from != logical_from2)
 	{
@@ -567,7 +580,9 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse, u_int64_t logic
        * Note that we operate on logical_from2, indeed this is
        * the real original writer of the message.
        */
-      ret = _lw6dat_warehouse_put_atom (warehouse, logical_from2, type, serial, order_i, order_n, seq, full_str, seq_from_cmd_str_offset, cmd_str_offset);
+      ret =
+	_lw6dat_warehouse_put_atom (sys_context, warehouse, logical_from2, type, serial, order_i, order_n, seq, full_str, seq_from_cmd_str_offset,
+				    cmd_str_offset);
     }
 
   return ret;
@@ -576,6 +591,7 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse, u_int64_t logic
 /**
  * lw6dat_warehouse_put_atom_str
  *
+ * @sys_context: global system context
  * @warehouse: warehouse object to use
  * @logical_from: from who the message came from originally
  * @full_str: message of the form serial i n seq from cmd
@@ -586,17 +602,17 @@ _lw6dat_warehouse_put_atom_str (_lw6dat_warehouse_t * warehouse, u_int64_t logic
  * Return value: 1 on success, 0 on error
  */
 int
-lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse, u_int64_t logical_from, const char *full_str)
+lw6dat_warehouse_put_atom_str (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t logical_from, const char *full_str)
 {
   int ret = 0;
 
-  ret = _lw6dat_warehouse_put_atom_str ((_lw6dat_warehouse_t *) warehouse, logical_from, full_str);
+  ret = _lw6dat_warehouse_put_atom_str (sys_context, (_lw6dat_warehouse_t *) warehouse, logical_from, full_str);
 
   return ret;
 }
 
 int
-_lw6dat_warehouse_calc_serial_draft_and_reference (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_calc_serial_draft_and_reference (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   int ret = 0;
   int i;
@@ -605,7 +621,7 @@ _lw6dat_warehouse_calc_serial_draft_and_reference (_lw6dat_warehouse_t * warehou
     {
       if (warehouse->stacks[i].node_id)
 	{
-	  if (_lw6dat_stack_calc_serial_draft_and_reference (&(warehouse->stacks[i])))
+	  if (_lw6dat_stack_calc_serial_draft_and_reference (sys_context, &(warehouse->stacks[i])))
 	    {
 	      /*
 	       * At least one stack has something interesting, so we consider
@@ -622,6 +638,7 @@ _lw6dat_warehouse_calc_serial_draft_and_reference (_lw6dat_warehouse_t * warehou
 /**
  * lw6dat_warehouse_calc_serial_draft_and_reference
  *
+ * @sys_context: global system context
  * @warehouse: object to work on
  *
  * The various @get_seq functions can perform slowly if
@@ -635,21 +652,21 @@ _lw6dat_warehouse_calc_serial_draft_and_reference (_lw6dat_warehouse_t * warehou
  * there's probably nothing to do yet.
  */
 int
-lw6dat_warehouse_calc_serial_draft_and_reference (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_calc_serial_draft_and_reference (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
   int ret = 0;
 
-  ret = _lw6dat_warehouse_calc_serial_draft_and_reference ((_lw6dat_warehouse_t *) warehouse);
+  ret = _lw6dat_warehouse_calc_serial_draft_and_reference (sys_context, (_lw6dat_warehouse_t *) warehouse);
 
   return ret;
 }
 
 int
-_lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse, const char *msg)
+_lw6dat_warehouse_put_local_msg (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, const char *msg)
 {
   int ret = 0;
 
-  ret = _lw6dat_stack_put_msg (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]), &(warehouse->local_seq_last), msg, _LW6DAT_FLAG_REMOTE);
+  ret = _lw6dat_stack_put_msg (sys_context, &(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]), &(warehouse->local_seq_last), msg, _LW6DAT_FLAG_REMOTE);
 
   return ret;
 }
@@ -657,6 +674,7 @@ _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse, const char *ms
 /**
  * lw6dat_warehouse_put_local_msg
  *
+ * @sys_context: global system context
  * @warehouse: warehouse object to use
  * @msg: message
  *
@@ -666,17 +684,17 @@ _lw6dat_warehouse_put_local_msg (_lw6dat_warehouse_t * warehouse, const char *ms
  * Return value: 1 on success, 0 on error
  */
 int
-lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse, const char *msg)
+lw6dat_warehouse_put_local_msg (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, const char *msg)
 {
   int ret = 0;
 
-  ret = _lw6dat_warehouse_put_local_msg ((_lw6dat_warehouse_t *) warehouse, msg);
+  ret = _lw6dat_warehouse_put_local_msg (sys_context, (_lw6dat_warehouse_t *) warehouse, msg);
 
   return ret;
 }
 
 int64_t
-_lw6dat_warehouse_get_seq_min (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_get_seq_min (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   int64_t ret = LLONG_MAX;
   int64_t seq_min;
@@ -686,7 +704,7 @@ _lw6dat_warehouse_get_seq_min (_lw6dat_warehouse_t * warehouse)
     {
       if (warehouse->stacks[i].node_id)
 	{
-	  seq_min = _lw6dat_stack_get_seq_min (&(warehouse->stacks[i]));
+	  seq_min = _lw6dat_stack_get_seq_min (sys_context, &(warehouse->stacks[i]));
 	  if (seq_min > _LW6DAT_SEQ_INVALID)
 	    {
 	      ret = lw6sys_llmin (ret, seq_min);
@@ -704,6 +722,7 @@ _lw6dat_warehouse_get_seq_min (_lw6dat_warehouse_t * warehouse)
 /**
  * lw6dat_warehouse_get_seq_min
  *
+ * @sys_context: global system context
  * @warehouse: object to query
  *
  * Tells the lowest seq referenced in the warehouse. Does not
@@ -714,17 +733,17 @@ _lw6dat_warehouse_get_seq_min (_lw6dat_warehouse_t * warehouse)
  * Return value: integer.
  */
 int64_t
-lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_get_seq_min (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
   int64_t ret = 0LL;
 
-  ret = _lw6dat_warehouse_get_seq_min ((_lw6dat_warehouse_t *) warehouse);
+  ret = _lw6dat_warehouse_get_seq_min (sys_context, (_lw6dat_warehouse_t *) warehouse);
 
   return ret;
 }
 
 int64_t
-_lw6dat_warehouse_get_seq_max (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_get_seq_max (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   int64_t ret = _LW6DAT_SEQ_INVALID;
   int i;
@@ -733,7 +752,7 @@ _lw6dat_warehouse_get_seq_max (_lw6dat_warehouse_t * warehouse)
     {
       if (warehouse->stacks[i].node_id)
 	{
-	  ret = lw6sys_llmax (ret, _lw6dat_stack_get_seq_max (&(warehouse->stacks[i])));
+	  ret = lw6sys_llmax (ret, _lw6dat_stack_get_seq_max (sys_context, &(warehouse->stacks[i])));
 	}
     }
 
@@ -743,6 +762,7 @@ _lw6dat_warehouse_get_seq_max (_lw6dat_warehouse_t * warehouse)
 /**
  * lw6dat_warehouse_get_seq_max
  *
+ * @sys_context: global system context
  * @warehouse: object to query
  *
  * Tells the highest seq referenced in the warehouse. Does not
@@ -752,17 +772,17 @@ _lw6dat_warehouse_get_seq_max (_lw6dat_warehouse_t * warehouse)
  * Return value: integer.
  */
 int64_t
-lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_get_seq_max (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
   int64_t ret = 0LL;
 
-  ret = _lw6dat_warehouse_get_seq_max ((_lw6dat_warehouse_t *) warehouse);
+  ret = _lw6dat_warehouse_get_seq_max (sys_context, (_lw6dat_warehouse_t *) warehouse);
 
   return ret;
 }
 
 int64_t
-_lw6dat_warehouse_get_seq_draft (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_get_seq_draft (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   int64_t ret = 0LL;
   int i;
@@ -771,7 +791,7 @@ _lw6dat_warehouse_get_seq_draft (_lw6dat_warehouse_t * warehouse)
     {
       if (warehouse->stacks[i].node_id)
 	{
-	  ret = lw6sys_llmax (ret, _lw6dat_stack_get_seq_draft (&(warehouse->stacks[i])));
+	  ret = lw6sys_llmax (ret, _lw6dat_stack_get_seq_draft (sys_context, &(warehouse->stacks[i])));
 	}
     }
 
@@ -781,6 +801,7 @@ _lw6dat_warehouse_get_seq_draft (_lw6dat_warehouse_t * warehouse)
 /**
  * lw6dat_warehouse_get_seq_draft
  *
+ * @sys_context: global system context
  * @warehouse: object to query
  *
  * Tells the highest seq that can be considered as a valid draft.
@@ -792,17 +813,17 @@ _lw6dat_warehouse_get_seq_draft (_lw6dat_warehouse_t * warehouse)
  * Return value: integer.
  */
 int64_t
-lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_get_seq_draft (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
   int64_t ret = 0;
 
-  ret = _lw6dat_warehouse_get_seq_draft ((_lw6dat_warehouse_t *) warehouse);
+  ret = _lw6dat_warehouse_get_seq_draft (sys_context, (_lw6dat_warehouse_t *) warehouse);
 
   return ret;
 }
 
 int64_t
-_lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_get_seq_reference (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   int64_t ret = LLONG_MAX;
   int64_t seq_reference = _LW6DAT_SEQ_INVALID;
@@ -812,7 +833,7 @@ _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t * warehouse)
     {
       if (warehouse->stacks[i].node_id)
 	{
-	  seq_reference = _lw6dat_stack_get_seq_reference (&(warehouse->stacks[i]));
+	  seq_reference = _lw6dat_stack_get_seq_reference (sys_context, &(warehouse->stacks[i]));
 	  if (seq_reference == _LW6DAT_SEQ_INVALID)
 	    {
 	      /*
@@ -840,6 +861,7 @@ _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t * warehouse)
 /**
  * lw6dat_warehouse_get_seq_reference
  *
+ * @sys_context: global system context
  * @warehouse: object to query
  *
  * Tells the highest seq that can be considered as a reference.
@@ -851,17 +873,18 @@ _lw6dat_warehouse_get_seq_reference (_lw6dat_warehouse_t * warehouse)
  * Return value: integer.
  */
 int64_t
-lw6dat_warehouse_get_seq_reference (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_get_seq_reference (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
   int64_t ret = 0;
 
-  ret = _lw6dat_warehouse_get_seq_reference ((_lw6dat_warehouse_t *) warehouse);
+  ret = _lw6dat_warehouse_get_seq_reference (sys_context, (_lw6dat_warehouse_t *) warehouse);
 
   return ret;
 }
 
 lw6sys_list_t *
-_lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse, int64_t seq_min, int64_t seq_max, int for_reference, lw6sys_progress_t * progress)
+_lw6dat_warehouse_get_msg_list_by_seq (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, int64_t seq_min, int64_t seq_max, int for_reference,
+				       lw6sys_progress_t * progress)
 {
   lw6sys_list_t *ret = NULL;
   int stack_index = 0;
@@ -879,15 +902,15 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse, int64_t 
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("before range check seq_min=%" LW6SYS_PRINTF_LL "d seq_max=%" LW6SYS_PRINTF_LL "d"), (long long) seq_min, (long long) seq_max);
 
-      warehouse_seq_min = _lw6dat_warehouse_get_seq_min (warehouse);
-      warehouse_seq_max = _lw6dat_warehouse_get_seq_max (warehouse);
+      warehouse_seq_min = _lw6dat_warehouse_get_seq_min (sys_context, warehouse);
+      warehouse_seq_max = _lw6dat_warehouse_get_seq_max (sys_context, warehouse);
       seq_min = lw6sys_llmax (warehouse_seq_min - 1, seq_min);
       seq_max = lw6sys_llmin (warehouse_seq_max + 1, seq_max);
 
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("after range check seq_min=%" LW6SYS_PRINTF_LL "d seq_max=%" LW6SYS_PRINTF_LL "d"), (long long) seq_min, (long long) seq_max);
     }
-  ret = _lw6dat_stack_init_list ();
+  ret = _lw6dat_stack_init_list (sys_context);
   if (ret)
     {
       for (seq = seq_max; seq >= seq_min; --seq)
@@ -896,7 +919,7 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse, int64_t 
 	    {
 	      if (warehouse->stacks[stack_index].node_id != 0)
 		{
-		  _lw6dat_stack_update_msg_list_by_seq (&
+		  _lw6dat_stack_update_msg_list_by_seq (sys_context, &
 							(warehouse->stacks
 							 [stack_index]), &ret,
 							seq, for_reference, for_reference && (seq == seq_max), &tmp_worst_msg_i, &tmp_worst_msg_n);
@@ -916,7 +939,7 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse, int64_t 
        * we sort them upstream. Besides, this eases up the tests, they would
        * show up the same order.
        */
-      lw6sys_sort (sys_context, &ret, lw6msg_sort_str_by_seq_callback);
+      lw6sys_sort (sys_context, &ret, lw6msg_sort_str_by_seq_callback, NULL);
     }
 
   if (main_worst_msg_n > 0)
@@ -934,6 +957,7 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse, int64_t 
 /**
  * lw6dat_warehouse_get_msg_list_by_seq
  *
+ * @sys_context: global system context
  * @warehouse: object to query
  * @seq_min: lowest sequence number (round or chat index)
  * @seq_max: highest sequence number (round or chat index)
@@ -946,33 +970,34 @@ _lw6dat_warehouse_get_msg_list_by_seq (_lw6dat_warehouse_t * warehouse, int64_t 
  * Return value: a list of strings.
  */
 lw6sys_list_t *
-lw6dat_warehouse_get_msg_list_by_seq (lw6dat_warehouse_t * warehouse, int64_t seq_min, int64_t seq_max, int for_reference, lw6sys_progress_t * progress)
+lw6dat_warehouse_get_msg_list_by_seq (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, int64_t seq_min, int64_t seq_max, int for_reference,
+				      lw6sys_progress_t * progress)
 {
   lw6sys_list_t *ret = NULL;
 
-  ret = _lw6dat_warehouse_get_msg_list_by_seq ((_lw6dat_warehouse_t *) warehouse, seq_min, seq_max, for_reference, progress);
+  ret = _lw6dat_warehouse_get_msg_list_by_seq (sys_context, (_lw6dat_warehouse_t *) warehouse, seq_min, seq_max, for_reference, progress);
 
   return ret;
 }
 
 lw6sys_list_t *
-_lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t * warehouse, u_int64_t logical_to)
+_lw6dat_warehouse_get_atom_str_list_not_sent (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, u_int64_t logical_to)
 {
   lw6sys_list_t *ret = 0;
   int stack_index = 0;
   int target_index = 0;
 
-  ret = _lw6dat_stack_init_list ();
+  ret = _lw6dat_stack_init_list (sys_context);
   if (ret)
     {
-      if (logical_to != _lw6dat_warehouse_get_local_id (warehouse))
+      if (logical_to != _lw6dat_warehouse_get_local_id (sys_context, warehouse))
 	{
-	  target_index = _lw6dat_warehouse_get_stack_index (warehouse, logical_to);
+	  target_index = _lw6dat_warehouse_get_stack_index (sys_context, warehouse, logical_to);
 	  for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
 	    {
 	      if ((stack_index != target_index) && (warehouse->stacks[stack_index].node_id != 0))
 		{
-		  _lw6dat_stack_update_atom_str_list_not_sent (&(warehouse->stacks[stack_index]), &ret, target_index);
+		  _lw6dat_stack_update_atom_str_list_not_sent (sys_context, &(warehouse->stacks[stack_index]), &ret, target_index);
 		}
 	    }
 	}
@@ -984,6 +1009,7 @@ _lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t * warehouse, u
 /**
  * lw6dat_warehouse_get_atom_str_list_not_sent
  *
+ * @sys_context: global system context
  * @warehouse: object to query
  * @logical_to: the id of the node that we want to send data to
  *
@@ -992,17 +1018,17 @@ _lw6dat_warehouse_get_atom_str_list_not_sent (_lw6dat_warehouse_t * warehouse, u
  * Return value: a list of strings, containing atoms.
  */
 lw6sys_list_t *
-lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t * warehouse, u_int64_t logical_to)
+lw6dat_warehouse_get_atom_str_list_not_sent (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t logical_to)
 {
   lw6sys_list_t *ret = NULL;
 
-  ret = _lw6dat_warehouse_get_atom_str_list_not_sent ((_lw6dat_warehouse_t *) warehouse, logical_to);
+  ret = _lw6dat_warehouse_get_atom_str_list_not_sent (sys_context, (_lw6dat_warehouse_t *) warehouse, logical_to);
 
   return ret;
 }
 
 lw6sys_list_t *
-_lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse, int max_range, lw6sys_progress_t * progress)
+_lw6dat_warehouse_get_miss_list (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, int max_range, lw6sys_progress_t * progress)
 {
   lw6sys_list_t *ret = NULL;
   lw6dat_miss_t *miss = NULL;
@@ -1019,7 +1045,7 @@ _lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse, int max_range,
 	{
 	  if (i != _LW6DAT_LOCAL_NODE_INDEX && warehouse->stacks[i].node_id)
 	    {
-	      miss = _lw6dat_stack_get_miss (&(warehouse->stacks[i]), max_range, &tmp_worst_msg_i, &tmp_worst_msg_n);
+	      miss = _lw6dat_stack_get_miss (sys_context, &(warehouse->stacks[i]), max_range, &tmp_worst_msg_i, &tmp_worst_msg_n);
 	      if (miss)
 		{
 		  if (tmp_worst_msg_i * main_worst_msg_n <= main_worst_msg_i * tmp_worst_msg_n)
@@ -1048,6 +1074,7 @@ _lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse, int max_range,
 /**
  * lw6dat_warehouse_get_miss_list
  *
+ * @sys_context: global system context
  * @warehouse: object to query
  * @max_range: max range of the returned list (-1 if none)
  * @progress: progress indicator, to show advancement to end-user
@@ -1062,27 +1089,28 @@ _lw6dat_warehouse_get_miss_list (_lw6dat_warehouse_t * warehouse, int max_range,
  * Return value: a list of pointers to @lw6dat_miss_t structs, NULL on failure.
  */
 lw6sys_list_t *
-lw6dat_warehouse_get_miss_list (lw6dat_warehouse_t * warehouse, int max_range, lw6sys_progress_t * progress)
+lw6dat_warehouse_get_miss_list (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, int max_range, lw6sys_progress_t * progress)
 {
   lw6sys_list_t *ret = NULL;
 
-  ret = _lw6dat_warehouse_get_miss_list ((_lw6dat_warehouse_t *) warehouse, max_range, progress);
+  ret = _lw6dat_warehouse_get_miss_list (sys_context, (_lw6dat_warehouse_t *) warehouse, max_range, progress);
 
   return ret;
 }
 
 void
-_lw6dat_warehouse_miss_invalidate (_lw6dat_warehouse_t * warehouse, u_int64_t from_id, u_int64_t to_id, int serial_min, int serial_max)
+_lw6dat_warehouse_miss_invalidate (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, u_int64_t from_id, u_int64_t to_id, int serial_min,
+				   int serial_max)
 {
   int stack_index = 0;
   int target_index = 0;
 
-  target_index = _lw6dat_warehouse_get_stack_index (warehouse, to_id);
+  target_index = _lw6dat_warehouse_get_stack_index (sys_context, warehouse, to_id);
   for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
     {
       if ((stack_index != target_index) && (warehouse->stacks[stack_index].node_id != 0))
 	{
-	  _lw6dat_stack_miss_invalidate (&(warehouse->stacks[stack_index]), target_index, serial_min, serial_max);
+	  _lw6dat_stack_miss_invalidate (sys_context, &(warehouse->stacks[stack_index]), target_index, serial_min, serial_max);
 	}
     }
 }
@@ -1090,6 +1118,7 @@ _lw6dat_warehouse_miss_invalidate (_lw6dat_warehouse_t * warehouse, u_int64_t fr
 /**
  * lw6dat_warehouse_miss_invalidate
  *
+ * @sys_context: global system context
  * @warehouse: object to modify
  * @from_id: node which needs to resend data
  * @to_id: node which needs to get the data
@@ -1104,17 +1133,18 @@ _lw6dat_warehouse_miss_invalidate (_lw6dat_warehouse_t * warehouse, u_int64_t fr
  * Return value: none
  */
 void
-lw6dat_warehouse_miss_invalidate (lw6dat_warehouse_t * warehouse, u_int64_t from_id, u_int64_t to_id, int serial_min, int serial_max)
+lw6dat_warehouse_miss_invalidate (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t from_id, u_int64_t to_id, int serial_min,
+				  int serial_max)
 {
-  _lw6dat_warehouse_miss_invalidate ((_lw6dat_warehouse_t *) warehouse, from_id, to_id, serial_min, serial_max);
+  _lw6dat_warehouse_miss_invalidate (sys_context, (_lw6dat_warehouse_t *) warehouse, from_id, to_id, serial_min, serial_max);
 }
 
 void
-_lw6dat_warehouse_update_serial_miss_max (_lw6dat_warehouse_t * warehouse, u_int64_t remote_id, int serial)
+_lw6dat_warehouse_update_serial_miss_max (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, u_int64_t remote_id, int serial)
 {
   int index = 0;
 
-  index = _lw6dat_warehouse_get_stack_index (warehouse, remote_id);
+  index = _lw6dat_warehouse_get_stack_index (sys_context, warehouse, remote_id);
   if (index >= 0 && index < LW6DAT_MAX_NB_STACKS && index != _LW6DAT_LOCAL_NODE_INDEX)
     {
       warehouse->stacks[index].serial_miss_max = lw6sys_imax (warehouse->stacks[index].serial_miss_max, serial);
@@ -1124,6 +1154,7 @@ _lw6dat_warehouse_update_serial_miss_max (_lw6dat_warehouse_t * warehouse, u_int
 /**
  * lw6dat_warehouse_update_serial_miss_max
  *
+ * @sys_context: global system context
  * @warehouse: object to update
  * @remote_id: id of remote host to update (which stack)
  * @serial: new max serial value
@@ -1131,13 +1162,13 @@ _lw6dat_warehouse_update_serial_miss_max (_lw6dat_warehouse_t * warehouse, u_int
  * Return value: none
  */
 void
-lw6dat_warehouse_update_serial_miss_max (lw6dat_warehouse_t * warehouse, u_int64_t remote_id, int serial)
+lw6dat_warehouse_update_serial_miss_max (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t remote_id, int serial)
 {
-  _lw6dat_warehouse_update_serial_miss_max ((_lw6dat_warehouse_t *) warehouse, remote_id, serial);
+  _lw6dat_warehouse_update_serial_miss_max (sys_context, (_lw6dat_warehouse_t *) warehouse, remote_id, serial);
 }
 
 void
-_lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (_lw6dat_warehouse_t * warehouse)
+_lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   int stack_index = 0;
 
@@ -1151,6 +1182,7 @@ _lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (_lw6dat_warehouse_t * war
 /**
  * lw6dat_warehouse_reset_nb_atom_parts_since_last_poll
  *
+ * @sys_context: global system context
  * @warehouse: data warehouse to reset
  *
  * Resets the nb_atom_parts_since_last_poll attribute of
@@ -1159,18 +1191,18 @@ _lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (_lw6dat_warehouse_t * war
  * Return value: none
  */
 void
-lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (lw6dat_warehouse_t * warehouse)
+lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse)
 {
-  _lw6dat_warehouse_reset_nb_atom_parts_since_last_poll ((_lw6dat_warehouse_t *) warehouse);
+  _lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (sys_context, (_lw6dat_warehouse_t *) warehouse);
 }
 
 int
-_lw6dat_warehouse_get_nb_atom_parts_since_last_poll (_lw6dat_warehouse_t * warehouse, u_int64_t remote_id)
+_lw6dat_warehouse_get_nb_atom_parts_since_last_poll (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, u_int64_t remote_id)
 {
   int stack_index = 0;
   int ret = 0;
 
-  stack_index = _lw6dat_warehouse_get_stack_index (warehouse, remote_id);
+  stack_index = _lw6dat_warehouse_get_stack_index (sys_context, warehouse, remote_id);
   if (stack_index >= 0 && stack_index < LW6DAT_MAX_NB_STACKS)
     {
       ret = warehouse->stacks[stack_index].nb_atom_parts_since_last_poll;
@@ -1182,6 +1214,7 @@ _lw6dat_warehouse_get_nb_atom_parts_since_last_poll (_lw6dat_warehouse_t * wareh
 /**
  * lw6dat_warehouse_get_nb_atom_parts_since_last_poll
  *
+ * @sys_context: global system context
  * @warehouse: data warehouse to get info from
  * @remote_id: remote id to get info about
  *
@@ -1196,27 +1229,27 @@ _lw6dat_warehouse_get_nb_atom_parts_since_last_poll (_lw6dat_warehouse_t * wareh
  * Return value: number of atom parts received since last reset.
  */
 int
-lw6dat_warehouse_get_nb_atom_parts_since_last_poll (lw6dat_warehouse_t * warehouse, u_int64_t remote_id)
+lw6dat_warehouse_get_nb_atom_parts_since_last_poll (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t remote_id)
 {
-  return _lw6dat_warehouse_get_nb_atom_parts_since_last_poll ((_lw6dat_warehouse_t *) warehouse, remote_id);
+  return _lw6dat_warehouse_get_nb_atom_parts_since_last_poll (sys_context, (_lw6dat_warehouse_t *) warehouse, remote_id);
 }
 
 int
-_lw6dat_warehouse_meta_put (_lw6dat_warehouse_t * warehouse, int64_t seq)
+_lw6dat_warehouse_meta_put (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, int64_t seq)
 {
   int ret = 0;
   int64_t local_seq_last = 0LL;
   lw6msg_meta_array_t meta_array;
 
-  local_seq_last = _lw6dat_warehouse_get_local_seq_last (warehouse);
+  local_seq_last = _lw6dat_warehouse_get_local_seq_last (sys_context, warehouse);
   if (seq >= local_seq_last)
     {
       lw6msg_meta_array_zero (sys_context, &meta_array);
-      meta_array.logical_from = _lw6dat_warehouse_get_local_id (warehouse);
-      ret = _lw6dat_warehouse_meta_get (warehouse, &meta_array, seq);
+      meta_array.logical_from = _lw6dat_warehouse_get_local_id (sys_context, warehouse);
+      ret = _lw6dat_warehouse_meta_get (sys_context, warehouse, &meta_array, seq);
       if (ret)
 	{
-	  ret = _lw6dat_stack_meta_put (&(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]), seq, &meta_array);
+	  ret = _lw6dat_stack_meta_put (sys_context, &(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]), seq, &meta_array);
 	}
     }
   else
@@ -1232,6 +1265,7 @@ _lw6dat_warehouse_meta_put (_lw6dat_warehouse_t * warehouse, int64_t seq)
 /**
  * lw6dat_warehouse_meta_put
  *
+ * @sys_context: global system context
  * @warehouse: data warehouse to put message into
  * @seq: seq to use to stamp the message
  *
@@ -1242,13 +1276,13 @@ _lw6dat_warehouse_meta_put (_lw6dat_warehouse_t * warehouse, int64_t seq)
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6dat_warehouse_meta_put (lw6dat_warehouse_t * warehouse, int64_t seq)
+lw6dat_warehouse_meta_put (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, int64_t seq)
 {
-  return (_lw6dat_warehouse_meta_put ((_lw6dat_warehouse_t *) warehouse, seq));
+  return (_lw6dat_warehouse_meta_put (sys_context, (_lw6dat_warehouse_t *) warehouse, seq));
 }
 
 int
-_lw6dat_warehouse_meta_get (_lw6dat_warehouse_t * warehouse, lw6msg_meta_array_t * meta_array, int64_t seq)
+_lw6dat_warehouse_meta_get (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, lw6msg_meta_array_t * meta_array, int64_t seq)
 {
   int ret = 1;
   int i = 0;
@@ -1293,7 +1327,7 @@ _lw6dat_warehouse_meta_get (_lw6dat_warehouse_t * warehouse, lw6msg_meta_array_t
     {
       if (warehouse->stacks[i].node_id)
 	{
-	  _lw6dat_stack_meta_update (&(warehouse->stacks[i]), meta_array, seq);
+	  _lw6dat_stack_meta_update (sys_context, &(warehouse->stacks[i]), meta_array, seq);
 	}
     }
 
@@ -1303,6 +1337,7 @@ _lw6dat_warehouse_meta_get (_lw6dat_warehouse_t * warehouse, lw6msg_meta_array_t
 /**
  * lw6dat_warehouse_meta_get
  *
+ * @sys_context: global system context
  * @warehouse: data warehouse to put message into
  * @meta_array: current informations sendable by a meta message
  * @seq: seq to use to stamp the message
@@ -1314,7 +1349,7 @@ _lw6dat_warehouse_meta_get (_lw6dat_warehouse_t * warehouse, lw6msg_meta_array_t
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6dat_warehouse_meta_get (lw6dat_warehouse_t * warehouse, lw6msg_meta_array_t * meta_array, int64_t seq)
+lw6dat_warehouse_meta_get (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, lw6msg_meta_array_t * meta_array, int64_t seq)
 {
-  return _lw6dat_warehouse_meta_get ((_lw6dat_warehouse_t *) warehouse, meta_array, seq);
+  return _lw6dat_warehouse_meta_get (sys_context, (_lw6dat_warehouse_t *) warehouse, meta_array, seq);
 }

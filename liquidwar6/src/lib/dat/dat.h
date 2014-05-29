@@ -74,47 +74,49 @@ typedef struct lw6dat_miss_s
 } lw6dat_miss_t;
 
 /* dat-miss.c */
-extern lw6dat_miss_t *lw6dat_miss_new (u_int64_t from_id, int serial_min, int serial_max);
-extern void lw6dat_miss_free (lw6dat_miss_t * miss);
-extern void lw6dat_miss_sync (lw6dat_miss_t * dst, lw6dat_miss_t * src);
-extern int lw6dat_miss_is_same (lw6dat_miss_t * a, lw6dat_miss_t * b);
-extern int lw6dat_miss_is_included (lw6dat_miss_t * a, lw6dat_miss_t * b);
-extern int lw6dat_miss_overlaps (lw6dat_miss_t * a, lw6dat_miss_t * b);
+extern lw6dat_miss_t *lw6dat_miss_new (lw6sys_context_t * sys_context, u_int64_t from_id, int serial_min, int serial_max);
+extern void lw6dat_miss_free (lw6sys_context_t * sys_context, lw6dat_miss_t * miss);
+extern void lw6dat_miss_sync (lw6sys_context_t * sys_context, lw6dat_miss_t * dst, lw6dat_miss_t * src);
+extern int lw6dat_miss_is_same (lw6sys_context_t * sys_context, lw6dat_miss_t * a, lw6dat_miss_t * b);
+extern int lw6dat_miss_is_included (lw6sys_context_t * sys_context, lw6dat_miss_t * a, lw6dat_miss_t * b);
+extern int lw6dat_miss_overlaps (lw6sys_context_t * sys_context, lw6dat_miss_t * a, lw6dat_miss_t * b);
 
 /* dat-warehouse.c */
-extern int lw6dat_warehouse_init (lw6dat_warehouse_t * warehouse, u_int64_t local_node_id, int64_t seq_0);
-extern lw6dat_warehouse_t *lw6dat_warehouse_new (u_int64_t local_node_id, int64_t seq_0);
-extern void lw6dat_warehouse_free (lw6dat_warehouse_t * warehouse);
-extern void lw6dat_warehouse_clear (lw6dat_warehouse_t * warehouse);
-extern void lw6dat_warehouse_purge (lw6dat_warehouse_t * warehouse);
-extern int lw6dat_warehouse_get_nb_nodes (lw6dat_warehouse_t * warehouse);
-extern u_int64_t lw6dat_warehouse_get_local_id (lw6dat_warehouse_t * warehouse);
-extern int lw6dat_warehouse_get_local_serial (lw6dat_warehouse_t * warehouse);
-extern int64_t lw6dat_warehouse_get_local_seq_0 (lw6dat_warehouse_t * warehouse);
-extern void lw6dat_warehouse_set_local_seq_0 (lw6dat_warehouse_t * warehouse, int64_t seq_0);
-extern int64_t lw6dat_warehouse_get_local_seq_last (lw6dat_warehouse_t * warehouse);
-extern int lw6dat_warehouse_register_node (lw6dat_warehouse_t * warehouse, u_int64_t node_id, int serial_0, int64_t seq_0);
-extern int lw6dat_warehouse_is_node_registered (lw6dat_warehouse_t * warehouse, u_int64_t node_id);
-extern int lw6dat_warehouse_put_atom_str (lw6dat_warehouse_t * warehouse, u_int64_t logical_from, const char *full_str);
-extern int lw6dat_warehouse_put_local_msg (lw6dat_warehouse_t * warehouse, const char *msg);
-extern int lw6dat_warehouse_calc_serial_draft_and_reference (lw6dat_warehouse_t * warehouse);
-extern int64_t lw6dat_warehouse_get_seq_min (lw6dat_warehouse_t * warehouse);
-extern int64_t lw6dat_warehouse_get_seq_max (lw6dat_warehouse_t * warehouse);
-extern int64_t lw6dat_warehouse_get_seq_draft (lw6dat_warehouse_t * warehouse);
-extern int64_t lw6dat_warehouse_get_seq_reference (lw6dat_warehouse_t * warehouse);
-extern lw6sys_list_t *lw6dat_warehouse_get_msg_list_by_seq (lw6dat_warehouse_t
+extern int lw6dat_warehouse_init (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t local_node_id, int64_t seq_0);
+extern lw6dat_warehouse_t *lw6dat_warehouse_new (lw6sys_context_t * sys_context, u_int64_t local_node_id, int64_t seq_0);
+extern void lw6dat_warehouse_free (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern void lw6dat_warehouse_clear (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern void lw6dat_warehouse_purge (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern int lw6dat_warehouse_get_nb_nodes (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern u_int64_t lw6dat_warehouse_get_local_id (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern int lw6dat_warehouse_get_local_serial (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern int64_t lw6dat_warehouse_get_local_seq_0 (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern void lw6dat_warehouse_set_local_seq_0 (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, int64_t seq_0);
+extern int64_t lw6dat_warehouse_get_local_seq_last (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern int lw6dat_warehouse_register_node (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t node_id, int serial_0, int64_t seq_0);
+extern int lw6dat_warehouse_is_node_registered (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t node_id);
+extern int lw6dat_warehouse_put_atom_str (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t logical_from, const char *full_str);
+extern int lw6dat_warehouse_put_local_msg (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, const char *msg);
+extern int lw6dat_warehouse_calc_serial_draft_and_reference (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern int64_t lw6dat_warehouse_get_seq_min (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern int64_t lw6dat_warehouse_get_seq_max (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern int64_t lw6dat_warehouse_get_seq_draft (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern int64_t lw6dat_warehouse_get_seq_reference (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern lw6sys_list_t *lw6dat_warehouse_get_msg_list_by_seq (lw6sys_context_t * sys_context, lw6dat_warehouse_t
 							    * warehouse, int64_t seq_min, int64_t seq_max, int for_reference, lw6sys_progress_t * progress);
-extern lw6sys_list_t *lw6dat_warehouse_get_atom_str_list_not_sent (lw6dat_warehouse_t * warehouse, u_int64_t logical_to);
-extern lw6sys_list_t *lw6dat_warehouse_get_miss_list (lw6dat_warehouse_t * warehouse, int max_range, lw6sys_progress_t * progress);
-extern void lw6dat_warehouse_miss_invalidate (lw6dat_warehouse_t * warehouse, u_int64_t from_id, u_int64_t to_id, int serial_min, int serial_max);
-extern void lw6dat_warehouse_update_serial_miss_max (lw6dat_warehouse_t * warehouse, u_int64_t remote_id, int serial);
-extern void lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (lw6dat_warehouse_t * warehouse);
-extern int lw6dat_warehouse_get_nb_atom_parts_since_last_poll (lw6dat_warehouse_t * warehouse, u_int64_t remote_id);
-extern int lw6dat_warehouse_meta_put (lw6dat_warehouse_t * warehouse, int64_t seq);
-extern int lw6dat_warehouse_meta_get (lw6dat_warehouse_t * warehouse, lw6msg_meta_array_t * meta_array, int64_t seq);
+extern lw6sys_list_t *lw6dat_warehouse_get_atom_str_list_not_sent (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t logical_to);
+extern lw6sys_list_t *lw6dat_warehouse_get_miss_list (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, int max_range,
+						      lw6sys_progress_t * progress);
+extern void lw6dat_warehouse_miss_invalidate (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t from_id, u_int64_t to_id,
+					      int serial_min, int serial_max);
+extern void lw6dat_warehouse_update_serial_miss_max (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t remote_id, int serial);
+extern void lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse);
+extern int lw6dat_warehouse_get_nb_atom_parts_since_last_poll (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, u_int64_t remote_id);
+extern int lw6dat_warehouse_meta_put (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, int64_t seq);
+extern int lw6dat_warehouse_meta_get (lw6sys_context_t * sys_context, lw6dat_warehouse_t * warehouse, lw6msg_meta_array_t * meta_array, int64_t seq);
 
 /* dat-test.c */
-extern int lw6dat_test_register (int mode);
-extern int lw6dat_test_run (int mode);
+extern int lw6dat_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6dat_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif

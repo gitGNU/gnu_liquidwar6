@@ -27,7 +27,7 @@
 #include "dat-internal.h"
 
 _lw6dat_block_t *
-_lw6dat_block_new (int serial_0)
+_lw6dat_block_new (lw6sys_context_t * sys_context, int serial_0)
 {
   _lw6dat_block_t *block = NULL;
 
@@ -42,19 +42,19 @@ _lw6dat_block_new (int serial_0)
 }
 
 void
-_lw6dat_block_free (_lw6dat_block_t * block)
+_lw6dat_block_free (lw6sys_context_t * sys_context, _lw6dat_block_t * block)
 {
   int i;
 
   for (i = 0; i < _LW6DAT_NB_ATOMS_PER_BLOCK; ++i)
     {
-      _lw6dat_atom_clear (&(block->atoms[i]));
+      _lw6dat_atom_clear (sys_context, &(block->atoms[i]));
     }
   LW6SYS_FREE (sys_context, block);
 }
 
 int
-_lw6dat_block_put_atom (_lw6dat_block_t * block, int type,
+_lw6dat_block_put_atom (lw6sys_context_t * sys_context, _lw6dat_block_t * block, int type,
 			int serial, int order_i, int order_n, int64_t seq,
 			const char *full_str, int seq_from_cmd_str_offset, int cmd_str_offset, int send_flag)
 {
@@ -65,7 +65,7 @@ _lw6dat_block_put_atom (_lw6dat_block_t * block, int type,
   if (serial >= block->serial_0 && serial <= block->serial_n_1)
     {
       atom = &(block->atoms[serial - block->serial_0]);
-      old_full_str = _lw6dat_atom_get_full_str (atom);
+      old_full_str = _lw6dat_atom_get_full_str (sys_context, atom);
       if (old_full_str)
 	{
 	  if (strcmp (old_full_str, full_str) || order_i != atom->order_i || order_n != atom->order_n || serial != atom->serial)
@@ -84,7 +84,7 @@ _lw6dat_block_put_atom (_lw6dat_block_t * block, int type,
 	}
       else
 	{
-	  ret = _lw6dat_atom_set_full_str (atom, full_str);
+	  ret = _lw6dat_atom_set_full_str (sys_context, atom, full_str);
 	  if (ret)
 	    {
 	      atom->not_null = 1;
@@ -113,7 +113,7 @@ _lw6dat_block_put_atom (_lw6dat_block_t * block, int type,
 }
 
 _lw6dat_atom_t *
-_lw6dat_block_get_atom (_lw6dat_block_t * block, int serial)
+_lw6dat_block_get_atom (lw6sys_context_t * sys_context, _lw6dat_block_t * block, int serial)
 {
   int atom_index;
   _lw6dat_atom_t *atom = NULL;

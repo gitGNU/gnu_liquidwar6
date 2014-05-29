@@ -2295,7 +2295,7 @@ lw6p2p_test_register (int mode)
       lw6msg_test_register (sys_context, mode);
       lw6cli_test_register (sys_context, mode);
       lw6srv_test_register (sys_context, mode);
-      lw6dat_test_register (mode);
+      lw6dat_test_register (sys_context, mode);
     }
 
   suite = CU_add_suite ("lw6p2p", _setup_init, _setup_quit);

@@ -220,7 +220,7 @@ _lw6p2p_node_new (int argc, const char *argv[], _lw6p2p_db_t * db,
 
   if (node && ret)
     {
-      node->warehouse = lw6dat_warehouse_new (node->node_id_int, _LW6P2P_NODE_DEFAULT_SEQ_0);
+      node->warehouse = lw6dat_warehouse_new (sys_context, node->node_id_int, _LW6P2P_NODE_DEFAULT_SEQ_0);
       ret = (node->warehouse != NULL);
     }
 
@@ -301,7 +301,7 @@ _lw6p2p_node_free (_lw6p2p_node_t * node)
 	}
       if (node->warehouse)
 	{
-	  lw6dat_warehouse_free (node->warehouse);
+	  lw6dat_warehouse_free (sys_context, node->warehouse);
 	}
       if (node->reference_msg)
 	{
@@ -352,11 +352,11 @@ _lw6p2p_node_repr (const _lw6p2p_node_t * node)
     {
       if (node->warehouse)
 	{
-	  nb_nodes = lw6dat_warehouse_get_nb_nodes (node->warehouse);
-	  seq_min = lw6dat_warehouse_get_seq_min (node->warehouse);
-	  seq_max = lw6dat_warehouse_get_seq_max (node->warehouse);
-	  seq_draft = lw6dat_warehouse_get_seq_draft (node->warehouse);
-	  seq_reference = lw6dat_warehouse_get_seq_reference (node->warehouse);
+	  nb_nodes = lw6dat_warehouse_get_nb_nodes (sys_context, node->warehouse);
+	  seq_min = lw6dat_warehouse_get_seq_min (sys_context, node->warehouse);
+	  seq_max = lw6dat_warehouse_get_seq_max (sys_context, node->warehouse);
+	  seq_draft = lw6dat_warehouse_get_seq_draft (sys_context, node->warehouse);
+	  seq_reference = lw6dat_warehouse_get_seq_reference (sys_context, node->warehouse);
 	}
       repr =
 	lw6sys_new_sprintf (_x_
@@ -913,7 +913,7 @@ _poll_step10_send_atoms (_lw6p2p_node_t * node, int64_t now)
 	  send_i = 0;
 	  remote_id_int = node->tentacles[i].remote_id_int;
 	  remote_id_str = node->tentacles[i].remote_id_str;
-	  atom_str_list = lw6dat_warehouse_get_atom_str_list_not_sent (node->warehouse, remote_id_int);
+	  atom_str_list = lw6dat_warehouse_get_atom_str_list_not_sent (sys_context, node->warehouse, remote_id_int);
 	  if (atom_str_list)
 	    {
 	      while ((atom_str = lw6sys_list_pop_front (sys_context, &atom_str_list)) != NULL)
@@ -964,7 +964,7 @@ _poll_step11_tentacles (_lw6p2p_node_t * node, int64_t now)
 	  if (_lw6p2p_tentacle_enabled (&(node->tentacles[i])))
 	    {
 	      _lw6p2p_tentacle_poll (&(node->tentacles[i]), node->node_info,
-				     &(node->ticket_table), &(node->db->data.consts), lw6dat_warehouse_get_local_serial (node->warehouse));
+				     &(node->ticket_table), &(node->db->data.consts), lw6dat_warehouse_get_local_serial (sys_context, node->warehouse));
 	    }
 	}
       _lw6p2p_node_lock (node);
@@ -992,12 +992,12 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * 
     {
       node->last_poll_miss_timestamp = now;
 
-      list = lw6dat_warehouse_get_miss_list (node->warehouse, node->db->data.consts.miss_max_range, progress);
+      list = lw6dat_warehouse_get_miss_list (sys_context, node->warehouse, node->db->data.consts.miss_max_range, progress);
       if (list)
 	{
 	  while ((miss = lw6sys_list_pop_front (sys_context, &list)) != NULL)
 	    {
-	      nb_atom_parts_since_last_poll = lw6dat_warehouse_get_nb_atom_parts_since_last_poll (node->warehouse, miss->from_id);
+	      nb_atom_parts_since_last_poll = lw6dat_warehouse_get_nb_atom_parts_since_last_poll (sys_context, node->warehouse, miss->from_id);
 	      disable_miss = (nb_atom_parts_since_last_poll > node->db->data.consts.received_atom_parts_per_poll_to_disable_miss) ? 1 : 0;
 	      tentacle_i = _lw6p2p_node_find_tentacle (node, miss->from_id);
 	      if (tentacle_i >= 0)
@@ -1009,7 +1009,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * 
 		   * firing it again, this avoids spamming too many MISS messages.
 		   */
 		  disable_miss = 0;
-		  if (lw6dat_miss_overlaps (miss, &(node->tentacles[tentacle_i].last_miss)))
+		  if (lw6dat_miss_overlaps (sys_context, miss, &(node->tentacles[tentacle_i].last_miss)))
 		    {
 		      if (now - node->db->data.consts.miss_duplicate_delay < node->tentacles[tentacle_i].last_miss_timestamp)
 			{
@@ -1044,7 +1044,7 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * 
 		    }
 		  if (!disable_miss)
 		    {
-		      lw6dat_miss_sync (&(node->tentacles[tentacle_i].last_miss), miss);
+		      lw6dat_miss_sync (sys_context, &(node->tentacles[tentacle_i].last_miss), miss);
 		      node->tentacles[tentacle_i].last_miss_timestamp = now;
 		    }
 		}
@@ -1078,14 +1078,14 @@ _poll_step12_miss_list (_lw6p2p_node_t * node, int64_t now, lw6sys_progress_t * 
 		      LW6SYS_FREE (sys_context, msg);
 		    }
 		}
-	      lw6dat_miss_free (miss);
+	      lw6dat_miss_free (sys_context, miss);
 	    }
 	}
       else
 	{
 	  ret = 0;
 	}
-      lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (node->warehouse);
+      lw6dat_warehouse_reset_nb_atom_parts_since_last_poll (sys_context, node->warehouse);
     }
 
   return ret;
@@ -1774,7 +1774,7 @@ _lw6p2p_node_server_start (_lw6p2p_node_t * node, int64_t seq_0)
   lw6nod_info_update (sys_context, node->node_info, lw6sys_generate_id_64 (),
 		      0, NULL, node->node_info->const_info.bench / LW6P2P_BENCH_NETWORK_DIVIDE, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
   _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (sys_context,), seq_0);
-  lw6dat_warehouse_set_local_seq_0 (node->warehouse, seq_0);
+  lw6dat_warehouse_set_local_seq_0 (sys_context, node->warehouse, seq_0);
 
   ret = 1;
 
@@ -1904,7 +1904,7 @@ _lw6p2p_node_client_join (_lw6p2p_node_t * node, u_int64_t remote_id, const char
 		       * Generating a JOIN message with 0 seq
 		       * means "I want to connect to you"
 		       */
-		      msg_join = lw6msg_cmd_generate_join (sys_context, node->node_info, 0, lw6dat_warehouse_get_local_serial (node->warehouse));
+		      msg_join = lw6msg_cmd_generate_join (sys_context, node->node_info, 0, lw6dat_warehouse_get_local_serial (sys_context, node->warehouse));
 		      if (msg_join)
 			{
 			  ticket_sig =
@@ -2054,8 +2054,8 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
    * Here, a purge is not enough for it doesn't clear the nodes list,
    * and a clear only is too much for it looses the local_id
    */
-  lw6dat_warehouse_clear (node->warehouse);
-  lw6dat_warehouse_init (node->warehouse, node->node_id_int, _LW6P2P_NODE_DEFAULT_SEQ_0);
+  lw6dat_warehouse_clear (sys_context, node->warehouse);
+  lw6dat_warehouse_init (sys_context, node->warehouse, node->node_id_int, _LW6P2P_NODE_DEFAULT_SEQ_0);
 
   for (i = 0; i < LW6P2P_MAX_NB_TENTACLES; ++i)
     {
@@ -2065,7 +2065,7 @@ _lw6p2p_node_disconnect (_lw6p2p_node_t * node)
   lw6nod_info_update (sys_context, node->node_info, LW6NOD_COMMUNITY_ID_NONE, 0, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, 0, NULL);
   node->seed_needed = 0;
   node->dump_needed = 0;
-  node->last_seq_reference = lw6dat_warehouse_get_seq_min (node->warehouse) - 1;
+  node->last_seq_reference = lw6dat_warehouse_get_seq_min (sys_context, node->warehouse) - 1;
   if (node->reference_msg)
     {
       lw6sys_list_free (sys_context, node->reference_msg);
@@ -2205,7 +2205,7 @@ _lw6p2p_node_get_local_seq_0 (_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
-  ret = lw6dat_warehouse_get_local_seq_0 (node->warehouse);
+  ret = lw6dat_warehouse_get_local_seq_0 (sys_context, node->warehouse);
 
   return ret;
 }
@@ -2245,7 +2245,7 @@ _lw6p2p_node_get_local_seq_last (_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
-  ret = lw6dat_warehouse_get_local_seq_last (node->warehouse);
+  ret = lw6dat_warehouse_get_local_seq_last (sys_context, node->warehouse);
 
   return ret;
 }
@@ -2287,7 +2287,7 @@ _lw6p2p_node_get_seq_min (_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
-  ret = lw6sys_llmax (lw6dat_warehouse_get_seq_min (node->warehouse), node->calibrate_seq);
+  ret = lw6sys_llmax (lw6dat_warehouse_get_seq_min (sys_context, node->warehouse), node->calibrate_seq);
 
   return ret;
 }
@@ -2327,7 +2327,7 @@ _lw6p2p_node_get_seq_max (_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
-  ret = lw6sys_llmax (lw6dat_warehouse_get_seq_max (node->warehouse), node->calibrate_seq);
+  ret = lw6sys_llmax (lw6dat_warehouse_get_seq_max (sys_context, node->warehouse), node->calibrate_seq);
 
   return ret;
 }
@@ -2367,7 +2367,7 @@ _lw6p2p_node_get_seq_draft (_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
-  ret = lw6sys_llmax (lw6dat_warehouse_get_seq_draft (node->warehouse), node->calibrate_seq);
+  ret = lw6sys_llmax (lw6dat_warehouse_get_seq_draft (sys_context, node->warehouse), node->calibrate_seq);
 
   return ret;
 }
@@ -2408,7 +2408,7 @@ _lw6p2p_node_get_seq_reference (_lw6p2p_node_t * node)
 {
   int64_t ret = 0LL;
 
-  ret = lw6sys_llmax (lw6dat_warehouse_get_seq_reference (node->warehouse), node->calibrate_seq);
+  ret = lw6sys_llmax (lw6dat_warehouse_get_seq_reference (sys_context, node->warehouse), node->calibrate_seq);
 
   return ret;
 }
@@ -2491,7 +2491,7 @@ _lw6p2p_node_is_peer_registered (_lw6p2p_node_t * node, u_int64_t peer_id)
 {
   int ret = 0;
 
-  ret = (peer_id == node->node_id_int) || lw6dat_warehouse_is_node_registered (node->warehouse, peer_id);
+  ret = (peer_id == node->node_id_int) || lw6dat_warehouse_is_node_registered (sys_context, node->warehouse, peer_id);
 
   return ret;
 }
@@ -2631,7 +2631,7 @@ _lw6p2p_node_put_local_msg (_lw6p2p_node_t * node, const char *msg)
 
   if (node->warehouse)
     {
-      ret = lw6dat_warehouse_put_local_msg (node->warehouse, msg);
+      ret = lw6dat_warehouse_put_local_msg (sys_context, node->warehouse, msg);
     }
 
   return ret;
@@ -2673,12 +2673,12 @@ _lw6p2p_node_get_next_reference_msg (_lw6p2p_node_t * node, lw6sys_progress_t * 
   char *ret = NULL;
   int64_t seq_reference = 0LL;
 
-  if ((!node->reference_msg) && lw6dat_warehouse_calc_serial_draft_and_reference (node->warehouse))
+  if ((!node->reference_msg) && lw6dat_warehouse_calc_serial_draft_and_reference (sys_context, node->warehouse))
     {
-      seq_reference = lw6dat_warehouse_get_seq_reference (node->warehouse);
+      seq_reference = lw6dat_warehouse_get_seq_reference (sys_context, node->warehouse);
       if (seq_reference > node->last_seq_reference)
 	{
-	  node->reference_msg = lw6dat_warehouse_get_msg_list_by_seq (node->warehouse, node->last_seq_reference + 1, seq_reference, 1, progress);
+	  node->reference_msg = lw6dat_warehouse_get_msg_list_by_seq (sys_context, node->warehouse, node->last_seq_reference + 1, seq_reference, 1, progress);
 	  node->last_seq_reference = seq_reference;
 	}
     }
@@ -2733,12 +2733,12 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node, lw6sys_progress_t * prog
 
   if ((!node->draft_msg))
     {
-      if (lw6dat_warehouse_calc_serial_draft_and_reference (node->warehouse))
+      if (lw6dat_warehouse_calc_serial_draft_and_reference (sys_context, node->warehouse))
 	{
-	  seq_draft = lw6dat_warehouse_get_seq_draft (node->warehouse);
+	  seq_draft = lw6dat_warehouse_get_seq_draft (sys_context, node->warehouse);
 	  if (seq_draft > node->last_seq_reference)
 	    {
-	      node->draft_msg = lw6dat_warehouse_get_msg_list_by_seq (node->warehouse, node->last_seq_reference + 1, seq_draft, 0, progress);
+	      node->draft_msg = lw6dat_warehouse_get_msg_list_by_seq (sys_context, node->warehouse, node->last_seq_reference + 1, seq_draft, 0, progress);
 	    }
 	}
       else
@@ -2749,11 +2749,11 @@ _lw6p2p_node_get_next_draft_msg (_lw6p2p_node_t * node, lw6sys_progress_t * prog
 	   * call blindly the get_msg function, not to really get the message
 	   * (there is none) but to trigger the code that will update MISS ranges
 	   */
-	  seq_min = lw6dat_warehouse_get_seq_min (node->warehouse);
-	  seq_max = lw6dat_warehouse_get_seq_max (node->warehouse);
+	  seq_min = lw6dat_warehouse_get_seq_min (sys_context, node->warehouse);
+	  seq_max = lw6dat_warehouse_get_seq_max (sys_context, node->warehouse);
 	  if (seq_min <= seq_max)
 	    {
-	      node->draft_msg = lw6dat_warehouse_get_msg_list_by_seq (node->warehouse, seq_min, seq_max, 0, progress);
+	      node->draft_msg = lw6dat_warehouse_get_msg_list_by_seq (sys_context, node->warehouse, seq_min, seq_max, 0, progress);
 	    }
 	  if (node->draft_msg)
 	    {

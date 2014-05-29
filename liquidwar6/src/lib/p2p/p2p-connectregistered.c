@@ -111,7 +111,7 @@ _lw6p2p_connect_registered_nodes (_lw6p2p_node_t * node)
 
   lw6msg_meta_array_zero (sys_context, &meta_array);
   memset (&node_by_id_data, 0, sizeof (_select_node_by_id_data_t));
-  lw6dat_warehouse_meta_get (node->warehouse, &meta_array, lw6dat_warehouse_get_seq_max (node->warehouse));
+  lw6dat_warehouse_meta_get (sys_context, node->warehouse, &meta_array, lw6dat_warehouse_get_seq_max (sys_context, node->warehouse));
 
   for (index = 0; index < LW6MSG_NB_META_ARRAY_ITEMS; ++index)
     {

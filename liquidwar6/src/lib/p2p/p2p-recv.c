@@ -94,12 +94,12 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
       if (lw6msg_cmd_analyse_foo (sys_context, &remote_node_info, &foo_bar_key, &serial, message))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("received foo from \"%s\""), cnx->remote_url);
-	  lw6dat_warehouse_update_serial_miss_max (node->warehouse, cnx->remote_id_int, serial);
+	  lw6dat_warehouse_update_serial_miss_max (sys_context, node->warehouse, cnx->remote_id_int, serial);
 	  now = _lw6p2p_db_now (node->db);
 	  uptime = (lw6sys_get_timestamp () - remote_node_info->const_info.creation_timestamp) / 1000;
 	  remote_node_info->const_info.creation_timestamp = now - uptime;
 	  _lw6p2p_node_update_peer_info (node, remote_node_info);
-	  reply_msg = lw6msg_cmd_generate_bar (sys_context, node->node_info, foo_bar_key, lw6dat_warehouse_get_local_serial (node->warehouse));
+	  reply_msg = lw6msg_cmd_generate_bar (sys_context, node->node_info, foo_bar_key, lw6dat_warehouse_get_local_serial (sys_context, node->warehouse));
 	  if (reply_msg)
 	    {
 	      logical_ticket_sig =
@@ -132,7 +132,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
       if (lw6msg_cmd_analyse_bar (sys_context, &remote_node_info, &foo_bar_key, &serial, message))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("received bar from \"%s\" foo_bar_key=%08x"), cnx->remote_url, foo_bar_key);
-	  lw6dat_warehouse_update_serial_miss_max (node->warehouse, cnx->remote_id_int, serial);
+	  lw6dat_warehouse_update_serial_miss_max (sys_context, node->warehouse, cnx->remote_id_int, serial);
 	  now = _lw6p2p_db_now (node->db);
 	  uptime = (lw6sys_get_timestamp () - remote_node_info->const_info.creation_timestamp) / 1000;
 	  remote_node_info->const_info.creation_timestamp = now - uptime;
@@ -234,7 +234,8 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 	       * Seq is 0, this means the peer is a client trying to
 	       * join, we send our local info back and register it.
 	       */
-	      reply_msg = lw6msg_cmd_generate_join (sys_context, node->node_info, seq_register, lw6dat_warehouse_get_local_serial (node->warehouse));
+	      reply_msg =
+		lw6msg_cmd_generate_join (sys_context, node->node_info, seq_register, lw6dat_warehouse_get_local_serial (sys_context, node->warehouse));
 	      if (reply_msg)
 		{
 		  logical_ticket_sig =
@@ -247,7 +248,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 		       * Add peer node to local tables.
 		       */
 		      lw6nod_info_community_add (sys_context, node->node_info, cnx->remote_id_int, cnx->remote_url);
-		      if (!lw6dat_warehouse_is_node_registered (node->warehouse, cnx->remote_id_int))
+		      if (!lw6dat_warehouse_is_node_registered (sys_context, node->warehouse, cnx->remote_id_int))
 			{
 			  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 				      _x_
@@ -258,7 +259,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 			   * messages to this peer. The seq we use here to bootstrap might
 			   * be updated afterwards by a self "reg" message.
 			   */
-			  lw6dat_warehouse_register_node (node->warehouse, cnx->remote_id_int, serial, seq_register);
+			  lw6dat_warehouse_register_node (sys_context, node->warehouse, cnx->remote_id_int, serial, seq_register);
 
 			  _lw6p2p_peer_id_list_process_join (node, remote_node_info);
 
@@ -283,7 +284,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 			       * Generate a META message so that other peers are aware of
 			       * that new node.
 			       */
-			      if (lw6dat_warehouse_meta_put (node->warehouse, seq_register))
+			      if (lw6dat_warehouse_meta_put (sys_context, node->warehouse, seq_register))
 				{
 				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					      _x_ ("putting META message in queue at seq %" LW6SYS_PRINTF_LL "d"), (long long) seq_register);
@@ -321,10 +322,10 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 		  /*
 		   * OK, accepted by server.
 		   */
-		  lw6dat_warehouse_register_node (node->warehouse, cnx->remote_id_int, serial, seq_register);
+		  lw6dat_warehouse_register_node (sys_context, node->warehouse, cnx->remote_id_int, serial, seq_register);
 
 		  _lw6p2p_node_calibrate (node, lw6sys_get_timestamp (sys_context,), seq);
-		  lw6dat_warehouse_set_local_seq_0 (node->warehouse, seq);
+		  lw6dat_warehouse_set_local_seq_0 (sys_context, node->warehouse, seq);
 
 		  /*
 		   * Do this *after* calibrating
@@ -370,7 +371,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 	   * if needed, this is complicated to do here as it would
 	   * require us to parse the whole message in advance.
 	   */
-	  if (lw6dat_warehouse_put_atom_str (node->warehouse, logical_from_id, message))
+	  if (lw6dat_warehouse_put_atom_str (sys_context, node->warehouse, logical_from_id, message))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("put in warehouse DATA message \"%s\" from \"%s\""), message, cnx->remote_url);
 	    }
@@ -402,7 +403,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 	   * warehouse, at least to maintain message order consistency
 	   * and to be able to re-send them if needed.
 	   */
-	  if (lw6dat_warehouse_put_atom_str (node->warehouse, logical_from_id, message))
+	  if (lw6dat_warehouse_put_atom_str (sys_context, node->warehouse, logical_from_id, message))
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("put in warehouse META message \"%s\" from \"%s\""), message, cnx->remote_url);
 	    }
@@ -435,7 +436,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 				   "x is in registered for %" LW6SYS_PRINTF_LL
 				   "x but not for us, registering it on local warehouse"),
 				  (long long) meta_array.items[index].node_id, (long long) cnx->remote_id_int);
-		      lw6dat_warehouse_register_node (node->warehouse,
+		      lw6dat_warehouse_register_node (sys_context, node->warehouse,
 						      meta_array.items[index].node_id, meta_array.items[index].serial_0, meta_array.items[index].seq_0);
 		    }
 		  /*
@@ -461,7 +462,7 @@ _lw6p2p_recv_process (_lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_
 		      _x_ ("received MISS from %s id_from=%" LW6SYS_PRINTF_LL
 			   "x id_to=%" LW6SYS_PRINTF_LL
 			   "x serial_min=%d serial_max=%d"), cnx->remote_url, (long long) id_from, (long long) id_to, serial_min, serial_max);
-	  lw6dat_warehouse_miss_invalidate (node->warehouse, id_from, id_to, serial_min, serial_max);
+	  lw6dat_warehouse_miss_invalidate (sys_context, node->warehouse, id_from, id_to, serial_min, serial_max);
 	}
       else
 	{

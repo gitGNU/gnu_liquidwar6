@@ -39,7 +39,7 @@ _peer_id_list_process_join_callback (void *func_data, u_int64_t id)
    * chance update in case the peer is unreachable, but if we already
    * had informations through another channel -> don't do anything
    */
-  if (!lw6dat_warehouse_is_node_registered (node->warehouse, id))
+  if (!lw6dat_warehouse_is_node_registered (sys_context, node->warehouse, id))
     {
       /*
        * We register with low values for serial and seq, those could
@@ -49,7 +49,7 @@ _peer_id_list_process_join_callback (void *func_data, u_int64_t id)
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 		  _x_ ("following a JOIN message, registering id=%"
 		       LW6SYS_PRINTF_LL "x with seq=%" LW6SYS_PRINTF_LL "d serial=%d"), (long long) id, (long long) seq, serial);
-      lw6dat_warehouse_register_node (node->warehouse, id, serial, seq);
+      lw6dat_warehouse_register_node (sys_context, node->warehouse, id, serial, seq);
     }
 }
 
