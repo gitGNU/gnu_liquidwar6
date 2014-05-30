@@ -35,7 +35,7 @@ _scm_lw6cfg_defaults ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -56,7 +56,7 @@ _scm_lw6cfg_load (sys_context, SCM filename)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -64,7 +64,7 @@ _scm_lw6cfg_load (sys_context, SCM filename)
 
       SCM_ASSERT (scm_is_string (filename), filename, SCM_ARG1, __FUNCTION__);
 
-      c_filename = lw6scm_utils_to_0str (sys_context,filename);
+      c_filename = lw6scm_utils_to_0str (sys_context, filename);
       if (c_filename)
 	{
 	  if (lw6cfg_load (sys_context, lw6_global.cfg_context, c_filename))
@@ -93,7 +93,7 @@ _scm_lw6cfg_option_exists (sys_context, SCM key)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -101,7 +101,7 @@ _scm_lw6cfg_option_exists (sys_context, SCM key)
 
       SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-      c_key = lw6scm_utils_to_0str (sys_context,key);
+      c_key = lw6scm_utils_to_0str (sys_context, key);
       if (c_key)
 	{
 	  if (lw6cfg_option_exists (sys_context, lw6_global.cfg_context, c_key))
@@ -127,7 +127,7 @@ _scm_lw6cfg_get_option (sys_context, SCM key)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -135,7 +135,7 @@ _scm_lw6cfg_get_option (sys_context, SCM key)
 
       SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-      c_key = lw6scm_utils_to_0str (sys_context,key);
+      c_key = lw6scm_utils_to_0str (sys_context, key);
       if (c_key)
 	{
 	  char *value = NULL;
@@ -160,7 +160,7 @@ static SCM
 _scm_lw6cfg_set_option (sys_context, SCM key, SCM value)
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -170,10 +170,10 @@ _scm_lw6cfg_set_option (sys_context, SCM key, SCM value)
       SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
       SCM_ASSERT (scm_is_string (value), value, SCM_ARG2, __FUNCTION__);
 
-      c_key = lw6scm_utils_to_0str (sys_context,key);
+      c_key = lw6scm_utils_to_0str (sys_context, key);
       if (c_key)
 	{
-	  c_value = lw6scm_utils_to_0str (sys_context,value);
+	  c_value = lw6scm_utils_to_0str (sys_context, value);
 	  if (c_value)
 	    {
 	      lw6cfg_set_option (sys_context, lw6_global.cfg_context, c_key, c_value);
@@ -198,7 +198,7 @@ _scm_lw6cfg_save (sys_context, SCM filename)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -206,7 +206,7 @@ _scm_lw6cfg_save (sys_context, SCM filename)
 
       SCM_ASSERT (scm_is_string (filename), filename, SCM_ARG1, __FUNCTION__);
 
-      c_filename = lw6scm_utils_to_0str (sys_context,filename);
+      c_filename = lw6scm_utils_to_0str (sys_context, filename);
       if (c_filename)
 	{
 	  if (lw6cfg_save (sys_context, lw6_global.cfg_context, c_filename))
@@ -235,7 +235,7 @@ _scm_lw6cfg_init ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   lw6_global.cfg_context = lw6cfg_init (sys_context, lw6_global.argc, lw6_global.argv);
   lw6_global.cfg_initialized = lw6_global.cfg_context ? 1 : 0;
@@ -250,7 +250,7 @@ static SCM
 _scm_lw6cfg_quit ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cfg_context != NULL)
     {
@@ -276,7 +276,7 @@ _scm_lw6cfg_unified_get_user_dir ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   buf = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -297,7 +297,7 @@ _scm_lw6cfg_unified_get_log_file ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   buf = lw6cfg_unified_get_log_file (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -318,7 +318,7 @@ _scm_lw6cfg_unified_get_music_path ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   buf = lw6cfg_unified_get_music_path (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -339,7 +339,7 @@ _scm_lw6cfg_unified_get_map_path ()
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   buf = lw6cfg_unified_get_map_path (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
@@ -368,33 +368,33 @@ lw6_register_funcs_cfg ()
   /*
    * In defaults.c
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CFG_DEFAULTS, 0, 0, 0, (SCM (*)())_scm_lw6cfg_defaults);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CFG_DEFAULTS, 0, 0, 0, (SCM (*)())_scm_lw6cfg_defaults);
   /*
    * In load.c
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CFG_LOAD, 1, 0, 0, (SCM (*)())_scm_lw6cfg_load);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CFG_LOAD, 1, 0, 0, (SCM (*)())_scm_lw6cfg_load);
   /*
    * In option.c
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CFG_OPTION_EXISTS, 1, 0, 0, (SCM (*)())_scm_lw6cfg_option_exists);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CFG_GET_OPTION, 1, 0, 0, (SCM (*)())_scm_lw6cfg_get_option);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CFG_SET_OPTION, 2, 0, 0, (SCM (*)())_scm_lw6cfg_set_option);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CFG_OPTION_EXISTS, 1, 0, 0, (SCM (*)())_scm_lw6cfg_option_exists);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CFG_GET_OPTION, 1, 0, 0, (SCM (*)())_scm_lw6cfg_get_option);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CFG_SET_OPTION, 2, 0, 0, (SCM (*)())_scm_lw6cfg_set_option);
   /*
    * In save.c
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CFG_SAVE, 1, 0, 0, (SCM (*)())_scm_lw6cfg_save);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CFG_SAVE, 1, 0, 0, (SCM (*)())_scm_lw6cfg_save);
   /*
    * In setup.c
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CFG_INIT, 0, 0, 0, (SCM (*)())_scm_lw6cfg_init);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CFG_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6cfg_quit);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CFG_INIT, 0, 0, 0, (SCM (*)())_scm_lw6cfg_init);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CFG_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6cfg_quit);
   /*
    * In unified.c
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CFG_UNIFIED_GET_USER_DIR, 0, 0, 0, (SCM (*)())_scm_lw6cfg_unified_get_user_dir);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CFG_UNIFIED_GET_LOG_FILE, 0, 0, 0, (SCM (*)())_scm_lw6cfg_unified_get_log_file);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CFG_UNIFIED_GET_MUSIC_PATH, 0, 0, 0, (SCM (*)())_scm_lw6cfg_unified_get_music_path);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CFG_UNIFIED_GET_MAP_PATH, 0, 0, 0, (SCM (*)())_scm_lw6cfg_unified_get_map_path);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CFG_UNIFIED_GET_USER_DIR, 0, 0, 0, (SCM (*)())_scm_lw6cfg_unified_get_user_dir);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CFG_UNIFIED_GET_LOG_FILE, 0, 0, 0, (SCM (*)())_scm_lw6cfg_unified_get_log_file);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CFG_UNIFIED_GET_MUSIC_PATH, 0, 0, 0, (SCM (*)())_scm_lw6cfg_unified_get_music_path);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CFG_UNIFIED_GET_MAP_PATH, 0, 0, 0, (SCM (*)())_scm_lw6cfg_unified_get_map_path);
 
   return ret;
 }

@@ -46,14 +46,14 @@
  * Return value: new allocated string.
  */
 char *
-lw6scm_funcname_scm2c (lw6sys_context_t *sys_context,const char *funcname)
+lw6scm_funcname_scm2c (lw6sys_context_t * sys_context, const char *funcname)
 {
   char *ret = NULL;
   char *ptr = NULL;
 
   if (strlen (funcname) > _SCM_PREFIX_LEN)
     {
-      ret = lw6sys_new_sprintf (sys_context,"%s%s", _C_PREFIX, funcname + _SCM_PREFIX_LEN);
+      ret = lw6sys_new_sprintf (sys_context, "%s%s", _C_PREFIX, funcname + _SCM_PREFIX_LEN);
       if (ret)
 	{
 	  for (ptr = ret; *ptr; ++ptr)
@@ -81,14 +81,14 @@ lw6scm_funcname_scm2c (lw6sys_context_t *sys_context,const char *funcname)
  * Return value: new allocated string.
  */
 char *
-lw6scm_funcname_c2scm (lw6sys_context_t *sys_context,const char *funcname)
+lw6scm_funcname_c2scm (lw6sys_context_t * sys_context, const char *funcname)
 {
   char *ret = NULL;
   char *ptr = NULL;
 
   if (strlen (funcname) > _C_PREFIX_LEN)
     {
-      ret = lw6sys_new_sprintf (sys_context,"%s%s", _SCM_PREFIX, funcname + _C_PREFIX_LEN);
+      ret = lw6sys_new_sprintf (sys_context, "%s%s", _SCM_PREFIX, funcname + _C_PREFIX_LEN);
       if (ret)
 	{
 	  for (ptr = ret; *ptr; ++ptr)

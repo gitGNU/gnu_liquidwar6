@@ -271,4 +271,4 @@ extern int _lw6dat_warehouse_get_nb_atom_parts_since_last_poll (lw6sys_context_t
 extern int _lw6dat_warehouse_meta_put (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, int64_t seq);
 extern int _lw6dat_warehouse_meta_get (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse, lw6msg_meta_array_t * meta_array, int64_t seq);
 
-#endif
+#endif // LIQUIDWAR6DAT_INTERNAL_H

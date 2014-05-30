@@ -124,7 +124,7 @@ lw6_init_global (int argc, const char *argv[])
       funcs = lw6hlp_list_funcs (sys_context);
       if (funcs)
 	{
-	  ret = ret && ((lw6_global.coverage = lw6scm_coverage_new (sys_context,funcs)) != NULL);
+	  ret = ret && ((lw6_global.coverage = lw6scm_coverage_new (sys_context, funcs)) != NULL);
 	  lw6sys_list_free (sys_context, funcs);
 	}
       else
@@ -195,7 +195,7 @@ quit_net ()
 void
 lw6_quit_global ()
 {
-  lw6scm_coverage_log (sys_context,lw6_global.coverage);
+  lw6scm_coverage_log (sys_context, lw6_global.coverage);
   lw6sys_hash_free (lw6_global.coverage);
   lw6_global.coverage = NULL;
 

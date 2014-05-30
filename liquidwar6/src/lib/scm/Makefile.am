@@ -44,3 +44,5 @@ liquidwar6scm_test_LDADD = libscm.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBI
 TESTS = liquidwar6scm-test
 endif
 endif
+
+EXTRA_DIST = scm-internal.h

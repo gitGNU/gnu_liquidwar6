@@ -32,6 +32,7 @@ int
 main (int argc, const char *argv[])
 {
   int ret = 0;
+  lw6sys_context_t *sys_context = NULL;
   int mode = 0;
 
   LW6SYS_MAIN_BEGIN;
@@ -42,9 +43,9 @@ main (int argc, const char *argv[])
 
   if (CU_initialize_registry () == CUE_SUCCESS)
     {
-      if (lw6scm_test_register (sys_context,mode))
+      if (lw6scm_test_register (sys_context, mode))
 	{
-	  ret = lw6scm_test_run (sys_context,mode);
+	  ret = lw6scm_test_run (sys_context, mode);
 	}
       CU_cleanup_registry ();
     }

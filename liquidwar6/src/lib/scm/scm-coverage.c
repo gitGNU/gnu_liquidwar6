@@ -47,7 +47,7 @@ typedef struct _coverage_check_s
  * Return value: newly allocated hash
  */
 lw6sys_hash_t *
-lw6scm_coverage_new (lw6sys_context_t *sys_context,lw6sys_list_t * funcs)
+lw6scm_coverage_new (lw6sys_context_t * sys_context, lw6sys_list_t * funcs)
 {
   lw6sys_hash_t *ret = NULL;
   int funcs_size = 0;
@@ -73,7 +73,7 @@ lw6scm_coverage_new (lw6sys_context_t *sys_context,lw6sys_list_t * funcs)
  * Return value: none.
  */
 void
-lw6scm_coverage_call (lw6sys_context_t *sys_context,lw6sys_hash_t * coverage, const char *func)
+lw6scm_coverage_call (lw6sys_context_t * sys_context, lw6sys_hash_t * coverage, const char *func)
 {
   void *value = NULL;
   int *calls;
@@ -105,7 +105,7 @@ lw6scm_coverage_call (lw6sys_context_t *sys_context,lw6sys_hash_t * coverage, co
 }
 
 static void
-_coverage_log_callback (lw6sys_context_t *sys_context,void *func_data, const char *key, void *value)
+_coverage_log_callback (lw6sys_context_t * sys_context, void *func_data, const char *key, void *value)
 {
   int calls = 0;
 
@@ -132,7 +132,7 @@ _coverage_log_callback (lw6sys_context_t *sys_context,void *func_data, const cha
  * Return value: none
  */
 void
-lw6scm_coverage_log (lw6sys_context_t *sys_context,lw6sys_hash_t * coverage)
+lw6scm_coverage_log (lw6sys_context_t * sys_context, lw6sys_hash_t * coverage)
 {
   if (coverage)
     {
@@ -145,17 +145,17 @@ lw6scm_coverage_log (lw6sys_context_t *sys_context,lw6sys_hash_t * coverage)
 }
 
 static void
-_coverage_check_callback (lw6sys_context_t *sys_context,void *func_data, void *value)
+_coverage_check_callback (lw6sys_context_t * sys_context, void *func_data, void *value)
 {
   const char *key = (const char *) value;
   _coverage_check_t *cc = (_coverage_check_t *) func_data;
   char *c_name = NULL;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("checking script function \"%s\""), key);
-  c_name = lw6scm_funcname_scm2c (sys_context,key);
+  c_name = lw6scm_funcname_scm2c (sys_context, key);
   if (c_name)
     {
-      if (lw6sys_hash_has_key (sys_context,cc->coverage, c_name))
+      if (lw6sys_hash_has_key (sys_context, cc->coverage, c_name))
 	{
 	  ++(cc->n);
 	}
@@ -186,7 +186,7 @@ _coverage_check_callback (lw6sys_context_t *sys_context,void *func_data, void *v
  * Return value: 1 if OK, 0 if KO.
  */
 int
-lw6scm_coverage_check (lw6sys_context_t *sys_context,int *percent, lw6sys_hash_t * coverage, lw6sys_list_t * funcs)
+lw6scm_coverage_check (lw6sys_context_t * sys_context, int *percent, lw6sys_hash_t * coverage, lw6sys_list_t * funcs)
 {
   int ret = 0;
   int funcs_size = 0;

@@ -25,6 +25,7 @@
 #endif // HAVE_CONFIG_H
 
 #include "scm.h"
+#include "scm-internal.h"
 
 #ifdef LW6_GUILE2
 #ifdef HAVE_GC_GC_H
@@ -32,9 +33,42 @@
 #endif // HAVE_GC_GC_H
 #endif // LW6_GUILE2
 
+
+void *
+_lw6scm_wrapper_callback_func (void *data)
+{
+  void *ret = NULL;
+  _lw6scm_wrapper_callback_data_t *callback_data = (_lw6scm_wrapper_callback_data_t *) data;
+
+  if (data)
+    {
+      lw6sys_context_t *sys_context = callback_data->sys_context;
+      lw6scm_callback_t orig_func = callback_data->func;
+      void *orig_data = callback_data->data;
+
+      if (sys_context)
+	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("running function %p(%p) in Guile context, inside callback"), orig_func, orig_data);
+
+	  if (orig_func)
+	    {
+	      ret = orig_func (sys_context, orig_data);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("function %p(%p) in Guile context returned %p"), orig_func, orig_data, ret);
+	    }
+	  else
+	    {
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("function is NULL, executing nothing in Guile context"));
+	    }
+	}
+    }
+
+  return ret;
+}
+
 /**
  * lw6scm_c_define_gsubr
  *
+ * @sys_context: global system context
  * @name: name of the function when called from guile
  * @req: required parameters
  * @opt: optional parameters
@@ -49,7 +83,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6scm_c_define_gsubr (sys_context,const char *name, int req, int opt, int rst, lw6scm_func_t fcn)
+lw6scm_c_define_gsubr (lw6sys_context_t * sys_context, const char *name, int req, int opt, int rst, lw6scm_func_t fcn)
 {
   int ret = 0;
 
@@ -70,6 +104,7 @@ lw6scm_c_define_gsubr (sys_context,const char *name, int req, int opt, int rst, 
 /**
  * lw6scm_c_primitive_load
  *
+ * @sys_context: global system context
  * @filename: file to execute
  *
  * Loads and executes a script. Will add a log message while doing it.
@@ -77,7 +112,7 @@ lw6scm_c_define_gsubr (sys_context,const char *name, int req, int opt, int rst, 
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6scm_c_primitive_load (sys_context,const char *filename)
+lw6scm_c_primitive_load (lw6sys_context_t * sys_context, const char *filename)
 {
   int ret = 0;
 
@@ -105,6 +140,7 @@ lw6scm_c_primitive_load (sys_context,const char *filename)
 /**
  * lw6scm_with_guile
  *
+ * @sys_context: global system context
  * @func: callback to use
  * @data: data to pass to callback
  *
@@ -113,9 +149,16 @@ lw6scm_c_primitive_load (sys_context,const char *filename)
  * Return value: callback return value.
  */
 void *
-lw6scm_with_guile (sys_context,lw6scm_callback_t func, void *data)
+lw6scm_with_guile (lw6sys_context_t * sys_context, lw6scm_callback_t func, void *data)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("running function %p(%p) in Guile context"), func, data);
+  _lw6scm_wrapper_callback_data_t callback_data;
+
+  memset (&callback_data, 0, sizeof (callback_data));
+  callback_data.sys_context = sys_context;
+  callback_data.func = func;
+  callback_data.data = data;
+
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("running function %p(%p) in Guile context, outside callback"), func, data);
 #ifdef LW6_GUILE2
   /*
    * When using Guile2, looks like Valgrind reports a bunch of non-initialized
@@ -158,5 +201,5 @@ lw6scm_with_guile (sys_context,lw6scm_callback_t func, void *data)
    * See http://thread.gmane.org/gmane.lisp.guile.bugs/5340
    */
 #endif // LW6_GUILE2
-  return scm_with_guile (func, data);
+  return scm_with_guile (_lw6scm_wrapper_callback_func, (void *) &callback_data);
 }

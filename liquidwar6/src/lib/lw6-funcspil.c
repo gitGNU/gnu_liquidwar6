@@ -40,7 +40,7 @@ _scm_lw6pil_bench ()
   float c_ret = 0.0f;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
   lw6sys_progress_begin (sys_context, &progress);
@@ -68,7 +68,7 @@ _scm_lw6pil_seed_command_generate (sys_context, SCM pilot, SCM server_id, SCM se
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
@@ -77,7 +77,7 @@ _scm_lw6pil_seed_command_generate (sys_context, SCM pilot, SCM server_id, SCM se
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_server_id_str = lw6scm_utils_to_0str (sys_context,server_id);
+      c_server_id_str = lw6scm_utils_to_0str (sys_context, server_id);
       if (c_server_id_str)
 	{
 	  c_server_id_int = lw6sys_id_atol (c_server_id_str);
@@ -112,7 +112,7 @@ _scm_lw6pil_dump_command_generate (sys_context, SCM pilot, SCM server_id, SCM se
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
@@ -121,7 +121,7 @@ _scm_lw6pil_dump_command_generate (sys_context, SCM pilot, SCM server_id, SCM se
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_server_id_str = lw6scm_utils_to_0str (sys_context,server_id);
+      c_server_id_str = lw6scm_utils_to_0str (sys_context, server_id);
       if (c_server_id_str)
 	{
 	  c_server_id_int = lw6sys_id_atol (c_server_id_str);
@@ -157,12 +157,12 @@ _scm_lw6pil_poll_dump (SCM command_text, SCM timestamp)
   SCM ret_pilot;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (command_text), command_text, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (timestamp), timestamp, SCM_ARG2, __FUNCTION__);
 
-  c_command_text = lw6scm_utils_to_0str (sys_context,command_text);
+  c_command_text = lw6scm_utils_to_0str (sys_context, command_text);
   if (c_command_text)
     {
       c_timestamp = scm_to_long_long (timestamp);
@@ -201,7 +201,7 @@ _scm_lw6pil_build_pilot (SCM game_state, SCM seq_0, SCM timestamp)
   lw6sys_progress_t progress;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG2, __FUNCTION__);
@@ -238,7 +238,7 @@ _scm_lw6pil_send_command (SCM pilot, SCM command_text, SCM verified)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (command_text), command_text, SCM_ARG2, __FUNCTION__);
@@ -247,7 +247,7 @@ _scm_lw6pil_send_command (SCM pilot, SCM command_text, SCM verified)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_command_text = lw6scm_utils_to_0str (sys_context,command_text);
+      c_command_text = lw6scm_utils_to_0str (sys_context, command_text);
       if (c_command_text)
 	{
 	  c_verified = SCM_NFALSEP (verified);
@@ -269,7 +269,7 @@ _scm_lw6pil_local_command (SCM pilot, SCM command_text)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (command_text), command_text, SCM_ARG2, __FUNCTION__);
@@ -277,7 +277,7 @@ _scm_lw6pil_local_command (SCM pilot, SCM command_text)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_command_text = lw6scm_utils_to_0str (sys_context,command_text);
+      c_command_text = lw6scm_utils_to_0str (sys_context, command_text);
       if (c_command_text)
 	{
 	  ret = lw6pil_pilot_local_command (sys_context, c_pilot, c_command_text) ? SCM_BOOL_T : SCM_BOOL_F;
@@ -302,7 +302,7 @@ _scm_lw6pil_commit (SCM pilot)
   SCM ret_pilot;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
@@ -343,7 +343,7 @@ _scm_lw6pil_fix_coords (SCM game_state, SCM x, SCM y, SCM z)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_number (x), x, SCM_ARG2, __FUNCTION__);
@@ -381,7 +381,7 @@ _scm_lw6pil_fix_coords_x10 (SCM game_state, SCM x, SCM y, SCM z)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_number (x), x, SCM_ARG2, __FUNCTION__);
@@ -417,7 +417,7 @@ _scm_lw6pil_execute_command (SCM game_state, SCM command_text, SCM seq_0)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (command_text), command_text, SCM_ARG2, __FUNCTION__);
@@ -426,7 +426,7 @@ _scm_lw6pil_execute_command (SCM game_state, SCM command_text, SCM seq_0)
   c_game_state = lw6_scm_to_game_state (game_state);
   if (c_game_state)
     {
-      c_command_text = lw6scm_utils_to_0str (sys_context,command_text);
+      c_command_text = lw6scm_utils_to_0str (sys_context, command_text);
       c_seq_0 = scm_to_long_long (seq_0);
       if (c_command_text)
 	{
@@ -449,7 +449,7 @@ _scm_lw6pil_local_cursors_set_main (sys_context, SCM pilot, SCM cursor_id)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG2, __FUNCTION__);
@@ -457,7 +457,7 @@ _scm_lw6pil_local_cursors_set_main (sys_context, SCM pilot, SCM cursor_id)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_cursor_id_str = lw6scm_utils_to_0str (sys_context,cursor_id);
+      c_cursor_id_str = lw6scm_utils_to_0str (sys_context, cursor_id);
       if (c_cursor_id_str)
 	{
 	  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
@@ -481,7 +481,7 @@ _scm_lw6pil_local_cursors_set_mouse_controlled (sys_context, SCM pilot, SCM curs
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG2, __FUNCTION__);
@@ -490,7 +490,7 @@ _scm_lw6pil_local_cursors_set_mouse_controlled (sys_context, SCM pilot, SCM curs
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_cursor_id_str = lw6scm_utils_to_0str (sys_context,cursor_id);
+      c_cursor_id_str = lw6scm_utils_to_0str (sys_context, cursor_id);
       if (c_cursor_id_str)
 	{
 	  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
@@ -514,7 +514,7 @@ _scm_lw6pil_make_backup (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
@@ -537,7 +537,7 @@ _scm_lw6pil_sync_from_backup (SCM target, SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, target), target, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG2, __FUNCTION__);
@@ -565,7 +565,7 @@ _scm_lw6pil_sync_from_reference (SCM target, SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, target), target, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG2, __FUNCTION__);
@@ -594,7 +594,7 @@ _scm_lw6pil_sync_from_draft (SCM target, SCM pilot, SCM dirty_read)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, target), target, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG2, __FUNCTION__);
@@ -624,7 +624,7 @@ _scm_lw6pil_calibrate (SCM pilot, SCM timestamp, SCM round)
   int c_round;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (timestamp), timestamp, SCM_ARG2, __FUNCTION__);
@@ -651,7 +651,7 @@ _scm_lw6pil_speed_up (SCM pilot, SCM round_inc)
   int c_round_inc;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (round_inc), round_inc, SCM_ARG2, __FUNCTION__);
@@ -676,7 +676,7 @@ _scm_lw6pil_slow_down (SCM pilot, SCM round_dec)
   int c_round_dec;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (round_dec), round_dec, SCM_ARG2, __FUNCTION__);
@@ -701,7 +701,7 @@ _scm_lw6pil_get_round_0 (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
@@ -723,7 +723,7 @@ _scm_lw6pil_get_seq_0 (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
@@ -746,7 +746,7 @@ _scm_lw6pil_seq2round (SCM pilot, SCM seq)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (seq), seq, SCM_ARG2, __FUNCTION__);
@@ -772,7 +772,7 @@ _scm_lw6pil_round2seq (SCM pilot, SCM round)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (round), round, SCM_ARG2, __FUNCTION__);
@@ -798,7 +798,7 @@ _scm_lw6pil_get_next_seq (SCM pilot, SCM timestamp)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (timestamp), timestamp, SCM_ARG2, __FUNCTION__);
@@ -823,7 +823,7 @@ _scm_lw6pil_get_last_commit_seq (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
@@ -845,7 +845,7 @@ _scm_lw6pil_get_reference_current_seq (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
@@ -867,7 +867,7 @@ _scm_lw6pil_get_reference_target_seq (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
@@ -889,7 +889,7 @@ _scm_lw6pil_get_max_seq (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
@@ -911,7 +911,7 @@ _scm_lw6pil_is_over (SCM pilot)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
@@ -938,7 +938,7 @@ _scm_lw6pil_did_cursor_win (SCM pilot, SCM cursor_id)
   lw6pil_pilot_t *c_pilot;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG2, __FUNCTION__);
@@ -946,7 +946,7 @@ _scm_lw6pil_did_cursor_win (SCM pilot, SCM cursor_id)
   c_pilot = lw6_scm_to_pilot (pilot);
   if (c_pilot)
     {
-      c_cursor_id_str = lw6scm_utils_to_0str (sys_context,cursor_id);
+      c_cursor_id_str = lw6scm_utils_to_0str (sys_context, cursor_id);
       if (c_cursor_id_str)
 	{
 	  c_cursor_id_int = lw6sys_id_atol (sys_context, c_cursor_id_str);
@@ -972,7 +972,7 @@ _scm_lw6pil_get_winner (SCM pilot)
   int c_ret;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
@@ -999,7 +999,7 @@ _scm_lw6pil_get_looser (SCM pilot)
   int c_ret;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
@@ -1024,7 +1024,7 @@ _scm_lw6pil_seq_random_0 ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   ret = scm_from_long_long (lw6pil_seq_random_0 ());
 
@@ -1045,7 +1045,7 @@ _scm_lw6pil_suite_init (sys_context, SCM timestamp)
   SCM ret_pilot;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_integer (timestamp), timestamp, SCM_ARG1, __FUNCTION__);
 
@@ -1077,7 +1077,7 @@ _scm_lw6pil_suite_get_seq_0 ()
   int64_t c_ret = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   c_ret = lw6pil_suite_get_seq_0 ();
   ret = scm_from_long_long (c_ret);
@@ -1095,7 +1095,7 @@ _scm_lw6pil_suite_get_node_id (sys_context, SCM node_index)
   char *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_integer (node_index), node_index, SCM_ARG1, __FUNCTION__);
 
@@ -1123,7 +1123,7 @@ _scm_lw6pil_suite_get_commands_by_node_index (SCM node_index, SCM stage)
   const char *c_command = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_integer (node_index), node_index, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (stage), stage, SCM_ARG2, __FUNCTION__);
@@ -1153,7 +1153,7 @@ _scm_lw6pil_suite_get_commands_by_stage (SCM stage)
   const char *c_command = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_integer (stage), stage, SCM_ARG1, __FUNCTION__);
 
@@ -1182,7 +1182,7 @@ _scm_lw6pil_suite_get_checkpoint (sys_context, SCM stage)
   int c_round = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_integer (stage), stage, SCM_ARG1, __FUNCTION__);
 
@@ -1216,46 +1216,49 @@ lw6_register_funcs_pil ()
   /*
    * In liquidwar6pil
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_BENCH, 0, 0, 0, (SCM (*)())_scm_lw6pil_bench);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SEED_COMMAND_GENERATE, 3, 0, 0, (SCM (*)())_scm_lw6pil_seed_command_generate);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_DUMP_COMMAND_GENERATE, 3, 0, 0, (SCM (*)())_scm_lw6pil_dump_command_generate);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_POLL_DUMP, 2, 0, 0, (SCM (*)())_scm_lw6pil_poll_dump);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_BUILD_PILOT, 3, 0, 0, (SCM (*)())_scm_lw6pil_build_pilot);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SEND_COMMAND, 3, 0, 0, (SCM (*)())_scm_lw6pil_send_command);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_LOCAL_COMMAND, 2, 0, 0, (SCM (*)())_scm_lw6pil_local_command);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_COMMIT, 1, 0, 0, (SCM (*)())_scm_lw6pil_commit);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_FIX_COORDS, 4, 0, 0, (SCM (*)())_scm_lw6pil_fix_coords);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_FIX_COORDS_X10, 4, 0, 0, (SCM (*)())_scm_lw6pil_fix_coords_x10);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_EXECUTE_COMMAND, 3, 0, 0, (SCM (*)())_scm_lw6pil_execute_command);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN, 2, 0, 0, (SCM (*)())_scm_lw6pil_local_cursors_set_main);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED, 3, 0, 0, (SCM (*)())_scm_lw6pil_local_cursors_set_mouse_controlled);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_MAKE_BACKUP, 1, 0, 0, (SCM (*)())_scm_lw6pil_make_backup);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SYNC_FROM_BACKUP, 2, 0, 0, (SCM (*)())_scm_lw6pil_sync_from_backup);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SYNC_FROM_REFERENCE, 2, 0, 0, (SCM (*)())_scm_lw6pil_sync_from_reference);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SYNC_FROM_DRAFT, 3, 0, 0, (SCM (*)())_scm_lw6pil_sync_from_draft);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_CALIBRATE, 3, 0, 0, (SCM (*)())_scm_lw6pil_calibrate);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SPEED_UP, 2, 0, 0, (SCM (*)())_scm_lw6pil_speed_up);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SLOW_DOWN, 2, 0, 0, (SCM (*)())_scm_lw6pil_slow_down);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_GET_ROUND_0, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_round_0);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_GET_SEQ_0, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_seq_0);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SEQ2ROUND, 2, 0, 0, (SCM (*)())_scm_lw6pil_seq2round);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_ROUND2SEQ, 2, 0, 0, (SCM (*)())_scm_lw6pil_round2seq);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_GET_NEXT_SEQ, 2, 0, 0, (SCM (*)())_scm_lw6pil_get_next_seq);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_GET_LAST_COMMIT_SEQ, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_last_commit_seq);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_SEQ, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_reference_current_seq);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_GET_REFERENCE_TARGET_SEQ, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_reference_target_seq);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_GET_MAX_SEQ, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_max_seq);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_IS_OVER, 1, 0, 0, (SCM (*)())_scm_lw6pil_is_over);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_DID_CURSOR_WIN, 2, 0, 0, (SCM (*)())_scm_lw6pil_did_cursor_win);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_GET_WINNER, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_winner);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_GET_LOOSER, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_looser);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SEQ_RANDOM_0, 0, 0, 0, (SCM (*)())_scm_lw6pil_seq_random_0);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SUITE_INIT, 1, 0, 0, (SCM (*)())_scm_lw6pil_suite_init);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SUITE_GET_SEQ_0, 0, 0, 0, (SCM (*)())_scm_lw6pil_suite_get_seq_0);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SUITE_GET_NODE_ID, 1, 0, 0, (SCM (*)())_scm_lw6pil_suite_get_node_id);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_NODE_INDEX, 2, 0, 0, (SCM (*)())_scm_lw6pil_suite_get_commands_by_node_index);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_STAGE, 1, 0, 0, (SCM (*)())_scm_lw6pil_suite_get_commands_by_stage);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6PIL_SUITE_GET_CHECKPOINT, 1, 0, 0, (SCM (*)())_scm_lw6pil_suite_get_checkpoint);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_BENCH, 0, 0, 0, (SCM (*)())_scm_lw6pil_bench);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SEED_COMMAND_GENERATE, 3, 0, 0, (SCM (*)())_scm_lw6pil_seed_command_generate);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_DUMP_COMMAND_GENERATE, 3, 0, 0, (SCM (*)())_scm_lw6pil_dump_command_generate);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_POLL_DUMP, 2, 0, 0, (SCM (*)())_scm_lw6pil_poll_dump);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_BUILD_PILOT, 3, 0, 0, (SCM (*)())_scm_lw6pil_build_pilot);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SEND_COMMAND, 3, 0, 0, (SCM (*)())_scm_lw6pil_send_command);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_LOCAL_COMMAND, 2, 0, 0, (SCM (*)())_scm_lw6pil_local_command);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_COMMIT, 1, 0, 0, (SCM (*)())_scm_lw6pil_commit);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_FIX_COORDS, 4, 0, 0, (SCM (*)())_scm_lw6pil_fix_coords);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_FIX_COORDS_X10, 4, 0, 0, (SCM (*)())_scm_lw6pil_fix_coords_x10);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_EXECUTE_COMMAND, 3, 0, 0, (SCM (*)())_scm_lw6pil_execute_command);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MAIN, 2, 0, 0, (SCM (*)())_scm_lw6pil_local_cursors_set_main);
+  ret = ret
+    && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_LOCAL_CURSORS_SET_MOUSE_CONTROLLED, 3, 0, 0,
+			      (SCM (*)())_scm_lw6pil_local_cursors_set_mouse_controlled);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_MAKE_BACKUP, 1, 0, 0, (SCM (*)())_scm_lw6pil_make_backup);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SYNC_FROM_BACKUP, 2, 0, 0, (SCM (*)())_scm_lw6pil_sync_from_backup);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SYNC_FROM_REFERENCE, 2, 0, 0, (SCM (*)())_scm_lw6pil_sync_from_reference);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SYNC_FROM_DRAFT, 3, 0, 0, (SCM (*)())_scm_lw6pil_sync_from_draft);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_CALIBRATE, 3, 0, 0, (SCM (*)())_scm_lw6pil_calibrate);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SPEED_UP, 2, 0, 0, (SCM (*)())_scm_lw6pil_speed_up);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SLOW_DOWN, 2, 0, 0, (SCM (*)())_scm_lw6pil_slow_down);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_GET_ROUND_0, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_round_0);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_GET_SEQ_0, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_seq_0);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SEQ2ROUND, 2, 0, 0, (SCM (*)())_scm_lw6pil_seq2round);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_ROUND2SEQ, 2, 0, 0, (SCM (*)())_scm_lw6pil_round2seq);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_GET_NEXT_SEQ, 2, 0, 0, (SCM (*)())_scm_lw6pil_get_next_seq);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_GET_LAST_COMMIT_SEQ, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_last_commit_seq);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_GET_REFERENCE_CURRENT_SEQ, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_reference_current_seq);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_GET_REFERENCE_TARGET_SEQ, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_reference_target_seq);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_GET_MAX_SEQ, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_max_seq);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_IS_OVER, 1, 0, 0, (SCM (*)())_scm_lw6pil_is_over);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_DID_CURSOR_WIN, 2, 0, 0, (SCM (*)())_scm_lw6pil_did_cursor_win);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_GET_WINNER, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_winner);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_GET_LOOSER, 1, 0, 0, (SCM (*)())_scm_lw6pil_get_looser);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SEQ_RANDOM_0, 0, 0, 0, (SCM (*)())_scm_lw6pil_seq_random_0);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SUITE_INIT, 1, 0, 0, (SCM (*)())_scm_lw6pil_suite_init);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SUITE_GET_SEQ_0, 0, 0, 0, (SCM (*)())_scm_lw6pil_suite_get_seq_0);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SUITE_GET_NODE_ID, 1, 0, 0, (SCM (*)())_scm_lw6pil_suite_get_node_id);
+  ret = ret
+    && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_NODE_INDEX, 2, 0, 0, (SCM (*)())_scm_lw6pil_suite_get_commands_by_node_index);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SUITE_GET_COMMANDS_BY_STAGE, 1, 0, 0, (SCM (*)())_scm_lw6pil_suite_get_commands_by_stage);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6PIL_SUITE_GET_CHECKPOINT, 1, 0, 0, (SCM (*)())_scm_lw6pil_suite_get_checkpoint);
 
   return ret;
 }

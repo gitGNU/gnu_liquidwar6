@@ -44,7 +44,7 @@ _scm_lw6gfx_get_backends ()
   char *module_name;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   backends = lw6gfx_get_backends (sys_context, lw6_global.argc, lw6_global.argv);
   if (backends)
@@ -90,7 +90,7 @@ lw6_register_funcs_gfx ()
   /*
    * In backend.c
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GFX_GET_BACKENDS, 0, 0, 0, (SCM (*)())_scm_lw6gfx_get_backends);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GFX_GET_BACKENDS, 0, 0, 0, (SCM (*)())_scm_lw6gfx_get_backends);
 
   return ret;
 }

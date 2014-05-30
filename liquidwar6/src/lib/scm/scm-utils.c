@@ -29,6 +29,7 @@
 /**
  * lw6scm_utils_to_0str
  *
+ * @sys_context: global system context
  * @string: SCM object to convert
  *
  * Helper function, creates a 0 terminated string
@@ -39,7 +40,7 @@
  * Return value: newly allocated string, pointer must be freed.
  */
 char *
-lw6scm_utils_to_0str (sys_context,SCM string)
+lw6scm_utils_to_0str (lw6sys_context_t * sys_context, SCM string)
 {
   char *c_string = NULL;
   int length = 0;
@@ -81,6 +82,7 @@ lw6scm_utils_to_0str (sys_context,SCM string)
 /**
  * lw6scm_utils_to_scm_str_list
  *
+ * @sys_context: global system context
  * @c_list: list object to convert
  *
  * Transform a C list containing strings to a Guile list containing
@@ -89,7 +91,7 @@ lw6scm_utils_to_0str (sys_context,SCM string)
  * Return value: Guile object, a list of strings
  */
 SCM
-lw6scm_utils_to_scm_str_list (sys_context,lw6sys_list_t * c_list)
+lw6scm_utils_to_scm_str_list (lw6sys_context_t * sys_context, lw6sys_list_t * c_list)
 {
   SCM ret = SCM_EOL;
   lw6sys_list_t *c_item = NULL;
@@ -108,7 +110,7 @@ lw6scm_utils_to_scm_str_list (sys_context,lw6sys_list_t * c_list)
 }
 
 static void
-_to_scm_str_assoc_callback (void *func_data, const char *key, void *value)
+_to_scm_str_assoc_callback (lw6sys_context_t * sys_context, void *func_data, const char *key, void *value)
 {
   SCM *ret_p = (SCM *) func_data;
   char *value_str = (char *) value;
@@ -122,6 +124,7 @@ _to_scm_str_assoc_callback (void *func_data, const char *key, void *value)
 /**
  * lw6scm_utils_to_scm_str_assoc
  *
+ * @sys_context: global system context
  * @c_assoc: assoc object to convert
  *
  * Transform a C assoc containing strings to a Guile assoc containing
@@ -130,7 +133,7 @@ _to_scm_str_assoc_callback (void *func_data, const char *key, void *value)
  * Return value: Guile object, an assoc of strings
  */
 SCM
-lw6scm_utils_to_scm_str_assoc (sys_context,lw6sys_assoc_t * c_assoc)
+lw6scm_utils_to_scm_str_assoc (lw6sys_context_t * sys_context, lw6sys_assoc_t * c_assoc)
 {
   SCM ret = SCM_EOL;
 
@@ -146,6 +149,7 @@ lw6scm_utils_to_scm_str_assoc (sys_context,lw6sys_assoc_t * c_assoc)
 /**
  * lw6scm_utils_to_sys_str_list
  *
+ * @sys_context: global system context
  * @list: SCM object to convert
  *
  * Creates a C list from an SCM list containing strings.
@@ -155,7 +159,7 @@ lw6scm_utils_to_scm_str_assoc (sys_context,lw6sys_assoc_t * c_assoc)
  * Return value: new C list object
  */
 lw6sys_list_t *
-lw6scm_utils_to_sys_str_list (sys_context,SCM list)
+lw6scm_utils_to_sys_str_list (lw6sys_context_t * sys_context, SCM list)
 {
   lw6sys_list_t *c_list = NULL;
 
@@ -172,7 +176,7 @@ lw6scm_utils_to_sys_str_list (sys_context,SCM list)
 	  for (i = n - 1; i >= 0; --i)
 	    {
 	      item = scm_list_ref (list, scm_from_int (i));
-	      c_item = lw6scm_utils_to_0str (sys_context,item);
+	      c_item = lw6scm_utils_to_0str (sys_context, item);
 	      if (c_item)
 		{
 		  lw6sys_list_push_front (sys_context, &c_list, c_item);
@@ -188,6 +192,7 @@ lw6scm_utils_to_sys_str_list (sys_context,SCM list)
 /**
  * lw6scm_utils_to_sys_str_assoc
  *
+ * @sys_context: global system context
  * @assoc: SCM object to convert
  *
  * Creates a C assoc from an SCM assoc containing strings.
@@ -197,7 +202,7 @@ lw6scm_utils_to_sys_str_list (sys_context,SCM list)
  * Return value: new C assoc object
  */
 lw6sys_assoc_t *
-lw6scm_utils_to_sys_str_assoc (sys_context,SCM assoc)
+lw6scm_utils_to_sys_str_assoc (lw6sys_context_t * sys_context, SCM assoc)
 {
   lw6sys_assoc_t *c_assoc = NULL;
 
@@ -216,8 +221,8 @@ lw6scm_utils_to_sys_str_assoc (sys_context,SCM assoc)
 	      item = scm_list_ref (assoc, scm_from_int (i));
 	      if (SCM_CONSP (item))
 		{
-		  key = lw6scm_utils_to_0str (sys_context,scm_car (item));
-		  value = lw6scm_utils_to_0str (sys_context,scm_cdr (item));
+		  key = lw6scm_utils_to_0str (sys_context, scm_car (item));
+		  value = lw6scm_utils_to_0str (sys_context, scm_cdr (item));
 		  if (key && value)
 		    {
 		      lw6sys_assoc_set (sys_context, &c_assoc, key, (void *) value);

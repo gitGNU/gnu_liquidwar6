@@ -93,7 +93,7 @@ _scm_lw6gui_menu_new (sys_context, SCM title, SCM help, SCM popup, SCM esc, SCM 
   lw6gui_menu_t *c_menu = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (SCM_NFALSEP (title))
     {
@@ -112,7 +112,7 @@ _scm_lw6gui_menu_new (sys_context, SCM title, SCM help, SCM popup, SCM esc, SCM 
 
   if (SCM_NFALSEP (title))
     {
-      c_title = lw6scm_utils_to_0str (sys_context,title);
+      c_title = lw6scm_utils_to_0str (sys_context, title);
     }
   else
     {
@@ -122,7 +122,7 @@ _scm_lw6gui_menu_new (sys_context, SCM title, SCM help, SCM popup, SCM esc, SCM 
     {
       if (SCM_NFALSEP (help))
 	{
-	  c_help = lw6scm_utils_to_0str (sys_context,help);
+	  c_help = lw6scm_utils_to_0str (sys_context, help);
 	}
       else
 	{
@@ -132,7 +132,7 @@ _scm_lw6gui_menu_new (sys_context, SCM title, SCM help, SCM popup, SCM esc, SCM 
 	{
 	  if (SCM_NFALSEP (popup))
 	    {
-	      c_popup = lw6scm_utils_to_0str (sys_context,popup);
+	      c_popup = lw6scm_utils_to_0str (sys_context, popup);
 	    }
 	  else
 	    {
@@ -140,7 +140,7 @@ _scm_lw6gui_menu_new (sys_context, SCM title, SCM help, SCM popup, SCM esc, SCM 
 	    }
 	  if (c_popup)
 	    {
-	      c_esc = lw6scm_utils_to_0str (sys_context,esc);
+	      c_esc = lw6scm_utils_to_0str (sys_context, esc);
 	      if (c_esc)
 		{
 		  c_enable_esc = SCM_NFALSEP (enable_esc);
@@ -176,15 +176,15 @@ _scm_lw6gui_menu_append (sys_context, SCM menu, SCM menuitem)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_CONSP (menuitem) || menuitem == SCM_EOL, menuitem, SCM_ARG2, __FUNCTION__);
 
-  c_label = lw6scm_utils_to_0str (sys_context,scm_assoc_ref (menuitem, scm_from_locale_string ("label")));
+  c_label = lw6scm_utils_to_0str (sys_context, scm_assoc_ref (menuitem, scm_from_locale_string ("label")));
   if (c_label)
     {
-      c_tooltip = lw6scm_utils_to_0str (sys_context,scm_assoc_ref (menuitem, scm_from_locale_string ("tooltip")));
+      c_tooltip = lw6scm_utils_to_0str (sys_context, scm_assoc_ref (menuitem, scm_from_locale_string ("tooltip")));
       if (c_tooltip)
 	{
 	  lw6gui_menu_t *c_menu;
@@ -218,7 +218,7 @@ _scm_lw6gui_menu_remove (sys_context, SCM menu, SCM position)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (position), position, SCM_ARG2, __FUNCTION__);
@@ -240,7 +240,7 @@ _scm_lw6gui_menu_remove_all (sys_context, SCM menu, SCM position)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
 
@@ -265,15 +265,15 @@ _scm_lw6gui_menu_sync (sys_context, SCM menu, SCM menuitem)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_CONSP (menuitem) || menuitem == SCM_EOL, menuitem, SCM_ARG2, __FUNCTION__);
 
-  c_label = lw6scm_utils_to_0str (sys_context,scm_assoc_ref (menuitem, scm_from_locale_string ("label")));
+  c_label = lw6scm_utils_to_0str (sys_context, scm_assoc_ref (menuitem, scm_from_locale_string ("label")));
   if (c_label)
     {
-      c_tooltip = lw6scm_utils_to_0str (sys_context,scm_assoc_ref (menuitem, scm_from_locale_string ("tooltip")));
+      c_tooltip = lw6scm_utils_to_0str (sys_context, scm_assoc_ref (menuitem, scm_from_locale_string ("tooltip")));
       if (c_tooltip)
 	{
 	  lw6gui_menu_t *c_menu;
@@ -307,7 +307,7 @@ _scm_lw6gui_menu_select (sys_context, SCM menu, SCM position, SCM allow_scroll)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (position), position, SCM_ARG2, __FUNCTION__);
@@ -331,7 +331,7 @@ _scm_lw6gui_menu_select_esc (sys_context, SCM menu, SCM state)
   int c_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_BOOLP (state), state, SCM_ARG2, __FUNCTION__);
@@ -353,7 +353,7 @@ _scm_lw6gui_menu_enable_esc (sys_context, SCM menu, SCM state)
   int c_state;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_BOOLP (state), state, SCM_ARG2, __FUNCTION__);
@@ -375,7 +375,7 @@ _scm_lw6gui_menu_scroll_up (sys_context, SCM menu)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
 
@@ -395,7 +395,7 @@ _scm_lw6gui_menu_scroll_down (sys_context, SCM menu)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
 
@@ -416,13 +416,13 @@ _scm_lw6gui_menu_set_breadcrumbs (sys_context, SCM menu, SCM breadcrumbs)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_CONSP (breadcrumbs) || breadcrumbs == SCM_EOL, breadcrumbs, SCM_ARG2, __FUNCTION__);
 
   c_menu = lw6_scm_to_menu (menu);
-  c_breadcrumbs = lw6scm_utils_to_sys_str_list (sys_context,breadcrumbs);
+  c_breadcrumbs = lw6scm_utils_to_sys_str_list (sys_context, breadcrumbs);
   if (c_breadcrumbs)
     {
       lw6gui_menu_set_breadcrumbs (sys_context, c_menu, c_breadcrumbs);
@@ -440,7 +440,7 @@ _scm_lw6gui_menu_close_popup (sys_context, SCM menu)
   lw6gui_menu_t *c_menu;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   c_menu = lw6_scm_to_menu (menu);
@@ -458,7 +458,7 @@ _scm_lw6gui_menu_has_popup (sys_context, SCM menu)
   lw6gui_menu_t *c_menu;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   c_menu = lw6_scm_to_menu (menu);
@@ -476,7 +476,7 @@ _scm_lw6gui_default_look ()
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   c_look = lw6gui_look_new (sys_context, NULL);
   if (c_look)
@@ -498,7 +498,7 @@ _scm_lw6gui_look_set (sys_context, SCM look, SCM key, SCM value)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.look, look), look, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG2, __FUNCTION__);
@@ -507,10 +507,10 @@ _scm_lw6gui_look_set (sys_context, SCM look, SCM key, SCM value)
   c_look = lw6_scm_to_look (look);
   if (c_look)
     {
-      c_key = lw6scm_utils_to_0str (sys_context,key);
+      c_key = lw6scm_utils_to_0str (sys_context, key);
       if (c_key)
 	{
-	  c_value = lw6scm_utils_to_0str (sys_context,value);
+	  c_value = lw6scm_utils_to_0str (sys_context, value);
 	  if (c_value)
 	    {
 	      ret = lw6gui_look_set (sys_context, c_look, c_key, c_value) ? SCM_BOOL_T : SCM_BOOL_F;
@@ -534,7 +534,7 @@ _scm_lw6gui_look_get (sys_context, SCM look, SCM key)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.look, look), look, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG2, __FUNCTION__);
@@ -542,7 +542,7 @@ _scm_lw6gui_look_get (sys_context, SCM look, SCM key)
   c_look = lw6_scm_to_look (look);
   if (c_look)
     {
-      c_key = lw6scm_utils_to_0str (sys_context,key);
+      c_key = lw6scm_utils_to_0str (sys_context, key);
       if (c_key)
 	{
 	  c_value = lw6gui_look_get (sys_context, c_look, c_key);
@@ -568,7 +568,7 @@ _scm_lw6gui_look_zoom_in (sys_context, SCM look, SCM zoom_step)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.look, look), look, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_number (zoom_step), zoom_step, SCM_ARG2, __FUNCTION__);
@@ -596,7 +596,7 @@ _scm_lw6gui_look_zoom_out (sys_context, SCM look, SCM zoom_step)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.look, look), look, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_number (zoom_step), zoom_step, SCM_ARG2, __FUNCTION__);
@@ -622,7 +622,7 @@ _scm_lw6gui_input_reset (sys_context, SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -644,7 +644,7 @@ _scm_lw6gui_mouse_poll_move (sys_context, SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -669,7 +669,7 @@ _scm_lw6gui_mouse_get_state (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -692,7 +692,7 @@ _scm_lw6gui_keyboard_is_pressed (sys_context, SCM dsp, SCM keysym)
   int c_keysym;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (keysym), keysym, SCM_ARG2, __FUNCTION__);
@@ -718,7 +718,7 @@ _scm_lw6gui_keyboard_get_move_pad (sys_context, SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -750,7 +750,7 @@ _scm_lw6gui_joystick1_get_move_pad (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -781,7 +781,7 @@ _scm_lw6gui_joystick2_get_move_pad (SCM dsp)
   lw6gui_move_pad_t move_pad;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -811,7 +811,7 @@ _scm_lw6gui_mouse_pop_button_left (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -836,7 +836,7 @@ _scm_lw6gui_mouse_pop_button_right (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -861,7 +861,7 @@ _scm_lw6gui_mouse_pop_button_middle (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -886,7 +886,7 @@ _scm_lw6gui_mouse_pop_simple_click (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -913,7 +913,7 @@ _scm_lw6gui_mouse_pop_double_click (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -940,7 +940,7 @@ _scm_lw6gui_mouse_pop_triple_click (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -967,7 +967,7 @@ _scm_lw6gui_mouse_pop_wheel_up (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -992,7 +992,7 @@ _scm_lw6gui_mouse_pop_wheel_down (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1017,7 +1017,7 @@ _scm_lw6gui_keyboard_pop_arrow_up (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1042,7 +1042,7 @@ _scm_lw6gui_keyboard_pop_arrow_down (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1067,7 +1067,7 @@ _scm_lw6gui_keyboard_pop_arrow_left (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1092,7 +1092,7 @@ _scm_lw6gui_keyboard_pop_arrow_right (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1117,7 +1117,7 @@ _scm_lw6gui_keyboard_pop_key_enter (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1142,7 +1142,7 @@ _scm_lw6gui_keyboard_pop_key_esc (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1167,7 +1167,7 @@ _scm_lw6gui_keyboard_pop_key_ctrl (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1192,7 +1192,7 @@ _scm_lw6gui_keyboard_pop_key_alt (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1217,7 +1217,7 @@ _scm_lw6gui_keyboard_pop_key_pgup (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1242,7 +1242,7 @@ _scm_lw6gui_keyboard_pop_key_pgdown (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1267,7 +1267,7 @@ _scm_lw6gui_joystick1_pop_pad_up (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1292,7 +1292,7 @@ _scm_lw6gui_joystick1_pop_pad_down (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1317,7 +1317,7 @@ _scm_lw6gui_joystick1_pop_pad_left (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1342,7 +1342,7 @@ _scm_lw6gui_joystick1_pop_pad_right (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1367,7 +1367,7 @@ _scm_lw6gui_joystick1_pop_button_a (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1392,7 +1392,7 @@ _scm_lw6gui_joystick1_pop_button_b (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1417,7 +1417,7 @@ _scm_lw6gui_joystick1_pop_button_c (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1442,7 +1442,7 @@ _scm_lw6gui_joystick1_pop_button_d (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1467,7 +1467,7 @@ _scm_lw6gui_joystick1_pop_button_e (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1492,7 +1492,7 @@ _scm_lw6gui_joystick1_pop_button_f (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1517,7 +1517,7 @@ _scm_lw6gui_joystick2_pop_pad_up (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1542,7 +1542,7 @@ _scm_lw6gui_joystick2_pop_pad_down (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1567,7 +1567,7 @@ _scm_lw6gui_joystick2_pop_pad_left (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1592,7 +1592,7 @@ _scm_lw6gui_joystick2_pop_pad_right (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1617,7 +1617,7 @@ _scm_lw6gui_joystick2_pop_button_a (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1642,7 +1642,7 @@ _scm_lw6gui_joystick2_pop_button_b (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1667,7 +1667,7 @@ _scm_lw6gui_joystick2_pop_button_c (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1692,7 +1692,7 @@ _scm_lw6gui_joystick2_pop_button_d (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1717,7 +1717,7 @@ _scm_lw6gui_joystick2_pop_button_e (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1742,7 +1742,7 @@ _scm_lw6gui_joystick2_pop_button_f (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -1775,71 +1775,71 @@ lw6_register_funcs_gui ()
   /*
    * In liquidwar6gui
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_NEW, 5, 0, 0, (SCM (*)())_scm_lw6gui_menu_new);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_APPEND, 2, 0, 0, (SCM (*)())_scm_lw6gui_menu_append);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_REMOVE, 2, 0, 0, (SCM (*)())_scm_lw6gui_menu_remove);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_REMOVE_ALL, 1, 0, 0, (SCM (*)())_scm_lw6gui_menu_remove_all);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_SYNC, 2, 0, 0, (SCM (*)())_scm_lw6gui_menu_sync);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_SELECT, 3, 0, 0, (SCM (*)())_scm_lw6gui_menu_select);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_SELECT_ESC, 2, 0, 0, (SCM (*)())_scm_lw6gui_menu_select_esc);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_ENABLE_ESC, 2, 0, 0, (SCM (*)())_scm_lw6gui_menu_enable_esc);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_SCROLL_UP, 1, 0, 0, (SCM (*)())_scm_lw6gui_menu_scroll_up);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_SCROLL_DOWN, 1, 0, 0, (SCM (*)())_scm_lw6gui_menu_scroll_down);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_SET_BREADCRUMBS, 2, 0, 0, (SCM (*)())_scm_lw6gui_menu_set_breadcrumbs);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_CLOSE_POPUP, 1, 0, 0, (SCM (*)())_scm_lw6gui_menu_close_popup);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MENU_HAS_POPUP, 1, 0, 0, (SCM (*)())_scm_lw6gui_menu_has_popup);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_DEFAULT_LOOK, 0, 0, 0, (SCM (*)())_scm_lw6gui_default_look);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_LOOK_SET, 3, 0, 0, (SCM (*)())_scm_lw6gui_look_set);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_LOOK_GET, 2, 0, 0, (SCM (*)())_scm_lw6gui_look_get);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_LOOK_ZOOM_IN, 2, 0, 0, (SCM (*)())_scm_lw6gui_look_zoom_in);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_LOOK_ZOOM_OUT, 2, 0, 0, (SCM (*)())_scm_lw6gui_look_zoom_out);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_NEW, 5, 0, 0, (SCM (*)())_scm_lw6gui_menu_new);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_APPEND, 2, 0, 0, (SCM (*)())_scm_lw6gui_menu_append);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_REMOVE, 2, 0, 0, (SCM (*)())_scm_lw6gui_menu_remove);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_REMOVE_ALL, 1, 0, 0, (SCM (*)())_scm_lw6gui_menu_remove_all);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_SYNC, 2, 0, 0, (SCM (*)())_scm_lw6gui_menu_sync);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_SELECT, 3, 0, 0, (SCM (*)())_scm_lw6gui_menu_select);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_SELECT_ESC, 2, 0, 0, (SCM (*)())_scm_lw6gui_menu_select_esc);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_ENABLE_ESC, 2, 0, 0, (SCM (*)())_scm_lw6gui_menu_enable_esc);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_SCROLL_UP, 1, 0, 0, (SCM (*)())_scm_lw6gui_menu_scroll_up);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_SCROLL_DOWN, 1, 0, 0, (SCM (*)())_scm_lw6gui_menu_scroll_down);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_SET_BREADCRUMBS, 2, 0, 0, (SCM (*)())_scm_lw6gui_menu_set_breadcrumbs);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_CLOSE_POPUP, 1, 0, 0, (SCM (*)())_scm_lw6gui_menu_close_popup);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MENU_HAS_POPUP, 1, 0, 0, (SCM (*)())_scm_lw6gui_menu_has_popup);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_DEFAULT_LOOK, 0, 0, 0, (SCM (*)())_scm_lw6gui_default_look);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_LOOK_SET, 3, 0, 0, (SCM (*)())_scm_lw6gui_look_set);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_LOOK_GET, 2, 0, 0, (SCM (*)())_scm_lw6gui_look_get);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_LOOK_ZOOM_IN, 2, 0, 0, (SCM (*)())_scm_lw6gui_look_zoom_in);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_LOOK_ZOOM_OUT, 2, 0, 0, (SCM (*)())_scm_lw6gui_look_zoom_out);
 
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_INPUT_RESET, 1, 0, 0, (SCM (*)())_scm_lw6gui_input_reset);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_INPUT_RESET, 1, 0, 0, (SCM (*)())_scm_lw6gui_input_reset);
 
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MOUSE_POLL_MOVE, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_poll_move);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MOUSE_GET_STATE, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_get_state);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_KEYBOARD_IS_PRESSED, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_is_pressed);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_KEYBOARD_GET_MOVE_PAD, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_get_move_pad);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK1_GET_MOVE_PAD, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_get_move_pad);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK2_GET_MOVE_PAD, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_get_move_pad);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_LEFT, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_button_left);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_RIGHT, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_button_right);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_MIDDLE, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_button_middle);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MOUSE_POP_SIMPLE_CLICK, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_simple_click);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MOUSE_POP_DOUBLE_CLICK, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_double_click);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MOUSE_POP_TRIPLE_CLICK, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_triple_click);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_UP, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_wheel_up);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_wheel_down);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_UP, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_arrow_up);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_DOWN, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_arrow_down);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_LEFT, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_arrow_left);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_RIGHT, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_arrow_right);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ENTER, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_key_enter);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ESC, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_key_esc);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_CTRL, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_key_ctrl);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ALT, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_key_alt);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGUP, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_key_pgup);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGDOWN, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_key_pgdown);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_UP, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_pad_up);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_DOWN, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_pad_down);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_LEFT, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_pad_left);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_RIGHT, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_pad_right);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_A, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_button_a);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_B, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_button_b);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_C, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_button_c);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_D, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_button_d);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_E, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_button_e);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_F, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_button_f);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_UP, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_pad_up);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_DOWN, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_pad_down);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_LEFT, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_pad_left);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_RIGHT, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_pad_right);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_A, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_button_a);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_B, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_button_b);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_C, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_button_c);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_D, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_button_d);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_E, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_button_e);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_F, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_button_f);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MOUSE_POLL_MOVE, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_poll_move);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MOUSE_GET_STATE, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_get_state);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_KEYBOARD_IS_PRESSED, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_is_pressed);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_KEYBOARD_GET_MOVE_PAD, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_get_move_pad);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK1_GET_MOVE_PAD, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_get_move_pad);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK2_GET_MOVE_PAD, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_get_move_pad);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_LEFT, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_button_left);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_RIGHT, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_button_right);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MOUSE_POP_BUTTON_MIDDLE, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_button_middle);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MOUSE_POP_SIMPLE_CLICK, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_simple_click);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MOUSE_POP_DOUBLE_CLICK, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_double_click);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MOUSE_POP_TRIPLE_CLICK, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_triple_click);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_UP, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_wheel_up);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_MOUSE_POP_WHEEL_DOWN, 1, 0, 0, (SCM (*)())_scm_lw6gui_mouse_pop_wheel_down);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_UP, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_arrow_up);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_DOWN, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_arrow_down);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_LEFT, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_arrow_left);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_KEYBOARD_POP_ARROW_RIGHT, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_arrow_right);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ENTER, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_key_enter);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ESC, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_key_esc);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_CTRL, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_key_ctrl);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_ALT, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_key_alt);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGUP, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_key_pgup);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_KEYBOARD_POP_KEY_PGDOWN, 1, 0, 0, (SCM (*)())_scm_lw6gui_keyboard_pop_key_pgdown);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_UP, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_pad_up);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_DOWN, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_pad_down);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_LEFT, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_pad_left);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK1_POP_PAD_RIGHT, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_pad_right);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_A, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_button_a);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_B, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_button_b);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_C, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_button_c);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_D, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_button_d);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_E, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_button_e);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK1_POP_BUTTON_F, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick1_pop_button_f);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_UP, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_pad_up);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_DOWN, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_pad_down);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_LEFT, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_pad_left);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK2_POP_PAD_RIGHT, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_pad_right);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_A, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_button_a);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_B, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_button_b);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_C, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_button_c);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_D, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_button_d);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_E, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_button_e);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6GUI_JOYSTICK2_POP_BUTTON_F, 1, 0, 0, (SCM (*)())_scm_lw6gui_joystick2_pop_button_f);
 
   return ret;
 }

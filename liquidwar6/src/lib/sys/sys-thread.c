@@ -31,8 +31,15 @@
 
 static volatile u_int32_t seq_id = 0;
 
-static void
-thread_callback (void *thread_handler)
+/*
+ * Could have been declared as static as it is used
+ * nowhere but in thread-dedicated code, but it's nice
+ * to have this appear in call stacks when backtracing
+ * so we let it be a real symbol, even if it fundamentally
+ * remains private.
+ */
+void
+_lw6sys_thread_callback (void *thread_handler)
 {
   _lw6sys_thread_handler_t *th = (_lw6sys_thread_handler_t *) thread_handler;
 
@@ -208,7 +215,7 @@ lw6sys_thread_create (lw6sys_context_t * sys_context,
 	      if (!pthread_cond_init (&(thread_handler->cond_can_join), NULL))
 		{
 		  cond_can_join_ok = 1;
-		  if (!pthread_create (&(thread_handler->thread), NULL, (void *) thread_callback, (void *) thread_handler))
+		  if (!pthread_create (&(thread_handler->thread), NULL, (void *) _lw6sys_thread_callback, (void *) thread_handler))
 		    {
 		      thread_ok = 1;
 		    }

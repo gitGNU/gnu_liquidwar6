@@ -155,14 +155,21 @@ typedef struct _lw6sys_context_s
 }
 _lw6sys_context_t;
 
+/* sys-bazooka.c */
 extern void _lw6sys_bazooka_context_init (lw6sys_context_t * sys_context, _lw6sys_bazooka_context_t * bazooka_context);
 extern int _lw6sys_bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line);
 extern int _lw6sys_bazooka_register_calloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line);
 extern int _lw6sys_bazooka_register_realloc_1 (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line);
 extern int _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, char *ptr2, int size, const char *file, int line);
 extern int _lw6sys_bazooka_register_free (lw6sys_context_t * sys_context, char *ptr);
+
+/* sys-str.c */
 extern char *_lw6sys_new_vsnprintf (lw6sys_context_t * sys_context, int n, const char *fmt, va_list ap);
 extern int _lw6sys_buf_vsnprintf (lw6sys_context_t * sys_context, char *buf, int len, const char *fmt, va_list ap);
+
+/* sys_thread.c */
+extern void _lw6sys_thread_callback (void *thread_handler);
+
 #ifdef LW6_MAC_OS_X
 extern void _lw6sys_macosx_alert (lw6sys_context_t * sys_context, const char *title, const char *msg);
 #endif

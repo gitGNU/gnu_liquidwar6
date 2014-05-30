@@ -38,7 +38,7 @@ _scm_lw6cns_console_support ()
 {
   SCM ret = SCM_BOOL_F;
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   ret = lw6cns_console_support (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -52,7 +52,7 @@ _scm_lw6cns_term_support ()
 {
   SCM ret = SCM_BOOL_F;
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   ret = lw6cns_term_support (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -68,7 +68,7 @@ static SCM
 _scm_lw6cns_init ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (!lw6_global.cns_initialized)
     {
@@ -85,7 +85,7 @@ static SCM
 _scm_lw6cns_quit ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cns_initialized)
     {
@@ -102,7 +102,7 @@ static SCM
 _scm_lw6cns_poll ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cns_initialized)
     {
@@ -132,14 +132,14 @@ lw6_register_funcs_cns ()
   /*
    * In support.c
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CNS_CONSOLE_SUPPORT, 0, 0, 0, (SCM (*)())_scm_lw6cns_console_support);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CNS_TERM_SUPPORT, 0, 0, 0, (SCM (*)())_scm_lw6cns_term_support);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CNS_CONSOLE_SUPPORT, 0, 0, 0, (SCM (*)())_scm_lw6cns_console_support);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CNS_TERM_SUPPORT, 0, 0, 0, (SCM (*)())_scm_lw6cns_term_support);
   /*
    * In handler.c
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CNS_INIT, 0, 0, 0, (SCM (*)())_scm_lw6cns_init);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CNS_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6cns_quit);
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6CNS_POLL, 0, 0, 0, (SCM (*)())_scm_lw6cns_poll);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CNS_INIT, 0, 0, 0, (SCM (*)())_scm_lw6cns_init);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CNS_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6cns_quit);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6CNS_POLL, 0, 0, 0, (SCM (*)())_scm_lw6cns_poll);
 
   return ret;
 }

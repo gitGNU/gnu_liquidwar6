@@ -40,7 +40,7 @@ _scm_lw6img_screenshot (SCM game_state, SCM quality)
   lw6img_jpeg_t *c_jpeg = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (quality), quality, SCM_ARG2, __FUNCTION__);
@@ -88,7 +88,7 @@ lw6_register_funcs_img ()
   /*
    * In liquidwar6img
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6IMG_SCREENSHOT, 2, 0, 0, (SCM (*)())_scm_lw6img_screenshot);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6IMG_SCREENSHOT, 2, 0, 0, (SCM (*)())_scm_lw6img_screenshot);
 
   return ret;
 }
