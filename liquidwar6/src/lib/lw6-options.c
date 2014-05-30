@@ -66,7 +66,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
 	    && lw6nod_test_register (sys_context, mode) && lw6cnx_test_register (sys_context, mode)
 	    && lw6msg_test_register (sys_context, mode) && lw6cli_test_register (sys_context, mode)
 	    && lw6srv_test_register (sys_context, mode) && lw6dat_test_register (sys_context, mode)
-	    && lw6p2p_test_register (sys_context, mode) && lw6scm_test_register (sys_context, mode) && lw6_test_register (sys_context,mode);
+	    && lw6p2p_test_register (sys_context, mode) && lw6scm_test_register (sys_context, mode) && lw6_test_register (sys_context, mode);
 
 	  if (ret)
 	    {
@@ -97,7 +97,7 @@ _register_and_run_tests (int argc, const char **argv, int mode)
  *   instance, the test suite returning "no, tests were not OK".
  */
 int
-lw6_process_non_run_options (sys_context,int argc, const char *argv[], int *run_game)
+lw6_process_non_run_options (sys_context, int argc, const char *argv[], int *run_game)
 {
   int i;
   int ret = 1;

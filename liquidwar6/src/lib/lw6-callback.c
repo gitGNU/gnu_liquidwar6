@@ -44,7 +44,7 @@
  * Return value: none
  */
 void
-lw6_resize_callback (lw6sys_context_t *sys_context,lw6gui_video_mode_t * video_mode)
+lw6_resize_callback (lw6sys_context_t * sys_context, lw6gui_video_mode_t * video_mode)
 {
   if (lw6_global.cfg_context)
     {

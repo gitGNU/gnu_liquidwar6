@@ -60,7 +60,8 @@ typedef struct _lw6scm_test_data_s
 
 static _lw6scm_test_data_t _test_data = { 0, NULL };
 
-static int global_ret = 0;
+static int _global_ret = 0;
+static lw6sys_context_t *_global_sys_context = NULL;
 
 /*
  * Testing functions in funcname.c
@@ -140,7 +141,7 @@ _guile_main_utils (lw6sys_context_t * sys_context, void *data)
     }
   else
     {
-      global_ret = 0;
+      _global_ret = 0;
     }
 
   c_test_list_1 = lw6sys_list_new (sys_context, NULL);
@@ -165,27 +166,27 @@ _guile_main_utils (lw6sys_context_t * sys_context, void *data)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			      _x_ ("size mismatch c_test_list_1_lenght=%d c_test_list_2_length=%d"), c_test_list_1_length, c_test_list_2_length);
-		  global_ret = 0;
+		  _global_ret = 0;
 		}
 	      lw6sys_list_free (sys_context, c_test_list_2);
 	    }
 	  else
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create C list from SCM object"));
-	      global_ret = 0;
+	      _global_ret = 0;
 	    }
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("problem setting list values"));
-	  global_ret = 0;
+	  _global_ret = 0;
 	}
       lw6sys_list_free (sys_context, c_test_list_1);
     }
   else
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create C list"));
-      global_ret = 0;
+      _global_ret = 0;
     }
 
   c_test_assoc_1 = lw6sys_assoc_new (sys_context, NULL);
@@ -217,27 +218,27 @@ _guile_main_utils (lw6sys_context_t * sys_context, void *data)
 			      _x_
 			      ("content mismatch between assoc for key \"%s\" assoc_1 contains \"%s\" while assoc_2 contains \"%s\""),
 			      _TEST_UTILS_ASSOC_KEY_1, c_test_assoc_1_value_1, c_test_assoc_2_value_1);
-		  global_ret = 0;
+		  _global_ret = 0;
 		}
 	      lw6sys_assoc_free (sys_context, c_test_assoc_2);
 	    }
 	  else
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create C assoc from SCM object"));
-	      global_ret = 0;
+	      _global_ret = 0;
 	    }
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("problem setting assoc values"));
-	  global_ret = 0;
+	  _global_ret = 0;
 	}
       lw6sys_assoc_free (sys_context, c_test_assoc_1);
     }
   else
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create C assoc"));
-      global_ret = 0;
+      _global_ret = 0;
     }
 
   scm_gc ();
@@ -258,9 +259,9 @@ _test_utils ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    global_ret = 1;
+    _global_ret = 1;
     lw6scm_with_guile (sys_context, _guile_main_utils, NULL);
-    ret = global_ret;
+    ret = _global_ret;
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -336,9 +337,10 @@ _test_coverage ()
 }
 
 static SCM
-_scm_lw6sys_build_get_version (lw6sys_context_t * sys_context)
+_scm_lw6sys_build_get_version ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = _global_sys_context;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
 
@@ -353,6 +355,7 @@ static void *
 _guile_main_wrapper (lw6sys_context_t * sys_context, void *data)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("entering Guile in %s"), __FUNCTION__);
+  _global_sys_context = sys_context;
 
   if (lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6SYS_BUILD_GET_VERSION, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_version))
     {
@@ -360,12 +363,12 @@ _guile_main_wrapper (lw6sys_context_t * sys_context, void *data)
       if (lw6scm_c_define_gsubr (sys_context, _TEST_UNEXISTING_FUNC, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_version))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("function \"%s\" was defined, should have been refused"), _TEST_UNEXISTING_FUNC);
-	  global_ret = 0;
+	  _global_ret = 0;
 	}
     }
   else
     {
-      global_ret = 0;
+      _global_ret = 0;
     }
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("next you should see a message complaining \"%s\" does not exists"), _TEST_UNEXISTING_FILE);
@@ -388,9 +391,9 @@ _test_wrapper ()
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
-    global_ret = 1;
+    _global_ret = 1;
     lw6scm_with_guile (sys_context, _guile_main_wrapper, NULL);
-    ret = global_ret;
+    ret = _global_ret;
   }
 
   LW6SYS_TEST_FUNCTION_END;

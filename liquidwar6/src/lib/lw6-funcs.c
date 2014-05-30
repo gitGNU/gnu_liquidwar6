@@ -32,10 +32,12 @@
 static SCM
 _scm_lw6_release ()
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  lw6_release ();
+  lw6_release (sys_context);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -45,10 +47,12 @@ _scm_lw6_release ()
 static SCM
 _scm_lw6_exit ()
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  lw6_exit ();
+  lw6_exit (sys_context);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -56,9 +60,10 @@ _scm_lw6_exit ()
 }
 
 static SCM
-_scm_lw6_set_ret (sys_context,SCM set_ret)
+_scm_lw6_set_ret (SCM set_ret)
 {
   SCM get_ret = SCM_UNDEFINED;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -67,12 +72,12 @@ _scm_lw6_set_ret (sys_context,SCM set_ret)
 
   if (SCM_NFALSEP (set_ret))
     {
-      lw6_set_ret (1);
+      lw6_set_ret (sys_context,1);
       get_ret = SCM_BOOL_T;
     }
   else
     {
-      lw6_set_ret (0);
+      lw6_set_ret (sys_context,0);
       get_ret = SCM_BOOL_F;
     }
 
@@ -85,11 +90,12 @@ static SCM
 _scm_lw6_get_ret ()
 {
   SCM ret = SCM_UNDEFINED;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6_get_ret (sys_context,)? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6_get_ret (sys_context) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -99,6 +105,8 @@ _scm_lw6_get_ret ()
 /**
  * lw6_register_funcs
  *
+ * @sys_context: global system context
+ *
  * Register all the functions, make them callable from Guile.
  * This is a very simple yet long and very usefull function,
  * without it Guile has no knowledge of what LW6 is.
@@ -106,46 +114,46 @@ _scm_lw6_get_ret ()
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs ()
+lw6_register_funcs (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 
-  ret = ret && lw6scm_c_define_gsubr (sys_context, "C-GETTEXT", 1, 0, 0, (SCM (*)())_scm_gettext);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, "C-GETTEXT", 1, 0, 0, (SCM (*)())lw6scm_gettext);
   /*
    * This one uses scm_define_gsubr and not the binding
    * lw6scm_c_define_gsubr for _ is not documented due
    * to internal parsing limitations.
    */
-  scm_c_define_gsubr ("_", 1, 0, 0, (SCM (*)())_scm_gettext);
+  scm_c_define_gsubr ("_", 1, 0, 0, (SCM (*)()) lw6scm_gettext);
 
-  ret = ret && lw6_register_funcs_sys ();
-  ret = ret && lw6_register_funcs_hlp ();
-  ret = ret && lw6_register_funcs_cfg ();
-  ret = ret && lw6_register_funcs_gui ();
-  ret = ret && lw6_register_funcs_gfx ();
-  ret = ret && lw6_register_funcs_dsp ();
-  ret = ret && lw6_register_funcs_map ();
-  ret = ret && lw6_register_funcs_ker ();
-  ret = ret && lw6_register_funcs_gen ();
-  ret = ret && lw6_register_funcs_pil ();
-  ret = ret && lw6_register_funcs_ldr ();
-  ret = ret && lw6_register_funcs_snd ();
-  ret = ret && lw6_register_funcs_cns ();
-  ret = ret && lw6_register_funcs_tsk ();
-  ret = ret && lw6_register_funcs_img ();
-  ret = ret && lw6_register_funcs_net ();
-  ret = ret && lw6_register_funcs_cli ();
-  ret = ret && lw6_register_funcs_srv ();
-  ret = ret && lw6_register_funcs_p2p ();
-  ret = ret && lw6_register_funcs_bot ();
+  ret = ret && lw6_register_funcs_sys (sys_context);
+  ret = ret && lw6_register_funcs_hlp (sys_context);
+  ret = ret && lw6_register_funcs_cfg (sys_context);
+  ret = ret && lw6_register_funcs_gui (sys_context);
+  ret = ret && lw6_register_funcs_gfx (sys_context);
+  ret = ret && lw6_register_funcs_dsp (sys_context);
+  ret = ret && lw6_register_funcs_map (sys_context);
+  ret = ret && lw6_register_funcs_ker (sys_context);
+  ret = ret && lw6_register_funcs_gen (sys_context);
+  ret = ret && lw6_register_funcs_pil (sys_context);
+  ret = ret && lw6_register_funcs_ldr (sys_context);
+  ret = ret && lw6_register_funcs_snd (sys_context);
+  ret = ret && lw6_register_funcs_cns (sys_context);
+  ret = ret && lw6_register_funcs_tsk (sys_context);
+  ret = ret && lw6_register_funcs_img (sys_context);
+  ret = ret && lw6_register_funcs_net (sys_context);
+  ret = ret && lw6_register_funcs_cli (sys_context);
+  ret = ret && lw6_register_funcs_srv (sys_context);
+  ret = ret && lw6_register_funcs_p2p (sys_context);
+  ret = ret && lw6_register_funcs_bot (sys_context);
 
   /*
    * Global control funcs
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_RELEASE, 0, 0, 0, (SCM (*)())_scm_lw6_release);
-  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_EXIT, 0, 0, 0, (SCM (*)())_scm_lw6_exit);
-  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_SET_RET, 1, 0, 0, (SCM (*)())_scm_lw6_set_ret);
-  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_GET_RET, 0, 0, 0, (SCM (*)())_scm_lw6_get_ret);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_RELEASE, 0, 0, 0, (SCM (*)()) _scm_lw6_release);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_EXIT, 0, 0, 0, (SCM (*)()) _scm_lw6_exit);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_SET_RET, 1, 0, 0, (SCM (*)()) _scm_lw6_set_ret);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_GET_RET, 0, 0, 0, (SCM (*)()) _scm_lw6_get_ret);
 
   return ret;
 }
@@ -153,7 +161,8 @@ lw6_register_funcs ()
 /**
  * lw6_cns_handler
  *
- * c_line: the line typed by the user
+ * @sys_context: global system context
+ * @c_line: the line typed by the user
  *
  * This function will be called every time a message
  * is typed on the console. It runs the given line in
@@ -161,28 +170,23 @@ lw6_register_funcs ()
  *
  * Return value: none
  */
-extern void
-lw6_cns_handler (sys_context,char *c_line)
+extern void lw6_cns_handler (lw6sys_context_t *sys_context, char *c_line)
 {
   SCM line;
   SCM func_symbol;
   SCM func;
-
   if (c_line)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("interpreting console input \"%s\""), c_line);
-
-      lw6cns_history_add_if_needed (sys_context, c_line);
-      line = scm_from_locale_string (c_line);
-
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("interpreting console input \"%s\""), c_line); 
+      lw6cns_history_add_if_needed (sys_context, c_line); 
+      line = scm_from_locale_string (c_line); 
       func_symbol = scm_c_lookup ("lw6-console-try-catch");
-      func = scm_variable_ref (func_symbol);
-      scm_call_1 (func, line);
-      free (c_line);		// exceptionnally, don't use LW6SYS_FREE
+      func = scm_variable_ref (func_symbol); 
+      scm_call_1 (func, line); 
+      free (c_line);	// exceptionnally, don't use LW6SYS_FREE
     }
   else
     {
-      printf (_x_ ("(quit) or CTRL_C to quit"));
-      printf ("\n");
+      printf (_x_ ("(quit) or CTRL_C to quit")); printf ("\n");
     }
 }

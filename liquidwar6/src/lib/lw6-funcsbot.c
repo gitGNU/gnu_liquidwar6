@@ -103,10 +103,10 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read, SC
   c_backend_name = lw6scm_utils_to_0str (sys_context, backend_name);
   if (backend_name)
     {
-      c_game_state = lw6_scm_to_game_state (sys_context,game_state);
+      c_game_state = lw6_scm_to_game_state (sys_context, game_state);
       if (c_game_state)
 	{
-	  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
+	  c_pilot = lw6_scm_to_pilot (sys_context, pilot);
 	  if (c_pilot)
 	    {
 	      c_dirty_read = scm_to_int (dirty_read);
@@ -128,7 +128,7 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read, SC
 		      c_seed.param.iq = c_iq;
 		      if (lw6bot_init (sys_context, c_ret, &c_seed))
 			{
-			  ret = lw6_make_scm_bot (sys_context,c_ret, game_state, pilot);
+			  ret = lw6_make_scm_bot (sys_context, c_ret, game_state, pilot);
 			}
 		      else
 			{
@@ -160,7 +160,7 @@ _scm_lw6bot_next_move (sys_context, SCM bot)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.bot, bot), bot, SCM_ARG1, __FUNCTION__);
 
-  c_bot = lw6_scm_to_bot (sys_context,bot);
+  c_bot = lw6_scm_to_bot (sys_context, bot);
   if (c_bot)
     {
       if (lw6bot_next_move (sys_context, c_bot, &c_x, &c_y))

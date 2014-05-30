@@ -405,7 +405,7 @@ _setup_init ()
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init lw6 CUnit test suite"));
 
-  if (lw6_init_global (sys_context,argc, argv))
+  if (lw6_init_global (sys_context, argc, argv))
     {
       _test_data.param.argc = argc;
       _test_data.param.argv = argv;
@@ -457,7 +457,7 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6_test_register (sys_context,int mode)
+lw6_test_register (sys_context, int mode)
 {
   int ret = 1;
   CU_Suite *suite;
@@ -573,7 +573,7 @@ lw6_test_register (sys_context,int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6_test_run (sys_context,int mode)
+lw6_test_run (sys_context, int mode)
 {
   int ret = 0;
 

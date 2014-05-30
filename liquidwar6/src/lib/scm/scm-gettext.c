@@ -39,7 +39,7 @@
  * Return value: SCM value, the translated string
  */
 SCM
-lw6scm_gettext (lw6sys_context_t *sys_context, SCM string)
+lw6scm_gettext (lw6sys_context_t * sys_context, SCM string)
 {
   char *c_string;
   SCM ret = SCM_BOOL_F;
@@ -64,4 +64,3 @@ lw6scm_gettext (lw6sys_context_t *sys_context, SCM string)
 
   return ret;
 }
-

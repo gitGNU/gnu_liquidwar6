@@ -52,7 +52,7 @@ lw6_global_t lw6_global;
  * Return value: 1 on success, 0 if failed
  */
 int
-lw6_init_global (sys_context,int argc, const char *argv[])
+lw6_init_global (sys_context, int argc, const char *argv[])
 {
   int ret = 0;
   lw6sys_list_t *funcs = NULL;
@@ -61,6 +61,7 @@ lw6_init_global (sys_context,int argc, const char *argv[])
 
   pthread_mutex_init (&lw6_global.mutex, NULL);
 
+  lw6_global.sys_context = sys_context;
   lw6_global.start_time = time (NULL);
   lw6_global.argc = argc;
   lw6_global.argv = argv;

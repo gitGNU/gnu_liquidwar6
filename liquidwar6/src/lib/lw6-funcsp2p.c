@@ -47,7 +47,7 @@ _scm_lw6p2p_db_new (SCM name)
       c_db = lw6p2p_db_open (sys_context, lw6_global.argc, lw6_global.argv, c_name);
       if (c_db)
 	{
-	  ret = lw6_make_scm_db (sys_context,c_db);
+	  ret = lw6_make_scm_db (sys_context, c_db);
 	}
       LW6SYS_FREE (sys_context, c_name);
     }
@@ -224,7 +224,7 @@ _scm_lw6p2p_node_new (sys_context, SCM db, SCM param)
 						 c_title, c_description, c_password, c_bench, c_open_relay, c_known_nodes, c_network_reliability, c_trojan);
 					      if (c_node)
 						{
-						  ret = lw6_make_scm_node (sys_context,c_node, db);
+						  ret = lw6_make_scm_node (sys_context, c_node, db);
 						}
 					      LW6SYS_FREE (sys_context, c_known_nodes);
 					    }
@@ -263,7 +263,7 @@ _scm_lw6p2p_node_poll (sys_context, SCM node)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       if (lw6p2p_node_poll (sys_context, c_node, NULL))
@@ -286,7 +286,7 @@ _scm_lw6p2p_node_close (sys_context, SCM node)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       lw6p2p_node_close (sys_context, c_node);
@@ -310,7 +310,7 @@ _scm_lw6p2p_node_get_id (sys_context, SCM node)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_ret_int = lw6p2p_node_get_id (sys_context, c_node);
@@ -385,7 +385,7 @@ _scm_lw6p2p_node_get_entries (sys_context, SCM node, SCM skip_local)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_BOOLP (skip_local), skip_local, SCM_ARG2, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_skip_local = SCM_NFALSEP (skip_local) ? 1 : 0;
@@ -416,7 +416,7 @@ _scm_lw6p2p_node_server_start (sys_context, SCM node, SCM seq_0)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG2, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_seq_0 = scm_to_long_long (seq_0);
@@ -449,7 +449,7 @@ _scm_lw6p2p_node_client_join (sys_context, SCM node, SCM remote_id, SCM remote_u
   lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
   lw6sys_progress_begin (sys_context, &progress);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_remote_id_str = lw6scm_utils_to_0str (sys_context, remote_id);
@@ -492,7 +492,7 @@ _scm_lw6p2p_node_refresh_peer (sys_context, SCM node, SCM remote_id, SCM remote_
   SCM_ASSERT (scm_is_string (remote_id), remote_id, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_string (remote_url), remote_url, SCM_ARG3, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_remote_id_str = lw6scm_utils_to_0str (sys_context, remote_id);
@@ -527,7 +527,7 @@ _scm_lw6p2p_node_disconnect (sys_context, SCM node)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       lw6p2p_node_disconnect (sys_context, c_node);
@@ -591,7 +591,7 @@ _scm_lw6p2p_node_update_info (sys_context, SCM node, SCM param)
       SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.jpeg, screenshot), param, SCM_ARG2, __FUNCTION__);
     }
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_round = scm_to_int (round);
@@ -606,7 +606,7 @@ _scm_lw6p2p_node_update_info (sys_context, SCM node, SCM param)
 	  c_max_nb_nodes = scm_to_int (max_nb_nodes);
 	  if (SCM_NFALSEP (screenshot))
 	    {
-	      c_screenshot = lw6_scm_to_jpeg (sys_context,screenshot);
+	      c_screenshot = lw6_scm_to_jpeg (sys_context, screenshot);
 	      if (c_screenshot)
 		{
 		  ret =
@@ -646,7 +646,7 @@ _scm_lw6p2p_node_calibrate (sys_context, SCM node, SCM timestamp, SCM seq_0)
 
   SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG2, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_timestamp = scm_to_long_long (timestamp);
@@ -672,7 +672,7 @@ _scm_lw6p2p_node_get_local_seq_0 (sys_context, SCM node)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_ret = lw6p2p_node_get_local_seq_0 (sys_context, c_node);
@@ -696,7 +696,7 @@ _scm_lw6p2p_node_get_local_seq_last (sys_context, SCM node)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_ret = lw6p2p_node_get_local_seq_last (sys_context, c_node);
@@ -720,7 +720,7 @@ _scm_lw6p2p_node_get_seq_min (sys_context, SCM node)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_ret = lw6p2p_node_get_seq_min (sys_context, c_node);
@@ -744,7 +744,7 @@ _scm_lw6p2p_node_get_seq_max (sys_context, SCM node)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_ret = lw6p2p_node_get_seq_max (sys_context, c_node);
@@ -768,7 +768,7 @@ _scm_lw6p2p_node_get_seq_draft (sys_context, SCM node)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_ret = lw6p2p_node_get_seq_draft (sys_context, c_node);
@@ -792,7 +792,7 @@ _scm_lw6p2p_node_get_seq_reference (sys_context, SCM node)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_ret = lw6p2p_node_get_seq_reference (sys_context, c_node);
@@ -819,7 +819,7 @@ _scm_lw6p2p_node_is_peer_connected (sys_context, SCM node, SCM peer_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (peer_id), peer_id, SCM_ARG2, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_peer_id_str = lw6scm_utils_to_0str (sys_context, peer_id);
@@ -855,7 +855,7 @@ _scm_lw6p2p_node_is_peer_registered (sys_context, SCM node, SCM peer_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (peer_id), peer_id, SCM_ARG2, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_peer_id_str = lw6scm_utils_to_0str (sys_context, peer_id);
@@ -887,7 +887,7 @@ _scm_lw6p2p_node_is_seed_needed (sys_context, SCM node)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       ret = lw6p2p_node_is_seed_needed (sys_context, c_node) ? SCM_BOOL_T : SCM_BOOL_F;
@@ -909,7 +909,7 @@ _scm_lw6p2p_node_is_dump_needed (sys_context, SCM node)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       ret = lw6p2p_node_is_dump_needed (sys_context, c_node) ? SCM_BOOL_T : SCM_BOOL_F;
@@ -933,7 +933,7 @@ _scm_lw6p2p_node_put_local_msg (sys_context, SCM node, SCM msg)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.node, node), node, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (msg), msg, SCM_ARG2, __FUNCTION__);
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_msg = lw6scm_utils_to_0str (sys_context, msg);
@@ -965,7 +965,7 @@ _scm_lw6p2p_node_get_next_reference_msg (sys_context, SCM node)
   lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
   // do *not* call lw6sys_progress_begin here!
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_ret = lw6p2p_node_get_next_reference_msg (sys_context, c_node, &progress);
@@ -997,7 +997,7 @@ _scm_lw6p2p_node_get_next_draft_msg (sys_context, SCM node)
   lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
   // do *not* call lw6sys_progress_begin here!
 
-  c_node = lw6_scm_to_node (sys_context,node);
+  c_node = lw6_scm_to_node (sys_context, node);
   if (c_node)
     {
       c_ret = lw6p2p_node_get_next_draft_msg (sys_context, c_node, &progress);

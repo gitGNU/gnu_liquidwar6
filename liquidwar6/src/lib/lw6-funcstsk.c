@@ -49,7 +49,7 @@ _scm_lw6tsk_loader_new (sys_context, SCM sleep)
       c_loader = lw6tsk_loader_new (sys_context, c_sleep, user_dir, &(lw6_global.progress));
       if (c_loader)
 	{
-	  ret = lw6_make_scm_loader (sys_context,c_loader);
+	  ret = lw6_make_scm_loader (sys_context, c_loader);
 	}
       LW6SYS_FREE (sys_context, user_dir);
     }
@@ -87,7 +87,7 @@ _scm_lw6tsk_loader_push_ldr (sys_context, SCM loader, SCM map_path, SCM relative
   SCM_ASSERT (scm_is_integer (bench_value), bench_value, SCM_ARGn, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (magic_number), magic_number, SCM_ARGn, __FUNCTION__);
 
-  c_loader = lw6_scm_to_loader (sys_context,loader);
+  c_loader = lw6_scm_to_loader (sys_context, loader);
   c_map_path = lw6scm_utils_to_0str (sys_context, map_path);
   if (c_map_path)
     {
@@ -144,7 +144,7 @@ _scm_lw6tsk_loader_push_gen (sys_context, SCM loader, SCM seed, SCM display_widt
   SCM_ASSERT (scm_is_integer (bench_value), bench_value, SCM_ARG5, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (magic_number), magic_number, SCM_ARG6, __FUNCTION__);
 
-  c_loader = lw6_scm_to_loader (sys_context,loader);
+  c_loader = lw6_scm_to_loader (sys_context, loader);
   c_seed = lw6scm_utils_to_0str (sys_context, seed);
   if (c_seed)
     {
@@ -182,20 +182,20 @@ _scm_lw6tsk_loader_pop (sys_context, SCM loader)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.loader, loader), loader, SCM_ARG1, __FUNCTION__);
 
-  c_loader = lw6_scm_to_loader (sys_context,loader);
+  c_loader = lw6_scm_to_loader (sys_context, loader);
   if (c_loader)
     {
       if (lw6tsk_loader_pop (sys_context, &c_level, &c_game_struct, &c_game_state, &c_bench_value, c_loader))
 	{
 	  if (c_level)
 	    {
-	      level = lw6_make_scm_map (sys_context,c_level);
+	      level = lw6_make_scm_map (sys_context, c_level);
 	      if (c_game_struct)
 		{
-		  game_struct = lw6_make_scm_game_struct (sys_context,c_game_struct, level);
+		  game_struct = lw6_make_scm_game_struct (sys_context, c_game_struct, level);
 		  if (c_game_state)
 		    {
-		      game_state = lw6_make_scm_game_state (sys_context,c_game_state, game_struct);
+		      game_state = lw6_make_scm_game_state (sys_context, c_game_state, game_struct);
 		    }
 		}
 	    }
@@ -226,7 +226,7 @@ _scm_lw6tsk_loader_get_stage (sys_context, SCM loader)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.loader, loader), loader, SCM_ARG1, __FUNCTION__);
 
-  c_loader = lw6_scm_to_loader (sys_context,loader);
+  c_loader = lw6_scm_to_loader (sys_context, loader);
   if (c_loader)
     {
       c_ret = lw6tsk_loader_get_stage (sys_context, c_loader);

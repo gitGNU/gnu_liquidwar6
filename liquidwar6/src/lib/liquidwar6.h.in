@@ -256,6 +256,8 @@ typedef struct lw6_global_s
    * to happen as the game is multithreaded.
    */
   pthread_mutex_t mutex;
+  /// Global system context
+  void *sys_context;
   /// Configuration information (config file access).
   void *cfg_context;
   /// Wether libcfg has been initialized.
@@ -312,139 +314,139 @@ typedef struct lw6_global_s
 lw6_global_t;
 
 /* lw6-callback.c */
-extern void lw6_resize_callback (lw6sys_context_t *sys_context,lw6gui_video_mode_t * video_mode);
+extern void lw6_resize_callback (lw6sys_context_t * sys_context, lw6gui_video_mode_t * video_mode);
 
 /* lw6-control.c */
-extern void lw6_release (lw6sys_context_t *sys_context);
-extern void lw6_exit (lw6sys_context_t *sys_context);
-extern void lw6_set_ret (lw6sys_context_t *sys_context,int ret);
-extern int lw6_get_ret (lw6sys_context_t *sys_context);
+extern void lw6_release (lw6sys_context_t * sys_context);
+extern void lw6_exit (lw6sys_context_t * sys_context);
+extern void lw6_set_ret (lw6sys_context_t * sys_context, int ret);
+extern int lw6_get_ret (lw6sys_context_t * sys_context);
 
 /* lw6-fix.c */
-extern int lw6_fix_env (lw6sys_context_t *sys_context,int argc, const char *argv[]);
+extern int lw6_fix_env (lw6sys_context_t * sys_context, int argc, const char *argv[]);
 
 /* lw6-funcs.c */
-extern int lw6_register_funcs (lw6sys_context_t *sys_context);
-extern void lw6_cns_handler (lw6sys_context_t *sys_context,char *line);
+extern int lw6_register_funcs (lw6sys_context_t * sys_context);
+extern void lw6_cns_handler (lw6sys_context_t * sys_context, char *line);
 
 /* lw6-funcssys.c */
-extern int lw6_register_funcs_sys (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_sys (lw6sys_context_t * sys_context);
 
 /* lw6-funcshlp.c */
-extern int lw6_register_funcs_hlp (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_hlp (lw6sys_context_t * sys_context);
 
 /* lw6-funcscfg.c */
-extern int lw6_register_funcs_cfg (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_cfg (lw6sys_context_t * sys_context);
 
 /* lw6-funcsgui.c */
-extern int lw6_register_funcs_gui (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_gui (lw6sys_context_t * sys_context);
 
 /* lw6-funcsgfx.c */
-extern int lw6_register_funcs_gfx (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_gfx (lw6sys_context_t * sys_context);
 
 /* lw6-funcsdsp.c */
-extern int lw6_register_funcs_dsp (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_dsp (lw6sys_context_t * sys_context);
 
 /* lw6-funcsmap.c */
-extern int lw6_register_funcs_map (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_map (lw6sys_context_t * sys_context);
 
 /* lw6-funcsker.c */
-extern int lw6_register_funcs_ker (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_ker (lw6sys_context_t * sys_context);
 
 /* lw6-funcsgen.c */
-extern int lw6_register_funcs_gen (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_gen (lw6sys_context_t * sys_context);
 
 /* lw6-funcsldr.c */
-extern int lw6_register_funcs_ldr (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_ldr (lw6sys_context_t * sys_context);
 
 /* lw6-funcspil.c */
-extern int lw6_register_funcs_pil (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_pil (lw6sys_context_t * sys_context);
 
 /* lw6-funcssnd.c */
-extern int lw6_register_funcs_snd (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_snd (lw6sys_context_t * sys_context);
 
 /* lw6-funcscns.c */
-extern int lw6_register_funcs_cns (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_cns (lw6sys_context_t * sys_context);
 
 /* lw6-funcstsk.c */
-extern int lw6_register_funcs_tsk (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_tsk (lw6sys_context_t * sys_context);
 
 /* lw6-funcsimg.c */
-extern int lw6_register_funcs_img (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_img (lw6sys_context_t * sys_context);
 
 /* lw6-funcsnet.c */
-extern int lw6_register_funcs_net (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_net (lw6sys_context_t * sys_context);
 
 /* lw6-funcscli.c */
-extern int lw6_register_funcs_cli (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_cli (lw6sys_context_t * sys_context);
 
 /* lw6-funcssrv.c */
-extern int lw6_register_funcs_srv (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_srv (lw6sys_context_t * sys_context);
 
 /* lw6-funcsp2p.c */
-extern int lw6_register_funcs_p2p (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_p2p (lw6sys_context_t * sys_context);
 
 /* lw6-funcsbot.c */
-extern int lw6_register_funcs_bot (lw6sys_context_t *sys_context);
+extern int lw6_register_funcs_bot (lw6sys_context_t * sys_context);
 
 /* lw6-global.c */
 #define LW6_MUTEX_LOCK pthread_mutex_lock (sys_context, &lw6_global.mutex);
 #define LW6_MUTEX_UNLOCK pthread_mutex_unlock (sys_context, &lw6_global.mutex);
 
 extern lw6_global_t lw6_global;
-extern int lw6_init_global (lw6sys_context_t *sys_context,int argc, const char *argv[]);
-extern void lw6_quit_global (lw6sys_context_t *sys_context);
+extern int lw6_init_global (lw6sys_context_t * sys_context, int argc, const char *argv[]);
+extern void lw6_quit_global (lw6sys_context_t * sys_context);
 
 /* lw6-main.c */
-extern int lw6_main (lw6sys_context_t *sys_context,int argc, const char *argv[]);
+extern int lw6_main (lw6sys_context_t * sys_context, int argc, const char *argv[]);
 
 /* lw6-options.c */
-extern int lw6_process_non_run_options (lw6sys_context_t *sys_context,int argc, const char *argv[], int *run_game);
+extern int lw6_process_non_run_options (lw6sys_context_t * sys_context, int argc, const char *argv[], int *run_game);
 
 /* lw6-smobs.c */
-extern SCM lw6_make_scm_dsp (lw6sys_context_t *sys_context,lw6dsp_backend_t * c_dsp);
-extern lw6dsp_backend_t *lw6_scm_to_dsp (lw6sys_context_t *sys_context,SCM dsp);
-extern void lw6_free_dsp_smob (lw6sys_context_t *sys_context,lw6_dsp_smob_t * dsp_smob);
-extern SCM lw6_make_scm_snd (lw6sys_context_t *sys_context,lw6snd_backend_t * c_snd);
-extern lw6snd_backend_t *lw6_scm_to_snd (lw6sys_context_t *sys_context,SCM snd);
-extern void lw6_free_snd_smob (lw6sys_context_t *sys_context,lw6_snd_smob_t * snd_smob);
-extern SCM lw6_make_scm_map (lw6sys_context_t *sys_context,lw6map_level_t * c_map);
-extern lw6map_level_t *lw6_scm_to_map (lw6sys_context_t *sys_context,SCM map);
-extern void lw6_free_map_smob (lw6sys_context_t *sys_context,lw6_map_smob_t * map_smob);
-extern SCM lw6_make_scm_menu (lw6sys_context_t *sys_context,lw6gui_menu_t * c_menu);
-extern lw6gui_menu_t *lw6_scm_to_menu (lw6sys_context_t *sys_context,SCM menu);
-extern void lw6_free_menu_smob (lw6sys_context_t *sys_context,lw6_menu_smob_t * menu_smob);
-extern SCM lw6_make_scm_game_struct (lw6sys_context_t *sys_context,lw6ker_game_struct_t * c_game_struct, SCM map);
-extern lw6ker_game_struct_t *lw6_scm_to_game_struct (lw6sys_context_t *sys_context,SCM game_struct);
-extern void lw6_free_game_struct_smob (lw6sys_context_t *sys_context,lw6_game_struct_smob_t * game_struct_smob);
-extern SCM lw6_make_scm_game_state (lw6sys_context_t *sys_context,lw6ker_game_state_t * c_game_state, SCM game_struct);
-extern lw6ker_game_state_t *lw6_scm_to_game_state (lw6sys_context_t *sys_context,SCM game_state);
-extern void lw6_free_game_state_smob (lw6sys_context_t *sys_context,lw6_game_state_smob_t * game_state_smob);
-extern SCM lw6_make_scm_pilot (lw6sys_context_t *sys_context,lw6pil_pilot_t * c_pilot);
-extern lw6pil_pilot_t *lw6_scm_to_pilot (lw6sys_context_t *sys_context,SCM pilot);
-extern void lw6_free_pilot_smob (lw6sys_context_t *sys_context,lw6_pilot_smob_t * pilot_smob);
-extern SCM lw6_make_scm_bot (lw6sys_context_t *sys_context,lw6bot_backend_t * c_bot, SCM game_state, SCM pilot);
-extern lw6bot_backend_t *lw6_scm_to_bot (lw6sys_context_t *sys_context,SCM bot);
-extern void lw6_free_bot_smob (lw6sys_context_t *sys_context,lw6_bot_smob_t * bot_smob);
-extern SCM lw6_make_scm_look (lw6sys_context_t *sys_context,lw6gui_look_t * c_look);
-extern lw6gui_look_t *lw6_scm_to_look (lw6sys_context_t *sys_context,SCM look);
-extern void lw6_free_look_smob (lw6sys_context_t *sys_context,lw6_look_smob_t * look_smob);
-extern SCM lw6_make_scm_loader (lw6sys_context_t *sys_context,lw6tsk_loader_t * c_loader);
-extern lw6tsk_loader_t *lw6_scm_to_loader (lw6sys_context_t *sys_context,SCM loader);
-extern void lw6_free_loader_smob (lw6sys_context_t *sys_context,lw6_loader_smob_t * loader_smob);
-extern SCM lw6_make_scm_db (lw6sys_context_t *sys_context,lw6p2p_db_t * c_db);
-extern lw6p2p_db_t *lw6_scm_to_db (lw6sys_context_t *sys_context,SCM db);
-extern void lw6_free_db_smob (lw6sys_context_t *sys_context,lw6_db_smob_t * db_smob);
-extern SCM lw6_make_scm_node (lw6sys_context_t *sys_context,lw6p2p_node_t * c_node, SCM db);
-extern lw6p2p_node_t *lw6_scm_to_node (lw6sys_context_t *sys_context,SCM node);
-extern void lw6_free_node_smob (lw6sys_context_t *sys_context,lw6_node_smob_t * node_smob);
-extern SCM lw6_make_scm_jpeg (lw6sys_context_t *sys_context,lw6img_jpeg_t * c_jpeg);
-extern lw6img_jpeg_t *lw6_scm_to_jpeg (lw6sys_context_t *sys_context,SCM jpeg);
-extern void lw6_free_jpeg_smob (lw6sys_context_t *sys_context,lw6_jpeg_smob_t * jpeg_smob);
-extern int lw6_register_smobs (lw6sys_context_t *sys_context);
+extern SCM lw6_make_scm_dsp (lw6sys_context_t * sys_context, lw6dsp_backend_t * c_dsp);
+extern lw6dsp_backend_t *lw6_scm_to_dsp (lw6sys_context_t * sys_context, SCM dsp);
+extern void lw6_free_dsp_smob (lw6sys_context_t * sys_context, lw6_dsp_smob_t * dsp_smob);
+extern SCM lw6_make_scm_snd (lw6sys_context_t * sys_context, lw6snd_backend_t * c_snd);
+extern lw6snd_backend_t *lw6_scm_to_snd (lw6sys_context_t * sys_context, SCM snd);
+extern void lw6_free_snd_smob (lw6sys_context_t * sys_context, lw6_snd_smob_t * snd_smob);
+extern SCM lw6_make_scm_map (lw6sys_context_t * sys_context, lw6map_level_t * c_map);
+extern lw6map_level_t *lw6_scm_to_map (lw6sys_context_t * sys_context, SCM map);
+extern void lw6_free_map_smob (lw6sys_context_t * sys_context, lw6_map_smob_t * map_smob);
+extern SCM lw6_make_scm_menu (lw6sys_context_t * sys_context, lw6gui_menu_t * c_menu);
+extern lw6gui_menu_t *lw6_scm_to_menu (lw6sys_context_t * sys_context, SCM menu);
+extern void lw6_free_menu_smob (lw6sys_context_t * sys_context, lw6_menu_smob_t * menu_smob);
+extern SCM lw6_make_scm_game_struct (lw6sys_context_t * sys_context, lw6ker_game_struct_t * c_game_struct, SCM map);
+extern lw6ker_game_struct_t *lw6_scm_to_game_struct (lw6sys_context_t * sys_context, SCM game_struct);
+extern void lw6_free_game_struct_smob (lw6sys_context_t * sys_context, lw6_game_struct_smob_t * game_struct_smob);
+extern SCM lw6_make_scm_game_state (lw6sys_context_t * sys_context, lw6ker_game_state_t * c_game_state, SCM game_struct);
+extern lw6ker_game_state_t *lw6_scm_to_game_state (lw6sys_context_t * sys_context, SCM game_state);
+extern void lw6_free_game_state_smob (lw6sys_context_t * sys_context, lw6_game_state_smob_t * game_state_smob);
+extern SCM lw6_make_scm_pilot (lw6sys_context_t * sys_context, lw6pil_pilot_t * c_pilot);
+extern lw6pil_pilot_t *lw6_scm_to_pilot (lw6sys_context_t * sys_context, SCM pilot);
+extern void lw6_free_pilot_smob (lw6sys_context_t * sys_context, lw6_pilot_smob_t * pilot_smob);
+extern SCM lw6_make_scm_bot (lw6sys_context_t * sys_context, lw6bot_backend_t * c_bot, SCM game_state, SCM pilot);
+extern lw6bot_backend_t *lw6_scm_to_bot (lw6sys_context_t * sys_context, SCM bot);
+extern void lw6_free_bot_smob (lw6sys_context_t * sys_context, lw6_bot_smob_t * bot_smob);
+extern SCM lw6_make_scm_look (lw6sys_context_t * sys_context, lw6gui_look_t * c_look);
+extern lw6gui_look_t *lw6_scm_to_look (lw6sys_context_t * sys_context, SCM look);
+extern void lw6_free_look_smob (lw6sys_context_t * sys_context, lw6_look_smob_t * look_smob);
+extern SCM lw6_make_scm_loader (lw6sys_context_t * sys_context, lw6tsk_loader_t * c_loader);
+extern lw6tsk_loader_t *lw6_scm_to_loader (lw6sys_context_t * sys_context, SCM loader);
+extern void lw6_free_loader_smob (lw6sys_context_t * sys_context, lw6_loader_smob_t * loader_smob);
+extern SCM lw6_make_scm_db (lw6sys_context_t * sys_context, lw6p2p_db_t * c_db);
+extern lw6p2p_db_t *lw6_scm_to_db (lw6sys_context_t * sys_context, SCM db);
+extern void lw6_free_db_smob (lw6sys_context_t * sys_context, lw6_db_smob_t * db_smob);
+extern SCM lw6_make_scm_node (lw6sys_context_t * sys_context, lw6p2p_node_t * c_node, SCM db);
+extern lw6p2p_node_t *lw6_scm_to_node (lw6sys_context_t * sys_context, SCM node);
+extern void lw6_free_node_smob (lw6sys_context_t * sys_context, lw6_node_smob_t * node_smob);
+extern SCM lw6_make_scm_jpeg (lw6sys_context_t * sys_context, lw6img_jpeg_t * c_jpeg);
+extern lw6img_jpeg_t *lw6_scm_to_jpeg (lw6sys_context_t * sys_context, SCM jpeg);
+extern void lw6_free_jpeg_smob (lw6sys_context_t * sys_context, lw6_jpeg_smob_t * jpeg_smob);
+extern int lw6_register_smobs (lw6sys_context_t * sys_context);
 
 /* lw6-test.c */
-extern int lw6_test_register (lw6sys_context_t *sys_context,int mode);
-extern int lw6_test_run (lw6sys_context_t *sys_context,int mode);
+extern int lw6_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif

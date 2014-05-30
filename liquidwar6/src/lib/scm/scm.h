@@ -42,7 +42,7 @@ extern void lw6scm_coverage_log (lw6sys_context_t * sys_context, lw6sys_hash_t *
 extern int lw6scm_coverage_check (lw6sys_context_t * sys_context, int *percent, lw6sys_hash_t * coverage, lw6sys_list_t * funcs);
 
 /* scm-gettext.c */
-extern SCM lw6scm_gettext (lw6sys_context_t *sys_context, SCM string);
+extern SCM lw6scm_gettext (lw6sys_context_t * sys_context, SCM string);
 
 /* scm-utils.c */
 extern char *lw6scm_utils_to_0str (lw6sys_context_t * sys_context, SCM string);

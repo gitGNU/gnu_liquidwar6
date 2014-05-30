@@ -45,7 +45,7 @@ _scm_lw6img_screenshot (SCM game_state, SCM quality)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (quality), quality, SCM_ARG2, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context, game_state);
   if (c_game_state)
     {
       c_user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
@@ -62,7 +62,7 @@ _scm_lw6img_screenshot (SCM game_state, SCM quality)
 	   */
 	  if (c_jpeg)
 	    {
-	      ret = lw6_make_scm_jpeg (sys_context,c_jpeg);
+	      ret = lw6_make_scm_jpeg (sys_context, c_jpeg);
 	    }
 	  LW6SYS_FREE (sys_context, c_user_dir);
 	}
