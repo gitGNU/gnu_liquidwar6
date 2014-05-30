@@ -41,13 +41,13 @@ _scm_lw6gen_create_from_seed (sys_context, SCM seed, SCM map_w, SCM map_h)
   int c_map_h = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (seed), seed, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (map_w), map_w, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (map_h), map_h, SCM_ARG3, __FUNCTION__);
 
-  c_seed = lw6scm_utils_to_0str (seed);
+  c_seed = lw6scm_utils_to_0str (sys_context,seed);
   if (c_seed)
     {
       c_normalized_seed = lw6gen_seed_normalize (sys_context, c_seed);
@@ -78,7 +78,7 @@ _scm_lw6gen_seed_new ()
   char *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_ret = lw6gen_seed_new ();
   if (c_ret)
@@ -100,11 +100,11 @@ _scm_lw6gen_seed_normalize (sys_context, SCM seed)
   char *c_seed = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (seed), seed, SCM_ARG1, __FUNCTION__);
 
-  c_seed = lw6scm_utils_to_0str (seed);
+  c_seed = lw6scm_utils_to_0str (sys_context,seed);
   if (c_seed)
     {
       c_ret = lw6gen_seed_normalize (sys_context, c_seed);
@@ -136,9 +136,9 @@ lw6_register_funcs_gen ()
   /*
    * In liquidwar6gen
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6GEN_CREATE_FROM_SEED, 3, 0, 0, (SCM (*)())_scm_lw6gen_create_from_seed);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6GEN_SEED_NEW, 0, 0, 0, (SCM (*)())_scm_lw6gen_seed_new);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6GEN_SEED_NORMALIZE, 1, 0, 0, (SCM (*)())_scm_lw6gen_seed_normalize);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GEN_CREATE_FROM_SEED, 3, 0, 0, (SCM (*)())_scm_lw6gen_create_from_seed);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GEN_SEED_NEW, 0, 0, 0, (SCM (*)())_scm_lw6gen_seed_new);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6GEN_SEED_NORMALIZE, 1, 0, 0, (SCM (*)())_scm_lw6gen_seed_normalize);
 
   return ret;
 }

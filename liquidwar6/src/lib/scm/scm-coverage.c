@@ -36,6 +36,7 @@ typedef struct _coverage_check_s
 /**
  * lw6scm_coverage_new
  *
+ * @sys_context: global system context
  * @funcs: list of functions, used as an input to size the hash correctly
  *
  * Creates a new coverage hash, this is a simple hash containing pointers
@@ -46,7 +47,7 @@ typedef struct _coverage_check_s
  * Return value: newly allocated hash
  */
 lw6sys_hash_t *
-lw6scm_coverage_new (lw6sys_list_t * funcs)
+lw6scm_coverage_new (lw6sys_context_t *sys_context,lw6sys_list_t * funcs)
 {
   lw6sys_hash_t *ret = NULL;
   int funcs_size = 0;
@@ -65,13 +66,14 @@ lw6scm_coverage_new (lw6sys_list_t * funcs)
  *
  * Registers a call on a given function.
  *
+ * @sys_context: global system context
  * @coverage: the hash to use to store the update
  * @func: the name of the function (its callable scheme name)
  *
  * Return value: none.
  */
 void
-lw6scm_coverage_call (lw6sys_hash_t * coverage, const char *func)
+lw6scm_coverage_call (lw6sys_context_t *sys_context,lw6sys_hash_t * coverage, const char *func)
 {
   void *value = NULL;
   int *calls;
@@ -103,7 +105,7 @@ lw6scm_coverage_call (lw6sys_hash_t * coverage, const char *func)
 }
 
 static void
-_coverage_log_callback (void *func_data, const char *key, void *value)
+_coverage_log_callback (lw6sys_context_t *sys_context,void *func_data, const char *key, void *value)
 {
   int calls = 0;
 
@@ -124,12 +126,13 @@ _coverage_log_callback (void *func_data, const char *key, void *value)
  * Logs the information about which function has been called, and how many times.
  * This is only about scheme functions.
  *
+ * @sys_context: global system context
  * @coverage: the hash containing the call data
  *
  * Return value: none
  */
 void
-lw6scm_coverage_log (lw6sys_hash_t * coverage)
+lw6scm_coverage_log (lw6sys_context_t *sys_context,lw6sys_hash_t * coverage)
 {
   if (coverage)
     {
@@ -142,17 +145,17 @@ lw6scm_coverage_log (lw6sys_hash_t * coverage)
 }
 
 static void
-_coverage_check_callback (void *func_data, void *value)
+_coverage_check_callback (lw6sys_context_t *sys_context,void *func_data, void *value)
 {
   const char *key = (const char *) value;
   _coverage_check_t *cc = (_coverage_check_t *) func_data;
   char *c_name = NULL;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("checking script function \"%s\""), key);
-  c_name = lw6scm_funcname_scm2c (key);
+  c_name = lw6scm_funcname_scm2c (sys_context,key);
   if (c_name)
     {
-      if (lw6sys_hash_has_key (cc->coverage, c_name))
+      if (lw6sys_hash_has_key (sys_context,cc->coverage, c_name))
 	{
 	  ++(cc->n);
 	}
@@ -168,6 +171,7 @@ _coverage_check_callback (void *func_data, void *value)
 /**
  * lw6scm_coverage_check
  *
+ * @sys_context: global system context
  * @percent: if not NULL, will contain the percentage of coverage
  * @coverage: object to query, containing coverage information
  * @funcs: list of functions to check
@@ -182,7 +186,7 @@ _coverage_check_callback (void *func_data, void *value)
  * Return value: 1 if OK, 0 if KO.
  */
 int
-lw6scm_coverage_check (int *percent, lw6sys_hash_t * coverage, lw6sys_list_t * funcs)
+lw6scm_coverage_check (lw6sys_context_t *sys_context,int *percent, lw6sys_hash_t * coverage, lw6sys_list_t * funcs)
 {
   int ret = 0;
   int funcs_size = 0;

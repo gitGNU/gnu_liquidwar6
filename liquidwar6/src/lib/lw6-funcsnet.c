@@ -40,7 +40,7 @@ _scm_lw6net_init (sys_context, SCM net_log)
   int c_net_log = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_BOOLP (net_log), net_log, SCM_ARG1, __FUNCTION__);
 
@@ -60,7 +60,7 @@ static SCM
 _scm_lw6net_quit ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.net_initialized)
     {
@@ -91,8 +91,8 @@ lw6_register_funcs_net ()
   /*
    * In setup.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6NET_INIT, 1, 0, 0, (SCM (*)())_scm_lw6net_init);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6NET_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6net_quit);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6NET_INIT, 1, 0, 0, (SCM (*)())_scm_lw6net_init);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6NET_QUIT, 0, 0, 0, (SCM (*)())_scm_lw6net_quit);
 
   return ret;
 }

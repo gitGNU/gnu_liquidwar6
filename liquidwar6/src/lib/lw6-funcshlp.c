@@ -37,11 +37,11 @@ _scm_lw6hlp_about (SCM key)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = lw6scm_utils_to_0str (key);
+  c_key = lw6scm_utils_to_0str (sys_context,key);
   if (c_key)
     {
       c_ret = lw6hlp_about (NULL, NULL, NULL, NULL, c_key);
@@ -66,11 +66,11 @@ _scm_lw6hlp_get_default_value (SCM key)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
 
-  c_key = lw6scm_utils_to_0str (key);
+  c_key = lw6scm_utils_to_0str (sys_context,key);
   if (c_key)
     {
       c_ret = lw6hlp_get_default_value (c_key);
@@ -94,12 +94,12 @@ _scm_lw6hlp_list_quick (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_quick (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -115,12 +115,12 @@ _scm_lw6hlp_list_doc (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_doc (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -136,12 +136,12 @@ _scm_lw6hlp_list_show (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_show (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -157,12 +157,12 @@ _scm_lw6hlp_list_path (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_path (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -178,12 +178,12 @@ _scm_lw6hlp_list_players (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_players (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -199,12 +199,12 @@ _scm_lw6hlp_list_input (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_input (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -220,12 +220,12 @@ _scm_lw6hlp_list_graphics (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_graphics (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -241,12 +241,12 @@ _scm_lw6hlp_list_sound (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_sound (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -262,12 +262,12 @@ _scm_lw6hlp_list_network (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_network (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -283,12 +283,12 @@ _scm_lw6hlp_list_map (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_map (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -304,12 +304,12 @@ _scm_lw6hlp_list_map_rules (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_map_rules (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -325,12 +325,12 @@ _scm_lw6hlp_list_map_hints (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_map_hints (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -346,12 +346,12 @@ _scm_lw6hlp_list_map_style (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_map_style (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -367,12 +367,12 @@ _scm_lw6hlp_list_map_teams (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_map_teams (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -388,12 +388,12 @@ _scm_lw6hlp_list_funcs (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_funcs (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -409,12 +409,12 @@ _scm_lw6hlp_list_hooks (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_hooks (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -430,12 +430,12 @@ _scm_lw6hlp_list_advanced (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_advanced (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -451,12 +451,12 @@ _scm_lw6hlp_list_aliases (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_aliases (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -472,12 +472,12 @@ _scm_lw6hlp_list_team_colors (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_team_colors (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -493,12 +493,12 @@ _scm_lw6hlp_list_weapons (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list_weapons (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -514,12 +514,12 @@ _scm_lw6hlp_list (sys_context)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   c_list = lw6hlp_list (sys_context);
   if (c_list)
     {
-      ret = lw6scm_utils_to_scm_str_list (c_list);
+      ret = lw6scm_utils_to_scm_str_list (sys_context,c_list);
       lw6sys_list_free (sys_context, c_list);
     }
 
@@ -543,29 +543,29 @@ lw6_register_funcs_hlp ()
   /*
    * In liquidwar6hlp
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_ABOUT, 1, 0, 0, (SCM (*)())_scm_lw6hlp_about);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE, 1, 0, 0, (SCM (*)())_scm_lw6hlp_get_default_value);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_QUICK, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_quick);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_DOC, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_doc);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_SHOW, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_show);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_PATH, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_path);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_PLAYERS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_players);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_INPUT, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_input);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_GRAPHICS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_graphics);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_SOUND, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_sound);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_NETWORK, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_network);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_RULES, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_rules);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_HINTS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_hints);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_STYLE, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_style);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_MAP_TEAMS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_teams);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_FUNCS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_funcs);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_HOOKS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_hooks);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_ADVANCED, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_advanced);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_ALIASES, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_aliases);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_TEAM_COLORS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_team_colors);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST_WEAPONS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_weapons);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6HLP_LIST, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_ABOUT, 1, 0, 0, (SCM (*)())_scm_lw6hlp_about);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_GET_DEFAULT_VALUE, 1, 0, 0, (SCM (*)())_scm_lw6hlp_get_default_value);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_QUICK, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_quick);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_DOC, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_doc);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_SHOW, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_show);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_PATH, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_path);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_PLAYERS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_players);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_INPUT, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_input);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_GRAPHICS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_graphics);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_SOUND, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_sound);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_NETWORK, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_network);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_MAP, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_MAP_RULES, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_rules);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_MAP_HINTS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_hints);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_MAP_STYLE, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_style);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_MAP_TEAMS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_map_teams);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_FUNCS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_funcs);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_HOOKS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_hooks);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_ADVANCED, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_advanced);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_ALIASES, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_aliases);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_TEAM_COLORS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_team_colors);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST_WEAPONS, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list_weapons);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6HLP_LIST, 0, 0, 0, (SCM (*)())_scm_lw6hlp_list);
 
   return ret;
 }

@@ -36,11 +36,11 @@ _scm_gettext (SCM string)
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (string), string, SCM_ARG1, __FUNCTION__);
 
-  c_string = lw6scm_utils_to_0str (string);
+  c_string = lw6scm_utils_to_0str (sys_context,string);
   if (c_string)
     {
       ret = scm_from_locale_string (gettext (c_string));
@@ -59,7 +59,7 @@ static SCM
 _scm_lw6_release ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   lw6_release ();
 
@@ -72,7 +72,7 @@ static SCM
 _scm_lw6_exit ()
 {
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   lw6_exit ();
 
@@ -87,7 +87,7 @@ _scm_lw6_set_ret (SCM set_ret)
   SCM get_ret = SCM_UNDEFINED;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_BOOLP (set_ret), set_ret, SCM_ARG1, __FUNCTION__);
 
@@ -113,7 +113,7 @@ _scm_lw6_get_ret ()
   SCM ret = SCM_UNDEFINED;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   ret = lw6_get_ret ()? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -136,7 +136,7 @@ lw6_register_funcs ()
 {
   int ret = 1;
 
-  ret = ret && lw6scm_c_define_gsubr ("C-GETTEXT", 1, 0, 0, (SCM (*)())_scm_gettext);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,"C-GETTEXT", 1, 0, 0, (SCM (*)())_scm_gettext);
   /*
    * This one uses scm_define_gsubr and not the binding
    * lw6scm_c_define_gsubr for _ is not documented due
@@ -168,10 +168,10 @@ lw6_register_funcs ()
   /*
    * Global control funcs
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6_RELEASE, 0, 0, 0, (SCM (*)())_scm_lw6_release);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6_EXIT, 0, 0, 0, (SCM (*)())_scm_lw6_exit);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6_SET_RET, 1, 0, 0, (SCM (*)())_scm_lw6_set_ret);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6_GET_RET, 0, 0, 0, (SCM (*)())_scm_lw6_get_ret);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6_RELEASE, 0, 0, 0, (SCM (*)())_scm_lw6_release);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6_EXIT, 0, 0, 0, (SCM (*)())_scm_lw6_exit);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6_SET_RET, 1, 0, 0, (SCM (*)())_scm_lw6_set_ret);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6_GET_RET, 0, 0, 0, (SCM (*)())_scm_lw6_get_ret);
 
   return ret;
 }

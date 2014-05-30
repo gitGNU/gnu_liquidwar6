@@ -32,28 +32,28 @@ typedef SCM (*lw6scm_func_t) ();
 typedef void *(*lw6scm_callback_t) (void *);
 
 /* scm-funcname.c */
-extern char *lw6scm_funcname_scm2c (const char *funcname);
-extern char *lw6scm_funcname_c2scm (const char *funcname);
+extern char *lw6scm_funcname_scm2c (lw6sys_context_t *sys_context,const char *funcname);
+extern char *lw6scm_funcname_c2scm (lw6sys_context_t *sys_context,const char *funcname);
 
 /* scm-coverage.c */
-extern lw6sys_hash_t *lw6scm_coverage_new (lw6sys_list_t * funcs);
-extern void lw6scm_coverage_call (lw6sys_hash_t * coverage, const char *func);
-extern void lw6scm_coverage_log (lw6sys_hash_t * coverage);
-extern int lw6scm_coverage_check (int *percent, lw6sys_hash_t * coverage, lw6sys_list_t * funcs);
+extern lw6sys_hash_t *lw6scm_coverage_new (lw6sys_context_t *sys_context,lw6sys_list_t * funcs);
+extern void lw6scm_coverage_call (lw6sys_context_t *sys_context,lw6sys_hash_t * coverage, const char *func);
+extern void lw6scm_coverage_log (lw6sys_context_t *sys_context,lw6sys_hash_t * coverage);
+extern int lw6scm_coverage_check (lw6sys_context_t *sys_context,int *percent, lw6sys_hash_t * coverage, lw6sys_list_t * funcs);
 /* scm-utils.c */
-extern char *lw6scm_utils_to_0str (SCM string);
-extern SCM lw6scm_utils_to_scm_str_list (lw6sys_list_t * c_list);
-extern SCM lw6scm_utils_to_scm_str_assoc (lw6sys_assoc_t * c_assoc);
-extern lw6sys_list_t *lw6scm_utils_to_sys_str_list (SCM list);
-extern lw6sys_assoc_t *lw6scm_utils_to_sys_str_assoc (SCM assoc);
+extern char *lw6scm_utils_to_0str (lw6sys_context_t *sys_context,SCM string);
+extern SCM lw6scm_utils_to_scm_str_list (lw6sys_context_t *sys_context,lw6sys_list_t * c_list);
+extern SCM lw6scm_utils_to_scm_str_assoc (lw6sys_context_t *sys_context,lw6sys_assoc_t * c_assoc);
+extern lw6sys_list_t *lw6scm_utils_to_sys_str_list (lw6sys_context_t *sys_context,SCM list);
+extern lw6sys_assoc_t *lw6scm_utils_to_sys_str_assoc (lw6sys_context_t *sys_context,SCM assoc);
 
 /* scm-wrapper.c */
-extern int lw6scm_c_define_gsubr (const char *name, int req, int opt, int rst, lw6scm_func_t fcn);
-extern int lw6scm_c_primitive_load (const char *filename);
-extern void *lw6scm_with_guile (lw6scm_callback_t func, void *data);
+extern int lw6scm_c_define_gsubr (lw6sys_context_t *sys_context,const char *name, int req, int opt, int rst, lw6scm_func_t fcn);
+extern int lw6scm_c_primitive_load (lw6sys_context_t *sys_context,const char *filename);
+extern void *lw6scm_with_guile (lw6sys_context_t *sys_context,lw6scm_callback_t func, void *data);
 
 /* scm-test.c */
-extern int lw6scm_test_register (int mode);
-extern int lw6scm_test_run (int mode);
+extern int lw6scm_test_register (lw6sys_context_t *sys_context,int mode);
+extern int lw6scm_test_run (lw6sys_context_t *sys_context,int mode);
 
 #endif

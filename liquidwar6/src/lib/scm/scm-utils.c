@@ -39,7 +39,7 @@
  * Return value: newly allocated string, pointer must be freed.
  */
 char *
-lw6scm_utils_to_0str (SCM string)
+lw6scm_utils_to_0str (sys_context,SCM string)
 {
   char *c_string = NULL;
   int length = 0;
@@ -89,7 +89,7 @@ lw6scm_utils_to_0str (SCM string)
  * Return value: Guile object, a list of strings
  */
 SCM
-lw6scm_utils_to_scm_str_list (lw6sys_list_t * c_list)
+lw6scm_utils_to_scm_str_list (sys_context,lw6sys_list_t * c_list)
 {
   SCM ret = SCM_EOL;
   lw6sys_list_t *c_item = NULL;
@@ -130,7 +130,7 @@ _to_scm_str_assoc_callback (void *func_data, const char *key, void *value)
  * Return value: Guile object, an assoc of strings
  */
 SCM
-lw6scm_utils_to_scm_str_assoc (lw6sys_assoc_t * c_assoc)
+lw6scm_utils_to_scm_str_assoc (sys_context,lw6sys_assoc_t * c_assoc)
 {
   SCM ret = SCM_EOL;
 
@@ -155,7 +155,7 @@ lw6scm_utils_to_scm_str_assoc (lw6sys_assoc_t * c_assoc)
  * Return value: new C list object
  */
 lw6sys_list_t *
-lw6scm_utils_to_sys_str_list (SCM list)
+lw6scm_utils_to_sys_str_list (sys_context,SCM list)
 {
   lw6sys_list_t *c_list = NULL;
 
@@ -172,7 +172,7 @@ lw6scm_utils_to_sys_str_list (SCM list)
 	  for (i = n - 1; i >= 0; --i)
 	    {
 	      item = scm_list_ref (list, scm_from_int (i));
-	      c_item = lw6scm_utils_to_0str (item);
+	      c_item = lw6scm_utils_to_0str (sys_context,item);
 	      if (c_item)
 		{
 		  lw6sys_list_push_front (sys_context, &c_list, c_item);
@@ -197,7 +197,7 @@ lw6scm_utils_to_sys_str_list (SCM list)
  * Return value: new C assoc object
  */
 lw6sys_assoc_t *
-lw6scm_utils_to_sys_str_assoc (SCM assoc)
+lw6scm_utils_to_sys_str_assoc (sys_context,SCM assoc)
 {
   lw6sys_assoc_t *c_assoc = NULL;
 
@@ -216,8 +216,8 @@ lw6scm_utils_to_sys_str_assoc (SCM assoc)
 	      item = scm_list_ref (assoc, scm_from_int (i));
 	      if (SCM_CONSP (item))
 		{
-		  key = lw6scm_utils_to_0str (scm_car (item));
-		  value = lw6scm_utils_to_0str (scm_cdr (item));
+		  key = lw6scm_utils_to_0str (sys_context,scm_car (item));
+		  value = lw6scm_utils_to_0str (sys_context,scm_cdr (item));
 		  if (key && value)
 		    {
 		      lw6sys_assoc_set (sys_context, &c_assoc, key, (void *) value);

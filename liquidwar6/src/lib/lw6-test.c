@@ -173,7 +173,7 @@ _guile_test_callback (_lw6_test_param_t * param)
 	    if (test_file)
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("loading \"%s\""), test_file);
-		lw6scm_c_primitive_load (test_file);
+		lw6scm_c_primitive_load (sys_context,test_file);
 		LW6SYS_FREE (sys_context, test_file);
 	      }
 	  }
@@ -196,7 +196,7 @@ _guile_test_callback (_lw6_test_param_t * param)
 	funcs = lw6hlp_list_funcs (sys_context);
 	if (funcs)
 	  {
-	    if (lw6scm_coverage_check (&coverage_percent, lw6_global.coverage, funcs) || coverage_percent >= _TEST_COVERAGE_PERCENT_MIN)
+	    if (lw6scm_coverage_check (sys_context,&coverage_percent, lw6_global.coverage, funcs) || coverage_percent >= _TEST_COVERAGE_PERCENT_MIN)
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("script coverage OK %d%% (%d%% required)"), coverage_percent, _TEST_COVERAGE_PERCENT_MIN);
 	      }
@@ -264,7 +264,7 @@ _guile_test_run (void *data)
       lw6sys_snooze ();
     }
 
-  lw6scm_with_guile (_guile_test, data);
+  lw6scm_with_guile (sys_context,_guile_test, data);
 }
 
 /*
@@ -495,7 +495,7 @@ lw6_test_register (int mode)
       lw6srv_test_register (sys_context, mode);
       lw6dat_test_register (sys_context, mode);
       lw6p2p_test_register (sys_context, mode);
-      lw6scm_test_register (mode);
+      lw6scm_test_register (sys_context,mode);
     }
 
   memset (&_test_data.param, 0, sizeof (_lw6_test_param_t));

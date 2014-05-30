@@ -49,7 +49,7 @@
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6scm_c_define_gsubr (const char *name, int req, int opt, int rst, lw6scm_func_t fcn)
+lw6scm_c_define_gsubr (sys_context,const char *name, int req, int opt, int rst, lw6scm_func_t fcn)
 {
   int ret = 0;
 
@@ -77,7 +77,7 @@ lw6scm_c_define_gsubr (const char *name, int req, int opt, int rst, lw6scm_func_
  * Return value: 1 on success, 0 on failure.
  */
 int
-lw6scm_c_primitive_load (const char *filename)
+lw6scm_c_primitive_load (sys_context,const char *filename)
 {
   int ret = 0;
 
@@ -113,7 +113,7 @@ lw6scm_c_primitive_load (const char *filename)
  * Return value: callback return value.
  */
 void *
-lw6scm_with_guile (lw6scm_callback_t func, void *data)
+lw6scm_with_guile (sys_context,lw6scm_callback_t func, void *data)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("running function %p(%p) in Guile context"), func, data);
 #ifdef LW6_GUILE2

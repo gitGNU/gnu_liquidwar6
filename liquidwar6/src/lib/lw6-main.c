@@ -48,7 +48,7 @@ guile_main (void *data)
     {
       if (lw6sys_file_exists (script))
 	{
-	  lw6scm_c_primitive_load (script);
+	  lw6scm_c_primitive_load (sys_context,script);
 	}
       else
 	{
@@ -81,7 +81,7 @@ static void
 _run (void *data)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("main run data=%p"), data);
-  lw6scm_with_guile (guile_main, data);
+  lw6scm_with_guile (sys_context,guile_main, data);
 }
 
 static void

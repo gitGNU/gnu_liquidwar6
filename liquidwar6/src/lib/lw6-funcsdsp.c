@@ -342,12 +342,12 @@ _scm_lw6dsp_new (SCM backend_name, SCM param)
   lw6dsp_backend_t *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (scm_is_string (backend_name), backend_name, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_hash_table_p (param), param, SCM_ARG2, __FUNCTION__);
 
-  c_backend_name = lw6scm_utils_to_0str (backend_name);
+  c_backend_name = lw6scm_utils_to_0str (sys_context,backend_name);
   if (backend_name)
     {
       if (prepare_update_param_bootstrap (&c_param, param))
@@ -380,7 +380,7 @@ _scm_lw6dsp_release (SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -403,7 +403,7 @@ _scm_lw6dsp_update (sys_context, SCM dsp, SCM param)
   lw6dsp_param_t c_param;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_hash_table_p (param), param, SCM_ARG2, __FUNCTION__);
@@ -429,7 +429,7 @@ _scm_lw6dsp_get_nb_frames (sys_context, SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -451,7 +451,7 @@ _scm_lw6dsp_get_last_frame_rendering_time (sys_context, SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -473,7 +473,7 @@ _scm_lw6dsp_get_instant_fps (sys_context, SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -495,7 +495,7 @@ _scm_lw6dsp_get_average_fps (sys_context, SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -517,7 +517,7 @@ _scm_lw6dsp_get_video_mode (sys_context, SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -550,7 +550,7 @@ _scm_lw6dsp_get_fullscreen_modes (sys_context, SCM dsp)
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (lw6_global.coverage, __FUNCTION__);
+  lw6scm_coverage_call (sys_context,lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
@@ -633,15 +633,15 @@ lw6_register_funcs_dsp ()
   /*
    * In display.c
    */
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_NEW, 2, 0, 0, (SCM (*)())_scm_lw6dsp_new);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_RELEASE, 1, 0, 0, (SCM (*)())_scm_lw6dsp_release);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_UPDATE, 2, 0, 0, (SCM (*)())_scm_lw6dsp_update);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_NB_FRAMES, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_nb_frames);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_LAST_FRAME_RENDERING_TIME, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_last_frame_rendering_time);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_INSTANT_FPS, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_instant_fps);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_AVERAGE_FPS, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_average_fps);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_VIDEO_MODE, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_video_mode);
-  ret = ret && lw6scm_c_define_gsubr (LW6DEF_C_LW6DSP_GET_FULLSCREEN_MODES, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_fullscreen_modes);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6DSP_NEW, 2, 0, 0, (SCM (*)())_scm_lw6dsp_new);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6DSP_RELEASE, 1, 0, 0, (SCM (*)())_scm_lw6dsp_release);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6DSP_UPDATE, 2, 0, 0, (SCM (*)())_scm_lw6dsp_update);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6DSP_GET_NB_FRAMES, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_nb_frames);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6DSP_GET_LAST_FRAME_RENDERING_TIME, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_last_frame_rendering_time);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6DSP_GET_INSTANT_FPS, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_instant_fps);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6DSP_GET_AVERAGE_FPS, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_average_fps);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6DSP_GET_VIDEO_MODE, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_video_mode);
+  ret = ret && lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6DSP_GET_FULLSCREEN_MODES, 1, 0, 0, (SCM (*)())_scm_lw6dsp_get_fullscreen_modes);
 
   return ret;
 }

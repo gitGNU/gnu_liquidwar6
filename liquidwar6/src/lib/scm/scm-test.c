@@ -55,9 +55,10 @@
 typedef struct _lw6scm_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
 } _lw6scm_test_data_t;
 
-static _lw6scm_test_data_t _test_data = { 0 };
+static _lw6scm_test_data_t _test_data = { 0,NULL };
 
 static int global_ret = 0;
 
@@ -68,12 +69,14 @@ static void
 _test_funcname ()
 {
   int ret = 1;
+  lw6sys_context_t *sys_context=NULL;
+
   LW6SYS_TEST_FUNCTION_BEGIN;
 
   {
     char *funcname = NULL;
 
-    funcname = lw6scm_funcname_scm2c (_TEST_FUNCNAME_SCM);
+    funcname = lw6scm_funcname_scm2c (sys_context,_TEST_FUNCNAME_SCM);
     if (funcname)
       {
 	if (lw6sys_str_is_same (sys_context, funcname, _TEST_FUNCNAME_C))
@@ -88,7 +91,7 @@ _test_funcname ()
 	LW6SYS_FREE (sys_context, funcname);
       }
 
-    funcname = lw6scm_funcname_c2scm (_TEST_FUNCNAME_C);
+    funcname = lw6scm_funcname_c2scm (sys_context,_TEST_FUNCNAME_C);
     if (funcname)
       {
 	if (lw6sys_str_is_same (sys_context, funcname, _TEST_FUNCNAME_SCM))
@@ -108,7 +111,7 @@ _test_funcname ()
 }
 
 static void *
-guile_main_utils (void *data)
+_guile_main_utils (lw6sys_context_t *sys_context,void *data)
 {
   SCM _test_string = SCM_UNDEFINED;
   char *c_test_string = NULL;
@@ -126,7 +129,7 @@ guile_main_utils (void *data)
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("entering Guile in %s"), __FUNCTION__);
 
   _test_string = scm_from_locale_string (_TEST_UTILS_STRING);
-  c_test_string = lw6scm_utils_to_0str (_test_string);
+  c_test_string = lw6scm_utils_to_0str (sys_context,_test_string);
   if (c_test_string)
     {
       if (lw6sys_str_is_same (sys_context, c_test_string, _TEST_UTILS_STRING))
@@ -148,8 +151,8 @@ guile_main_utils (void *data)
       lw6sys_list_push_front (sys_context, &c_test_list_1, _TEST_UTILS_LIST_3);
       if (c_test_list_1)
 	{
-	  _test_list = lw6scm_utils_to_scm_str_list (c_test_list_1);
-	  c_test_list_2 = lw6scm_utils_to_sys_str_list (_test_list);
+	  _test_list = lw6scm_utils_to_scm_str_list (sys_context,c_test_list_1);
+	  c_test_list_2 = lw6scm_utils_to_sys_str_list (sys_context,_test_list);
 	  if (c_test_list_2)
 	    {
 	      c_test_list_1_length = lw6sys_list_length (sys_context, c_test_list_1);
@@ -193,8 +196,8 @@ guile_main_utils (void *data)
       lw6sys_assoc_set (sys_context, &c_test_assoc_1, _TEST_UTILS_ASSOC_KEY_3, _TEST_UTILS_ASSOC_VALUE_3);
       if (c_test_assoc_1)
 	{
-	  _test_assoc = lw6scm_utils_to_scm_str_assoc (c_test_assoc_1);
-	  c_test_assoc_2 = lw6scm_utils_to_sys_str_assoc (_test_assoc);
+	  _test_assoc = lw6scm_utils_to_scm_str_assoc (sys_context,c_test_assoc_1);
+	  c_test_assoc_2 = lw6scm_utils_to_sys_str_assoc (sys_context,_test_assoc);
 	  if (c_test_assoc_2)
 	    {
 	      c_test_assoc_1_value_1 = lw6sys_str_empty_if_null ((char *) lw6sys_assoc_get (sys_context, c_test_assoc_1, _TEST_UTILS_ASSOC_KEY_1));
@@ -252,7 +255,7 @@ _test_utils ()
 
   {
     global_ret = 1;
-    lw6scm_with_guile (guile_main_utils, NULL);
+    lw6scm_with_guile (sys_context,_guile_main_utils, NULL);
     ret = global_ret;
   }
 
@@ -281,14 +284,14 @@ _test_coverage ()
       }
     if (funcs)
       {
-	coverage = lw6scm_coverage_new (funcs);
+	coverage = lw6scm_coverage_new (sys_context,funcs);
 	if (coverage)
 	  {
-	    lw6scm_coverage_call (coverage, _TEST_COVERAGE_C_FUNC1);
-	    lw6scm_coverage_call (coverage, _TEST_COVERAGE_C_FUNC2);
-	    lw6scm_coverage_call (coverage, _TEST_COVERAGE_C_FUNC2);
-	    lw6scm_coverage_log (coverage);
-	    if (lw6scm_coverage_check (&percent, coverage, funcs))
+	    lw6scm_coverage_call (sys_context,coverage, _TEST_COVERAGE_C_FUNC1);
+	    lw6scm_coverage_call (sys_context,coverage, _TEST_COVERAGE_C_FUNC2);
+	    lw6scm_coverage_call (sys_context,coverage, _TEST_COVERAGE_C_FUNC2);
+	    lw6scm_coverage_log (sys_context,coverage);
+	    if (lw6scm_coverage_check (sys_context,&percent, coverage, funcs))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("coverage OK, all functions reported as called"));
 	      }
@@ -300,7 +303,7 @@ _test_coverage ()
 	    lw6sys_list_push_front (&funcs, _TEST_COVERAGE_SCM_FUNC3);
 	    if (funcs)
 	      {
-		if (!lw6scm_coverage_check (&percent, coverage, funcs))
+		if (!lw6scm_coverage_check (sys_context,&percent, coverage, funcs))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("coverage broken, only %d percent, this is right, error detection works"), percent);
 		  }
@@ -345,10 +348,10 @@ guile_main_wrapper (void *data)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("entering Guile in %s"), __FUNCTION__);
 
-  if (lw6scm_c_define_gsubr (LW6DEF_C_LW6SYS_BUILD_GET_VERSION, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_version))
+  if (lw6scm_c_define_gsubr (sys_context,LW6DEF_C_LW6SYS_BUILD_GET_VERSION, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_version))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("next you should see a message complaining \"%s\" is not documented"), _TEST_UNEXISTING_FUNC);
-      if (lw6scm_c_define_gsubr (_TEST_UNEXISTING_FUNC, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_version))
+      if (lw6scm_c_define_gsubr (sys_context,_TEST_UNEXISTING_FUNC, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_version))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("function \"%s\" was defined, should have been refused"), _TEST_UNEXISTING_FUNC);
 	  global_ret = 0;
@@ -360,7 +363,7 @@ guile_main_wrapper (void *data)
     }
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("next you should see a message complaining \"%s\" does not exists"), _TEST_UNEXISTING_FILE);
-  lw6scm_c_primitive_load (_TEST_UNEXISTING_FILE);
+  lw6scm_c_primitive_load (sys_context,_TEST_UNEXISTING_FILE);
   scm_gc ();
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _("leaving Guile in %s"), __FUNCTION__);
 
@@ -378,7 +381,7 @@ _test_wrapper ()
 
   {
     global_ret = 1;
-    lw6scm_with_guile (guile_main_wrapper, NULL);
+    lw6scm_with_guile (sys_context,guile_main_wrapper, NULL);
     ret = global_ret;
   }
 
@@ -415,7 +418,7 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6scm_test_register (int mode)
+lw6scm_test_register (sys_context,int mode)
 {
   int ret = 1;
   CU_Suite *suite;
@@ -457,7 +460,7 @@ lw6scm_test_register (int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6scm_test_run (int mode)
+lw6scm_test_run (sys_context,int mode)
 {
   int ret = 0;
 
