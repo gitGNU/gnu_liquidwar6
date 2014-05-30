@@ -65,7 +65,7 @@
  * Return value: newly allocated object
  */
 lw6p2p_entry_t *
-lw6p2p_entry_new (lw6sys_context_t *sys_context,int creation_timestamp, char *version, char *codename,
+lw6p2p_entry_new (lw6sys_context_t * sys_context, int creation_timestamp, char *version, char *codename,
 		  int stamp, char *id, char *url, char *title,
 		  char *description, int has_password, int bench,
 		  int open_relay, char *community_id, int round, char *level,
@@ -148,7 +148,7 @@ lw6p2p_entry_new (lw6sys_context_t *sys_context,int creation_timestamp, char *ve
  * Return value: none.
  */
 void
-lw6p2p_entry_free (lw6sys_context_t *sys_context,lw6p2p_entry_t * entry)
+lw6p2p_entry_free (lw6sys_context_t * sys_context, lw6p2p_entry_t * entry)
 {
   LW6SYS_FREE (sys_context, entry);
 }
@@ -164,11 +164,11 @@ lw6p2p_entry_free (lw6sys_context_t *sys_context,lw6p2p_entry_t * entry)
  * Return value: dynamically allocated string
  */
 char *
-lw6p2p_entry_repr (lw6sys_context_t *sys_context,const lw6p2p_entry_t * entry)
+lw6p2p_entry_repr (lw6sys_context_t * sys_context, const lw6p2p_entry_t * entry)
 {
   char *repr = NULL;
 
-  repr = lw6sys_new_sprintf (sys_context,"%s url=%s (%s:%d) available=%d", entry->title, entry->url, entry->ip, entry->port, entry->available);
+  repr = lw6sys_new_sprintf (sys_context, "%s url=%s (%s:%d) available=%d", entry->title, entry->url, entry->ip, entry->port, entry->available);
 
   return repr;
 }

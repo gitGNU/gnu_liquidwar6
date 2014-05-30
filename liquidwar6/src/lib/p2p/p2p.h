@@ -158,28 +158,28 @@ typedef struct lw6p2p_entry_s
 } lw6p2p_entry_t;
 
 /* p2p-db.c */
-extern lw6p2p_db_t *lw6p2p_db_open (lw6sys_context_t *sys_context,int argc, const char *argv[], const char *name);
-extern void lw6p2p_db_close (lw6sys_context_t *sys_context,lw6p2p_db_t * db);
-extern char *lw6p2p_db_repr (lw6sys_context_t *sys_context,const lw6p2p_db_t * db);
-extern int lw6p2p_db_reset (lw6sys_context_t *sys_context,int argc, const char *argv[], const char *name);
-extern char *lw6p2p_db_default_name (lw6sys_context_t *sys_context);
+extern lw6p2p_db_t *lw6p2p_db_open (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *name);
+extern void lw6p2p_db_close (lw6sys_context_t * sys_context, lw6p2p_db_t * db);
+extern char *lw6p2p_db_repr (lw6sys_context_t * sys_context, const lw6p2p_db_t * db);
+extern int lw6p2p_db_reset (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *name);
+extern char *lw6p2p_db_default_name (lw6sys_context_t * sys_context);
 
 /* p2p-entry.c */
-extern lw6p2p_entry_t *lw6p2p_entry_new (lw6sys_context_t *sys_context,int creation_timestamp, char *version,
-				  char *codename, int stamp, char *node_id,
-				  char *node_url, char *node_title,
-				  char *node_description, int has_password,
-				  int bench, int open_relay,
-				  char *community_id, int round, char *level,
-				  int required_bench, int nb_colors,
-				  int max_nb_colors, int nb_cursors,
-				  int max_nb_cursors, int nb_nodes,
-				  int max_nb_nodes, char *ip, int port, int last_ping_timestamp, int ping_delay_msec, int available);
-extern void lw6p2p_entry_free (lw6sys_context_t *sys_context,lw6p2p_entry_t * entry);
-extern char *lw6p2p_entry_repr (lw6sys_context_t *sys_context,const lw6p2p_entry_t * entry);
+extern lw6p2p_entry_t *lw6p2p_entry_new (lw6sys_context_t * sys_context, int creation_timestamp, char *version,
+					 char *codename, int stamp, char *node_id,
+					 char *node_url, char *node_title,
+					 char *node_description, int has_password,
+					 int bench, int open_relay,
+					 char *community_id, int round, char *level,
+					 int required_bench, int nb_colors,
+					 int max_nb_colors, int nb_cursors,
+					 int max_nb_cursors, int nb_nodes,
+					 int max_nb_nodes, char *ip, int port, int last_ping_timestamp, int ping_delay_msec, int available);
+extern void lw6p2p_entry_free (lw6sys_context_t * sys_context, lw6p2p_entry_t * entry);
+extern char *lw6p2p_entry_repr (lw6sys_context_t * sys_context, const lw6p2p_entry_t * entry);
 
 /* p2p-node.c */
-extern lw6p2p_node_t *lw6p2p_node_new (lw6sys_context_t *sys_context,int argc, const char *argv[],
+extern lw6p2p_node_t *lw6p2p_node_new (lw6sys_context_t * sys_context, int argc, const char *argv[],
 				       lw6p2p_db_t * db,
 				       char *client_backends,
 				       char *server_backends,
@@ -189,38 +189,39 @@ extern lw6p2p_node_t *lw6p2p_node_new (lw6sys_context_t *sys_context,int argc, c
 				       char *public_url,
 				       char *title,
 				       char *description, char *password, int bench, int open_relay, char *known_nodes, int network_reliability, int trojan);
-extern void lw6p2p_node_free (lw6sys_context_t *sys_context,lw6p2p_node_t * node);
-extern char *lw6p2p_node_repr (lw6sys_context_t *sys_context,const lw6p2p_node_t * node);
-extern int lw6p2p_node_poll (lw6sys_context_t *sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress);
-extern void lw6p2p_node_close (lw6sys_context_t *sys_context,lw6p2p_node_t * node);
-extern u_int64_t lw6p2p_node_get_id (lw6sys_context_t *sys_context,lw6p2p_node_t * node);
-extern lw6sys_list_t *lw6p2p_node_get_entries (lw6sys_context_t *sys_context,lw6p2p_node_t * node, int skip_local);
-extern int lw6p2p_node_server_start (lw6sys_context_t *sys_context,lw6p2p_node_t * node, int64_t seq_0);
-extern int lw6p2p_node_client_join (lw6sys_context_t *sys_context,lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url, lw6sys_progress_t * progress);
-extern int lw6p2p_node_refresh_peer (lw6sys_context_t *sys_context,lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url);
-extern void lw6p2p_node_disconnect (lw6sys_context_t *sys_context,lw6p2p_node_t * node);
-extern int lw6p2p_node_update_info (lw6sys_context_t *sys_context,lw6p2p_node_t * node,
+extern void lw6p2p_node_free (lw6sys_context_t * sys_context, lw6p2p_node_t * node);
+extern char *lw6p2p_node_repr (lw6sys_context_t * sys_context, const lw6p2p_node_t * node);
+extern int lw6p2p_node_poll (lw6sys_context_t * sys_context, lw6p2p_node_t * node, lw6sys_progress_t * progress);
+extern void lw6p2p_node_close (lw6sys_context_t * sys_context, lw6p2p_node_t * node);
+extern u_int64_t lw6p2p_node_get_id (lw6sys_context_t * sys_context, lw6p2p_node_t * node);
+extern lw6sys_list_t *lw6p2p_node_get_entries (lw6sys_context_t * sys_context, lw6p2p_node_t * node, int skip_local);
+extern int lw6p2p_node_server_start (lw6sys_context_t * sys_context, lw6p2p_node_t * node, int64_t seq_0);
+extern int lw6p2p_node_client_join (lw6sys_context_t * sys_context, lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url,
+				    lw6sys_progress_t * progress);
+extern int lw6p2p_node_refresh_peer (lw6sys_context_t * sys_context, lw6p2p_node_t * node, u_int64_t remote_id, const char *remote_url);
+extern void lw6p2p_node_disconnect (lw6sys_context_t * sys_context, lw6p2p_node_t * node);
+extern int lw6p2p_node_update_info (lw6sys_context_t * sys_context, lw6p2p_node_t * node,
 				    int round, const char *level,
 				    int nb_colors,
 				    int max_nb_colors, int nb_cursors,
 				    int max_nb_cursors, int nb_nodes, int max_nb_nodes, int game_screenshot_size, void *game_screenshot_data);
-extern void lw6p2p_node_calibrate (lw6sys_context_t *sys_context,lw6p2p_node_t * node, int64_t timestamp, int64_t seq);
-extern int64_t lw6p2p_node_get_local_seq_0 (lw6sys_context_t *sys_context,lw6p2p_node_t * node);
-extern int64_t lw6p2p_node_get_local_seq_last (lw6sys_context_t *sys_context,lw6p2p_node_t * node);
-extern int64_t lw6p2p_node_get_seq_min (lw6sys_context_t *sys_context,lw6p2p_node_t * node);
-extern int64_t lw6p2p_node_get_seq_max (lw6sys_context_t *sys_context,lw6p2p_node_t * node);
-extern int64_t lw6p2p_node_get_seq_draft (lw6sys_context_t *sys_context,lw6p2p_node_t * node);
-extern int64_t lw6p2p_node_get_seq_reference (lw6sys_context_t *sys_context,lw6p2p_node_t * node);
-extern int lw6p2p_node_is_peer_connected (lw6sys_context_t *sys_context,lw6p2p_node_t * node, u_int64_t peer_id);
-extern int lw6p2p_node_is_peer_registered (lw6sys_context_t *sys_context,lw6p2p_node_t * node, u_int64_t peer_id);
-extern int lw6p2p_node_is_seed_needed (lw6sys_context_t *sys_context,lw6p2p_node_t * node);
-extern int lw6p2p_node_is_dump_needed (lw6sys_context_t *sys_context,lw6p2p_node_t * node);
-extern int lw6p2p_node_put_local_msg (lw6sys_context_t *sys_context,lw6p2p_node_t * node, const char *msg);
-extern char *lw6p2p_node_get_next_reference_msg (lw6sys_context_t *sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress);
-extern char *lw6p2p_node_get_next_draft_msg (lw6sys_context_t *sys_context,lw6p2p_node_t * node, lw6sys_progress_t * progress);
+extern void lw6p2p_node_calibrate (lw6sys_context_t * sys_context, lw6p2p_node_t * node, int64_t timestamp, int64_t seq);
+extern int64_t lw6p2p_node_get_local_seq_0 (lw6sys_context_t * sys_context, lw6p2p_node_t * node);
+extern int64_t lw6p2p_node_get_local_seq_last (lw6sys_context_t * sys_context, lw6p2p_node_t * node);
+extern int64_t lw6p2p_node_get_seq_min (lw6sys_context_t * sys_context, lw6p2p_node_t * node);
+extern int64_t lw6p2p_node_get_seq_max (lw6sys_context_t * sys_context, lw6p2p_node_t * node);
+extern int64_t lw6p2p_node_get_seq_draft (lw6sys_context_t * sys_context, lw6p2p_node_t * node);
+extern int64_t lw6p2p_node_get_seq_reference (lw6sys_context_t * sys_context, lw6p2p_node_t * node);
+extern int lw6p2p_node_is_peer_connected (lw6sys_context_t * sys_context, lw6p2p_node_t * node, u_int64_t peer_id);
+extern int lw6p2p_node_is_peer_registered (lw6sys_context_t * sys_context, lw6p2p_node_t * node, u_int64_t peer_id);
+extern int lw6p2p_node_is_seed_needed (lw6sys_context_t * sys_context, lw6p2p_node_t * node);
+extern int lw6p2p_node_is_dump_needed (lw6sys_context_t * sys_context, lw6p2p_node_t * node);
+extern int lw6p2p_node_put_local_msg (lw6sys_context_t * sys_context, lw6p2p_node_t * node, const char *msg);
+extern char *lw6p2p_node_get_next_reference_msg (lw6sys_context_t * sys_context, lw6p2p_node_t * node, lw6sys_progress_t * progress);
+extern char *lw6p2p_node_get_next_draft_msg (lw6sys_context_t * sys_context, lw6p2p_node_t * node, lw6sys_progress_t * progress);
 
 /* p2p-test.c */
-extern int lw6p2p_test_register (lw6sys_context_t *sys_context,int mode);
-extern int lw6p2p_test_run (lw6sys_context_t *sys_context,int mode);
+extern int lw6p2p_test_register (lw6sys_context_t * sys_context, int mode);
+extern int lw6p2p_test_run (lw6sys_context_t * sys_context, int mode);
 
 #endif // LIQUIDWAR6P2P_H

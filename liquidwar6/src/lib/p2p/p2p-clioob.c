@@ -28,7 +28,7 @@
 #include "p2p-internal.h"
 
 _lw6p2p_cli_oob_callback_data_t *
-_lw6p2p_cli_oob_callback_data_new (lw6sys_context_t *sys_context,lw6cli_backend_t * backend, _lw6p2p_node_t * node, const char *public_url)
+_lw6p2p_cli_oob_callback_data_new (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, _lw6p2p_node_t * node, const char *public_url)
 {
   _lw6p2p_cli_oob_callback_data_t *ret = NULL;
 
@@ -49,7 +49,7 @@ _lw6p2p_cli_oob_callback_data_new (lw6sys_context_t *sys_context,lw6cli_backend_
 }
 
 void
-_lw6p2p_cli_oob_callback_data_free (lw6sys_context_t *sys_context,_lw6p2p_cli_oob_callback_data_t * cli_oob)
+_lw6p2p_cli_oob_callback_data_free (lw6sys_context_t * sys_context, _lw6p2p_cli_oob_callback_data_t * cli_oob)
 {
   if (cli_oob)
     {
@@ -62,7 +62,7 @@ _lw6p2p_cli_oob_callback_data_free (lw6sys_context_t *sys_context,_lw6p2p_cli_oo
 }
 
 int
-_lw6p2p_cli_oob_filter (lw6sys_context_t *sys_context,_lw6p2p_cli_oob_callback_data_t * cli_oob)
+_lw6p2p_cli_oob_filter (lw6sys_context_t * sys_context, _lw6p2p_cli_oob_callback_data_t * cli_oob)
 {
   int ret = 1;
   lw6sys_thread_handler_t *thread;
@@ -91,7 +91,7 @@ _lw6p2p_cli_oob_filter (lw6sys_context_t *sys_context,_lw6p2p_cli_oob_callback_d
 }
 
 void
-_lw6p2p_cli_oob_callback (lw6sys_context_t *sys_context,void *callback_data)
+_lw6p2p_cli_oob_callback (lw6sys_context_t * sys_context, void *callback_data)
 {
   _lw6p2p_cli_oob_callback_data_t *cli_oob = (_lw6p2p_cli_oob_callback_data_t *) callback_data;
   int ret = 0;
@@ -102,7 +102,8 @@ _lw6p2p_cli_oob_callback (lw6sys_context_t *sys_context,void *callback_data)
 }
 
 int
-_lw6p2p_cli_oob_verify_callback_func (lw6sys_context_t *sys_context,void *func_data, const char *url, const char *ip, int port, int ping_delay_msec, lw6sys_assoc_t * assoc)
+_lw6p2p_cli_oob_verify_callback_func (lw6sys_context_t * sys_context, void *func_data, const char *url, const char *ip, int port, int ping_delay_msec,
+				      lw6sys_assoc_t * assoc)
 {
   int ret = 0;
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
@@ -133,22 +134,22 @@ _lw6p2p_cli_oob_verify_callback_func (lw6sys_context_t *sys_context,void *func_d
   int nb_nodes = 0;
   int max_nb_nodes = 0;
 
-  remote_program = lw6sys_assoc_get (sys_context,assoc, LW6MSG_OOB_PROGRAM);
-  remote_version = lw6sys_assoc_get (sys_context,assoc, LW6MSG_OOB_VERSION);
-  remote_codename = lw6sys_assoc_get (sys_context,assoc, LW6MSG_OOB_CODENAME);
-  remote_stamp_str = lw6sys_assoc_get (sys_context,assoc, LW6MSG_OOB_STAMP);
+  remote_program = lw6sys_assoc_get (sys_context, assoc, LW6MSG_OOB_PROGRAM);
+  remote_version = lw6sys_assoc_get (sys_context, assoc, LW6MSG_OOB_VERSION);
+  remote_codename = lw6sys_assoc_get (sys_context, assoc, LW6MSG_OOB_CODENAME);
+  remote_stamp_str = lw6sys_assoc_get (sys_context, assoc, LW6MSG_OOB_STAMP);
   if (remote_stamp_str)
     {
       remote_stamp_int = lw6sys_atoi (sys_context, remote_stamp_str);
     }
-  remote_id = lw6sys_assoc_get (sys_context,assoc, LW6MSG_OOB_ID);
-  remote_url = lw6sys_assoc_get (sys_context,assoc, LW6MSG_OOB_URL);
-  remote_title = lw6sys_assoc_get (sys_context,assoc, LW6MSG_OOB_TITLE);
-  remote_description = lw6sys_assoc_get (sys_context,assoc, LW6MSG_OOB_DESCRIPTION);
+  remote_id = lw6sys_assoc_get (sys_context, assoc, LW6MSG_OOB_ID);
+  remote_url = lw6sys_assoc_get (sys_context, assoc, LW6MSG_OOB_URL);
+  remote_title = lw6sys_assoc_get (sys_context, assoc, LW6MSG_OOB_TITLE);
+  remote_description = lw6sys_assoc_get (sys_context, assoc, LW6MSG_OOB_DESCRIPTION);
 
   if (remote_program && remote_version && remote_codename && remote_stamp_int > 0 && remote_id && remote_url && remote_title && remote_description)
     {
-      if (lw6sys_str_is_same (sys_context,remote_program, lw6sys_build_get_package_tarname ()))
+      if (lw6sys_str_is_same (sys_context, remote_program, lw6sys_build_get_package_tarname ()))
 	{
 	  if (lw6sys_str_is_same (sys_context, remote_url, url))
 	    {
@@ -159,13 +160,14 @@ _lw6p2p_cli_oob_verify_callback_func (lw6sys_context_t *sys_context,void *func_d
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("confirmed node \"%s\""), url);
 		      has_password_str = lw6msg_utils_get_assoc_str_with_default (sys_context, assoc, LW6MSG_OOB_HAS_PASSWORD, LW6MSG_NO);
 		      has_password_int = (has_password_str
-					  && lw6sys_str_starts_with_no_case (sys_context,has_password_str, LW6MSG_YES)) ? _LW6P2P_DB_TRUE : _LW6P2P_DB_FALSE;
+					  && lw6sys_str_starts_with_no_case (sys_context, has_password_str, LW6MSG_YES)) ? _LW6P2P_DB_TRUE : _LW6P2P_DB_FALSE;
 		      bench = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_BENCH, 0);
 		      open_relay_str = lw6msg_utils_get_assoc_str_with_default (sys_context, assoc, LW6MSG_OOB_OPEN_RELAY, LW6MSG_NO);
-		      open_relay_int = (open_relay_str && lw6sys_str_starts_with_no_case (sys_context,open_relay_str, LW6MSG_YES)) ? _LW6P2P_DB_TRUE : _LW6P2P_DB_FALSE;
-		      now = _lw6p2p_db_now (sys_context,node->db);
+		      open_relay_int = (open_relay_str
+					&& lw6sys_str_starts_with_no_case (sys_context, open_relay_str, LW6MSG_YES)) ? _LW6P2P_DB_TRUE : _LW6P2P_DB_FALSE;
+		      now = _lw6p2p_db_now (sys_context, node->db);
 		      uptime = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_UPTIME, 0);
-		      community_id = lw6sys_assoc_get (sys_context,assoc, LW6MSG_OOB_COMMUNITY);
+		      community_id = lw6sys_assoc_get (sys_context, assoc, LW6MSG_OOB_COMMUNITY);
 		      round = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_ROUND, 0);
 		      level = lw6msg_utils_get_assoc_str_with_default (sys_context, assoc, LW6MSG_OOB_LEVEL, LW6SYS_STR_EMPTY);
 		      required_bench = lw6msg_utils_get_assoc_int_with_default (sys_context, assoc, LW6MSG_OOB_REQUIRED_BENCH, 0);
@@ -178,7 +180,7 @@ _lw6p2p_cli_oob_verify_callback_func (lw6sys_context_t *sys_context,void *func_d
 
 
 		      ret =
-			_lw6p2p_node_update_peer_info_x (sys_context,node, remote_version,
+			_lw6p2p_node_update_peer_info_x (sys_context, node, remote_version,
 							 remote_codename,
 							 remote_stamp_int,
 							 remote_id,
@@ -191,7 +193,7 @@ _lw6p2p_cli_oob_verify_callback_func (lw6sys_context_t *sys_context,void *func_d
 							 now - uptime,
 							 community_id, round,
 							 level, required_bench, nb_colors, max_nb_colors, nb_cursors, max_nb_cursors, nb_nodes, max_nb_nodes);
-		      ret = _lw6p2p_node_update_peer_net (sys_context,node, remote_id, remote_url, ip, port, now, ping_delay_msec);
+		      ret = _lw6p2p_node_update_peer_net (sys_context, node, remote_id, remote_url, ip, port, now, ping_delay_msec);
 		    }
 		  else
 		    {

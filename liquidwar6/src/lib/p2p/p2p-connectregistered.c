@@ -36,7 +36,7 @@ typedef struct _select_node_by_id_data_s
 } _select_node_by_id_data_t;
 
 static int
-_select_node_by_id_callback (lw6sys_context_t *sys_context, void *func_data, int nb_fields, char **fields_values, char **fields_names)
+_select_node_by_id_callback (lw6sys_context_t * sys_context, void *func_data, int nb_fields, char **fields_values, char **fields_names)
 {
   int ret = 0;
   _select_node_by_id_data_t *node_by_id_data = (_select_node_by_id_data_t *) func_data;
@@ -79,7 +79,7 @@ _select_node_by_id_callback (lw6sys_context_t *sys_context, void *func_data, int
 }
 
 int
-_lw6p2p_connect_registered_nodes_if_needed (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
+_lw6p2p_connect_registered_nodes_if_needed (lw6sys_context_t * sys_context, _lw6p2p_node_t * node)
 {
   int ret = 0;
   int64_t now = 0;
@@ -89,7 +89,7 @@ _lw6p2p_connect_registered_nodes_if_needed (lw6sys_context_t *sys_context,_lw6p2
   if (node->connect_registered.next_connect_registered_nodes_timestamp < now)
     {
       node->connect_registered.next_connect_registered_nodes_timestamp = now + delay / 2 + lw6sys_random (sys_context, delay);
-      ret = _lw6p2p_connect_registered_nodes (sys_context,node);
+      ret = _lw6p2p_connect_registered_nodes (sys_context, node);
     }
   else
     {
@@ -101,7 +101,7 @@ _lw6p2p_connect_registered_nodes_if_needed (lw6sys_context_t *sys_context,_lw6p2
 }
 
 int
-_lw6p2p_connect_registered_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
+_lw6p2p_connect_registered_nodes (lw6sys_context_t * sys_context, _lw6p2p_node_t * node)
 {
   int ret = 1;
   int index = 0;
@@ -118,7 +118,7 @@ _lw6p2p_connect_registered_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t *
       if (meta_array.items[index].node_id)
 	{
 	  if (_lw6p2p_node_is_peer_registered
-	      (sys_context,node, meta_array.items[index].node_id) && !_lw6p2p_node_is_peer_connected (sys_context,node, meta_array.items[index].node_id))
+	      (sys_context, node, meta_array.items[index].node_id) && !_lw6p2p_node_is_peer_connected (sys_context, node, meta_array.items[index].node_id))
 	    {
 	      /*
 	       * OK, we found a node which is registered in the
@@ -127,13 +127,14 @@ _lw6p2p_connect_registered_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t *
 	      node_by_id_data.node_id = lw6sys_id_ltoa (sys_context, meta_array.items[index].node_id);
 	      if (node_by_id_data.node_id)
 		{
-		  query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (sys_context,node->db, _LW6P2P_SELECT_NODE_BY_ID_SQL), node_by_id_data.node_id);
+		  query =
+		    lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (sys_context, node->db, _LW6P2P_SELECT_NODE_BY_ID_SQL), node_by_id_data.node_id);
 		  if (query)
 		    {
-		      if (_lw6p2p_db_lock (sys_context,node->db))
+		      if (_lw6p2p_db_lock (sys_context, node->db))
 			{
-			  ret = _lw6p2p_db_exec (sys_context,node->db, query, _select_node_by_id_callback, (void *) &node_by_id_data) && ret;
-			  _lw6p2p_db_unlock (sys_context,node->db);
+			  ret = _lw6p2p_db_exec (sys_context, node->db, query, _select_node_by_id_callback, (void *) &node_by_id_data) && ret;
+			  _lw6p2p_db_unlock (sys_context, node->db);
 			}
 		      LW6SYS_FREE (sys_context, query);
 		      query = NULL;
@@ -154,7 +155,8 @@ _lw6p2p_connect_registered_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t *
 					  _x_ ("node %" LW6SYS_PRINTF_LL
 					       "x \"%s\" at %s registered without a connection, trying to establish a link"),
 					  (long long) meta_array.items[index].node_id, node_by_id_data.node_url, node_by_id_data.node_ip);
-			      if (_lw6p2p_node_register_tentacle (sys_context,node, node_by_id_data.node_url, node_by_id_data.node_ip, meta_array.items[index].node_id))
+			      if (_lw6p2p_node_register_tentacle
+				  (sys_context, node, node_by_id_data.node_url, node_by_id_data.node_ip, meta_array.items[index].node_id))
 				{
 				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 					      _x_

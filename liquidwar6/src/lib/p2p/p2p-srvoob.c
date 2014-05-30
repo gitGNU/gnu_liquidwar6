@@ -28,7 +28,7 @@
 #include "p2p-internal.h"
 
 _lw6p2p_srv_oob_callback_data_t *
-_lw6p2p_srv_oob_callback_data_new (lw6sys_context_t *sys_context,lw6srv_backend_t * backend,
+_lw6p2p_srv_oob_callback_data_new (lw6sys_context_t * sys_context, lw6srv_backend_t * backend,
 				   lw6nod_info_t * node_info, const char *remote_ip, int remote_port, int sock, const char *first_line)
 {
   _lw6p2p_srv_oob_callback_data_t *ret = NULL;
@@ -50,7 +50,7 @@ _lw6p2p_srv_oob_callback_data_new (lw6sys_context_t *sys_context,lw6srv_backend_
 }
 
 void
-_lw6p2p_srv_oob_callback_data_free (lw6sys_context_t *sys_context,_lw6p2p_srv_oob_callback_data_t * srv_oob)
+_lw6p2p_srv_oob_callback_data_free (lw6sys_context_t * sys_context, _lw6p2p_srv_oob_callback_data_t * srv_oob)
 {
   if (srv_oob)
     {
@@ -63,7 +63,7 @@ _lw6p2p_srv_oob_callback_data_free (lw6sys_context_t *sys_context,_lw6p2p_srv_oo
 }
 
 int
-_lw6p2p_srv_oob_filter (lw6sys_context_t *sys_context,_lw6p2p_srv_oob_callback_data_t * srv_oob)
+_lw6p2p_srv_oob_filter (lw6sys_context_t * sys_context, _lw6p2p_srv_oob_callback_data_t * srv_oob)
 {
   int ret = 1;
   lw6sys_thread_handler_t *thread;
@@ -92,7 +92,7 @@ _lw6p2p_srv_oob_filter (lw6sys_context_t *sys_context,_lw6p2p_srv_oob_callback_d
 }
 
 void
-_lw6p2p_srv_oob_callback (lw6sys_context_t *sys_context,void *callback_data)
+_lw6p2p_srv_oob_callback (lw6sys_context_t * sys_context, void *callback_data)
 {
   _lw6p2p_srv_oob_callback_data_t *srv_oob = (_lw6p2p_srv_oob_callback_data_t *) callback_data;
   int ret = 0;

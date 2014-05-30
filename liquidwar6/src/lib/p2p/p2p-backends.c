@@ -28,7 +28,7 @@
 #include "p2p-internal.h"
 
 int
-_lw6p2p_backends_init_cli (lw6sys_context_t *sys_context,int argc, const char *argv[], _lw6p2p_backends_t * backends, char *client_backends)
+_lw6p2p_backends_init_cli (lw6sys_context_t * sys_context, int argc, const char *argv[], _lw6p2p_backends_t * backends, char *client_backends)
 {
   int ret = 0;
   lw6sys_list_t *list_backends = NULL;
@@ -37,7 +37,7 @@ _lw6p2p_backends_init_cli (lw6sys_context_t *sys_context,int argc, const char *a
   list_backends = lw6sys_str_split_config_item (sys_context, client_backends);
   if (list_backends)
     {
-      if (lw6sys_list_is_empty (sys_context,list_backends))
+      if (lw6sys_list_is_empty (sys_context, list_backends))
 	{
 	  /*
 	   * No backend required, we return OK, still we keep going
@@ -50,7 +50,8 @@ _lw6p2p_backends_init_cli (lw6sys_context_t *sys_context,int argc, const char *a
 	  backends->nb_cli_backends++;
 	  if (backends->cli_backends)
 	    {
-	      backends->cli_backends = (lw6cli_backend_t **) LW6SYS_REALLOC (sys_context,backends->cli_backends, backends->nb_cli_backends * sizeof (lw6cli_backend_t *));
+	      backends->cli_backends =
+		(lw6cli_backend_t **) LW6SYS_REALLOC (sys_context, backends->cli_backends, backends->nb_cli_backends * sizeof (lw6cli_backend_t *));
 	    }
 	  else
 	    {
@@ -91,16 +92,17 @@ _lw6p2p_backends_init_cli (lw6sys_context_t *sys_context,int argc, const char *a
 }
 
 int
-_lw6p2p_backends_init_srv (lw6sys_context_t *sys_context,int argc, const char *argv[], _lw6p2p_backends_t * backends, char *server_backends, lw6srv_listener_t * listener)
+_lw6p2p_backends_init_srv (lw6sys_context_t * sys_context, int argc, const char *argv[], _lw6p2p_backends_t * backends, char *server_backends,
+			   lw6srv_listener_t * listener)
 {
   int ret = 0;
   lw6sys_list_t *list_backends = NULL;
   char *backend = NULL;
 
-  list_backends = lw6sys_str_split_config_item (sys_context,server_backends);
+  list_backends = lw6sys_str_split_config_item (sys_context, server_backends);
   if (list_backends)
     {
-      if (lw6sys_list_is_empty (sys_context,list_backends))
+      if (lw6sys_list_is_empty (sys_context, list_backends))
 	{
 	  /*
 	   * No backend required, we return OK, still we keep going
@@ -113,7 +115,8 @@ _lw6p2p_backends_init_srv (lw6sys_context_t *sys_context,int argc, const char *a
 	  backends->nb_srv_backends++;
 	  if (backends->srv_backends)
 	    {
-	      backends->srv_backends = (lw6srv_backend_t **) LW6SYS_REALLOC (sys_context,backends->srv_backends, backends->nb_srv_backends * sizeof (lw6srv_backend_t *));
+	      backends->srv_backends =
+		(lw6srv_backend_t **) LW6SYS_REALLOC (sys_context, backends->srv_backends, backends->nb_srv_backends * sizeof (lw6srv_backend_t *));
 	    }
 	  else
 	    {
@@ -160,7 +163,7 @@ _lw6p2p_backends_init_srv (lw6sys_context_t *sys_context,int argc, const char *a
 }
 
 void
-_lw6p2p_backends_clear_cli (lw6sys_context_t *sys_context,_lw6p2p_backends_t * backends)
+_lw6p2p_backends_clear_cli (lw6sys_context_t * sys_context, _lw6p2p_backends_t * backends)
 {
   int i = 0;
 
@@ -182,7 +185,7 @@ _lw6p2p_backends_clear_cli (lw6sys_context_t *sys_context,_lw6p2p_backends_t * b
 }
 
 void
-_lw6p2p_backends_clear_srv (lw6sys_context_t *sys_context,_lw6p2p_backends_t * backends)
+_lw6p2p_backends_clear_srv (lw6sys_context_t * sys_context, _lw6p2p_backends_t * backends)
 {
   int i = 0;
 

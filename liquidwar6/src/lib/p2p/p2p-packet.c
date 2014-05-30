@@ -28,7 +28,8 @@
 #include "p2p-internal.h"
 
 _lw6p2p_packet_t *
-_lw6p2p_packet_new (lw6sys_context_t *sys_context,u_int32_t logical_ticket_sig, u_int32_t physical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *msg)
+_lw6p2p_packet_new (lw6sys_context_t * sys_context, u_int32_t logical_ticket_sig, u_int32_t physical_ticket_sig, u_int64_t logical_from_id,
+		    u_int64_t logical_to_id, const char *msg)
 {
   _lw6p2p_packet_t *ret = NULL;
 
@@ -51,7 +52,7 @@ _lw6p2p_packet_new (lw6sys_context_t *sys_context,u_int32_t logical_ticket_sig, 
 }
 
 void
-_lw6p2p_packet_free (lw6sys_context_t *sys_context,_lw6p2p_packet_t * packet)
+_lw6p2p_packet_free (lw6sys_context_t * sys_context, _lw6p2p_packet_t * packet)
 {
   if (packet)
     {
@@ -72,7 +73,7 @@ _lw6p2p_packet_free (lw6sys_context_t *sys_context,_lw6p2p_packet_t * packet)
 }
 
 u_int32_t
-_lw6p2p_packet_checksum (lw6sys_context_t *sys_context,const _lw6p2p_packet_t * packet)
+_lw6p2p_packet_checksum (lw6sys_context_t * sys_context, const _lw6p2p_packet_t * packet)
 {
   u_int32_t ret = 0;
 
@@ -86,11 +87,11 @@ _lw6p2p_packet_checksum (lw6sys_context_t *sys_context,const _lw6p2p_packet_t * 
 }
 
 int
-_lw6p2p_packet_compare (lw6sys_context_t *sys_context,const _lw6p2p_packet_t * a, const _lw6p2p_packet_t * b)
+_lw6p2p_packet_compare (lw6sys_context_t * sys_context, const _lw6p2p_packet_t * a, const _lw6p2p_packet_t * b)
 {
   int ret = 0;
-  u_int32_t checksum_a = _lw6p2p_packet_checksum (sys_context,a);
-  u_int32_t checksum_b = _lw6p2p_packet_checksum (sys_context,b);
+  u_int32_t checksum_a = _lw6p2p_packet_checksum (sys_context, a);
+  u_int32_t checksum_b = _lw6p2p_packet_checksum (sys_context, b);
 
   ret = (checksum_a == checksum_b) ? 0 : ((checksum_a < checksum_b) ? -1 : +1);
 
@@ -98,11 +99,11 @@ _lw6p2p_packet_compare (lw6sys_context_t *sys_context,const _lw6p2p_packet_t * a
 }
 
 int
-_lw6p2p_packet_sort_callback (lw6sys_context_t *sys_context,const lw6sys_list_t ** list_a, const lw6sys_list_t ** list_b)
+_lw6p2p_packet_sort_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b)
 {
   int ret = 0;
 
-  ret = _lw6p2p_packet_compare (sys_context,(_lw6p2p_packet_t *) ((*list_a)->data), (_lw6p2p_packet_t *) ((*list_b)->data));
+  ret = _lw6p2p_packet_compare (sys_context, (_lw6p2p_packet_t *) ptr_a, (_lw6p2p_packet_t *) ptr_b);
 
   return ret;
 }

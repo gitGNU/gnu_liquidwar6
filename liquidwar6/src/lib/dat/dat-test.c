@@ -208,7 +208,7 @@ typedef struct _lw6dat_test_data_s
   lw6sys_context_t *sys_context;
 } _lw6dat_test_data_t;
 
-static _lw6dat_test_data_t _test_data = { 0 };
+static _lw6dat_test_data_t _test_data = { 0, NULL };
 
 typedef struct _test_stack_msg_data_s
 {

@@ -28,7 +28,7 @@
 #include "p2p-internal.h"
 
 int
-_lw6p2p_explore_discover_nodes_if_needed (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
+_lw6p2p_explore_discover_nodes_if_needed (lw6sys_context_t * sys_context, _lw6p2p_node_t * node)
 {
   int ret = 0;
   int64_t now = 0;
@@ -38,7 +38,7 @@ _lw6p2p_explore_discover_nodes_if_needed (lw6sys_context_t *sys_context,_lw6p2p_
   if (node->explore.next_discover_nodes_timestamp < now)
     {
       node->explore.next_discover_nodes_timestamp = now + delay / 2 + lw6sys_random (sys_context, delay);
-      ret = _lw6p2p_explore_discover_nodes (sys_context,node);
+      ret = _lw6p2p_explore_discover_nodes (sys_context, node);
     }
   else
     {
@@ -50,7 +50,7 @@ _lw6p2p_explore_discover_nodes_if_needed (lw6sys_context_t *sys_context,_lw6p2p_
 }
 
 static void
-_known_nodes_callback (lw6sys_context_t *sys_context,void *func_data, void *data)
+_known_nodes_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
   char *public_url = (char *) data;
@@ -58,12 +58,12 @@ _known_nodes_callback (lw6sys_context_t *sys_context,void *func_data, void *data
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_known_nodes_callback with public_url=\"%s\""), public_url);
   if (node && public_url)
     {
-      _lw6p2p_node_insert_discovered (sys_context,node, public_url);
+      _lw6p2p_node_insert_discovered (sys_context, node, public_url);
     }
 }
 
 int
-_lw6p2p_explore_discover_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
+_lw6p2p_explore_discover_nodes (lw6sys_context_t * sys_context, _lw6p2p_node_t * node)
 {
   int ret = 0;
   lw6sys_list_t *list = NULL;
@@ -76,8 +76,8 @@ _lw6p2p_explore_discover_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * n
       list = lw6sys_str_split_config_item (sys_context, node->known_nodes);
       if (list)
 	{
-	  lw6sys_list_map (sys_context,list, _known_nodes_callback, node);
-	  lw6sys_list_free (sys_context,list);
+	  lw6sys_list_map (sys_context, list, _known_nodes_callback, node);
+	  lw6sys_list_free (sys_context, list);
 	}
     }
 
@@ -96,11 +96,11 @@ _lw6p2p_explore_discover_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * n
 	  broadcast_url = lw6sys_url_http_from_ip_port (sys_context, LW6NET_ADDRESS_BROADCAST, node->bind_port);
 	  if (broadcast_url)
 	    {
-	      cli_oob = _lw6p2p_cli_oob_callback_data_new (sys_context,node->backends.cli_backends[i], node, broadcast_url);
+	      cli_oob = _lw6p2p_cli_oob_callback_data_new (sys_context, node->backends.cli_backends[i], node, broadcast_url);
 	      if (cli_oob)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process cli_oob (broadcast) url=\"%s\""), broadcast_url);
-		  cli_oob->cli_oob->thread = lw6sys_thread_create (sys_context,_lw6p2p_cli_oob_callback, NULL, cli_oob);
+		  cli_oob->cli_oob->thread = lw6sys_thread_create (sys_context, _lw6p2p_cli_oob_callback, NULL, cli_oob);
 		  lw6sys_lifo_push (sys_context, &(node->cli_oobs), cli_oob);
 		}
 	      LW6SYS_FREE (sys_context, broadcast_url);
@@ -110,11 +110,11 @@ _lw6p2p_explore_discover_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * n
 	      broadcast_url = lw6sys_url_http_from_ip_port (sys_context, LW6NET_ADDRESS_BROADCAST, LW6NET_DEFAULT_PORT);
 	      if (broadcast_url)
 		{
-		  cli_oob = _lw6p2p_cli_oob_callback_data_new (sys_context,node->backends.cli_backends[i], node, broadcast_url);
+		  cli_oob = _lw6p2p_cli_oob_callback_data_new (sys_context, node->backends.cli_backends[i], node, broadcast_url);
 		  if (cli_oob)
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process cli_oob (broadcast) url=\"%s\""), broadcast_url);
-		      cli_oob->cli_oob->thread = lw6sys_thread_create (sys_context,_lw6p2p_cli_oob_callback, NULL, cli_oob);
+		      cli_oob->cli_oob->thread = lw6sys_thread_create (sys_context, _lw6p2p_cli_oob_callback, NULL, cli_oob);
 		      lw6sys_lifo_push (sys_context, &(node->cli_oobs), cli_oob);
 		    }
 		  LW6SYS_FREE (sys_context, broadcast_url);
@@ -131,7 +131,7 @@ _lw6p2p_explore_discover_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * n
 }
 
 void
-_lw6p2p_explore_start_verify_node (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, const char *public_url)
+_lw6p2p_explore_start_verify_node (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, const char *public_url)
 {
   _lw6p2p_cli_oob_callback_data_t *cli_oob = NULL;
   int i;
@@ -150,18 +150,18 @@ _lw6p2p_explore_start_verify_node (lw6sys_context_t *sys_context,_lw6p2p_node_t 
        */
       i = lw6sys_random (sys_context, node->backends.nb_cli_backends);
 
-      cli_oob = _lw6p2p_cli_oob_callback_data_new (sys_context,node->backends.cli_backends[i], node, public_url);
+      cli_oob = _lw6p2p_cli_oob_callback_data_new (sys_context, node->backends.cli_backends[i], node, public_url);
       if (cli_oob)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process cli_oob url=\"%s\""), public_url);
-	  cli_oob->cli_oob->thread = lw6sys_thread_create (sys_context,_lw6p2p_cli_oob_callback, NULL, cli_oob);
+	  cli_oob->cli_oob->thread = lw6sys_thread_create (sys_context, _lw6p2p_cli_oob_callback, NULL, cli_oob);
 	  lw6sys_lifo_push (sys_context, &(node->cli_oobs), cli_oob);
 	}
     }
 }
 
 int
-_lw6p2p_explore_verify_nodes_if_needed (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
+_lw6p2p_explore_verify_nodes_if_needed (lw6sys_context_t * sys_context, _lw6p2p_node_t * node)
 {
   int ret = 0;
   int64_t now = 0;
@@ -171,7 +171,7 @@ _lw6p2p_explore_verify_nodes_if_needed (lw6sys_context_t *sys_context,_lw6p2p_no
   if (node->explore.next_verify_nodes_timestamp < now)
     {
       node->explore.next_verify_nodes_timestamp = now + delay / 2 + lw6sys_random (sys_context, delay);
-      ret = _lw6p2p_explore_verify_nodes (sys_context,node);
+      ret = _lw6p2p_explore_verify_nodes (sys_context, node);
     }
   else
     {
@@ -183,7 +183,7 @@ _lw6p2p_explore_verify_nodes_if_needed (lw6sys_context_t *sys_context,_lw6p2p_no
 }
 
 static int
-_select_unverified_node_callback (lw6sys_context_t *sys_context,void *func_data, int nb_fields, char **fields_values, char **fields_names)
+_select_unverified_node_callback (lw6sys_context_t * sys_context, void *func_data, int nb_fields, char **fields_values, char **fields_names)
 {
   int ret = 0;
 
@@ -194,7 +194,7 @@ _select_unverified_node_callback (lw6sys_context_t *sys_context,void *func_data,
       if (fields_values[0])
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("node with NULL id found url=\"%s\""), fields_values[0]);
-	  _lw6p2p_explore_start_verify_node (sys_context,node, fields_values[0]);
+	  _lw6p2p_explore_start_verify_node (sys_context, node, fields_values[0]);
 	}
       else
 	{
@@ -210,7 +210,7 @@ _select_unverified_node_callback (lw6sys_context_t *sys_context,void *func_data,
 }
 
 int
-_lw6p2p_explore_verify_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * node)
+_lw6p2p_explore_verify_nodes (lw6sys_context_t * sys_context, _lw6p2p_node_t * node)
 {
   int ret = 0;
   char *query = NULL;
@@ -219,7 +219,7 @@ _lw6p2p_explore_verify_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * nod
   int time_limit_hard = 0;
   int max_at_once = 0;
 
-  now = _lw6p2p_db_now (sys_context,node->db);
+  now = _lw6p2p_db_now (sys_context, node->db);
   time_limit_soft = now - node->db->data.consts.node_expire_soft_delay / 1000;
   time_limit_hard = now - node->db->data.consts.node_expire_hard_delay / 1000;
   /*
@@ -230,22 +230,23 @@ _lw6p2p_explore_verify_nodes (lw6sys_context_t *sys_context,_lw6p2p_node_t * nod
    */
   max_at_once = 1 + (2 * lw6sys_random (sys_context, node->db->data.consts.node_verify_max_at_once));
 
-  if (_lw6p2p_db_lock (sys_context,node->db))
+  if (_lw6p2p_db_lock (sys_context, node->db))
     {
-      query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (sys_context,node->db, _LW6P2P_DELETE_OLD_NODE_SQL), time_limit_hard, node->public_url);
+      query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (sys_context, node->db, _LW6P2P_DELETE_OLD_NODE_SQL), time_limit_hard, node->public_url);
       if (query)
 	{
-	  ret = _lw6p2p_db_exec_ignore_data (sys_context,node->db, query);
+	  ret = _lw6p2p_db_exec_ignore_data (sys_context, node->db, query);
 	  LW6SYS_FREE (sys_context, query);
 	}
       query =
-	lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (sys_context,node->db, _LW6P2P_SELECT_UNVERIFIED_NODE_SQL), time_limit_soft, node->node_id_str, max_at_once);
+	lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (sys_context, node->db, _LW6P2P_SELECT_UNVERIFIED_NODE_SQL), time_limit_soft, node->node_id_str,
+			    max_at_once);
       if (query)
 	{
-	  ret = _lw6p2p_db_exec (sys_context,node->db, query, _select_unverified_node_callback, node);
+	  ret = _lw6p2p_db_exec (sys_context, node->db, query, _select_unverified_node_callback, node);
 	  LW6SYS_FREE (sys_context, query);
 	}
-      _lw6p2p_db_unlock (sys_context,node->db);
+      _lw6p2p_db_unlock (sys_context, node->db);
     }
 
   return ret;

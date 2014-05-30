@@ -50,13 +50,13 @@ static volatile u_int32_t seq_id = 0;
  * Return value: a pointer on the newly created object.
  */
 lw6p2p_db_t *
-lw6p2p_db_open (lw6sys_context_t *sys_context,int argc, const char *argv[], const char *name)
+lw6p2p_db_open (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *name)
 {
-  return (lw6p2p_db_t *) _lw6p2p_db_open (sys_context,argc, argv, name);
+  return (lw6p2p_db_t *) _lw6p2p_db_open (sys_context, argc, argv, name);
 }
 
 _lw6p2p_db_t *
-_lw6p2p_db_open (lw6sys_context_t *sys_context,int argc, const char *argv[], const char *name)
+_lw6p2p_db_open (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *name)
 {
   _lw6p2p_db_t *db = NULL;
   int ret = 0;
@@ -80,7 +80,7 @@ _lw6p2p_db_open (lw6sys_context_t *sys_context,int argc, const char *argv[], con
 	  data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
 	  if (data_dir)
 	    {
-	      if (_lw6p2p_data_load (sys_context,&(db->data), data_dir))
+	      if (_lw6p2p_data_load (sys_context, &(db->data), data_dir))
 		{
 		  user_dir = lw6sys_get_user_dir (sys_context, argc, argv);
 		  if (user_dir)
@@ -92,14 +92,14 @@ _lw6p2p_db_open (lw6sys_context_t *sys_context,int argc, const char *argv[], con
 		      p2p_dir = lw6sys_path_concat (sys_context, user_dir, name);
 		      if (p2p_dir)
 			{
-			  if (!lw6sys_dir_exists (sys_context,p2p_dir))
+			  if (!lw6sys_dir_exists (sys_context, p2p_dir))
 			    {
-			      lw6sys_create_dir (sys_context,p2p_dir);
+			      lw6sys_create_dir (sys_context, p2p_dir);
 			    }
-			  db->db_filename = lw6sys_path_concat (sys_context,p2p_dir, _DB_FILENAME);
+			  db->db_filename = lw6sys_path_concat (sys_context, p2p_dir, _DB_FILENAME);
 			  if (db->db_filename)
 			    {
-			      db->log_filename = lw6sys_path_concat (sys_context,p2p_dir, _LOG_FILENAME);
+			      db->log_filename = lw6sys_path_concat (sys_context, p2p_dir, _LOG_FILENAME);
 			      if (db->log_filename)
 				{
 				  if (lw6sys_file_exists (sys_context, db->log_filename))
@@ -110,9 +110,9 @@ _lw6p2p_db_open (lw6sys_context_t *sys_context,int argc, const char *argv[], con
 				  if (sqlite3_open (db->db_filename, &(db->handler)) == SQLITE_OK)
 				    {
 				      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("opened db \"%s\""), db->db_filename);
-				      if (_lw6p2p_db_create_database (sys_context,db))
+				      if (_lw6p2p_db_create_database (sys_context, db))
 					{
-					  if (_lw6p2p_db_clean_database (sys_context,db))
+					  if (_lw6p2p_db_clean_database (sys_context, db))
 					    {
 					      /*
 					       * We clean just after we create, in
@@ -167,7 +167,7 @@ _lw6p2p_db_open (lw6sys_context_t *sys_context,int argc, const char *argv[], con
 
   if ((!ret) && db)
     {
-      _lw6p2p_db_close (sys_context,db);
+      _lw6p2p_db_close (sys_context, db);
       db = NULL;
     }
 
@@ -185,13 +185,13 @@ _lw6p2p_db_open (lw6sys_context_t *sys_context,int argc, const char *argv[], con
  * Return value: none.
  */
 void
-lw6p2p_db_close (lw6sys_context_t *sys_context,lw6p2p_db_t * db)
+lw6p2p_db_close (lw6sys_context_t * sys_context, lw6p2p_db_t * db)
 {
-  _lw6p2p_db_close (sys_context,(_lw6p2p_db_t *) db);
+  _lw6p2p_db_close (sys_context, (_lw6p2p_db_t *) db);
 }
 
 void
-_lw6p2p_db_close (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
+_lw6p2p_db_close (lw6sys_context_t * sys_context, _lw6p2p_db_t * db)
 {
   if (db)
     {
@@ -220,7 +220,7 @@ _lw6p2p_db_close (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
 			  _x_ ("sqlite2_close failed errcode=%d errmsg=\"%s\""), sqlite3_errcode (db->handler), sqlite3_errmsg (db->handler));
 	    }
 	}
-      _lw6p2p_data_unload (sys_context,&(db->data));
+      _lw6p2p_data_unload (sys_context, &(db->data));
       if (db->db_filename)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("closed db \"%s\""), db->db_filename);
@@ -235,7 +235,7 @@ _lw6p2p_db_close (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
 	{
 	  LW6SYS_FREE (sys_context, db->log_filename);
 	}
-      LW6SYS_FREE (sys_context,db);
+      LW6SYS_FREE (sys_context, db);
     }
   else
     {
@@ -254,13 +254,13 @@ _lw6p2p_db_close (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
  * Return value: a dynamically allocated string
  */
 char *
-lw6p2p_db_repr (lw6sys_context_t *sys_context,const lw6p2p_db_t * db)
+lw6p2p_db_repr (lw6sys_context_t * sys_context, const lw6p2p_db_t * db)
 {
-  return _lw6p2p_db_repr (sys_context,(_lw6p2p_db_t *) db);
+  return _lw6p2p_db_repr (sys_context, (_lw6p2p_db_t *) db);
 }
 
 char *
-_lw6p2p_db_repr (lw6sys_context_t *sys_context,const _lw6p2p_db_t * db)
+_lw6p2p_db_repr (lw6sys_context_t * sys_context, const _lw6p2p_db_t * db)
 {
   char *repr = NULL;
 
@@ -277,7 +277,7 @@ _lw6p2p_db_repr (lw6sys_context_t *sys_context,const _lw6p2p_db_t * db)
 }
 
 char *
-_lw6p2p_db_get_query (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *key)
+_lw6p2p_db_get_query (lw6sys_context_t * sys_context, _lw6p2p_db_t * db, char *key)
 {
   char *query = NULL;
 
@@ -292,7 +292,7 @@ _lw6p2p_db_get_query (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *key
 }
 
 void
-_lw6p2p_db_log (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *message)
+_lw6p2p_db_log (lw6sys_context_t * sys_context, _lw6p2p_db_t * db, char *message)
 {
   FILE *f = NULL;
 
@@ -308,7 +308,7 @@ _lw6p2p_db_log (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *message)
 }
 
 int
-_lw6p2p_db_lock (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
+_lw6p2p_db_lock (lw6sys_context_t * sys_context, _lw6p2p_db_t * db)
 {
   int ret = 0;
 
@@ -327,7 +327,7 @@ _lw6p2p_db_lock (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
 }
 
 int
-_lw6p2p_db_unlock (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
+_lw6p2p_db_unlock (lw6sys_context_t * sys_context, _lw6p2p_db_t * db)
 {
   int ret = 0;
 
@@ -346,7 +346,7 @@ _lw6p2p_db_unlock (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
 }
 
 int
-_lw6p2p_db_trylock (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
+_lw6p2p_db_trylock (lw6sys_context_t * sys_context, _lw6p2p_db_t * db)
 {
   int ret = 0;
 
@@ -357,33 +357,37 @@ _lw6p2p_db_trylock (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
   return ret;
 }
 
-int _lw6p2p_db_sql_callback(void *func_data, int nb_fields, char **fields_values, char **fields_names) {
-  int ret=0;
-  _lw6p2p_db_callback_data_t *callback_data=(_lw6p2p_db_callback_data_t *) func_data;
+int
+_lw6p2p_db_sql_callback (void *func_data, int nb_fields, char **fields_values, char **fields_names)
+{
+  int ret = 0;
+  _lw6p2p_db_callback_data_t *callback_data = (_lw6p2p_db_callback_data_t *) func_data;
 
-  if (callback_data && callback_data->sys_context) {
-    lw6sys_context_t *sys_context=callback_data->sys_context;
+  if (callback_data && callback_data->sys_context)
+    {
+      lw6sys_context_t *sys_context = callback_data->sys_context;
 
-    if (callback_data->callback_func) {
-      ret=callback_data->callback_func(sys_context,func_data,nb_fields,fields_values,fields_names);
+      if (callback_data->callback_func)
+	{
+	  ret = callback_data->callback_func (sys_context, func_data, nb_fields, fields_values, fields_names);
+	}
     }
-  }
 
   return ret;
 }
 
 int
-_lw6p2p_db_exec_ignore_data (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *sql)
+_lw6p2p_db_exec_ignore_data (lw6sys_context_t * sys_context, _lw6p2p_db_t * db, char *sql)
 {
   int ret = 0;
 
-  ret = _lw6p2p_db_exec (sys_context,db, sql, NULL, NULL);
+  ret = _lw6p2p_db_exec (sys_context, db, sql, NULL, NULL);
 
   return ret;
 }
 
 int
-_lw6p2p_db_exec (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *sql, _lw6p2p_db_callback_t func, void *func_data)
+_lw6p2p_db_exec (lw6sys_context_t * sys_context, _lw6p2p_db_t * db, char *sql, _lw6p2p_db_callback_t func, void *func_data)
 {
   int ret = 0;
   int errcode = 0;
@@ -391,19 +395,19 @@ _lw6p2p_db_exec (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *sql, _lw
   _lw6p2p_db_callback_data_t callback_data;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("executing SQL statement \"%s\""), sql);
-  memset (&callback_data,0,sizeof(callback_data));
+  memset (&callback_data, 0, sizeof (callback_data));
 
-  if (_lw6p2p_db_trylock (sys_context,db))
+  if (_lw6p2p_db_trylock (sys_context, db))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("trying to execute SQL statement \"%s\" while DB is not locked"), sql);
-      _lw6p2p_db_unlock (sys_context,db);
+      _lw6p2p_db_unlock (sys_context, db);
     }
   else
     {
-      callback_data.sys_context=sys_context;
-      callback_data.callback_func=func;
+      callback_data.sys_context = sys_context;
+      callback_data.callback_func = func;
 
-      _lw6p2p_db_log (sys_context,db, sql);
+      _lw6p2p_db_log (sys_context, db, sql);
       errcode = sqlite3_exec (db->handler, sql, _lw6p2p_db_sql_callback, func_data, &errmsg);
       if (errcode == SQLITE_OK)
 	{
@@ -427,18 +431,18 @@ _lw6p2p_db_exec (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, char *sql, _lw
 }
 
 int
-_lw6p2p_db_create_database (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
+_lw6p2p_db_create_database (lw6sys_context_t * sys_context, _lw6p2p_db_t * db)
 {
   int ret = 0;
   char *query = NULL;
 
-  query = _lw6p2p_db_get_query (sys_context,db, _LW6P2P_CREATE_DATABASE_SQL);
+  query = _lw6p2p_db_get_query (sys_context, db, _LW6P2P_CREATE_DATABASE_SQL);
   if (query)
     {
-      if (_lw6p2p_db_lock (sys_context,db))
+      if (_lw6p2p_db_lock (sys_context, db))
 	{
-	  ret = _lw6p2p_db_exec_ignore_data (sys_context,db, query);
-	  _lw6p2p_db_unlock (sys_context,db);
+	  ret = _lw6p2p_db_exec_ignore_data (sys_context, db, query);
+	  _lw6p2p_db_unlock (sys_context, db);
 	}
     }
 
@@ -446,18 +450,18 @@ _lw6p2p_db_create_database (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
 }
 
 int
-_lw6p2p_db_clean_database (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
+_lw6p2p_db_clean_database (lw6sys_context_t * sys_context, _lw6p2p_db_t * db)
 {
   int ret = 0;
   char *query = NULL;
 
-  query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (sys_context,db, _LW6P2P_CLEAN_DATABASE_SQL), -db->data.consts.node_expire_soft_delay / 1000);
+  query = lw6sys_new_sprintf (sys_context, _lw6p2p_db_get_query (sys_context, db, _LW6P2P_CLEAN_DATABASE_SQL), -db->data.consts.node_expire_soft_delay / 1000);
   if (query)
     {
-      if (_lw6p2p_db_lock (sys_context,db))
+      if (_lw6p2p_db_lock (sys_context, db))
 	{
-	  ret = _lw6p2p_db_exec_ignore_data (sys_context,db, query);
-	  _lw6p2p_db_unlock (sys_context,db);
+	  ret = _lw6p2p_db_exec_ignore_data (sys_context, db, query);
+	  _lw6p2p_db_unlock (sys_context, db);
 	}
       LW6SYS_FREE (sys_context, query);
     }
@@ -479,7 +483,7 @@ _lw6p2p_db_clean_database (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6p2p_db_reset (lw6sys_context_t *sys_context,int argc, const char *argv[], const char *name)
+lw6p2p_db_reset (lw6sys_context_t * sys_context, int argc, const char *argv[], const char *name)
 {
   int ret = 1;
   char *user_dir = NULL;
@@ -492,9 +496,9 @@ lw6p2p_db_reset (lw6sys_context_t *sys_context,int argc, const char *argv[], con
       p2p_dir = lw6sys_path_concat (sys_context, user_dir, name);
       if (p2p_dir)
 	{
-	  if (lw6sys_dir_exists (sys_context,p2p_dir))
+	  if (lw6sys_dir_exists (sys_context, p2p_dir))
 	    {
-	      filename = lw6sys_path_concat (sys_context,p2p_dir, _DB_FILENAME);
+	      filename = lw6sys_path_concat (sys_context, p2p_dir, _DB_FILENAME);
 	      if (filename)
 		{
 		  if (lw6sys_file_exists (sys_context, filename))
@@ -552,7 +556,7 @@ lw6p2p_db_reset (lw6sys_context_t *sys_context,int argc, const char *argv[], con
  * Return value: the default database name, need not (must not) be freed.
  */
 char *
-lw6p2p_db_default_name (lw6sys_context_t *sys_context)
+lw6p2p_db_default_name (lw6sys_context_t * sys_context)
 {
   return _LW6P2P_DEFAULT_NAME;
 }
@@ -574,7 +578,7 @@ lw6p2p_db_default_name (lw6sys_context_t *sys_context)
  * Return value: a timestamp, 0 means "beginning of program" (think of it as uptime)
  */
 int
-_lw6p2p_db_timestamp (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, int64_t timestamp)
+_lw6p2p_db_timestamp (lw6sys_context_t * sys_context, _lw6p2p_db_t * db, int64_t timestamp)
 {
   int ret = 0;
 
@@ -599,11 +603,11 @@ _lw6p2p_db_timestamp (lw6sys_context_t *sys_context,_lw6p2p_db_t * db, int64_t t
  * Return value: a timestamp, 0 means "beginning of program" (think of it as uptime)
  */
 int
-_lw6p2p_db_now (lw6sys_context_t *sys_context,_lw6p2p_db_t * db)
+_lw6p2p_db_now (lw6sys_context_t * sys_context, _lw6p2p_db_t * db)
 {
   int ret = 0;
 
-  ret = _lw6p2p_db_timestamp (sys_context,db, lw6sys_get_timestamp (sys_context));
+  ret = _lw6p2p_db_timestamp (sys_context, db, lw6sys_get_timestamp (sys_context));
 
   return ret;
 }

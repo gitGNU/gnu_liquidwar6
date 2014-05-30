@@ -28,7 +28,7 @@
 #include "p2p-internal.h"
 
 static void
-_peer_id_list_process_join_callback (lw6sys_context_t *sys_context,void *func_data, u_int64_t id)
+_peer_id_list_process_join_callback (lw6sys_context_t * sys_context, void *func_data, u_int64_t id)
 {
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
   int serial = 1;		// should match _LW6DAT_SERIAL_START
@@ -54,7 +54,7 @@ _peer_id_list_process_join_callback (lw6sys_context_t *sys_context,void *func_da
 }
 
 void
-_lw6p2p_peer_id_list_process_join (lw6sys_context_t *sys_context,_lw6p2p_node_t * node, lw6nod_info_t * remote_node_info)
+_lw6p2p_peer_id_list_process_join (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6nod_info_t * remote_node_info)
 {
   lw6nod_info_community_id_without_url_map (sys_context, remote_node_info, _peer_id_list_process_join_callback, (void *) node);
 }
