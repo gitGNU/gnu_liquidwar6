@@ -64,13 +64,13 @@ main (int argc, const char *argv[])
    * calling fix_env twice when running from LW6 context, and we
    * don't want that.
    */
-  lw6_fix_env (argc, (const char **) argv);
+  lw6_fix_env (sys_context,argc, (const char **) argv);
 
   if (CU_initialize_registry () == CUE_SUCCESS)
     {
-      if (lw6_test_register (mode))
+      if (lw6_test_register (sys_context,mode))
 	{
-	  ret = lw6_test_run (mode);
+	  ret = lw6_test_run (sys_context,mode);
 	}
       CU_cleanup_registry ();
     }

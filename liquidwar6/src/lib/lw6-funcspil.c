@@ -74,7 +74,7 @@ _scm_lw6pil_seed_command_generate (sys_context, SCM pilot, SCM server_id, SCM se
   SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (seq), seq, SCM_ARG3, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_server_id_str = lw6scm_utils_to_0str (sys_context, server_id);
@@ -118,7 +118,7 @@ _scm_lw6pil_dump_command_generate (sys_context, SCM pilot, SCM server_id, SCM se
   SCM_ASSERT (scm_is_string (server_id), server_id, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (seq), seq, SCM_ARG3, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_server_id_str = lw6scm_utils_to_0str (sys_context, server_id);
@@ -170,10 +170,10 @@ _scm_lw6pil_poll_dump (SCM command_text, SCM timestamp)
 	{
 	  if (lw6pil_dump_exists (sys_context, &c_dump))
 	    {
-	      ret_level = lw6_make_scm_map (c_dump.level);
-	      ret_game_struct = lw6_make_scm_game_struct (c_dump.game_struct, ret_level);
-	      ret_game_state = lw6_make_scm_game_state (c_dump.game_state, ret_game_struct);
-	      ret_pilot = lw6_make_scm_pilot (c_dump.pilot);
+	      ret_level = lw6_make_scm_map (sys_context,c_dump.level);
+	      ret_game_struct = lw6_make_scm_game_struct (sys_context,c_dump.game_struct, ret_level);
+	      ret_game_state = lw6_make_scm_game_state (sys_context,c_dump.game_state, ret_game_struct);
+	      ret_pilot = lw6_make_scm_pilot (sys_context,c_dump.pilot);
 	      ret = scm_list_4 (scm_cons
 				(scm_from_locale_string ("level"), ret_level),
 				scm_cons
@@ -210,7 +210,7 @@ _scm_lw6pil_build_pilot (SCM game_state, SCM seq_0, SCM timestamp)
   lw6sys_progress_default (sys_context, &progress, &(lw6_global.progress));
   lw6sys_progress_begin (sys_context, &progress);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       c_seq_0 = scm_to_long_long (seq_0);
@@ -218,7 +218,7 @@ _scm_lw6pil_build_pilot (SCM game_state, SCM seq_0, SCM timestamp)
       c_ret = lw6pil_pilot_new (sys_context, c_game_state, c_seq_0, c_timestamp, &progress);
       if (c_ret)
 	{
-	  ret = lw6_make_scm_pilot (c_ret);
+	  ret = lw6_make_scm_pilot (sys_context,c_ret);
 	}
     }
 
@@ -244,7 +244,7 @@ _scm_lw6pil_send_command (SCM pilot, SCM command_text, SCM verified)
   SCM_ASSERT (scm_is_string (command_text), command_text, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (SCM_BOOLP (verified), verified, SCM_ARG3, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_command_text = lw6scm_utils_to_0str (sys_context, command_text);
@@ -274,7 +274,7 @@ _scm_lw6pil_local_command (SCM pilot, SCM command_text)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (command_text), command_text, SCM_ARG2, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_command_text = lw6scm_utils_to_0str (sys_context, command_text);
@@ -306,17 +306,17 @@ _scm_lw6pil_commit (SCM pilot)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       if (lw6pil_pilot_commit (sys_context, &c_dump, c_pilot))
 	{
 	  if (lw6pil_dump_exists (sys_context, &c_dump))
 	    {
-	      ret_level = lw6_make_scm_map (c_dump.level);
-	      ret_game_struct = lw6_make_scm_game_struct (c_dump.game_struct, ret_level);
-	      ret_game_state = lw6_make_scm_game_state (c_dump.game_state, ret_game_struct);
-	      ret_pilot = lw6_make_scm_pilot (c_dump.pilot);
+	      ret_level = lw6_make_scm_map (sys_context,c_dump.level);
+	      ret_game_struct = lw6_make_scm_game_struct (sys_context,c_dump.game_struct, ret_level);
+	      ret_game_state = lw6_make_scm_game_state (sys_context,c_dump.game_state, ret_game_struct);
+	      ret_pilot = lw6_make_scm_pilot (sys_context,c_dump.pilot);
 	      ret = scm_list_4 (scm_cons
 				(scm_from_locale_string ("level"), ret_level),
 				scm_cons
@@ -350,7 +350,7 @@ _scm_lw6pil_fix_coords (SCM game_state, SCM x, SCM y, SCM z)
   SCM_ASSERT (scm_is_number (y), y, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_number (z), z, SCM_ARG3, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       c_x = scm_to_double (x);
@@ -388,7 +388,7 @@ _scm_lw6pil_fix_coords_x10 (SCM game_state, SCM x, SCM y, SCM z)
   SCM_ASSERT (scm_is_number (y), y, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_number (z), z, SCM_ARG3, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       c_x = scm_to_double (x);
@@ -423,7 +423,7 @@ _scm_lw6pil_execute_command (SCM game_state, SCM command_text, SCM seq_0)
   SCM_ASSERT (scm_is_string (command_text), command_text, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (seq_0), seq_0, SCM_ARG3, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       c_command_text = lw6scm_utils_to_0str (sys_context, command_text);
@@ -454,7 +454,7 @@ _scm_lw6pil_local_cursors_set_main (sys_context, SCM pilot, SCM cursor_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG2, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_cursor_id_str = lw6scm_utils_to_0str (sys_context, cursor_id);
@@ -487,7 +487,7 @@ _scm_lw6pil_local_cursors_set_mouse_controlled (sys_context, SCM pilot, SCM curs
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (SCM_BOOLP (mouse_controlled), mouse_controlled, SCM_ARG3, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_cursor_id_str = lw6scm_utils_to_0str (sys_context, cursor_id);
@@ -518,7 +518,7 @@ _scm_lw6pil_make_backup (SCM pilot)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       ret = lw6pil_pilot_make_backup (sys_context, c_pilot) ? SCM_BOOL_T : SCM_BOOL_F;
@@ -542,10 +542,10 @@ _scm_lw6pil_sync_from_backup (SCM target, SCM pilot)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, target), target, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG2, __FUNCTION__);
 
-  c_target = lw6_scm_to_game_state (target);
+  c_target = lw6_scm_to_game_state (sys_context,target);
   if (c_target)
     {
-      c_pilot = lw6_scm_to_pilot (pilot);
+      c_pilot = lw6_scm_to_pilot (sys_context,pilot);
       if (c_pilot)
 	{
 	  ret = lw6pil_pilot_sync_from_backup (sys_context, c_target, c_pilot) ? SCM_BOOL_T : SCM_BOOL_F;
@@ -570,10 +570,10 @@ _scm_lw6pil_sync_from_reference (SCM target, SCM pilot)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, target), target, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG2, __FUNCTION__);
 
-  c_target = lw6_scm_to_game_state (target);
+  c_target = lw6_scm_to_game_state (sys_context,target);
   if (c_target)
     {
-      c_pilot = lw6_scm_to_pilot (pilot);
+      c_pilot = lw6_scm_to_pilot (sys_context,pilot);
       if (c_pilot)
 	{
 	  ret = lw6pil_pilot_sync_from_reference (sys_context, c_target, c_pilot) ? SCM_BOOL_T : SCM_BOOL_F;
@@ -600,10 +600,10 @@ _scm_lw6pil_sync_from_draft (SCM target, SCM pilot, SCM dirty_read)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (SCM_BOOLP (dirty_read), dirty_read, SCM_ARG3, __FUNCTION__);
 
-  c_target = lw6_scm_to_game_state (target);
+  c_target = lw6_scm_to_game_state (sys_context,target);
   if (c_target)
     {
-      c_pilot = lw6_scm_to_pilot (pilot);
+      c_pilot = lw6_scm_to_pilot (sys_context,pilot);
       if (c_pilot)
 	{
 	  c_dirty_read = SCM_NFALSEP (dirty_read);
@@ -630,7 +630,7 @@ _scm_lw6pil_calibrate (SCM pilot, SCM timestamp, SCM round)
   SCM_ASSERT (scm_is_integer (timestamp), timestamp, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (round), round, SCM_ARG3, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_timestamp = scm_to_long_long (timestamp);
@@ -656,7 +656,7 @@ _scm_lw6pil_speed_up (SCM pilot, SCM round_inc)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (round_inc), round_inc, SCM_ARG2, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_round_inc = scm_to_int (round_inc);
@@ -681,7 +681,7 @@ _scm_lw6pil_slow_down (SCM pilot, SCM round_dec)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (round_dec), round_dec, SCM_ARG2, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_round_dec = scm_to_int (round_dec);
@@ -705,7 +705,7 @@ _scm_lw6pil_get_round_0 (SCM pilot)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       ret = scm_from_int (lw6pil_pilot_get_round_0 (sys_context, c_pilot));
@@ -727,7 +727,7 @@ _scm_lw6pil_get_seq_0 (SCM pilot)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       ret = scm_from_long_long (lw6pil_pilot_get_seq_0 (sys_context, c_pilot));
@@ -751,7 +751,7 @@ _scm_lw6pil_seq2round (SCM pilot, SCM seq)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (seq), seq, SCM_ARG2, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_seq = scm_to_long_long (seq);
@@ -777,7 +777,7 @@ _scm_lw6pil_round2seq (SCM pilot, SCM round)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (round), round, SCM_ARG2, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_round = scm_to_int (round);
@@ -803,7 +803,7 @@ _scm_lw6pil_get_next_seq (SCM pilot, SCM timestamp)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (timestamp), timestamp, SCM_ARG2, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_timestamp = scm_to_long_long (timestamp);
@@ -827,7 +827,7 @@ _scm_lw6pil_get_last_commit_seq (SCM pilot)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       ret = scm_from_long_long (lw6pil_pilot_get_last_commit_seq (sys_context, c_pilot));
@@ -849,7 +849,7 @@ _scm_lw6pil_get_reference_current_seq (SCM pilot)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       ret = scm_from_long_long (lw6pil_pilot_get_reference_current_seq (sys_context, c_pilot));
@@ -871,7 +871,7 @@ _scm_lw6pil_get_reference_target_seq (SCM pilot)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       ret = scm_from_long_long (lw6pil_pilot_get_reference_target_seq (sys_context, c_pilot));
@@ -893,7 +893,7 @@ _scm_lw6pil_get_max_seq (SCM pilot)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       ret = scm_from_long_long (lw6pil_pilot_get_max_seq (sys_context, c_pilot));
@@ -915,7 +915,7 @@ _scm_lw6pil_is_over (SCM pilot)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       if (lw6pil_pilot_is_over (sys_context, c_pilot))
@@ -943,7 +943,7 @@ _scm_lw6pil_did_cursor_win (SCM pilot, SCM cursor_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG2, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_cursor_id_str = lw6scm_utils_to_0str (sys_context, cursor_id);
@@ -976,7 +976,7 @@ _scm_lw6pil_get_winner (SCM pilot)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_ret = lw6pil_pilot_get_winner (sys_context, c_pilot);
@@ -1003,7 +1003,7 @@ _scm_lw6pil_get_looser (SCM pilot)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.pilot, pilot), pilot, SCM_ARG1, __FUNCTION__);
 
-  c_pilot = lw6_scm_to_pilot (pilot);
+  c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   if (c_pilot)
     {
       c_ret = lw6pil_pilot_get_looser (sys_context, c_pilot);
@@ -1053,10 +1053,10 @@ _scm_lw6pil_suite_init (sys_context, SCM timestamp)
 
   if (lw6pil_suite_init (sys_context, &c_dump, c_timestamp))
     {
-      ret_level = lw6_make_scm_map (c_dump.level);
-      ret_game_struct = lw6_make_scm_game_struct (c_dump.game_struct, ret_level);
-      ret_game_state = lw6_make_scm_game_state (c_dump.game_state, ret_game_struct);
-      ret_pilot = lw6_make_scm_pilot (c_dump.pilot);
+      ret_level = lw6_make_scm_map (sys_context,c_dump.level);
+      ret_game_struct = lw6_make_scm_game_struct (sys_context,c_dump.game_struct, ret_level);
+      ret_game_state = lw6_make_scm_game_state (sys_context,c_dump.game_state, ret_game_struct);
+      ret_pilot = lw6_make_scm_pilot (sys_context,c_dump.pilot);
       ret = scm_list_4 (scm_cons
 			(scm_from_locale_string ("level"), ret_level),
 			scm_cons

@@ -50,7 +50,7 @@ main (int argc, const char *argv[])
   LW6SYS_MAIN_BEGIN;
   LW6HLP_MAIN_BEGIN;
 
-  ret = lw6_main (argc, (const char **) argv);
+  ret = lw6_main (sys_context,argc, (const char **) argv);
 
   LW6HLP_MAIN_END;
   LW6SYS_MAIN_END;

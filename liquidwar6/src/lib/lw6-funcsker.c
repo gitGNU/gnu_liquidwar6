@@ -39,7 +39,7 @@ _scm_lw6ker_build_game_struct (SCM level)
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, level), level, SCM_ARG1, __FUNCTION__);
-  c_level = lw6_scm_to_map (level);
+  c_level = lw6_scm_to_map (sys_context,level);
   if (c_level)
     {
       lw6ker_game_struct_t *c_game_struct;
@@ -47,7 +47,7 @@ _scm_lw6ker_build_game_struct (SCM level)
       c_game_struct = lw6ker_game_struct_new (sys_context, c_level, NULL);
       if (c_game_struct)
 	{
-	  ret = lw6_make_scm_game_struct (c_game_struct, level);
+	  ret = lw6_make_scm_game_struct (sys_context,c_game_struct, level);
 	}
     }
 
@@ -66,14 +66,14 @@ _scm_lw6ker_build_game_state (SCM game_struct)
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_struct, game_struct), game_struct, SCM_ARG1, __FUNCTION__);
-  c_game_struct = lw6_scm_to_game_struct (game_struct);
+  c_game_struct = lw6_scm_to_game_struct (sys_context,game_struct);
   if (c_game_struct)
     {
       lw6ker_game_state_t *c_game_state;
       c_game_state = lw6ker_game_state_new (sys_context, c_game_struct, NULL);
       if (c_game_state)
 	{
-	  ret = lw6_make_scm_game_state (c_game_state, game_struct);
+	  ret = lw6_make_scm_game_state (sys_context,c_game_state, game_struct);
 	}
     }
 
@@ -94,8 +94,8 @@ _scm_lw6ker_sync_game_state (SCM dst, SCM src)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, dst), dst, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, src), src, SCM_ARG2, __FUNCTION__);
-  c_dst = lw6_scm_to_game_state (dst);
-  c_src = lw6_scm_to_game_state (src);
+  c_dst = lw6_scm_to_game_state (sys_context,dst);
+  c_src = lw6_scm_to_game_state (sys_context,src);
   if (c_dst && c_src)
     {
       ret = lw6ker_game_state_sync (sys_context, c_dst, c_src) ? SCM_BOOL_T : SCM_BOOL_F;
@@ -120,17 +120,17 @@ _scm_lw6ker_dup_game_state (SCM game_struct, SCM game_state)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_struct, game_struct), game_struct, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG2, __FUNCTION__);
 
-  c_game_struct = lw6_scm_to_game_struct (game_struct);
+  c_game_struct = lw6_scm_to_game_struct (sys_context,game_struct);
   if (c_game_struct)
     {
-      c_game_state = lw6_scm_to_game_state (game_state);
+      c_game_state = lw6_scm_to_game_state (sys_context,game_state);
       if (c_game_state)
 	{
 	  c_ret = lw6ker_game_state_new (sys_context, c_game_struct, NULL);
 	  if (c_ret)
 	    {
 	      lw6ker_game_state_sync (sys_context, c_ret, c_game_state);
-	      ret = lw6_make_scm_game_state (c_ret, game_struct);
+	      ret = lw6_make_scm_game_state (sys_context,c_ret, game_struct);
 	    }
 	}
     }
@@ -150,7 +150,7 @@ _scm_lw6ker_game_struct_checksum (sys_context, SCM game_struct)
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_struct, game_struct), game_struct, SCM_ARG1, __FUNCTION__);
-  c_game_struct = lw6_scm_to_game_struct (game_struct);
+  c_game_struct = lw6_scm_to_game_struct (sys_context,game_struct);
   if (c_game_struct)
     {
       ret = scm_from_int (lw6ker_game_struct_checksum (sys_context, c_game_struct));
@@ -171,7 +171,7 @@ _scm_lw6ker_game_state_checksum (sys_context, SCM game_state)
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       ret = scm_from_int (lw6ker_game_state_checksum (sys_context, c_game_state));
@@ -196,7 +196,7 @@ _scm_lw6ker_register_node (SCM game_state, SCM node_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (node_id), node_id, SCM_ARG2, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       c_node_id_str = lw6scm_utils_to_0str (sys_context, node_id);
@@ -231,7 +231,7 @@ _scm_lw6ker_unregister_node (SCM game_state, SCM node_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (node_id), node_id, SCM_ARG2, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       c_node_id_str = lw6scm_utils_to_0str (sys_context, node_id);
@@ -266,7 +266,7 @@ _scm_lw6ker_node_exists (SCM game_state, SCM node_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (node_id), node_id, SCM_ARG2, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       c_node_id_str = lw6scm_utils_to_0str (sys_context, node_id);
@@ -307,7 +307,7 @@ _scm_lw6ker_add_cursor (SCM game_state, SCM node_id, SCM cursor_id, SCM team_col
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG3, __FUNCTION__);
   SCM_ASSERT (scm_is_string (team_color), team_color, SCM_ARG4, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       c_node_id_str = lw6scm_utils_to_0str (sys_context, node_id);
@@ -357,7 +357,7 @@ _scm_lw6ker_remove_cursor (SCM game_state, SCM node_id, SCM cursor_id)
   SCM_ASSERT (scm_is_string (node_id), node_id, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG3, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       c_node_id_str = lw6scm_utils_to_0str (sys_context, node_id);
@@ -398,7 +398,7 @@ _scm_lw6ker_cursor_exists (SCM game_state, SCM cursor_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG2, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       c_cursor_id_str = lw6scm_utils_to_0str (sys_context, cursor_id);
@@ -433,7 +433,7 @@ _scm_lw6ker_get_cursor (SCM game_state, SCM cursor_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG2, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       c_cursor_id_str = lw6scm_utils_to_0str (sys_context, cursor_id);
@@ -505,7 +505,7 @@ _scm_lw6ker_set_cursor (SCM game_state, SCM node_id, SCM cursor_id, SCM x, SCM y
   SCM_ASSERT (scm_is_integer (x), x, SCM_ARG4, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (y), y, SCM_ARG5, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       lw6ker_cursor_reset (sys_context, &c_cursor);
@@ -544,7 +544,7 @@ _scm_lw6ker_do_round (SCM game_state)
 
   lw6ker_game_state_t *c_game_state;
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       lw6ker_game_state_do_round (sys_context, c_game_state);
@@ -565,7 +565,7 @@ _scm_lw6ker_get_moves (SCM game_state)
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       ret = scm_from_int (lw6ker_game_state_get_moves (sys_context, c_game_state));
@@ -586,7 +586,7 @@ _scm_lw6ker_get_spreads (SCM game_state)
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       ret = scm_from_int (lw6ker_game_state_get_spreads (sys_context, c_game_state));
@@ -607,7 +607,7 @@ _scm_lw6ker_get_rounds (SCM game_state)
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       ret = scm_from_int (lw6ker_game_state_get_rounds (sys_context, c_game_state));
@@ -628,7 +628,7 @@ _scm_lw6ker_is_over (SCM game_state)
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       if (lw6ker_game_state_is_over (sys_context, c_game_state))
@@ -656,7 +656,7 @@ _scm_lw6ker_did_cursor_win (SCM game_state, SCM cursor_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (cursor_id), cursor_id, SCM_ARG2, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       c_cursor_id_str = lw6scm_utils_to_0str (sys_context, cursor_id);
@@ -688,7 +688,7 @@ _scm_lw6ker_get_nb_colors (SCM game_state)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       ret = scm_from_int (lw6ker_game_state_get_nb_colors (sys_context, c_game_state));
@@ -710,7 +710,7 @@ _scm_lw6ker_get_nb_cursors (SCM game_state)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       ret = scm_from_int (lw6ker_game_state_get_nb_cursors (sys_context, c_game_state));
@@ -732,7 +732,7 @@ _scm_lw6ker_get_nb_nodes (SCM game_state)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
 
-  c_game_state = lw6_scm_to_game_state (game_state);
+  c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   if (c_game_state)
     {
       ret = scm_from_int (lw6ker_game_state_get_nb_nodes (sys_context, c_game_state));

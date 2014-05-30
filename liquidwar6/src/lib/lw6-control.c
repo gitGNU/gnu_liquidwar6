@@ -27,7 +27,7 @@
 #include "liquidwar6.h"
 
 void
-_release_dsp_quit (void *func_data, const char *key, void *value)
+_release_dsp_quit (lw6sys_context_t *sys_context,void *func_data, const char *key, void *value)
 {
   lw6_dsp_smob_t *dsp_smob;
   char *repr = NULL;
@@ -46,7 +46,7 @@ _release_dsp_quit (void *func_data, const char *key, void *value)
 }
 
 void
-_release_snd_quit (void *func_data, const char *key, void *value)
+_release_snd_quit (lw6sys_context_t *sys_context,void *func_data, const char *key, void *value)
 {
   lw6_snd_smob_t *snd_smob;
   char *repr = NULL;
@@ -65,7 +65,7 @@ _release_snd_quit (void *func_data, const char *key, void *value)
 }
 
 void
-_release_node_close (void *func_data, const char *key, void *value)
+_release_node_close (lw6sys_context_t *sys_context,void *func_data, const char *key, void *value)
 {
   lw6_node_smob_t *node_smob;
   char *repr = NULL;
@@ -87,6 +87,8 @@ _release_node_close (void *func_data, const char *key, void *value)
 /**
  * lw6_release
  *
+ * @sys_context: global system context
+ *
  * Functions which will call @quit, @free, @destroy on whatever
  * smob object that has threads and/or requires hardware ressources.
  * This is to be called before the Guile interpreter ends. This is because
@@ -98,39 +100,42 @@ _release_node_close (void *func_data, const char *key, void *value)
  * Return value: none
  */
 void
-lw6_release ()
+lw6_release (lw6sys_context_t *sys_context)
 {
   if (lw6_global.dsp_smobs)
     {
-      lw6sys_assoc_map (lw6_global.dsp_smobs, _release_dsp_quit, NULL);
+      lw6sys_assoc_map (sys_context,lw6_global.dsp_smobs, _release_dsp_quit, NULL);
     }
   if (lw6_global.snd_smobs)
     {
-      lw6sys_assoc_map (lw6_global.snd_smobs, _release_snd_quit, NULL);
+      lw6sys_assoc_map (sys_context,lw6_global.snd_smobs, _release_snd_quit, NULL);
     }
   if (lw6_global.node_smobs)
     {
-      lw6sys_assoc_map (lw6_global.node_smobs, _release_node_close, NULL);
+      lw6sys_assoc_map (sys_context,lw6_global.node_smobs, _release_node_close, NULL);
     }
 }
 
 /**
  * lw6_exit
  *
+ * @sys_context: global system context
+ *
  * Sends a quit message and displays a newline.
  *
  * Return value: none
  */
 void
-lw6_exit ()
+lw6_exit (lw6sys_context_t *sys_context)
 {
   printf ("\n");
-  lw6sys_signal_send_quit ();
+  lw6sys_signal_send_quit (sys_context);
 }
 
 /**
  * lw6_set_ret
  *
+ * @sys_context: global system context
  * @ret: return value to set, 1 for success, 0 for failure
  *
  * Sets the ret value for the script.
@@ -138,7 +143,7 @@ lw6_exit ()
  * Return value: none
  */
 void
-lw6_set_ret (int ret)
+lw6_set_ret (lw6sys_context_t *sys_context,int ret)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("set script ret=%d"), ret);
   lw6_global.ret = ret ? 1 : 0;
@@ -147,12 +152,14 @@ lw6_set_ret (int ret)
 /**
  * lw6_get_ret
  *
+ * @sys_context: global system context
+ *
  * Get the ret value for the script.
  *
  * Return value: 1 if success, 0 if not.
  */
 int
-lw6_get_ret ()
+lw6_get_ret (lw6sys_context_t *sys_context)
 {
   return (lw6_global.ret ? 1 : 0);
 }

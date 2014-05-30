@@ -145,7 +145,7 @@ _scm_lw6ldr_read (sys_context, SCM dirname, SCM default_param, SCM forced_param,
 				 c_display_width, c_display_height, c_bench_value, c_magic_number, user_dir, &progress);
 		  if (c_level)
 		    {
-		      ret = lw6_make_scm_map (c_level);
+		      ret = lw6_make_scm_map (sys_context,c_level);
 		    }
 		  LW6SYS_FREE (sys_context, user_dir);
 		}
@@ -221,7 +221,7 @@ _scm_lw6ldr_read_relative (sys_context, SCM map_path, SCM relative_path, SCM def
 					      c_display_width, c_display_height, c_bench_value, c_magic_number, user_dir, &progress);
 		      if (c_level)
 			{
-			  ret = lw6_make_scm_map (c_level);
+			  ret = lw6_make_scm_map (sys_context,c_level);
 			}
 		      LW6SYS_FREE (sys_context, user_dir);
 		    }
@@ -300,7 +300,7 @@ _scm_lw6ldr_exp_validate (sys_context, SCM level)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, level), level, SCM_ARG1, __FUNCTION__);
 
-  c_level = lw6_scm_to_map (level);
+  c_level = lw6_scm_to_map (sys_context,level);
   if (c_level)
     {
       user_dir = lw6cfg_unified_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);

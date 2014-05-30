@@ -71,7 +71,7 @@ guile_main (void *data)
    * In older versions there was a lw6_quit_global_1 function to
    * cleanup the dsp/gfx module in the same thread than the caller
    * (SDL limitation on Mac OS X). Now this is done before by the
-   * script using a call to lw6_release (c-lw6-release).
+   * script using a call to lw6_release (sys_context,c-lw6-release).
    */
 
   return NULL;
@@ -112,7 +112,7 @@ _end (void *data)
  *   use is "return !lw6_main(argc, argv);".
  */
 int
-lw6_main (int argc, const char *argv[])
+lw6_main (sys_context,int argc, const char *argv[])
 {
   int ret = 0;
   char *debug_str = NULL;
@@ -123,7 +123,7 @@ lw6_main (int argc, const char *argv[])
   int run_game = 1;
   char *pid_file = NULL;
 
-  ret = lw6_process_non_run_options (argc, argv, &run_game);
+  ret = lw6_process_non_run_options (sys_context,argc, argv, &run_game);
   if (run_game)
     {
       debug_str = lw6sys_arg_get_value_with_env (sys_context, argc, argv, LW6DEF_DEBUG);
@@ -152,9 +152,9 @@ lw6_main (int argc, const char *argv[])
 	}
 
       lw6hlp_print_hello (sys_context, argc, argv);
-      lw6_fix_env (argc, argv);
+      lw6_fix_env (sys_context,argc, argv);
 
-      if (lw6_init_global (argc, argv))
+      if (lw6_init_global (sys_context,argc, argv))
 	{
 #ifdef LW6_MAC_OS_X
 	  if (!lw6sys_vthread_run (sys_context, _run, _end, NULL))

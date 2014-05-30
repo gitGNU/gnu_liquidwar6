@@ -42,13 +42,13 @@ _scm_lw6map_get_look (SCM level)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, level), level, SCM_ARG1, __FUNCTION__);
 
-  c_level = lw6_scm_to_map (level);
+  c_level = lw6_scm_to_map (sys_context,level);
   if (c_level)
     {
       c_look = lw6gui_look_new (sys_context, &(c_level->param.style));
       if (c_look)
 	{
-	  ret = lw6_make_scm_look (c_look);
+	  ret = lw6_make_scm_look (sys_context,c_look);
 	}
     }
 
@@ -71,7 +71,7 @@ _scm_lw6map_param_get (sys_context, SCM level, SCM key)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, level), level, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG2, __FUNCTION__);
 
-  c_level = lw6_scm_to_map (level);
+  c_level = lw6_scm_to_map (sys_context,level);
   if (c_level)
     {
       c_key = lw6scm_utils_to_0str (sys_context, key);
@@ -103,7 +103,7 @@ _scm_lw6map_get_title (SCM level)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, level), level, SCM_ARG1, __FUNCTION__);
 
-  c_level = lw6_scm_to_map (level);
+  c_level = lw6_scm_to_map (sys_context,level);
   if (c_level)
     {
       ret = scm_from_locale_string (lw6map_get_title (c_level));
@@ -125,7 +125,7 @@ _scm_lw6map_get_music_dir (SCM level)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, level), level, SCM_ARG1, __FUNCTION__);
 
-  c_level = lw6_scm_to_map (level);
+  c_level = lw6_scm_to_map (sys_context,level);
   if (c_level)
     {
       if (c_level->local_info.music_dir)
@@ -394,7 +394,7 @@ _scm_lw6map_rules_get_int (sys_context, SCM game_struct, SCM key)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_struct, game_struct), game_struct, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG2, __FUNCTION__);
 
-  c_game_struct = lw6_scm_to_game_struct (game_struct);
+  c_game_struct = lw6_scm_to_game_struct (sys_context,game_struct);
   if (c_game_struct)
     {
       c_key = lw6scm_utils_to_0str (sys_context, key);
@@ -481,7 +481,7 @@ _scm_lw6map_exp_is_team_color_allowed (sys_context, SCM level, SCM team_color)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, level), level, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (team_color), team_color, SCM_ARG2, __FUNCTION__);
 
-  c_level = lw6_scm_to_map (level);
+  c_level = lw6_scm_to_map (sys_context,level);
   if (c_level)
     {
       c_team_color = scm_to_int (team_color);
@@ -507,7 +507,7 @@ _scm_lw6map_exp_is_weapon_allowed (sys_context, SCM level, SCM weapon)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, level), level, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (weapon), weapon, SCM_ARG2, __FUNCTION__);
 
-  c_level = lw6_scm_to_map (level);
+  c_level = lw6_scm_to_map (sys_context,level);
   if (c_level)
     {
       c_weapon = scm_to_int (weapon);
@@ -581,7 +581,7 @@ _scm_lw6map_get_max_nb_colors (sys_context, SCM level)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, level), level, SCM_ARG1, __FUNCTION__);
 
-  c_level = lw6_scm_to_map (level);
+  c_level = lw6_scm_to_map (sys_context,level);
   if (c_level)
     {
       ret = scm_from_int (lw6map_get_max_nb_colors (sys_context, c_level));
@@ -603,7 +603,7 @@ _scm_lw6map_get_max_nb_cursors (sys_context, SCM level)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, level), level, SCM_ARG1, __FUNCTION__);
 
-  c_level = lw6_scm_to_map (level);
+  c_level = lw6_scm_to_map (sys_context,level);
   if (c_level)
     {
       ret = scm_from_int (lw6map_get_max_nb_cursors (sys_context, c_level));
@@ -625,7 +625,7 @@ _scm_lw6map_get_max_nb_nodes (sys_context, SCM level)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, level), level, SCM_ARG1, __FUNCTION__);
 
-  c_level = lw6_scm_to_map (level);
+  c_level = lw6_scm_to_map (sys_context,level);
   if (c_level)
     {
       ret = scm_from_int (lw6map_get_max_nb_nodes (sys_context, c_level));

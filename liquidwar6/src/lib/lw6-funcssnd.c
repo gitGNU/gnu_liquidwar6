@@ -105,7 +105,7 @@ _scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM water_volume, SCM music_vo
 	{
 	  if (lw6snd_init (sys_context, c_ret, c_fx_volume, c_water_volume, c_music_volume))
 	    {
-	      ret = lw6_make_scm_snd (c_ret);
+	      ret = lw6_make_scm_snd (sys_context,c_ret);
 	    }
 	  else
 	    {
@@ -131,7 +131,7 @@ _scm_lw6snd_poll (sys_context, SCM snd)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
 
-  c_snd = lw6_scm_to_snd (snd);
+  c_snd = lw6_scm_to_snd (sys_context,snd);
   if (c_snd)
     {
       lw6snd_poll (sys_context, c_snd);
@@ -153,7 +153,7 @@ _scm_lw6snd_release (SCM snd)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
 
-  c_snd = lw6_scm_to_snd (snd);
+  c_snd = lw6_scm_to_snd (sys_context,snd);
   if (c_snd)
     {
       lw6snd_quit (sys_context, c_snd);
@@ -177,7 +177,7 @@ _scm_lw6snd_play_fx (sys_context, SCM snd, SCM fx_id)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (fx_id), fx_id, SCM_ARG2, __FUNCTION__);
 
-  c_snd = lw6_scm_to_snd (snd);
+  c_snd = lw6_scm_to_snd (sys_context,snd);
   if (c_snd)
     {
       c_fx_id = scm_to_int (fx_id);
@@ -202,7 +202,7 @@ _scm_lw6snd_set_fx_volume (sys_context, SCM snd, SCM fx_volume)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_REALP (fx_volume), fx_volume, SCM_ARG2, __FUNCTION__);
 
-  c_snd = lw6_scm_to_snd (snd);
+  c_snd = lw6_scm_to_snd (sys_context,snd);
   if (c_snd)
     {
       c_fx_volume = scm_to_double (fx_volume);
@@ -226,7 +226,7 @@ _scm_lw6snd_set_water_volume (sys_context, SCM snd, SCM water_volume)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_REALP (water_volume), water_volume, SCM_ARG2, __FUNCTION__);
 
-  c_snd = lw6_scm_to_snd (snd);
+  c_snd = lw6_scm_to_snd (sys_context,snd);
   if (c_snd)
     {
       c_water_volume = scm_to_double (water_volume);
@@ -255,7 +255,7 @@ _scm_lw6snd_is_music_file (sys_context, SCM snd, SCM map_dir, SCM music_path, SC
   SCM_ASSERT (scm_is_string (music_path), music_path, SCM_ARG3, __FUNCTION__);
   SCM_ASSERT (scm_is_string (music_file), music_file, SCM_ARG4, __FUNCTION__);
 
-  c_snd = lw6_scm_to_snd (snd);
+  c_snd = lw6_scm_to_snd (sys_context,snd);
   if (c_snd)
     {
       c_map_dir = lw6scm_utils_to_0str (sys_context, map_dir);
@@ -301,7 +301,7 @@ _scm_lw6snd_play_music_file (sys_context, SCM snd, SCM map_dir, SCM music_path, 
   SCM_ASSERT (scm_is_string (music_path), music_path, SCM_ARG3, __FUNCTION__);
   SCM_ASSERT (scm_is_string (music_file), music_file, SCM_ARG4, __FUNCTION__);
 
-  c_snd = lw6_scm_to_snd (snd);
+  c_snd = lw6_scm_to_snd (sys_context,snd);
   if (c_snd)
     {
       c_map_dir = lw6scm_utils_to_0str (sys_context, map_dir);
@@ -344,7 +344,7 @@ _scm_lw6snd_play_music_random (sys_context, SCM snd, SCM music_path, SCM music_f
   SCM_ASSERT (scm_is_string (music_filter), music_filter, SCM_ARG3, __FUNCTION__);
   SCM_ASSERT (scm_is_string (music_exclude), music_exclude, SCM_ARG3, __FUNCTION__);
 
-  c_snd = lw6_scm_to_snd (snd);
+  c_snd = lw6_scm_to_snd (sys_context,snd);
   if (c_snd)
     {
       c_music_path = lw6scm_utils_to_0str (sys_context, music_path);
@@ -380,7 +380,7 @@ _scm_lw6snd_stop_music (sys_context, SCM snd)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
 
-  c_snd = lw6_scm_to_snd (snd);
+  c_snd = lw6_scm_to_snd (sys_context,snd);
   if (c_snd)
     {
       lw6snd_stop_music (sys_context, c_snd);
@@ -403,7 +403,7 @@ _scm_lw6snd_set_music_volume (sys_context, SCM snd, SCM music_volume)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.snd, snd), snd, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_REALP (music_volume), music_volume, SCM_ARG2, __FUNCTION__);
 
-  c_snd = lw6_scm_to_snd (snd);
+  c_snd = lw6_scm_to_snd (sys_context,snd);
   if (c_snd)
     {
       c_music_volume = scm_to_double (music_volume);

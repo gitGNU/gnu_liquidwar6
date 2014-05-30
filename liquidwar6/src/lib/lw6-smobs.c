@@ -98,7 +98,7 @@ free_dsp (SCM dsp)
 static int
 print_dsp (SCM dsp, SCM port, scm_print_state * pstate)
 {
-  lw6dsp_backend_t *c_dsp = lw6_scm_to_dsp (dsp);
+  lw6dsp_backend_t *c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   char *repr = NULL;
 
   repr = lw6dsp_repr (sys_context, c_dsp);
@@ -124,7 +124,7 @@ print_dsp (SCM dsp, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_dsp (lw6dsp_backend_t * c_dsp)
+lw6_make_scm_dsp (sys_context,lw6dsp_backend_t * c_dsp)
 {
   // c_dsp is supposed to have been initialized with lw6dsp_init()
   char *repr = NULL;
@@ -175,7 +175,7 @@ lw6_make_scm_dsp (lw6dsp_backend_t * c_dsp)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6dsp_backend_t *
-lw6_scm_to_dsp (SCM dsp)
+lw6_scm_to_dsp (sys_context,SCM dsp)
 {
   lw6dsp_backend_t *c_dsp;
 
@@ -197,7 +197,7 @@ lw6_scm_to_dsp (SCM dsp)
  * Return value: none
  */
 void
-lw6_free_dsp_smob (lw6_dsp_smob_t * dsp_smob)
+lw6_free_dsp_smob (sys_context,lw6_dsp_smob_t * dsp_smob)
 {
   char *repr = NULL;
 
@@ -254,7 +254,7 @@ free_snd (SCM snd)
 static int
 print_snd (SCM snd, SCM port, scm_print_state * pstate)
 {
-  lw6snd_backend_t *c_snd = lw6_scm_to_snd (snd);
+  lw6snd_backend_t *c_snd = lw6_scm_to_snd (sys_context,snd);
   char *repr = NULL;
 
   repr = lw6snd_repr (sys_context, c_snd);
@@ -280,7 +280,7 @@ print_snd (SCM snd, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_snd (lw6snd_backend_t * c_snd)
+lw6_make_scm_snd (sys_context,lw6snd_backend_t * c_snd)
 {
 // c_snd is supposed to have been initialized with lw6snd_init()
   char *repr = NULL;
@@ -327,7 +327,7 @@ lw6_make_scm_snd (lw6snd_backend_t * c_snd)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6snd_backend_t *
-lw6_scm_to_snd (SCM snd)
+lw6_scm_to_snd (sys_context,SCM snd)
 {
   lw6snd_backend_t *c_snd;
 
@@ -349,7 +349,7 @@ lw6_scm_to_snd (SCM snd)
  * Return value: none
  */
 void
-lw6_free_snd_smob (lw6_snd_smob_t * snd_smob)
+lw6_free_snd_smob (sys_context,lw6_snd_smob_t * snd_smob)
 {
   char *repr = NULL;
 
@@ -406,7 +406,7 @@ free_map (SCM map)
 static int
 print_map (SCM map, SCM port, scm_print_state * pstate)
 {
-  lw6map_level_t *c_map = lw6_scm_to_map (map);
+  lw6map_level_t *c_map = lw6_scm_to_map (sys_context,map);
   char *repr = NULL;
 
   repr = lw6map_repr (sys_context, c_map);
@@ -432,7 +432,7 @@ print_map (SCM map, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_map (lw6map_level_t * c_map)
+lw6_make_scm_map (sys_context,lw6map_level_t * c_map)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -487,7 +487,7 @@ lw6_make_scm_map (lw6map_level_t * c_map)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6map_level_t *
-lw6_scm_to_map (SCM map)
+lw6_scm_to_map (sys_context,SCM map)
 {
   lw6map_level_t *c_map;
 
@@ -509,7 +509,7 @@ lw6_scm_to_map (SCM map)
  * Return value: none
  */
 void
-lw6_free_map_smob (lw6_map_smob_t * map_smob)
+lw6_free_map_smob (sys_context,lw6_map_smob_t * map_smob)
 {
   char *repr = NULL;
 
@@ -565,7 +565,7 @@ free_menu (SCM menu)
 static int
 print_menu (SCM menu, SCM port, scm_print_state * pstate)
 {
-  lw6gui_menu_t *c_menu = lw6_scm_to_menu (menu);
+  lw6gui_menu_t *c_menu = lw6_scm_to_menu (sys_context,menu);
   char *repr = NULL;
 
   repr = lw6gui_menu_repr (sys_context, c_menu);
@@ -591,7 +591,7 @@ print_menu (SCM menu, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_menu (lw6gui_menu_t * c_menu)
+lw6_make_scm_menu (sys_context,lw6gui_menu_t * c_menu)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -637,7 +637,7 @@ lw6_make_scm_menu (lw6gui_menu_t * c_menu)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6gui_menu_t *
-lw6_scm_to_menu (SCM menu)
+lw6_scm_to_menu (sys_context,SCM menu)
 {
   lw6gui_menu_t *c_menu;
 
@@ -659,7 +659,7 @@ lw6_scm_to_menu (SCM menu)
  * Return value: none
  */
 void
-lw6_free_menu_smob (lw6_menu_smob_t * menu_smob)
+lw6_free_menu_smob (sys_context,lw6_menu_smob_t * menu_smob)
 {
   char *repr = NULL;
 
@@ -719,7 +719,7 @@ free_game_struct (SCM game_struct)
 static int
 print_game_struct (SCM game_struct, SCM port, scm_print_state * pstate)
 {
-  lw6ker_game_struct_t *c_game_struct = lw6_scm_to_game_struct (game_struct);
+  lw6ker_game_struct_t *c_game_struct = lw6_scm_to_game_struct (sys_context,game_struct);
   char *repr = NULL;
 
   repr = lw6ker_game_struct_repr (sys_context, c_game_struct);
@@ -748,7 +748,7 @@ print_game_struct (SCM game_struct, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_game_struct (lw6ker_game_struct_t * c_game_struct, SCM map)
+lw6_make_scm_game_struct (sys_context,lw6ker_game_struct_t * c_game_struct, SCM map)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -795,7 +795,7 @@ lw6_make_scm_game_struct (lw6ker_game_struct_t * c_game_struct, SCM map)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6ker_game_struct_t *
-lw6_scm_to_game_struct (SCM game_struct)
+lw6_scm_to_game_struct (sys_context,SCM game_struct)
 {
   lw6ker_game_struct_t *c_game_struct;
 
@@ -817,7 +817,7 @@ lw6_scm_to_game_struct (SCM game_struct)
  * Return value: none
  */
 void
-lw6_free_game_struct_smob (lw6_game_struct_smob_t * game_struct_smob)
+lw6_free_game_struct_smob (sys_context,lw6_game_struct_smob_t * game_struct_smob)
 {
   char *repr = NULL;
 
@@ -877,7 +877,7 @@ free_game_state (SCM game_state)
 static int
 print_game_state (SCM game_state, SCM port, scm_print_state * pstate)
 {
-  lw6ker_game_state_t *c_game_state = lw6_scm_to_game_state (game_state);
+  lw6ker_game_state_t *c_game_state = lw6_scm_to_game_state (sys_context,game_state);
   char *repr = NULL;
 
   repr = lw6ker_game_state_repr (sys_context, c_game_state);
@@ -906,7 +906,7 @@ print_game_state (SCM game_state, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_game_state (lw6ker_game_state_t * c_game_state, SCM game_struct)
+lw6_make_scm_game_state (sys_context,lw6ker_game_state_t * c_game_state, SCM game_struct)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -953,7 +953,7 @@ lw6_make_scm_game_state (lw6ker_game_state_t * c_game_state, SCM game_struct)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6ker_game_state_t *
-lw6_scm_to_game_state (SCM game_state)
+lw6_scm_to_game_state (sys_context,SCM game_state)
 {
   lw6ker_game_state_t *c_game_state;
 
@@ -975,7 +975,7 @@ lw6_scm_to_game_state (SCM game_state)
  * Return value: none
  */
 void
-lw6_free_game_state_smob (lw6_game_state_smob_t * game_state_smob)
+lw6_free_game_state_smob (sys_context,lw6_game_state_smob_t * game_state_smob)
 {
   char *repr = NULL;
 
@@ -1031,7 +1031,7 @@ free_pilot (SCM pilot)
 static int
 print_pilot (SCM pilot, SCM port, scm_print_state * pstate)
 {
-  lw6pil_pilot_t *c_pilot = lw6_scm_to_pilot (pilot);
+  lw6pil_pilot_t *c_pilot = lw6_scm_to_pilot (sys_context,pilot);
   char *repr = NULL;
 
   repr = lw6pil_pilot_repr (sys_context, c_pilot);
@@ -1057,7 +1057,7 @@ print_pilot (SCM pilot, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_pilot (lw6pil_pilot_t * c_pilot)
+lw6_make_scm_pilot (sys_context,lw6pil_pilot_t * c_pilot)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -1103,7 +1103,7 @@ lw6_make_scm_pilot (lw6pil_pilot_t * c_pilot)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6pil_pilot_t *
-lw6_scm_to_pilot (SCM pilot)
+lw6_scm_to_pilot (sys_context,SCM pilot)
 {
   lw6pil_pilot_t *c_pilot;
 
@@ -1125,7 +1125,7 @@ lw6_scm_to_pilot (SCM pilot)
  * Return value: none
  */
 void
-lw6_free_pilot_smob (lw6_pilot_smob_t * pilot_smob)
+lw6_free_pilot_smob (sys_context,lw6_pilot_smob_t * pilot_smob)
 {
   char *repr = NULL;
 
@@ -1186,7 +1186,7 @@ free_bot (SCM bot)
 static int
 print_bot (SCM bot, SCM port, scm_print_state * pstate)
 {
-  lw6bot_backend_t *c_bot = lw6_scm_to_bot (bot);
+  lw6bot_backend_t *c_bot = lw6_scm_to_bot (sys_context,bot);
   char *repr = NULL;
 
   repr = lw6bot_repr (sys_context, c_bot);
@@ -1216,7 +1216,7 @@ print_bot (SCM bot, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_bot (lw6bot_backend_t * c_bot, SCM game_state, SCM pilot)
+lw6_make_scm_bot (sys_context,lw6bot_backend_t * c_bot, SCM game_state, SCM pilot)
 {
 // c_bot is supposed to have been initialized with lw6bot_init()
   char *repr = NULL;
@@ -1265,7 +1265,7 @@ lw6_make_scm_bot (lw6bot_backend_t * c_bot, SCM game_state, SCM pilot)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6bot_backend_t *
-lw6_scm_to_bot (SCM bot)
+lw6_scm_to_bot (sys_context,SCM bot)
 {
   lw6bot_backend_t *c_bot;
 
@@ -1287,7 +1287,7 @@ lw6_scm_to_bot (SCM bot)
  * Return value: none
  */
 void
-lw6_free_bot_smob (lw6_bot_smob_t * bot_smob)
+lw6_free_bot_smob (sys_context,lw6_bot_smob_t * bot_smob)
 {
   char *repr = NULL;
 
@@ -1344,7 +1344,7 @@ free_look (SCM look)
 static int
 print_look (SCM look, SCM port, scm_print_state * pstate)
 {
-  lw6gui_look_t *c_look = lw6_scm_to_look (look);
+  lw6gui_look_t *c_look = lw6_scm_to_look (sys_context,look);
   char *repr = NULL;
 
   repr = lw6gui_look_repr (sys_context, c_look);
@@ -1370,7 +1370,7 @@ print_look (SCM look, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_look (lw6gui_look_t * c_look)
+lw6_make_scm_look (sys_context,lw6gui_look_t * c_look)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -1416,7 +1416,7 @@ lw6_make_scm_look (lw6gui_look_t * c_look)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6gui_look_t *
-lw6_scm_to_look (SCM look)
+lw6_scm_to_look (sys_context,SCM look)
 {
   lw6gui_look_t *c_look;
 
@@ -1438,7 +1438,7 @@ lw6_scm_to_look (SCM look)
  * Return value: none
  */
 void
-lw6_free_look_smob (lw6_look_smob_t * look_smob)
+lw6_free_look_smob (sys_context,lw6_look_smob_t * look_smob)
 {
   char *repr = NULL;
 
@@ -1494,7 +1494,7 @@ free_loader (SCM loader)
 static int
 print_loader (SCM loader, SCM port, scm_print_state * pstate)
 {
-  lw6tsk_loader_t *c_loader = lw6_scm_to_loader (loader);
+  lw6tsk_loader_t *c_loader = lw6_scm_to_loader (sys_context,loader);
   char *repr = NULL;
 
   repr = lw6tsk_loader_repr (sys_context, c_loader);
@@ -1520,7 +1520,7 @@ print_loader (SCM loader, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_loader (lw6tsk_loader_t * c_loader)
+lw6_make_scm_loader (sys_context,lw6tsk_loader_t * c_loader)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -1566,7 +1566,7 @@ lw6_make_scm_loader (lw6tsk_loader_t * c_loader)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6tsk_loader_t *
-lw6_scm_to_loader (SCM loader)
+lw6_scm_to_loader (sys_context,SCM loader)
 {
   lw6tsk_loader_t *c_loader;
 
@@ -1588,7 +1588,7 @@ lw6_scm_to_loader (SCM loader)
  * Return value: none
  */
 void
-lw6_free_loader_smob (lw6_loader_smob_t * loader_smob)
+lw6_free_loader_smob (sys_context,lw6_loader_smob_t * loader_smob)
 {
   char *repr = NULL;
 
@@ -1670,7 +1670,7 @@ print_db (SCM db, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_db (lw6p2p_db_t * c_db)
+lw6_make_scm_db (sys_context,lw6p2p_db_t * c_db)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -1716,7 +1716,7 @@ lw6_make_scm_db (lw6p2p_db_t * c_db)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6p2p_db_t *
-lw6_scm_to_db (SCM db)
+lw6_scm_to_db (sys_context,SCM db)
 {
   void *c_db;
 
@@ -1738,7 +1738,7 @@ lw6_scm_to_db (SCM db)
  * Return value: none
  */
 void
-lw6_free_db_smob (lw6_db_smob_t * db_smob)
+lw6_free_db_smob (sys_context,lw6_db_smob_t * db_smob)
 {
   char *repr = NULL;
 
@@ -1798,7 +1798,7 @@ free_node (SCM node)
 static int
 print_node (SCM node, SCM port, scm_print_state * pstate)
 {
-  lw6p2p_node_t *c_node = lw6_scm_to_node (node);
+  lw6p2p_node_t *c_node = lw6_scm_to_node (sys_context,node);
   char *repr = NULL;
 
   repr = lw6p2p_node_repr (sys_context, c_node);
@@ -1827,7 +1827,7 @@ print_node (SCM node, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_node (lw6p2p_node_t * c_node, SCM db)
+lw6_make_scm_node (sys_context,lw6p2p_node_t * c_node, SCM db)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -1875,7 +1875,7 @@ lw6_make_scm_node (lw6p2p_node_t * c_node, SCM db)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6p2p_node_t *
-lw6_scm_to_node (SCM node)
+lw6_scm_to_node (sys_context,SCM node)
 {
   void *c_node;
 
@@ -1897,7 +1897,7 @@ lw6_scm_to_node (SCM node)
  * Return value: none
  */
 void
-lw6_free_node_smob (lw6_node_smob_t * node_smob)
+lw6_free_node_smob (sys_context,lw6_node_smob_t * node_smob)
 {
   char *repr = NULL;
 
@@ -1953,7 +1953,7 @@ free_jpeg (SCM jpeg)
 static int
 print_jpeg (SCM jpeg, SCM port, scm_print_state * pstate)
 {
-  lw6img_jpeg_t *c_jpeg = lw6_scm_to_jpeg (jpeg);
+  lw6img_jpeg_t *c_jpeg = lw6_scm_to_jpeg (sys_context,jpeg);
   char *repr = NULL;
 
   repr = lw6img_repr (sys_context, c_jpeg);
@@ -1979,7 +1979,7 @@ print_jpeg (SCM jpeg, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_jpeg (lw6img_jpeg_t * c_jpeg)
+lw6_make_scm_jpeg (sys_context,lw6img_jpeg_t * c_jpeg)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -2025,7 +2025,7 @@ lw6_make_scm_jpeg (lw6img_jpeg_t * c_jpeg)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6img_jpeg_t *
-lw6_scm_to_jpeg (SCM jpeg)
+lw6_scm_to_jpeg (sys_context,SCM jpeg)
 {
   void *c_jpeg;
 
@@ -2047,7 +2047,7 @@ lw6_scm_to_jpeg (SCM jpeg)
  * Return value: none
  */
 void
-lw6_free_jpeg_smob (lw6_jpeg_smob_t * jpeg_smob)
+lw6_free_jpeg_smob (sys_context,lw6_jpeg_smob_t * jpeg_smob)
 {
   char *repr = NULL;
 

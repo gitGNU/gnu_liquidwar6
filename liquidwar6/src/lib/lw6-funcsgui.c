@@ -148,7 +148,7 @@ _scm_lw6gui_menu_new (sys_context, SCM title, SCM help, SCM popup, SCM esc, SCM 
 		  c_menu = lw6gui_menu_new (sys_context, c_title, c_help, c_popup, c_esc, c_enable_esc);
 		  if (c_menu)
 		    {
-		      ret = lw6_make_scm_menu (c_menu);
+		      ret = lw6_make_scm_menu (sys_context,c_menu);
 		    }
 		  LW6SYS_FREE (sys_context, c_esc);
 		}
@@ -194,7 +194,7 @@ _scm_lw6gui_menu_append (sys_context, SCM menu, SCM menuitem)
 	  c_selected = scm_to_bool (scm_assoc_ref (menuitem, scm_from_locale_string ("selected")));
 	  c_colored = scm_to_bool (scm_assoc_ref (menuitem, scm_from_locale_string ("colored")));
 
-	  c_menu = lw6_scm_to_menu (menu);
+	  c_menu = lw6_scm_to_menu (sys_context,menu);
 
 	  ret =
 	    scm_from_int (lw6gui_menu_append_for_id_use
@@ -223,7 +223,7 @@ _scm_lw6gui_menu_remove (sys_context, SCM menu, SCM position)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (position), position, SCM_ARG2, __FUNCTION__);
 
-  c_menu = lw6_scm_to_menu (menu);
+  c_menu = lw6_scm_to_menu (sys_context,menu);
   c_position = scm_to_int (position);
 
   ret = lw6gui_menu_remove (sys_context, c_menu, c_position, lw6sys_get_timestamp (sys_context,)) ? SCM_BOOL_T : SCM_BOOL_F;
@@ -244,7 +244,7 @@ _scm_lw6gui_menu_remove_all (sys_context, SCM menu, SCM position)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
 
-  c_menu = lw6_scm_to_menu (menu);
+  c_menu = lw6_scm_to_menu (sys_context,menu);
   ret = lw6gui_menu_remove_all (sys_context, c_menu, lw6sys_get_timestamp (sys_context,)) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -284,7 +284,7 @@ _scm_lw6gui_menu_sync (sys_context, SCM menu, SCM menuitem)
 	  c_selected = scm_to_bool (scm_assoc_ref (menuitem, scm_from_locale_string ("selected")));
 	  c_colored = scm_to_bool (scm_assoc_ref (menuitem, scm_from_locale_string ("colored")));
 
-	  c_menu = lw6_scm_to_menu (menu);
+	  c_menu = lw6_scm_to_menu (sys_context,menu);
 
 	  lw6gui_menu_sync_using_id (sys_context, c_menu, c_id, c_label, c_tooltip, c_value, c_enabled, c_selected, c_colored, lw6sys_get_timestamp ());
 
@@ -313,7 +313,7 @@ _scm_lw6gui_menu_select (sys_context, SCM menu, SCM position, SCM allow_scroll)
   SCM_ASSERT (scm_is_integer (position), position, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (SCM_BOOLP (allow_scroll), allow_scroll, SCM_ARG3, __FUNCTION__);
 
-  c_menu = lw6_scm_to_menu (menu);
+  c_menu = lw6_scm_to_menu (sys_context,menu);
   c_position = scm_to_int (position);
   c_allow_scroll = SCM_NFALSEP (allow_scroll);
 
@@ -336,7 +336,7 @@ _scm_lw6gui_menu_select_esc (sys_context, SCM menu, SCM state)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_BOOLP (state), state, SCM_ARG2, __FUNCTION__);
 
-  c_menu = lw6_scm_to_menu (menu);
+  c_menu = lw6_scm_to_menu (sys_context,menu);
   c_state = SCM_NFALSEP (state);
 
   lw6gui_menu_select_esc (sys_context, c_menu, c_state, lw6sys_get_timestamp ());
@@ -358,7 +358,7 @@ _scm_lw6gui_menu_enable_esc (sys_context, SCM menu, SCM state)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_BOOLP (state), state, SCM_ARG2, __FUNCTION__);
 
-  c_menu = lw6_scm_to_menu (menu);
+  c_menu = lw6_scm_to_menu (sys_context,menu);
   c_state = SCM_NFALSEP (state);
 
   lw6gui_menu_enable_esc (sys_context, c_menu, c_state, lw6sys_get_timestamp ());
@@ -379,7 +379,7 @@ _scm_lw6gui_menu_scroll_up (sys_context, SCM menu)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
 
-  c_menu = lw6_scm_to_menu (menu);
+  c_menu = lw6_scm_to_menu (sys_context,menu);
 
   ret = lw6gui_menu_scroll_up (sys_context, c_menu) ? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -399,7 +399,7 @@ _scm_lw6gui_menu_scroll_down (sys_context, SCM menu)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
 
-  c_menu = lw6_scm_to_menu (menu);
+  c_menu = lw6_scm_to_menu (sys_context,menu);
 
   ret = lw6gui_menu_scroll_down (sys_context, c_menu) ? SCM_BOOL_T : SCM_BOOL_F;
 
@@ -421,7 +421,7 @@ _scm_lw6gui_menu_set_breadcrumbs (sys_context, SCM menu, SCM breadcrumbs)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (SCM_CONSP (breadcrumbs) || breadcrumbs == SCM_EOL, breadcrumbs, SCM_ARG2, __FUNCTION__);
 
-  c_menu = lw6_scm_to_menu (menu);
+  c_menu = lw6_scm_to_menu (sys_context,menu);
   c_breadcrumbs = lw6scm_utils_to_sys_str_list (sys_context, breadcrumbs);
   if (c_breadcrumbs)
     {
@@ -443,7 +443,7 @@ _scm_lw6gui_menu_close_popup (sys_context, SCM menu)
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
-  c_menu = lw6_scm_to_menu (menu);
+  c_menu = lw6_scm_to_menu (sys_context,menu);
   lw6gui_menu_close_popup (sys_context, c_menu);
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -461,7 +461,7 @@ _scm_lw6gui_menu_has_popup (sys_context, SCM menu)
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
-  c_menu = lw6_scm_to_menu (menu);
+  c_menu = lw6_scm_to_menu (sys_context,menu);
   ret = lw6gui_menu_has_popup (sys_context, c_menu) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -481,7 +481,7 @@ _scm_lw6gui_default_look ()
   c_look = lw6gui_look_new (sys_context, NULL);
   if (c_look)
     {
-      ret = lw6_make_scm_look (c_look);
+      ret = lw6_make_scm_look (sys_context,c_look);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -504,7 +504,7 @@ _scm_lw6gui_look_set (sys_context, SCM look, SCM key, SCM value)
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG2, __FUNCTION__);
   SCM_ASSERT (scm_is_string (value), value, SCM_ARG3, __FUNCTION__);
 
-  c_look = lw6_scm_to_look (look);
+  c_look = lw6_scm_to_look (sys_context,look);
   if (c_look)
     {
       c_key = lw6scm_utils_to_0str (sys_context, key);
@@ -539,7 +539,7 @@ _scm_lw6gui_look_get (sys_context, SCM look, SCM key)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.look, look), look, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG2, __FUNCTION__);
 
-  c_look = lw6_scm_to_look (look);
+  c_look = lw6_scm_to_look (sys_context,look);
   if (c_look)
     {
       c_key = lw6scm_utils_to_0str (sys_context, key);
@@ -573,7 +573,7 @@ _scm_lw6gui_look_zoom_in (sys_context, SCM look, SCM zoom_step)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.look, look), look, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_number (zoom_step), zoom_step, SCM_ARG2, __FUNCTION__);
 
-  c_look = lw6_scm_to_look (look);
+  c_look = lw6_scm_to_look (sys_context,look);
   if (c_look)
     {
       c_zoom_step = scm_to_double (zoom_step);
@@ -601,7 +601,7 @@ _scm_lw6gui_look_zoom_out (sys_context, SCM look, SCM zoom_step)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.look, look), look, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_number (zoom_step), zoom_step, SCM_ARG2, __FUNCTION__);
 
-  c_look = lw6_scm_to_look (look);
+  c_look = lw6_scm_to_look (sys_context,look);
   if (c_look)
     {
       c_zoom_step = scm_to_double (zoom_step);
@@ -626,7 +626,7 @@ _scm_lw6gui_input_reset (sys_context, SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       lw6gui_input_reset (sys_context, c_dsp->input);
@@ -648,7 +648,7 @@ _scm_lw6gui_mouse_poll_move (sys_context, SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_mouse_poll_move (sys_context, &(c_dsp->input->mouse), NULL, NULL))
@@ -673,7 +673,7 @@ _scm_lw6gui_mouse_get_state (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       ret = mouse_get_state (c_dsp);
@@ -697,7 +697,7 @@ _scm_lw6gui_keyboard_is_pressed (sys_context, SCM dsp, SCM keysym)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_is_integer (keysym), keysym, SCM_ARG2, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       c_keysym = scm_to_int (keysym);
@@ -722,7 +722,7 @@ _scm_lw6gui_keyboard_get_move_pad (sys_context, SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       lw6gui_keyboard_get_move_pad (sys_context, &(c_dsp->input->keyboard), &move_pad);
@@ -754,7 +754,7 @@ _scm_lw6gui_joystick1_get_move_pad (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       lw6gui_joystick_get_move_pad (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID]), &move_pad);
@@ -785,7 +785,7 @@ _scm_lw6gui_joystick2_get_move_pad (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       lw6gui_joystick_get_move_pad (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID]), &move_pad);
@@ -815,7 +815,7 @@ _scm_lw6gui_mouse_pop_button_left (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->mouse.button_left)))
@@ -840,7 +840,7 @@ _scm_lw6gui_mouse_pop_button_right (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->mouse.button_right)))
@@ -865,7 +865,7 @@ _scm_lw6gui_mouse_pop_button_middle (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->mouse.button_middle)))
@@ -890,7 +890,7 @@ _scm_lw6gui_mouse_pop_simple_click (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_simple_click (sys_context, &(c_dsp->input->mouse.button_left))
@@ -917,7 +917,7 @@ _scm_lw6gui_mouse_pop_double_click (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_double_click (sys_context, &(c_dsp->input->mouse.button_left))
@@ -944,7 +944,7 @@ _scm_lw6gui_mouse_pop_triple_click (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_triple_click (sys_context, &(c_dsp->input->mouse.button_left))
@@ -971,7 +971,7 @@ _scm_lw6gui_mouse_pop_wheel_up (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->mouse.wheel_up)))
@@ -996,7 +996,7 @@ _scm_lw6gui_mouse_pop_wheel_down (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->mouse.wheel_down)))
@@ -1021,7 +1021,7 @@ _scm_lw6gui_keyboard_pop_arrow_up (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->keyboard.arrow_up)))
@@ -1046,7 +1046,7 @@ _scm_lw6gui_keyboard_pop_arrow_down (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->keyboard.arrow_down)))
@@ -1071,7 +1071,7 @@ _scm_lw6gui_keyboard_pop_arrow_left (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->keyboard.arrow_left)))
@@ -1096,7 +1096,7 @@ _scm_lw6gui_keyboard_pop_arrow_right (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->keyboard.arrow_right)))
@@ -1121,7 +1121,7 @@ _scm_lw6gui_keyboard_pop_key_enter (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->keyboard.key_enter)))
@@ -1146,7 +1146,7 @@ _scm_lw6gui_keyboard_pop_key_esc (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->keyboard.key_esc)))
@@ -1171,7 +1171,7 @@ _scm_lw6gui_keyboard_pop_key_ctrl (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->keyboard.key_ctrl)))
@@ -1196,7 +1196,7 @@ _scm_lw6gui_keyboard_pop_key_alt (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->keyboard.key_alt)))
@@ -1221,7 +1221,7 @@ _scm_lw6gui_keyboard_pop_key_pgup (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->keyboard.key_pgup)))
@@ -1246,7 +1246,7 @@ _scm_lw6gui_keyboard_pop_key_pgdown (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->keyboard.key_pgdown)))
@@ -1271,7 +1271,7 @@ _scm_lw6gui_joystick1_pop_pad_up (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].pad_up)))
@@ -1296,7 +1296,7 @@ _scm_lw6gui_joystick1_pop_pad_down (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].pad_down)))
@@ -1321,7 +1321,7 @@ _scm_lw6gui_joystick1_pop_pad_left (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].pad_left)))
@@ -1346,7 +1346,7 @@ _scm_lw6gui_joystick1_pop_pad_right (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].pad_right)))
@@ -1371,7 +1371,7 @@ _scm_lw6gui_joystick1_pop_button_a (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_a)))
@@ -1396,7 +1396,7 @@ _scm_lw6gui_joystick1_pop_button_b (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_b)))
@@ -1421,7 +1421,7 @@ _scm_lw6gui_joystick1_pop_button_c (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_c)))
@@ -1446,7 +1446,7 @@ _scm_lw6gui_joystick1_pop_button_d (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_d)))
@@ -1471,7 +1471,7 @@ _scm_lw6gui_joystick1_pop_button_e (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_e)))
@@ -1496,7 +1496,7 @@ _scm_lw6gui_joystick1_pop_button_f (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK1_ID].button_f)))
@@ -1521,7 +1521,7 @@ _scm_lw6gui_joystick2_pop_pad_up (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].pad_up)))
@@ -1546,7 +1546,7 @@ _scm_lw6gui_joystick2_pop_pad_down (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].pad_down)))
@@ -1571,7 +1571,7 @@ _scm_lw6gui_joystick2_pop_pad_left (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].pad_left)))
@@ -1596,7 +1596,7 @@ _scm_lw6gui_joystick2_pop_pad_right (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].pad_right)))
@@ -1621,7 +1621,7 @@ _scm_lw6gui_joystick2_pop_button_a (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_a)))
@@ -1646,7 +1646,7 @@ _scm_lw6gui_joystick2_pop_button_b (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_b)))
@@ -1671,7 +1671,7 @@ _scm_lw6gui_joystick2_pop_button_c (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_c)))
@@ -1696,7 +1696,7 @@ _scm_lw6gui_joystick2_pop_button_d (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_d)))
@@ -1721,7 +1721,7 @@ _scm_lw6gui_joystick2_pop_button_e (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_e)))
@@ -1746,7 +1746,7 @@ _scm_lw6gui_joystick2_pop_button_f (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (lw6gui_button_pop_press (sys_context, &(c_dsp->input->joysticks[LW6GUI_JOYSTICK2_ID].button_f)))

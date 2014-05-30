@@ -59,7 +59,7 @@ _scm_lw6gen_create_from_seed (sys_context, SCM seed, SCM map_w, SCM map_h)
 	  c_level = lw6gen_create_from_seed (sys_context, c_seed, c_map_w, c_map_h);
 	  if (c_level)
 	    {
-	      ret = lw6_make_scm_map (c_level);
+	      ret = lw6_make_scm_map (sys_context,c_level);
 	    }
 	  LW6SYS_FREE (sys_context, c_normalized_seed);
 	}

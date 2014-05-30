@@ -234,13 +234,13 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
   value = scm_hash_ref (param, scm_from_locale_string ("look"), SCM_BOOL_F);
   if (SCM_SMOB_PREDICATE (lw6_global.smob_types.look, value))
     {
-      c_param->look = lw6_scm_to_look (value);
+      c_param->look = lw6_scm_to_look (sys_context,value);
     }
 
   value = scm_hash_ref (param, scm_from_locale_string ("menu"), SCM_BOOL_F);
   if (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, value))
     {
-      c_param->menu = lw6_scm_to_menu (value);
+      c_param->menu = lw6_scm_to_menu (sys_context,value);
     }
 
   ret = 1;
@@ -268,7 +268,7 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
 	   * is marked when Guile garbage collects
 	   */
 	  dsp_smob->level = value;
-	  c_param->level = lw6_scm_to_map (value);
+	  c_param->level = lw6_scm_to_map (sys_context,value);
 	}
       else
 	{
@@ -284,7 +284,7 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
 	   * is marked when Guile garbage collects
 	   */
 	  dsp_smob->game_struct = value;
-	  c_param->game_struct = lw6_scm_to_game_struct (value);
+	  c_param->game_struct = lw6_scm_to_game_struct (sys_context,value);
 	}
       else
 	{
@@ -300,7 +300,7 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
 	   * is marked when Guile garbage collects
 	   */
 	  dsp_smob->game_state = value;
-	  c_param->game_state = lw6_scm_to_game_state (value);
+	  c_param->game_state = lw6_scm_to_game_state (sys_context,value);
 	}
       else
 	{
@@ -316,7 +316,7 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
 	   * is marked when Guile garbage collects
 	   */
 	  dsp_smob->pilot = value;
-	  c_param->pilot = lw6_scm_to_pilot (value);
+	  c_param->pilot = lw6_scm_to_pilot (sys_context,value);
 	}
       else
 	{
@@ -357,7 +357,7 @@ _scm_lw6dsp_new (SCM backend_name, SCM param)
 	    {
 	      if (lw6dsp_init (sys_context, c_ret, &c_param, lw6_resize_callback))
 		{
-		  ret = lw6_make_scm_dsp (c_ret);
+		  ret = lw6_make_scm_dsp (sys_context,c_ret);
 		}
 	      else
 		{
@@ -384,7 +384,7 @@ _scm_lw6dsp_release (SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       lw6dsp_quit (sys_context, c_dsp);
@@ -408,7 +408,7 @@ _scm_lw6dsp_update (sys_context, SCM dsp, SCM param)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
   SCM_ASSERT (scm_hash_table_p (param), param, SCM_ARG2, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       if (prepare_update_param (dsp, &c_param, param))
@@ -433,7 +433,7 @@ _scm_lw6dsp_get_nb_frames (sys_context, SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       ret = scm_from_int (lw6dsp_get_nb_frames (sys_context, c_dsp));
@@ -455,7 +455,7 @@ _scm_lw6dsp_get_last_frame_rendering_time (sys_context, SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       ret = scm_from_int (lw6dsp_get_last_frame_rendering_time (sys_context, c_dsp));
@@ -477,7 +477,7 @@ _scm_lw6dsp_get_instant_fps (sys_context, SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       ret = scm_from_int (lw6dsp_get_instant_fps (sys_context, c_dsp));
@@ -499,7 +499,7 @@ _scm_lw6dsp_get_average_fps (sys_context, SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       ret = scm_from_int (lw6dsp_get_average_fps (sys_context, c_dsp));
@@ -521,7 +521,7 @@ _scm_lw6dsp_get_video_mode (sys_context, SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       lw6gui_video_mode_t video_mode;
@@ -554,7 +554,7 @@ _scm_lw6dsp_get_fullscreen_modes (sys_context, SCM dsp)
 
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.dsp, dsp), dsp, SCM_ARG1, __FUNCTION__);
 
-  c_dsp = lw6_scm_to_dsp (dsp);
+  c_dsp = lw6_scm_to_dsp (sys_context,dsp);
   if (c_dsp)
     {
       lw6gui_fullscreen_modes_t fullscreen_modes;

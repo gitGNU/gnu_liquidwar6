@@ -27,32 +27,6 @@
 #include "liquidwar6.h"
 
 /*
- * For a GNU gettext-like behavior of scheme code.
- */
-static SCM
-_scm_gettext (SCM string)
-{
-  char *c_string;
-  SCM ret = SCM_BOOL_F;
-
-  LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
-
-  SCM_ASSERT (scm_is_string (string), string, SCM_ARG1, __FUNCTION__);
-
-  c_string = lw6scm_utils_to_0str (sys_context, string);
-  if (c_string)
-    {
-      ret = scm_from_locale_string (gettext (c_string));
-      LW6SYS_FREE (sys_context, c_string);
-    }
-
-  LW6SYS_SCRIPT_FUNCTION_END;
-
-  return ret;
-}
-
-/*
  * Global control functions
  */
 static SCM
@@ -82,7 +56,7 @@ _scm_lw6_exit ()
 }
 
 static SCM
-_scm_lw6_set_ret (SCM set_ret)
+_scm_lw6_set_ret (sys_context,SCM set_ret)
 {
   SCM get_ret = SCM_UNDEFINED;
 
@@ -115,7 +89,7 @@ _scm_lw6_get_ret ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6_get_ret ()? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6_get_ret (sys_context,)? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -188,7 +162,7 @@ lw6_register_funcs ()
  * Return value: none
  */
 extern void
-lw6_cns_handler (char *c_line)
+lw6_cns_handler (sys_context,char *c_line)
 {
   SCM line;
   SCM func_symbol;

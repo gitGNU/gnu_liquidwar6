@@ -32,7 +32,7 @@ TEST_SRC_FILE = scm-test.c
 else
 TEST_SRC_FILE =
 endif
-libscm_la_SOURCES = scm-coverage.c scm-funcname.c $(TEST_SRC_FILE) scm-utils.c scm-wrapper.c
+libscm_la_SOURCES = scm-coverage.c scm-funcname.c scm-gettext.c $(TEST_SRC_FILE) scm-utils.c scm-wrapper.c
 libscmdir= $(includedir)/@PACKAGE_TARNAME@/scm
 libscm_HEADERS = scm.h
 
