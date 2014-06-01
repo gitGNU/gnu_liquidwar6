@@ -32,9 +32,10 @@
 static SCM
 _scm_lw6hlp_about (SCM key)
 {
-  char *c_key;
-  const char *c_ret;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_key = NULL;
+  const char *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -44,7 +45,7 @@ _scm_lw6hlp_about (SCM key)
   c_key = lw6scm_utils_to_0str (sys_context, key);
   if (c_key)
     {
-      c_ret = lw6hlp_about (NULL, NULL, NULL, NULL, c_key);
+      c_ret = lw6hlp_about (sys_context, NULL, NULL, NULL, NULL, c_key);
       if (c_ret)
 	{
 	  ret = scm_from_locale_string (c_ret);
@@ -61,9 +62,10 @@ _scm_lw6hlp_about (SCM key)
 static SCM
 _scm_lw6hlp_get_default_value (SCM key)
 {
-  char *c_key;
-  const char *c_ret;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_key = NULL;
+  const char *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -73,7 +75,7 @@ _scm_lw6hlp_get_default_value (SCM key)
   c_key = lw6scm_utils_to_0str (sys_context, key);
   if (c_key)
     {
-      c_ret = lw6hlp_get_default_value (c_key);
+      c_ret = lw6hlp_get_default_value (sys_context, c_key);
       if (c_ret)
 	{
 	  ret = scm_from_locale_string (c_ret);
@@ -88,10 +90,11 @@ _scm_lw6hlp_get_default_value (SCM key)
 }
 
 static SCM
-_scm_lw6hlp_list_quick (sys_context)
+_scm_lw6hlp_list_quick ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -109,10 +112,11 @@ _scm_lw6hlp_list_quick (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_doc (sys_context)
+_scm_lw6hlp_list_doc ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -130,10 +134,11 @@ _scm_lw6hlp_list_doc (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_show (sys_context)
+_scm_lw6hlp_list_show ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -151,10 +156,11 @@ _scm_lw6hlp_list_show (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_path (sys_context)
+_scm_lw6hlp_list_path ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -172,10 +178,11 @@ _scm_lw6hlp_list_path (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_players (sys_context)
+_scm_lw6hlp_list_players ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -193,10 +200,11 @@ _scm_lw6hlp_list_players (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_input (sys_context)
+_scm_lw6hlp_list_input ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -214,10 +222,11 @@ _scm_lw6hlp_list_input (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_graphics (sys_context)
+_scm_lw6hlp_list_graphics ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -235,10 +244,11 @@ _scm_lw6hlp_list_graphics (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_sound (sys_context)
+_scm_lw6hlp_list_sound ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -256,10 +266,11 @@ _scm_lw6hlp_list_sound (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_network (sys_context)
+_scm_lw6hlp_list_network ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -277,10 +288,11 @@ _scm_lw6hlp_list_network (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_map (sys_context)
+_scm_lw6hlp_list_map ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -298,10 +310,11 @@ _scm_lw6hlp_list_map (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_map_rules (sys_context)
+_scm_lw6hlp_list_map_rules ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -319,10 +332,11 @@ _scm_lw6hlp_list_map_rules (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_map_hints (sys_context)
+_scm_lw6hlp_list_map_hints ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -340,10 +354,11 @@ _scm_lw6hlp_list_map_hints (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_map_style (sys_context)
+_scm_lw6hlp_list_map_style ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -361,10 +376,11 @@ _scm_lw6hlp_list_map_style (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_map_teams (sys_context)
+_scm_lw6hlp_list_map_teams ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -382,10 +398,11 @@ _scm_lw6hlp_list_map_teams (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_funcs (sys_context)
+_scm_lw6hlp_list_funcs ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -403,10 +420,11 @@ _scm_lw6hlp_list_funcs (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_hooks (sys_context)
+_scm_lw6hlp_list_hooks ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -424,10 +442,11 @@ _scm_lw6hlp_list_hooks (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_advanced (sys_context)
+_scm_lw6hlp_list_advanced ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -445,10 +464,11 @@ _scm_lw6hlp_list_advanced (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_aliases (sys_context)
+_scm_lw6hlp_list_aliases ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -466,10 +486,11 @@ _scm_lw6hlp_list_aliases (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_team_colors (sys_context)
+_scm_lw6hlp_list_team_colors ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -487,10 +508,11 @@ _scm_lw6hlp_list_team_colors (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list_weapons (sys_context)
+_scm_lw6hlp_list_weapons ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -508,10 +530,11 @@ _scm_lw6hlp_list_weapons (sys_context)
 }
 
 static SCM
-_scm_lw6hlp_list (sys_context)
+_scm_lw6hlp_list ()
 {
-  lw6sys_list_t *c_list = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_list = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -531,12 +554,14 @@ _scm_lw6hlp_list (sys_context)
 /**
  * lw6_register_funcs_hlp
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the hlp module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_hlp ()
+lw6_register_funcs_hlp (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

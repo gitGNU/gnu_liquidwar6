@@ -31,9 +31,10 @@
  */
 
 static SCM
-_scm_lw6gen_create_from_seed (sys_context, SCM seed, SCM map_w, SCM map_h)
+_scm_lw6gen_create_from_seed (SCM seed, SCM map_w, SCM map_h)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6map_level_t *c_level = NULL;
   char *c_seed = NULL;
   char *c_normalized_seed = NULL;
@@ -75,12 +76,13 @@ static SCM
 _scm_lw6gen_seed_new ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  c_ret = lw6gen_seed_new ();
+  c_ret = lw6gen_seed_new (sys_context);
   if (c_ret)
     {
       ret = scm_from_locale_string (c_ret);
@@ -93,9 +95,10 @@ _scm_lw6gen_seed_new ()
 }
 
 static SCM
-_scm_lw6gen_seed_normalize (sys_context, SCM seed)
+_scm_lw6gen_seed_normalize (SCM seed)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_ret = NULL;
   char *c_seed = NULL;
 
@@ -124,12 +127,14 @@ _scm_lw6gen_seed_normalize (sys_context, SCM seed)
 /**
  * lw6_register_funcs_gen
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the gen module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_gen ()
+lw6_register_funcs_gen (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

@@ -47,7 +47,7 @@ _scm_lw6sys_set_memory_bazooka_size (SCM size)
 
   c_size = scm_to_int (size);
 
-  ret = lw6sys_set_memory_bazooka_size (sys_context,c_size) ? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6sys_set_memory_bazooka_size (sys_context, c_size) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -84,7 +84,7 @@ _scm_lw6sys_set_memory_bazooka_eraser (SCM state)
 
   c_state = scm_to_bool (state);
 
-  ret = lw6sys_set_memory_bazooka_eraser (sys_context,c_state) ? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6sys_set_memory_bazooka_eraser (sys_context, c_state) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1452,7 +1452,7 @@ _scm_lw6sys_log_set_backtrace_mode (SCM backtrace_mode)
   SCM_ASSERT (scm_is_integer (backtrace_mode), backtrace_mode, SCM_ARG1, __FUNCTION__);
 
   c_backtrace_mode = scm_to_int (backtrace_mode);
-  lw6sys_log_set_backtrace_mode (sys_context,c_backtrace_mode);
+  lw6sys_log_set_backtrace_mode (sys_context, c_backtrace_mode);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -1774,7 +1774,7 @@ _scm_lw6sys_get_run_dir ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  buf = lw6sys_get_run_dir (sys_context,lw6_global.argc, lw6_global.argv);
+  buf = lw6sys_get_run_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
     {
       ret = scm_from_locale_string (buf);
@@ -1796,7 +1796,7 @@ _scm_lw6sys_get_user_dir ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  buf = lw6sys_get_user_dir (sys_context,lw6_global.argc, lw6_global.argv);
+  buf = lw6sys_get_user_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
     {
       ret = scm_from_locale_string (buf);
@@ -1818,7 +1818,7 @@ _scm_lw6sys_get_config_file ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  buf = lw6sys_get_config_file (sys_context,lw6_global.argc, lw6_global.argv);
+  buf = lw6sys_get_config_file (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
     {
       ret = scm_from_locale_string (buf);
@@ -1840,7 +1840,7 @@ _scm_lw6sys_get_log_file ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  buf = lw6sys_get_log_file (sys_context,lw6_global.argc, lw6_global.argv);
+  buf = lw6sys_get_log_file (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
     {
       ret = scm_from_locale_string (buf);
@@ -1862,7 +1862,7 @@ _scm_lw6sys_get_prefix ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  buf = lw6sys_get_prefix (sys_context,lw6_global.argc, lw6_global.argv);
+  buf = lw6sys_get_prefix (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
     {
       ret = scm_from_locale_string (buf);
@@ -1884,7 +1884,7 @@ _scm_lw6sys_get_mod_dir ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  buf = lw6sys_get_mod_dir (sys_context,lw6_global.argc, lw6_global.argv);
+  buf = lw6sys_get_mod_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
     {
       ret = scm_from_locale_string (buf);
@@ -1906,7 +1906,7 @@ _scm_lw6sys_get_data_dir ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  buf = lw6sys_get_data_dir (sys_context,lw6_global.argc, lw6_global.argv);
+  buf = lw6sys_get_data_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
     {
       ret = scm_from_locale_string (buf);
@@ -1928,7 +1928,7 @@ _scm_lw6sys_get_music_dir ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  buf = lw6sys_get_music_dir (sys_context,lw6_global.argc, lw6_global.argv);
+  buf = lw6sys_get_music_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
     {
       ret = scm_from_locale_string (buf);
@@ -1950,7 +1950,7 @@ _scm_lw6sys_get_music_path ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  buf = lw6sys_get_music_path (sys_context,lw6_global.argc, lw6_global.argv);
+  buf = lw6sys_get_music_path (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
     {
       ret = scm_from_locale_string (buf);
@@ -1972,7 +1972,7 @@ _scm_lw6sys_get_map_dir ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  buf = lw6sys_get_map_dir (sys_context,lw6_global.argc, lw6_global.argv);
+  buf = lw6sys_get_map_dir (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
     {
       ret = scm_from_locale_string (buf);
@@ -1994,7 +1994,7 @@ _scm_lw6sys_get_map_path ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  buf = lw6sys_get_map_path (sys_context,lw6_global.argc, lw6_global.argv);
+  buf = lw6sys_get_map_path (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
     {
       ret = scm_from_locale_string (buf);
@@ -2016,7 +2016,7 @@ _scm_lw6sys_get_script_file ()
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  buf = lw6sys_get_script_file (sys_context,lw6_global.argc, lw6_global.argv);
+  buf = lw6sys_get_script_file (sys_context, lw6_global.argc, lw6_global.argv);
   if (buf)
     {
       ret = scm_from_locale_string (buf);
@@ -2290,7 +2290,7 @@ static SCM
 _scm_lw6sys_sleep (SCM seconds)
 {
   lw6sys_context_t *sys_context = lw6_global.sys_context;
-  float c_seconds=0.0f;
+  float c_seconds = 0.0f;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -2299,7 +2299,7 @@ _scm_lw6sys_sleep (SCM seconds)
 
   c_seconds = scm_to_double (seconds);
 
-  lw6sys_sleep (sys_context,c_seconds);
+  lw6sys_sleep (sys_context, c_seconds);
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -2310,7 +2310,7 @@ static SCM
 _scm_lw6sys_delay (SCM msec)
 {
   lw6sys_context_t *sys_context = lw6_global.sys_context;
-  int c_msec=0;
+  int c_msec = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -2399,7 +2399,7 @@ _scm_lw6sys_url_canonize (SCM url)
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_sys (lw6sys_context_t *sys_context)
+lw6_register_funcs_sys (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

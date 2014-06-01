@@ -33,6 +33,7 @@ static SCM
 _scm_lw6cfg_defaults ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -51,9 +52,10 @@ _scm_lw6cfg_defaults ()
 }
 
 static SCM
-_scm_lw6cfg_load (sys_context, SCM filename)
+_scm_lw6cfg_load (SCM filename)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -88,9 +90,10 @@ _scm_lw6cfg_load (sys_context, SCM filename)
  * In option.c
  */
 static SCM
-_scm_lw6cfg_option_exists (sys_context, SCM key)
+_scm_lw6cfg_option_exists (SCM key)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -122,9 +125,10 @@ _scm_lw6cfg_option_exists (sys_context, SCM key)
 }
 
 static SCM
-_scm_lw6cfg_get_option (sys_context, SCM key)
+_scm_lw6cfg_get_option (SCM key)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -157,8 +161,10 @@ _scm_lw6cfg_get_option (sys_context, SCM key)
 }
 
 static SCM
-_scm_lw6cfg_set_option (sys_context, SCM key, SCM value)
+_scm_lw6cfg_set_option (SCM key, SCM value)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
@@ -193,9 +199,10 @@ _scm_lw6cfg_set_option (sys_context, SCM key, SCM value)
  * In save.c
  */
 static SCM
-_scm_lw6cfg_save (sys_context, SCM filename)
+_scm_lw6cfg_save (SCM filename)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -233,6 +240,7 @@ static SCM
 _scm_lw6cfg_init ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -249,6 +257,8 @@ _scm_lw6cfg_init ()
 static SCM
 _scm_lw6cfg_quit ()
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
@@ -273,6 +283,7 @@ static SCM
 _scm_lw6cfg_unified_get_user_dir ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -294,6 +305,7 @@ static SCM
 _scm_lw6cfg_unified_get_log_file ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -315,6 +327,7 @@ static SCM
 _scm_lw6cfg_unified_get_music_path ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -336,6 +349,7 @@ static SCM
 _scm_lw6cfg_unified_get_map_path ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *buf = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -356,12 +370,14 @@ _scm_lw6cfg_unified_get_map_path ()
 /**
  * lw6_register_funcs_cfg
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the cfg module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_cfg ()
+lw6_register_funcs_cfg (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

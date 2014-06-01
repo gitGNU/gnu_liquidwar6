@@ -72,12 +72,12 @@ _scm_lw6_set_ret (SCM set_ret)
 
   if (SCM_NFALSEP (set_ret))
     {
-      lw6_set_ret (sys_context,1);
+      lw6_set_ret (sys_context, 1);
       get_ret = SCM_BOOL_T;
     }
   else
     {
-      lw6_set_ret (sys_context,0);
+      lw6_set_ret (sys_context, 0);
       get_ret = SCM_BOOL_F;
     }
 
@@ -124,7 +124,7 @@ lw6_register_funcs (lw6sys_context_t * sys_context)
    * lw6scm_c_define_gsubr for _ is not documented due
    * to internal parsing limitations.
    */
-  scm_c_define_gsubr ("_", 1, 0, 0, (SCM (*)()) lw6scm_gettext);
+  scm_c_define_gsubr ("_", 1, 0, 0, (SCM (*)())lw6scm_gettext);
 
   ret = ret && lw6_register_funcs_sys (sys_context);
   ret = ret && lw6_register_funcs_hlp (sys_context);
@@ -150,10 +150,10 @@ lw6_register_funcs (lw6sys_context_t * sys_context)
   /*
    * Global control funcs
    */
-  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_RELEASE, 0, 0, 0, (SCM (*)()) _scm_lw6_release);
-  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_EXIT, 0, 0, 0, (SCM (*)()) _scm_lw6_exit);
-  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_SET_RET, 1, 0, 0, (SCM (*)()) _scm_lw6_set_ret);
-  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_GET_RET, 0, 0, 0, (SCM (*)()) _scm_lw6_get_ret);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_RELEASE, 0, 0, 0, (SCM (*)())_scm_lw6_release);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_EXIT, 0, 0, 0, (SCM (*)())_scm_lw6_exit);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_SET_RET, 1, 0, 0, (SCM (*)())_scm_lw6_set_ret);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6_GET_RET, 0, 0, 0, (SCM (*)())_scm_lw6_get_ret);
 
   return ret;
 }
@@ -170,23 +170,25 @@ lw6_register_funcs (lw6sys_context_t * sys_context)
  *
  * Return value: none
  */
-extern void lw6_cns_handler (lw6sys_context_t *sys_context, char *c_line)
+extern void
+lw6_cns_handler (lw6sys_context_t * sys_context, char *c_line)
 {
   SCM line;
   SCM func_symbol;
   SCM func;
   if (c_line)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("interpreting console input \"%s\""), c_line); 
-      lw6cns_history_add_if_needed (sys_context, c_line); 
-      line = scm_from_locale_string (c_line); 
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("interpreting console input \"%s\""), c_line);
+      lw6cns_history_add_if_needed (sys_context, c_line);
+      line = scm_from_locale_string (c_line);
       func_symbol = scm_c_lookup ("lw6-console-try-catch");
-      func = scm_variable_ref (func_symbol); 
-      scm_call_1 (func, line); 
-      free (c_line);	// exceptionnally, don't use LW6SYS_FREE
+      func = scm_variable_ref (func_symbol);
+      scm_call_1 (func, line);
+      free (c_line);		// exceptionnally, don't use LW6SYS_FREE
     }
   else
     {
-      printf (_x_ ("(quit) or CTRL_C to quit")); printf ("\n");
+      printf (_x_ ("(quit) or CTRL_C to quit"));
+      printf ("\n");
     }
 }
