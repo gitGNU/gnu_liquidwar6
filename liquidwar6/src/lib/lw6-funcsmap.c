@@ -34,8 +34,9 @@ static SCM
 _scm_lw6map_get_look (SCM level)
 {
   SCM ret = SCM_BOOL_F;
-  lw6map_level_t *c_level;
-  lw6gui_look_t *c_look;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6map_level_t *c_level = NULL;
+  lw6gui_look_t *c_look = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -58,12 +59,13 @@ _scm_lw6map_get_look (SCM level)
 }
 
 static SCM
-_scm_lw6map_param_get (sys_context, SCM level, SCM key)
+_scm_lw6map_param_get (SCM level, SCM key)
 {
-  lw6map_level_t *c_level = NULL;
-  char *c_key;
-  char *c_value;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6map_level_t *c_level = NULL;
+  char *c_key = NULL;
+  char *c_value = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -77,7 +79,7 @@ _scm_lw6map_param_get (sys_context, SCM level, SCM key)
       c_key = lw6scm_utils_to_0str (sys_context, key);
       if (c_key)
 	{
-	  c_value = lw6map_param_get (&(c_level->param), c_key);
+	  c_value = lw6map_param_get (sys_context, &(c_level->param), c_key);
 	  if (c_value)
 	    {
 	      ret = scm_from_locale_string (c_value);
@@ -95,8 +97,9 @@ _scm_lw6map_param_get (sys_context, SCM level, SCM key)
 static SCM
 _scm_lw6map_get_title (SCM level)
 {
-  lw6map_level_t *c_level = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6map_level_t *c_level = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -106,7 +109,7 @@ _scm_lw6map_get_title (SCM level)
   c_level = lw6_scm_to_map (sys_context, level);
   if (c_level)
     {
-      ret = scm_from_locale_string (lw6map_get_title (c_level));
+      ret = scm_from_locale_string (lw6map_get_title (sys_context, c_level));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -118,7 +121,8 @@ static SCM
 _scm_lw6map_get_music_dir (SCM level)
 {
   SCM ret = SCM_BOOL_F;
-  lw6map_level_t *c_level;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6map_level_t *c_level = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -140,11 +144,11 @@ _scm_lw6map_get_music_dir (SCM level)
 }
 
 static SCM
-_scm_lw6map_team_color_index_to_key (sys_context, SCM index)
+_scm_lw6map_team_color_index_to_key (SCM index)
 {
   SCM ret = SCM_BOOL_F;
-
-  int c_index;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  int c_index = 0;
 
   SCM_ASSERT (scm_is_integer (index), index, SCM_ARG1, __FUNCTION__);
 
@@ -155,10 +159,10 @@ _scm_lw6map_team_color_index_to_key (sys_context, SCM index)
 }
 
 static SCM
-_scm_lw6map_team_color_key_to_index (sys_context, SCM key)
+_scm_lw6map_team_color_key_to_index (SCM key)
 {
   SCM ret = SCM_BOOL_F;
-
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_key = NULL;
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
@@ -174,11 +178,11 @@ _scm_lw6map_team_color_key_to_index (sys_context, SCM key)
 }
 
 static SCM
-_scm_lw6map_team_color_index_to_label (sys_context, SCM index)
+_scm_lw6map_team_color_index_to_label (SCM index)
 {
   SCM ret = SCM_BOOL_F;
-
-  int c_index;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  int c_index = 0;
 
   SCM_ASSERT (scm_is_integer (index), index, SCM_ARG1, __FUNCTION__);
 
@@ -192,6 +196,7 @@ static SCM
 _scm_lw6map_team_color_list ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   int i = 0;
   int exp = LW6MAP_RULES_MIN_EXP;
   char *color_key = NULL;
@@ -207,7 +212,7 @@ _scm_lw6map_team_color_list ()
       ret = SCM_EOL;
       for (i = lw6map_exp_get_highest_team_color_allowed (sys_context, exp); i >= 0; --i)
 	{
-	  color_key = lw6map_team_color_index_to_key (i);
+	  color_key = lw6map_team_color_index_to_key (sys_context, i);
 	  if (color_key)
 	    {
 	      ret = scm_cons (scm_from_locale_string (color_key), ret);
@@ -222,10 +227,10 @@ _scm_lw6map_team_color_list ()
 }
 
 static SCM
-_scm_lw6map_weapon_index_to_key (sys_context, SCM index)
+_scm_lw6map_weapon_index_to_key (SCM index)
 {
   SCM ret = SCM_BOOL_F;
-
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   int c_index;
 
   SCM_ASSERT (scm_is_integer (index), index, SCM_ARG1, __FUNCTION__);
@@ -237,10 +242,10 @@ _scm_lw6map_weapon_index_to_key (sys_context, SCM index)
 }
 
 static SCM
-_scm_lw6map_weapon_key_to_index (sys_context, SCM key)
+_scm_lw6map_weapon_key_to_index (SCM key)
 {
   SCM ret = SCM_BOOL_F;
-
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_key = NULL;
 
   SCM_ASSERT (scm_is_string (key), key, SCM_ARG1, __FUNCTION__);
@@ -256,10 +261,10 @@ _scm_lw6map_weapon_key_to_index (sys_context, SCM key)
 }
 
 static SCM
-_scm_lw6map_weapon_index_to_label (sys_context, SCM index)
+_scm_lw6map_weapon_index_to_label (SCM index)
 {
   SCM ret = SCM_BOOL_F;
-
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   int c_index;
 
   SCM_ASSERT (scm_is_integer (index), index, SCM_ARG1, __FUNCTION__);
@@ -274,6 +279,7 @@ static SCM
 _scm_lw6map_weapon_list ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   int i = 0;
   int exp = 0;
   char *weapon_key = NULL;
@@ -290,7 +296,7 @@ _scm_lw6map_weapon_list ()
 	  ret = SCM_EOL;
 	  for (i = lw6map_exp_get_highest_weapon_allowed (sys_context, exp); i >= 0; --i)
 	    {
-	      weapon_key = lw6map_weapon_index_to_key (i);
+	      weapon_key = lw6map_weapon_index_to_key (sys_context, i);
 	      if (weapon_key)
 		{
 		  ret = scm_cons (scm_from_locale_string (weapon_key), ret);
@@ -309,9 +315,10 @@ _scm_lw6map_weapon_list ()
  * In static.c
  */
 static SCM
-_scm_lw6map_rules_get_default (sys_context, SCM key)
+_scm_lw6map_rules_get_default (SCM key)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_key = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -333,9 +340,10 @@ _scm_lw6map_rules_get_default (sys_context, SCM key)
 }
 
 static SCM
-_scm_lw6map_rules_get_min (sys_context, SCM key)
+_scm_lw6map_rules_get_min (SCM key)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_key = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -357,9 +365,10 @@ _scm_lw6map_rules_get_min (sys_context, SCM key)
 }
 
 static SCM
-_scm_lw6map_rules_get_max (sys_context, SCM key)
+_scm_lw6map_rules_get_max (SCM key)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_key = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -381,9 +390,10 @@ _scm_lw6map_rules_get_max (sys_context, SCM key)
 }
 
 static SCM
-_scm_lw6map_rules_get_int (sys_context, SCM game_struct, SCM key)
+_scm_lw6map_rules_get_int (SCM game_struct, SCM key)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -400,7 +410,7 @@ _scm_lw6map_rules_get_int (sys_context, SCM game_struct, SCM key)
       c_key = lw6scm_utils_to_0str (sys_context, key);
       if (c_key)
 	{
-	  ret = scm_from_int (lw6map_rules_get_int (&(c_game_struct->rules), c_key));
+	  ret = scm_from_int (lw6map_rules_get_int (sys_context, &(c_game_struct->rules), c_key));
 	  LW6SYS_FREE (sys_context, c_key);
 	}
     }
@@ -411,9 +421,10 @@ _scm_lw6map_rules_get_int (sys_context, SCM game_struct, SCM key)
 }
 
 static SCM
-_scm_lw6map_style_get_default (sys_context, SCM key)
+_scm_lw6map_style_get_default (SCM key)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_key = NULL;
   char *c_value = NULL;
 
@@ -440,9 +451,10 @@ _scm_lw6map_style_get_default (sys_context, SCM key)
 }
 
 static SCM
-_scm_lw6map_teams_get_default (sys_context, SCM key)
+_scm_lw6map_teams_get_default (SCM key)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_key = NULL;
   char *c_value = NULL;
 
@@ -469,11 +481,12 @@ _scm_lw6map_teams_get_default (sys_context, SCM key)
 }
 
 static SCM
-_scm_lw6map_exp_is_team_color_allowed (sys_context, SCM level, SCM team_color)
+_scm_lw6map_exp_is_team_color_allowed (SCM level, SCM team_color)
 {
-  lw6map_level_t *c_level;
-  int c_team_color;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6map_level_t *c_level = NULL;
+  int c_team_color = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -486,7 +499,7 @@ _scm_lw6map_exp_is_team_color_allowed (sys_context, SCM level, SCM team_color)
     {
       c_team_color = scm_to_int (team_color);
 
-      ret = scm_from_int (lw6map_exp_is_team_color_allowed (&(c_level->param.rules), c_team_color));
+      ret = scm_from_int (lw6map_exp_is_team_color_allowed (sys_context, &(c_level->param.rules), c_team_color));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -495,11 +508,12 @@ _scm_lw6map_exp_is_team_color_allowed (sys_context, SCM level, SCM team_color)
 }
 
 static SCM
-_scm_lw6map_exp_is_weapon_allowed (sys_context, SCM level, SCM weapon)
+_scm_lw6map_exp_is_weapon_allowed (SCM level, SCM weapon)
 {
-  lw6map_level_t *c_level;
-  int c_weapon;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6map_level_t *c_level = NULL;
+  int c_weapon = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -512,7 +526,7 @@ _scm_lw6map_exp_is_weapon_allowed (sys_context, SCM level, SCM weapon)
     {
       c_weapon = scm_to_int (weapon);
 
-      ret = scm_from_int (lw6map_exp_is_weapon_allowed (&(c_level->param.rules), c_weapon));
+      ret = scm_from_int (lw6map_exp_is_weapon_allowed (sys_context, &(c_level->param.rules), c_weapon));
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -524,8 +538,9 @@ static SCM
 _scm_lw6map_exp_get_unlocked_team_color ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   int exp = LW6MAP_RULES_MIN_EXP;
-  char *user_dir;
+  char *user_dir = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -546,11 +561,12 @@ _scm_lw6map_exp_get_unlocked_team_color ()
 }
 
 static SCM
-_scm_lw6map_exp_get_unlocked_weapon (sys_context, SCM weapon)
+_scm_lw6map_exp_get_unlocked_weapon (SCM weapon)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   int exp = LW6MAP_RULES_MIN_EXP;
-  char *user_dir;
+  char *user_dir = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -571,9 +587,10 @@ _scm_lw6map_exp_get_unlocked_weapon (sys_context, SCM weapon)
 }
 
 static SCM
-_scm_lw6map_get_max_nb_colors (sys_context, SCM level)
+_scm_lw6map_get_max_nb_colors (SCM level)
 {
   lw6map_level_t *c_level = NULL;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -593,9 +610,10 @@ _scm_lw6map_get_max_nb_colors (sys_context, SCM level)
 }
 
 static SCM
-_scm_lw6map_get_max_nb_cursors (sys_context, SCM level)
+_scm_lw6map_get_max_nb_cursors (SCM level)
 {
   lw6map_level_t *c_level = NULL;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -615,9 +633,10 @@ _scm_lw6map_get_max_nb_cursors (sys_context, SCM level)
 }
 
 static SCM
-_scm_lw6map_get_max_nb_nodes (sys_context, SCM level)
+_scm_lw6map_get_max_nb_nodes (SCM level)
 {
   lw6map_level_t *c_level = NULL;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -639,12 +658,14 @@ _scm_lw6map_get_max_nb_nodes (sys_context, SCM level)
 /**
  * lw6_register_funcs_map
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the map module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_map ()
+lw6_register_funcs_map (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

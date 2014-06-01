@@ -30,14 +30,15 @@
  * In liquidwar6ldr
  */
 static SCM
-_scm_lw6ldr_get_entries (sys_context, SCM map_path, SCM relative_path)
+_scm_lw6ldr_get_entries (SCM map_path, SCM relative_path)
 {
-  lw6sys_list_t *c_maps;
-  lw6ldr_entry_t *c_entry;
-  char *c_map_path;
-  char *c_relative_path;
-  char *user_dir;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_list_t *c_maps = NULL;
+  lw6ldr_entry_t *c_entry = NULL;
+  char *c_map_path = NULL;
+  char *c_relative_path = NULL;
+  char *user_dir = NULL;
   SCM item = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -95,18 +96,19 @@ _scm_lw6ldr_get_entries (sys_context, SCM map_path, SCM relative_path)
 }
 
 static SCM
-_scm_lw6ldr_read (sys_context, SCM dirname, SCM default_param, SCM forced_param, SCM display_width, SCM display_height, SCM bench_value, SCM magic_number)
+_scm_lw6ldr_read (SCM dirname, SCM default_param, SCM forced_param, SCM display_width, SCM display_height, SCM bench_value, SCM magic_number)
 {
-  char *c_dirname;
-  lw6sys_assoc_t *c_default_param;
-  lw6sys_assoc_t *c_forced_param;
-  int c_display_width;
-  int c_display_height;
-  int c_bench_value;
-  int c_magic_number;
-  lw6map_level_t *c_level;
   SCM ret = SCM_BOOL_F;
-  char *user_dir;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_dirname = NULL;
+  lw6sys_assoc_t *c_default_param = NULL;
+  lw6sys_assoc_t *c_forced_param = NULL;
+  int c_display_width = 0;
+  int c_display_height = 0;
+  int c_bench_value = 0;
+  int c_magic_number = 0;
+  lw6map_level_t *c_level = NULL;
+  char *user_dir = NULL;
   lw6sys_progress_t progress;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -163,20 +165,21 @@ _scm_lw6ldr_read (sys_context, SCM dirname, SCM default_param, SCM forced_param,
 }
 
 static SCM
-_scm_lw6ldr_read_relative (sys_context, SCM map_path, SCM relative_path, SCM default_param,
+_scm_lw6ldr_read_relative (SCM map_path, SCM relative_path, SCM default_param,
 			   SCM forced_param, SCM display_width, SCM display_height, SCM bench_value, SCM magic_number)
 {
-  char *c_map_path;
-  char *c_relative_path;
-  lw6sys_assoc_t *c_default_param;
-  lw6sys_assoc_t *c_forced_param;
-  int c_display_width;
-  int c_display_height;
-  int c_bench_value;
-  int c_magic_number;
-  lw6map_level_t *c_level;
   SCM ret = SCM_BOOL_F;
-  char *user_dir;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_map_path = NULL;
+  char *c_relative_path = NULL;
+  lw6sys_assoc_t *c_default_param = NULL;
+  lw6sys_assoc_t *c_forced_param = NULL;
+  int c_display_width = 0;
+  int c_display_height = 0;
+  int c_bench_value = 0;
+  int c_magic_number = 0;
+  lw6map_level_t *c_level = NULL;
+  char *user_dir = NULL;
   lw6sys_progress_t progress;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -242,6 +245,7 @@ _scm_lw6ldr_read_relative (sys_context, SCM map_path, SCM relative_path, SCM def
 static SCM
 _scm_lw6ldr_print_examples ()
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *user_dir = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -260,9 +264,10 @@ _scm_lw6ldr_print_examples ()
 }
 
 static SCM
-_scm_lw6ldr_hints_get_default (sys_context, SCM key)
+_scm_lw6ldr_hints_get_default (SCM key)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_key = NULL;
   char *c_value = NULL;
 
@@ -289,9 +294,10 @@ _scm_lw6ldr_hints_get_default (sys_context, SCM key)
 }
 
 static SCM
-_scm_lw6ldr_exp_validate (sys_context, SCM level)
+_scm_lw6ldr_exp_validate (SCM level)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6map_level_t *c_level;
   char *user_dir = NULL;
 
@@ -317,9 +323,10 @@ _scm_lw6ldr_exp_validate (sys_context, SCM level)
 }
 
 static SCM
-_scm_lw6ldr_chain_entry (sys_context, SCM map_path, SCM relative_path)
+_scm_lw6ldr_chain_entry (SCM map_path, SCM relative_path)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_map_path = NULL;
   char *c_relative_path = NULL;
   char *user_dir = NULL;
@@ -371,12 +378,14 @@ _scm_lw6ldr_chain_entry (sys_context, SCM map_path, SCM relative_path)
 /**
  * lw6_register_funcs_ldr
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the ldr module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_ldr ()
+lw6_register_funcs_ldr (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 
