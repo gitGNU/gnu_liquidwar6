@@ -27,7 +27,7 @@
 #include "liquidwar6.h"
 
 static int
-prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
+_prepare_update_param_bootstrap (lw6sys_context_t * sys_context, lw6dsp_param_t * c_param, SCM param)
 {
   int ret = 0;
   SCM value;
@@ -249,7 +249,7 @@ prepare_update_param_bootstrap (lw6dsp_param_t * c_param, SCM param)
 }
 
 static int
-prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
+_prepare_update_param (lw6sys_context_t * sys_context, SCM dsp, lw6dsp_param_t * c_param, SCM param)
 {
   int ret = 0;
   SCM value;
@@ -258,7 +258,7 @@ prepare_update_param (SCM dsp, lw6dsp_param_t * c_param, SCM param)
   dsp_smob = (lw6_dsp_smob_t *) SCM_SMOB_DATA (dsp);
   if (dsp_smob)
     {
-      prepare_update_param_bootstrap (c_param, param);
+      _prepare_update_param_bootstrap (sys_context, c_param, param);
 
       value = scm_hash_ref (param, scm_from_locale_string ("level"), SCM_BOOL_F);
       if (SCM_SMOB_PREDICATE (lw6_global.smob_types.map, value))
@@ -337,6 +337,7 @@ static SCM
 _scm_lw6dsp_new (SCM backend_name, SCM param)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_backend_name = NULL;
   lw6dsp_param_t c_param;
   lw6dsp_backend_t *c_ret = NULL;
@@ -350,7 +351,7 @@ _scm_lw6dsp_new (SCM backend_name, SCM param)
   c_backend_name = lw6scm_utils_to_0str (sys_context, backend_name);
   if (backend_name)
     {
-      if (prepare_update_param_bootstrap (&c_param, param))
+      if (_prepare_update_param_bootstrap (sys_context, &c_param, param))
 	{
 	  c_ret = lw6dsp_create_backend (sys_context, lw6_global.argc, lw6_global.argv, c_backend_name);
 	  if (c_ret)
@@ -377,6 +378,7 @@ static SCM
 _scm_lw6dsp_release (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -396,9 +398,10 @@ _scm_lw6dsp_release (SCM dsp)
 }
 
 static SCM
-_scm_lw6dsp_update (sys_context, SCM dsp, SCM param)
+_scm_lw6dsp_update (SCM dsp, SCM param)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
   lw6dsp_param_t c_param;
 
@@ -411,7 +414,7 @@ _scm_lw6dsp_update (sys_context, SCM dsp, SCM param)
   c_dsp = lw6_scm_to_dsp (sys_context, dsp);
   if (c_dsp)
     {
-      if (prepare_update_param (dsp, &c_param, param))
+      if (_prepare_update_param (sys_context, dsp, &c_param, param))
 	{
 	  ret = lw6dsp_update (sys_context, c_dsp, &c_param) ? SCM_BOOL_T : SCM_BOOL_F;
 	}
@@ -423,9 +426,10 @@ _scm_lw6dsp_update (sys_context, SCM dsp, SCM param)
 }
 
 static SCM
-_scm_lw6dsp_get_nb_frames (sys_context, SCM dsp)
+_scm_lw6dsp_get_nb_frames (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -445,9 +449,10 @@ _scm_lw6dsp_get_nb_frames (sys_context, SCM dsp)
 }
 
 static SCM
-_scm_lw6dsp_get_last_frame_rendering_time (sys_context, SCM dsp)
+_scm_lw6dsp_get_last_frame_rendering_time (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -467,9 +472,10 @@ _scm_lw6dsp_get_last_frame_rendering_time (sys_context, SCM dsp)
 }
 
 static SCM
-_scm_lw6dsp_get_instant_fps (sys_context, SCM dsp)
+_scm_lw6dsp_get_instant_fps (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -489,9 +495,10 @@ _scm_lw6dsp_get_instant_fps (sys_context, SCM dsp)
 }
 
 static SCM
-_scm_lw6dsp_get_average_fps (sys_context, SCM dsp)
+_scm_lw6dsp_get_average_fps (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -511,9 +518,10 @@ _scm_lw6dsp_get_average_fps (sys_context, SCM dsp)
 }
 
 static SCM
-_scm_lw6dsp_get_video_mode (sys_context, SCM dsp)
+_scm_lw6dsp_get_video_mode (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -544,9 +552,10 @@ _scm_lw6dsp_get_video_mode (sys_context, SCM dsp)
 }
 
 static SCM
-_scm_lw6dsp_get_fullscreen_modes (sys_context, SCM dsp)
+_scm_lw6dsp_get_fullscreen_modes (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -618,12 +627,14 @@ _scm_lw6dsp_get_fullscreen_modes (sys_context, SCM dsp)
 /**
  * lw6_register_funcs_dsp
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the dsp module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_dsp ()
+lw6_register_funcs_dsp (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

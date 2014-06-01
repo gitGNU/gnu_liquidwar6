@@ -27,7 +27,7 @@
 #include "liquidwar6.h"
 
 static SCM
-mouse_get_state (lw6dsp_backend_t * c_dsp)
+_mouse_get_state (lw6sys_context_t * sys_context, lw6dsp_backend_t * c_dsp)
 {
   SCM ret = SCM_BOOL_F;
 
@@ -81,9 +81,10 @@ mouse_get_state (lw6dsp_backend_t * c_dsp)
  * In liquidwar6gui
  */
 static SCM
-_scm_lw6gui_menu_new (sys_context, SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
+_scm_lw6gui_menu_new (SCM title, SCM help, SCM popup, SCM esc, SCM enable_esc)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
 
   char *c_title = NULL;
   char *c_help = NULL;
@@ -165,15 +166,16 @@ _scm_lw6gui_menu_new (sys_context, SCM title, SCM help, SCM popup, SCM esc, SCM 
 }
 
 static SCM
-_scm_lw6gui_menu_append (sys_context, SCM menu, SCM menuitem)
+_scm_lw6gui_menu_append (SCM menu, SCM menuitem)
 {
-  char *c_label;
-  char *c_tooltip;
-  int c_value;
-  int c_enabled;
-  int c_selected;
-  int c_colored;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_label = NULL;
+  char *c_tooltip = NULL;
+  int c_value = 0;
+  int c_enabled = 0;
+  int c_selected = 0;
+  int c_colored = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -198,7 +200,7 @@ _scm_lw6gui_menu_append (sys_context, SCM menu, SCM menuitem)
 
 	  ret =
 	    scm_from_int (lw6gui_menu_append_for_id_use
-			  (sys_context, c_menu, c_label, c_tooltip, c_value, c_enabled, c_selected, c_colored, lw6sys_get_timestamp ()));
+			  (sys_context, c_menu, c_label, c_tooltip, c_value, c_enabled, c_selected, c_colored, lw6sys_get_timestamp (sys_context)));
 
 	  LW6SYS_FREE (sys_context, c_tooltip);
 	}
@@ -211,11 +213,12 @@ _scm_lw6gui_menu_append (sys_context, SCM menu, SCM menuitem)
 }
 
 static SCM
-_scm_lw6gui_menu_remove (sys_context, SCM menu, SCM position)
+_scm_lw6gui_menu_remove (SCM menu, SCM position)
 {
-  lw6gui_menu_t *c_menu;
-  int c_position;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_menu_t *c_menu = NULL;
+  int c_position = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -226,7 +229,7 @@ _scm_lw6gui_menu_remove (sys_context, SCM menu, SCM position)
   c_menu = lw6_scm_to_menu (sys_context, menu);
   c_position = scm_to_int (position);
 
-  ret = lw6gui_menu_remove (sys_context, c_menu, c_position, lw6sys_get_timestamp (sys_context,)) ? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6gui_menu_remove (sys_context, c_menu, c_position, lw6sys_get_timestamp (sys_context)) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -234,10 +237,11 @@ _scm_lw6gui_menu_remove (sys_context, SCM menu, SCM position)
 }
 
 static SCM
-_scm_lw6gui_menu_remove_all (sys_context, SCM menu, SCM position)
+_scm_lw6gui_menu_remove_all (SCM menu, SCM position)
 {
-  lw6gui_menu_t *c_menu;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_menu_t *c_menu = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -245,7 +249,7 @@ _scm_lw6gui_menu_remove_all (sys_context, SCM menu, SCM position)
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.menu, menu), menu, SCM_ARG1, __FUNCTION__);
 
   c_menu = lw6_scm_to_menu (sys_context, menu);
-  ret = lw6gui_menu_remove_all (sys_context, c_menu, lw6sys_get_timestamp (sys_context,)) ? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6gui_menu_remove_all (sys_context, c_menu, lw6sys_get_timestamp (sys_context)) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -253,16 +257,17 @@ _scm_lw6gui_menu_remove_all (sys_context, SCM menu, SCM position)
 }
 
 static SCM
-_scm_lw6gui_menu_sync (sys_context, SCM menu, SCM menuitem)
+_scm_lw6gui_menu_sync (SCM menu, SCM menuitem)
 {
-  int c_id;
-  char *c_label;
-  char *c_tooltip;
-  int c_value;
-  int c_enabled;
-  int c_selected;
-  int c_colored;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  int c_id = 0;
+  char *c_label = NULL;
+  char *c_tooltip = NULL;
+  int c_value = 0;
+  int c_enabled = 0;
+  int c_selected = 0;
+  int c_colored = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -286,7 +291,8 @@ _scm_lw6gui_menu_sync (sys_context, SCM menu, SCM menuitem)
 
 	  c_menu = lw6_scm_to_menu (sys_context, menu);
 
-	  lw6gui_menu_sync_using_id (sys_context, c_menu, c_id, c_label, c_tooltip, c_value, c_enabled, c_selected, c_colored, lw6sys_get_timestamp ());
+	  lw6gui_menu_sync_using_id (sys_context, c_menu, c_id, c_label, c_tooltip, c_value, c_enabled, c_selected, c_colored,
+				     lw6sys_get_timestamp (sys_context));
 
 	  LW6SYS_FREE (sys_context, c_tooltip);
 	}
@@ -299,12 +305,13 @@ _scm_lw6gui_menu_sync (sys_context, SCM menu, SCM menuitem)
 }
 
 static SCM
-_scm_lw6gui_menu_select (sys_context, SCM menu, SCM position, SCM allow_scroll)
+_scm_lw6gui_menu_select (SCM menu, SCM position, SCM allow_scroll)
 {
-  lw6gui_menu_t *c_menu;
-  int c_position;
-  int c_allow_scroll;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_menu_t *c_menu = NULL;
+  int c_position = 0;
+  int c_allow_scroll = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -317,7 +324,7 @@ _scm_lw6gui_menu_select (sys_context, SCM menu, SCM position, SCM allow_scroll)
   c_position = scm_to_int (position);
   c_allow_scroll = SCM_NFALSEP (allow_scroll);
 
-  ret = lw6gui_menu_select (sys_context, c_menu, c_position, c_allow_scroll, lw6sys_get_timestamp (sys_context,)) ? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6gui_menu_select (sys_context, c_menu, c_position, c_allow_scroll, lw6sys_get_timestamp (sys_context)) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -325,10 +332,11 @@ _scm_lw6gui_menu_select (sys_context, SCM menu, SCM position, SCM allow_scroll)
 }
 
 static SCM
-_scm_lw6gui_menu_select_esc (sys_context, SCM menu, SCM state)
+_scm_lw6gui_menu_select_esc (SCM menu, SCM state)
 {
-  lw6gui_menu_t *c_menu;
-  int c_state;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_menu_t *c_menu = NULL;
+  int c_state = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -339,7 +347,7 @@ _scm_lw6gui_menu_select_esc (sys_context, SCM menu, SCM state)
   c_menu = lw6_scm_to_menu (sys_context, menu);
   c_state = SCM_NFALSEP (state);
 
-  lw6gui_menu_select_esc (sys_context, c_menu, c_state, lw6sys_get_timestamp ());
+  lw6gui_menu_select_esc (sys_context, c_menu, c_state, lw6sys_get_timestamp (sys_context));
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -347,10 +355,11 @@ _scm_lw6gui_menu_select_esc (sys_context, SCM menu, SCM state)
 }
 
 static SCM
-_scm_lw6gui_menu_enable_esc (sys_context, SCM menu, SCM state)
+_scm_lw6gui_menu_enable_esc (SCM menu, SCM state)
 {
-  lw6gui_menu_t *c_menu;
-  int c_state;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_menu_t *c_menu = NULL;
+  int c_state = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -361,7 +370,7 @@ _scm_lw6gui_menu_enable_esc (sys_context, SCM menu, SCM state)
   c_menu = lw6_scm_to_menu (sys_context, menu);
   c_state = SCM_NFALSEP (state);
 
-  lw6gui_menu_enable_esc (sys_context, c_menu, c_state, lw6sys_get_timestamp ());
+  lw6gui_menu_enable_esc (sys_context, c_menu, c_state, lw6sys_get_timestamp (sys_context));
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -369,10 +378,11 @@ _scm_lw6gui_menu_enable_esc (sys_context, SCM menu, SCM state)
 }
 
 static SCM
-_scm_lw6gui_menu_scroll_up (sys_context, SCM menu)
+_scm_lw6gui_menu_scroll_up (SCM menu)
 {
-  lw6gui_menu_t *c_menu;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_menu_t *c_menu = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -389,10 +399,11 @@ _scm_lw6gui_menu_scroll_up (sys_context, SCM menu)
 }
 
 static SCM
-_scm_lw6gui_menu_scroll_down (sys_context, SCM menu)
+_scm_lw6gui_menu_scroll_down (SCM menu)
 {
-  lw6gui_menu_t *c_menu;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_menu_t *c_menu = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -409,11 +420,12 @@ _scm_lw6gui_menu_scroll_down (sys_context, SCM menu)
 }
 
 static SCM
-_scm_lw6gui_menu_set_breadcrumbs (sys_context, SCM menu, SCM breadcrumbs)
+_scm_lw6gui_menu_set_breadcrumbs (SCM menu, SCM breadcrumbs)
 {
-  lw6gui_menu_t *c_menu;
-  lw6sys_list_t *c_breadcrumbs;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_menu_t *c_menu = NULL;
+  lw6sys_list_t *c_breadcrumbs = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -435,9 +447,10 @@ _scm_lw6gui_menu_set_breadcrumbs (sys_context, SCM menu, SCM breadcrumbs)
 }
 
 static SCM
-_scm_lw6gui_menu_close_popup (sys_context, SCM menu)
+_scm_lw6gui_menu_close_popup (SCM menu)
 {
-  lw6gui_menu_t *c_menu;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_menu_t *c_menu = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -452,10 +465,11 @@ _scm_lw6gui_menu_close_popup (sys_context, SCM menu)
 }
 
 static SCM
-_scm_lw6gui_menu_has_popup (sys_context, SCM menu)
+_scm_lw6gui_menu_has_popup (SCM menu)
 {
   SCM ret = SCM_BOOL_F;
-  lw6gui_menu_t *c_menu;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_menu_t *c_menu = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -472,8 +486,9 @@ _scm_lw6gui_menu_has_popup (sys_context, SCM menu)
 static SCM
 _scm_lw6gui_default_look ()
 {
-  lw6gui_look_t *c_look;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_look_t *c_look = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -490,12 +505,13 @@ _scm_lw6gui_default_look ()
 }
 
 static SCM
-_scm_lw6gui_look_set (sys_context, SCM look, SCM key, SCM value)
+_scm_lw6gui_look_set (SCM look, SCM key, SCM value)
 {
-  lw6gui_look_t *c_look;
-  char *c_key;
-  char *c_value;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_look_t *c_look = NULL;
+  char *c_key = NULL;
+  char *c_value = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -526,12 +542,13 @@ _scm_lw6gui_look_set (sys_context, SCM look, SCM key, SCM value)
 }
 
 static SCM
-_scm_lw6gui_look_get (sys_context, SCM look, SCM key)
+_scm_lw6gui_look_get (SCM look, SCM key)
 {
-  lw6gui_look_t *c_look = NULL;
-  char *c_key;
-  char *c_value;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_look_t *c_look = NULL;
+  char *c_key = NULL;
+  char *c_value = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -561,11 +578,12 @@ _scm_lw6gui_look_get (sys_context, SCM look, SCM key)
 }
 
 static SCM
-_scm_lw6gui_look_zoom_in (sys_context, SCM look, SCM zoom_step)
+_scm_lw6gui_look_zoom_in (SCM look, SCM zoom_step)
 {
-  lw6gui_look_t *c_look;
-  float c_zoom_step;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_look_t *c_look = NULL;
+  float c_zoom_step = 0.0f;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -589,11 +607,12 @@ _scm_lw6gui_look_zoom_in (sys_context, SCM look, SCM zoom_step)
 }
 
 static SCM
-_scm_lw6gui_look_zoom_out (sys_context, SCM look, SCM zoom_step)
+_scm_lw6gui_look_zoom_out (SCM look, SCM zoom_step)
 {
-  lw6gui_look_t *c_look;
-  float c_zoom_step;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6gui_look_t *c_look = NULL;
+  float c_zoom_step = 0.0f;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -617,8 +636,9 @@ _scm_lw6gui_look_zoom_out (sys_context, SCM look, SCM zoom_step)
 }
 
 static SCM
-_scm_lw6gui_input_reset (sys_context, SCM dsp)
+_scm_lw6gui_input_reset (SCM dsp)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -638,9 +658,10 @@ _scm_lw6gui_input_reset (sys_context, SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_mouse_poll_move (sys_context, SCM dsp)
+_scm_lw6gui_mouse_poll_move (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -653,7 +674,7 @@ _scm_lw6gui_mouse_poll_move (sys_context, SCM dsp)
     {
       if (lw6gui_mouse_poll_move (sys_context, &(c_dsp->input->mouse), NULL, NULL))
 	{
-	  ret = mouse_get_state (c_dsp);
+	  ret = _mouse_get_state (sys_context, c_dsp);
 	}
     }
 
@@ -666,6 +687,7 @@ static SCM
 _scm_lw6gui_mouse_get_state (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -676,7 +698,7 @@ _scm_lw6gui_mouse_get_state (SCM dsp)
   c_dsp = lw6_scm_to_dsp (sys_context, dsp);
   if (c_dsp)
     {
-      ret = mouse_get_state (c_dsp);
+      ret = _mouse_get_state (sys_context, c_dsp);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -685,11 +707,12 @@ _scm_lw6gui_mouse_get_state (SCM dsp)
 }
 
 static SCM
-_scm_lw6gui_keyboard_is_pressed (sys_context, SCM dsp, SCM keysym)
+_scm_lw6gui_keyboard_is_pressed (SCM dsp, SCM keysym)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   SCM ret = SCM_BOOL_F;
   lw6dsp_backend_t *c_dsp = NULL;
-  int c_keysym;
+  int c_keysym = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -711,9 +734,10 @@ _scm_lw6gui_keyboard_is_pressed (sys_context, SCM dsp, SCM keysym)
 }
 
 static SCM
-_scm_lw6gui_keyboard_get_move_pad (sys_context, SCM dsp)
+_scm_lw6gui_keyboard_get_move_pad (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6gui_move_pad_t move_pad;
   lw6dsp_backend_t *c_dsp = NULL;
 
@@ -746,6 +770,7 @@ static SCM
 _scm_lw6gui_joystick1_get_move_pad (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6gui_move_pad_t move_pad;
   lw6dsp_backend_t *c_dsp = NULL;
 
@@ -777,6 +802,7 @@ static SCM
 _scm_lw6gui_joystick2_get_move_pad (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
   lw6gui_move_pad_t move_pad;
 
@@ -808,6 +834,7 @@ static SCM
 _scm_lw6gui_mouse_pop_button_left (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -833,6 +860,7 @@ static SCM
 _scm_lw6gui_mouse_pop_button_right (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -858,6 +886,7 @@ static SCM
 _scm_lw6gui_mouse_pop_button_middle (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -883,6 +912,7 @@ static SCM
 _scm_lw6gui_mouse_pop_simple_click (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -910,6 +940,7 @@ static SCM
 _scm_lw6gui_mouse_pop_double_click (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -937,6 +968,7 @@ static SCM
 _scm_lw6gui_mouse_pop_triple_click (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -964,6 +996,7 @@ static SCM
 _scm_lw6gui_mouse_pop_wheel_up (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -989,6 +1022,7 @@ static SCM
 _scm_lw6gui_mouse_pop_wheel_down (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1014,6 +1048,7 @@ static SCM
 _scm_lw6gui_keyboard_pop_arrow_up (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1039,6 +1074,7 @@ static SCM
 _scm_lw6gui_keyboard_pop_arrow_down (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1064,6 +1100,7 @@ static SCM
 _scm_lw6gui_keyboard_pop_arrow_left (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1089,6 +1126,7 @@ static SCM
 _scm_lw6gui_keyboard_pop_arrow_right (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1114,6 +1152,7 @@ static SCM
 _scm_lw6gui_keyboard_pop_key_enter (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1139,6 +1178,7 @@ static SCM
 _scm_lw6gui_keyboard_pop_key_esc (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1164,6 +1204,7 @@ static SCM
 _scm_lw6gui_keyboard_pop_key_ctrl (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1189,6 +1230,7 @@ static SCM
 _scm_lw6gui_keyboard_pop_key_alt (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1214,6 +1256,7 @@ static SCM
 _scm_lw6gui_keyboard_pop_key_pgup (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1239,6 +1282,7 @@ static SCM
 _scm_lw6gui_keyboard_pop_key_pgdown (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1264,6 +1308,7 @@ static SCM
 _scm_lw6gui_joystick1_pop_pad_up (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1289,6 +1334,7 @@ static SCM
 _scm_lw6gui_joystick1_pop_pad_down (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1314,6 +1360,7 @@ static SCM
 _scm_lw6gui_joystick1_pop_pad_left (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1339,6 +1386,7 @@ static SCM
 _scm_lw6gui_joystick1_pop_pad_right (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1364,6 +1412,7 @@ static SCM
 _scm_lw6gui_joystick1_pop_button_a (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1389,6 +1438,7 @@ static SCM
 _scm_lw6gui_joystick1_pop_button_b (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1414,6 +1464,7 @@ static SCM
 _scm_lw6gui_joystick1_pop_button_c (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1439,6 +1490,7 @@ static SCM
 _scm_lw6gui_joystick1_pop_button_d (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1464,6 +1516,7 @@ static SCM
 _scm_lw6gui_joystick1_pop_button_e (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1489,6 +1542,7 @@ static SCM
 _scm_lw6gui_joystick1_pop_button_f (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1514,6 +1568,7 @@ static SCM
 _scm_lw6gui_joystick2_pop_pad_up (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1539,6 +1594,7 @@ static SCM
 _scm_lw6gui_joystick2_pop_pad_down (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1564,6 +1620,7 @@ static SCM
 _scm_lw6gui_joystick2_pop_pad_left (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1589,6 +1646,7 @@ static SCM
 _scm_lw6gui_joystick2_pop_pad_right (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1614,6 +1672,7 @@ static SCM
 _scm_lw6gui_joystick2_pop_button_a (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1639,6 +1698,7 @@ static SCM
 _scm_lw6gui_joystick2_pop_button_b (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1664,6 +1724,7 @@ static SCM
 _scm_lw6gui_joystick2_pop_button_c (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1689,6 +1750,7 @@ static SCM
 _scm_lw6gui_joystick2_pop_button_d (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1714,6 +1776,7 @@ static SCM
 _scm_lw6gui_joystick2_pop_button_e (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1739,6 +1802,7 @@ static SCM
 _scm_lw6gui_joystick2_pop_button_f (SCM dsp)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1763,12 +1827,14 @@ _scm_lw6gui_joystick2_pop_button_f (SCM dsp)
 /**
  * lw6_register_funcs_gui
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the gui module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_gui ()
+lw6_register_funcs_gui (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

@@ -37,11 +37,12 @@ static SCM
 _scm_lw6gfx_get_backends ()
 {
   SCM ret = SCM_BOOL_F;
-  lw6sys_assoc_t *backends;
-  lw6sys_list_t *keys;
-  lw6sys_list_t *key;
-  char *module_id;
-  char *module_name;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_assoc_t *backends = NULL;
+  lw6sys_list_t *keys = NULL;
+  lw6sys_list_t *key = NULL;
+  char *module_id = NULL;
+  char *module_name = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -78,12 +79,14 @@ _scm_lw6gfx_get_backends ()
 /**
  * lw6_register_funcs_gfx
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the gfx module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_gfx ()
+lw6_register_funcs_gfx (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 
