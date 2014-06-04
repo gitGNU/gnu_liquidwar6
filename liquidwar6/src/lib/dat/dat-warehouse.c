@@ -35,12 +35,12 @@ _lw6dat_warehouse_init (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * wa
   int stack_index = 0;
 
   memset (warehouse, 0, sizeof (_lw6dat_warehouse_t));
-  warehouse->local_seq_last = lw6sys_llmax (seq_0, _LW6DAT_SEQ_START);
+  warehouse->local_seq_last = lw6sys_llmax (seq_0, LW6DAT_SEQ_START);
   for (stack_index = 0; stack_index < LW6DAT_MAX_NB_STACKS; ++stack_index)
     {
       if (stack_index == _LW6DAT_LOCAL_NODE_INDEX)
 	{
-	  if (_lw6dat_stack_init (sys_context, &(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]), local_node_id, _LW6DAT_SERIAL_START, seq_0))
+	  if (_lw6dat_stack_init (sys_context, &(warehouse->stacks[_LW6DAT_LOCAL_NODE_INDEX]), local_node_id, LW6DAT_SERIAL_START, seq_0))
 	    {
 	      ok = 1;
 	    }
@@ -143,7 +143,7 @@ _lw6dat_warehouse_clear (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * w
 {
   int i;
 
-  warehouse->local_seq_last = _LW6DAT_SEQ_START;
+  warehouse->local_seq_last = LW6DAT_SEQ_START;
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
     {
       if (warehouse->stacks[i].node_id != 0)
@@ -392,7 +392,7 @@ _lw6dat_warehouse_register_node (lw6sys_context_t * sys_context, _lw6dat_warehou
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 	      _x_ ("registering %" LW6SYS_PRINTF_LL "x serial_0=%d seq_0=%" LW6SYS_PRINTF_LL "d"), (long long) node_id, serial_0, (long long) seq_0);
 
-  serial_0 = lw6sys_imax (serial_0, _LW6DAT_SERIAL_START);
+  serial_0 = lw6sys_imax (serial_0, LW6DAT_SERIAL_START);
   ret = _lw6dat_warehouse_get_stack_index (sys_context, warehouse, node_id);
   if (ret < 0)
     {
@@ -705,7 +705,7 @@ _lw6dat_warehouse_get_seq_min (lw6sys_context_t * sys_context, _lw6dat_warehouse
       if (warehouse->stacks[i].node_id)
 	{
 	  seq_min = _lw6dat_stack_get_seq_min (sys_context, &(warehouse->stacks[i]));
-	  if (seq_min > _LW6DAT_SEQ_INVALID)
+	  if (seq_min > LW6DAT_SEQ_INVALID)
 	    {
 	      ret = lw6sys_llmin (ret, seq_min);
 	    }
@@ -713,7 +713,7 @@ _lw6dat_warehouse_get_seq_min (lw6sys_context_t * sys_context, _lw6dat_warehouse
     }
   if (ret == LLONG_MAX)
     {
-      ret = _LW6DAT_SEQ_INVALID;
+      ret = LW6DAT_SEQ_INVALID;
     }
 
   return ret;
@@ -745,7 +745,7 @@ lw6dat_warehouse_get_seq_min (lw6sys_context_t * sys_context, lw6dat_warehouse_t
 int64_t
 _lw6dat_warehouse_get_seq_max (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
-  int64_t ret = _LW6DAT_SEQ_INVALID;
+  int64_t ret = LW6DAT_SEQ_INVALID;
   int i;
 
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
@@ -826,7 +826,7 @@ int64_t
 _lw6dat_warehouse_get_seq_reference (lw6sys_context_t * sys_context, _lw6dat_warehouse_t * warehouse)
 {
   int64_t ret = LLONG_MAX;
-  int64_t seq_reference = _LW6DAT_SEQ_INVALID;
+  int64_t seq_reference = LW6DAT_SEQ_INVALID;
   int i;
 
   for (i = 0; i < LW6DAT_MAX_NB_STACKS; ++i)
@@ -834,7 +834,7 @@ _lw6dat_warehouse_get_seq_reference (lw6sys_context_t * sys_context, _lw6dat_war
       if (warehouse->stacks[i].node_id)
 	{
 	  seq_reference = _lw6dat_stack_get_seq_reference (sys_context, &(warehouse->stacks[i]));
-	  if (seq_reference == _LW6DAT_SEQ_INVALID)
+	  if (seq_reference == LW6DAT_SEQ_INVALID)
 	    {
 	      /*
 	       * If we could not find real messages with actual seqs within the
@@ -850,9 +850,9 @@ _lw6dat_warehouse_get_seq_reference (lw6sys_context_t * sys_context, _lw6dat_war
 	  ret = lw6sys_llmin (ret, seq_reference);
 	}
     }
-  if ((ret < _LW6DAT_SEQ_INVALID) || (ret >= LLONG_MAX))
+  if ((ret < LW6DAT_SEQ_INVALID) || (ret >= LLONG_MAX))
     {
-      ret = _LW6DAT_SEQ_INVALID;
+      ret = LW6DAT_SEQ_INVALID;
     }
 
   return ret;
@@ -1286,7 +1286,7 @@ _lw6dat_warehouse_meta_get (lw6sys_context_t * sys_context, _lw6dat_warehouse_t 
 {
   int ret = 1;
   int i = 0;
-  int64_t lowest_seq = _LW6DAT_SEQ_INVALID;
+  int64_t lowest_seq = LW6DAT_SEQ_INVALID;
 
   /*
    * Check that seq is great enough, setting a seq lower than what
@@ -1302,9 +1302,9 @@ _lw6dat_warehouse_meta_get (lw6sys_context_t * sys_context, _lw6dat_warehouse_t 
     {
       if (warehouse->stacks[i].node_id)
 	{
-	  if (warehouse->stacks[i].seq_0s[i] >= _LW6DAT_SEQ_START)
+	  if (warehouse->stacks[i].seq_0s[i] >= LW6DAT_SEQ_START)
 	    {
-	      if (lowest_seq == _LW6DAT_SEQ_INVALID)
+	      if (lowest_seq == LW6DAT_SEQ_INVALID)
 		{
 		  lowest_seq = warehouse->stacks[i].seq_0s[i];
 		}

@@ -31,7 +31,7 @@ static void
 _peer_id_list_process_join_callback (lw6sys_context_t * sys_context, void *func_data, u_int64_t id)
 {
   _lw6p2p_node_t *node = (_lw6p2p_node_t *) func_data;
-  int serial = 1;		// should match _LW6DAT_SERIAL_START
+  int serial = 1;		// should match LW6DAT_SERIAL_START
   int64_t seq = 0LL;
 
   /*

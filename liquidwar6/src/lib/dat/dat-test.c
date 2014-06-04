@@ -521,8 +521,8 @@ _test_stack ()
   {
     _lw6dat_stack_t stack;
     int i;
-    int serial = _LW6DAT_SERIAL_INVALID;
-    int64_t seq = _LW6DAT_SEQ_INVALID;
+    int serial = LW6DAT_SERIAL_INVALID;
+    int64_t seq = LW6DAT_SEQ_INVALID;
     int64_t tmp;
     int found_null = 0;
     int found_not_null = 0;
@@ -561,7 +561,7 @@ _test_stack ()
 	 * The tests for seq2serial and serial2seq must
 	 * be done now as serial and seq values are untouched.
 	 */
-	if (LW6SYS_TEST_ACK (_lw6dat_stack_seq2serial (sys_context, &stack, _LW6DAT_SEQ_INVALID) == _LW6DAT_SERIAL_INVALID))
+	if (LW6SYS_TEST_ACK (_lw6dat_stack_seq2serial (sys_context, &stack, LW6DAT_SEQ_INVALID) == LW6DAT_SERIAL_INVALID))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("invalid seq number correctly treated by seq2serial"));
 	  }
@@ -570,7 +570,7 @@ _test_stack ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("invalid seq number *NOT* correctly treated by seq2serial"));
 	    ret = 0;
 	  }
-	if (LW6SYS_TEST_ACK (_lw6dat_stack_serial2seq (sys_context, &stack, _LW6DAT_SERIAL_INVALID) == _LW6DAT_SEQ_INVALID))
+	if (LW6SYS_TEST_ACK (_lw6dat_stack_serial2seq (sys_context, &stack, LW6DAT_SERIAL_INVALID) == LW6DAT_SEQ_INVALID))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("invalid serial number correctly treated by serial2seq"));
 	  }
@@ -855,7 +855,7 @@ _test_stack ()
 	ret = 0;
       }
 
-    if (LW6SYS_TEST_ACK (_lw6dat_stack_shift (sys_context, &stack, _TEST_STACK_SERIAL_0 + 2 * _TEST_STACK_SHIFT_SERIAL_DELTA, _LW6DAT_SEQ_INVALID)))
+    if (LW6SYS_TEST_ACK (_lw6dat_stack_shift (sys_context, &stack, _TEST_STACK_SERIAL_0 + 2 * _TEST_STACK_SHIFT_SERIAL_DELTA, LW6DAT_SEQ_INVALID)))
       {
 	tmp_atom = _lw6dat_stack_get_atom (sys_context, &stack, _TEST_STACK_SERIAL_0 + 2 * _TEST_STACK_SHIFT_SERIAL_DELTA);
 	if (LW6SYS_TEST_ACK (tmp_atom))

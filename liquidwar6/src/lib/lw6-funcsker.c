@@ -32,8 +32,9 @@
 static SCM
 _scm_lw6ker_build_game_struct (SCM level)
 {
-  lw6map_level_t *c_level;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6map_level_t *c_level = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -59,8 +60,9 @@ _scm_lw6ker_build_game_struct (SCM level)
 static SCM
 _scm_lw6ker_build_game_state (SCM game_struct)
 {
-  lw6ker_game_struct_t *c_game_struct;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_struct_t *c_game_struct = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -85,9 +87,10 @@ _scm_lw6ker_build_game_state (SCM game_struct)
 static SCM
 _scm_lw6ker_sync_game_state (SCM dst, SCM src)
 {
-  lw6ker_game_state_t *c_dst;
-  lw6ker_game_state_t *c_src;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_state_t *c_dst = NULL;
+  lw6ker_game_state_t *c_src = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -109,10 +112,11 @@ _scm_lw6ker_sync_game_state (SCM dst, SCM src)
 static SCM
 _scm_lw6ker_dup_game_state (SCM game_struct, SCM game_state)
 {
-  lw6ker_game_struct_t *c_game_struct;
-  lw6ker_game_state_t *c_game_state;
-  lw6ker_game_state_t *c_ret;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_struct_t *c_game_struct = NULL;
+  lw6ker_game_state_t *c_game_state = NULL;
+  lw6ker_game_state_t *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -141,10 +145,11 @@ _scm_lw6ker_dup_game_state (SCM game_struct, SCM game_state)
 }
 
 static SCM
-_scm_lw6ker_game_struct_checksum (sys_context, SCM game_struct)
+_scm_lw6ker_game_struct_checksum (SCM game_struct)
 {
-  lw6ker_game_struct_t *c_game_struct;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_struct_t *c_game_struct = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -162,10 +167,11 @@ _scm_lw6ker_game_struct_checksum (sys_context, SCM game_struct)
 }
 
 static SCM
-_scm_lw6ker_game_state_checksum (sys_context, SCM game_state)
+_scm_lw6ker_game_state_checksum (SCM game_state)
 {
-  lw6ker_game_state_t *c_game_state;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -186,9 +192,10 @@ static SCM
 _scm_lw6ker_register_node (SCM game_state, SCM node_id)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_node_id_str;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_node_id_str = NULL;
   u_int64_t c_node_id_int = 0LL;
-  lw6ker_game_state_t *c_game_state;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -221,9 +228,10 @@ static SCM
 _scm_lw6ker_unregister_node (SCM game_state, SCM node_id)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_node_id_str;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_node_id_str = NULL;
   u_int64_t c_node_id_int = 0LL;
-  lw6ker_game_state_t *c_game_state;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -256,9 +264,10 @@ static SCM
 _scm_lw6ker_node_exists (SCM game_state, SCM node_id)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_node_id_str;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_node_id_str = NULL;
   u_int64_t c_node_id_int = 0;
-  lw6ker_game_state_t *c_game_state;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -291,13 +300,14 @@ static SCM
 _scm_lw6ker_add_cursor (SCM game_state, SCM node_id, SCM cursor_id, SCM team_color)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_node_id_str;
-  char *c_cursor_id_str;
-  char *c_team_color_str;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_node_id_str = NULL;
+  char *c_cursor_id_str = NULL;
+  char *c_team_color_str = NULL;
   u_int64_t c_node_id_int = 0LL;
   u_int16_t c_cursor_id_int = 0;
   int c_team_color_int = LW6MAP_TEAM_COLOR_INVALID;
-  lw6ker_game_state_t *c_game_state;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -344,11 +354,12 @@ static SCM
 _scm_lw6ker_remove_cursor (SCM game_state, SCM node_id, SCM cursor_id)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_node_id_str;
-  char *c_cursor_id_str;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_node_id_str = NULL;
+  char *c_cursor_id_str = NULL;
   u_int64_t c_node_id_int = 0LL;
   u_int16_t c_cursor_id_int = 0;
-  lw6ker_game_state_t *c_game_state;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -388,9 +399,10 @@ static SCM
 _scm_lw6ker_cursor_exists (SCM game_state, SCM cursor_id)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_cursor_id_str;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_cursor_id_str = NULL;
   u_int16_t c_cursor_id_int = 0;
-  lw6ker_game_state_t *c_game_state;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -423,9 +435,10 @@ static SCM
 _scm_lw6ker_get_cursor (SCM game_state, SCM cursor_id)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_cursor_id_str;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_cursor_id_str = NULL;
   u_int16_t c_cursor_id_int = 0;
-  lw6ker_game_state_t *c_game_state;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -491,10 +504,11 @@ static SCM
 _scm_lw6ker_set_cursor (SCM game_state, SCM node_id, SCM cursor_id, SCM x, SCM y)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_node_id_str;
-  char *c_cursor_id_str;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_node_id_str = NULL;
+  char *c_cursor_id_str = NULL;
   lw6ker_cursor_t c_cursor;
-  lw6ker_game_state_t *c_game_state;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -539,10 +553,12 @@ _scm_lw6ker_set_cursor (SCM game_state, SCM node_id, SCM cursor_id, SCM x, SCM y
 static SCM
 _scm_lw6ker_do_round (SCM game_state)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_state_t *c_game_state = NULL;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  lw6ker_game_state_t *c_game_state;
   SCM_ASSERT (SCM_SMOB_PREDICATE (lw6_global.smob_types.game_state, game_state), game_state, SCM_ARG1, __FUNCTION__);
   c_game_state = lw6_scm_to_game_state (sys_context, game_state);
   if (c_game_state)
@@ -559,7 +575,8 @@ static SCM
 _scm_lw6ker_get_moves (SCM game_state)
 {
   SCM ret = SCM_BOOL_F;
-  lw6ker_game_state_t *c_game_state;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -580,7 +597,8 @@ static SCM
 _scm_lw6ker_get_spreads (SCM game_state)
 {
   SCM ret = SCM_BOOL_F;
-  lw6ker_game_state_t *c_game_state;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -601,7 +619,8 @@ static SCM
 _scm_lw6ker_get_rounds (SCM game_state)
 {
   SCM ret = SCM_BOOL_F;
-  lw6ker_game_state_t *c_game_state;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -622,7 +641,8 @@ static SCM
 _scm_lw6ker_is_over (SCM game_state)
 {
   SCM ret = SCM_BOOL_F;
-  lw6ker_game_state_t *c_game_state;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -646,9 +666,10 @@ static SCM
 _scm_lw6ker_did_cursor_win (SCM game_state, SCM cursor_id)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_cursor_id_str;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_cursor_id_str = NULL;
   u_int16_t c_cursor_id_int = 0;
-  lw6ker_game_state_t *c_game_state;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -680,8 +701,9 @@ _scm_lw6ker_did_cursor_win (SCM game_state, SCM cursor_id)
 static SCM
 _scm_lw6ker_get_nb_colors (SCM game_state)
 {
-  lw6ker_game_state_t *c_game_state = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -702,8 +724,9 @@ _scm_lw6ker_get_nb_colors (SCM game_state)
 static SCM
 _scm_lw6ker_get_nb_cursors (SCM game_state)
 {
-  lw6ker_game_state_t *c_game_state = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -724,8 +747,9 @@ _scm_lw6ker_get_nb_cursors (SCM game_state)
 static SCM
 _scm_lw6ker_get_nb_nodes (SCM game_state)
 {
-  lw6ker_game_state_t *c_game_state = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_state_t *c_game_state = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -746,12 +770,14 @@ _scm_lw6ker_get_nb_nodes (SCM game_state)
 /**
  * lw6_register_funcs_ker
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the ker module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_ker ()
+lw6_register_funcs_ker (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

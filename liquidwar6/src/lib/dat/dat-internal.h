@@ -58,14 +58,6 @@
  * Local node messages are in the first stack
  */
 #define _LW6DAT_LOCAL_NODE_INDEX 0
-/*
- * Start at 1
- */
-#define _LW6DAT_SERIAL_START 1
-#define _LW6DAT_SEQ_START 0LL
-
-#define _LW6DAT_SERIAL_INVALID 0
-#define _LW6DAT_SEQ_INVALID -1LL
 
 /*
  * Constant used to compensate for some possible overflow error

@@ -36,6 +36,24 @@
 #define LW6DAT_MAX_NB_STACKS LW6MSG_NB_META_ARRAY_ITEMS
 
 /*
+ * First allowed serial number.
+ */
+#define LW6DAT_SERIAL_START 1
+/*
+ * First allowed sequence number.
+ */
+#define LW6DAT_SEQ_START 0LL
+
+/*
+ * An invalid serial number.
+ */
+#define LW6DAT_SERIAL_INVALID 0
+/*
+ * An invalid sequence number.
+ */
+#define LW6DAT_SEQ_INVALID -1LL
+
+/*
  * Value to use to explicit say no limit must be used when
  * querying for miss lists.
  */
