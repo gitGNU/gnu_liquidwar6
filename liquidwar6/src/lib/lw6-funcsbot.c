@@ -37,11 +37,12 @@ static SCM
 _scm_lw6bot_get_backends ()
 {
   SCM ret = SCM_BOOL_F;
-  lw6sys_assoc_t *backends;
-  lw6sys_list_t *keys;
-  lw6sys_list_t *key;
-  char *module_id;
-  char *module_name;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_assoc_t *backends = NULL;
+  lw6sys_list_t *keys = NULL;
+  lw6sys_list_t *key = NULL;
+  const char *module_id = NULL;
+  const char *module_name = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -58,8 +59,8 @@ _scm_lw6bot_get_backends ()
 	    {
 	      if (key->data)
 		{
-		  module_id = (char *) key->data;
-		  module_name = (char *) lw6sys_assoc_get (sys_context, backends, module_id);
+		  module_id = (const char *) key->data;
+		  module_name = (const char *) lw6sys_assoc_get (sys_context, backends, module_id);
 		  ret = scm_cons (scm_cons (scm_from_locale_string (module_id), scm_from_locale_string (module_name)), ret);
 		}
 	      key = lw6sys_list_next (sys_context, key);
@@ -78,17 +79,18 @@ _scm_lw6bot_get_backends ()
 static SCM
 _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read, SCM cursor_id, SCM speed, SCM iq)
 {
-  lw6ker_game_state_t *c_game_state;
-  lw6pil_pilot_t *c_pilot;
-  int c_dirty_read;
-  char *c_backend_name;
-  char *c_cursor_id_str = NULL;
-  u_int16_t c_cursor_id_int;
-  float c_speed;
-  int c_iq;
-  lw6bot_backend_t *c_ret;
-  lw6bot_seed_t c_seed;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6ker_game_state_t *c_game_state = NULL;
+  lw6pil_pilot_t *c_pilot = NULL;
+  int c_dirty_read = 0;
+  char *c_backend_name = NULL;
+  char *c_cursor_id_str = NULL;
+  u_int16_t c_cursor_id_int = 0;
+  float c_speed = 0.0f;
+  int c_iq = 0;
+  lw6bot_backend_t *c_ret = NULL;
+  lw6bot_seed_t c_seed;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -148,12 +150,13 @@ _scm_lw6bot_new (SCM backend_name, SCM game_state, SCM pilot, SCM dirty_read, SC
 }
 
 static SCM
-_scm_lw6bot_next_move (sys_context, SCM bot)
+_scm_lw6bot_next_move (SCM bot)
 {
-  lw6bot_backend_t *c_bot;
+  SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6bot_backend_t *c_bot = NULL;
   int c_x = 0;
   int c_y = 0;
-  SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -177,12 +180,14 @@ _scm_lw6bot_next_move (sys_context, SCM bot)
 /**
  * lw6_register_funcs_bot
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the bot module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_bot ()
+lw6_register_funcs_bot (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

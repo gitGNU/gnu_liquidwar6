@@ -30,12 +30,13 @@
  * In liquidwar6tsk
  */
 static SCM
-_scm_lw6tsk_loader_new (sys_context, SCM sleep)
+_scm_lw6tsk_loader_new (SCM sleep)
 {
+  SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   float c_sleep = 0.0f;
   char *user_dir = NULL;
   lw6tsk_loader_t *c_loader = NULL;
-  SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -60,19 +61,20 @@ _scm_lw6tsk_loader_new (sys_context, SCM sleep)
 }
 
 static SCM
-_scm_lw6tsk_loader_push_ldr (sys_context, SCM loader, SCM map_path, SCM relative_path,
+_scm_lw6tsk_loader_push_ldr (SCM loader, SCM map_path, SCM relative_path,
 			     SCM default_param, SCM forced_param, SCM display_width, SCM display_height, SCM bench_value, SCM magic_number)
 {
-  lw6tsk_loader_t *c_loader;
-  char *c_map_path;
-  char *c_relative_path;
-  lw6sys_assoc_t *c_default_param;
-  lw6sys_assoc_t *c_forced_param;
-  int c_display_width;
-  int c_display_height;
-  int c_bench_value;
-  int c_magic_number;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6tsk_loader_t *c_loader = NULL;
+  char *c_map_path = NULL;
+  char *c_relative_path = NULL;
+  lw6sys_assoc_t *c_default_param = NULL;
+  lw6sys_assoc_t *c_forced_param = NULL;
+  int c_display_width = 0;
+  int c_display_height = 0;
+  int c_bench_value = 0;
+  int c_magic_number = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -124,15 +126,16 @@ _scm_lw6tsk_loader_push_ldr (sys_context, SCM loader, SCM map_path, SCM relative
 }
 
 static SCM
-_scm_lw6tsk_loader_push_gen (sys_context, SCM loader, SCM seed, SCM display_width, SCM display_height, SCM bench_value, SCM magic_number)
+_scm_lw6tsk_loader_push_gen (SCM loader, SCM seed, SCM display_width, SCM display_height, SCM bench_value, SCM magic_number)
 {
-  lw6tsk_loader_t *c_loader;
-  char *c_seed;
-  int c_display_width;
-  int c_display_height;
-  int c_bench_value;
-  int c_magic_number;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6tsk_loader_t *c_loader = NULL;
+  char *c_seed = NULL;
+  int c_display_width = 0;
+  int c_display_height = 0;
+  int c_bench_value = 0;
+  int c_magic_number = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -165,9 +168,11 @@ _scm_lw6tsk_loader_push_gen (sys_context, SCM loader, SCM seed, SCM display_widt
 }
 
 static SCM
-_scm_lw6tsk_loader_pop (sys_context, SCM loader)
+_scm_lw6tsk_loader_pop (SCM loader)
 {
-  lw6tsk_loader_t *c_loader;
+  SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6tsk_loader_t *c_loader = NULL;
   lw6map_level_t *c_level = NULL;
   lw6ker_game_struct_t *c_game_struct = NULL;
   lw6ker_game_state_t *c_game_state = NULL;
@@ -175,7 +180,6 @@ _scm_lw6tsk_loader_pop (sys_context, SCM loader)
   SCM level = SCM_BOOL_F;
   SCM game_struct = SCM_BOOL_F;
   SCM game_state = SCM_BOOL_F;
-  SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -215,11 +219,12 @@ _scm_lw6tsk_loader_pop (sys_context, SCM loader)
 }
 
 static SCM
-_scm_lw6tsk_loader_get_stage (sys_context, SCM loader)
+_scm_lw6tsk_loader_get_stage (SCM loader)
 {
-  lw6tsk_loader_t *c_loader;
-  int c_ret = 0;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6tsk_loader_t *c_loader = NULL;
+  int c_ret = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -241,12 +246,14 @@ _scm_lw6tsk_loader_get_stage (sys_context, SCM loader)
 /**
  * lw6_register_funcs_tsk
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the tsk module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_tsk ()
+lw6_register_funcs_tsk (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

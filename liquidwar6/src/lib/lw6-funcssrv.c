@@ -37,11 +37,12 @@ static SCM
 _scm_lw6srv_get_backends ()
 {
   SCM ret = SCM_BOOL_F;
-  lw6sys_assoc_t *backends;
-  lw6sys_list_t *keys;
-  lw6sys_list_t *key;
-  char *module_id;
-  char *module_name;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_assoc_t *backends = NULL;
+  lw6sys_list_t *keys = NULL;
+  lw6sys_list_t *key = NULL;
+  const char *module_id = NULL;
+  const char *module_name = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -58,8 +59,8 @@ _scm_lw6srv_get_backends ()
 	    {
 	      if (key->data)
 		{
-		  module_id = (char *) key->data;
-		  module_name = (char *) lw6sys_assoc_get (sys_context, backends, module_id);
+		  module_id = (const char *) key->data;
+		  module_name = (const char *) lw6sys_assoc_get (sys_context, backends, module_id);
 		  ret = scm_cons (scm_cons (scm_from_locale_string (module_id), scm_from_locale_string (module_name)), ret);
 		}
 	      key = lw6sys_list_next (sys_context, key);
@@ -78,12 +79,14 @@ _scm_lw6srv_get_backends ()
 /**
  * lw6_register_funcs_srv
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the srv module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_srv ()
+lw6_register_funcs_srv (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

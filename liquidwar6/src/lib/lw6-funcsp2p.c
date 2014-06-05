@@ -33,8 +33,9 @@ static SCM
 _scm_lw6p2p_db_new (SCM name)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_name = NULL;
-  lw6p2p_db_t *c_db;
+  lw6p2p_db_t *c_db = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -58,9 +59,10 @@ _scm_lw6p2p_db_new (SCM name)
 }
 
 static SCM
-_scm_lw6p2p_db_reset (sys_context, SCM name)
+_scm_lw6p2p_db_reset (SCM name)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *c_name = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -85,11 +87,12 @@ static SCM
 _scm_lw6p2p_db_default_name ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  ret = scm_from_locale_string (lw6p2p_db_default_name ());
+  ret = scm_from_locale_string (lw6p2p_db_default_name (sys_context));
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -97,10 +100,11 @@ _scm_lw6p2p_db_default_name ()
 }
 
 static SCM
-_scm_lw6p2p_node_new (sys_context, SCM db, SCM param)
+_scm_lw6p2p_node_new (SCM db, SCM param)
 {
-  lw6p2p_node_t *c_node;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
   SCM client_backends = SCM_BOOL_F;
   SCM server_backends = SCM_BOOL_F;
   SCM bind_ip = SCM_BOOL_F;
@@ -116,23 +120,23 @@ _scm_lw6p2p_node_new (sys_context, SCM db, SCM param)
   SCM known_nodes = SCM_BOOL_F;
   SCM network_reliability = SCM_BOOL_F;
   SCM trojan = SCM_BOOL_F;
-  lw6p2p_db_t *c_db;
-  char *c_client_backends;
-  char *c_server_backends;
-  char *c_bind_ip;
-  int c_bind_port;
-  int c_broadcast;
-  char *c_node_id_str;
-  u_int64_t c_node_id_int;
-  char *c_public_url;
-  char *c_password;
-  char *c_title;
-  char *c_description;
-  int c_open_relay;
-  int c_bench;
-  char *c_known_nodes;
-  int c_network_reliability;
-  int c_trojan;
+  lw6p2p_db_t *c_db = NULL;
+  char *c_client_backends = NULL;
+  char *c_server_backends = NULL;
+  char *c_bind_ip = NULL;
+  int c_bind_port = 0;
+  int c_broadcast = 0;
+  char *c_node_id_str = NULL;
+  u_int64_t c_node_id_int = 0LL;
+  char *c_public_url = NULL;
+  char *c_password = NULL;
+  char *c_title = NULL;
+  char *c_description = NULL;
+  int c_open_relay = 0;
+  int c_bench = 0;
+  char *c_known_nodes = NULL;
+  int c_network_reliability = 0;
+  int c_trojan = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -174,7 +178,7 @@ _scm_lw6p2p_node_new (sys_context, SCM db, SCM param)
       SCM_ASSERT (scm_is_integer (network_reliability), param, SCM_ARG2, __FUNCTION__);
       SCM_ASSERT (SCM_BOOLP (trojan), param, SCM_ARG2, __FUNCTION__);
 
-      c_db = lw6_scm_to_db (db);
+      c_db = lw6_scm_to_db (sys_context, db);
       if (c_db)
 	{
 	  c_client_backends = lw6scm_utils_to_0str (sys_context, client_backends);
@@ -214,7 +218,7 @@ _scm_lw6p2p_node_new (sys_context, SCM db, SCM param)
 
 					      c_node =
 						lw6p2p_node_new
-						(lw6_global.argc,
+						(sys_context, lw6_global.argc,
 						 lw6_global.argv, c_db,
 						 c_client_backends,
 						 c_server_backends, c_bind_ip,
@@ -253,10 +257,11 @@ _scm_lw6p2p_node_new (sys_context, SCM db, SCM param)
 }
 
 static SCM
-_scm_lw6p2p_node_poll (sys_context, SCM node)
+_scm_lw6p2p_node_poll (SCM node)
 {
-  lw6p2p_node_t *c_node;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -277,9 +282,10 @@ _scm_lw6p2p_node_poll (sys_context, SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_close (sys_context, SCM node)
+_scm_lw6p2p_node_close (SCM node)
 {
-  lw6p2p_node_t *c_node;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -298,10 +304,11 @@ _scm_lw6p2p_node_close (sys_context, SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_get_id (sys_context, SCM node)
+_scm_lw6p2p_node_get_id (SCM node)
 {
-  lw6p2p_node_t *c_node;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
   u_int64_t c_ret_int = 0;
   char *c_ret_str = NULL;
 
@@ -328,7 +335,7 @@ _scm_lw6p2p_node_get_id (sys_context, SCM node)
 }
 
 static void
-_lw6p2p_node_get_entries_callback (void *func_data, void *data)
+_lw6p2p_node_get_entries_callback (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   SCM *ret = (SCM *) func_data;
   lw6p2p_entry_t *entry = (lw6p2p_entry_t *) data;
@@ -372,11 +379,12 @@ _lw6p2p_node_get_entries_callback (void *func_data, void *data)
 }
 
 static SCM
-_scm_lw6p2p_node_get_entries (sys_context, SCM node, SCM skip_local)
+_scm_lw6p2p_node_get_entries (SCM node, SCM skip_local)
 {
-  lw6p2p_node_t *c_node;
-  int c_skip_local;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
+  int c_skip_local = 0;
   lw6sys_list_t *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -404,11 +412,12 @@ _scm_lw6p2p_node_get_entries (sys_context, SCM node, SCM skip_local)
 }
 
 static SCM
-_scm_lw6p2p_node_server_start (sys_context, SCM node, SCM seq_0)
+_scm_lw6p2p_node_server_start (SCM node, SCM seq_0)
 {
-  lw6p2p_node_t *c_node;
-  int64_t c_seq_0;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
+  int64_t c_seq_0 = 0LL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -430,14 +439,15 @@ _scm_lw6p2p_node_server_start (sys_context, SCM node, SCM seq_0)
 }
 
 static SCM
-_scm_lw6p2p_node_client_join (sys_context, SCM node, SCM remote_id, SCM remote_url)
+_scm_lw6p2p_node_client_join (SCM node, SCM remote_id, SCM remote_url)
 {
-  lw6p2p_node_t *c_node;
+  SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
   char *c_remote_id_str = NULL;
   u_int64_t c_remote_id_int = 0LL;
   char *c_remote_url = NULL;
   lw6sys_progress_t progress;
-  SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -477,13 +487,14 @@ _scm_lw6p2p_node_client_join (sys_context, SCM node, SCM remote_id, SCM remote_u
 }
 
 static SCM
-_scm_lw6p2p_node_refresh_peer (sys_context, SCM node, SCM remote_id, SCM remote_url)
+_scm_lw6p2p_node_refresh_peer (SCM node, SCM remote_id, SCM remote_url)
 {
-  lw6p2p_node_t *c_node;
+  SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
   char *c_remote_id_str = NULL;
   u_int64_t c_remote_id_int = 0LL;
   char *c_remote_url = NULL;
-  SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -518,9 +529,10 @@ _scm_lw6p2p_node_refresh_peer (sys_context, SCM node, SCM remote_id, SCM remote_
 }
 
 static SCM
-_scm_lw6p2p_node_disconnect (sys_context, SCM node)
+_scm_lw6p2p_node_disconnect (SCM node)
 {
-  lw6p2p_node_t *c_node;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -539,9 +551,11 @@ _scm_lw6p2p_node_disconnect (sys_context, SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_update_info (sys_context, SCM node, SCM param)
+_scm_lw6p2p_node_update_info (SCM node, SCM param)
 {
-  lw6p2p_node_t *c_node;
+  SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
   SCM round = SCM_BOOL_F;
   SCM level = SCM_BOOL_F;
   SCM nb_colors = SCM_BOOL_F;
@@ -551,7 +565,6 @@ _scm_lw6p2p_node_update_info (sys_context, SCM node, SCM param)
   SCM nb_nodes = SCM_BOOL_F;
   SCM max_nb_nodes = SCM_BOOL_F;
   SCM screenshot = SCM_BOOL_F;
-  SCM ret = SCM_BOOL_F;
   int c_round = 0;
   char *c_level = NULL;
   int c_nb_colors = 0;
@@ -633,9 +646,10 @@ _scm_lw6p2p_node_update_info (sys_context, SCM node, SCM param)
 }
 
 static SCM
-_scm_lw6p2p_node_calibrate (sys_context, SCM node, SCM timestamp, SCM seq_0)
+_scm_lw6p2p_node_calibrate (SCM node, SCM timestamp, SCM seq_0)
 {
-  lw6p2p_node_t *c_node;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
   int64_t c_timestamp = 0LL;
   int64_t c_seq_0 = 0LL;
 
@@ -661,11 +675,12 @@ _scm_lw6p2p_node_calibrate (sys_context, SCM node, SCM timestamp, SCM seq_0)
 }
 
 static SCM
-_scm_lw6p2p_node_get_local_seq_0 (sys_context, SCM node)
+_scm_lw6p2p_node_get_local_seq_0 (SCM node)
 {
+  SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6p2p_node_t *c_node;
   int64_t c_ret = 0LL;
-  SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -685,11 +700,12 @@ _scm_lw6p2p_node_get_local_seq_0 (sys_context, SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_get_local_seq_last (sys_context, SCM node)
+_scm_lw6p2p_node_get_local_seq_last (SCM node)
 {
-  lw6p2p_node_t *c_node;
-  int64_t c_ret = 0LL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
+  int64_t c_ret = 0LL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -709,11 +725,12 @@ _scm_lw6p2p_node_get_local_seq_last (sys_context, SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_get_seq_min (sys_context, SCM node)
+_scm_lw6p2p_node_get_seq_min (SCM node)
 {
-  lw6p2p_node_t *c_node;
-  int64_t c_ret = 0LL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
+  int64_t c_ret = 0LL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -733,11 +750,12 @@ _scm_lw6p2p_node_get_seq_min (sys_context, SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_get_seq_max (sys_context, SCM node)
+_scm_lw6p2p_node_get_seq_max (SCM node)
 {
-  lw6p2p_node_t *c_node;
-  int64_t c_ret = 0LL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
+  int64_t c_ret = 0LL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -757,11 +775,12 @@ _scm_lw6p2p_node_get_seq_max (sys_context, SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_get_seq_draft (sys_context, SCM node)
+_scm_lw6p2p_node_get_seq_draft (SCM node)
 {
-  lw6p2p_node_t *c_node;
-  int64_t c_ret = 0LL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
+  int64_t c_ret = 0LL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -781,11 +800,12 @@ _scm_lw6p2p_node_get_seq_draft (sys_context, SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_get_seq_reference (sys_context, SCM node)
+_scm_lw6p2p_node_get_seq_reference (SCM node)
 {
-  lw6p2p_node_t *c_node;
-  int64_t c_ret = 0LL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
+  int64_t c_ret = 0LL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -805,13 +825,14 @@ _scm_lw6p2p_node_get_seq_reference (sys_context, SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_is_peer_connected (sys_context, SCM node, SCM peer_id)
+_scm_lw6p2p_node_is_peer_connected (SCM node, SCM peer_id)
 {
-  lw6p2p_node_t *c_node;
+  SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
   char *c_peer_id_str = NULL;
   u_int64_t c_peer_id_int = 0LL;
   int c_ret = 0LL;
-  SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -841,13 +862,14 @@ _scm_lw6p2p_node_is_peer_connected (sys_context, SCM node, SCM peer_id)
 }
 
 static SCM
-_scm_lw6p2p_node_is_peer_registered (sys_context, SCM node, SCM peer_id)
+_scm_lw6p2p_node_is_peer_registered (SCM node, SCM peer_id)
 {
-  lw6p2p_node_t *c_node;
+  SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
   char *c_peer_id_str = NULL;
   u_int64_t c_peer_id_int = 0LL;
   int c_ret = 0LL;
-  SCM ret = SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -877,10 +899,11 @@ _scm_lw6p2p_node_is_peer_registered (sys_context, SCM node, SCM peer_id)
 }
 
 static SCM
-_scm_lw6p2p_node_is_seed_needed (sys_context, SCM node)
+_scm_lw6p2p_node_is_seed_needed (SCM node)
 {
-  lw6p2p_node_t *c_node;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -899,10 +922,11 @@ _scm_lw6p2p_node_is_seed_needed (sys_context, SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_is_dump_needed (sys_context, SCM node)
+_scm_lw6p2p_node_is_dump_needed (SCM node)
 {
-  lw6p2p_node_t *c_node;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -921,11 +945,12 @@ _scm_lw6p2p_node_is_dump_needed (sys_context, SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_put_local_msg (sys_context, SCM node, SCM msg)
+_scm_lw6p2p_node_put_local_msg (SCM node, SCM msg)
 {
-  lw6p2p_node_t *c_node;
-  char *c_msg = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
+  char *c_msg = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -950,11 +975,12 @@ _scm_lw6p2p_node_put_local_msg (sys_context, SCM node, SCM msg)
 }
 
 static SCM
-_scm_lw6p2p_node_get_next_reference_msg (sys_context, SCM node)
+_scm_lw6p2p_node_get_next_reference_msg (SCM node)
 {
-  lw6p2p_node_t *c_node;
-  char *c_ret = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
+  char *c_ret = NULL;
   lw6sys_progress_t progress;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -982,11 +1008,12 @@ _scm_lw6p2p_node_get_next_reference_msg (sys_context, SCM node)
 }
 
 static SCM
-_scm_lw6p2p_node_get_next_draft_msg (sys_context, SCM node)
+_scm_lw6p2p_node_get_next_draft_msg (SCM node)
 {
-  lw6p2p_node_t *c_node;
-  char *c_ret = NULL;
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_node_t *c_node = NULL;
+  char *c_ret = NULL;
   lw6sys_progress_t progress;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -1016,12 +1043,14 @@ _scm_lw6p2p_node_get_next_draft_msg (sys_context, SCM node)
 /**
  * lw6_register_funcs_p2p
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the p2p module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_p2p ()
+lw6_register_funcs_p2p (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

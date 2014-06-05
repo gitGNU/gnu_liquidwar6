@@ -44,6 +44,7 @@ lw6_global_t lw6_global;
 /**
  * lw6_init_global
  *
+ * @sys_context: global system context
  * @argc: number of args as passed to main
  * @argv: array of strings as passed to main
  *
@@ -52,7 +53,7 @@ lw6_global_t lw6_global;
  * Return value: 1 on success, 0 if failed
  */
 int
-lw6_init_global (sys_context, int argc, const char *argv[])
+lw6_init_global (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   int ret = 0;
   lw6sys_list_t *funcs = NULL;
@@ -140,7 +141,7 @@ lw6_init_global (sys_context, int argc, const char *argv[])
 }
 
 static void
-quit_cfg ()
+quit_cfg (lw6sys_context_t * sys_context)
 {
   if (lw6_global.cfg_initialized && (lw6_global.cfg_context != NULL))
     {
@@ -151,27 +152,29 @@ quit_cfg ()
 }
 
 static void
-quit_cns ()
+quit_cns (lw6sys_context_t * sys_context)
 {
   if (lw6_global.cns_initialized)
     {
-      lw6cns_handler_remove ();
+      lw6cns_handler_remove (sys_context);
     }
   lw6_global.cns_initialized = 0;
 }
 
 static void
-quit_net ()
+quit_net (lw6sys_context_t * sys_context)
 {
   if (lw6_global.net_initialized)
     {
-      lw6net_quit ();
+      lw6net_quit (sys_context);
     }
   lw6_global.net_initialized = 0;
 }
 
 /**
  * lw6_quit_global
+ *
+ * @sys_context: global system context
  *
  * Frees global values. Will also garbage collect objects
  * in case Guile failed to do it perfectly (or we failed to
@@ -194,13 +197,19 @@ quit_net ()
  * Return value: none.
  */
 void
-lw6_quit_global ()
+lw6_quit_global (lw6sys_context_t * sys_context)
 {
-  lw6scm_coverage_log (sys_context, lw6_global.coverage);
-  lw6sys_hash_free (lw6_global.coverage);
-  lw6_global.coverage = NULL;
-
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("final garbage collection"));
+
+  if (sys_context != lw6_global.sys_context)
+    {
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("global and local sys_context differ, sys_context=%p, lw6_global.sys_context=%p"), sys_context,
+		  lw6_global.sys_context);
+    }
+
+  lw6scm_coverage_log (sys_context, lw6_global.coverage);
+  lw6sys_hash_free (sys_context, lw6_global.coverage);
+  lw6_global.coverage = NULL;
 
   LW6_MUTEX_LOCK;
 
@@ -209,50 +218,50 @@ lw6_quit_global ()
    * would be freed here.
    */
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining jpeg smobs"));
-  lw6sys_assoc_free (lw6_global.jpeg_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.jpeg_smobs);
   lw6_global.jpeg_smobs = NULL;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining node smobs"));
-  lw6sys_assoc_free (lw6_global.node_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.node_smobs);
   lw6_global.node_smobs = NULL;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining db smobs"));
-  lw6sys_assoc_free (lw6_global.db_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.db_smobs);
   lw6_global.db_smobs = NULL;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining loader smobs"));
-  lw6sys_assoc_free (lw6_global.loader_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.loader_smobs);
   lw6_global.loader_smobs = NULL;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining look smobs"));
-  lw6sys_assoc_free (lw6_global.look_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.look_smobs);
   lw6_global.look_smobs = NULL;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining bot smobs"));
-  lw6sys_assoc_free (lw6_global.bot_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.bot_smobs);
   lw6_global.bot_smobs = NULL;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining pilot smobs"));
-  lw6sys_assoc_free (lw6_global.pilot_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.pilot_smobs);
   lw6_global.pilot_smobs = NULL;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining game_state smobs"));
-  lw6sys_assoc_free (lw6_global.game_state_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.game_state_smobs);
   lw6_global.game_state_smobs = NULL;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining game_struct smobs"));
-  lw6sys_assoc_free (lw6_global.game_struct_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.game_struct_smobs);
   lw6_global.game_struct_smobs = NULL;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining menu smobs"));
-  lw6sys_assoc_free (lw6_global.menu_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.menu_smobs);
   lw6_global.menu_smobs = NULL;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining map smobs"));
-  lw6sys_assoc_free (lw6_global.map_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.map_smobs);
   lw6_global.map_smobs = NULL;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining snd smobs"));
-  lw6sys_assoc_free (lw6_global.snd_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.snd_smobs);
   lw6_global.snd_smobs = NULL;
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing remaining dsp smobs"));
-  lw6sys_assoc_free (lw6_global.dsp_smobs);
+  lw6sys_assoc_free (sys_context, lw6_global.dsp_smobs);
   lw6_global.dsp_smobs = NULL;
 
   LW6_MUTEX_UNLOCK;
 
-  quit_cns ();
-  quit_net ();
-  quit_cfg ();
+  quit_cns (sys_context);
+  quit_net (sys_context);
+  quit_cfg (sys_context);
 
   pthread_mutex_destroy (&lw6_global.mutex);
   memset (&lw6_global, 0, sizeof (lw6_global_t));

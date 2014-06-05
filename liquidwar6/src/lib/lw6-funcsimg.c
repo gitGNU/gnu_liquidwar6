@@ -34,9 +34,10 @@ static SCM
 _scm_lw6img_screenshot (SCM game_state, SCM quality)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6ker_game_state_t *c_game_state = NULL;
   char *c_user_dir = NULL;
-  int c_quality;
+  int c_quality = 0;
   lw6img_jpeg_t *c_jpeg = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -76,12 +77,14 @@ _scm_lw6img_screenshot (SCM game_state, SCM quality)
 /**
  * lw6_register_funcs_img
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the img module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_img ()
+lw6_register_funcs_img (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

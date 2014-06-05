@@ -37,10 +37,12 @@ static SCM
 _scm_lw6cns_console_support ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6cns_console_support (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6cns_console_support (sys_context) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -51,10 +53,12 @@ static SCM
 _scm_lw6cns_term_support ()
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
-  ret = lw6cns_term_support (sys_context,) ? SCM_BOOL_T : SCM_BOOL_F;
+  ret = lw6cns_term_support (sys_context) ? SCM_BOOL_T : SCM_BOOL_F;
 
   LW6SYS_SCRIPT_FUNCTION_END;
 
@@ -67,6 +71,8 @@ _scm_lw6cns_term_support ()
 static SCM
 _scm_lw6cns_init ()
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
@@ -84,12 +90,14 @@ _scm_lw6cns_init ()
 static SCM
 _scm_lw6cns_quit ()
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cns_initialized)
     {
-      lw6cns_handler_remove ();
+      lw6cns_handler_remove (sys_context);
       lw6_global.cns_initialized = 0;
     }
 
@@ -101,12 +109,14 @@ _scm_lw6cns_quit ()
 static SCM
 _scm_lw6cns_poll ()
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.cns_initialized)
     {
-      lw6cns_handler_poll ();
+      lw6cns_handler_poll (sys_context);
     }
 
   LW6SYS_SCRIPT_FUNCTION_END;
@@ -117,12 +127,14 @@ _scm_lw6cns_poll ()
 /**
  * lw6_register_funcs_cns
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the cns module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_cns ()
+lw6_register_funcs_cns (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

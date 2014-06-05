@@ -390,8 +390,8 @@ extern int lw6_register_funcs_p2p (lw6sys_context_t * sys_context);
 extern int lw6_register_funcs_bot (lw6sys_context_t * sys_context);
 
 /* lw6-global.c */
-#define LW6_MUTEX_LOCK pthread_mutex_lock (sys_context, &lw6_global.mutex);
-#define LW6_MUTEX_UNLOCK pthread_mutex_unlock (sys_context, &lw6_global.mutex);
+#define LW6_MUTEX_LOCK pthread_mutex_lock (&lw6_global.mutex);
+#define LW6_MUTEX_UNLOCK pthread_mutex_unlock (&lw6_global.mutex);
 
 extern lw6_global_t lw6_global;
 extern int lw6_init_global (lw6sys_context_t * sys_context, int argc, const char *argv[]);

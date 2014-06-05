@@ -37,11 +37,12 @@ static SCM
 _scm_lw6snd_get_backends ()
 {
   SCM ret = SCM_BOOL_F;
-  lw6sys_assoc_t *backends;
-  lw6sys_list_t *keys;
-  lw6sys_list_t *key;
-  char *module_id;
-  char *module_name;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6sys_assoc_t *backends = NULL;
+  lw6sys_list_t *keys = NULL;
+  lw6sys_list_t *key = NULL;
+  const char *module_id = NULL;
+  const char *module_name = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -58,8 +59,8 @@ _scm_lw6snd_get_backends ()
 	    {
 	      if (key->data)
 		{
-		  module_id = (char *) key->data;
-		  module_name = (char *) lw6sys_assoc_get (sys_context, backends, module_id);
+		  module_id = (const char *) key->data;
+		  module_name = (const char *) lw6sys_assoc_get (sys_context, backends, module_id);
 		  ret = scm_cons (scm_cons (scm_from_locale_string (module_id), scm_from_locale_string (module_name)), ret);
 		}
 	      key = lw6sys_list_next (sys_context, key);
@@ -79,11 +80,12 @@ static SCM
 _scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM water_volume, SCM music_volume)
 {
   SCM ret = SCM_BOOL_F;
-  char *c_backend_name;
-  float c_fx_volume;
-  float c_water_volume;
-  float c_music_volume;
-  lw6snd_backend_t *c_ret;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  char *c_backend_name = NULL;
+  float c_fx_volume = 0.0f;
+  float c_water_volume = 0.0f;
+  float c_music_volume = 0.0f;
+  lw6snd_backend_t *c_ret = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -121,10 +123,11 @@ _scm_lw6snd_new (SCM backend_name, SCM fx_volume, SCM water_volume, SCM music_vo
 }
 
 static SCM
-_scm_lw6snd_poll (sys_context, SCM snd)
+_scm_lw6snd_poll (SCM snd)
 {
   SCM ret = SCM_BOOL_F;
-  lw6snd_backend_t *c_snd;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6snd_backend_t *c_snd = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -146,7 +149,8 @@ static SCM
 _scm_lw6snd_release (SCM snd)
 {
   SCM ret = SCM_BOOL_F;
-  lw6snd_backend_t *c_snd;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6snd_backend_t *c_snd = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -165,11 +169,12 @@ _scm_lw6snd_release (SCM snd)
 }
 
 static SCM
-_scm_lw6snd_play_fx (sys_context, SCM snd, SCM fx_id)
+_scm_lw6snd_play_fx (SCM snd, SCM fx_id)
 {
   SCM ret = SCM_BOOL_F;
-  lw6snd_backend_t *c_snd;
-  int c_fx_id;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6snd_backend_t *c_snd = NULL;
+  int c_fx_id = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -191,10 +196,11 @@ _scm_lw6snd_play_fx (sys_context, SCM snd, SCM fx_id)
 }
 
 static SCM
-_scm_lw6snd_set_fx_volume (sys_context, SCM snd, SCM fx_volume)
+_scm_lw6snd_set_fx_volume (SCM snd, SCM fx_volume)
 {
-  lw6snd_backend_t *c_snd;
-  float c_fx_volume;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6snd_backend_t *c_snd = NULL;
+  float c_fx_volume = 0.0f;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -215,10 +221,11 @@ _scm_lw6snd_set_fx_volume (sys_context, SCM snd, SCM fx_volume)
 }
 
 static SCM
-_scm_lw6snd_set_water_volume (sys_context, SCM snd, SCM water_volume)
+_scm_lw6snd_set_water_volume (SCM snd, SCM water_volume)
 {
-  lw6snd_backend_t *c_snd;
-  float c_water_volume;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6snd_backend_t *c_snd = NULL;
+  float c_water_volume = 0.0f;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -239,10 +246,11 @@ _scm_lw6snd_set_water_volume (sys_context, SCM snd, SCM water_volume)
 }
 
 static SCM
-_scm_lw6snd_is_music_file (sys_context, SCM snd, SCM map_dir, SCM music_path, SCM music_file)
+_scm_lw6snd_is_music_file (SCM snd, SCM map_dir, SCM music_path, SCM music_file)
 {
   SCM ret = SCM_BOOL_F;
-  lw6snd_backend_t *c_snd;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6snd_backend_t *c_snd = NULL;
   char *c_map_dir = NULL;
   char *c_music_path = NULL;
   char *c_music_file = NULL;
@@ -285,10 +293,11 @@ _scm_lw6snd_is_music_file (sys_context, SCM snd, SCM map_dir, SCM music_path, SC
 }
 
 static SCM
-_scm_lw6snd_play_music_file (sys_context, SCM snd, SCM map_dir, SCM music_path, SCM music_file)
+_scm_lw6snd_play_music_file (SCM snd, SCM map_dir, SCM music_path, SCM music_file)
 {
   SCM ret = SCM_BOOL_F;
-  lw6snd_backend_t *c_snd;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6snd_backend_t *c_snd = NULL;
   char *c_map_dir = NULL;
   char *c_music_path = NULL;
   char *c_music_file = NULL;
@@ -328,10 +337,11 @@ _scm_lw6snd_play_music_file (sys_context, SCM snd, SCM map_dir, SCM music_path, 
 }
 
 static SCM
-_scm_lw6snd_play_music_random (sys_context, SCM snd, SCM music_path, SCM music_filter, SCM music_exclude)
+_scm_lw6snd_play_music_random (SCM snd, SCM music_path, SCM music_filter, SCM music_exclude)
 {
   SCM ret = SCM_BOOL_F;
-  lw6snd_backend_t *c_snd;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6snd_backend_t *c_snd = NULL;
   char *c_music_path = NULL;
   char *c_music_filter = NULL;
   char *c_music_exclude = NULL;
@@ -371,9 +381,10 @@ _scm_lw6snd_play_music_random (sys_context, SCM snd, SCM music_path, SCM music_f
 }
 
 static SCM
-_scm_lw6snd_stop_music (sys_context, SCM snd)
+_scm_lw6snd_stop_music (SCM snd)
 {
-  lw6snd_backend_t *c_snd;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6snd_backend_t *c_snd = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -392,10 +403,11 @@ _scm_lw6snd_stop_music (sys_context, SCM snd)
 }
 
 static SCM
-_scm_lw6snd_set_music_volume (sys_context, SCM snd, SCM music_volume)
+_scm_lw6snd_set_music_volume (SCM snd, SCM music_volume)
 {
-  lw6snd_backend_t *c_snd;
-  float c_music_volume;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6snd_backend_t *c_snd = NULL;
+  float c_music_volume = 0.0f;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -418,12 +430,14 @@ _scm_lw6snd_set_music_volume (sys_context, SCM snd, SCM music_volume)
 /**
  * lw6_register_funcs_snd
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the snd module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_snd ()
+lw6_register_funcs_snd (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

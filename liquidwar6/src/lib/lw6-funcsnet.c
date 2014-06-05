@@ -34,9 +34,10 @@
  * In setup.c
  */
 static SCM
-_scm_lw6net_init (sys_context, SCM net_log)
+_scm_lw6net_init (SCM net_log)
 {
   SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   int c_net_log = 0;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
@@ -59,12 +60,14 @@ _scm_lw6net_init (sys_context, SCM net_log)
 static SCM
 _scm_lw6net_quit ()
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
 
   if (lw6_global.net_initialized)
     {
-      lw6net_quit ();
+      lw6net_quit (sys_context);
     }
   lw6_global.net_initialized = 0;
 
@@ -76,12 +79,14 @@ _scm_lw6net_quit ()
 /**
  * lw6_register_funcs_net
  *
+ * @sys_context: global system context
+ *
  * Register the functions of the net module, make them callable from Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_funcs_net ()
+lw6_register_funcs_net (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 

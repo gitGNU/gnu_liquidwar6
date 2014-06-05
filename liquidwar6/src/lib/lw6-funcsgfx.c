@@ -41,8 +41,8 @@ _scm_lw6gfx_get_backends ()
   lw6sys_assoc_t *backends = NULL;
   lw6sys_list_t *keys = NULL;
   lw6sys_list_t *key = NULL;
-  char *module_id = NULL;
-  char *module_name = NULL;
+  const char *module_id = NULL;
+  const char *module_name = NULL;
 
   LW6SYS_SCRIPT_FUNCTION_BEGIN;
   lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
@@ -59,8 +59,8 @@ _scm_lw6gfx_get_backends ()
 	    {
 	      if (key->data)
 		{
-		  module_id = (char *) key->data;
-		  module_name = (char *) lw6sys_assoc_get (sys_context, backends, module_id);
+		  module_id = (const char *) key->data;
+		  module_name = (const char *) lw6sys_assoc_get (sys_context, backends, module_id);
 		  ret = scm_cons (scm_cons (scm_from_locale_string (module_id), scm_from_locale_string (module_name)), ret);
 		}
 	      key = lw6sys_list_next (sys_context, key);
