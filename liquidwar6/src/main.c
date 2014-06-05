@@ -46,6 +46,7 @@ main (int argc, const char *argv[])
 #endif				// LW6_MAC_OS_X
 {
   int ret = 0;
+  lw6sys_context_t *sys_context = NULL;
 
   LW6SYS_MAIN_BEGIN;
   LW6HLP_MAIN_BEGIN;

@@ -26,7 +26,7 @@
 #include "liquidwar6.h"
 
 static void *
-guile_main (void *data)
+_guile_main (lw6sys_context_t * sys_context, void *data)
 {
   char *script = NULL;
 
@@ -40,13 +40,13 @@ guile_main (void *data)
 #endif
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("registering C types and functions for Guile"));
-  lw6_register_smobs ();
-  lw6_register_funcs ();
+  lw6_register_smobs (sys_context);
+  lw6_register_funcs (sys_context);
 
-  script = lw6sys_get_script_file (lw6_global.argc, lw6_global.argv);
+  script = lw6sys_get_script_file (sys_context, lw6_global.argc, lw6_global.argv);
   if (script)
     {
-      if (lw6sys_file_exists (script))
+      if (lw6sys_file_exists (sys_context, script))
 	{
 	  lw6scm_c_primitive_load (sys_context, script);
 	}
@@ -65,7 +65,7 @@ guile_main (void *data)
    * so we just wait, and Guile does the job for real.
    * Weird, I told you.
    */
-  lw6sys_snooze ();
+  lw6sys_snooze (sys_context);
   scm_gc ();
   /*
    * In older versions there was a lw6_quit_global_1 function to
@@ -78,14 +78,14 @@ guile_main (void *data)
 }
 
 static void
-_run (void *data)
+_run (lw6sys_context_t * sys_context, void *data)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("main run data=%p"), data);
-  lw6scm_with_guile (sys_context, guile_main, data);
+  lw6scm_with_guile (sys_context, _guile_main, data);
 }
 
 static void
-_end (void *data)
+_end (lw6sys_context_t * sys_context, void *data)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("main end data=%p"), data);
 }
@@ -93,6 +93,7 @@ _end (void *data)
 /**
  * lw6_main:
  *
+ * @sys_context: global system context
  * @argc: the argc parameter of the @main function, that is, the number
  *   of command-line args.
  * @argv: the argv parameter of the @main function, that is, an array
@@ -112,7 +113,7 @@ _end (void *data)
  *   use is "return !lw6_main(argc, argv);".
  */
 int
-lw6_main (sys_context, int argc, const char *argv[])
+lw6_main (lw6sys_context_t * sys_context, int argc, const char *argv[])
 {
   int ret = 0;
   char *debug_str = NULL;
@@ -136,14 +137,14 @@ lw6_main (sys_context, int argc, const char *argv[])
       log_level_str = lw6cfg_unified_get_value (sys_context, argc, argv, LW6DEF_LOG_LEVEL);
       if (log_level_str)
 	{
-	  log_level = lw6sys_atoi (log_level_str);
-	  lw6sys_log_set_level (log_level);
+	  log_level = lw6sys_atoi (sys_context, log_level_str);
+	  lw6sys_log_set_level (sys_context, log_level);
 	  LW6SYS_FREE (sys_context, log_level_str);
 	}
       log_file = lw6cfg_unified_get_log_file (sys_context, argc, argv);
       if (log_file)
 	{
-	  lw6sys_log_clear (log_file);
+	  lw6sys_log_clear (sys_context, log_file);
 	  LW6SYS_FREE (sys_context, log_file);
 	}
       else
@@ -162,8 +163,8 @@ lw6_main (sys_context, int argc, const char *argv[])
 	      ret = 0;
 	    }
 #else
-	  _run (NULL);
-	  _end (NULL);
+	  _run (sys_context, NULL);
+	  _end (sys_context, NULL);
 #endif
 
 	  if (ret)
@@ -186,20 +187,20 @@ lw6_main (sys_context, int argc, const char *argv[])
 	   * destructors (even for "chained" objects like game_struct)
 	   * do not need to access SCM objects.
 	   */
-	  lw6_quit_global ();
+	  lw6_quit_global (sys_context);
 	}
 
       lw6hlp_print_goodbye (sys_context);
     }
   else
     {
-      lw6sys_clear_memory_bazooka ();
+      lw6sys_clear_memory_bazooka (sys_context);
     }
 
   pid_file = lw6sys_daemon_pid_file (sys_context, argc, argv);
   if (pid_file)
     {
-      lw6sys_daemon_stop (pid_file);
+      lw6sys_daemon_stop (sys_context, pid_file);
       LW6SYS_FREE (sys_context, pid_file);
     }
 

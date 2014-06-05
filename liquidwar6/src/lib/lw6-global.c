@@ -73,53 +73,53 @@ lw6_init_global (lw6sys_context_t * sys_context, int argc, const char *argv[])
   ret =
     ((lw6_global.dsp_smobs =
       lw6sys_assoc_new (sys_context,
-			(void (*)(void *)) lw6_free_dsp_smob)) != NULL)
+			(lw6sys_free_func_t) lw6_free_dsp_smob)) != NULL)
     &&
     ((lw6_global.snd_smobs =
       lw6sys_assoc_new (sys_context,
-			(void (*)(void *)) lw6_free_snd_smob)) != NULL)
+			(lw6sys_free_func_t) lw6_free_snd_smob)) != NULL)
     &&
     ((lw6_global.map_smobs =
       lw6sys_assoc_new (sys_context,
-			(void (*)(void *)) lw6_free_map_smob)) != NULL)
+			(lw6sys_free_func_t) lw6_free_map_smob)) != NULL)
     &&
     ((lw6_global.menu_smobs =
       lw6sys_assoc_new (sys_context,
-			(void (*)(void *)) lw6_free_menu_smob)) != NULL)
+			(lw6sys_free_func_t) lw6_free_menu_smob)) != NULL)
     &&
     ((lw6_global.game_struct_smobs =
       lw6sys_assoc_new (sys_context,
-			(void (*)(void *)) lw6_free_game_struct_smob)) !=
+			(lw6sys_free_func_t) lw6_free_game_struct_smob)) !=
      NULL)
     &&
     ((lw6_global.game_state_smobs =
       lw6sys_assoc_new (sys_context,
-			(void (*)(void *)) lw6_free_game_state_smob)) != NULL)
+			(lw6sys_free_func_t) lw6_free_game_state_smob)) != NULL)
     &&
     ((lw6_global.pilot_smobs =
       lw6sys_assoc_new (sys_context,
-			(void (*)(void *)) lw6_free_pilot_smob)) != NULL)
+			(lw6sys_free_func_t) lw6_free_pilot_smob)) != NULL)
     &&
     ((lw6_global.bot_smobs =
       lw6sys_assoc_new (sys_context,
-			(void (*)(void *)) lw6_free_bot_smob)) != NULL)
+			(lw6sys_free_func_t) lw6_free_bot_smob)) != NULL)
     &&
     ((lw6_global.look_smobs =
       lw6sys_assoc_new (sys_context,
-			(void (*)(void *)) lw6_free_look_smob)) != NULL)
+			(lw6sys_free_func_t) lw6_free_look_smob)) != NULL)
     &&
     ((lw6_global.loader_smobs =
       lw6sys_assoc_new (sys_context,
-			(void (*)(void *)) lw6_free_loader_smob)) != NULL)
+			(lw6sys_free_func_t) lw6_free_loader_smob)) != NULL)
     &&
     ((lw6_global.db_smobs =
       lw6sys_assoc_new (sys_context,
-			(void (*)(void *)) lw6_free_db_smob)) != NULL)
+			(lw6sys_free_func_t) lw6_free_db_smob)) != NULL)
     &&
     ((lw6_global.node_smobs =
       lw6sys_assoc_new (sys_context,
-			(void (*)(void *)) lw6_free_node_smob)) != NULL)
-    && ((lw6_global.jpeg_smobs = lw6sys_assoc_new (sys_context, (void (*)(void *)) lw6_free_jpeg_smob)) != NULL);
+			(lw6sys_free_func_t) lw6_free_node_smob)) != NULL)
+    && ((lw6_global.jpeg_smobs = lw6sys_assoc_new (sys_context, (lw6sys_free_func_t) lw6_free_jpeg_smob)) != NULL);
 
   if (ret)
     {
@@ -141,7 +141,7 @@ lw6_init_global (lw6sys_context_t * sys_context, int argc, const char *argv[])
 }
 
 static void
-quit_cfg (lw6sys_context_t * sys_context)
+_quit_cfg (lw6sys_context_t * sys_context)
 {
   if (lw6_global.cfg_initialized && (lw6_global.cfg_context != NULL))
     {
@@ -152,7 +152,7 @@ quit_cfg (lw6sys_context_t * sys_context)
 }
 
 static void
-quit_cns (lw6sys_context_t * sys_context)
+_quit_cns (lw6sys_context_t * sys_context)
 {
   if (lw6_global.cns_initialized)
     {
@@ -162,7 +162,7 @@ quit_cns (lw6sys_context_t * sys_context)
 }
 
 static void
-quit_net (lw6sys_context_t * sys_context)
+_quit_net (lw6sys_context_t * sys_context)
 {
   if (lw6_global.net_initialized)
     {
@@ -259,9 +259,9 @@ lw6_quit_global (lw6sys_context_t * sys_context)
 
   LW6_MUTEX_UNLOCK;
 
-  quit_cns (sys_context);
-  quit_net (sys_context);
-  quit_cfg (sys_context);
+  _quit_cns (sys_context);
+  _quit_net (sys_context);
+  _quit_cfg (sys_context);
 
   pthread_mutex_destroy (&lw6_global.mutex);
   memset (&lw6_global, 0, sizeof (lw6_global_t));

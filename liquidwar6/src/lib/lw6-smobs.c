@@ -41,11 +41,11 @@
 #define SMOB_TYPE_JPEG "lw6img-jpeg"
 
 static char *
-smob_id (char *type, int id)
+_smob_id (lw6sys_context_t * sys_context, char *type, int id)
 {
   char *ret = NULL;
 
-  ret = lw6sys_new_sprintf ("%s %d", type, id);
+  ret = lw6sys_new_sprintf (sys_context, "%s %d", type, id);
 
   return ret;
 }
@@ -54,9 +54,12 @@ smob_id (char *type, int id)
  * Display smob
  */
 static SCM
-mark_dsp (SCM dsp)
+_mark_dsp (SCM dsp)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6_dsp_smob_t *dsp_smob = (lw6_dsp_smob_t *) SCM_SMOB_DATA (dsp);
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark dsp smob"));
 
   scm_gc_mark (dsp_smob->level);
   scm_gc_mark (dsp_smob->game_struct);
@@ -67,27 +70,28 @@ mark_dsp (SCM dsp)
 }
 
 static size_t
-free_dsp (SCM dsp)
+_free_dsp (SCM dsp)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_dsp_smob_t *dsp_smob = (lw6_dsp_smob_t *) SCM_SMOB_DATA (dsp);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect dsp smob"));
-  id = smob_id (SMOB_TYPE_DSP, dsp_smob->c_dsp->id);
+  id = _smob_id (sys_context, SMOB_TYPE_DSP, dsp_smob->c_dsp->id);
   if (id)
     {
       if (lw6_global.dsp_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free dsp smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.dsp_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.dsp_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free dsp smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -96,8 +100,9 @@ free_dsp (SCM dsp)
 }
 
 static int
-print_dsp (SCM dsp, SCM port, scm_print_state * pstate)
+_print_dsp (SCM dsp, SCM port, scm_print_state * pstate)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6dsp_backend_t *c_dsp = lw6_scm_to_dsp (sys_context, dsp);
   char *repr = NULL;
 
@@ -117,6 +122,7 @@ print_dsp (SCM dsp, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_dsp
  *
+ * @sys_context: global system context
  * @c_dsp: the display object
  *
  * Creates an SCM 'dsp' object from C data.
@@ -124,7 +130,7 @@ print_dsp (SCM dsp, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_dsp (sys_context, lw6dsp_backend_t * c_dsp)
+lw6_make_scm_dsp (lw6sys_context_t * sys_context, lw6dsp_backend_t * c_dsp)
 {
   // c_dsp is supposed to have been initialized with lw6dsp_init()
   char *repr = NULL;
@@ -141,7 +147,7 @@ lw6_make_scm_dsp (sys_context, lw6dsp_backend_t * c_dsp)
       dsp_smob->game_struct = SCM_BOOL_F;	// initialized later with update
       dsp_smob->game_state = SCM_BOOL_F;	// initialized later with update
       dsp_smob->pilot = SCM_BOOL_F;	// initialized later with update
-      id = smob_id (SMOB_TYPE_DSP, c_dsp->id);
+      id = _smob_id (sys_context, SMOB_TYPE_DSP, c_dsp->id);
       if (id)
 	{
 	  repr = lw6dsp_repr (sys_context, c_dsp);
@@ -153,7 +159,7 @@ lw6_make_scm_dsp (sys_context, lw6dsp_backend_t * c_dsp)
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -167,6 +173,7 @@ lw6_make_scm_dsp (sys_context, lw6dsp_backend_t * c_dsp)
 /**
  * lw6_scm_to_dsp
  *
+ * @sys_context: global system context
  * @dsp: the dsp to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -175,7 +182,7 @@ lw6_make_scm_dsp (sys_context, lw6dsp_backend_t * c_dsp)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6dsp_backend_t *
-lw6_scm_to_dsp (sys_context, SCM dsp)
+lw6_scm_to_dsp (lw6sys_context_t * sys_context, SCM dsp)
 {
   lw6dsp_backend_t *c_dsp;
 
@@ -187,6 +194,7 @@ lw6_scm_to_dsp (sys_context, SCM dsp)
 /**
  * lw6_free_dsp_smob
  *
+ * @sys_context: global system context
  * @dsp_smob: the smob to free
  *
  * Frees a dsp smob, we need a special function to do
@@ -197,7 +205,7 @@ lw6_scm_to_dsp (sys_context, SCM dsp)
  * Return value: none
  */
 void
-lw6_free_dsp_smob (sys_context, lw6_dsp_smob_t * dsp_smob)
+lw6_free_dsp_smob (lw6sys_context_t * sys_context, lw6_dsp_smob_t * dsp_smob)
 {
   char *repr = NULL;
 
@@ -217,33 +225,38 @@ lw6_free_dsp_smob (sys_context, lw6_dsp_smob_t * dsp_smob)
  * Sound smob
  */
 static SCM
-mark_snd (SCM snd)
+_mark_snd (SCM snd)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark snd smob"));
+
   return SCM_BOOL_F;
 }
 
 static size_t
-free_snd (SCM snd)
+_free_snd (SCM snd)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_snd_smob_t *snd_smob = (lw6_snd_smob_t *) SCM_SMOB_DATA (snd);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect snd smob"));
-  id = smob_id (SMOB_TYPE_SND, snd_smob->c_snd->id);
+  id = _smob_id (sys_context, SMOB_TYPE_SND, snd_smob->c_snd->id);
   if (id)
     {
       if (lw6_global.snd_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free snd smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.snd_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.snd_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free snd smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -252,8 +265,9 @@ free_snd (SCM snd)
 }
 
 static int
-print_snd (SCM snd, SCM port, scm_print_state * pstate)
+_print_snd (SCM snd, SCM port, scm_print_state * pstate)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6snd_backend_t *c_snd = lw6_scm_to_snd (sys_context, snd);
   char *repr = NULL;
 
@@ -273,6 +287,7 @@ print_snd (SCM snd, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_snd
  *
+ * @sys_context: global system context
  * @c_snd: the sound object
  *
  * Creates an SCM 'snd' object from C data.
@@ -280,7 +295,7 @@ print_snd (SCM snd, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_snd (sys_context, lw6snd_backend_t * c_snd)
+lw6_make_scm_snd (lw6sys_context_t * sys_context, lw6snd_backend_t * c_snd)
 {
 // c_snd is supposed to have been initialized with lw6snd_init()
   char *repr = NULL;
@@ -293,7 +308,7 @@ lw6_make_scm_snd (sys_context, lw6snd_backend_t * c_snd)
   if (snd_smob)
     {
       snd_smob->c_snd = c_snd;
-      id = smob_id (SMOB_TYPE_SND, c_snd->id);
+      id = _smob_id (sys_context, SMOB_TYPE_SND, c_snd->id);
       if (id)
 	{
 	  repr = lw6snd_repr (sys_context, c_snd);
@@ -305,7 +320,7 @@ lw6_make_scm_snd (sys_context, lw6snd_backend_t * c_snd)
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -319,6 +334,7 @@ lw6_make_scm_snd (sys_context, lw6snd_backend_t * c_snd)
 /**
  * lw6_scm_to_snd
  *
+ * @sys_context: global system context
  * @snd: the snd to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -327,7 +343,7 @@ lw6_make_scm_snd (sys_context, lw6snd_backend_t * c_snd)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6snd_backend_t *
-lw6_scm_to_snd (sys_context, SCM snd)
+lw6_scm_to_snd (lw6sys_context_t * sys_context, SCM snd)
 {
   lw6snd_backend_t *c_snd;
 
@@ -339,6 +355,7 @@ lw6_scm_to_snd (sys_context, SCM snd)
 /**
  * lw6_free_snd_smob
  *
+ * @sys_context: global system context
  * @snd_smob: the smob to free
  *
  * Frees a snd smob, we need a special function to do
@@ -349,7 +366,7 @@ lw6_scm_to_snd (sys_context, SCM snd)
  * Return value: none
  */
 void
-lw6_free_snd_smob (sys_context, lw6_snd_smob_t * snd_smob)
+lw6_free_snd_smob (lw6sys_context_t * sys_context, lw6_snd_smob_t * snd_smob)
 {
   char *repr = NULL;
 
@@ -369,33 +386,38 @@ lw6_free_snd_smob (sys_context, lw6_snd_smob_t * snd_smob)
  * Map smob
  */
 static SCM
-mark_map (SCM map)
+_mark_map (SCM map)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark map smob"));
+
   return SCM_BOOL_F;
 }
 
 static size_t
-free_map (SCM map)
+_free_map (SCM map)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_map_smob_t *map_smob = (lw6_map_smob_t *) SCM_SMOB_DATA (map);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect map smob"));
-  id = smob_id (SMOB_TYPE_MAP, map_smob->c_map->id);
+  id = _smob_id (sys_context, SMOB_TYPE_MAP, map_smob->c_map->id);
   if (id)
     {
       if (lw6_global.map_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free map smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.map_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.map_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free map smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -404,8 +426,9 @@ free_map (SCM map)
 }
 
 static int
-print_map (SCM map, SCM port, scm_print_state * pstate)
+_print_map (SCM map, SCM port, scm_print_state * pstate)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6map_level_t *c_map = lw6_scm_to_map (sys_context, map);
   char *repr = NULL;
 
@@ -425,6 +448,7 @@ print_map (SCM map, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_map
  *
+ * @sys_context: global system context
  * @c_map: the map object
  *
  * Creates an SCM 'map' object from C data.
@@ -432,7 +456,7 @@ print_map (SCM map, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_map (sys_context, lw6map_level_t * c_map)
+lw6_make_scm_map (lw6sys_context_t * sys_context, lw6map_level_t * c_map)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -453,7 +477,7 @@ lw6_make_scm_map (sys_context, lw6map_level_t * c_map)
   if (map_smob)
     {
       map_smob->c_map = c_map;
-      id = smob_id (SMOB_TYPE_MAP, c_map->id);
+      id = _smob_id (sys_context, SMOB_TYPE_MAP, c_map->id);
       if (id)
 	{
 	  repr = lw6map_repr (sys_context, c_map);
@@ -465,7 +489,7 @@ lw6_make_scm_map (sys_context, lw6map_level_t * c_map)
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -479,6 +503,7 @@ lw6_make_scm_map (sys_context, lw6map_level_t * c_map)
 /**
  * lw6_scm_to_map
  *
+ * @sys_context: global system context
  * @map: the map to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -487,7 +512,7 @@ lw6_make_scm_map (sys_context, lw6map_level_t * c_map)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6map_level_t *
-lw6_scm_to_map (sys_context, SCM map)
+lw6_scm_to_map (lw6sys_context_t * sys_context, SCM map)
 {
   lw6map_level_t *c_map;
 
@@ -499,6 +524,7 @@ lw6_scm_to_map (sys_context, SCM map)
 /**
  * lw6_free_map_smob
  *
+ * @sys_context: global system context
  * @map_smob: the smob to free
  *
  * Frees a map smob, we need a special function to do
@@ -509,18 +535,18 @@ lw6_scm_to_map (sys_context, SCM map)
  * Return value: none
  */
 void
-lw6_free_map_smob (sys_context, lw6_map_smob_t * map_smob)
+lw6_free_map_smob (lw6sys_context_t * sys_context, lw6_map_smob_t * map_smob)
 {
   char *repr = NULL;
 
-  repr = lw6map_repr (map_smob->c_map);
+  repr = lw6map_repr (sys_context, map_smob->c_map);
   if (repr)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("freeing map smob \"%s\""), repr);
       LW6SYS_FREE (sys_context, repr);
     }
 
-  lw6map_free (map_smob->c_map);
+  lw6map_free (sys_context, map_smob->c_map);
   LW6SYS_FREE (sys_context, map_smob);
 }
 
@@ -528,33 +554,38 @@ lw6_free_map_smob (sys_context, lw6_map_smob_t * map_smob)
  * Menu smob
  */
 static SCM
-mark_menu (SCM menu)
+_mark_menu (SCM menu)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark menu smob"));
+
   return SCM_BOOL_F;
 }
 
 static size_t
-free_menu (SCM menu)
+_free_menu (SCM menu)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_menu_smob_t *menu_smob = (lw6_menu_smob_t *) SCM_SMOB_DATA (menu);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect menu smob"));
-  id = smob_id (SMOB_TYPE_MENU, menu_smob->c_menu->id);
+  id = _smob_id (sys_context, SMOB_TYPE_MENU, menu_smob->c_menu->id);
   if (id)
     {
       if (lw6_global.menu_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free menu smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.menu_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.menu_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free menu smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -563,8 +594,9 @@ free_menu (SCM menu)
 }
 
 static int
-print_menu (SCM menu, SCM port, scm_print_state * pstate)
+_print_menu (SCM menu, SCM port, scm_print_state * pstate)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6gui_menu_t *c_menu = lw6_scm_to_menu (sys_context, menu);
   char *repr = NULL;
 
@@ -584,6 +616,7 @@ print_menu (SCM menu, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_menu
  *
+ * @sys_context: global system context
  * @c_menu: the menu object
  *
  * Creates an SCM 'menu' object from C data.
@@ -591,7 +624,7 @@ print_menu (SCM menu, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_menu (sys_context, lw6gui_menu_t * c_menu)
+lw6_make_scm_menu (lw6sys_context_t * sys_context, lw6gui_menu_t * c_menu)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -603,7 +636,7 @@ lw6_make_scm_menu (sys_context, lw6gui_menu_t * c_menu)
   if (menu_smob)
     {
       menu_smob->c_menu = c_menu;
-      id = smob_id (SMOB_TYPE_MENU, c_menu->id);
+      id = _smob_id (sys_context, SMOB_TYPE_MENU, c_menu->id);
       if (id)
 	{
 	  repr = lw6gui_menu_repr (sys_context, c_menu);
@@ -615,7 +648,7 @@ lw6_make_scm_menu (sys_context, lw6gui_menu_t * c_menu)
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -629,6 +662,7 @@ lw6_make_scm_menu (sys_context, lw6gui_menu_t * c_menu)
 /**
  * lw6_scm_to_menu
  *
+ * @sys_context: global system context
  * @menu: the menu to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -637,7 +671,7 @@ lw6_make_scm_menu (sys_context, lw6gui_menu_t * c_menu)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6gui_menu_t *
-lw6_scm_to_menu (sys_context, SCM menu)
+lw6_scm_to_menu (lw6sys_context_t * sys_context, SCM menu)
 {
   lw6gui_menu_t *c_menu;
 
@@ -649,6 +683,7 @@ lw6_scm_to_menu (sys_context, SCM menu)
 /**
  * lw6_free_menu_smob
  *
+ * @sys_context: global system context
  * @menu_smob: the smob to free
  *
  * Frees a menu smob, we need a special function to do
@@ -659,7 +694,7 @@ lw6_scm_to_menu (sys_context, SCM menu)
  * Return value: none
  */
 void
-lw6_free_menu_smob (sys_context, lw6_menu_smob_t * menu_smob)
+lw6_free_menu_smob (lw6sys_context_t * sys_context, lw6_menu_smob_t * menu_smob)
 {
   char *repr = NULL;
 
@@ -678,9 +713,12 @@ lw6_free_menu_smob (sys_context, lw6_menu_smob_t * menu_smob)
  * Game struct smob
  */
 static SCM
-mark_game_struct (SCM game_struct)
+_mark_game_struct (SCM game_struct)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6_game_struct_smob_t *game_struct_smob = (lw6_game_struct_smob_t *) SCM_SMOB_DATA (game_struct);
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark game struct smob"));
 
   scm_gc_mark (game_struct_smob->map);
 
@@ -688,27 +726,28 @@ mark_game_struct (SCM game_struct)
 }
 
 static size_t
-free_game_struct (SCM game_struct)
+_free_game_struct (SCM game_struct)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_game_struct_smob_t *game_struct_smob = (lw6_game_struct_smob_t *) SCM_SMOB_DATA (game_struct);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect game struct smob"));
-  id = smob_id (SMOB_TYPE_GAME_STRUCT, game_struct_smob->c_game_struct->id);
+  id = _smob_id (sys_context, SMOB_TYPE_GAME_STRUCT, game_struct_smob->c_game_struct->id);
   if (id)
     {
       if (lw6_global.game_struct_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free game struct smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.game_struct_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.game_struct_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free game struct smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -717,8 +756,9 @@ free_game_struct (SCM game_struct)
 }
 
 static int
-print_game_struct (SCM game_struct, SCM port, scm_print_state * pstate)
+_print_game_struct (SCM game_struct, SCM port, scm_print_state * pstate)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6ker_game_struct_t *c_game_struct = lw6_scm_to_game_struct (sys_context, game_struct);
   char *repr = NULL;
 
@@ -738,6 +778,7 @@ print_game_struct (SCM game_struct, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_game_struct
  *
+ * @sys_context: global system context
  * @c_game_struct: the game struct object
  * @map: the map (SCM object) referenced
  *
@@ -748,7 +789,7 @@ print_game_struct (SCM game_struct, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_game_struct (sys_context, lw6ker_game_struct_t * c_game_struct, SCM map)
+lw6_make_scm_game_struct (lw6sys_context_t * sys_context, lw6ker_game_struct_t * c_game_struct, SCM map)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -761,7 +802,7 @@ lw6_make_scm_game_struct (sys_context, lw6ker_game_struct_t * c_game_struct, SCM
     {
       game_struct_smob->c_game_struct = c_game_struct;
       game_struct_smob->map = map;
-      id = smob_id (SMOB_TYPE_GAME_STRUCT, c_game_struct->id);
+      id = _smob_id (sys_context, SMOB_TYPE_GAME_STRUCT, c_game_struct->id);
       if (id)
 	{
 	  repr = lw6ker_game_struct_repr (sys_context, c_game_struct);
@@ -773,7 +814,7 @@ lw6_make_scm_game_struct (sys_context, lw6ker_game_struct_t * c_game_struct, SCM
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -787,6 +828,7 @@ lw6_make_scm_game_struct (sys_context, lw6ker_game_struct_t * c_game_struct, SCM
 /**
  * lw6_scm_to_game_struct
  *
+ * @sys_context: global system context
  * @game_struct: the game_struct to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -795,7 +837,7 @@ lw6_make_scm_game_struct (sys_context, lw6ker_game_struct_t * c_game_struct, SCM
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6ker_game_struct_t *
-lw6_scm_to_game_struct (sys_context, SCM game_struct)
+lw6_scm_to_game_struct (lw6sys_context_t * sys_context, SCM game_struct)
 {
   lw6ker_game_struct_t *c_game_struct;
 
@@ -807,6 +849,7 @@ lw6_scm_to_game_struct (sys_context, SCM game_struct)
 /**
  * lw6_free_game_struct_smob
  *
+ * @sys_context: global system context
  * @game_struct_smob: the smob to free
  *
  * Frees a game_struct smob, we need a special function to do
@@ -817,7 +860,7 @@ lw6_scm_to_game_struct (sys_context, SCM game_struct)
  * Return value: none
  */
 void
-lw6_free_game_struct_smob (sys_context, lw6_game_struct_smob_t * game_struct_smob)
+lw6_free_game_struct_smob (lw6sys_context_t * sys_context, lw6_game_struct_smob_t * game_struct_smob)
 {
   char *repr = NULL;
 
@@ -836,9 +879,12 @@ lw6_free_game_struct_smob (sys_context, lw6_game_struct_smob_t * game_struct_smo
  * Game state smob
  */
 static SCM
-mark_game_state (SCM game_state)
+_mark_game_state (SCM game_state)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6_game_state_smob_t *game_state_smob = (lw6_game_state_smob_t *) SCM_SMOB_DATA (game_state);
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark game state smob"));
 
   scm_gc_mark (game_state_smob->game_struct);
 
@@ -846,27 +892,28 @@ mark_game_state (SCM game_state)
 }
 
 static size_t
-free_game_state (SCM game_state)
+_free_game_state (SCM game_state)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_game_state_smob_t *game_state_smob = (lw6_game_state_smob_t *) SCM_SMOB_DATA (game_state);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect game state smob"));
-  id = smob_id (SMOB_TYPE_GAME_STATE, game_state_smob->c_game_state->id);
+  id = _smob_id (sys_context, SMOB_TYPE_GAME_STATE, game_state_smob->c_game_state->id);
   if (id)
     {
       if (lw6_global.game_state_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free game state smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.game_state_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.game_state_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free game state smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -875,8 +922,9 @@ free_game_state (SCM game_state)
 }
 
 static int
-print_game_state (SCM game_state, SCM port, scm_print_state * pstate)
+_print_game_state (SCM game_state, SCM port, scm_print_state * pstate)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6ker_game_state_t *c_game_state = lw6_scm_to_game_state (sys_context, game_state);
   char *repr = NULL;
 
@@ -896,6 +944,7 @@ print_game_state (SCM game_state, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_game_state
  *
+ * @sys_context: global system context
  * @c_game_state: the game state object
  * @game_struct: the game struct (SCM object) referenced
  *
@@ -906,7 +955,7 @@ print_game_state (SCM game_state, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_game_state (sys_context, lw6ker_game_state_t * c_game_state, SCM game_struct)
+lw6_make_scm_game_state (lw6sys_context_t * sys_context, lw6ker_game_state_t * c_game_state, SCM game_struct)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -919,7 +968,7 @@ lw6_make_scm_game_state (sys_context, lw6ker_game_state_t * c_game_state, SCM ga
     {
       game_state_smob->c_game_state = c_game_state;
       game_state_smob->game_struct = game_struct;
-      id = smob_id (SMOB_TYPE_GAME_STATE, c_game_state->id);
+      id = _smob_id (sys_context, SMOB_TYPE_GAME_STATE, c_game_state->id);
       if (id)
 	{
 	  repr = lw6ker_game_state_repr (sys_context, c_game_state);
@@ -931,7 +980,7 @@ lw6_make_scm_game_state (sys_context, lw6ker_game_state_t * c_game_state, SCM ga
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -945,6 +994,7 @@ lw6_make_scm_game_state (sys_context, lw6ker_game_state_t * c_game_state, SCM ga
 /**
  * lw6_scm_to_game_state
  *
+ * @sys_context: global system context
  * @game_state: the game_state to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -953,7 +1003,7 @@ lw6_make_scm_game_state (sys_context, lw6ker_game_state_t * c_game_state, SCM ga
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6ker_game_state_t *
-lw6_scm_to_game_state (sys_context, SCM game_state)
+lw6_scm_to_game_state (lw6sys_context_t * sys_context, SCM game_state)
 {
   lw6ker_game_state_t *c_game_state;
 
@@ -965,6 +1015,7 @@ lw6_scm_to_game_state (sys_context, SCM game_state)
 /**
  * lw6_free_game_state_smob
  *
+ * @sys_context: global system context
  * @game_state_smob: the smob to free
  *
  * Frees a game_state smob, we need a special function to do
@@ -975,7 +1026,7 @@ lw6_scm_to_game_state (sys_context, SCM game_state)
  * Return value: none
  */
 void
-lw6_free_game_state_smob (sys_context, lw6_game_state_smob_t * game_state_smob)
+lw6_free_game_state_smob (lw6sys_context_t * sys_context, lw6_game_state_smob_t * game_state_smob)
 {
   char *repr = NULL;
 
@@ -994,33 +1045,38 @@ lw6_free_game_state_smob (sys_context, lw6_game_state_smob_t * game_state_smob)
  * Game pilot smob
  */
 static SCM
-mark_pilot (SCM pilot)
+_mark_pilot (SCM pilot)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark pilot smob"));
+
   return SCM_BOOL_F;
 }
 
 static size_t
-free_pilot (SCM pilot)
+_free_pilot (SCM pilot)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_pilot_smob_t *pilot_smob = (lw6_pilot_smob_t *) SCM_SMOB_DATA (pilot);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect pilot smob"));
-  id = smob_id (SMOB_TYPE_PILOT, pilot_smob->c_pilot->id);
+  id = _smob_id (sys_context, SMOB_TYPE_PILOT, pilot_smob->c_pilot->id);
   if (id)
     {
       if (lw6_global.pilot_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free pilot smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.pilot_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.pilot_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free pilot smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -1029,8 +1085,9 @@ free_pilot (SCM pilot)
 }
 
 static int
-print_pilot (SCM pilot, SCM port, scm_print_state * pstate)
+_print_pilot (SCM pilot, SCM port, scm_print_state * pstate)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6pil_pilot_t *c_pilot = lw6_scm_to_pilot (sys_context, pilot);
   char *repr = NULL;
 
@@ -1050,6 +1107,7 @@ print_pilot (SCM pilot, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_pilot
  *
+ * @sys_context: global system context
  * @c_pilot: the pilot object
  *
  * Creates an SCM 'pilot' object from C data.
@@ -1057,7 +1115,7 @@ print_pilot (SCM pilot, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_pilot (sys_context, lw6pil_pilot_t * c_pilot)
+lw6_make_scm_pilot (lw6sys_context_t * sys_context, lw6pil_pilot_t * c_pilot)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -1069,7 +1127,7 @@ lw6_make_scm_pilot (sys_context, lw6pil_pilot_t * c_pilot)
   if (pilot_smob)
     {
       pilot_smob->c_pilot = c_pilot;
-      id = smob_id (SMOB_TYPE_PILOT, c_pilot->id);
+      id = _smob_id (sys_context, SMOB_TYPE_PILOT, c_pilot->id);
       if (id)
 	{
 	  repr = lw6pil_pilot_repr (sys_context, c_pilot);
@@ -1081,7 +1139,7 @@ lw6_make_scm_pilot (sys_context, lw6pil_pilot_t * c_pilot)
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -1095,6 +1153,7 @@ lw6_make_scm_pilot (sys_context, lw6pil_pilot_t * c_pilot)
 /**
  * lw6_scm_to_pilot
  *
+ * @sys_context: global system context
  * @pilot: the pilot to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -1103,7 +1162,7 @@ lw6_make_scm_pilot (sys_context, lw6pil_pilot_t * c_pilot)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6pil_pilot_t *
-lw6_scm_to_pilot (sys_context, SCM pilot)
+lw6_scm_to_pilot (lw6sys_context_t * sys_context, SCM pilot)
 {
   lw6pil_pilot_t *c_pilot;
 
@@ -1115,6 +1174,7 @@ lw6_scm_to_pilot (sys_context, SCM pilot)
 /**
  * lw6_free_pilot_smob
  *
+ * @sys_context: global system context
  * @pilot_smob: the smob to free
  *
  * Frees a pilot smob, we need a special function to do
@@ -1125,7 +1185,7 @@ lw6_scm_to_pilot (sys_context, SCM pilot)
  * Return value: none
  */
 void
-lw6_free_pilot_smob (sys_context, lw6_pilot_smob_t * pilot_smob)
+lw6_free_pilot_smob (lw6sys_context_t * sys_context, lw6_pilot_smob_t * pilot_smob)
 {
   char *repr = NULL;
 
@@ -1144,9 +1204,12 @@ lw6_free_pilot_smob (sys_context, lw6_pilot_smob_t * pilot_smob)
  * Game bot smob
  */
 static SCM
-mark_bot (SCM bot)
+_mark_bot (SCM bot)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6_bot_smob_t *bot_smob = (lw6_bot_smob_t *) SCM_SMOB_DATA (bot);
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark bot smob"));
 
   scm_gc_mark (bot_smob->game_state);
   scm_gc_mark (bot_smob->pilot);
@@ -1155,27 +1218,28 @@ mark_bot (SCM bot)
 }
 
 static size_t
-free_bot (SCM bot)
+_free_bot (SCM bot)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_bot_smob_t *bot_smob = (lw6_bot_smob_t *) SCM_SMOB_DATA (bot);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect bot smob"));
-  id = smob_id (SMOB_TYPE_BOT, bot_smob->c_bot->id);
+  id = _smob_id (sys_context, SMOB_TYPE_BOT, bot_smob->c_bot->id);
   if (id)
     {
       if (lw6_global.bot_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free bot smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.bot_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.bot_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free bot smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -1184,8 +1248,9 @@ free_bot (SCM bot)
 }
 
 static int
-print_bot (SCM bot, SCM port, scm_print_state * pstate)
+_print_bot (SCM bot, SCM port, scm_print_state * pstate)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6bot_backend_t *c_bot = lw6_scm_to_bot (sys_context, bot);
   char *repr = NULL;
 
@@ -1205,6 +1270,7 @@ print_bot (SCM bot, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_bot
  *
+ * @sys_context: global system context
  * @c_bot: the bot object
  * @game_state: the game state
  * @pilot: the pilot
@@ -1216,7 +1282,7 @@ print_bot (SCM bot, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_bot (sys_context, lw6bot_backend_t * c_bot, SCM game_state, SCM pilot)
+lw6_make_scm_bot (lw6sys_context_t * sys_context, lw6bot_backend_t * c_bot, SCM game_state, SCM pilot)
 {
 // c_bot is supposed to have been initialized with lw6bot_init()
   char *repr = NULL;
@@ -1231,7 +1297,7 @@ lw6_make_scm_bot (sys_context, lw6bot_backend_t * c_bot, SCM game_state, SCM pil
       bot_smob->c_bot = c_bot;
       bot_smob->game_state = game_state;
       bot_smob->pilot = pilot;
-      id = smob_id (SMOB_TYPE_BOT, c_bot->id);
+      id = _smob_id (sys_context, SMOB_TYPE_BOT, c_bot->id);
       if (id)
 	{
 	  repr = lw6bot_repr (sys_context, c_bot);
@@ -1243,7 +1309,7 @@ lw6_make_scm_bot (sys_context, lw6bot_backend_t * c_bot, SCM game_state, SCM pil
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -1257,6 +1323,7 @@ lw6_make_scm_bot (sys_context, lw6bot_backend_t * c_bot, SCM game_state, SCM pil
 /**
  * lw6_scm_to_bot
  *
+ * @sys_context: global system context
  * @bot: the bot to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -1265,7 +1332,7 @@ lw6_make_scm_bot (sys_context, lw6bot_backend_t * c_bot, SCM game_state, SCM pil
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6bot_backend_t *
-lw6_scm_to_bot (sys_context, SCM bot)
+lw6_scm_to_bot (lw6sys_context_t * sys_context, SCM bot)
 {
   lw6bot_backend_t *c_bot;
 
@@ -1277,6 +1344,7 @@ lw6_scm_to_bot (sys_context, SCM bot)
 /**
  * lw6_free_bot_smob
  *
+ * @sys_context: global system context
  * @bot_smob: the smob to free
  *
  * Frees a bot smob, we need a special function to do
@@ -1287,7 +1355,7 @@ lw6_scm_to_bot (sys_context, SCM bot)
  * Return value: none
  */
 void
-lw6_free_bot_smob (sys_context, lw6_bot_smob_t * bot_smob)
+lw6_free_bot_smob (lw6sys_context_t * sys_context, lw6_bot_smob_t * bot_smob)
 {
   char *repr = NULL;
 
@@ -1307,33 +1375,38 @@ lw6_free_bot_smob (sys_context, lw6_bot_smob_t * bot_smob)
  * Game look smob
  */
 static SCM
-mark_look (SCM look)
+_mark_look (SCM look)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark look smob"));
+
   return SCM_BOOL_F;
 }
 
 static size_t
-free_look (SCM look)
+_free_look (SCM look)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_look_smob_t *look_smob = (lw6_look_smob_t *) SCM_SMOB_DATA (look);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect look smob"));
-  id = smob_id (SMOB_TYPE_LOOK, look_smob->c_look->id);
+  id = _smob_id (sys_context, SMOB_TYPE_LOOK, look_smob->c_look->id);
   if (id)
     {
       if (lw6_global.look_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free look smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.look_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.look_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free look smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -1342,8 +1415,9 @@ free_look (SCM look)
 }
 
 static int
-print_look (SCM look, SCM port, scm_print_state * pstate)
+_print_look (SCM look, SCM port, scm_print_state * pstate)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6gui_look_t *c_look = lw6_scm_to_look (sys_context, look);
   char *repr = NULL;
 
@@ -1363,6 +1437,7 @@ print_look (SCM look, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_look
  *
+ * @sys_context: global system context
  * @c_look: the look object
  *
  * Creates an SCM 'look' object from C data.
@@ -1370,7 +1445,7 @@ print_look (SCM look, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_look (sys_context, lw6gui_look_t * c_look)
+lw6_make_scm_look (lw6sys_context_t * sys_context, lw6gui_look_t * c_look)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -1382,7 +1457,7 @@ lw6_make_scm_look (sys_context, lw6gui_look_t * c_look)
   if (look_smob)
     {
       look_smob->c_look = c_look;
-      id = smob_id (SMOB_TYPE_LOOK, c_look->id);
+      id = _smob_id (sys_context, SMOB_TYPE_LOOK, c_look->id);
       if (id)
 	{
 	  repr = lw6gui_look_repr (sys_context, c_look);
@@ -1394,7 +1469,7 @@ lw6_make_scm_look (sys_context, lw6gui_look_t * c_look)
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -1408,6 +1483,7 @@ lw6_make_scm_look (sys_context, lw6gui_look_t * c_look)
 /**
  * lw6_scm_to_look
  *
+ * @sys_context: global system context
  * @look: the look to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -1416,7 +1492,7 @@ lw6_make_scm_look (sys_context, lw6gui_look_t * c_look)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6gui_look_t *
-lw6_scm_to_look (sys_context, SCM look)
+lw6_scm_to_look (lw6sys_context_t * sys_context, SCM look)
 {
   lw6gui_look_t *c_look;
 
@@ -1428,6 +1504,7 @@ lw6_scm_to_look (sys_context, SCM look)
 /**
  * lw6_free_look_smob
  *
+ * @sys_context: global system context
  * @look_smob: the smob to free
  *
  * Frees a look smob, we need a special function to do
@@ -1438,7 +1515,7 @@ lw6_scm_to_look (sys_context, SCM look)
  * Return value: none
  */
 void
-lw6_free_look_smob (sys_context, lw6_look_smob_t * look_smob)
+lw6_free_look_smob (lw6sys_context_t * sys_context, lw6_look_smob_t * look_smob)
 {
   char *repr = NULL;
 
@@ -1457,33 +1534,38 @@ lw6_free_look_smob (sys_context, lw6_look_smob_t * look_smob)
  * Loader smob
  */
 static SCM
-mark_loader (SCM loader)
+_mark_loader (SCM loader)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark loader smob"));
+
   return SCM_BOOL_F;
 }
 
 static size_t
-free_loader (SCM loader)
+_free_loader (SCM loader)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_loader_smob_t *loader_smob = (lw6_loader_smob_t *) SCM_SMOB_DATA (loader);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect loader smob"));
-  id = smob_id (SMOB_TYPE_LOADER, loader_smob->c_loader->id);
+  id = _smob_id (sys_context, SMOB_TYPE_LOADER, loader_smob->c_loader->id);
   if (id)
     {
       if (lw6_global.loader_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free loader smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.loader_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.loader_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free loader smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -1492,8 +1574,9 @@ free_loader (SCM loader)
 }
 
 static int
-print_loader (SCM loader, SCM port, scm_print_state * pstate)
+_print_loader (SCM loader, SCM port, scm_print_state * pstate)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6tsk_loader_t *c_loader = lw6_scm_to_loader (sys_context, loader);
   char *repr = NULL;
 
@@ -1513,6 +1596,7 @@ print_loader (SCM loader, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_loader
  *
+ * @sys_context: global system context
  * @c_loader: the loader object
  *
  * Creates an SCM 'loader' object from C data.
@@ -1520,7 +1604,7 @@ print_loader (SCM loader, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_loader (sys_context, lw6tsk_loader_t * c_loader)
+lw6_make_scm_loader (lw6sys_context_t * sys_context, lw6tsk_loader_t * c_loader)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -1532,7 +1616,7 @@ lw6_make_scm_loader (sys_context, lw6tsk_loader_t * c_loader)
   if (loader_smob)
     {
       loader_smob->c_loader = c_loader;
-      id = smob_id (SMOB_TYPE_LOADER, c_loader->id);
+      id = _smob_id (sys_context, SMOB_TYPE_LOADER, c_loader->id);
       if (id)
 	{
 	  repr = lw6tsk_loader_repr (sys_context, c_loader);
@@ -1544,7 +1628,7 @@ lw6_make_scm_loader (sys_context, lw6tsk_loader_t * c_loader)
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -1558,6 +1642,7 @@ lw6_make_scm_loader (sys_context, lw6tsk_loader_t * c_loader)
 /**
  * lw6_scm_to_loader
  *
+ * @sys_context: global system context
  * @loader: the loader to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -1566,7 +1651,7 @@ lw6_make_scm_loader (sys_context, lw6tsk_loader_t * c_loader)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6tsk_loader_t *
-lw6_scm_to_loader (sys_context, SCM loader)
+lw6_scm_to_loader (lw6sys_context_t * sys_context, SCM loader)
 {
   lw6tsk_loader_t *c_loader;
 
@@ -1578,6 +1663,7 @@ lw6_scm_to_loader (sys_context, SCM loader)
 /**
  * lw6_free_loader_smob
  *
+ * @sys_context: global system context
  * @loader_smob: the smob to free
  *
  * Frees a loader smob, we need a special function to do
@@ -1588,7 +1674,7 @@ lw6_scm_to_loader (sys_context, SCM loader)
  * Return value: none
  */
 void
-lw6_free_loader_smob (sys_context, lw6_loader_smob_t * loader_smob)
+lw6_free_loader_smob (lw6sys_context_t * sys_context, lw6_loader_smob_t * loader_smob)
 {
   char *repr = NULL;
 
@@ -1607,33 +1693,38 @@ lw6_free_loader_smob (sys_context, lw6_loader_smob_t * loader_smob)
  * Db smob
  */
 static SCM
-mark_db (SCM db)
+_mark_db (SCM db)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark db smob"));
+
   return SCM_BOOL_F;
 }
 
 static size_t
-free_db (SCM db)
+_free_db (SCM db)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_db_smob_t *db_smob = (lw6_db_smob_t *) SCM_SMOB_DATA (db);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect db smob"));
-  id = smob_id (SMOB_TYPE_DB, db_smob->c_db->id);
+  id = _smob_id (sys_context, SMOB_TYPE_DB, db_smob->c_db->id);
   if (id)
     {
       if (lw6_global.db_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free db smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.db_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.db_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free db smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -1642,9 +1733,10 @@ free_db (SCM db)
 }
 
 static int
-print_db (SCM db, SCM port, scm_print_state * pstate)
+_print_db (SCM db, SCM port, scm_print_state * pstate)
 {
-  lw6p2p_db_t *c_db = lw6_scm_to_db (db);
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+  lw6p2p_db_t *c_db = lw6_scm_to_db (sys_context, db);
   char *repr = NULL;
 
   repr = lw6p2p_db_repr (sys_context, c_db);
@@ -1663,6 +1755,7 @@ print_db (SCM db, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_db
  *
+ * @sys_context: global system context
  * @c_db: the database object
  *
  * Creates an SCM 'db' object from C data.
@@ -1670,7 +1763,7 @@ print_db (SCM db, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_db (sys_context, lw6p2p_db_t * c_db)
+lw6_make_scm_db (lw6sys_context_t * sys_context, lw6p2p_db_t * c_db)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -1682,7 +1775,7 @@ lw6_make_scm_db (sys_context, lw6p2p_db_t * c_db)
   if (db_smob)
     {
       db_smob->c_db = c_db;
-      id = smob_id (SMOB_TYPE_DB, c_db->id);
+      id = _smob_id (sys_context, SMOB_TYPE_DB, c_db->id);
       if (id)
 	{
 	  repr = lw6p2p_db_repr (sys_context, c_db);
@@ -1694,7 +1787,7 @@ lw6_make_scm_db (sys_context, lw6p2p_db_t * c_db)
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -1708,6 +1801,7 @@ lw6_make_scm_db (sys_context, lw6p2p_db_t * c_db)
 /**
  * lw6_scm_to_db
  *
+ * @sys_context: global system context
  * @db: the db to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -1716,7 +1810,7 @@ lw6_make_scm_db (sys_context, lw6p2p_db_t * c_db)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6p2p_db_t *
-lw6_scm_to_db (sys_context, SCM db)
+lw6_scm_to_db (lw6sys_context_t * sys_context, SCM db)
 {
   void *c_db;
 
@@ -1728,6 +1822,7 @@ lw6_scm_to_db (sys_context, SCM db)
 /**
  * lw6_free_db_smob
  *
+ * @sys_context: global system context
  * @db_smob: the smob to free
  *
  * Frees a db smob, we need a special function to do
@@ -1738,7 +1833,7 @@ lw6_scm_to_db (sys_context, SCM db)
  * Return value: none
  */
 void
-lw6_free_db_smob (sys_context, lw6_db_smob_t * db_smob)
+lw6_free_db_smob (lw6sys_context_t * sys_context, lw6_db_smob_t * db_smob)
 {
   char *repr = NULL;
 
@@ -1757,9 +1852,12 @@ lw6_free_db_smob (sys_context, lw6_db_smob_t * db_smob)
  * Node smob
  */
 static SCM
-mark_node (SCM node)
+_mark_node (SCM node)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6_node_smob_t *node_smob = (lw6_node_smob_t *) SCM_SMOB_DATA (node);
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark node smob"));
 
   scm_gc_mark (node_smob->db);
 
@@ -1767,27 +1865,28 @@ mark_node (SCM node)
 }
 
 static size_t
-free_node (SCM node)
+_free_node (SCM node)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_node_smob_t *node_smob = (lw6_node_smob_t *) SCM_SMOB_DATA (node);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect node smob"));
-  id = smob_id (SMOB_TYPE_NODE, node_smob->c_node->id);
+  id = _smob_id (sys_context, SMOB_TYPE_NODE, node_smob->c_node->id);
   if (id)
     {
       if (lw6_global.node_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free node smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.node_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.node_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free node smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -1796,8 +1895,9 @@ free_node (SCM node)
 }
 
 static int
-print_node (SCM node, SCM port, scm_print_state * pstate)
+_print_node (SCM node, SCM port, scm_print_state * pstate)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6p2p_node_t *c_node = lw6_scm_to_node (sys_context, node);
   char *repr = NULL;
 
@@ -1817,6 +1917,7 @@ print_node (SCM node, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_node
  *
+ * @sys_context: global system context
  * @c_node: the node object
  * @db: the db (SCM object) referenced
  *
@@ -1827,7 +1928,7 @@ print_node (SCM node, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_node (sys_context, lw6p2p_node_t * c_node, SCM db)
+lw6_make_scm_node (lw6sys_context_t * sys_context, lw6p2p_node_t * c_node, SCM db)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -1841,7 +1942,7 @@ lw6_make_scm_node (sys_context, lw6p2p_node_t * c_node, SCM db)
       node_smob->c_node = c_node;
       node_smob->db = db;
 
-      id = smob_id (SMOB_TYPE_NODE, c_node->id);
+      id = _smob_id (sys_context, SMOB_TYPE_NODE, c_node->id);
       if (id)
 	{
 	  repr = lw6p2p_node_repr (sys_context, c_node);
@@ -1853,7 +1954,7 @@ lw6_make_scm_node (sys_context, lw6p2p_node_t * c_node, SCM db)
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -1867,6 +1968,7 @@ lw6_make_scm_node (sys_context, lw6p2p_node_t * c_node, SCM db)
 /**
  * lw6_scm_to_node
  *
+ * @sys_context: global system context
  * @node: the node to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -1875,7 +1977,7 @@ lw6_make_scm_node (sys_context, lw6p2p_node_t * c_node, SCM db)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6p2p_node_t *
-lw6_scm_to_node (sys_context, SCM node)
+lw6_scm_to_node (lw6sys_context_t * sys_context, SCM node)
 {
   void *c_node;
 
@@ -1887,6 +1989,7 @@ lw6_scm_to_node (sys_context, SCM node)
 /**
  * lw6_free_node_smob
  *
+ * @sys_context: global system context
  * @node_smob: the smob to free
  *
  * Frees a node smob, we need a special function to do
@@ -1897,7 +2000,7 @@ lw6_scm_to_node (sys_context, SCM node)
  * Return value: none
  */
 void
-lw6_free_node_smob (sys_context, lw6_node_smob_t * node_smob)
+lw6_free_node_smob (lw6sys_context_t * sys_context, lw6_node_smob_t * node_smob)
 {
   char *repr = NULL;
 
@@ -1916,33 +2019,38 @@ lw6_free_node_smob (sys_context, lw6_node_smob_t * node_smob)
  * Jpeg smob
  */
 static SCM
-mark_jpeg (SCM jpeg)
+_mark_jpeg (SCM jpeg)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mark jpeg smob"));
+
   return SCM_BOOL_F;
 }
 
 static size_t
-free_jpeg (SCM jpeg)
+_free_jpeg (SCM jpeg)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   char *id = NULL;
   lw6_jpeg_smob_t *jpeg_smob = (lw6_jpeg_smob_t *) SCM_SMOB_DATA (jpeg);
 
   LW6_MUTEX_LOCK;
 
   lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("garbage collect jpeg smob"));
-  id = smob_id (SMOB_TYPE_JPEG, jpeg_smob->c_jpeg->id);
+  id = _smob_id (sys_context, SMOB_TYPE_JPEG, jpeg_smob->c_jpeg->id);
   if (id)
     {
       if (lw6_global.jpeg_smobs)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("request free jpeg smob \"%s\""), id);
-	  lw6sys_assoc_unset (lw6_global.jpeg_smobs, id);
+	  lw6sys_assoc_unset (sys_context, lw6_global.jpeg_smobs, id);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("request free jpeg smob \"%s\" but assoc is NULL"), id);
 	}
-      LW6SYS_FREE (id);
+      LW6SYS_FREE (sys_context, id);
     }
 
   LW6_MUTEX_UNLOCK;
@@ -1951,8 +2059,9 @@ free_jpeg (SCM jpeg)
 }
 
 static int
-print_jpeg (SCM jpeg, SCM port, scm_print_state * pstate)
+_print_jpeg (SCM jpeg, SCM port, scm_print_state * pstate)
 {
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
   lw6img_jpeg_t *c_jpeg = lw6_scm_to_jpeg (sys_context, jpeg);
   char *repr = NULL;
 
@@ -1972,6 +2081,7 @@ print_jpeg (SCM jpeg, SCM port, scm_print_state * pstate)
 /**
  * lw6_make_scm_jpeg
  *
+ * @sys_context: global system context
  * @c_jpeg: the database object
  *
  * Creates an SCM 'jpeg' object from C data.
@@ -1979,7 +2089,7 @@ print_jpeg (SCM jpeg, SCM port, scm_print_state * pstate)
  * Return value: the SCM object
  */
 SCM
-lw6_make_scm_jpeg (sys_context, lw6img_jpeg_t * c_jpeg)
+lw6_make_scm_jpeg (lw6sys_context_t * sys_context, lw6img_jpeg_t * c_jpeg)
 {
   char *repr = NULL;
   char *id = NULL;
@@ -1991,7 +2101,7 @@ lw6_make_scm_jpeg (sys_context, lw6img_jpeg_t * c_jpeg)
   if (jpeg_smob)
     {
       jpeg_smob->c_jpeg = c_jpeg;
-      id = smob_id (SMOB_TYPE_JPEG, c_jpeg->id);
+      id = _smob_id (sys_context, SMOB_TYPE_JPEG, c_jpeg->id);
       if (id)
 	{
 	  repr = lw6img_repr (sys_context, c_jpeg);
@@ -2003,7 +2113,7 @@ lw6_make_scm_jpeg (sys_context, lw6img_jpeg_t * c_jpeg)
 	      LW6_MUTEX_UNLOCK;
 	      LW6SYS_FREE (sys_context, repr);
 	    }
-	  LW6SYS_FREE (id);
+	  LW6SYS_FREE (sys_context, id);
 	}
     }
   else
@@ -2017,6 +2127,7 @@ lw6_make_scm_jpeg (sys_context, lw6img_jpeg_t * c_jpeg)
 /**
  * lw6_scm_to_jpeg
  *
+ * @sys_context: global system context
  * @jpeg: the jpeg to convert (SCM object)
  *
  * Gets the internal C pointer corresponding to the
@@ -2025,7 +2136,7 @@ lw6_make_scm_jpeg (sys_context, lw6img_jpeg_t * c_jpeg)
  * Return value: a pointer, *not* a copy, must not be freed
  */
 lw6img_jpeg_t *
-lw6_scm_to_jpeg (sys_context, SCM jpeg)
+lw6_scm_to_jpeg (lw6sys_context_t * sys_context, SCM jpeg)
 {
   void *c_jpeg;
 
@@ -2037,6 +2148,7 @@ lw6_scm_to_jpeg (sys_context, SCM jpeg)
 /**
  * lw6_free_jpeg_smob
  *
+ * @sys_context: global system context
  * @jpeg_smob: the smob to free
  *
  * Frees a jpeg smob, we need a special function to do
@@ -2047,7 +2159,7 @@ lw6_scm_to_jpeg (sys_context, SCM jpeg)
  * Return value: none
  */
 void
-lw6_free_jpeg_smob (sys_context, lw6_jpeg_smob_t * jpeg_smob)
+lw6_free_jpeg_smob (lw6sys_context_t * sys_context, lw6_jpeg_smob_t * jpeg_smob)
 {
   char *repr = NULL;
 
@@ -2065,79 +2177,81 @@ lw6_free_jpeg_smob (sys_context, lw6_jpeg_smob_t * jpeg_smob)
 /**
  * lw6_register_smobs
  *
+ * @sys_context: global system context
+ *
  * Register all smobs to Guile.
  *
  * Return value: 1 on success, 0 if failed.
  */
 int
-lw6_register_smobs ()
+lw6_register_smobs (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 
   lw6_global.smob_types.dsp = scm_make_smob_type (SMOB_TYPE_DSP, sizeof (lw6_dsp_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.dsp, mark_dsp);
-  scm_set_smob_free (lw6_global.smob_types.dsp, free_dsp);
-  scm_set_smob_print (lw6_global.smob_types.dsp, print_dsp);
+  scm_set_smob_mark (lw6_global.smob_types.dsp, _mark_dsp);
+  scm_set_smob_free (lw6_global.smob_types.dsp, _free_dsp);
+  scm_set_smob_print (lw6_global.smob_types.dsp, _print_dsp);
 
   lw6_global.smob_types.snd = scm_make_smob_type (SMOB_TYPE_SND, sizeof (lw6_snd_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.snd, mark_snd);
-  scm_set_smob_free (lw6_global.smob_types.snd, free_snd);
-  scm_set_smob_print (lw6_global.smob_types.snd, print_snd);
+  scm_set_smob_mark (lw6_global.smob_types.snd, _mark_snd);
+  scm_set_smob_free (lw6_global.smob_types.snd, _free_snd);
+  scm_set_smob_print (lw6_global.smob_types.snd, _print_snd);
 
   lw6_global.smob_types.map = scm_make_smob_type (SMOB_TYPE_MAP, sizeof (lw6_map_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.map, mark_map);
-  scm_set_smob_free (lw6_global.smob_types.map, free_map);
-  scm_set_smob_print (lw6_global.smob_types.map, print_map);
+  scm_set_smob_mark (lw6_global.smob_types.map, _mark_map);
+  scm_set_smob_free (lw6_global.smob_types.map, _free_map);
+  scm_set_smob_print (lw6_global.smob_types.map, _print_map);
 
   lw6_global.smob_types.menu = scm_make_smob_type (SMOB_TYPE_MENU, sizeof (lw6_menu_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.menu, mark_menu);
-  scm_set_smob_free (lw6_global.smob_types.menu, free_menu);
-  scm_set_smob_print (lw6_global.smob_types.menu, print_menu);
+  scm_set_smob_mark (lw6_global.smob_types.menu, _mark_menu);
+  scm_set_smob_free (lw6_global.smob_types.menu, _free_menu);
+  scm_set_smob_print (lw6_global.smob_types.menu, _print_menu);
 
   lw6_global.smob_types.game_struct = scm_make_smob_type (SMOB_TYPE_GAME_STRUCT, sizeof (lw6_game_struct_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.game_struct, mark_game_struct);
-  scm_set_smob_free (lw6_global.smob_types.game_struct, free_game_struct);
-  scm_set_smob_print (lw6_global.smob_types.game_struct, print_game_struct);
+  scm_set_smob_mark (lw6_global.smob_types.game_struct, _mark_game_struct);
+  scm_set_smob_free (lw6_global.smob_types.game_struct, _free_game_struct);
+  scm_set_smob_print (lw6_global.smob_types.game_struct, _print_game_struct);
 
   lw6_global.smob_types.game_state = scm_make_smob_type (SMOB_TYPE_GAME_STATE, sizeof (lw6_game_state_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.game_state, mark_game_state);
-  scm_set_smob_free (lw6_global.smob_types.game_state, free_game_state);
-  scm_set_smob_print (lw6_global.smob_types.game_state, print_game_state);
+  scm_set_smob_mark (lw6_global.smob_types.game_state, _mark_game_state);
+  scm_set_smob_free (lw6_global.smob_types.game_state, _free_game_state);
+  scm_set_smob_print (lw6_global.smob_types.game_state, _print_game_state);
 
   lw6_global.smob_types.pilot = scm_make_smob_type (SMOB_TYPE_PILOT, sizeof (lw6_pilot_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.pilot, mark_pilot);
-  scm_set_smob_free (lw6_global.smob_types.pilot, free_pilot);
-  scm_set_smob_print (lw6_global.smob_types.pilot, print_pilot);
+  scm_set_smob_mark (lw6_global.smob_types.pilot, _mark_pilot);
+  scm_set_smob_free (lw6_global.smob_types.pilot, _free_pilot);
+  scm_set_smob_print (lw6_global.smob_types.pilot, _print_pilot);
 
   lw6_global.smob_types.bot = scm_make_smob_type (SMOB_TYPE_BOT, sizeof (lw6_bot_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.bot, mark_bot);
-  scm_set_smob_free (lw6_global.smob_types.bot, free_bot);
-  scm_set_smob_print (lw6_global.smob_types.bot, print_bot);
+  scm_set_smob_mark (lw6_global.smob_types.bot, _mark_bot);
+  scm_set_smob_free (lw6_global.smob_types.bot, _free_bot);
+  scm_set_smob_print (lw6_global.smob_types.bot, _print_bot);
 
   lw6_global.smob_types.look = scm_make_smob_type (SMOB_TYPE_LOOK, sizeof (lw6_look_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.look, mark_look);
-  scm_set_smob_free (lw6_global.smob_types.look, free_look);
-  scm_set_smob_print (lw6_global.smob_types.look, print_look);
+  scm_set_smob_mark (lw6_global.smob_types.look, _mark_look);
+  scm_set_smob_free (lw6_global.smob_types.look, _free_look);
+  scm_set_smob_print (lw6_global.smob_types.look, _print_look);
 
   lw6_global.smob_types.loader = scm_make_smob_type (SMOB_TYPE_LOADER, sizeof (lw6_loader_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.loader, mark_loader);
-  scm_set_smob_free (lw6_global.smob_types.loader, free_loader);
-  scm_set_smob_print (lw6_global.smob_types.loader, print_loader);
+  scm_set_smob_mark (lw6_global.smob_types.loader, _mark_loader);
+  scm_set_smob_free (lw6_global.smob_types.loader, _free_loader);
+  scm_set_smob_print (lw6_global.smob_types.loader, _print_loader);
 
   lw6_global.smob_types.db = scm_make_smob_type (SMOB_TYPE_DB, sizeof (lw6_db_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.db, mark_db);
-  scm_set_smob_free (lw6_global.smob_types.db, free_db);
-  scm_set_smob_print (lw6_global.smob_types.db, print_db);
+  scm_set_smob_mark (lw6_global.smob_types.db, _mark_db);
+  scm_set_smob_free (lw6_global.smob_types.db, _free_db);
+  scm_set_smob_print (lw6_global.smob_types.db, _print_db);
 
   lw6_global.smob_types.node = scm_make_smob_type (SMOB_TYPE_NODE, sizeof (lw6_node_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.node, mark_node);
-  scm_set_smob_free (lw6_global.smob_types.node, free_node);
-  scm_set_smob_print (lw6_global.smob_types.node, print_node);
+  scm_set_smob_mark (lw6_global.smob_types.node, _mark_node);
+  scm_set_smob_free (lw6_global.smob_types.node, _free_node);
+  scm_set_smob_print (lw6_global.smob_types.node, _print_node);
 
   lw6_global.smob_types.jpeg = scm_make_smob_type (SMOB_TYPE_JPEG, sizeof (lw6_jpeg_smob_t));
-  scm_set_smob_mark (lw6_global.smob_types.jpeg, mark_jpeg);
-  scm_set_smob_free (lw6_global.smob_types.jpeg, free_jpeg);
-  scm_set_smob_print (lw6_global.smob_types.jpeg, print_jpeg);
+  scm_set_smob_mark (lw6_global.smob_types.jpeg, _mark_jpeg);
+  scm_set_smob_free (lw6_global.smob_types.jpeg, _free_jpeg);
+  scm_set_smob_print (lw6_global.smob_types.jpeg, _print_jpeg);
 
   return ret;
 }

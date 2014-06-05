@@ -65,6 +65,7 @@ _lw6_test_param_t;
 typedef struct _lw6_test_data_s
 {
   int ret;
+  lw6sys_context_t *sys_context;
   _lw6_test_param_t param;
   _lw6_test_param_t param_a;
   _lw6_test_param_t param_b;
@@ -72,15 +73,15 @@ typedef struct _lw6_test_data_s
   int default_log_level_id;
 } _lw6_test_data_t;
 
-static _lw6_test_data_t _test_data = { 0, {0, 0, NULL, 0, 0, 0, 0}, {0, 0, NULL, 0, 0, 0, 0}, {0, 0, NULL, 0, 0,
-											       0, 0}, {0, 0,
-												       NULL, 0,
-												       0, 0, 0},
+static _lw6_test_data_t _test_data = { 0, NULL, {0, 0, NULL, 0, 0, 0, 0}, {0, 0, NULL, 0, 0, 0, 0}, {0, 0, NULL, 0, 0,
+												     0, 0}, {0, 0,
+													     NULL, 0,
+													     0, 0, 0},
 0
 };
 
 static char *
-get_test_file (int argc, const char **argv, int mode, int suite)
+_get_test_file (lw6sys_context_t * sys_context, int argc, const char **argv, int mode, int suite)
 {
   char *script_file = NULL;
   char *script_dir = NULL;
@@ -89,7 +90,7 @@ get_test_file (int argc, const char **argv, int mode, int suite)
   script_file = lw6sys_get_script_file (sys_context, argc, argv);
   if (script_file)
     {
-      script_dir = lw6sys_path_parent (script_file);
+      script_dir = lw6sys_path_parent (sys_context, script_file);
       if (script_dir)
 	{
 	  if (!(mode & LW6SYS_TEST_MODE_FULL_TEST))
@@ -97,16 +98,16 @@ get_test_file (int argc, const char **argv, int mode, int suite)
 	      switch (suite)
 		{
 		case _TEST_SUITE_NODE_A:
-		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_NODE_A);
+		  ret = lw6sys_path_concat (sys_context, script_dir, _TEST_FILE_0_NODE_A);
 		  break;
 		case _TEST_SUITE_NODE_B:
-		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_NODE_B);
+		  ret = lw6sys_path_concat (sys_context, script_dir, _TEST_FILE_0_NODE_B);
 		  break;
 		case _TEST_SUITE_NODE_C:
-		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_NODE_C);
+		  ret = lw6sys_path_concat (sys_context, script_dir, _TEST_FILE_0_NODE_C);
 		  break;
 		default:
-		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_0_MAIN);
+		  ret = lw6sys_path_concat (sys_context, script_dir, _TEST_FILE_0_MAIN);
 		  break;
 		}
 	    }
@@ -115,16 +116,16 @@ get_test_file (int argc, const char **argv, int mode, int suite)
 	      switch (suite)
 		{
 		case _TEST_SUITE_NODE_A:
-		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_NODE_A);
+		  ret = lw6sys_path_concat (sys_context, script_dir, _TEST_FILE_1_NODE_A);
 		  break;
 		case _TEST_SUITE_NODE_B:
-		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_NODE_B);
+		  ret = lw6sys_path_concat (sys_context, script_dir, _TEST_FILE_1_NODE_B);
 		  break;
 		case _TEST_SUITE_NODE_C:
-		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_NODE_C);
+		  ret = lw6sys_path_concat (sys_context, script_dir, _TEST_FILE_1_NODE_C);
 		  break;
 		default:
-		  ret = lw6sys_path_concat (script_dir, _TEST_FILE_1_MAIN);
+		  ret = lw6sys_path_concat (sys_context, script_dir, _TEST_FILE_1_MAIN);
 		  break;
 		}
 	    }
@@ -147,6 +148,7 @@ static void
 _guile_test_callback (_lw6_test_param_t * param)
 {
   int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
 
   LW6SYS_TEST_FUNCTION_BEGIN;
 
@@ -163,13 +165,13 @@ _guile_test_callback (_lw6_test_param_t * param)
     lw6sys_log_set_level (sys_context, param->log_level_id);
 
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("registering Guile smobs"));
-    if (lw6_register_smobs ())
+    if (lw6_register_smobs (sys_context))
       {
 
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("registering Guile functions"));
-	if (lw6_register_funcs ())
+	if (lw6_register_funcs (sys_context))
 	  {
-	    test_file = get_test_file (param->argc, param->argv, param->mode, param->suite);
+	    test_file = _get_test_file (sys_context, param->argc, param->argv, param->mode, param->suite);
 	    if (test_file)
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("loading \"%s\""), test_file);
@@ -243,7 +245,7 @@ _guile_test_callback (_lw6_test_param_t * param)
 }
 
 static void *
-_guile_test (void *data)
+_guile_test (lw6sys_context_t * sys_context, void *data)
 {
   _lw6_test_param_t *param = (_lw6_test_param_t *) data;
 
@@ -253,7 +255,7 @@ _guile_test (void *data)
 }
 
 static void
-_guile_test_run (void *data)
+_guile_test_run (lw6sys_context_t * sys_context, void *data)
 {
   /*
    * We wait (or not) for some time, to simulate, (randomly!)
@@ -261,7 +263,7 @@ _guile_test_run (void *data)
    */
   if (!lw6sys_random (sys_context, _TEST_RUN_RANDOM_RANGE))
     {
-      lw6sys_snooze ();
+      lw6sys_snooze (sys_context);
     }
 
   lw6scm_with_guile (sys_context, _guile_test, data);
@@ -273,12 +275,15 @@ _guile_test_run (void *data)
 static void
 _test_main ()
 {
-  _guile_test_run (&_test_data.param);
+  lw6sys_context_t *sys_context = _test_data.sys_context;
+
+  _guile_test_run (sys_context, &_test_data.param);
 }
 
 static void
 _test_node_abc ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   u_int64_t pid_b = 0LL;
   u_int64_t pid_c = 0LL;
 
@@ -298,19 +303,19 @@ _test_node_abc ()
    */
   _test_data.param_b.log_level_id = LW6SYS_LOG_ERROR_ID;
   _test_data.param_c.log_level_id = LW6SYS_LOG_ERROR_ID;
-  pid_b = lw6sys_process_fork_and_call (_guile_test_run, &_test_data.param_b);
-  pid_c = lw6sys_process_fork_and_call (_guile_test_run, &_test_data.param_c);
+  pid_b = lw6sys_process_fork_and_call (sys_context, _guile_test_run, &_test_data.param_b);
+  pid_c = lw6sys_process_fork_and_call (sys_context, _guile_test_run, &_test_data.param_c);
   if (pid_b != 0 && pid_c != 0)
     {
-      _guile_test_run (&_test_data.param_a);
+      _guile_test_run (sys_context, &_test_data.param_a);
     }
   if (pid_b != 0)
     {
-      lw6sys_process_kill_1_9 (pid_b);
+      lw6sys_process_kill_1_9 (sys_context, pid_b);
     }
   if (pid_c != 0)
     {
-      lw6sys_process_kill_1_9 (pid_c);
+      lw6sys_process_kill_1_9 (sys_context, pid_c);
     }
   _test_data.param_b.log_level_id = _test_data.default_log_level_id;
   _test_data.param_c.log_level_id = _test_data.default_log_level_id;
@@ -319,6 +324,7 @@ _test_node_abc ()
 static void
 _test_node_bca ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   u_int64_t pid_c = 0LL;
   u_int64_t pid_a = 0LL;
 
@@ -338,19 +344,19 @@ _test_node_bca ()
    */
   _test_data.param_c.log_level_id = LW6SYS_LOG_ERROR_ID;
   _test_data.param_a.log_level_id = LW6SYS_LOG_ERROR_ID;
-  pid_c = lw6sys_process_fork_and_call (_guile_test_run, &_test_data.param_c);
-  pid_a = lw6sys_process_fork_and_call (_guile_test_run, &_test_data.param_a);
+  pid_c = lw6sys_process_fork_and_call (sys_context, _guile_test_run, &_test_data.param_c);
+  pid_a = lw6sys_process_fork_and_call (sys_context, _guile_test_run, &_test_data.param_a);
   if (pid_c != 0 && pid_a != 0)
     {
-      _guile_test_run (&_test_data.param_b);
+      _guile_test_run (sys_context, &_test_data.param_b);
     }
   if (pid_c != 0)
     {
-      lw6sys_process_kill_1_9 (pid_c);
+      lw6sys_process_kill_1_9 (sys_context, pid_c);
     }
   if (pid_a != 0)
     {
-      lw6sys_process_kill_1_9 (pid_a);
+      lw6sys_process_kill_1_9 (sys_context, pid_a);
     }
   _test_data.param_c.log_level_id = _test_data.default_log_level_id;
   _test_data.param_a.log_level_id = _test_data.default_log_level_id;
@@ -359,6 +365,7 @@ _test_node_bca ()
 static void
 _test_node_cab ()
 {
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   u_int64_t pid_a = 0LL;
   u_int64_t pid_b = 0LL;
 
@@ -378,19 +385,19 @@ _test_node_cab ()
    */
   _test_data.param_a.log_level_id = LW6SYS_LOG_ERROR_ID;
   _test_data.param_b.log_level_id = LW6SYS_LOG_ERROR_ID;
-  pid_a = lw6sys_process_fork_and_call (_guile_test_run, &_test_data.param_a);
-  pid_b = lw6sys_process_fork_and_call (_guile_test_run, &_test_data.param_b);
+  pid_a = lw6sys_process_fork_and_call (sys_context, _guile_test_run, &_test_data.param_a);
+  pid_b = lw6sys_process_fork_and_call (sys_context, _guile_test_run, &_test_data.param_b);
   if (pid_a != 0 && pid_b != 0)
     {
-      _guile_test_run (&_test_data.param_c);
+      _guile_test_run (sys_context, &_test_data.param_c);
     }
   if (pid_a != 0)
     {
-      lw6sys_process_kill_1_9 (pid_a);
+      lw6sys_process_kill_1_9 (sys_context, pid_a);
     }
   if (pid_b != 0)
     {
-      lw6sys_process_kill_1_9 (pid_b);
+      lw6sys_process_kill_1_9 (sys_context, pid_b);
     }
   _test_data.param_a.log_level_id = _test_data.default_log_level_id;
   _test_data.param_b.log_level_id = _test_data.default_log_level_id;
@@ -400,6 +407,7 @@ static int
 _setup_init ()
 {
   int ret = CUE_SINIT_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
   const int argc = _TEST_ARGC;
   const char *argv[] = { _TEST_ARGV0 };
 
@@ -411,7 +419,7 @@ _setup_init ()
       _test_data.param.argv = argv;
       _test_data.param.suite = _TEST_SUITE_MAIN;
       _test_data.param.coverage_check = 1;
-      _test_data.param.log_level_id = lw6sys_log_get_level ();
+      _test_data.param.log_level_id = lw6sys_log_get_level (sys_context);
       _test_data.default_log_level_id = _test_data.param.log_level_id;
 
       memcpy (&_test_data.param_a, &_test_data.param, sizeof (_lw6_test_param_t));
@@ -436,10 +444,11 @@ static int
 _setup_quit ()
 {
   int ret = CUE_SCLEAN_FAILED;
+  lw6sys_context_t *sys_context = _test_data.sys_context;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("quit lw6 CUnit test suite"));
 
-  lw6_quit_global ();
+  lw6_quit_global (sys_context);
   lw6sys_log_set_level (sys_context, _test_data.default_log_level_id);
 
   ret = CUE_SUCCESS;
@@ -450,6 +459,7 @@ _setup_quit ()
 /**
  * lw6_test_register
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Registers all tests for the lw6 module.
@@ -457,10 +467,12 @@ _setup_quit ()
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6_test_register (sys_context, int mode)
+lw6_test_register (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 1;
-  CU_Suite *suite;
+  CU_Suite *suite = NULL;
+
+  _test_data.sys_context = sys_context;
 
   if (lw6sys_false ())
     {
@@ -480,7 +492,7 @@ lw6_test_register (sys_context, int mode)
       lw6cfg_test_register (sys_context, mode);
       lw6ldr_test_register (sys_context, mode);
       lw6tsk_test_register (sys_context, mode);
-      lw6mat_test_register (mode);
+      lw6mat_test_register (sys_context, mode);
       lw6gui_test_register (sys_context, mode);
       lw6vox_test_register (sys_context, mode);
       lw6gfx_test_register (sys_context, mode);
@@ -502,6 +514,7 @@ lw6_test_register (sys_context, int mode)
   memset (&_test_data.param_a, 0, sizeof (_lw6_test_param_t));
   memset (&_test_data.param_b, 0, sizeof (_lw6_test_param_t));
   memset (&_test_data.param_c, 0, sizeof (_lw6_test_param_t));
+
   _test_data.param.mode = mode;
 
   suite = CU_add_suite ("lw6", _setup_init, _setup_quit);
@@ -515,7 +528,7 @@ lw6_test_register (sys_context, int mode)
 	{
 	  LW6SYS_CUNIT_ADD_TEST (suite, _test_main);
 	}
-      if (lw6sys_process_is_fully_supported ())
+      if (lw6sys_process_is_fully_supported (sys_context))
 	{
 	  /*
 	   * Switch between lw6sys_true / lw6sys_false to
@@ -563,6 +576,7 @@ lw6_test_register (sys_context, int mode)
 /**
  * lw6_test_run
  *
+ * @sys_context: global system context
  * @mode: test mode (bitmask)
  *
  * Runs the liquidwar6 core module test suite, this will mostly
@@ -573,11 +587,13 @@ lw6_test_register (sys_context, int mode)
  * Return value: 1 if test is successfull, 0 on error.
  */
 int
-lw6_test_run (sys_context, int mode)
+lw6_test_run (lw6sys_context_t * sys_context, int mode)
 {
   int ret = 0;
 
   _test_data.ret = 1;
+  _test_data.sys_context = sys_context;
+
   if (lw6sys_cunit_run_tests (sys_context, mode))
     {
       if (mode & LW6SYS_TEST_MODE_FULL_TEST)
