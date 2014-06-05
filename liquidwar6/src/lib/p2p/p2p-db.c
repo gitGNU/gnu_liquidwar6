@@ -408,7 +408,7 @@ _lw6p2p_db_exec (lw6sys_context_t * sys_context, _lw6p2p_db_t * db, char *sql, _
       callback_data.callback_func = func;
 
       _lw6p2p_db_log (sys_context, db, sql);
-      errcode = sqlite3_exec (db->handler, sql, _lw6p2p_db_sql_callback, func_data, &errmsg);
+      errcode = sqlite3_exec (db->handler, sql, _lw6p2p_db_sql_callback, &callback_data, &errmsg);
       if (errcode == SQLITE_OK)
 	{
 	  ret = 1;

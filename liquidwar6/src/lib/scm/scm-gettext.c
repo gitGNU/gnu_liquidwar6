@@ -44,13 +44,6 @@ lw6scm_gettext (lw6sys_context_t * sys_context, SCM string)
   char *c_string;
   SCM ret = SCM_BOOL_F;
 
-  LW6SYS_SCRIPT_FUNCTION_BEGIN;
-  /*
-   * Coverage call has no sense here, because, well,
-   * yeah, this one is used everywhere.
-   */
-  //lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
-
   SCM_ASSERT (scm_is_string (string), string, SCM_ARG1, __FUNCTION__);
 
   c_string = lw6scm_utils_to_0str (sys_context, string);
@@ -59,8 +52,6 @@ lw6scm_gettext (lw6sys_context_t * sys_context, SCM string)
       ret = scm_from_locale_string (gettext (c_string));
       LW6SYS_FREE (sys_context, c_string);
     }
-
-  LW6SYS_SCRIPT_FUNCTION_END;
 
   return ret;
 }

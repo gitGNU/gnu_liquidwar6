@@ -26,6 +26,22 @@
 
 #include "liquidwar6.h"
 
+static SCM
+_scm_gettext (SCM text)
+{
+  SCM ret = SCM_UNDEFINED;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
+
+  ret = lw6scm_gettext (sys_context, text);
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
 /*
  * Global control functions
  */
@@ -118,13 +134,13 @@ lw6_register_funcs (lw6sys_context_t * sys_context)
 {
   int ret = 1;
 
-  ret = ret && lw6scm_c_define_gsubr (sys_context, "C-GETTEXT", 1, 0, 0, (SCM (*)())lw6scm_gettext);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, "C-GETTEXT", 1, 0, 0, (SCM (*)())_scm_gettext);
   /*
    * This one uses scm_define_gsubr and not the binding
    * lw6scm_c_define_gsubr for _ is not documented due
    * to internal parsing limitations.
    */
-  scm_c_define_gsubr ("_", 1, 0, 0, (SCM (*)())lw6scm_gettext);
+  scm_c_define_gsubr ("_", 1, 0, 0, (SCM (*)())_scm_gettext);
 
   ret = ret && lw6_register_funcs_sys (sys_context);
   ret = ret && lw6_register_funcs_hlp (sys_context);
