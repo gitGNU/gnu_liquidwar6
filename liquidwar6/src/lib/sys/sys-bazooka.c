@@ -323,6 +323,8 @@ lw6sys_set_memory_bazooka_size (lw6sys_context_t * sys_context, int size)
     {
       if (size > 0)
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("setting memory bazooka size, old_size=%d new_size=%d"), bazooka_context->size, size);
+
 	  bazooka_lock (sys_context);
 
 	  bazooka_data = bazooka_context->data;
@@ -427,6 +429,8 @@ lw6sys_set_memory_bazooka_eraser (lw6sys_context_t * sys_context, int state)
 
 #ifndef LW6_OPTIMIZE
   _lw6sys_bazooka_context_t *bazooka_context = &(((_lw6sys_context_t *) sys_context)->bazooka_context);
+
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("setting memory bazooka eraser, old_state=%d new_state=%d"), bazooka_context->eraser, state);
 
   bazooka_context->eraser = state ? 1 : 0;
   ret = lw6sys_get_memory_bazooka_eraser (sys_context);
@@ -950,6 +954,7 @@ lw6sys_memory_bazooka_report (lw6sys_context_t * sys_context)
   int malloc_current_bytes;
   int malloc_max_bytes;
   int malloc_max_megabytes;
+  int reported_lines = 0;
 
   if (bazooka_context->spinlock)
     {
@@ -1002,13 +1007,18 @@ lw6sys_memory_bazooka_report (lw6sys_context_t * sys_context)
 
   if (bazooka_data)
     {
-      for (i = 0; i < bazooka_context->size; ++i)
+      for (i = 0, reported_lines = 0; i < bazooka_context->size; ++i)
 	{
 	  if (bazooka_data[i].ptr)
 	    {
 	      ret = 0;
 	      report_line (sys_context, &(bazooka_data[i]));
+	      reported_lines++;
 	    }
+	}
+      if (!ret)
+	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bazooka size is %d, %d lines reported"), bazooka_context->size, reported_lines);
 	}
     }
 

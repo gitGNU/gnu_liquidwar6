@@ -31,9 +31,6 @@ for i in bot cfg cli cns cnx dat dsp dyn gen gfx glb gui hlp img ker ldr map mat
 	echo >> $MAKEFILE_AM
 	cat $MAKEFILE_EXTRA | sed "s/xyz/${i}/g" >> $MAKEFILE_AM
 done
-OPT_EXTRA="$OPT_EXTRA liquidwar6-test-cpu.jpeg liquidwar6-test-heap.jpeg"
-echo >> $MAKEFILE_AM
-cat $MAKEFILE_EXTRA | sed "s/xyz//g" >> $MAKEFILE_AM
 echo >> $MAKEFILE_AM
 echo "$OPT_EXTRA" >> $MAKEFILE_AM
 

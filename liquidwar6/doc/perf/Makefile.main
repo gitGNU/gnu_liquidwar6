@@ -20,6 +20,9 @@
 
 opt: liquidwar6-test-cpu.jpeg liquidwar6-test-heap.jpeg opt-extra
 
+../../src/lib/liquidwar6-test: ../../src/lib/lw6-testmain.c
+	$(MAKE) -C ../../src/lib
+
 liquidwar6-test-cpu.jpeg: liquidwar6-test-cpu.pdf
 	mogrify -format jpeg -density 600x600 $^
 

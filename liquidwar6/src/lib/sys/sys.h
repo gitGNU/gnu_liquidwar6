@@ -130,9 +130,17 @@ typedef char *char_ptr_t;
 #include "../def/def.h"
 
 #ifdef LW6_PARANOID
+#ifdef LW6_GNU
+#define LW6SYS_BAZOOKA_DEFAULT_SIZE 9999991
+#else // LW6_GNU
 #define LW6SYS_BAZOOKA_DEFAULT_SIZE 999983
+#endif // LW6_GNU
 #else // LW6_PARANOID
+#ifdef LW6_GNU
+#define LW6SYS_BAZOOKA_DEFAULT_SIZE 999983
+#else // LW6_GNU
 #define LW6SYS_BAZOOKA_DEFAULT_SIZE 99991
+#endif // LW6_GNU
 #endif // LW6_PARANOID
 
 #define LW6SYS_MAIN_BEGIN { sys_context = lw6sys_context_init(); if (sys_context != NULL) {

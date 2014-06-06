@@ -143,6 +143,8 @@
 (define lw6-test-sys-bazooka
   (lambda ()
     (begin
+      (lw6-log-notice (format #f "bazooka-size=~a"
+			      (c-lw6sys-get-memory-bazooka-size)))
       ;; double bazooka size
       (c-lw6sys-set-memory-bazooka-size
        (* 2 (c-lw6sys-get-memory-bazooka-size)))

@@ -476,6 +476,30 @@ _test_backtrace ()
 }
 
 /*
+ * Test functions in bazooka.c
+ */
+static void
+_test_bazooka ()
+{
+  int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    int bazooka_size = 0;
+    int bazooka_eraser = 0;
+
+    bazooka_size = lw6sys_get_memory_bazooka_size (sys_context);
+    bazooka_eraser = lw6sys_get_memory_bazooka_eraser (sys_context);
+
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("bazooka_size=%d bazooka_eraser=%d, these are the defaults"), bazooka_size, bazooka_eraser);
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+/*
  * Test functions in build.c
  */
 static void
@@ -4356,6 +4380,7 @@ lw6sys_test_register (lw6sys_context_t * sys_context, int mode)
       LW6SYS_CUNIT_ADD_TEST (suite, _test_arg);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_assoc);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_backtrace);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_bazooka);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_build);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_cache);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_checksum);
