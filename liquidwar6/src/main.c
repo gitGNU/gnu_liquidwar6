@@ -48,13 +48,13 @@ main (int argc, const char *argv[])
   int ret = 0;
   lw6sys_context_t *sys_context = NULL;
 
-  LW6SYS_MAIN_BEGIN;
-  LW6HLP_MAIN_BEGIN;
+  LW6SYS_MAIN_BEGIN (sys_context);
+  LW6HLP_MAIN_BEGIN (sys_context);
 
   ret = lw6_main (sys_context, argc, (const char **) argv);
 
-  LW6HLP_MAIN_END;
-  LW6SYS_MAIN_END;
+  LW6HLP_MAIN_END (sys_context);
+  LW6SYS_MAIN_END (sys_context);
 
   return (ret ? LW6SYS_EXIT_OK : LW6SYS_EXIT_ERROR);
 }

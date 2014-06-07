@@ -51,8 +51,8 @@ main (int argc, const char *argv[])
   lw6sys_context_t *sys_context = NULL;
   int mode = 0;
 
-  LW6SYS_MAIN_BEGIN;
-  LW6HLP_MAIN_BEGIN;
+  LW6SYS_MAIN_BEGIN (sys_context);
+  LW6HLP_MAIN_BEGIN (sys_context);
 
   lw6sys_log_clear (sys_context, NULL);
   mode = lw6sys_arg_test_mode (sys_context, argc, (const char **) argv);
@@ -78,8 +78,8 @@ main (int argc, const char *argv[])
 
   LW6SYS_TEST_OUTPUT;
 
-  LW6HLP_MAIN_END;
-  LW6SYS_MAIN_END;
+  LW6HLP_MAIN_END (sys_context);
+  LW6SYS_MAIN_END (sys_context);
 
   return (!ret);
 }

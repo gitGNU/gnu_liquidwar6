@@ -25,8 +25,8 @@
 
 #include "../sys/sys.h"
 
-#define LW6HLP_MAIN_BEGIN {lw6hlp_reference_init(sys_context);}
-#define LW6HLP_MAIN_END {lw6hlp_reference_quit(sys_context);}
+#define LW6HLP_MAIN_BEGIN(SYS_CONTEXT) { lw6hlp_reference_init ((SYS_CONTEXT)); }
+#define LW6HLP_MAIN_END(SYS_CONTEXT) { lw6hlp_reference_quit ((SYS_CONTEXT)); }
 
 // number of credits entries, how many different lines can be shown
 #define LW6HLP_NB_CREDITS_ENTRIES 26

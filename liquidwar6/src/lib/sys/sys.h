@@ -143,8 +143,8 @@ typedef char *char_ptr_t;
 #endif // LW6_GNU
 #endif // LW6_PARANOID
 
-#define LW6SYS_MAIN_BEGIN { sys_context = lw6sys_context_init(); if (sys_context != NULL) {
-#define LW6SYS_MAIN_END ret = lw6sys_context_quit (sys_context) && ret; sys_context = NULL; } }
+#define LW6SYS_MAIN_BEGIN(SYS_CONTEXT) { (SYS_CONTEXT) = lw6sys_context_init(); if (SYS_CONTEXT != NULL) {
+#define LW6SYS_MAIN_END(SYS_CONTEXT) ret = lw6sys_context_quit ((SYS_CONTEXT)) && ret; SYS_CONTEXT = NULL; } }
 
 #define LW6SYS_TEST_FUNCTION_BEGIN { sys_context = _test_data.sys_context; if (sys_context) { lw6sys_log(sys_context,LW6SYS_LOG_NOTICE,_("running tests in function \"%s\""),__FUNCTION__);
 #define LW6SYS_TEST_FUNCTION_END_NO_CUNIT { if (ret) { lw6sys_log(sys_context,LW6SYS_LOG_NOTICE,_("tests OK in function \"%s\""),__FUNCTION__); } else { lw6sys_log(sys_context,LW6SYS_LOG_WARNING,_("tests FAILED in function \"%s\""),__FUNCTION__); } } } }

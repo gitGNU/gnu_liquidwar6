@@ -364,7 +364,11 @@ lw6sys_set_memory_bazooka_size (lw6sys_context_t * sys_context, int size)
 	       */
 	      bazooka_context->spinlock = lw6sys_spinlock_create (sys_context);
 	    }
-	  if (!bazooka_data)
+	  if (bazooka_data)
+	    {
+	      bazooka_context->data = bazooka_data;
+	    }
+	  else
 	    {
 	      lw6sys_log_critical (sys_context, _x_ ("can't allocate bazooka memory (%d bytes)"), (int) (size * sizeof (_lw6sys_bazooka_line_t)));
 	    }
