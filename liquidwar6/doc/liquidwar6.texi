@@ -957,7 +957,7 @@ freetype freetype-devel SDL_ttf SDL_ttf-devel \
 libcaca libcaca-devel \
 libcurl libcurl-devel \
 gtk2-devel \
-perl lcov global valgrind graphviz gv \
+perl lcov global valgrind graphviz gv ImageMagick \
 texinfo-tex \
 indent emacs doxygen libxml \
 CUnit CUnit-devel \
@@ -987,7 +987,7 @@ libfreetype6 libfreetype6-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev \
 libcaca0 caca-utils libcaca-dev \
 libcurl4-gnutls-dev \
 libgtk2.0-dev \
-perl lcov global valgrind graphviz gv \
+perl lcov global valgrind graphviz gv imagemagick \
 texinfo texlive-base texlive-generic-extra \
 texlive-fonts-recommended texlive-latex-extra \
 indent emacs doxygen xsltproc pmccabe \
