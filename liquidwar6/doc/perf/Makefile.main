@@ -20,9 +20,6 @@
 
 opt: liquidwar6-test-cpu.jpeg liquidwar6-test-heap.jpeg opt-extra
 
-../../src/lib/liquidwar6-test: ../../src/lib/lw6-testmain.c
-	$(MAKE) -C ../../src/lib
-
 liquidwar6-test-cpu.jpeg: liquidwar6-test-cpu.pdf
 	mogrify -format jpeg -density 600x600 $^
 
@@ -32,11 +29,11 @@ liquidwar6-test-heap.jpeg: liquidwar6-test-heap.pdf
 liquidwar6-test-cpu.pdf: ../../src/lib/liquidwar6-test liquidwar6-test-cpu.dat
 	google-pprof --pdf $^ > $@
 
-liquidwar6-test-heap.pdf: ../../src/lib/liquidwar6-test liquidwar6-test-cpu.dat
+liquidwar6-test-heap.pdf: liquidwar6-test-cpu.dat
 	google-pprof --pdf ../../src/lib/liquidwar6-test liquidwar6-test-heap.dat* > $@
 
-liquidwar6-test-cpu.dat: ../../src/lib/liquidwar6-test
-	export CPUPROFILE=$$(readlink -f $@) && export HEAPPROFILE=$$(dirname $$(readlink -f $@))/liquidwar6-test-heap.dat && cd ${top_builddir}/src/lib && ./liquidwar6-test
+liquidwar6-test-cpu.dat:
+	export CPUPROFILE=$$(readlink -f $@) && export HEAPPROFILE=$$(dirname $$(readlink -f $@))/liquidwar6-test-heap.dat && cd ${top_builddir}/src/lib && $(MAKE) && ./liquidwar6-test
 
 clean-local:
 	rm -f *.jpeg *.pdf *.dat *.dat.*

@@ -87,7 +87,7 @@ doxygen.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 perf-pub: perf.tar.gz
 
 perf.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -rf perf-tmp && mkdir perf-tmp && cd perf-tmp && tar -xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure --enable-profiler && cd doc/perf && $(MAKE) opt && install -d perf && cp *.pdf *.jpeg perf && tar -czf perf.tar.gz perf && cd ../../../.. && mv perf-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/doc/perf/perf.tar.gz . && rm -rf perf-tmp
+	rm -rf perf-tmp && mkdir perf-tmp && cd perf-tmp && tar -xzf ../@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && ./configure --enable-profiler && $(MAKE) -C ../src/lib && cd doc/perf && $(MAKE) opt && install -d perf && cp *.pdf *.jpeg perf && tar -czf perf.tar.gz perf && cd ../../../.. && mv perf-tmp/@PACKAGE_TARNAME@-@PACKAGE_VERSION@/doc/perf/perf.tar.gz . && rm -rf perf-tmp
 
 manual-pub: manual.tar.gz
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2014-03-30 21:21+0200\n"
+"POT-Creation-Date: 2014-06-07 11:32+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Brute"
 msgstr ""
 
-#: src/lib/bot/mod-follow/mod-follow-backend.c:132
+#: src/lib/bot/mod-follow/mod-follow-backend.c:129
 #, fuzzy
 msgid "Follow"
 msgstr "gul"
@@ -31,123 +31,123 @@ msgstr "gul"
 msgid "Idiot"
 msgstr ""
 
-#: src/lib/bot/mod-random/mod-random-backend.c:132
+#: src/lib/bot/mod-random/mod-random-backend.c:129
 msgid "Random"
 msgstr ""
 
-#: src/lib/cli/mod-http/mod-http-backend.c:208
+#: src/lib/cli/mod-http/mod-http-backend.c:198
 msgid "HTTP (Curl)"
 msgstr ""
 
-#: src/lib/cli/mod-http/mod-http-setup.c:81
+#: src/lib/cli/mod-http/mod-http-setup.c:76
 msgid "can't initialize mod_http"
 msgstr "klarte ikkje starta mod_http"
 
-#: src/lib/cli/mod-tcp/mod-tcp-backend.c:208
+#: src/lib/cli/mod-tcp/mod-tcp-backend.c:198
 msgid "TCP"
 msgstr ""
 
-#: src/lib/cli/mod-tcp/mod-tcp-setup.c:69
+#: src/lib/cli/mod-tcp/mod-tcp-setup.c:65
 msgid "can't initialize mod_tcp"
 msgstr "klarte ikkje starta mod_tcp"
 
-#: src/lib/cli/mod-udp/mod-udp-backend.c:208
+#: src/lib/cli/mod-udp/mod-udp-backend.c:198
 msgid "UDP"
 msgstr ""
 
-#: src/lib/cli/mod-udp/mod-udp-setup.c:69
+#: src/lib/cli/mod-udp/mod-udp-setup.c:65
 msgid "can't initialize mod_udp"
 msgstr "klarte ikkje starta mod_udp"
 
-#: src/lib/dsp/dsp-test.c:336
+#: src/lib/dsp/dsp-test.c:299
 msgid "this error too"
 msgstr "denne feilen òg"
 
-#: src/lib/dyn/dyn-dl.c:263
+#: src/lib/dyn/dyn-dl.c:240
 #, fuzzy, c-format
 msgid "loaded module \"%s\""
 msgstr "Kodenamn «%s»"
 
-#: src/lib/gfx/mod-caca/mod-caca-backend.c:177
+#: src/lib/gfx/mod-caca/mod-caca-backend.c:178
 msgid "libcaca"
 msgstr ""
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:118
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:402
-#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:153
-#: src/lib/gfx/mod-soft/mod-soft-setup.c:152
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:102
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:323
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:131
+#: src/lib/gfx/mod-soft/mod-soft-setup.c:131
 msgid "unable to set video mode"
 msgstr "klarte ikkje byta videomodus"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:126
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:110
 #, fuzzy, c-format
 msgid "unable to create canvas %dx%d"
 msgstr "klarte ikkje handtera bidragsytar-ID %d"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:138
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:118
 #, fuzzy
 msgid "unable to set resize callback"
 msgstr "klarte ikkje byta videomodus"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:145
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:409
-#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:161
-#: src/lib/gfx/mod-soft/mod-soft-setup.c:160
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:125
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:330
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:138
+#: src/lib/gfx/mod-soft/mod-soft-setup.c:138
 msgid "unable to load consts"
 msgstr "klarte ikkje lasta konstantar"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:152
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:132
 #, fuzzy
 msgid "unable to init paths"
 msgstr "klarte ikkje lasta data"
 
-#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-data.c:71
+#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-data.c:66
 #, c-format
 msgid "unable to load image \"%s\""
 msgstr "klarte ikkje lasta biletet «%s»"
 
-#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-data.c:109
+#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-data.c:100
 #, c-format
 msgid "unable to load font \"%s\""
 msgstr "klarte ikkje lasta skrifta «%s»"
 
-#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c:78
-#: src/lib/gfx/mod-gles2/mod-gles2-mode.c:75
-#: src/lib/gfx/mod-soft/mod-soft-mode.c:75
+#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c:74
+#: src/lib/gfx/mod-gles2/mod-gles2-mode.c:71
+#: src/lib/gfx/mod-soft/mod-soft-mode.c:71
 #, c-format
 msgid "SDL GetVideoInfo failed: \"%s\""
 msgstr "Feil ved SDL GetVideoInfo: «%s»"
 
-#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c:181
-#: src/lib/gfx/mod-gles2/mod-gles2-mode.c:178
-#: src/lib/gfx/mod-soft/mod-soft-mode.c:138
+#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c:166
+#: src/lib/gfx/mod-gles2/mod-gles2-mode.c:163
+#: src/lib/gfx/mod-soft/mod-soft-mode.c:124
 #, c-format
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr "Feil ved SDL SetVideoMode %dx%d bpp=%d fullscreen=%d: «%s»"
 
-#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:361
+#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:312
 msgid "OpenGL v1 / SDL"
 msgstr ""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:304
-#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:99
-#: src/lib/gfx/mod-soft/mod-soft-setup.c:99
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:259
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:86
+#: src/lib/gfx/mod-soft/mod-soft-setup.c:86
 #, c-format
 msgid "SDL init error: \"%s\""
 msgstr "feil ved SDL-start: «%s»"
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:331
-#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:124
-#: src/lib/gfx/mod-soft/mod-soft-setup.c:124
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:283
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:109
+#: src/lib/gfx/mod-soft/mod-soft-setup.c:109
 #, c-format
 msgid "SDL_ttf init error: \"%s\""
 msgstr "Feil ved start av SDL_ttf: «%s»"
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:394
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:316
 msgid "unable to load data"
 msgstr "klarte ikkje lasta data"
 
-#: src/lib/gfx/mod-gles2/mod-gles2-backend.c:185
+#: src/lib/gfx/mod-gles2/mod-gles2-backend.c:178
 msgid "OpenGL ES v2 / SDL"
 msgstr ""
 
@@ -160,128 +160,128 @@ msgstr ""
 msgid "Codename \"%s\""
 msgstr "Kodenamn «%s»"
 
-#: src/lib/hlp/hlp-credits.c:88
+#: src/lib/hlp/hlp-credits.c:87
 #, c-format
 msgid "Idea: %s"
 msgstr "Idé: %s"
 
-#: src/lib/hlp/hlp-credits.c:91
+#: src/lib/hlp/hlp-credits.c:90
 #, c-format
 msgid "Programming: %s"
 msgstr "Programmering: %s"
 
-#: src/lib/hlp/hlp-credits.c:94
+#: src/lib/hlp/hlp-credits.c:93
 #, c-format
 msgid "Artwork & design: %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:97
+#: src/lib/hlp/hlp-credits.c:96
 #, c-format
 msgid "Menu music: %s"
 msgstr "Menymusikk: %s"
 
-#: src/lib/hlp/hlp-credits.c:100
+#: src/lib/hlp/hlp-credits.c:99
 #, fuzzy
 msgid "Thanks to all Liquid War 5 contributors"
 msgstr "Takk til alle bidragsytarane"
 
-#: src/lib/hlp/hlp-credits.c:103
+#: src/lib/hlp/hlp-credits.c:102
 #, fuzzy, c-format
 msgid "Extra maps: %s"
 msgstr "Kart: %s"
 
-#: src/lib/hlp/hlp-credits.c:107 src/lib/hlp/hlp-credits.c:112
-#: src/lib/hlp/hlp-credits.c:117
+#: src/lib/hlp/hlp-credits.c:105 src/lib/hlp/hlp-credits.c:108
+#: src/lib/hlp/hlp-credits.c:111
 #, c-format
 msgid "Song \"%s\" by %s"
 msgstr "Song «%s» av %s"
 
-#: src/lib/hlp/hlp-credits.c:122
+#: src/lib/hlp/hlp-credits.c:114
 #, c-format
 msgid "Norwegian translation by %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:127
+#: src/lib/hlp/hlp-credits.c:117
 #, c-format
 msgid "Russian translation by %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:131
+#: src/lib/hlp/hlp-credits.c:120
 #, c-format
 msgid "Libcaca port by %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:134
+#: src/lib/hlp/hlp-credits.c:123
 #, c-format
 msgid "Handicap patch by %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:137
+#: src/lib/hlp/hlp-credits.c:126
 msgid "Thanks to all other contributors"
 msgstr "Takk til alle bidragsytarane"
 
-#: src/lib/hlp/hlp-credits.c:140
+#: src/lib/hlp/hlp-credits.c:129
 msgid "Help is always appreciated"
 msgstr "Me set alltid pris på hjelp"
 
-#: src/lib/hlp/hlp-credits.c:143
+#: src/lib/hlp/hlp-credits.c:132
 #, c-format
 msgid "Mailing list: <%s>"
 msgstr "E-postliste: <%s>"
 
-#: src/lib/hlp/hlp-credits.c:146
+#: src/lib/hlp/hlp-credits.c:135
 msgid "Free as in \"free speech\" (not beer)"
 msgstr "Fullstendig fri programvare"
 
-#: src/lib/hlp/hlp-credits.c:150
+#: src/lib/hlp/hlp-credits.c:138
 #, c-format
 msgid "License: %s"
 msgstr "Lisens: %s"
 
-#: src/lib/hlp/hlp-credits.c:157
+#: src/lib/hlp/hlp-credits.c:144
 #, c-format
 msgid "Built on %s at %s"
 msgstr "Bygd på %s %s"
 
-#: src/lib/hlp/hlp-credits.c:161
+#: src/lib/hlp/hlp-credits.c:147
 #, c-format
 msgid "Help GNU %s"
 msgstr "Hjelp GNU %s"
 
-#: src/lib/hlp/hlp-credits.c:164
+#: src/lib/hlp/hlp-credits.c:150
 #, c-format
 msgid "Fight software patents %s"
 msgstr "Kjemp mot programvarepatentar %s"
 
-#: src/lib/hlp/hlp-credits.c:168 src/lib/hlp/hlp-print.c:263
-#: src/lib/sys/sys-log.c:765
+#: src/lib/hlp/hlp-credits.c:153 src/lib/hlp/hlp-print.c:260
+#: src/lib/sys/sys-log.c:758
 msgid "Report bugs"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:172
+#: src/lib/hlp/hlp-credits.c:156
 #, c-format
 msgid "unable to handle credits id %d"
 msgstr "klarte ikkje handtera bidragsytar-ID %d"
 
-#: src/lib/hlp/hlp-options.c:87
+#: src/lib/hlp/hlp-options.c:88
 #, c-format
 msgid "unknown option \"%s\""
 msgstr "ukjend val: «%s»"
 
-#: src/lib/hlp/hlp-options.c:106
+#: src/lib/hlp/hlp-options.c:107
 msgid "unable to start daemon"
 msgstr "klarte ikkje starta tenesta"
 
-#: src/lib/hlp/hlp-print.c:251
+#: src/lib/hlp/hlp-print.c:249
 #, c-format
 msgid "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
 msgstr "Bruk: %s [--val1[=verdu1]] … [--valN[=verdiN]]\n"
 
-#: src/lib/hlp/hlp-print.c:262
+#: src/lib/hlp/hlp-print.c:259
 msgid "Home page"
 msgstr ""
 
-#: src/lib/hlp/hlp-print.c:299
+#: src/lib/hlp/hlp-print.c:297
 #, c-format
 msgid ""
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
@@ -295,142 +295,142 @@ msgstr ""
 "programvara.\n"
 "Programvare kjem UTAN NOKON GARANTIAR, så langt dette er mogleg.\n"
 
-#: src/lib/hlp/hlp-print.c:1178
+#: src/lib/hlp/hlp-print.c:1200
 msgid "hello"
 msgstr "hallo"
 
-#: src/lib/hlp/hlp-print.c:1225
+#: src/lib/hlp/hlp-print.c:1245
 msgid "goodbye"
 msgstr "ha det"
 
-#: src/lib/hlp/hlp-reference.c:3103
+#: src/lib/hlp/hlp-reference.c:2215
 msgid "moves faster than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3104
+#: src/lib/hlp/hlp-reference.c:2216
 msgid "has a better defense than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3105
+#: src/lib/hlp/hlp-reference.c:2217
 msgid "has a strong attack but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3106
+#: src/lib/hlp/hlp-reference.c:2218
 msgid "has a strong attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3107
+#: src/lib/hlp/hlp-reference.c:2219
 msgid "has an extremely good defense but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3109
+#: src/lib/hlp/hlp-reference.c:2220
 msgid "is extremely fast but also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3110
+#: src/lib/hlp/hlp-reference.c:2221
 msgid "is fast, but has a very weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3112
+#: src/lib/hlp/hlp-reference.c:2222
 msgid "has an extremely strong attack but is very slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3114
+#: src/lib/hlp/hlp-reference.c:2223
 msgid "has a very good defense but a weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3116
+#: src/lib/hlp/hlp-reference.c:2224
 msgid "has a very strong attack, but is also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3123
+#: src/lib/hlp/hlp-reference.c:2229
 msgid "super-strong attack for a limited time, crush your enemies"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3125
+#: src/lib/hlp/hlp-reference.c:2230
 msgid "no damage for a limited time, move untouched"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3128
+#: src/lib/hlp/hlp-reference.c:2231
 msgid ""
 "fighters placed as far as possible from cursor, magically escape from any "
 "grip"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3129
+#: src/lib/hlp/hlp-reference.c:2232
 msgid "move faster for a limited time"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3131
+#: src/lib/hlp/hlp-reference.c:2233
 msgid "fighters placed as close as possible to cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3134
+#: src/lib/hlp/hlp-reference.c:2234
 msgid "every fighters of every team scattered in random places"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3137
+#: src/lib/hlp/hlp-reference.c:2235
 msgid "all other teams are freezed, you can move but not attack them"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3140
+#: src/lib/hlp/hlp-reference.c:2236
 msgid "fighters exchange position, their properties being preserved"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3143
+#: src/lib/hlp/hlp-reference.c:2237
 msgid ""
 "you take the control of all other teams while your cursor stays in place"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3146
+#: src/lib/hlp/hlp-reference.c:2238
 msgid ""
 "will exchange colors, randomly, requires at least 3 teams (double edged "
 "weapon)"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3147
+#: src/lib/hlp/hlp-reference.c:2239
 msgid "steals some fighters to other teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3150
+#: src/lib/hlp/hlp-reference.c:2240
 msgid "nuclear explosion, all fighters arround your cursor are about to die"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3153
+#: src/lib/hlp/hlp-reference.c:2241
 msgid ""
 "fighters continue to move normally, but attacks are done in reverse mode, "
 "backwards"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3156
+#: src/lib/hlp/hlp-reference.c:2242
 msgid "all your opponents go crazy for some time, acting with no logic"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3158
+#: src/lib/hlp/hlp-reference.c:2243
 msgid "make the battlefield be like it was a few seconds ago"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3161
+#: src/lib/hlp/hlp-reference.c:2244
 msgid "all fighters from all teams are packed near your cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3163
+#: src/lib/hlp/hlp-reference.c:2245
 msgid "reduces the number of fighters on the map"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3166
+#: src/lib/hlp/hlp-reference.c:2246
 msgid ""
 "you die along with the strongest team on the battlefield, requires at least "
 "3 teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3169
+#: src/lib/hlp/hlp-reference.c:2247
 msgid ""
 "you disappear for some time from the battlefield, to reappear later, "
 "somewhere else"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:3172
+#: src/lib/hlp/hlp-reference.c:2248
 msgid "general disease, all fighters mysteriously loose health"
 msgstr ""
 
@@ -439,261 +439,261 @@ msgstr ""
 msgid "You just gained experience (exp=%d)."
 msgstr ""
 
-#: src/lib/lw6-fix.c:333
+#: src/lib/lw6-fix.c:315
 msgid "couldn't fix environment variable by restarting program"
 msgstr "klarte ikkje fiksa miljøvariabelen ved å starta programmet på nytt"
 
-#: src/lib/lw6-main.c:57
+#: src/lib/lw6-main.c:55
 #, c-format
 msgid "unable to read main script file \"%s\""
 msgstr "klarte ikkje lesa hovudskriptfila «%s»"
 
-#: src/lib/lw6-options.c:134 src/lib/lw6-options.c:190
+#: src/lib/lw6-options.c:136 src/lib/lw6-options.c:180
 msgid "all tests SUCCESSFULL!"
 msgstr "alle testane vart utførte utan feil"
 
-#: src/lib/lw6-options.c:140 src/lib/lw6-options.c:196
+#: src/lib/lw6-options.c:140 src/lib/lw6-options.c:184
 #, c-format
 msgid "test FAILED, see log file \"%s\" for details"
 msgstr "test feila (sjå loggfila «%s» for meir informasjon)"
 
-#: src/lib/map/map-color.c:204
+#: src/lib/map/map-color.c:205
 #, fuzzy
 msgid "Red"
 msgstr "raud"
 
-#: src/lib/map/map-color.c:207
+#: src/lib/map/map-color.c:208
 #, fuzzy
 msgid "Green"
 msgstr "grøn"
 
-#: src/lib/map/map-color.c:210
+#: src/lib/map/map-color.c:211
 msgid "Blue"
 msgstr ""
 
-#: src/lib/map/map-color.c:213
+#: src/lib/map/map-color.c:214
 #, fuzzy
 msgid "Yellow"
 msgstr "gul"
 
-#: src/lib/map/map-color.c:216
+#: src/lib/map/map-color.c:217
 msgid "Cyan"
 msgstr ""
 
-#: src/lib/map/map-color.c:219
+#: src/lib/map/map-color.c:220
 #, fuzzy
 msgid "Magenta"
 msgstr "magentaraud"
 
-#: src/lib/map/map-color.c:222
+#: src/lib/map/map-color.c:223
 #, fuzzy
 msgid "Orange"
 msgstr "oransje"
 
-#: src/lib/map/map-color.c:225
+#: src/lib/map/map-color.c:226
 #, fuzzy
 msgid "Light blue"
 msgstr "lyseblå"
 
-#: src/lib/map/map-color.c:228
+#: src/lib/map/map-color.c:229
 #, fuzzy
 msgid "Purple"
 msgstr "lilla"
 
-#: src/lib/map/map-color.c:231
+#: src/lib/map/map-color.c:232
 msgid "Pink"
 msgstr ""
 
-#: src/lib/map/map-color.c:234
+#: src/lib/map/map-color.c:235
 msgid "Invalid color"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:234
+#: src/lib/map/map-weapon.c:236
 msgid "Berzerk"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:237
+#: src/lib/map/map-weapon.c:239
 msgid "Invincible"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:240
+#: src/lib/map/map-weapon.c:242
 msgid "Escape"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:243
+#: src/lib/map/map-weapon.c:245
 msgid "Turbo"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:246
+#: src/lib/map/map-weapon.c:248
 msgid "Teleport"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:249
+#: src/lib/map/map-weapon.c:251
 msgid "Scatter"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:252
+#: src/lib/map/map-weapon.c:254
 msgid "Fix"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:255
+#: src/lib/map/map-weapon.c:257
 msgid "Mix"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:258 src/scriptpo.c:156
+#: src/lib/map/map-weapon.c:260 src/scriptpo.c:156
 msgid "Control"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:261
+#: src/lib/map/map-weapon.c:263
 msgid "Permutation"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:264
+#: src/lib/map/map-weapon.c:266
 msgid "Steal"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:267
+#: src/lib/map/map-weapon.c:269
 msgid "Atomic"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:270
+#: src/lib/map/map-weapon.c:272
 msgid "Reverse"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:273
+#: src/lib/map/map-weapon.c:275
 msgid "Crazy"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:276
+#: src/lib/map/map-weapon.c:278
 msgid "Rewind"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:279
+#: src/lib/map/map-weapon.c:281
 msgid "Attract"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:282
+#: src/lib/map/map-weapon.c:284
 msgid "Shrink"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:285
+#: src/lib/map/map-weapon.c:287
 msgid "Kamikaze"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:288
+#: src/lib/map/map-weapon.c:290
 msgid "Disappear"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:291
+#: src/lib/map/map-weapon.c:293
 msgid "Plague"
 msgstr ""
 
-#: src/lib/map/map-weapon.c:294
+#: src/lib/map/map-weapon.c:296
 msgid "No weapon"
 msgstr ""
 
-#: src/lib/p2p/p2p-data.c:122
+#: src/lib/p2p/p2p-data.c:99
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr "klarte ikkje lesa spørjinga «%s» i «%s»"
 
-#: src/lib/p2p/p2p-node.c:266
+#: src/lib/p2p/p2p-node.c:238
 #, c-format
 msgid "started node \"%s\" in trojan mode, expect problems"
 msgstr ""
 
-#: src/lib/p2p/p2p-node.c:271
+#: src/lib/p2p/p2p-node.c:242
 #, c-format
 msgid "started node \"%s\""
 msgstr ""
 
-#: src/lib/p2p/p2p-recv.c:236
+#: src/lib/p2p/p2p-recv.c:186
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr ""
 
-#: src/lib/scm/scm-test.c:273 src/lib/scm/scm-test.c:420
+#: src/lib/scm/scm-test.c:245 src/lib/scm/scm-test.c:377
 #, fuzzy, c-format
 msgid "leaving Guile in %s"
 msgstr "forlèt Guile"
 
-#: src/lib/snd/mod-csound/mod-csound-backend.c:238
+#: src/lib/snd/mod-csound/mod-csound-backend.c:230
 #, fuzzy
 msgid "Csound"
 msgstr "Lyd"
 
-#: src/lib/snd/mod-ogg/mod-ogg-backend.c:227
+#: src/lib/snd/mod-ogg/mod-ogg-backend.c:230
 msgid "Ogg Vorbis"
 msgstr ""
 
-#: src/lib/srv/mod-httpd/mod-httpd-backend.c:270
+#: src/lib/srv/mod-httpd/mod-httpd-backend.c:257
 msgid "HTTPD"
 msgstr ""
 
-#: src/lib/srv/mod-httpd/mod-httpd-setup.c:128
+#: src/lib/srv/mod-httpd/mod-httpd-setup.c:115
 msgid "can't initialize mod_httpd"
 msgstr "klarte ikkje starta mod_httpd"
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:268
+#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:256
 msgid "TCPD"
 msgstr ""
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:71
+#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:65
 msgid "can't initialize mod_tcpd"
 msgstr "klarte ikkje starta mod_tcpd"
 
-#: src/lib/srv/mod-udpd/mod-udpd-backend.c:269
+#: src/lib/srv/mod-udpd/mod-udpd-backend.c:257
 msgid "UDPD"
 msgstr ""
 
-#: src/lib/srv/mod-udpd/mod-udpd-setup.c:71
+#: src/lib/srv/mod-udpd/mod-udpd-setup.c:65
 msgid "can't initialize mod_udpd"
 msgstr "klarte ikkje starta mod_udpd"
 
-#: src/lib/sys/sys-log.c:94
+#: src/lib/sys/sys-log.c:82
 msgid "log_file is NULL"
 msgstr "log_file er NULL"
 
-#: src/lib/sys/sys-log.c:561
+#: src/lib/sys/sys-log.c:553
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr "klarte ikkje opna loggfila «%s»"
 
-#: src/lib/sys/sys-log.c:764
+#: src/lib/sys/sys-log.c:758
 msgid "Backtrace"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:947
+#: src/lib/sys/sys-log.c:925
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "Feil (feilnummer: %d:%s) "
 
-#: src/lib/sys/sys-log.c:952
+#: src/lib/sys/sys-log.c:929
 msgid "ERROR! "
 msgstr "Feil"
 
-#: src/lib/sys/sys-log.c:962
+#: src/lib/sys/sys-log.c:939
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "Åtvaring (feilnummer: %d:%s)"
 
-#: src/lib/sys/sys-log.c:967
+#: src/lib/sys/sys-log.c:943
 msgid "WARNING! "
 msgstr "Åtvaring"
 
-#: src/lib/sys/sys-log.c:984
+#: src/lib/sys/sys-log.c:960
 msgid "[tmp] "
 msgstr "[tmp] "
 
-#: src/lib/sys/sys-log.c:990
+#: src/lib/sys/sys-log.c:966
 msgid "[debug] "
 msgstr "[feilsøk] "
 
-#: src/lib/sys/sys-log.c:1075
+#: src/lib/sys/sys-log.c:1047
 msgid "CRITICAL! "
 msgstr "Kritisk"
 
-#: src/lib/sys/sys-log.c:1079
+#: src/lib/sys/sys-log.c:1051
 msgid "CRITICAL!"
 msgstr "Kritisk"
 
@@ -702,26 +702,26 @@ msgstr "Kritisk"
 msgid "out of memory malloc (%d) failed in %s:%d"
 msgstr "slapp opp for minne ved malloc (%d) i %s:%d"
 
-#: src/lib/sys/sys-mem.c:130
+#: src/lib/sys/sys-mem.c:129
 #, c-format
 msgid "out of memory calloc(%d) failed in %s:%d"
 msgstr "slapp opp for minne ved calloc (%d) i %s:%d"
 
-#: src/lib/sys/sys-mem.c:187
+#: src/lib/sys/sys-mem.c:182
 #, c-format
 msgid "out of memory realloc (%d) failed in %s:%d"
 msgstr "slapp opp for minne ved realloc (%d) i %s:%d"
 
-#: src/lib/sys/sys-mem.c:231
+#: src/lib/sys/sys-mem.c:224
 #, c-format
 msgid "trying to free NULL pointer in %s:%d"
 msgstr "prøver å frigjera NULL-peikar i %s:%d"
 
-#: src/lib/sys/sys-signal.c:222
+#: src/lib/sys/sys-signal.c:247
 msgid "Segmentation fault"
 msgstr ""
 
-#: src/lib/sys/sys-signal.c:262
+#: src/lib/sys/sys-signal.c:291
 msgid "Floating point exception"
 msgstr ""
 

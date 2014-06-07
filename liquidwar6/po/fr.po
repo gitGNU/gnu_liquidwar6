@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2014-03-30 21:21+0200\n"
+"POT-Creation-Date: 2014-06-07 11:32+0200\n"
 "PO-Revision-Date: 2008-12-30 21:46+0100\n"
 "Last-Translator: Christian Mauduit <ufoot@ufoot.org>\n"
 "Language-Team: French <traduc@traduc.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Brute"
 msgstr "Brute"
 
-#: src/lib/bot/mod-follow/mod-follow-backend.c:132
+#: src/lib/bot/mod-follow/mod-follow-backend.c:129
 msgid "Follow"
 msgstr "Suiveur"
 
@@ -29,124 +29,124 @@ msgstr "Suiveur"
 msgid "Idiot"
 msgstr "Débile"
 
-#: src/lib/bot/mod-random/mod-random-backend.c:132
+#: src/lib/bot/mod-random/mod-random-backend.c:129
 msgid "Random"
 msgstr "Aléatoire"
 
-#: src/lib/cli/mod-http/mod-http-backend.c:208
+#: src/lib/cli/mod-http/mod-http-backend.c:198
 msgid "HTTP (Curl)"
 msgstr "HTTP (Curl)"
 
-#: src/lib/cli/mod-http/mod-http-setup.c:81
+#: src/lib/cli/mod-http/mod-http-setup.c:76
 msgid "can't initialize mod_http"
 msgstr "impossible d'initialiser mod_http"
 
-#: src/lib/cli/mod-tcp/mod-tcp-backend.c:208
+#: src/lib/cli/mod-tcp/mod-tcp-backend.c:198
 msgid "TCP"
 msgstr "TCP"
 
-#: src/lib/cli/mod-tcp/mod-tcp-setup.c:69
+#: src/lib/cli/mod-tcp/mod-tcp-setup.c:65
 msgid "can't initialize mod_tcp"
 msgstr "impossible d'initialiser mod_tcp"
 
-#: src/lib/cli/mod-udp/mod-udp-backend.c:208
+#: src/lib/cli/mod-udp/mod-udp-backend.c:198
 msgid "UDP"
 msgstr "UDP"
 
-#: src/lib/cli/mod-udp/mod-udp-setup.c:69
+#: src/lib/cli/mod-udp/mod-udp-setup.c:65
 msgid "can't initialize mod_udp"
 msgstr "impossible d'initialiser mod_udp"
 
-#: src/lib/dsp/dsp-test.c:336
+#: src/lib/dsp/dsp-test.c:299
 msgid "this error too"
 msgstr "cette erreur aussi"
 
-#: src/lib/dyn/dyn-dl.c:263
+#: src/lib/dyn/dyn-dl.c:240
 #, c-format
 msgid "loaded module \"%s\""
 msgstr "chargement du module \"%s\""
 
-#: src/lib/gfx/mod-caca/mod-caca-backend.c:177
+#: src/lib/gfx/mod-caca/mod-caca-backend.c:178
 msgid "libcaca"
 msgstr ""
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:118
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:402
-#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:153
-#: src/lib/gfx/mod-soft/mod-soft-setup.c:152
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:102
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:323
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:131
+#: src/lib/gfx/mod-soft/mod-soft-setup.c:131
 msgid "unable to set video mode"
 msgstr "impossible de régler le mode vidéo"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:126
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:110
 #, fuzzy, c-format
 msgid "unable to create canvas %dx%d"
 msgstr "impossible de lire la ligne de 'credits' %d"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:138
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:118
 #, fuzzy
 msgid "unable to set resize callback"
 msgstr "impossible de régler le mode vidéo"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:145
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:409
-#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:161
-#: src/lib/gfx/mod-soft/mod-soft-setup.c:160
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:125
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:330
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:138
+#: src/lib/gfx/mod-soft/mod-soft-setup.c:138
 msgid "unable to load consts"
 msgstr "impossible de lire les constantes"
 
-#: src/lib/gfx/mod-caca/mod-caca-setup.c:152
+#: src/lib/gfx/mod-caca/mod-caca-setup.c:132
 #, fuzzy
 msgid "unable to init paths"
 msgstr "impossible de charger les données"
 
-#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-data.c:71
+#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-data.c:66
 #, c-format
 msgid "unable to load image \"%s\""
 msgstr "impossible de charger l'image \"%s\""
 
-#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-data.c:109
+#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-data.c:100
 #, c-format
 msgid "unable to load font \"%s\""
 msgstr "impossible de charger la police \"%s\""
 
-#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c:78
-#: src/lib/gfx/mod-gles2/mod-gles2-mode.c:75
-#: src/lib/gfx/mod-soft/mod-soft-mode.c:75
+#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c:74
+#: src/lib/gfx/mod-gles2/mod-gles2-mode.c:71
+#: src/lib/gfx/mod-soft/mod-soft-mode.c:71
 #, c-format
 msgid "SDL GetVideoInfo failed: \"%s\""
 msgstr "SDL GetVideoInfo a échoué: \"%s\""
 
-#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c:181
-#: src/lib/gfx/mod-gles2/mod-gles2-mode.c:178
-#: src/lib/gfx/mod-soft/mod-soft-mode.c:138
+#: src/lib/gfx/mod-gl1/gl1-utils/gl1-utils-mode.c:166
+#: src/lib/gfx/mod-gles2/mod-gles2-mode.c:163
+#: src/lib/gfx/mod-soft/mod-soft-mode.c:124
 #, c-format
 msgid "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d failed: \"%s\""
 msgstr "SDL SetVideoMode %dx%d bpp=%d fullscreen=%d a échoué: \"%s\""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:361
+#: src/lib/gfx/mod-gl1/mod-gl1-backend.c:312
 #, fuzzy
 msgid "OpenGL v1 / SDL"
 msgstr "OpenGL/SDL"
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:304
-#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:99
-#: src/lib/gfx/mod-soft/mod-soft-setup.c:99
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:259
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:86
+#: src/lib/gfx/mod-soft/mod-soft-setup.c:86
 #, c-format
 msgid "SDL init error: \"%s\""
 msgstr "SDL erreur d'initialisation: \"%s\""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:331
-#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:124
-#: src/lib/gfx/mod-soft/mod-soft-setup.c:124
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:283
+#: src/lib/gfx/mod-gles2/mod-gles2-setup.c:109
+#: src/lib/gfx/mod-soft/mod-soft-setup.c:109
 #, c-format
 msgid "SDL_ttf init error: \"%s\""
 msgstr "SDL_ttf erreur d'initialisation: \"%s\""
 
-#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:394
+#: src/lib/gfx/mod-gl1/mod-gl1-setup.c:316
 msgid "unable to load data"
 msgstr "impossible de charger les données"
 
-#: src/lib/gfx/mod-gles2/mod-gles2-backend.c:185
+#: src/lib/gfx/mod-gles2/mod-gles2-backend.c:178
 #, fuzzy
 msgid "OpenGL ES v2 / SDL"
 msgstr "OpenGL/SDL"
@@ -160,127 +160,127 @@ msgstr ""
 msgid "Codename \"%s\""
 msgstr "Nom de code \"%s\""
 
-#: src/lib/hlp/hlp-credits.c:88
+#: src/lib/hlp/hlp-credits.c:87
 #, c-format
 msgid "Idea: %s"
 msgstr "Idée : %s"
 
-#: src/lib/hlp/hlp-credits.c:91
+#: src/lib/hlp/hlp-credits.c:90
 #, c-format
 msgid "Programming: %s"
 msgstr "Programmation : %s"
 
-#: src/lib/hlp/hlp-credits.c:94
+#: src/lib/hlp/hlp-credits.c:93
 #, c-format
 msgid "Artwork & design: %s"
 msgstr "Graphismes, design: %s"
 
-#: src/lib/hlp/hlp-credits.c:97
+#: src/lib/hlp/hlp-credits.c:96
 #, c-format
 msgid "Menu music: %s"
 msgstr "Musique des menus : %s"
 
-#: src/lib/hlp/hlp-credits.c:100
+#: src/lib/hlp/hlp-credits.c:99
 msgid "Thanks to all Liquid War 5 contributors"
 msgstr "Merci à tous les contributeurs de Liquid War 5"
 
-#: src/lib/hlp/hlp-credits.c:103
+#: src/lib/hlp/hlp-credits.c:102
 #, c-format
 msgid "Extra maps: %s"
 msgstr "Tableaux supplémentaires : %s"
 
-#: src/lib/hlp/hlp-credits.c:107 src/lib/hlp/hlp-credits.c:112
-#: src/lib/hlp/hlp-credits.c:117
+#: src/lib/hlp/hlp-credits.c:105 src/lib/hlp/hlp-credits.c:108
+#: src/lib/hlp/hlp-credits.c:111
 #, c-format
 msgid "Song \"%s\" by %s"
 msgstr "Chanson \"%s\" par %s"
 
-#: src/lib/hlp/hlp-credits.c:122
+#: src/lib/hlp/hlp-credits.c:114
 #, c-format
 msgid "Norwegian translation by %s"
 msgstr "Traduction en norvégien par %s"
 
-#: src/lib/hlp/hlp-credits.c:127
+#: src/lib/hlp/hlp-credits.c:117
 #, c-format
 msgid "Russian translation by %s"
 msgstr "Traduction en russe par %s"
 
-#: src/lib/hlp/hlp-credits.c:131
+#: src/lib/hlp/hlp-credits.c:120
 #, c-format
 msgid "Libcaca port by %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:134
+#: src/lib/hlp/hlp-credits.c:123
 #, c-format
 msgid "Handicap patch by %s"
 msgstr ""
 
-#: src/lib/hlp/hlp-credits.c:137
+#: src/lib/hlp/hlp-credits.c:126
 msgid "Thanks to all other contributors"
 msgstr "Merci à tous les autres contributeurs"
 
-#: src/lib/hlp/hlp-credits.c:140
+#: src/lib/hlp/hlp-credits.c:129
 msgid "Help is always appreciated"
 msgstr "L'aide est toujours appréciée"
 
-#: src/lib/hlp/hlp-credits.c:143
+#: src/lib/hlp/hlp-credits.c:132
 #, c-format
 msgid "Mailing list: <%s>"
 msgstr "Liste de diffusion : <%s>"
 
-#: src/lib/hlp/hlp-credits.c:146
+#: src/lib/hlp/hlp-credits.c:135
 msgid "Free as in \"free speech\" (not beer)"
 msgstr "Ceci est un Logiciel Libre"
 
-#: src/lib/hlp/hlp-credits.c:150
+#: src/lib/hlp/hlp-credits.c:138
 #, c-format
 msgid "License: %s"
 msgstr "Licence : %s"
 
-#: src/lib/hlp/hlp-credits.c:157
+#: src/lib/hlp/hlp-credits.c:144
 #, c-format
 msgid "Built on %s at %s"
 msgstr "Compilé le %s à %s"
 
-#: src/lib/hlp/hlp-credits.c:161
+#: src/lib/hlp/hlp-credits.c:147
 #, c-format
 msgid "Help GNU %s"
 msgstr "Aidez GNU %s"
 
-#: src/lib/hlp/hlp-credits.c:164
+#: src/lib/hlp/hlp-credits.c:150
 #, c-format
 msgid "Fight software patents %s"
 msgstr "Contre les brevets logiciels %s"
 
-#: src/lib/hlp/hlp-credits.c:168 src/lib/hlp/hlp-print.c:263
-#: src/lib/sys/sys-log.c:765
+#: src/lib/hlp/hlp-credits.c:153 src/lib/hlp/hlp-print.c:260
+#: src/lib/sys/sys-log.c:758
 msgid "Report bugs"
 msgstr "Soummission de bugs"
 
-#: src/lib/hlp/hlp-credits.c:172
+#: src/lib/hlp/hlp-credits.c:156
 #, c-format
 msgid "unable to handle credits id %d"
 msgstr "impossible de lire la ligne de 'credits' %d"
 
-#: src/lib/hlp/hlp-options.c:87
+#: src/lib/hlp/hlp-options.c:88
 #, c-format
 msgid "unknown option \"%s\""
 msgstr "option inconnue \"%s\""
 
-#: src/lib/hlp/hlp-options.c:106
+#: src/lib/hlp/hlp-options.c:107
 msgid "unable to start daemon"
 msgstr "impossible de démarrer le démon"
 
-#: src/lib/hlp/hlp-print.c:251
+#: src/lib/hlp/hlp-print.c:249
 #, c-format
 msgid "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
 msgstr "Usage: %s [--option1[=value1]] ... [--optionN[=valueN]]\n"
 
-#: src/lib/hlp/hlp-print.c:262
+#: src/lib/hlp/hlp-print.c:259
 msgid "Home page"
 msgstr "Page d'accueil"
 
-#: src/lib/hlp/hlp-print.c:299
+#: src/lib/hlp/hlp-print.c:297
 #, c-format
 msgid ""
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
@@ -294,63 +294,63 @@ msgstr ""
 "certaines conditions.\n"
 "Ce programme vient SANS ABSOLUMENT AUCUNE GARANTIE.\n"
 
-#: src/lib/hlp/hlp-print.c:1178
+#: src/lib/hlp/hlp-print.c:1200
 msgid "hello"
 msgstr "bonjour"
 
-#: src/lib/hlp/hlp-print.c:1225
+#: src/lib/hlp/hlp-print.c:1245
 msgid "goodbye"
 msgstr "au revoir"
 
-#: src/lib/hlp/hlp-reference.c:3103
+#: src/lib/hlp/hlp-reference.c:2215
 msgid "moves faster than the average"
 msgstr "se déplace plus vite que les autres"
 
-#: src/lib/hlp/hlp-reference.c:3104
+#: src/lib/hlp/hlp-reference.c:2216
 msgid "has a better defense than the average"
 msgstr "a une meilleure défense que les autres"
 
-#: src/lib/hlp/hlp-reference.c:3105
+#: src/lib/hlp/hlp-reference.c:2217
 msgid "has a strong attack but is slow"
 msgstr "a une attaque forte, mais se déplace lentement"
 
-#: src/lib/hlp/hlp-reference.c:3106
+#: src/lib/hlp/hlp-reference.c:2218
 msgid "has a strong attack"
 msgstr "a une attaque forte"
 
-#: src/lib/hlp/hlp-reference.c:3107
+#: src/lib/hlp/hlp-reference.c:2219
 msgid "has an extremely good defense but is slow"
 msgstr "extrêmement bon en défense, mais très lent"
 
-#: src/lib/hlp/hlp-reference.c:3109
+#: src/lib/hlp/hlp-reference.c:2220
 msgid "is extremely fast but also very vulnerable"
 msgstr "extrêmement rapide, mais aussi très vulnérable"
 
-#: src/lib/hlp/hlp-reference.c:3110
+#: src/lib/hlp/hlp-reference.c:2221
 msgid "is fast, but has a very weak attack"
 msgstr "rapide, mais avec peu d'attaque"
 
-#: src/lib/hlp/hlp-reference.c:3112
+#: src/lib/hlp/hlp-reference.c:2222
 msgid "has an extremely strong attack but is very slow"
 msgstr "attaque très forte, mais très lent"
 
-#: src/lib/hlp/hlp-reference.c:3114
+#: src/lib/hlp/hlp-reference.c:2223
 msgid "has a very good defense but a weak attack"
 msgstr "très bonne défense mais attaque faible"
 
-#: src/lib/hlp/hlp-reference.c:3116
+#: src/lib/hlp/hlp-reference.c:2224
 msgid "has a very strong attack, but is also very vulnerable"
 msgstr "attaque très forte, et aussi très vulnérable"
 
-#: src/lib/hlp/hlp-reference.c:3123
+#: src/lib/hlp/hlp-reference.c:2229
 msgid "super-strong attack for a limited time, crush your enemies"
 msgstr "attaque super forte pour un temps limité, écrasez vos ennemis"
 
-#: src/lib/hlp/hlp-reference.c:3125
+#: src/lib/hlp/hlp-reference.c:2230
 msgid "no damage for a limited time, move untouched"
 msgstr "pas de dégâts pendant un certain temps, ne craignez plus rien"
 
-#: src/lib/hlp/hlp-reference.c:3128
+#: src/lib/hlp/hlp-reference.c:2231
 msgid ""
 "fighters placed as far as possible from cursor, magically escape from any "
 "grip"
@@ -358,52 +358,52 @@ msgstr ""
 "les combattants sont placés aussi loin que possible du curseur, échappant à "
 "n'importe quel éteau"
 
-#: src/lib/hlp/hlp-reference.c:3129
+#: src/lib/hlp/hlp-reference.c:2232
 msgid "move faster for a limited time"
 msgstr "déplacement plus rapide pendant un certain temps"
 
-#: src/lib/hlp/hlp-reference.c:3131
+#: src/lib/hlp/hlp-reference.c:2233
 msgid "fighters placed as close as possible to cursor"
 msgstr "les combattants sont placés au plus près du curseur"
 
-#: src/lib/hlp/hlp-reference.c:3134
+#: src/lib/hlp/hlp-reference.c:2234
 msgid "every fighters of every team scattered in random places"
 msgstr "tous les combattants se retrouvent éparpillés n'importe où"
 
-#: src/lib/hlp/hlp-reference.c:3137
+#: src/lib/hlp/hlp-reference.c:2235
 msgid "all other teams are freezed, you can move but not attack them"
 msgstr ""
 "toutes les autres couleurs sont figées sur place, vous pouvez vos déplacer "
 "sans attaquer"
 
-#: src/lib/hlp/hlp-reference.c:3140
+#: src/lib/hlp/hlp-reference.c:2236
 msgid "fighters exchange position, their properties being preserved"
 msgstr "toutes les autres équipes sont fig;ees sur pl"
 
-#: src/lib/hlp/hlp-reference.c:3143
+#: src/lib/hlp/hlp-reference.c:2237
 msgid ""
 "you take the control of all other teams while your cursor stays in place"
 msgstr ""
 "vous prenez le contrôle des autres équipes, pendant ce temps-là votre "
 "curseur reste à sa place"
 
-#: src/lib/hlp/hlp-reference.c:3146
+#: src/lib/hlp/hlp-reference.c:2238
 msgid ""
 "will exchange colors, randomly, requires at least 3 teams (double edged "
 "weapon)"
 msgstr "échange les couleurs, au hasard, nécessite au moins 3 couleurs"
 
-#: src/lib/hlp/hlp-reference.c:3147
+#: src/lib/hlp/hlp-reference.c:2239
 msgid "steals some fighters to other teams"
 msgstr "vole des combattants aux autres équipes"
 
-#: src/lib/hlp/hlp-reference.c:3150
+#: src/lib/hlp/hlp-reference.c:2240
 msgid "nuclear explosion, all fighters arround your cursor are about to die"
 msgstr ""
 "explosion nucléaire, tous les combattants autour de votre curseur sont morts "
 "ou presque"
 
-#: src/lib/hlp/hlp-reference.c:3153
+#: src/lib/hlp/hlp-reference.c:2241
 msgid ""
 "fighters continue to move normally, but attacks are done in reverse mode, "
 "backwards"
@@ -411,26 +411,26 @@ msgstr ""
 "les combattans continuent à se déplacer normalement, mais ils attaquent à "
 "l'envers, par derrière"
 
-#: src/lib/hlp/hlp-reference.c:3156
+#: src/lib/hlp/hlp-reference.c:2242
 msgid "all your opponents go crazy for some time, acting with no logic"
 msgstr ""
 "tous vos ennemis deviennent fou pendant quelques temps, agissant sans logique"
 
-#: src/lib/hlp/hlp-reference.c:3158
+#: src/lib/hlp/hlp-reference.c:2243
 msgid "make the battlefield be like it was a few seconds ago"
 msgstr "remet le champs de bataille tel qu'il était quelques secondes avant"
 
-#: src/lib/hlp/hlp-reference.c:3161
+#: src/lib/hlp/hlp-reference.c:2244
 msgid "all fighters from all teams are packed near your cursor"
 msgstr ""
 "tous les combattants de toutes les équipes sont réunis autour de votre "
 "curseur"
 
-#: src/lib/hlp/hlp-reference.c:3163
+#: src/lib/hlp/hlp-reference.c:2245
 msgid "reduces the number of fighters on the map"
 msgstr "réduit le nombre de combattants dans le tableau"
 
-#: src/lib/hlp/hlp-reference.c:3166
+#: src/lib/hlp/hlp-reference.c:2246
 msgid ""
 "you die along with the strongest team on the battlefield, requires at least "
 "3 teams"
@@ -438,14 +438,14 @@ msgstr ""
 "vous mourrez et emportez dans votre mort la puissante des autres équipes, "
 "nécessite 3 équipes"
 
-#: src/lib/hlp/hlp-reference.c:3169
+#: src/lib/hlp/hlp-reference.c:2247
 msgid ""
 "you disappear for some time from the battlefield, to reappear later, "
 "somewhere else"
 msgstr ""
 "vous disparaissez pour quelques temps, pour réapparaitre plus tard, ailleurs"
 
-#: src/lib/hlp/hlp-reference.c:3172
+#: src/lib/hlp/hlp-reference.c:2248
 msgid "general disease, all fighters mysteriously loose health"
 msgstr ""
 "maladie généralisée, les combattants perdent mystérieusement des points de "
@@ -456,256 +456,256 @@ msgstr ""
 msgid "You just gained experience (exp=%d)."
 msgstr "Vous venez de gagner de l'expérience (exp=%d)."
 
-#: src/lib/lw6-fix.c:333
+#: src/lib/lw6-fix.c:315
 msgid "couldn't fix environment variable by restarting program"
 msgstr "impossible de redémarrer en corrigeant les variables d'environnement"
 
-#: src/lib/lw6-main.c:57
+#: src/lib/lw6-main.c:55
 #, c-format
 msgid "unable to read main script file \"%s\""
 msgstr "impossible de lire le fichier de script principal \"%s\""
 
-#: src/lib/lw6-options.c:134 src/lib/lw6-options.c:190
+#: src/lib/lw6-options.c:136 src/lib/lw6-options.c:180
 msgid "all tests SUCCESSFULL!"
 msgstr "tous les tests passés avec SUCCÈS!"
 
-#: src/lib/lw6-options.c:140 src/lib/lw6-options.c:196
+#: src/lib/lw6-options.c:140 src/lib/lw6-options.c:184
 #, c-format
 msgid "test FAILED, see log file \"%s\" for details"
 msgstr ""
 "le test a ÉCHOUÉ, voir le fichier de log \"%s\" pour plus d'informations"
 
-#: src/lib/map/map-color.c:204
+#: src/lib/map/map-color.c:205
 msgid "Red"
 msgstr "Rouge"
 
-#: src/lib/map/map-color.c:207
+#: src/lib/map/map-color.c:208
 msgid "Green"
 msgstr "Vert"
 
-#: src/lib/map/map-color.c:210
+#: src/lib/map/map-color.c:211
 msgid "Blue"
 msgstr "Bleu"
 
-#: src/lib/map/map-color.c:213
+#: src/lib/map/map-color.c:214
 msgid "Yellow"
 msgstr "Jaune"
 
-#: src/lib/map/map-color.c:216
+#: src/lib/map/map-color.c:217
 msgid "Cyan"
 msgstr "Cyan"
 
-#: src/lib/map/map-color.c:219
+#: src/lib/map/map-color.c:220
 msgid "Magenta"
 msgstr "Magenta"
 
-#: src/lib/map/map-color.c:222
+#: src/lib/map/map-color.c:223
 msgid "Orange"
 msgstr "Orange"
 
-#: src/lib/map/map-color.c:225
+#: src/lib/map/map-color.c:226
 msgid "Light blue"
 msgstr "Bleu clair"
 
-#: src/lib/map/map-color.c:228
+#: src/lib/map/map-color.c:229
 msgid "Purple"
 msgstr "Mauve"
 
-#: src/lib/map/map-color.c:231
+#: src/lib/map/map-color.c:232
 msgid "Pink"
 msgstr "Rose"
 
-#: src/lib/map/map-color.c:234
+#: src/lib/map/map-color.c:235
 msgid "Invalid color"
 msgstr "Couleur invalide"
 
-#: src/lib/map/map-weapon.c:234
+#: src/lib/map/map-weapon.c:236
 msgid "Berzerk"
 msgstr "Berzerk"
 
-#: src/lib/map/map-weapon.c:237
+#: src/lib/map/map-weapon.c:239
 msgid "Invincible"
 msgstr "Invincible"
 
-#: src/lib/map/map-weapon.c:240
+#: src/lib/map/map-weapon.c:242
 msgid "Escape"
 msgstr "Fuir"
 
-#: src/lib/map/map-weapon.c:243
+#: src/lib/map/map-weapon.c:245
 msgid "Turbo"
 msgstr "Turbo"
 
-#: src/lib/map/map-weapon.c:246
+#: src/lib/map/map-weapon.c:248
 msgid "Teleport"
 msgstr "Téléporter"
 
-#: src/lib/map/map-weapon.c:249
+#: src/lib/map/map-weapon.c:251
 msgid "Scatter"
 msgstr "Éparpiller"
 
-#: src/lib/map/map-weapon.c:252
+#: src/lib/map/map-weapon.c:254
 msgid "Fix"
 msgstr "Immobile"
 
-#: src/lib/map/map-weapon.c:255
+#: src/lib/map/map-weapon.c:257
 msgid "Mix"
 msgstr "Mélange"
 
-#: src/lib/map/map-weapon.c:258 src/scriptpo.c:156
+#: src/lib/map/map-weapon.c:260 src/scriptpo.c:156
 msgid "Control"
 msgstr "Contrôle"
 
-#: src/lib/map/map-weapon.c:261
+#: src/lib/map/map-weapon.c:263
 msgid "Permutation"
 msgstr "Permutation"
 
-#: src/lib/map/map-weapon.c:264
+#: src/lib/map/map-weapon.c:266
 msgid "Steal"
 msgstr "Vol"
 
-#: src/lib/map/map-weapon.c:267
+#: src/lib/map/map-weapon.c:269
 msgid "Atomic"
 msgstr "Atomique"
 
-#: src/lib/map/map-weapon.c:270
+#: src/lib/map/map-weapon.c:272
 msgid "Reverse"
 msgstr "À l'envers"
 
-#: src/lib/map/map-weapon.c:273
+#: src/lib/map/map-weapon.c:275
 msgid "Crazy"
 msgstr "Folie"
 
-#: src/lib/map/map-weapon.c:276
+#: src/lib/map/map-weapon.c:278
 msgid "Rewind"
 msgstr "Renbobiner"
 
-#: src/lib/map/map-weapon.c:279
+#: src/lib/map/map-weapon.c:281
 msgid "Attract"
 msgstr "Attirer"
 
-#: src/lib/map/map-weapon.c:282
+#: src/lib/map/map-weapon.c:284
 msgid "Shrink"
 msgstr "Rapetisser"
 
-#: src/lib/map/map-weapon.c:285
+#: src/lib/map/map-weapon.c:287
 msgid "Kamikaze"
 msgstr "Kamikaze"
 
-#: src/lib/map/map-weapon.c:288
+#: src/lib/map/map-weapon.c:290
 msgid "Disappear"
 msgstr "Disparition"
 
-#: src/lib/map/map-weapon.c:291
+#: src/lib/map/map-weapon.c:293
 msgid "Plague"
 msgstr "Pest"
 
-#: src/lib/map/map-weapon.c:294
+#: src/lib/map/map-weapon.c:296
 msgid "No weapon"
 msgstr "Pas de coup spécial"
 
-#: src/lib/p2p/p2p-data.c:122
+#: src/lib/p2p/p2p-data.c:99
 #, c-format
 msgid "can't read query \"%s\" in \"%s\""
 msgstr "impossible de lire la requête \"%s\" dans \"%s\""
 
-#: src/lib/p2p/p2p-node.c:266
+#: src/lib/p2p/p2p-node.c:238
 #, c-format
 msgid "started node \"%s\" in trojan mode, expect problems"
 msgstr ""
 "démarrage du noeud \"%s\" en mode cheval de troie, attendez-vous à "
 "rencontrer des problèmes"
 
-#: src/lib/p2p/p2p-node.c:271
+#: src/lib/p2p/p2p-node.c:242
 #, c-format
 msgid "started node \"%s\""
 msgstr "démarrage du noeud \"%s\""
 
-#: src/lib/p2p/p2p-recv.c:236
+#: src/lib/p2p/p2p-recv.c:186
 #, c-format
 msgid "communication established \"%s\" <-> \"%s\" on %s:%d"
 msgstr "communication établie \"%s\" <-> \"%s\" sur %s:%d"
 
-#: src/lib/scm/scm-test.c:273 src/lib/scm/scm-test.c:420
+#: src/lib/scm/scm-test.c:245 src/lib/scm/scm-test.c:377
 #, c-format
 msgid "leaving Guile in %s"
 msgstr "fin de Guile dans %s"
 
-#: src/lib/snd/mod-csound/mod-csound-backend.c:238
+#: src/lib/snd/mod-csound/mod-csound-backend.c:230
 msgid "Csound"
 msgstr "Csound"
 
-#: src/lib/snd/mod-ogg/mod-ogg-backend.c:227
+#: src/lib/snd/mod-ogg/mod-ogg-backend.c:230
 msgid "Ogg Vorbis"
 msgstr "Ogg Vorbis"
 
-#: src/lib/srv/mod-httpd/mod-httpd-backend.c:270
+#: src/lib/srv/mod-httpd/mod-httpd-backend.c:257
 msgid "HTTPD"
 msgstr "HTTPD"
 
-#: src/lib/srv/mod-httpd/mod-httpd-setup.c:128
+#: src/lib/srv/mod-httpd/mod-httpd-setup.c:115
 msgid "can't initialize mod_httpd"
 msgstr "impossible d'initialiser mod_httpd"
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:268
+#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:256
 msgid "TCPD"
 msgstr "TCPD"
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:71
+#: src/lib/srv/mod-tcpd/mod-tcpd-setup.c:65
 msgid "can't initialize mod_tcpd"
 msgstr "impossible d'initialiser mod_tcpd"
 
-#: src/lib/srv/mod-udpd/mod-udpd-backend.c:269
+#: src/lib/srv/mod-udpd/mod-udpd-backend.c:257
 msgid "UDPD"
 msgstr "UDPD"
 
-#: src/lib/srv/mod-udpd/mod-udpd-setup.c:71
+#: src/lib/srv/mod-udpd/mod-udpd-setup.c:65
 msgid "can't initialize mod_udpd"
 msgstr "impossible d'initialiser mod_udpd"
 
-#: src/lib/sys/sys-log.c:94
+#: src/lib/sys/sys-log.c:82
 msgid "log_file is NULL"
 msgstr "Le fichier de log est NULL"
 
-#: src/lib/sys/sys-log.c:561
+#: src/lib/sys/sys-log.c:553
 #, c-format
 msgid "can't open log file \"%s\""
 msgstr "impossible d'ouvrir le fichier de log \"%s\""
 
-#: src/lib/sys/sys-log.c:764
+#: src/lib/sys/sys-log.c:758
 msgid "Backtrace"
 msgstr "Trace"
 
-#: src/lib/sys/sys-log.c:947
+#: src/lib/sys/sys-log.c:925
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "ERREUR! (errno=%d:%s)"
 
-#: src/lib/sys/sys-log.c:952
+#: src/lib/sys/sys-log.c:929
 msgid "ERROR! "
 msgstr "ERREUR! "
 
-#: src/lib/sys/sys-log.c:962
+#: src/lib/sys/sys-log.c:939
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "ATTENTION! (errno=%d:%s) "
 
-#: src/lib/sys/sys-log.c:967
+#: src/lib/sys/sys-log.c:943
 msgid "WARNING! "
 msgstr "ATTENTION! "
 
-#: src/lib/sys/sys-log.c:984
+#: src/lib/sys/sys-log.c:960
 msgid "[tmp] "
 msgstr "[temp] "
 
-#: src/lib/sys/sys-log.c:990
+#: src/lib/sys/sys-log.c:966
 msgid "[debug] "
 msgstr "[déboggage] "
 
-#: src/lib/sys/sys-log.c:1075
+#: src/lib/sys/sys-log.c:1047
 msgid "CRITICAL! "
 msgstr "CRITIQUE! "
 
-#: src/lib/sys/sys-log.c:1079
+#: src/lib/sys/sys-log.c:1051
 msgid "CRITICAL!"
 msgstr "CRITIQUE! "
 
@@ -714,26 +714,26 @@ msgstr "CRITIQUE! "
 msgid "out of memory malloc (%d) failed in %s:%d"
 msgstr "pas assez de mémoire, échec de malloc (%d) dans %s:%d"
 
-#: src/lib/sys/sys-mem.c:130
+#: src/lib/sys/sys-mem.c:129
 #, c-format
 msgid "out of memory calloc(%d) failed in %s:%d"
 msgstr "pas assez de mémoire, échec de calloc (%d) dans %s:%d"
 
-#: src/lib/sys/sys-mem.c:187
+#: src/lib/sys/sys-mem.c:182
 #, c-format
 msgid "out of memory realloc (%d) failed in %s:%d"
 msgstr "pas assez de mémoire, échec de realloc (%d) dans %s:%d"
 
-#: src/lib/sys/sys-mem.c:231
+#: src/lib/sys/sys-mem.c:224
 #, c-format
 msgid "trying to free NULL pointer in %s:%d"
 msgstr "tentative de libérer un pointeur nul dans %s:%d"
 
-#: src/lib/sys/sys-signal.c:222
+#: src/lib/sys/sys-signal.c:247
 msgid "Segmentation fault"
 msgstr "Erreur de segmentation"
 
-#: src/lib/sys/sys-signal.c:262
+#: src/lib/sys/sys-signal.c:291
 msgid "Floating point exception"
 msgstr "Erreur calcul flottant"
 
