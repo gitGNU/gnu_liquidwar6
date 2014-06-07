@@ -1018,11 +1018,20 @@ lw6sys_memory_bazooka_report (lw6sys_context_t * sys_context)
     }
   else
     {
-      ret = 0;
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		  _x_
-		  ("possible memory leak, %d calls to malloc and %d calls to free, note that if the program exited abnormally because of an unexpected error, this difference might be \"normal\""),
-		  malloc_count, free_count);
+      /*
+       * Display the error message only if bazooka is active
+       * or if there have been no threads arround, the idea
+       * is that if we're threaded and there's no bazooka, we
+       * could report false positives.
+       */
+      if (bazooka_data || lw6sys_get_thread_create_count (sys_context) == 0)
+	{
+	  ret = 0;
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+		      _x_
+		      ("possible memory leak, %d calls to malloc and %d calls to free, note that if the program exited abnormally because of an unexpected error, this difference might be \"normal\""),
+		      malloc_count, free_count);
+	}
     }
 
   if (bazooka_data)
