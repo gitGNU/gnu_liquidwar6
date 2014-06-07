@@ -5,10 +5,10 @@ liquidwar6xyz-test-heap.jpeg: liquidwar6xyz-test-heap.pdf
 	mogrify -format jpeg -density 600x600 $^
 
 liquidwar6xyz-test-cpu.pdf: ../../src/lib/xyz/liquidwar6xyz-test liquidwar6xyz-test-cpu.dat
-	google-pprof --pdf $^ > $@
+	google-pprof --pdf --focus=lw6 $^ > $@
 
 liquidwar6xyz-test-heap.pdf: ../../src/lib/xyz/liquidwar6xyz-test liquidwar6xyz-test-cpu.dat
-	google-pprof --pdf ../../src/lib/xyz/liquidwar6xyz-test liquidwar6xyz-test-heap.dat* > $@
+	google-pprof --pdf --focus=lw6 ../../src/lib/xyz/liquidwar6xyz-test liquidwar6xyz-test-heap.dat* > $@
 
 liquidwar6xyz-test-cpu.dat: ../../src/lib/xyz/liquidwar6xyz-test
 	export CPUPROFILE=$$(readlink -f $@) && export HEAPPROFILE=$$(dirname $$(readlink -f $@))/liquidwar6xyz-test-heap.dat && cd ${top_builddir}/src/lib/xyz && ./liquidwar6xyz-test

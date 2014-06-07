@@ -27,10 +27,10 @@ liquidwar6-test-heap.jpeg: liquidwar6-test-heap.pdf
 	mogrify -format jpeg -density 600x600 $^
 
 liquidwar6-test-cpu.pdf: ../../src/lib/liquidwar6-test liquidwar6-test-cpu.dat
-	google-pprof --pdf $^ > $@
+	google-pprof --pdf --focus=lw6 $^ > $@
 
 liquidwar6-test-heap.pdf: liquidwar6-test-cpu.dat
-	google-pprof --pdf ../../src/lib/liquidwar6-test liquidwar6-test-heap.dat* > $@
+	google-pprof --pdf --focus=lw6 ../../src/lib/liquidwar6-test liquidwar6-test-heap.dat* > $@
 
 liquidwar6-test-cpu.dat:
 	export CPUPROFILE=$$(readlink -f $@) && export HEAPPROFILE=$$(dirname $$(readlink -f $@))/liquidwar6-test-heap.dat && cd ${top_builddir}/src/lib && $(MAKE) && ./liquidwar6-test
