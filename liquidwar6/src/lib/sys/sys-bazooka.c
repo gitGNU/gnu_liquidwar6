@@ -37,8 +37,8 @@
 #define BAZOOKA_ERASER_REALLOC_2 'R'
 #define BAZOOKA_ERASER_FREE 'F'
 
-#define BAZOOKA_MODULO_MUL 9
-#define BAZOOKA_MODULO_DIV 10
+#define BAZOOKA_MODULO_MUL 5
+#define BAZOOKA_MODULO_DIV 7
 
 void
 _lw6sys_bazooka_context_init (lw6sys_context_t * sys_context, _lw6sys_bazooka_context_t * bazooka_context)
@@ -76,7 +76,7 @@ _hash_index (lw6sys_context_t * sys_context, void *p)
 }
 
 static void
-bazooka_lock (lw6sys_context_t * sys_context)
+_bazooka_lock (lw6sys_context_t * sys_context)
 {
   _lw6sys_bazooka_context_t *bazooka_context = &(((_lw6sys_context_t *) sys_context)->bazooka_context);
 
@@ -87,7 +87,7 @@ bazooka_lock (lw6sys_context_t * sys_context)
 }
 
 static void
-bazooka_unlock (lw6sys_context_t * sys_context)
+_bazooka_unlock (lw6sys_context_t * sys_context)
 {
   _lw6sys_bazooka_context_t *bazooka_context = &(((_lw6sys_context_t *) sys_context)->bazooka_context);
 
@@ -98,10 +98,10 @@ bazooka_unlock (lw6sys_context_t * sys_context)
 }
 
 static void
-bazooka_destroy_spinlock (lw6sys_context_t * sys_context)
+_bazooka_destroy_spinlock (lw6sys_context_t * sys_context)
 {
   _lw6sys_bazooka_context_t *bazooka_context = &(((_lw6sys_context_t *) sys_context)->bazooka_context);
-  lw6sys_spinlock_t *tmp_spinlock;
+  lw6sys_spinlock_t *tmp_spinlock = NULL;
 
   tmp_spinlock = bazooka_context->spinlock;
   bazooka_context->spinlock = NULL;
@@ -112,7 +112,7 @@ bazooka_destroy_spinlock (lw6sys_context_t * sys_context)
 }
 
 static void
-bazooka_free_data (lw6sys_context_t * sys_context)
+_bazooka_free_data (lw6sys_context_t * sys_context)
 {
   _lw6sys_bazooka_context_t *bazooka_context = &(((_lw6sys_context_t *) sys_context)->bazooka_context);
 
@@ -137,13 +137,13 @@ _big_cleanup (lw6sys_context_t * sys_context)
 }
 
 static int
-bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line, int erase)
+_bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line, int erase)
 {
   int ret = 1;
   _lw6sys_bazooka_context_t *bazooka_context = &(((_lw6sys_context_t *) sys_context)->bazooka_context);
   _lw6sys_bazooka_line_t *bazooka_data = NULL;
 
-  bazooka_lock (sys_context);
+  _bazooka_lock (sys_context);
   bazooka_context->malloc_count++;
   bazooka_context->malloc_current_count++;
   bazooka_context->malloc_max_count = lw6sys_imax (bazooka_context->malloc_max_count, bazooka_context->malloc_current_count);
@@ -180,6 +180,15 @@ bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, co
 	      strncpy (bazooka_data[i].file, file_only, _LW6SYS_BAZOOKA_FILE_SIZE - 1);
 	      bazooka_data[i].line = line;
 	      bazooka_data[i].timestamp = lw6sys_get_timestamp (sys_context);
+
+	      if (i >= bazooka_context->size - 1)
+		{
+		  /*
+		   * we've reached the limit, it can't be considered
+		   * as trustable any more as it is full...
+		   */
+		  bazooka_context->trustable = 0;
+		}
 	      break;		// important to leave loop, else serious perfomance problem
 	    }
 	}
@@ -188,13 +197,13 @@ bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, co
 	  _big_cleanup (sys_context);
 	}
     }
-  bazooka_unlock (sys_context);
+  _bazooka_unlock (sys_context);
 
   return ret;
 }
 
 static void
-report_line (lw6sys_context_t * sys_context, _lw6sys_bazooka_line_t * bazooka)
+_report_line (lw6sys_context_t * sys_context, _lw6sys_bazooka_line_t * bazooka)
 {
   _lw6sys_bazooka_line_t local_bazooka;
   int sample_int = 0;
@@ -325,7 +334,7 @@ lw6sys_set_memory_bazooka_size (lw6sys_context_t * sys_context, int size)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("setting memory bazooka size, old_size=%d new_size=%d"), bazooka_context->size, size);
 
-	  bazooka_lock (sys_context);
+	  _bazooka_lock (sys_context);
 
 	  bazooka_data = bazooka_context->data;
 	  if (bazooka_data)
@@ -350,10 +359,11 @@ lw6sys_set_memory_bazooka_size (lw6sys_context_t * sys_context, int size)
 	    {
 	      bazooka_context->size = 0;
 	    }
+	  bazooka_context->data = bazooka_data;
 
 	  if (bazooka_context->spinlock)
 	    {
-	      bazooka_unlock (sys_context);
+	      _bazooka_unlock (sys_context);
 	    }
 	  else
 	    {
@@ -364,19 +374,15 @@ lw6sys_set_memory_bazooka_size (lw6sys_context_t * sys_context, int size)
 	       */
 	      bazooka_context->spinlock = lw6sys_spinlock_create (sys_context);
 	    }
-	  if (bazooka_data)
-	    {
-	      bazooka_context->data = bazooka_data;
-	    }
-	  else
+	  if (!bazooka_data)
 	    {
 	      lw6sys_log_critical (sys_context, _x_ ("can't allocate bazooka memory (%d bytes)"), (int) (size * sizeof (_lw6sys_bazooka_line_t)));
 	    }
 	}
       else
 	{
-	  bazooka_destroy_spinlock (sys_context);
-	  bazooka_free_data (sys_context);
+	  _bazooka_destroy_spinlock (sys_context);
+	  _bazooka_free_data (sys_context);
 
 	  ret = 1;
 	}
@@ -465,7 +471,7 @@ _lw6sys_bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int 
 #ifndef LW6_OPTIMIZE
   _lw6sys_bazooka_context_t *bazooka_context = &(((_lw6sys_context_t *) sys_context)->bazooka_context);
 
-  ret = bazooka_register_malloc (sys_context, ptr, size, file, line, bazooka_context->eraser);
+  ret = _bazooka_register_malloc (sys_context, ptr, size, file, line, bazooka_context->eraser);
 #endif // LW6_OPTIMIZE
 
   return ret;
@@ -477,7 +483,7 @@ _lw6sys_bazooka_register_calloc (lw6sys_context_t * sys_context, char *ptr, int 
   int ret = 1;
 
 #ifndef LW6_OPTIMIZE
-  ret = bazooka_register_malloc (sys_context, ptr, size, file, line, 0);
+  ret = _bazooka_register_malloc (sys_context, ptr, size, file, line, 0);
 #endif // LW6_OPTIMIZE
 
   return ret;
@@ -492,13 +498,15 @@ _lw6sys_bazooka_register_realloc_1 (lw6sys_context_t * sys_context, char *ptr, i
   _lw6sys_bazooka_context_t *bazooka_context = &(((_lw6sys_context_t *) sys_context)->bazooka_context);
   _lw6sys_bazooka_line_t *bazooka_data = NULL;
 
-  bazooka_lock (sys_context);
+  _bazooka_lock (sys_context);
   bazooka_data = bazooka_context->data;
   if (bazooka_data)
     {
-      int i;
+      int i0 = 0;
+      int i = 0;
 
-      for (i = _hash_index (sys_context, ptr); i < bazooka_context->size; ++i)
+      i0 = _hash_index (sys_context, ptr);
+      for (i = i0; i < bazooka_context->size; ++i)
 	{
 	  if (bazooka_data[i].ptr == ptr)
 	    {
@@ -517,7 +525,7 @@ _lw6sys_bazooka_register_realloc_1 (lw6sys_context_t * sys_context, char *ptr, i
 	  ret = 0;
 	}
     }
-  bazooka_unlock (sys_context);
+  _bazooka_unlock (sys_context);
 #endif // LW6_OPTIMIZE
 
   return ret;
@@ -532,7 +540,7 @@ _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, c
   _lw6sys_bazooka_context_t *bazooka_context = &(((_lw6sys_context_t *) sys_context)->bazooka_context);
   _lw6sys_bazooka_line_t *bazooka_data = NULL;
 
-  bazooka_lock (sys_context);
+  _bazooka_lock (sys_context);
   bazooka_data = bazooka_context->data;
   if (bazooka_data)
     {
@@ -599,6 +607,14 @@ _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, c
 		  strncpy (bazooka_data[i].file, file_only, _LW6SYS_BAZOOKA_FILE_SIZE - 1);
 		  bazooka_data[i].line = line;
 		  bazooka_data[i].timestamp = lw6sys_get_timestamp (sys_context);
+		  if (i >= bazooka_context->size - 1)
+		    {
+		      /*
+		       * we've reached the limit, it can't be considered
+		       * as trustable any more as it is full...
+		       */
+		      bazooka_context->trustable = 0;
+		    }
 		  break;	// important to leave loop, else serious perfomance problem
 		}
 	    }
@@ -608,7 +624,7 @@ _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, c
 	    }
 	}
     }
-  bazooka_unlock (sys_context);
+  _bazooka_unlock (sys_context);
 #endif // LW6_OPTIMIZE
 
   return ret;
@@ -625,7 +641,7 @@ _lw6sys_bazooka_register_free (lw6sys_context_t * sys_context, char *ptr)
 
   int i;
 
-  bazooka_lock (sys_context);
+  _bazooka_lock (sys_context);
   bazooka_data = bazooka_context->data;
   bazooka_context->free_count++;
   bazooka_context->malloc_current_count--;
@@ -683,7 +699,7 @@ _lw6sys_bazooka_register_free (lw6sys_context_t * sys_context, char *ptr)
 	}
     }
 
-  bazooka_unlock (sys_context);
+  _bazooka_unlock (sys_context);
 #endif // LW6_OPTIMIZE
 
   return ret;
@@ -962,7 +978,7 @@ lw6sys_memory_bazooka_report (lw6sys_context_t * sys_context)
 
   if (bazooka_context->spinlock)
     {
-      bazooka_destroy_spinlock (sys_context);
+      _bazooka_destroy_spinlock (sys_context);
       recreate_spinlock = 1;
     }
 
@@ -1016,7 +1032,7 @@ lw6sys_memory_bazooka_report (lw6sys_context_t * sys_context)
 	  if (bazooka_data[i].ptr)
 	    {
 	      ret = 0;
-	      report_line (sys_context, &(bazooka_data[i]));
+	      _report_line (sys_context, &(bazooka_data[i]));
 	      reported_lines++;
 	    }
 	}
