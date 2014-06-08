@@ -38,4 +38,4 @@ liquidwar6-test-cpu.dat:
 clean-local:
 	rm -f *.jpeg *.pdf *.dat *.dat.*
 
-EXTRA_DIST = Makefile.main Makefile.extra
+EXTRA_DIST = Makefile.main Makefile.extra blank.pdf
