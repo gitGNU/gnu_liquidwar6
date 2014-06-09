@@ -366,10 +366,11 @@ _lw6p2p_db_sql_callback (void *func_data, int nb_fields, char **fields_values, c
   if (callback_data && callback_data->sys_context)
     {
       lw6sys_context_t *sys_context = callback_data->sys_context;
+      void *callback_func_data = callback_data->callback_func_data;
 
       if (callback_data->callback_func)
 	{
-	  ret = callback_data->callback_func (sys_context, func_data, nb_fields, fields_values, fields_names);
+	  ret = callback_data->callback_func (sys_context, callback_func_data, nb_fields, fields_values, fields_names);
 	}
     }
 
@@ -406,6 +407,7 @@ _lw6p2p_db_exec (lw6sys_context_t * sys_context, _lw6p2p_db_t * db, char *sql, _
     {
       callback_data.sys_context = sys_context;
       callback_data.callback_func = func;
+      callback_data.callback_func_data = func_data;
 
       _lw6p2p_db_log (sys_context, db, sql);
       errcode = sqlite3_exec (db->handler, sql, _lw6p2p_db_sql_callback, &callback_data, &errmsg);

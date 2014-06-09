@@ -86,6 +86,7 @@ typedef struct _lw6p2p_db_callback_data_s
 {
   lw6sys_context_t *sys_context;
   _lw6p2p_db_callback_t callback_func;
+  void *callback_func_data;
 } _lw6p2p_db_callback_data_t;
 
 typedef struct _lw6p2p_consts_s
