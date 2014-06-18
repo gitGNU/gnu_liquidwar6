@@ -65,6 +65,7 @@ src/lib/cns/cns-support.c
 src/lib/cns/cns-test.c
 src/lib/cns/cns-testmain.c
 src/lib/cnx/cnx-connection.c
+src/lib/cnx/cnx-packet.c
 src/lib/cnx/cnx-password.c
 src/lib/cnx/cnx-test.c
 src/lib/cnx/cnx-testmain.c
@@ -433,7 +434,6 @@ src/lib/p2p/p2p-entry.c
 src/lib/p2p/p2p-explore.c
 src/lib/p2p/p2p-flush.c
 src/lib/p2p/p2p-node.c
-src/lib/p2p/p2p-packet.c
 src/lib/p2p/p2p-peeridlist.c
 src/lib/p2p/p2p-recv.c
 src/lib/p2p/p2p-srvoob.c

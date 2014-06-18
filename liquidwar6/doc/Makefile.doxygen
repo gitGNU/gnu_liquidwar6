@@ -72,7 +72,7 @@ $(srcdir)/p2p-doxygen.texi: $(top_srcdir)/src/lib/p2p/p2p.h $(top_srcdir)/src/li
 $(srcdir)/pil-doxygen.texi: $(top_srcdir)/src/lib/pil/pil.h $(top_srcdir)/src/lib/pil/pil-internal.h
 	if test -w $@ || test ! -f $@ ; then echo doxygen pil && echo > $@; for l in doxygen/xml/structlw6pil__* doxygen/xml/unionlw6pil__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" | sed "s/::@\([0-9][0-9]*\)/::\1/g" >> $@; fi; done; fi
 
-$(srcdir)/scm-doxygen.texi: $(top_srcdir)/src/lib/scm/scm.h
+$(srcdir)/scm-doxygen.texi: $(top_srcdir)/src/lib/scm/scm.h $(top_srcdir)/src/lib/scm/scm-internal.h
 	if test -w $@ || test ! -f $@ ; then echo doxygen scm && echo > $@; for l in doxygen/xml/structlw6scm__* doxygen/xml/unionlw6scm__* ; do if test -f "$$l"; then xsltproc $(srcdir)/doxygen/texinfo-struct.xsl "$$l" | grep -v "<?xml" | sed "s/::@\([0-9][0-9]*\)/::\1/g" >> $@; fi; done; fi
 
 $(srcdir)/sim-doxygen.texi: $(top_srcdir)/src/lib/sim/sim.h $(top_srcdir)/src/lib/sim/sim-internal.h

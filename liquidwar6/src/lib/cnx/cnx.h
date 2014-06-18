@@ -227,6 +227,23 @@ typedef struct lw6cnx_ticket_table_s
 }
 lw6cnx_ticket_table_t;
 
+/**
+ * Used to hold a network message plus some metadata, such
+ * as who it is for, and who emitted the message.
+ */
+typedef struct lw6cnx_packet_s
+{
+  /// Logical signature for the packet.
+  u_int32_t logical_ticket_sig;
+  /// Physical signature for the packet.
+  u_int32_t physical_ticket_sig;
+  /// Logical sender.
+  u_int64_t logical_from_id;
+  /// Logical receiver.
+  u_int64_t logical_to_id;
+  char *msg;
+} lw6cnx_packet_t;
+
 /* cnx-connection.c */
 extern lw6cnx_connection_t *lw6cnx_connection_new (lw6sys_context_t * sys_context, const char *local_url,
 						   const char *remote_url,
@@ -242,6 +259,14 @@ extern void lw6cnx_connection_init_foo_bar_key (lw6sys_context_t * sys_context, 
 extern int lw6cnx_connection_lock_send (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection);
 extern void lw6cnx_connection_unlock_send (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection);
 extern int lw6cnx_connection_reliability_filter (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection);
+
+/* cnx-packet.c */
+extern lw6cnx_packet_t *lw6cnx_packet_new (lw6sys_context_t * sys_context, u_int32_t logical_ticket_sig,
+					   u_int32_t physical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *msg);
+extern void lw6cnx_packet_free (lw6sys_context_t * sys_context, lw6cnx_packet_t * packet);
+extern u_int32_t lw6cnx_packet_checksum (lw6sys_context_t * sys_context, const lw6cnx_packet_t * packet);
+extern int lw6cnx_packet_compare (lw6sys_context_t * sys_context, const lw6cnx_packet_t * a, const lw6cnx_packet_t * b);
+extern int lw6cnx_packet_sort_callback (lw6sys_context_t * sys_context, void *func_data, const void *ptr_a, const void *ptr_b);
 
 /* cnx-password.c */
 extern char *lw6cnx_password_checksum (lw6sys_context_t * sys_context, const char *seed, const char *password);

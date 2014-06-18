@@ -282,7 +282,7 @@ _send_best_filter (lw6sys_context_t * sys_context, void *func_data, void *data)
   int i = 0;
   int ping_msec = 0;
   _send_best_data_t *send_best_data = (_send_best_data_t *) func_data;
-  _lw6p2p_packet_t *packet = (_lw6p2p_packet_t *) data;
+  lw6cnx_packet_t *packet = (lw6cnx_packet_t *) data;
   _lw6p2p_tentacle_t *tentacle = send_best_data->tentacle;
   lw6cnx_connection_t *best_cnx = send_best_data->best_cnx;
   int64_t now = send_best_data->now;
@@ -502,7 +502,7 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t
 	   * to make sure they arrive totally not in the right
 	   * order.
 	   */
-	  lw6sys_sort (sys_context, &(tentacle->unsent_reliable_queue), _lw6p2p_packet_sort_callback, NULL);
+	  lw6sys_sort (sys_context, &(tentacle->unsent_reliable_queue), lw6cnx_packet_sort_callback, NULL);
 	  lw6sys_list_filter (sys_context, &(tentacle->unsent_reliable_queue), _send_best_filter, &send_best_data);
 	}
       /*
@@ -529,7 +529,7 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t
 	   * to make sure they arrive totally not in the right
 	   * order.
 	   */
-	  lw6sys_sort (sys_context, &(tentacle->unsent_unreliable_queue), _lw6p2p_packet_sort_callback, NULL);
+	  lw6sys_sort (sys_context, &(tentacle->unsent_unreliable_queue), lw6cnx_packet_sort_callback, NULL);
 	  lw6sys_list_filter (sys_context, &(tentacle->unsent_unreliable_queue), _send_best_filter, &send_best_data);
 	}
       else
@@ -562,7 +562,7 @@ _lw6p2p_tentacle_send_best (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t *
 {
   int ret = 0;
   u_int32_t physical_ticket_sig = 0;
-  _lw6p2p_packet_t *packet = NULL;
+  lw6cnx_packet_t *packet = NULL;
 
   physical_ticket_sig =
     lw6msg_ticket_calc_sig (sys_context, lw6cnx_ticket_table_get_send (sys_context, ticket_table, tentacle->remote_id_str), tentacle->local_id_int,
@@ -572,11 +572,11 @@ _lw6p2p_tentacle_send_best (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t *
     {
       if (!tentacle->unsent_reliable_queue)
 	{
-	  tentacle->unsent_reliable_queue = lw6sys_list_new (sys_context, (lw6sys_free_func_t) _lw6p2p_packet_free);
+	  tentacle->unsent_reliable_queue = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6cnx_packet_free);
 	}
       if (tentacle->unsent_reliable_queue)
 	{
-	  packet = _lw6p2p_packet_new (sys_context, logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
+	  packet = lw6cnx_packet_new (sys_context, logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
 	  if (packet)
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("message \"%s\" not sent, pushing it to unsent_reliable_queue"), packet->msg);
@@ -595,11 +595,11 @@ _lw6p2p_tentacle_send_best (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t *
 
   if (!tentacle->unsent_unreliable_queue)
     {
-      tentacle->unsent_unreliable_queue = lw6sys_list_new (sys_context, (lw6sys_free_func_t) _lw6p2p_packet_free);
+      tentacle->unsent_unreliable_queue = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6cnx_packet_free);
     }
   if (tentacle->unsent_unreliable_queue)
     {
-      packet = _lw6p2p_packet_new (sys_context, logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
+      packet = lw6cnx_packet_new (sys_context, logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
       if (packet)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("message \"%s\" not sent, pushing it to unsent_unreliable_queue"), packet->msg);

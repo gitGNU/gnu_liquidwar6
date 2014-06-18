@@ -27,7 +27,7 @@ TEST_SRC_FILE = cnx-test.c
 else
 TEST_SRC_FILE =
 endif
-libcnx_la_SOURCES = cnx-connection.c cnx-password.c $(TEST_SRC_FILE) cnx-tickettable.c
+libcnx_la_SOURCES = cnx-connection.c cnx-packet.c cnx-password.c $(TEST_SRC_FILE) cnx-tickettable.c
 libcnxdir= $(includedir)/@PACKAGE_TARNAME@/cnx
 libcnx_HEADERS = cnx.h
 

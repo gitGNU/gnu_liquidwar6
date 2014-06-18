@@ -47,6 +47,20 @@
 #define _TEST_TICKET_TABLE_ID2 "2345234523452345"
 #define _TEST_TICKET_ACK_DELAY_MSEC 3000
 
+#define _TEST_PACKET_LOGICAL_TICKET_SIG_1 0x12341234
+#define _TEST_PACKET_PHYSICAL_TICKET_SIG_1 0x23452345
+#define _TEST_PACKET_LOGICAL_FROM_ID_1 0x2345234523452345LL
+#define _TEST_PACKET_LOGICAL_TO_ID_1 0x3456345634563456LL
+#define _TEST_PACKET_MSG_1 "toto"
+#define _TEST_PACKET_CHECKSUM_1 0xbfad51f5
+#define _TEST_PACKET_LOGICAL_TICKET_SIG_2 0x12341234
+#define _TEST_PACKET_PHYSICAL_TICKET_SIG_2 0x23452345
+#define _TEST_PACKET_LOGICAL_FROM_ID_2 0x2345234523452345LL
+#define _TEST_PACKET_LOGICAL_TO_ID_2 0x3456345634563456LL
+#define _TEST_PACKET_MSG_2 "titi"
+#define _TEST_PACKET_CHECKSUM_2 0xa1f8f755
+#define _TEST_PACKET_COMPARE +1
+
 typedef struct _lw6cnx_test_data_s
 {
   int ret;
@@ -141,6 +155,73 @@ _test_connection ()
     else
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("cnx_connection object creation failed"));
+	ret = 0;
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+/*
+ * Testing functions in packet.c
+ */
+static void
+_test_packet ()
+{
+  int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6cnx_packet_t *packet_1 = NULL;
+    lw6cnx_packet_t *packet_2 = NULL;
+    u_int32_t checksum_1 = 0;
+    u_int32_t checksum_2 = 0;
+
+    packet_1 =
+      lw6cnx_packet_new (sys_context, _TEST_PACKET_LOGICAL_TICKET_SIG_1,
+			 _TEST_PACKET_PHYSICAL_TICKET_SIG_1, _TEST_PACKET_LOGICAL_FROM_ID_1, _TEST_PACKET_LOGICAL_TO_ID_1, _TEST_PACKET_MSG_1);
+    if (LW6SYS_TEST_ACK (packet_1))
+      {
+	packet_2 =
+	  lw6cnx_packet_new (sys_context, _TEST_PACKET_LOGICAL_TICKET_SIG_2,
+			     _TEST_PACKET_PHYSICAL_TICKET_SIG_2, _TEST_PACKET_LOGICAL_FROM_ID_2, _TEST_PACKET_LOGICAL_TO_ID_2, _TEST_PACKET_MSG_2);
+	if (LW6SYS_TEST_ACK (packet_2))
+	  {
+	    checksum_1 = lw6cnx_packet_checksum (sys_context, packet_1);
+	    checksum_2 = lw6cnx_packet_checksum (sys_context, packet_2);
+	    if (LW6SYS_TEST_ACK (checksum_1 == _TEST_PACKET_CHECKSUM_1 && checksum_2 == _TEST_PACKET_CHECKSUM_2))
+	      {
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("packet checksums OK (%08x,%08x)"), checksum_1, checksum_2);
+	      }
+	    else
+	      {
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+			    _x_
+			    ("packet checksums mismatch (%08x,%08x) vs (%08x,%08x)"),
+			    checksum_1, checksum_2, _TEST_PACKET_CHECKSUM_1, _TEST_PACKET_CHECKSUM_2);
+		ret = 0;
+	      }
+	    if (LW6SYS_TEST_ACK (lw6cnx_packet_compare (sys_context, packet_1, packet_2) == _TEST_PACKET_COMPARE))
+	      {
+		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("packet compare works as expected"));
+	      }
+	    else
+	      {
+		lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("packet compare does not work as expected"));
+		ret = 0;
+	      }
+	    lw6cnx_packet_free (sys_context, packet_2);
+	  }
+	else
+	  {
+	    ret = 0;
+	  }
+	lw6cnx_packet_free (sys_context, packet_1);
+      }
+    else
+      {
 	ret = 0;
       }
   }
@@ -400,6 +481,7 @@ lw6cnx_test_register (lw6sys_context_t * sys_context, int mode)
   if (suite)
     {
       LW6SYS_CUNIT_ADD_TEST (suite, _test_connection);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_packet);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_password);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_ticket_table);
     }
