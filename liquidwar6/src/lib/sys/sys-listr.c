@@ -48,7 +48,6 @@ lw6sys_list_r_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func)
   ret = LW6SYS_MALLOC (sys_context, sizeof (lw6sys_list_r_t));
   if (ret)
     {
-      memset (ret, 0, sizeof (lw6sys_list_r_t));
       ret->mutex = lw6sys_mutex_create (sys_context);
       ret->list = lw6sys_list_new (sys_context, free_func);
       if ((!(ret->mutex)) || (!(ret->list)))
@@ -449,7 +448,7 @@ lw6sys_list_r_dup (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6
 
   if (lw6sys_mutex_lock (sys_context, list_r->mutex))
     {
-      ret = lw6sys_list_r_new (sys_context, list_r->list->free_func);
+      ret = LW6SYS_MALLOC (sys_context, sizeof (lw6sys_list_r_t));
       if (ret)
 	{
 	  ret->mutex = lw6sys_mutex_create (sys_context);

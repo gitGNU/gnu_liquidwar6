@@ -2025,7 +2025,7 @@ _test_list ()
     str4 = lw6sys_str_copy (sys_context, _TEST_LIST_STR4);
     lw6sys_fifo_push (sys_context, &list, (void *) str4);
     list_copy = lw6sys_list_dup (sys_context, list, (lw6sys_dup_func_t) lw6sys_str_copy);
-    ret = ret && lw6sys_list_length (sys_context, list_copy) == 4;
+    ret = ret && LW6SYS_TEST_ACK (lw6sys_list_length (sys_context, list_copy) == 4);
     lw6sys_list_free (sys_context, list_copy);
     lw6sys_list_free (sys_context, list);
   }
@@ -2085,6 +2085,389 @@ _test_list ()
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("3rd filter limit=%d"), limit);
 	lw6sys_list_filter (sys_context, &list, list_filter_func, &limit);
 	lw6sys_list_free (sys_context, list);
+      }
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+/*
+ * Testing functions in listr.c
+ */
+static void
+_test_list_r ()
+{
+  int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+  lw6sys_list_r_t *list_r;
+  lw6sys_list_r_t *list_r_copy;
+
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("new/delete/is_empty on list_r"));
+    list_r = lw6sys_list_r_new (sys_context, NULL);
+    ret = ret && lw6sys_list_r_is_empty (sys_context, list_r);
+    lw6sys_list_r_free (sys_context, list_r);
+  }
+
+  {
+    int a = 3, b = 5, c = 7;
+    int i;
+
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("lifo push/pop on int list_r"));
+    list_r = lw6sys_list_r_new (sys_context, NULL);
+    lw6sys_lifo_r_push (sys_context, list_r, (void *) &a);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("lifo push %d"), a);
+    lw6sys_lifo_r_push (sys_context, list_r, (void *) &b);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("lifo push %d"), b);
+    lw6sys_lifo_r_push (sys_context, list_r, (void *) &c);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("lifo push %d"), c);
+    lw6sys_list_r_map (sys_context, list_r, &list_map_int_func, &ret);
+    ret = ret && lw6sys_list_r_length (sys_context, list_r) == 3;
+    i = *((int *) lw6sys_lifo_r_pop (sys_context, list_r));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("lifo pop %d"), i);
+    ret = ret && (i == c);
+    i = *((int *) lw6sys_lifo_r_pop (sys_context, list_r));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("lifo pop %d"), i);
+    ret = ret && (i == b);
+    i = *((int *) lw6sys_lifo_r_pop (sys_context, list_r));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("lifo pop %d"), i);
+    ret = ret && (i == a);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("free list_r"));
+    lw6sys_list_r_free (sys_context, list_r);
+  }
+
+  {
+    int a = 2, b = 4, c = 6, d = 8;
+    int i;
+
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("fifo push/pop on int list_r"));
+    list_r = lw6sys_list_r_new (sys_context, NULL);
+    lw6sys_fifo_r_push (sys_context, list_r, (void *) &a);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("fifo push %d"), a);
+    lw6sys_fifo_r_push (sys_context, list_r, (void *) &b);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("fifo push %d"), b);
+    lw6sys_fifo_r_push (sys_context, list_r, (void *) &c);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("fifo push %d"), c);
+    lw6sys_fifo_r_push (sys_context, list_r, (void *) &d);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("fifo push %d"), d);
+    lw6sys_list_r_map (sys_context, list_r, &list_map_int_func, &ret);
+    ret = ret && lw6sys_list_r_length (sys_context, list_r) == 4;
+    i = *((int *) lw6sys_fifo_r_pop (sys_context, list_r));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("fifo pop %d"), i);
+    ret = ret && (i == a);
+    i = *((int *) lw6sys_fifo_r_pop (sys_context, list_r));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("fifo pop %d"), i);
+    ret = ret && (i == b);
+    i = *((int *) lw6sys_fifo_r_pop (sys_context, list_r));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("fifo pop %d"), i);
+    ret = ret && (i == c);
+    i = *((int *) lw6sys_fifo_r_pop (sys_context, list_r));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("fifo pop %d"), i);
+    ret = ret && (i == d);
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("free list_r"));
+    lw6sys_list_r_free (sys_context, list_r);
+  }
+
+  {
+    char *str;
+
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_front/pop_front on string list_r"));
+    list_r = lw6sys_list_r_new (sys_context, lw6sys_free_callback);
+    lw6sys_list_r_push_front (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR1));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_front \"%s\""), _TEST_LIST_STR1);
+    lw6sys_list_r_push_front (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR2));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_front \"%s\""), _TEST_LIST_STR2);
+    lw6sys_list_r_push_front (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR3));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_front \"%s\""), _TEST_LIST_STR3);
+    lw6sys_list_r_map (sys_context, list_r, &list_map_str_func, &ret);
+    str = (char *) lw6sys_list_r_pop_front (sys_context, list_r);
+    if (LW6SYS_TEST_ACK (str))
+      {
+	ret = ret && (!strcmp (str, _TEST_LIST_STR3));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("pop_front \"%s\""), str);
+	LW6SYS_FREE (sys_context, str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (LW6SYS_TEST_ACK (str))
+      {
+	str = (char *) lw6sys_list_r_pop_front (sys_context, list_r);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("pop_front \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR2));
+	LW6SYS_FREE (sys_context, str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (LW6SYS_TEST_ACK (str))
+      {
+	str = (char *) lw6sys_list_r_pop_front (sys_context, list_r);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("pop_front \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR1));
+	LW6SYS_FREE (sys_context, str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("free list_r"));
+    lw6sys_list_r_free (sys_context, list_r);
+  }
+
+  {
+    char *str;
+
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_back/pop_front on string list_r"));
+    list_r = lw6sys_list_r_new (sys_context, lw6sys_free_callback);
+    lw6sys_list_r_push_back (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR1));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_back \"%s\""), _TEST_LIST_STR1);
+    lw6sys_list_r_push_back (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR2));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_back \"%s\""), _TEST_LIST_STR2);
+    lw6sys_list_r_push_back (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR3));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_back \"%s\""), _TEST_LIST_STR3);
+    lw6sys_list_r_map (sys_context, list_r, &list_map_str_func, &ret);
+    str = (char *) lw6sys_list_r_pop_front (sys_context, list_r);
+    if (LW6SYS_TEST_ACK (str))
+      {
+	ret = ret && (!strcmp (str, _TEST_LIST_STR1));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("pop_front \"%s\""), str);
+	LW6SYS_FREE (sys_context, str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (LW6SYS_TEST_ACK (str))
+      {
+	str = (char *) lw6sys_list_r_pop_front (sys_context, list_r);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("pop_front \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR2));
+	LW6SYS_FREE (sys_context, str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (LW6SYS_TEST_ACK (str))
+      {
+	str = (char *) lw6sys_list_r_pop_front (sys_context, list_r);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("pop_front \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR3));
+	LW6SYS_FREE (sys_context, str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("free list_r"));
+    lw6sys_list_r_free (sys_context, list_r);
+  }
+
+  {
+    char *str;
+
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_front/pop_back on string list_r"));
+    list_r = lw6sys_list_r_new (sys_context, lw6sys_free_callback);
+    lw6sys_list_r_push_front (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR1));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_front \"%s\""), _TEST_LIST_STR1);
+    lw6sys_list_r_push_front (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR2));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_front \"%s\""), _TEST_LIST_STR2);
+    lw6sys_list_r_push_front (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR3));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_front \"%s\""), _TEST_LIST_STR3);
+    lw6sys_list_r_map (sys_context, list_r, &list_map_str_func, &ret);
+    str = (char *) lw6sys_list_r_pop_back (sys_context, list_r);
+    if (LW6SYS_TEST_ACK (str))
+      {
+	ret = ret && (!strcmp (str, _TEST_LIST_STR1));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("pop_back \"%s\""), str);
+	LW6SYS_FREE (sys_context, str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (LW6SYS_TEST_ACK (str))
+      {
+	str = (char *) lw6sys_list_r_pop_back (sys_context, list_r);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("pop_back \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR2));
+	LW6SYS_FREE (sys_context, str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (LW6SYS_TEST_ACK (str))
+      {
+	str = (char *) lw6sys_list_r_pop_back (sys_context, list_r);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("pop_back \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR3));
+	LW6SYS_FREE (sys_context, str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("free list_r"));
+    lw6sys_list_r_free (sys_context, list_r);
+  }
+
+  {
+    char *str;
+
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_back/pop_back on string list_r"));
+    list_r = lw6sys_list_r_new (sys_context, lw6sys_free_callback);
+    lw6sys_list_r_push_back (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR1));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_back \"%s\""), _TEST_LIST_STR1);
+    lw6sys_list_r_push_back (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR2));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_back \"%s\""), _TEST_LIST_STR2);
+    lw6sys_list_r_push_back (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR3));
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("push_back \"%s\""), _TEST_LIST_STR3);
+    lw6sys_list_r_map (sys_context, list_r, &list_map_str_func, &ret);
+    str = (char *) lw6sys_list_r_pop_back (sys_context, list_r);
+    if (LW6SYS_TEST_ACK (str))
+      {
+	ret = ret && (!strcmp (str, _TEST_LIST_STR3));
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("pop_back \"%s\""), str);
+	LW6SYS_FREE (sys_context, str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (LW6SYS_TEST_ACK (str))
+      {
+	str = (char *) lw6sys_list_r_pop_back (sys_context, list_r);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("pop_back \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR2));
+	LW6SYS_FREE (sys_context, str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    if (LW6SYS_TEST_ACK (str))
+      {
+	str = (char *) lw6sys_list_r_pop_back (sys_context, list_r);
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("pop_back \"%s\""), str);
+	ret = ret && (!strcmp (str, _TEST_LIST_STR1));
+	LW6SYS_FREE (sys_context, str);
+      }
+    else
+      {
+	ret = 0;
+      }
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("free list_r"));
+    lw6sys_list_r_free (sys_context, list_r);
+  }
+
+  {
+    int a = 32, b = 64, c = 128, d = 256, e = 512;
+
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("front/back push/pop on int list_r"));
+    list_r = lw6sys_list_r_new (sys_context, NULL);
+    lw6sys_list_r_push_front (sys_context, list_r, (void *) &a);
+    lw6sys_list_r_push_front (sys_context, list_r, (void *) &b);
+    lw6sys_list_r_push_back (sys_context, list_r, (void *) &c);
+    lw6sys_list_r_push_back (sys_context, list_r, (void *) &d);
+    lw6sys_list_r_push_back (sys_context, list_r, (void *) &e);
+    lw6sys_list_r_map (sys_context, list_r, &list_map_int_func, &ret);
+    ret = ret && lw6sys_list_r_length (sys_context, list_r) == 5;
+    ret = ret && (*((int *) lw6sys_list_r_pop_back (sys_context, list_r)) == e);
+    ret = ret && (*((int *) lw6sys_list_r_pop_back (sys_context, list_r)) == d);
+    ret = ret && (*((int *) lw6sys_list_r_pop_front (sys_context, list_r)) == b);
+    ret = ret && (*((int *) lw6sys_list_r_pop_front (sys_context, list_r)) == a);
+    ret = ret && (*((int *) lw6sys_list_r_pop_front (sys_context, list_r)) == c);
+    lw6sys_list_r_free (sys_context, list_r);
+  }
+
+  {
+    char *str1, *str2, *str3, *str4;
+
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("testing free_func callback and dup on string list_r"));
+    list_r = lw6sys_list_r_new (sys_context, &lw6sys_free_callback);
+    str1 = lw6sys_str_copy (sys_context, _TEST_LIST_STR1);
+    lw6sys_lifo_r_push (sys_context, list_r, (void *) str1);
+    str2 = lw6sys_str_copy (sys_context, _TEST_LIST_STR2);
+    lw6sys_fifo_r_push (sys_context, list_r, (void *) str2);
+    str3 = lw6sys_str_copy (sys_context, _TEST_LIST_STR3);
+    lw6sys_lifo_r_push (sys_context, list_r, (void *) str3);
+    str4 = lw6sys_str_copy (sys_context, _TEST_LIST_STR4);
+    lw6sys_fifo_r_push (sys_context, list_r, (void *) str4);
+    list_r_copy = lw6sys_list_r_dup (sys_context, list_r, (lw6sys_dup_func_t) lw6sys_str_copy);
+    ret = ret && LW6SYS_TEST_ACK (lw6sys_list_r_length (sys_context, list_r_copy) == 4);
+    lw6sys_list_r_free (sys_context, list_r_copy);
+    lw6sys_list_r_free (sys_context, list_r);
+  }
+
+  {
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("testing final pop behavior"));
+
+    list_r = lw6sys_list_r_new (sys_context, NULL);
+    if (LW6SYS_TEST_ACK (list_r))
+      {
+	lw6sys_list_r_pop_front (sys_context, list_r);
+	if (LW6SYS_TEST_ACK (list_r))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("final pop front didn't free list_r"));
+	    lw6sys_list_r_free (sys_context, list_r);
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("final pop front did free list_r"));
+	    ret = 0;
+	  }
+      }
+
+    list_r = lw6sys_list_r_new (sys_context, NULL);
+    if (LW6SYS_TEST_ACK (list_r))
+      {
+	lw6sys_list_r_pop_back (sys_context, list_r);
+	if (LW6SYS_TEST_ACK (list_r))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("final pop back didn't free list_r"));
+	    lw6sys_list_r_free (sys_context, list_r);
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("final pop back did free list_r"));
+	    ret = 0;
+	  }
+      }
+  }
+  {
+    int i = 0;
+    int *d = NULL;
+    int limit = 0;
+
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("testing list_r filter"));
+    list_r = lw6sys_list_r_new (sys_context, lw6sys_free_callback);
+    if (LW6SYS_TEST_ACK (list_r))
+      {
+	for (i = 0; i < _TEST_LIST_FILTER_NB_ITEMS; ++i)
+	  {
+	    d = (int *) LW6SYS_MALLOC (sys_context, sizeof (int));
+	    if (LW6SYS_TEST_ACK (d))
+	      {
+		(*d) = lw6sys_random (sys_context, _TEST_LIST_FILTER_RANGE);
+		lw6sys_list_r_push_front (sys_context, list_r, d);
+	      }
+	  }
+	limit = (2 * _TEST_LIST_FILTER_RANGE) / 3;
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("1st filter limit=%d"), limit);
+	lw6sys_list_r_filter (sys_context, list_r, list_filter_func, &limit);
+	limit = _TEST_LIST_FILTER_RANGE / 3;
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("2nd filter limit=%d"), limit);
+	lw6sys_list_r_filter (sys_context, list_r, list_filter_func, &limit);
+	limit = -_TEST_LIST_FILTER_RANGE / 10;
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("3rd filter limit=%d"), limit);
+	lw6sys_list_r_filter (sys_context, list_r, list_filter_func, &limit);
+	lw6sys_list_r_free (sys_context, list_r);
       }
   }
 
@@ -4399,6 +4782,7 @@ lw6sys_test_register (lw6sys_context_t * sys_context, int mode)
       LW6SYS_CUNIT_ADD_TEST (suite, _test_id);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_keyword);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_list);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_list_r);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_log);
       if (mode & LW6SYS_TEST_MODE_FULL_TEST)
 	{

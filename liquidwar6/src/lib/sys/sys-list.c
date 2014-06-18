@@ -52,10 +52,9 @@ lw6sys_list_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func)
 {
   lw6sys_list_t *ret = NULL;
 
-  ret = LW6SYS_MALLOC (sys_context, sizeof (lw6sys_list_t));
+  ret = LW6SYS_CALLOC (sys_context, sizeof (lw6sys_list_t));
   if (ret)
     {
-      memset (ret, 0, sizeof (lw6sys_list_t));
       ret->free_func = free_func;
     }
 
