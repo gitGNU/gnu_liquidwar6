@@ -551,6 +551,7 @@ src/lib/sys/sys-i18n.c
 src/lib/sys/sys-id.c
 src/lib/sys/sys-keyword.c
 src/lib/sys/sys-list.c
+src/lib/sys/sys-listr.c
 src/lib/sys/sys-log.c
 src/lib/sys/sys-math.c
 src/lib/sys/sys-mem.c

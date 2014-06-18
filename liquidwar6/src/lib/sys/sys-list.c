@@ -157,7 +157,7 @@ lw6sys_list_next (lw6sys_context_t * sys_context, lw6sys_list_t * list)
  * Return value: 1 if empty, 0 if there is at list one item.
  */
 int
-lw6sys_list_is_empty (lw6sys_context_t * sys_context, lw6sys_list_t * list)
+lw6sys_list_is_empty (lw6sys_context_t * sys_context, const lw6sys_list_t * list)
 {
   int empty = 1;
 
@@ -174,7 +174,7 @@ lw6sys_list_is_empty (lw6sys_context_t * sys_context, lw6sys_list_t * list)
 }
 
 /**
- * lw6sys_info_length
+ * lw6sys_list_length
  *
  * @sys_context: global system context
  * @list: the list we want informations about
@@ -185,7 +185,7 @@ lw6sys_list_is_empty (lw6sys_context_t * sys_context, lw6sys_list_t * list)
  * Return value: the number of elements, 0 is none (empty list).
  */
 int
-lw6sys_list_length (lw6sys_context_t * sys_context, lw6sys_list_t * list)
+lw6sys_list_length (lw6sys_context_t * sys_context, const lw6sys_list_t * list)
 {
   int ret = 0;
 

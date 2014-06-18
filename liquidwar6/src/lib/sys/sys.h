@@ -381,6 +381,36 @@ typedef void (*lw6sys_thread_callback_func_t) (lw6sys_context_t * sys_context, v
 typedef int (*lw6sys_dir_list_filter_func_t) (lw6sys_context_t * sys_context, void *func_data, char *file);
 typedef void (*lw6sys_fork_func_t) (lw6sys_context_t * sys_context, void *data);
 
+/**
+ * Mutex is our own wrapper on the pthread mutex object.
+ * Why not use the pthread mutex directly? For debugging,
+ * this allows us to place and instrument hooks if needed.
+ */
+typedef struct lw6sys_mutex_s
+{
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
+  u_int32_t id;
+} lw6sys_mutex_t;
+
+/**
+ * Spinlock is our own wrapper on a spinlock based mutex.
+ * Why not use the pthread spinlock directly? For debugging,
+ * this allows us to place and instrument hooks if needed.
+ * Additionnally, some implementations of pthread do not provide
+ * spinlock and in that case we provide our own alternative.
+ */
+typedef struct lw6sys_spinlock_s
+{
+  /**
+   * The id of the object, this is non-zero and unique within one run session,
+   * incremented at each object creation.
+   */
+  u_int32_t id;
+} lw6sys_spinlock_t;
+
 typedef struct lw6sys_assoc_s *lw6sys_assoc_p;
 
 /**
@@ -469,7 +499,6 @@ typedef struct lw6sys_cache_item_s
  * will be removed on query and appear as non-existing
  * to callers.
  */
-
 typedef struct lw6sys_cache_s
 {
   /// Delay in milliseconds before a key expires.
@@ -509,6 +538,24 @@ typedef struct lw6sys_list_s
   lw6sys_list_p next_item;
 }
 lw6sys_list_t;
+
+/**
+ * List_r is a list system based on list plus a mutex that
+ * ensures you can safely call functions on it, without
+ * worrying about concurrency. All functions with list_r_ in
+ * in their name do lock the list_r before using it, and release
+ * it afterwards. Else, the API is pretty much the same, except
+ * some functions that take a ** with a list take a simple * with
+ * a list_r.
+ */
+typedef struct lw6sys_list_r_s
+{
+  /// Mutex used to avoid multiple accesses.
+  lw6sys_mutex_t *mutex;
+  /// List containing the data.
+  lw6sys_list_t *list;
+}
+lw6sys_list_r_t;
 
 /*
  * The sort callback must be qsort compatible, so 
@@ -634,36 +681,6 @@ extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_BLUE;
 #define LW6SYS_REFORMAT_INDENT_NB_COLUMNS 70
 #define LW6SYS_REFORMAT_XML_PREFIX "    "
 #define LW6SYS_REFORMAT_XML_NB_COLUMNS 74
-
-/**
- * Mutex is our own wrapper on the pthread mutex object.
- * Why not use the pthread mutex directly? For debugging,
- * this allows us to place and instrument hooks if needed.
- */
-typedef struct lw6sys_mutex_s
-{
-  /**
-   * The id of the object, this is non-zero and unique within one run session,
-   * incremented at each object creation.
-   */
-  u_int32_t id;
-} lw6sys_mutex_t;
-
-/**
- * Spinlock is our own wrapper on a spinlock based mutex.
- * Why not use the pthread spinlock directly? For debugging,
- * this allows us to place and instrument hooks if needed.
- * Additionnally, some implementations of pthread do not provide
- * spinlock and in that case we provide our own alternative.
- */
-typedef struct lw6sys_spinlock_s
-{
-  /**
-   * The id of the object, this is non-zero and unique within one run session,
-   * incremented at each object creation.
-   */
-  u_int32_t id;
-} lw6sys_spinlock_t;
 
 /**
  * Thread handler is our own wrapper on the pthread object.
@@ -1012,8 +1029,8 @@ extern char *lw6sys_keyword_as_xml (lw6sys_context_t * sys_context, const char *
 extern lw6sys_list_t *lw6sys_list_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func);
 extern void lw6sys_list_free (lw6sys_context_t * sys_context, lw6sys_list_t * list);
 extern lw6sys_list_t *lw6sys_list_next (lw6sys_context_t * sys_context, lw6sys_list_t * list);
-extern int lw6sys_list_is_empty (lw6sys_context_t * sys_context, lw6sys_list_t * list);
-extern int lw6sys_list_length (lw6sys_context_t * sys_context, lw6sys_list_t * list);
+extern int lw6sys_list_is_empty (lw6sys_context_t * sys_context, const lw6sys_list_t * list);
+extern int lw6sys_list_length (lw6sys_context_t * sys_context, const lw6sys_list_t * list);
 extern void lw6sys_list_map (lw6sys_context_t * sys_context, lw6sys_list_t * list, lw6sys_list_callback_func_t func, void *func_data);
 extern void lw6sys_list_filter (lw6sys_context_t * sys_context, lw6sys_list_t ** list, lw6sys_list_filter_func_t func, void *func_data);
 extern void lw6sys_list_push_front (lw6sys_context_t * sys_context, lw6sys_list_t ** list, void *data);
@@ -1025,6 +1042,23 @@ extern void *lw6sys_lifo_pop (lw6sys_context_t * sys_context, lw6sys_list_t ** l
 extern void lw6sys_fifo_push (lw6sys_context_t * sys_context, lw6sys_list_t ** list, void *data);
 extern void *lw6sys_fifo_pop (lw6sys_context_t * sys_context, lw6sys_list_t ** list);
 extern lw6sys_list_t *lw6sys_list_dup (lw6sys_context_t * sys_context, lw6sys_list_t * list, lw6sys_dup_func_t dup_func);
+
+/* sys-listr.c */
+extern lw6sys_list_r_t *lw6sys_list_r_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func);
+extern void lw6sys_list_r_free (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r);
+extern int lw6sys_list_r_is_empty (lw6sys_context_t * sys_context, const lw6sys_list_r_t * list_r);
+extern int lw6sys_list_r_length (lw6sys_context_t * sys_context, const lw6sys_list_r_t * list_r);
+extern void lw6sys_list_r_map (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6sys_list_callback_func_t func, void *func_data);
+extern void lw6sys_list_r_filter (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6sys_list_filter_func_t func, void *func_data);
+extern void lw6sys_list_r_push_front (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, void *data);
+extern void *lw6sys_list_r_pop_front (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r);
+extern void lw6sys_list_r_push_back (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, void *data);
+extern void *lw6sys_list_r_pop_back (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r);
+extern void lw6sys_lifo_r_push (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, void *data);
+extern void *lw6sys_lifo_r_pop (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r);
+extern void lw6sys_fifo_r_push (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, void *data);
+extern void *lw6sys_fifo_r_pop (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r);
+extern lw6sys_list_r_t *lw6sys_list_r_dup (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6sys_dup_func_t dup_func);
 
 /* sys-log.c */
 extern const char *lw6sys_log_errno_str (lw6sys_context_t * sys_context, int errno_int);
