@@ -2476,6 +2476,40 @@ _test_list_r ()
       }
   }
 
+  {
+    int list_len = 0;
+    int list_r_len = 0;
+    lw6sys_list_t *list = NULL;
+
+    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("transfer on list_r"));
+    list_r = lw6sys_list_r_new (sys_context, lw6sys_free_callback);
+    lw6sys_list_r_push_front (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR1));
+    lw6sys_list_r_push_front (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR2));
+    lw6sys_list_r_push_front (sys_context, list_r, (void *) lw6sys_str_copy (sys_context, _TEST_LIST_STR3));
+    list = lw6sys_list_r_transfer (sys_context, list_r);
+    if (LW6SYS_TEST_ACK (list))
+      {
+	list_len = lw6sys_list_length (sys_context, list);
+	list_r_len = lw6sys_list_r_length (sys_context, list_r);
+	if (LW6SYS_TEST_ACK (list_len == 3) && LW6SYS_TEST_ACK (list_r_len == 0))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("transfer OK, sizes match list_len=%d list_r_len=%d"), list_len, list_r_len);
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("transfer failed, sizes do not match list_len=%d list_r_len=%d"), list_len, list_r_len);
+	    ret = 0;
+	  }
+	lw6sys_list_free (sys_context, list);
+      }
+    else
+      {
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("transfer failed, list is NULL"));
+	ret = 0;
+      }
+    lw6sys_list_r_free (sys_context, list_r);
+  }
+
   LW6SYS_TEST_FUNCTION_END;
 }
 

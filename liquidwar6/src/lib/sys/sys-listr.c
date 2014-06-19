@@ -538,3 +538,38 @@ lw6sys_list_r_dup (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6
 
   return ret;
 }
+
+/**
+ * lw6sys_list_r_transfer
+ *
+ * @sys_context: global system context
+ * @list_r: the reentrant list to transfer
+ *
+ * Transfers the contents of a reentrant list to a regular list.
+ * Basically, this locks the list, extracts informations from it,
+ * then releases the lock and leaves the list_r empty.
+ * This is convenient in multithreaded contexts, typical pattern
+ * is a thread that pushes items, then another thread does massive
+ * transfers and processes each item separately with local pops
+ * on the regular list. This limits the amount of locking.
+ *
+ * Returned value: a standard list, must be freed.
+ */
+lw6sys_list_t *
+lw6sys_list_r_transfer (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r)
+{
+  lw6sys_list_t *ret = NULL;
+
+  if (_lock_rw (sys_context, list_r))
+    {
+      ret = list_r->list;
+      list_r->list = lw6sys_list_new (sys_context, list_r->free_func);
+      _unlock (sys_context, list_r);
+    }
+  else
+    {
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to acquire lock on list_r"));
+    }
+
+  return ret;
+}
