@@ -28,6 +28,49 @@
 
 #include "sys.h"
 
+static int
+_lock_ro (lw6sys_context_t * sys_context, const lw6sys_list_r_t * list_r)
+{
+  int ret = 0;
+
+  if (list_r->list)
+    {
+      ret = lw6sys_mutex_lock (sys_context, list_r->mutex);
+    }
+
+  return ret;
+}
+
+static int
+_lock_rw (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r)
+{
+  int ret = 0;
+
+  if (!(list_r->list))
+    {
+      /*
+       * If we're likely to modify the list, one needs to provide
+       * a non-null member, else list functions could fail.
+       * Standard list will return NULL after popping some time,
+       * we must cope with that.
+       */
+      list_r->list = lw6sys_list_new (sys_context, list_r->free_func);
+    }
+
+  if (list_r->list)
+    {
+      ret = _lock_ro (sys_context, list_r);
+    }
+
+  return ret;
+}
+
+static void
+_unlock (lw6sys_context_t * sys_context, const lw6sys_list_r_t * list_r)
+{
+  lw6sys_mutex_unlock (sys_context, list_r->mutex);
+}
+
 /**
  * lw6sys_list_r_new
  *
@@ -50,6 +93,7 @@ lw6sys_list_r_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func)
     {
       ret->mutex = lw6sys_mutex_create (sys_context);
       ret->list = lw6sys_list_new (sys_context, free_func);
+      ret->free_func = free_func;
       if ((!(ret->mutex)) || (!(ret->list)))
 	{
 	  if (ret->mutex)
@@ -121,10 +165,17 @@ lw6sys_list_r_is_empty (lw6sys_context_t * sys_context, const lw6sys_list_r_t * 
 {
   int ret = 0;
 
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_ro (sys_context, list_r))
     {
-      ret = lw6sys_list_is_empty (sys_context, list_r->list);
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      if (list_r->list)
+	{
+	  /*
+	   * Call is_empty only if member is not NULL,
+	   * else consider there's no data, period.
+	   */
+	  ret = lw6sys_list_is_empty (sys_context, list_r->list);
+	}
+      _unlock (sys_context, list_r);
     }
   else
     {
@@ -150,10 +201,17 @@ lw6sys_list_r_length (lw6sys_context_t * sys_context, const lw6sys_list_r_t * li
 {
   int ret = 0;
 
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_ro (sys_context, list_r))
     {
-      ret = lw6sys_list_length (sys_context, list_r->list);
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      if (list_r->list)
+	{
+	  /*
+	   * Call list_lenght only if member is not NULL,
+	   * else consider there's no data, period.
+	   */
+	  ret = lw6sys_list_length (sys_context, list_r->list);
+	}
+      _unlock (sys_context, list_r);
     }
   else
     {
@@ -179,10 +237,10 @@ lw6sys_list_r_length (lw6sys_context_t * sys_context, const lw6sys_list_r_t * li
 void
 lw6sys_list_r_map (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6sys_list_callback_func_t func, void *func_data)
 {
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_rw (sys_context, list_r))
     {
       lw6sys_list_map (sys_context, list_r->list, func, func_data);
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      _unlock (sys_context, list_r);
     }
   else
     {
@@ -206,10 +264,10 @@ lw6sys_list_r_map (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6
 void
 lw6sys_list_r_filter (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6sys_list_filter_func_t func, void *func_data)
 {
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_rw (sys_context, list_r))
     {
       lw6sys_list_filter (sys_context, &(list_r->list), func, func_data);
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      _unlock (sys_context, list_r);
     }
   else
     {
@@ -231,10 +289,10 @@ lw6sys_list_r_filter (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, 
 void
 lw6sys_list_r_push_front (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, void *data)
 {
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_rw (sys_context, list_r))
     {
       lw6sys_list_push_front (sys_context, &(list_r->list), data);
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      _unlock (sys_context, list_r);
     }
   else
     {
@@ -257,10 +315,10 @@ lw6sys_list_r_pop_front (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_
 {
   void *ret = NULL;
 
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_rw (sys_context, list_r))
     {
       ret = lw6sys_list_pop_front (sys_context, &(list_r->list));
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      _unlock (sys_context, list_r);
     }
   else
     {
@@ -283,10 +341,10 @@ lw6sys_list_r_pop_front (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_
 void
 lw6sys_list_r_push_back (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, void *data)
 {
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_rw (sys_context, list_r))
     {
       lw6sys_list_push_back (sys_context, &(list_r->list), data);
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      _unlock (sys_context, list_r);
     }
   else
     {
@@ -309,10 +367,10 @@ lw6sys_list_r_pop_back (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r
 {
   void *ret = NULL;
 
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_rw (sys_context, list_r))
     {
       ret = lw6sys_list_pop_back (sys_context, &(list_r->list));
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      _unlock (sys_context, list_r);
     }
   else
     {
@@ -336,10 +394,10 @@ lw6sys_list_r_pop_back (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r
 void
 lw6sys_lifo_r_push (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, void *data)
 {
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_rw (sys_context, list_r))
     {
       lw6sys_lifo_push (sys_context, &(list_r->list), data);
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      _unlock (sys_context, list_r);
     }
   else
     {
@@ -362,10 +420,10 @@ lw6sys_lifo_r_pop (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r)
 {
   void *ret = NULL;
 
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_rw (sys_context, list_r))
     {
       ret = lw6sys_lifo_pop (sys_context, &(list_r->list));
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      _unlock (sys_context, list_r);
     }
   else
     {
@@ -389,10 +447,10 @@ lw6sys_lifo_r_pop (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r)
 void
 lw6sys_fifo_r_push (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, void *data)
 {
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_rw (sys_context, list_r))
     {
       lw6sys_fifo_push (sys_context, &(list_r->list), data);
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      _unlock (sys_context, list_r);
     }
   else
     {
@@ -415,10 +473,10 @@ lw6sys_fifo_r_pop (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r)
 {
   void *ret = NULL;
 
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_rw (sys_context, list_r))
     {
       ret = lw6sys_fifo_pop (sys_context, &(list_r->list));
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      _unlock (sys_context, list_r);
     }
   else
     {
@@ -446,13 +504,14 @@ lw6sys_list_r_dup (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6
 {
   lw6sys_list_r_t *ret = NULL;
 
-  if (lw6sys_mutex_lock (sys_context, list_r->mutex))
+  if (_lock_rw (sys_context, list_r))
     {
       ret = LW6SYS_MALLOC (sys_context, sizeof (lw6sys_list_r_t));
       if (ret)
 	{
 	  ret->mutex = lw6sys_mutex_create (sys_context);
 	  ret->list = lw6sys_list_dup (sys_context, list_r->list, dup_func);
+	  ret->free_func = list_r->free_func;
 
 	  if ((!(ret->mutex)) || (!(ret->list)))
 	    {
@@ -470,7 +529,7 @@ lw6sys_list_r_dup (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6
 	      ret = NULL;
 	    }
 	}
-      lw6sys_mutex_unlock (sys_context, list_r->mutex);
+      _unlock (sys_context, list_r);
     }
   else
     {

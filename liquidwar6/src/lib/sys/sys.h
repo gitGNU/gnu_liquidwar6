@@ -550,10 +550,22 @@ lw6sys_list_t;
  */
 typedef struct lw6sys_list_r_s
 {
-  /// Mutex used to avoid multiple accesses.
+  /**
+   * Mutex used to avoid multiple accesses. Locked / unlocked
+   * on each member function call except new and free.
+   */
   lw6sys_mutex_t *mutex;
-  /// List containing the data.
+  /**
+   * List containing the data. Basically, the list_r is
+   * just a wrapper on this, bundled with the mutex.
+   */
   lw6sys_list_t *list;
+  /**
+   * This function will be called whenever the element is
+   * deleted. You can set it to NULL in that case no callback
+   * will be called on deletion.
+   */
+  lw6sys_free_func_t free_func;
 }
 lw6sys_list_r_t;
 

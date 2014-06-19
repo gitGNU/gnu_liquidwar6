@@ -2412,9 +2412,12 @@ _test_list_r ()
     if (LW6SYS_TEST_ACK (list_r))
       {
 	lw6sys_list_r_pop_front (sys_context, list_r);
-	if (LW6SYS_TEST_ACK (list_r))
+	if (LW6SYS_TEST_ACK (list_r) && LW6SYS_TEST_ACK (lw6sys_list_r_length (sys_context, list_r) == 0))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("final pop front didn't free list_r"));
+	    lw6sys_list_r_pop_front (sys_context, list_r);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("yet another pop front on list_r does not harm"));
+
 	    lw6sys_list_r_free (sys_context, list_r);
 	  }
 	else
@@ -2428,9 +2431,11 @@ _test_list_r ()
     if (LW6SYS_TEST_ACK (list_r))
       {
 	lw6sys_list_r_pop_back (sys_context, list_r);
-	if (LW6SYS_TEST_ACK (list_r))
+	if (LW6SYS_TEST_ACK (list_r) && LW6SYS_TEST_ACK (lw6sys_list_r_length (sys_context, list_r) == 0))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("final pop back didn't free list_r"));
+	    lw6sys_list_r_pop_back (sys_context, list_r);
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("yet another pop back on list_r does not harm"));
 	    lw6sys_list_r_free (sys_context, list_r);
 	  }
 	else
