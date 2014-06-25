@@ -58,7 +58,7 @@ _lw6pil_compute_thread_func (lw6sys_context_t * sys_context, lw6pil_worker_t * w
 	  timestamp = lw6sys_get_timestamp (sys_context);
 	}
 
-      commands = lw6sys_list_r_transfer (sys_context, worker->commands);
+      commands = lw6sys_list_r_transfer_to (sys_context, worker->commands);
 
       if (commands)
 	{

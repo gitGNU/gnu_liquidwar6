@@ -1071,7 +1071,8 @@ extern void *lw6sys_lifo_r_pop (lw6sys_context_t * sys_context, lw6sys_list_r_t 
 extern void lw6sys_fifo_r_push (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, void *data);
 extern void *lw6sys_fifo_r_pop (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r);
 extern lw6sys_list_r_t *lw6sys_list_r_dup (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6sys_dup_func_t dup_func);
-extern lw6sys_list_t *lw6sys_list_r_transfer (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r);
+extern lw6sys_list_t *lw6sys_list_r_transfer_to (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r);
+extern void lw6sys_list_r_transfer_from (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6sys_list_t ** list);
 
 /* sys-log.c */
 extern const char *lw6sys_log_errno_str (lw6sys_context_t * sys_context, int errno_int);

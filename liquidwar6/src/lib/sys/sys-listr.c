@@ -540,7 +540,7 @@ lw6sys_list_r_dup (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6
 }
 
 /**
- * lw6sys_list_r_transfer
+ * lw6sys_list_r_transfer_to
  *
  * @sys_context: global system context
  * @list_r: the reentrant list to transfer
@@ -556,7 +556,7 @@ lw6sys_list_r_dup (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6
  * Returned value: a standard list, must be freed.
  */
 lw6sys_list_t *
-lw6sys_list_r_transfer (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r)
+lw6sys_list_r_transfer_to (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r)
 {
   lw6sys_list_t *ret = NULL;
 
@@ -572,4 +572,72 @@ lw6sys_list_r_transfer (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r
     }
 
   return ret;
+}
+
+/**
+ * lw6sys_list_r_transfer_from
+ *
+ * @sys_context: global system context
+ * @list_r: the reentrant list where to put data
+ * @list: the list to get data from
+ *
+ * Transfers the contents of a regular list to a reentrant list.
+ * Basically, this locks the list, then appends all contents
+ * from the source standard list, then releases the lock.
+ * The source list pointer is set to an empty list, if
+ * it's NULL it means an error happened.
+ * This is convenient in multithreaded contexts, typical pattern
+ * is a thread that pushes items in a bulked mode, this has
+ * the advantage of less lock/unlock, plus the side effect
+ * of having more atomicity, one can indeed garantee that a 
+ * whole packet of items are sent at once. There's no
+ * garantee on the order, you'd better sort them afterwards
+ * if order does matter, by default the function does what
+ * is fastest/easiest to do.
+ *
+ * Returned value: none, but check if *list is not null.
+ */
+void
+lw6sys_list_r_transfer_from (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6sys_list_t ** list)
+{
+  lw6sys_list_t *end1 = NULL;
+  lw6sys_list_t *end2 = NULL;
+  lw6sys_list_t *tmp = NULL;
+
+  if (list && *list && lw6sys_list_length (sys_context, *list) > 0)
+    {
+      if (_lock_rw (sys_context, list_r))
+	{
+	  end1 = end2 = list_r->list;
+
+	  while (end2 && end2->next_item)
+	    {
+	      end1 = end2;
+	      end2 = (lw6sys_list_t *) end2->next_item;
+	    }
+
+	  if (end1 && end2 && end1 != end2)
+	    {
+	      end1->next_item = *list;
+	      lw6sys_list_free (sys_context, end2);
+	      end2 = NULL;
+	      (*list) = lw6sys_list_new (sys_context, list_r->free_func);
+	    }
+	  else
+	    {
+	      /*
+	       * Looks like list_r has size 0 here -> just swap!
+	       */
+	      tmp = *list;
+	      (*list) = list_r->list;
+	      list_r->list = tmp;
+	    }
+
+	  _unlock (sys_context, list_r);
+	}
+      else
+	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to acquire lock on list_r"));
+	}
+    }
 }

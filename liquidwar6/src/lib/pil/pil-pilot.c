@@ -310,13 +310,15 @@ _commit_reference (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, _lw6pil
   int min_round = -1;
   int max_round = 0;
   int last_commit_round = 0;
+  lw6sys_list_t *bulk_list = NULL;
 
   /*
    * Process the commands for the reference threads.
    */
   if (!lw6sys_list_is_empty (sys_context, pilot->verified_queue))
     {
-      while (pilot->verified_queue && (command_text = lw6sys_list_pop_front (sys_context, &(pilot->verified_queue))) != NULL)
+      bulk_list = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6pil_command_free);
+      while (pilot->verified_queue && ((command_text = lw6sys_list_pop_front (sys_context, &(pilot->verified_queue))) != NULL) && (bulk_list != NULL))
 	{
 	  command = lw6pil_command_new (sys_context, command_text, pilot->seq_0, pilot->round_0);
 	  if (command)
@@ -330,9 +332,18 @@ _commit_reference (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, _lw6pil
 		  min_round = lw6sys_imax (command->round, min_round);
 		}
 	      max_round = lw6sys_imax (command->round, max_round);
-	      lw6sys_list_r_push_front (sys_context, pilot->reference.commands, command);
+	      lw6sys_list_push_front (sys_context, &bulk_list, command);
 	    }
 	  LW6SYS_FREE (sys_context, command_text);
+	}
+      if (bulk_list)
+	{
+	  lw6sys_list_r_transfer_from (sys_context, pilot->reference.commands, &bulk_list);
+	}
+      if (bulk_list)
+	{
+	  LW6SYS_FREE (sys_context, bulk_list);
+	  bulk_list = NULL;
 	}
       if (pilot->verified_queue)
 	{
