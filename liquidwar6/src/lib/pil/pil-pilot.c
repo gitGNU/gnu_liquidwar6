@@ -316,7 +316,6 @@ _commit_reference (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, _lw6pil
    */
   if (!lw6sys_list_is_empty (sys_context, pilot->verified_queue))
     {
-      lw6sys_spinlock_lock (sys_context, pilot->reference.commands_spinlock);
       while (pilot->verified_queue && (command_text = lw6sys_list_pop_front (sys_context, &(pilot->verified_queue))) != NULL)
 	{
 	  command = lw6pil_command_new (sys_context, command_text, pilot->seq_0, pilot->round_0);
@@ -331,7 +330,7 @@ _commit_reference (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, _lw6pil
 		  min_round = lw6sys_imax (command->round, min_round);
 		}
 	      max_round = lw6sys_imax (command->round, max_round);
-	      lw6sys_list_push_front (sys_context, &(pilot->reference.commands), command);
+	      lw6sys_list_r_push_front (sys_context, pilot->reference.commands, command);
 	    }
 	  LW6SYS_FREE (sys_context, command_text);
 	}
@@ -340,7 +339,6 @@ _commit_reference (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, _lw6pil
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("verified_queue should be NULL, but isn't"));
 	}
       pilot->verified_queue = lw6sys_list_new (sys_context, lw6sys_free_callback);
-      lw6sys_spinlock_unlock (sys_context, pilot->reference.commands_spinlock);
 
       if (min_round >= 0)
 	{
@@ -390,9 +388,7 @@ _commit_reference (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, _lw6pil
        */
       if (lw6pil_dump_exists (sys_context, dump))
 	{
-	  lw6sys_spinlock_lock (sys_context, pilot->reference.commands_spinlock);
-	  lw6sys_list_map (sys_context, pilot->reference.commands, _lw6pil_compute_pump_command_callback, dump->pilot);
-	  lw6sys_spinlock_unlock (sys_context, pilot->reference.commands_spinlock);
+	  lw6sys_list_r_map (sys_context, pilot->reference.commands, _lw6pil_compute_pump_command_callback, dump->pilot);
 	}
     }
 
@@ -448,8 +444,6 @@ _commit_draft (lw6sys_context_t * sys_context, _lw6pil_pilot_t * pilot)
 	{
 	  _sync_draft_from_reference (sys_context, pilot);
 
-	  lw6sys_spinlock_lock (sys_context, pilot->draft.commands_spinlock);
-
 	  replay = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6pil_command_free);
 	  if (replay)
 	    {
@@ -463,7 +457,7 @@ _commit_draft (lw6sys_context_t * sys_context, _lw6pil_pilot_t * pilot)
 			{
 			  lw6sys_list_push_front (sys_context, &replay, command_dup);
 			}
-		      lw6sys_list_push_front (sys_context, &(pilot->draft.commands), command);
+		      lw6sys_list_r_push_front (sys_context, pilot->draft.commands, command);
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("draft anticipation of \"%s\""), command->text);
 		    }
 		  else
@@ -478,7 +472,6 @@ _commit_draft (lw6sys_context_t * sys_context, _lw6pil_pilot_t * pilot)
 	      pilot->replay = replay;
 	      replay = NULL;
 	    }
-	  lw6sys_spinlock_unlock (sys_context, pilot->draft.commands_spinlock);
 	}
     }
 

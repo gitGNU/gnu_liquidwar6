@@ -218,16 +218,10 @@ typedef struct lw6pil_worker_s
   lw6sys_mutex_t *global_mutex;
   /// Mutex used for the computing thread.
   lw6sys_mutex_t *compute_mutex;
-  /**
-   * Mutex used for the commands object, uses a spinlock
-   * instead of a standard lock as updating commands
-   * is (should) be pretty fast.
-   */
-  lw6sys_spinlock_t *commands_spinlock;
   /// Game state the computing thread is working on.
   lw6ker_game_state_t *game_state;
   /// List of commands to be processed.
-  lw6sys_list_t *commands;
+  lw6sys_list_r_t *commands;
   /// Dump information
   lw6pil_dump_t dump;
 } lw6pil_worker_t;

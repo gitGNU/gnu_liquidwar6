@@ -41,25 +41,21 @@ _lw6pil_worker_init (lw6sys_context_t * sys_context, lw6pil_worker_t * worker, l
   worker->game_state = lw6ker_game_state_dup (sys_context, game_state, progress);
   if (worker->game_state)
     {
-      worker->commands = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6pil_command_free);
+      worker->commands = lw6sys_list_r_new (sys_context, (lw6sys_free_func_t) lw6pil_command_free);
       if (worker->commands)
 	{
-	  worker->commands_spinlock = lw6sys_spinlock_create (sys_context);
-	  if (worker->commands_spinlock)
+	  worker->compute_mutex = lw6sys_mutex_create (sys_context);
+	  if (worker->compute_mutex)
 	    {
-	      worker->compute_mutex = lw6sys_mutex_create (sys_context);
-	      if (worker->compute_mutex)
+	      worker->global_mutex = lw6sys_mutex_create (sys_context);
+	      if (worker->global_mutex)
 		{
-		  worker->global_mutex = lw6sys_mutex_create (sys_context);
-		  if (worker->global_mutex)
+		  worker->compute_thread =
+		    lw6sys_thread_create (sys_context, (lw6sys_thread_callback_func_t)
+					  _lw6pil_compute_thread_func, (lw6sys_thread_callback_func_t) _lw6pil_compute_thread_join, (void *) worker);
+		  if (worker->compute_thread)
 		    {
-		      worker->compute_thread =
-			lw6sys_thread_create (sys_context, (lw6sys_thread_callback_func_t)
-					      _lw6pil_compute_thread_func, (lw6sys_thread_callback_func_t) _lw6pil_compute_thread_join, (void *) worker);
-		      if (worker->compute_thread)
-			{
-			  ret = 1;
-			}
+		      ret = 1;
 		    }
 		}
 	    }
@@ -84,10 +80,6 @@ _lw6pil_worker_quit (lw6sys_context_t * sys_context, lw6pil_worker_t * worker)
     {
       lw6sys_thread_join (sys_context, worker->compute_thread);
     }
-  if (worker->commands_spinlock)
-    {
-      lw6sys_spinlock_destroy (sys_context, worker->commands_spinlock);
-    }
   if (worker->compute_mutex)
     {
       lw6sys_mutex_destroy (sys_context, worker->compute_mutex);
@@ -98,7 +90,7 @@ _lw6pil_worker_quit (lw6sys_context_t * sys_context, lw6pil_worker_t * worker)
     }
   if (worker->commands)
     {
-      lw6sys_list_free (sys_context, worker->commands);
+      lw6sys_list_r_free (sys_context, worker->commands);
     }
   if (worker->game_state)
     {

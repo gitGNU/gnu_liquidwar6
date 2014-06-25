@@ -58,17 +58,7 @@ _lw6pil_compute_thread_func (lw6sys_context_t * sys_context, lw6pil_worker_t * w
 	  timestamp = lw6sys_get_timestamp (sys_context);
 	}
 
-      lw6sys_spinlock_lock (sys_context, worker->commands_spinlock);
-      if (worker->commands && !lw6sys_list_is_empty (sys_context, worker->commands))
-	{
-	  commands = worker->commands;
-	  worker->commands = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6pil_command_free);
-	  if (!worker->commands)
-	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("worker->commands is NULL"));
-	    }
-	}
-      lw6sys_spinlock_unlock (sys_context, worker->commands_spinlock);
+      commands = lw6sys_list_r_transfer (sys_context, worker->commands);
 
       if (commands)
 	{
