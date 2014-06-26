@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2014-06-25 20:45+0200\n"
+"POT-Creation-Date: 2014-06-26 22:32+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -303,134 +303,134 @@ msgstr "hallo"
 msgid "goodbye"
 msgstr "ha det"
 
-#: src/lib/hlp/hlp-reference.c:2215
+#: src/lib/hlp/hlp-refteamcolors.c:36
 msgid "moves faster than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2216
+#: src/lib/hlp/hlp-refteamcolors.c:37
 msgid "has a better defense than the average"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2217
+#: src/lib/hlp/hlp-refteamcolors.c:38
 msgid "has a strong attack but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2218
+#: src/lib/hlp/hlp-refteamcolors.c:39
 msgid "has a strong attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2219
+#: src/lib/hlp/hlp-refteamcolors.c:40
 msgid "has an extremely good defense but is slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2220
+#: src/lib/hlp/hlp-refteamcolors.c:41
 msgid "is extremely fast but also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2221
+#: src/lib/hlp/hlp-refteamcolors.c:42
 msgid "is fast, but has a very weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2222
+#: src/lib/hlp/hlp-refteamcolors.c:43
 msgid "has an extremely strong attack but is very slow"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2223
+#: src/lib/hlp/hlp-refteamcolors.c:44
 msgid "has a very good defense but a weak attack"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2224
+#: src/lib/hlp/hlp-refteamcolors.c:45
 msgid "has a very strong attack, but is also very vulnerable"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2229
+#: src/lib/hlp/hlp-refweapons.c:36
 msgid "super-strong attack for a limited time, crush your enemies"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2230
+#: src/lib/hlp/hlp-refweapons.c:37
 msgid "no damage for a limited time, move untouched"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2231
+#: src/lib/hlp/hlp-refweapons.c:38
 msgid ""
 "fighters placed as far as possible from cursor, magically escape from any "
 "grip"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2232
+#: src/lib/hlp/hlp-refweapons.c:39
 msgid "move faster for a limited time"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2233
+#: src/lib/hlp/hlp-refweapons.c:40
 msgid "fighters placed as close as possible to cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2234
+#: src/lib/hlp/hlp-refweapons.c:41
 msgid "every fighters of every team scattered in random places"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2235
+#: src/lib/hlp/hlp-refweapons.c:42
 msgid "all other teams are freezed, you can move but not attack them"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2236
+#: src/lib/hlp/hlp-refweapons.c:43
 msgid "fighters exchange position, their properties being preserved"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2237
+#: src/lib/hlp/hlp-refweapons.c:44
 msgid ""
 "you take the control of all other teams while your cursor stays in place"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2238
+#: src/lib/hlp/hlp-refweapons.c:45
 msgid ""
 "will exchange colors, randomly, requires at least 3 teams (double edged "
 "weapon)"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2239
+#: src/lib/hlp/hlp-refweapons.c:46
 msgid "steals some fighters to other teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2240
+#: src/lib/hlp/hlp-refweapons.c:47
 msgid "nuclear explosion, all fighters arround your cursor are about to die"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2241
+#: src/lib/hlp/hlp-refweapons.c:48
 msgid ""
 "fighters continue to move normally, but attacks are done in reverse mode, "
 "backwards"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2242
+#: src/lib/hlp/hlp-refweapons.c:49
 msgid "all your opponents go crazy for some time, acting with no logic"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2243
+#: src/lib/hlp/hlp-refweapons.c:50
 msgid "make the battlefield be like it was a few seconds ago"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2244
+#: src/lib/hlp/hlp-refweapons.c:51
 msgid "all fighters from all teams are packed near your cursor"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2245
+#: src/lib/hlp/hlp-refweapons.c:52
 msgid "reduces the number of fighters on the map"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2246
+#: src/lib/hlp/hlp-refweapons.c:53
 msgid ""
 "you die along with the strongest team on the battlefield, requires at least "
 "3 teams"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2247
+#: src/lib/hlp/hlp-refweapons.c:54
 msgid ""
 "you disappear for some time from the battlefield, to reappear later, "
 "somewhere else"
 msgstr ""
 
-#: src/lib/hlp/hlp-reference.c:2248
+#: src/lib/hlp/hlp-refweapons.c:55
 msgid "general disease, all fighters mysteriously loose health"
 msgstr ""
 
