@@ -124,7 +124,7 @@ extern void lw6hlp_print_list (lw6sys_context_t * sys_context, FILE * f);
 extern void lw6hlp_print_hello (lw6sys_context_t * sys_context, int argc, const char *argv[]);
 extern void lw6hlp_print_goodbye (lw6sys_context_t * sys_context);
 
-/* hlp-reference.c */
+/* hlp-ref.c */
 extern int lw6hlp_reference_init (lw6sys_context_t * sys_context);
 extern void lw6hlp_reference_quit (lw6sys_context_t * sys_context);
 

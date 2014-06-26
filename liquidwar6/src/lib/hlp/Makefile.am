@@ -27,7 +27,7 @@ TEST_SRC_FILE = hlp-test.c
 else
 TEST_SRC_FILE =
 endif
-libhlp_la_SOURCES = hlp-about.c hlp-credits.c hlp-keyword.c hlp-list.c hlp-options.c hlp-print.c hlp-reference.c $(TEST_SRC_FILE)
+libhlp_la_SOURCES = hlp-about.c hlp-credits.c hlp-keyword.c hlp-list.c hlp-options.c hlp-print.c hlp-refadvanced.c hlp-refaliases.c hlp-refdoc.c hlp-reffuncs.c hlp-refgraphics.c hlp-refhooks.c hlp-refinput.c hlp-refmap.c hlp-refmaphints.c hlp-refmaprules.c hlp-refmapstyle.c hlp-refmapteams.c hlp-refnetwork.c hlp-refpath.c hlp-refplayers.c hlp-refquick.c hlp-refshow.c hlp-refsound.c hlp-refteamcolors.c hlp-refweapons.c hlp-ref.c $(TEST_SRC_FILE)
 libhlpdir= $(includedir)/@PACKAGE_TARNAME@/hlp
 libhlp_HEADERS = hlp.h
 
