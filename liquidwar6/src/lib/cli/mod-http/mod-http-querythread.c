@@ -114,7 +114,7 @@ int
 _mod_http_query_thread_process_response_line (lw6sys_context_t * sys_context, _mod_http_query_thread_data_t * query_thread_data, const char *response_line)
 {
   int ret = 0;
-  lw6cnx_connection_t *cnx = query_thread_data->cnx;
+  lw6cnx_connection_t *connection = query_thread_data->cnx;
   char *msg = NULL;
   u_int32_t physical_ticket_sig = 0;
   u_int32_t logical_ticket_sig = 0;
@@ -122,24 +122,26 @@ _mod_http_query_thread_process_response_line (lw6sys_context_t * sys_context, _m
   u_int64_t physical_to_id = 0;
   u_int64_t logical_from_id = 0;
   u_int64_t logical_to_id = 0;
+  lw6cnx_packet_t *packet = NULL;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_http received envelope \"%s\""), response_line);
   if (lw6msg_envelope_analyse
       (sys_context, response_line, LW6MSG_ENVELOPE_MODE_TELNET,
-       cnx->local_url, cnx->password,
-       cnx->remote_id_int,
-       cnx->local_id_int, &msg, &physical_ticket_sig, &logical_ticket_sig, &physical_from_id, &physical_to_id, &logical_from_id, &logical_to_id, NULL))
+       connection->local_url, connection->password,
+       connection->remote_id_int,
+       connection->local_id_int, &msg, &physical_ticket_sig, &logical_ticket_sig, &physical_from_id, &physical_to_id, &logical_from_id, &logical_to_id, NULL))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_http analysed msg \"%s\""), msg);
       ret = 1;
-      if (cnx->recv_callback_func)
+      packet = lw6cnx_packet_new (sys_context, logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
+      if (packet && connection->recv_list)
 	{
-	  cnx->recv_callback_func (sys_context, cnx->recv_callback_data, (void *) cnx, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id,
-				   msg);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pushing msg \"%s\" to list_r"), msg);
+	  lw6sys_list_r_push_front (sys_context, connection->recv_list, packet);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no recv callback defined"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to push msg \"%s\" to list_r packet=%p recv_list=%p"), msg, packet, connection->recv_list);
 	}
       LW6SYS_FREE (sys_context, msg);
     }

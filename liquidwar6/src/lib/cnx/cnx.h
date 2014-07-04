@@ -84,12 +84,6 @@ lw6cnx_properties_t;
 
 typedef struct lw6cnx_connection_s *lw6cnx_connection_p;
 
-typedef void (*lw6cnx_recv_callback_t) (lw6sys_context_t * sys_context,
-					void *recv_callback_data,
-					lw6cnx_connection_p connection,
-					u_int32_t physical_ticket_sig,
-					u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message);
-
 /**
  * This structure holds all data associated to a physical connexion
  * with a remote peer. This includes informations about the local node,
@@ -142,13 +136,11 @@ typedef struct lw6cnx_connection_s
   /// Properties got from the backend.
   lw6cnx_properties_t properties;
   /**
-   * Function which will be called when receiving data. This one
-   * must clearly be reentrant, depending on the backend it could
-   * be called in a separate thread, at any time.
+   * List of messages received. This is a list_r and not a plain
+   * list because it can typically be filled and consumed in
+   * different threads.
    */
-  lw6cnx_recv_callback_t recv_callback_func;
-  /// Data passed to recv_callback_func.
-  void *recv_callback_data;
+  lw6sys_list_r_t *recv_list;
   /**
    * Send mutex, this will be used so that sending operations
    * are properly serialized. Indeed, threads that respond on the
@@ -249,10 +241,7 @@ extern lw6cnx_connection_t *lw6cnx_connection_new (lw6sys_context_t * sys_contex
 						   const char *remote_url,
 						   const char *remote_ip,
 						   int remote_port,
-						   const char *password,
-						   u_int64_t local_id,
-						   u_int64_t remote_id,
-						   int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data);
+						   const char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability);
 extern void lw6cnx_connection_free (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection);
 extern int lw6cnx_connection_should_send_foo (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection, int64_t now);
 extern void lw6cnx_connection_init_foo_bar_key (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection, int64_t now, int next_foo_delay);

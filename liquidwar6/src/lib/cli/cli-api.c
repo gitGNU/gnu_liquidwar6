@@ -146,20 +146,15 @@ lw6cli_process_oob (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, 
  * @remote_id: the remote id
  * @dns_ok: wether the remote announced URL matches DNS information
  * @network_reliability: network reliability (the highest, the better)
- * @recv_callback_func: callback func to be called when data is received
- * @recv_callback_data: pointer on additionnal data to pass to callback func
  *
- * Opens a connection with a remote host. Be carefull with the implementation
- * of @recv_callback_func, it should be at least reentrant, and when it accesses
- * shared data, use locks.
+ * Opens a connection with a remote host.
  *
  * Return value: new object.
  */
 lw6cnx_connection_t *
 lw6cli_open (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, const char *local_url,
 	     const char *remote_url, const char *remote_ip, int remote_port,
-	     const char *password, u_int64_t local_id, u_int64_t remote_id,
-	     int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+	     const char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability)
 {
   lw6cnx_connection_t *ret = NULL;
 
@@ -169,7 +164,7 @@ lw6cli_open (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, const c
     {
       ret =
 	backend->open (sys_context, backend->cli_context, local_url, remote_url, remote_ip,
-		       remote_port, password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
+		       remote_port, password, local_id, remote_id, dns_ok, network_reliability);
       if (ret)
 	{
 	  ret->properties = backend->properties;

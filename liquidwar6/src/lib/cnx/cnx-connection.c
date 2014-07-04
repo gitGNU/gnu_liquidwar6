@@ -43,8 +43,6 @@
  * @remote_id: the remote ID
  * @dns_ok: 1 if no DNS mismatch, 0 if IP does not match public URL
  * @network_reliability: drop 1 out of X packets
- * @recv_callback_func: a callback to call when data is received
- * @recv_callback_data: additionnal data to pass to the callback
  *
  * Create a connection object. This object in itself does
  * nothing, it's just to share common structures among
@@ -58,8 +56,7 @@
 lw6cnx_connection_t *
 lw6cnx_connection_new (lw6sys_context_t * sys_context, const char *local_url, const char *remote_url,
 		       const char *remote_ip, int remote_port,
-		       const char *password, u_int64_t local_id,
-		       u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+		       const char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability)
 {
   lw6cnx_connection_t *ret = NULL;
 
@@ -86,13 +83,12 @@ lw6cnx_connection_new (lw6sys_context_t * sys_context, const char *local_url, co
       ret->remote_id_str = lw6sys_id_ltoa (sys_context, remote_id);
       ret->dns_ok = dns_ok ? 1 : 0;
       ret->network_reliability = network_reliability;
-      ret->recv_callback_func = recv_callback_func;
-      ret->recv_callback_data = recv_callback_data;
+      ret->recv_list = lw6sys_list_r_new (sys_context, (lw6sys_free_func_t) lw6cnx_packet_free);
       ret->send_mutex = lw6sys_mutex_create (sys_context);
       ret->ping_msec = LW6CNX_WORST_PING_MSEC;
 
       if (ret->local_url && ret->remote_url && ret->remote_ip && ret->password
-	  && ret->password_send_checksum && ret->local_id_str && ret->remote_id_str && ret->send_mutex)
+	  && ret->password_send_checksum && ret->local_id_str && ret->remote_id_str && ret->recv_list && ret->send_mutex)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("created connection with \"%s\""), remote_url);
 	}
@@ -147,6 +143,10 @@ lw6cnx_connection_free (lw6sys_context_t * sys_context, lw6cnx_connection_t * co
   if (connection->remote_id_str)
     {
       LW6SYS_FREE (sys_context, connection->remote_id_str);
+    }
+  if (connection->recv_list)
+    {
+      lw6sys_list_r_free (sys_context, connection->recv_list);
     }
   if (connection->send_mutex)
     {

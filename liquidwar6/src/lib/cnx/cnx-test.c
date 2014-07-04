@@ -69,14 +69,6 @@ typedef struct _lw6cnx_test_data_s
 
 static _lw6cnx_test_data_t _test_data = { 0, NULL };
 
-static void
-_recv_callback_func (lw6sys_context_t * sys_context, void *recv_callback_data,
-		     lw6cnx_connection_t * connection,
-		     u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
-{
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("received \"%s\""), message);
-}
-
 /*
  * Testing functions in connection.c
  */
@@ -95,8 +87,7 @@ _test_connection ()
     now = lw6sys_get_timestamp (sys_context);
     cnx =
       lw6cnx_connection_new (sys_context, _TEST_LOCAL_URL, _TEST_REMOTE_URL,
-			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT,
-			     _TEST_PASSWORD, _TEST_LOCAL_ID, _TEST_REMOTE_ID, _TEST_DNS_OK, _TEST_NETWORK_RELIABILITY, _recv_callback_func, NULL);
+			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT, _TEST_PASSWORD, _TEST_LOCAL_ID, _TEST_REMOTE_ID, _TEST_DNS_OK, _TEST_NETWORK_RELIABILITY);
     if (LW6SYS_TEST_ACK (cnx))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("cnx_connection object creation works"));
@@ -146,7 +137,7 @@ _test_connection ()
      */
     cnx =
       lw6cnx_connection_new (sys_context, _TEST_LOCAL_URL, _TEST_REMOTE_URL,
-			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT, NULL, _TEST_LOCAL_ID, _TEST_REMOTE_ID, _TEST_DNS_OK, _TEST_NETWORK_RELIABILITY, NULL, NULL);
+			     _TEST_REMOTE_IP, _TEST_REMOTE_PORT, NULL, _TEST_LOCAL_ID, _TEST_REMOTE_ID, _TEST_DNS_OK, _TEST_NETWORK_RELIABILITY);
     if (LW6SYS_TEST_ACK (cnx))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("cnx_connection object creation works, even with \"some\" NULLs"));

@@ -94,8 +94,7 @@ _process_oob (lw6sys_context_t * sys_context, void *cli_context, lw6nod_info_t *
 
 static lw6cnx_connection_t *
 _open (lw6sys_context_t * sys_context, void *cli_context, const char *local_url, const char *remote_url,
-       const char *remote_ip, int remote_port, const char *password,
-       u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+       const char *remote_ip, int remote_port, const char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability)
 {
   _mod_tcp_context_t *tcp_context = (_mod_tcp_context_t *) cli_context;
   lw6cnx_connection_t *ret = NULL;
@@ -103,8 +102,7 @@ _open (lw6sys_context_t * sys_context, void *cli_context, const char *local_url,
   if (tcp_context)
     {
       ret =
-	_mod_tcp_open (sys_context, tcp_context, local_url, remote_url, remote_ip,
-		       remote_port, password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
+	_mod_tcp_open (sys_context, tcp_context, local_url, remote_url, remote_ip, remote_port, password, local_id, remote_id, dns_ok, network_reliability);
     }
 
   return ret;
