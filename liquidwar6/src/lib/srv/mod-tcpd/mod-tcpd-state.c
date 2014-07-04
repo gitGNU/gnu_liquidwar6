@@ -31,16 +31,13 @@ lw6cnx_connection_t *
 _mod_tcpd_open (lw6sys_context_t * sys_context, _mod_tcpd_context_t * tcpd_context,
 		lw6srv_listener_t * listener, const char *local_url,
 		const char *remote_url, const char *remote_ip,
-		int remote_port, const char *password, u_int64_t local_id,
-		u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+		int remote_port, const char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability)
 {
   lw6cnx_connection_t *ret = NULL;
   _mod_tcpd_specific_data_t *specific_data = NULL;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("_mod_tcpd_open \"%s\""), remote_url);
-  ret =
-    lw6cnx_connection_new (sys_context, local_url, remote_url, remote_ip, remote_port,
-			   password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
+  ret = lw6cnx_connection_new (sys_context, local_url, remote_url, remote_ip, remote_port, password, local_id, remote_id, dns_ok, network_reliability);
   if (ret)
     {
       ret->backend_specific_data = LW6SYS_CALLOC (sys_context, sizeof (_mod_tcpd_specific_data_t));

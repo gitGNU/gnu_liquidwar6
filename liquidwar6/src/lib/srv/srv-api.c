@@ -223,8 +223,6 @@ lw6srv_process_oob (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, 
  * @remote_id: the remove 64-bit id
  * @dns_ok: 1 if no DNS mismatch, 0 if situation is unclear
  * @network_reliability: the greater, the more reliable it is
- * @recv_callback_func: callback fired when receiving data
- * @recv_callback_data: additionnal data passed to callback
  *
  * Opens a server connection. One might wonder, clients open
  * connections, but servers? To some extent, this is the equivalent
@@ -239,8 +237,7 @@ lw6srv_process_oob (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, 
 lw6cnx_connection_t *
 lw6srv_open (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6srv_listener_t * listener,
 	     const char *local_url, const char *remote_url,
-	     const char *remote_ip, int remote_port, const char *password,
-	     u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+	     const char *remote_ip, int remote_port, const char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability)
 {
   lw6cnx_connection_t *ret = NULL;
 
@@ -250,7 +247,7 @@ lw6srv_open (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6srv_
     {
       ret =
 	backend->open (sys_context, backend->srv_context, listener, local_url, remote_url,
-		       remote_ip, remote_port, password, local_id, remote_id, dns_ok, network_reliability, recv_callback_func, recv_callback_data);
+		       remote_ip, remote_port, password, local_id, remote_id, dns_ok, network_reliability);
       if (ret)
 	{
 	  ret->properties = backend->properties;

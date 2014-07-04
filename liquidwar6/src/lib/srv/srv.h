@@ -215,8 +215,7 @@ typedef struct lw6srv_backend_s
 				lw6srv_listener_t * listener,
 				const char *local_url, const char *remote_url,
 				const char *remote_ip, int remote_port,
-				const char *password, u_int64_t local_id,
-				u_int64_t remote_id, int dns_ok, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data);
+				const char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability);
   /// Pointer on lw6srv_feed_with_tcp callback code.
   int (*feed_with_tcp) (lw6sys_context_t * sys_context, void *srv_context, lw6cnx_connection_t * connection, lw6srv_tcp_accepter_t * tcp_accepter);
   /// Pointer on lw6srv_feed_with_udp callback code.
@@ -249,11 +248,7 @@ extern lw6cnx_connection_t *lw6srv_open (lw6sys_context_t * sys_context, lw6srv_
 					 const char *local_url,
 					 const char *remote_url,
 					 const char *remote_ip,
-					 int remote_port,
-					 const char *password,
-					 u_int64_t local_id,
-					 u_int64_t remote_id, int dns_ok,
-					 int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data);
+					 int remote_port, const char *password, u_int64_t local_id, u_int64_t remote_id, int dns_ok, int network_reliability);
 extern int lw6srv_feed_with_tcp (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection,
 				 lw6srv_tcp_accepter_t * tcp_accepter);
 extern int lw6srv_feed_with_udp (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6cnx_connection_t * connection,

@@ -32,7 +32,7 @@ _mod_httpd_reply_thread_func (lw6sys_context_t * sys_context, void *callback_dat
 {
   _mod_httpd_reply_thread_data_t *reply_thread_data = (_mod_httpd_reply_thread_data_t *) callback_data;
   _mod_httpd_context_t *httpd_context = reply_thread_data->httpd_context;
-  lw6cnx_connection_t *cnx = reply_thread_data->cnx;
+  lw6cnx_connection_t *connection = reply_thread_data->cnx;
   _mod_httpd_request_t *request = NULL;
   _mod_httpd_response_t *response = NULL;
   char *envelope_line = NULL;
@@ -43,6 +43,7 @@ _mod_httpd_reply_thread_func (lw6sys_context_t * sys_context, void *callback_dat
   u_int64_t physical_to_id = 0;
   u_int64_t logical_from_id = 0;
   u_int64_t logical_to_id = 0;
+  lw6cnx_packet_t *packet = NULL;
 
   if (reply_thread_data)
     {
@@ -57,20 +58,22 @@ _mod_httpd_reply_thread_func (lw6sys_context_t * sys_context, void *callback_dat
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_httpd received envelope \"%s\""), envelope_line);
 		  if (lw6msg_envelope_analyse
 		      (sys_context, envelope_line, LW6MSG_ENVELOPE_MODE_URL,
-		       cnx->local_url, cnx->password,
-		       cnx->remote_id_int,
-		       cnx->local_id_int, &msg,
+		       connection->local_url, connection->password,
+		       connection->remote_id_int,
+		       connection->local_id_int, &msg,
 		       &physical_ticket_sig, &logical_ticket_sig, &physical_from_id, &physical_to_id, &logical_from_id, &logical_to_id, NULL))
 		    {
 		      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_httpd analysed msg \"%s\""), msg);
-		      if (cnx->recv_callback_func)
+		      packet = lw6cnx_packet_new (sys_context, logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
+		      if (packet && connection->recv_list)
 			{
-			  cnx->recv_callback_func
-			    (sys_context, cnx->recv_callback_data, (void *) cnx, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg);
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pushing msg \"%s\" to list_r"), msg);
+			  lw6sys_list_r_push_front (sys_context, connection->recv_list, packet);
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no recv callback defined"));
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to push msg \"%s\" to list_r packet=%p recv_list=%p"), msg, packet,
+				      connection->recv_list);
 			}
 		      /*
 		       * Give response only once we've called
@@ -166,19 +169,19 @@ _mod_httpd_response_t *
 _mod_httpd_reply_thread_response (lw6sys_context_t * sys_context, _mod_httpd_reply_thread_data_t * reply_thread_data)
 {
   _mod_httpd_context_t *httpd_context = reply_thread_data->httpd_context;
-  lw6cnx_connection_t *cnx = reply_thread_data->cnx;
-  _mod_httpd_specific_data_t *specific_data = (_mod_httpd_specific_data_t *) cnx->backend_specific_data;
+  lw6cnx_connection_t *connection = reply_thread_data->cnx;
+  _mod_httpd_specific_data_t *specific_data = (_mod_httpd_specific_data_t *) connection->backend_specific_data;
   _mod_httpd_response_t *response = NULL;
   char *send_buffer = NULL;
 
-  if (lw6cnx_connection_lock_send (sys_context, cnx))
+  if (lw6cnx_connection_lock_send (sys_context, connection))
     {
       if (specific_data->send_buffer)
 	{
 	  send_buffer = specific_data->send_buffer;
 	  specific_data->send_buffer = NULL;
 	}
-      lw6cnx_connection_unlock_send (sys_context, cnx);
+      lw6cnx_connection_unlock_send (sys_context, connection);
     }
 
   if (!send_buffer)

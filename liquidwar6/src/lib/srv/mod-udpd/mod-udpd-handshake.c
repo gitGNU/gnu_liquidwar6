@@ -130,6 +130,7 @@ _mod_udpd_feed_with_udp (lw6sys_context_t * sys_context, _mod_udpd_context_t * u
   u_int64_t physical_to_id = 0;
   u_int64_t logical_from_id = 0;
   u_int64_t logical_to_id = 0;
+  lw6cnx_packet_t *packet = NULL;
 
   envelope_line = udp_buffer->line;
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_udpd received envelope \"%s\""), envelope_line);
@@ -149,14 +150,15 @@ _mod_udpd_feed_with_udp (lw6sys_context_t * sys_context, _mod_udpd_context_t * u
        * even if mod_udpd isn't activated.
        */
       specific_data->remote_port = udp_buffer->client_id.client_port;
-      if (connection->recv_callback_func)
+      packet = lw6cnx_packet_new (sys_context, logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
+      if (packet && connection->recv_list)
 	{
-	  connection->recv_callback_func (sys_context, connection->recv_callback_data,
-					  (void *) connection, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pushing msg \"%s\" to list_r"), msg);
+	  lw6sys_list_r_push_front (sys_context, connection->recv_list, packet);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no recv callback defined"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to push msg \"%s\" to list_r packet=%p recv_list=%p"), msg, packet, connection->recv_list);
 	}
       LW6SYS_FREE (sys_context, msg);
     }
