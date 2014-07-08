@@ -387,12 +387,9 @@ extern char *_lw6p2p_node_get_next_draft_msg (lw6sys_context_t * sys_context, _l
 extern void _lw6p2p_peer_id_list_process_join (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6nod_info_t * remote_node_info);
 
 /* p2p-recv.c */
-extern void _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_t logical_from_id,
-				  const char *message);
-extern void _lw6p2p_recv_forward (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int32_t logical_ticket_sig,
-				  u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message);
-extern void _lw6p2p_recv_callback (lw6sys_context_t * sys_context, void *recv_callback_data, lw6cnx_connection_t * connection, u_int32_t physical_ticket_sig,
-				   u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message);
+extern void _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6cnx_connection_t * connection, const lw6cnx_packet_t * packet);
+extern void _lw6p2p_recv_forward (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6cnx_connection_t * connection, const lw6cnx_packet_t * packet);
+extern void _lw6p2p_recv_callback (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6cnx_connection_t * connection, const lw6cnx_packet_t * packet);
 
 /* p2p-srvoob.c */
 extern _lw6p2p_srv_oob_callback_data_t
@@ -408,10 +405,7 @@ extern int _lw6p2p_tentacle_init (lw6sys_context_t * sys_context, _lw6p2p_tentac
 				  lw6srv_listener_t * listener,
 				  const char *local_url,
 				  const char *remote_url,
-				  const char *real_remote_ip,
-				  const char *password,
-				  u_int64_t local_id, u_int64_t remote_id,
-				  int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data);
+				  const char *real_remote_ip, const char *password, u_int64_t local_id, u_int64_t remote_id, int network_reliability);
 extern void _lw6p2p_tentacle_clear (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle);
 extern int _lw6p2p_tentacle_enabled (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle);
 extern void _lw6p2p_tentacle_poll_protocol (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle,

@@ -32,8 +32,7 @@ _lw6p2p_tentacle_init (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tent
 		       _lw6p2p_backends_t * backends,
 		       lw6srv_listener_t * listener, const char *local_url,
 		       const char *remote_url, const char *real_remote_ip,
-		       const char *password, u_int64_t local_id,
-		       u_int64_t remote_id, int network_reliability, lw6cnx_recv_callback_t recv_callback_func, void *recv_callback_data)
+		       const char *password, u_int64_t local_id, u_int64_t remote_id, int network_reliability)
 {
   int ret = 1;
   int i = 0;
@@ -123,9 +122,7 @@ _lw6p2p_tentacle_init (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tent
 		    lw6cli_open (sys_context, tentacle->backends->cli_backends[i],
 				 local_url, remote_url, tentacle->remote_ip,
 				 tentacle->remote_port,
-				 tentacle->password,
-				 tentacle->local_id_int,
-				 tentacle->remote_id_int, tentacle->dns_ok, network_reliability, recv_callback_func, recv_callback_data);
+				 tentacle->password, tentacle->local_id_int, tentacle->remote_id_int, tentacle->dns_ok, network_reliability);
 		  if (tentacle->cli_connections[i])
 		    {
 		      repr = lw6cli_repr (sys_context, tentacle->backends->cli_backends[i], tentacle->cli_connections[i]);
@@ -160,9 +157,7 @@ _lw6p2p_tentacle_init (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tent
 				 listener,
 				 local_url, remote_url, tentacle->remote_ip,
 				 tentacle->remote_port,
-				 tentacle->password,
-				 tentacle->local_id_int,
-				 tentacle->remote_id_int, tentacle->dns_ok, network_reliability, recv_callback_func, recv_callback_data);
+				 tentacle->password, tentacle->local_id_int, tentacle->remote_id_int, tentacle->dns_ok, network_reliability);
 		  if (tentacle->srv_connections[i])
 		    {
 		      repr = lw6srv_repr (sys_context, tentacle->backends->srv_backends[i], tentacle->srv_connections[i]);
@@ -465,12 +460,14 @@ _lw6p2p_tentacle_poll_protocol (lw6sys_context_t * sys_context, _lw6p2p_tentacle
 }
 
 void
-_lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle, lw6cnx_ticket_table_t * ticket_table)
+_lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle, _lw6p2p_node_t * node)
 {
   int i = 0;
   int64_t now = 0LL;
   lw6cnx_connection_t *cnx = NULL;
   _send_best_data_t send_best_data;
+  lw6sys_list_t *packets = NULL;
+  lw6cnx_ticket_table_t *ticket_table = node->ticket_table;
 
   memset (&send_best_data, 0, sizeof (_send_best_data_t));
   now = lw6sys_get_timestamp (sys_context);
@@ -479,12 +476,22 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t
     {
       cnx = tentacle->cli_connections[i];
       lw6cli_poll (sys_context, tentacle->backends->cli_backends[i], cnx);
+      packets = lw6sys_list_r_transfer_from (sys_context, cnx->recv_list);
+      while (packets && (packet = (lw6cnx_packet_t *) lw6sys_list_pop_front (sys_context, &packets)))
+	{
+	  _lw6p2p_recv_callback (sys_context, node, cnx, packet);
+	}
     }
 
   for (i = 0; i < tentacle->nb_srv_connections; ++i)
     {
       cnx = tentacle->srv_connections[i];
       lw6srv_poll (sys_context, tentacle->backends->srv_backends[i], cnx);
+      packets = lw6sys_list_r_transfer_from (sys_context, cnx->recv_list);
+      while (packets && (packet = (lw6cnx_packet_t *) lw6sys_list_pop_front (sys_context, &packets)))
+	{
+	  _lw6p2p_recv_callback (sys_context, node, cnx, packet);
+	}
     }
 
   if (tentacle->unsent_reliable_queue)

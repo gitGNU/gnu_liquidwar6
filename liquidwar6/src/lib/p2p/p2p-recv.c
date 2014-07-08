@@ -28,7 +28,7 @@
 #include "p2p-internal.h"
 
 void
-_lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6cnx_connection_t * cnx, u_int64_t logical_from_id, const char *message)
+_lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6cnx_connection_t * cnx, const lw6cnx_packet_t * packet)
 {
   lw6nod_info_t *remote_node_info = NULL;
   u_int64_t ticket = 0;
@@ -53,7 +53,7 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
   lw6msg_meta_array_t meta_array;
   int index = 0;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process \"%s\""), message);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("process \"%s\""), packet->msg);
 
   /*
    * We consider data is received even if we don't have the proof
@@ -62,9 +62,9 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
    */
   cnx->last_recv_timestamp = lw6sys_get_timestamp (sys_context);
 
-  if (lw6sys_str_starts_with_no_case (sys_context, message, LW6MSG_CMD_HELLO))
+  if (lw6sys_str_starts_with_no_case (sys_context, packet->msg, LW6MSG_CMD_HELLO))
     {
-      if (lw6msg_cmd_analyse_hello (sys_context, &remote_node_info, message))
+      if (lw6msg_cmd_analyse_hello (sys_context, &remote_node_info, packet->msg))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("hello from \"%s\""), cnx->remote_url);
 	  /*
@@ -74,24 +74,24 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad hello from \"%s\" (\"%s\")"), cnx->remote_url, message);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad hello from \"%s\" (\"%s\")"), cnx->remote_url, packet->msg);
 	}
     }
-  else if (lw6sys_str_starts_with_no_case (sys_context, message, LW6MSG_CMD_TICKET))
+  else if (lw6sys_str_starts_with_no_case (sys_context, packet->msg, LW6MSG_CMD_TICKET))
     {
-      if (lw6msg_cmd_analyse_ticket (sys_context, &remote_node_info, &ticket, message))
+      if (lw6msg_cmd_analyse_ticket (sys_context, &remote_node_info, &ticket, packet->msg))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("received ticket from \"%s\""), cnx->remote_url);
 	  lw6cnx_ticket_table_set_send (sys_context, &(node->ticket_table), cnx->remote_id_str, ticket);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad ticket from \"%s\" (\"%s\")"), cnx->remote_url, message);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad ticket from \"%s\" (\"%s\")"), cnx->remote_url, packet->msg);
 	}
     }
-  else if (lw6sys_str_starts_with_no_case (sys_context, message, LW6MSG_CMD_FOO))
+  else if (lw6sys_str_starts_with_no_case (sys_context, packet->msg, LW6MSG_CMD_FOO))
     {
-      if (lw6msg_cmd_analyse_foo (sys_context, &remote_node_info, &foo_bar_key, &serial, message))
+      if (lw6msg_cmd_analyse_foo (sys_context, &remote_node_info, &foo_bar_key, &serial, packet->msg))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("received foo from \"%s\""), cnx->remote_url);
 	  lw6dat_warehouse_update_serial_miss_max (sys_context, node->warehouse, cnx->remote_id_int, serial);
@@ -124,12 +124,12 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad foo from \"%s\" (\"%s\")"), cnx->remote_url, message);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad foo from \"%s\" (\"%s\")"), cnx->remote_url, packet->msg);
 	}
     }
-  else if (lw6sys_str_starts_with_no_case (sys_context, message, LW6MSG_CMD_BAR))
+  else if (lw6sys_str_starts_with_no_case (sys_context, packet->msg, LW6MSG_CMD_BAR))
     {
-      if (lw6msg_cmd_analyse_bar (sys_context, &remote_node_info, &foo_bar_key, &serial, message))
+      if (lw6msg_cmd_analyse_bar (sys_context, &remote_node_info, &foo_bar_key, &serial, packet->msg))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("received bar from \"%s\" foo_bar_key=%08x"), cnx->remote_url, foo_bar_key);
 	  lw6dat_warehouse_update_serial_miss_max (sys_context, node->warehouse, cnx->remote_id_int, serial);
@@ -214,18 +214,18 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad bar from \"%s\" (\"%s\")"), cnx->remote_url, message);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad bar from \"%s\" (\"%s\")"), cnx->remote_url, packet->msg);
 	}
     }
-  else if (lw6sys_str_starts_with_no_case (sys_context, message, LW6MSG_CMD_JOIN))
+  else if (lw6sys_str_starts_with_no_case (sys_context, packet->msg, LW6MSG_CMD_JOIN))
     {
-      if (lw6msg_cmd_analyse_join (sys_context, &remote_node_info, node->node_info, &seq, &serial, message))
+      if (lw6msg_cmd_analyse_join (sys_context, &remote_node_info, node->node_info, &seq, &serial, packet->msg))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("received join from \"%s\""), cnx->remote_url);
 	  /*
 	   * Wether seq_register should be seq_max or seq_reference
 	   * or local_seq_last has been a question. Refactoring
-	   * using meta messages did change the deal.
+	   * using meta packet->msgs did change the deal.
 	   */
 	  seq_register = _lw6p2p_node_get_local_seq_last (sys_context, node);
 	  if (seq == 0LL)
@@ -256,15 +256,15 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
 				       LW6SYS_PRINTF_LL "x at seq %" LW6SYS_PRINTF_LL "d"), (long long) cnx->remote_id_int, (long long) seq_register);
 			  /*
 			   * Need this else warehouse won't bootstrap and start forwarding
-			   * messages to this peer. The seq we use here to bootstrap might
-			   * be updated afterwards by a self "reg" message.
+			   * packet->msgs to this peer. The seq we use here to bootstrap might
+			   * be updated afterwards by a self "reg" packet->msg.
 			   */
 			  lw6dat_warehouse_register_node (sys_context, node->warehouse, cnx->remote_id_int, serial, seq_register);
 
 			  _lw6p2p_peer_id_list_process_join (sys_context, node, remote_node_info);
 
 			  /*
-			   * Send reply message, to acknowledge
+			   * Send reply packet->msg, to acknowledge
 			   * JOIN request.
 			   */
 			  _lw6p2p_tentacle_send_redundant (sys_context, &
@@ -273,7 +273,7 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
 							   cnx->last_recv_timestamp,
 							   &(node->ticket_table), logical_ticket_sig, cnx->local_id_int, cnx->remote_id_int, reply_msg);
 			  /*
-			   * Sending several times the same message, this should not
+			   * Sending several times the same packet->msg, this should not
 			   * happen too often and its size is nothing compared to
 			   * the size of the seed/dump. And if it does not makes it way
 			   * to new peers -> no connection :( So we send it redundant.
@@ -281,19 +281,19 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
 			  for (index = 0; index < node->db->data.consts.meta_nb_duplicates; ++index)
 			    {
 			      /*
-			       * Generate a META message so that other peers are aware of
+			       * Generate a META packet->msg so that other peers are aware of
 			       * that new node.
 			       */
 			      if (lw6dat_warehouse_meta_put (sys_context, node->warehouse, seq_register))
 				{
 				  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-					      _x_ ("putting META message in queue at seq %" LW6SYS_PRINTF_LL "d"), (long long) seq_register);
+					      _x_ ("putting META packet->msg in queue at seq %" LW6SYS_PRINTF_LL "d"), (long long) seq_register);
 				}
 			      else
 				{
 				  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 					      _x_
-					      ("problem putting META message in queue at seq %"
+					      ("problem putting META packet->msg in queue at seq %"
 					       LW6SYS_PRINTF_LL "d, expect network inconsistencies"), (long long) seq_register);
 				}
 			    }
@@ -346,75 +346,75 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad join from \"%s\" (\"%s\")"), cnx->remote_url, message);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad join from \"%s\" (\"%s\")"), cnx->remote_url, packet->msg);
 	}
     }
-  else if (lw6sys_str_starts_with_no_case (sys_context, message, LW6MSG_CMD_GOODBYE))
+  else if (lw6sys_str_starts_with_no_case (sys_context, packet->msg, LW6MSG_CMD_GOODBYE))
     {
-      if (lw6msg_cmd_analyse_goodbye (sys_context, &remote_node_info, message))
+      if (lw6msg_cmd_analyse_goodbye (sys_context, &remote_node_info, packet->msg))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("received goodbye from \"%s\""), cnx->remote_url);
 	  // todo : close cnx
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad goodbye from \"%s\" (\"%s\")"), cnx->remote_url, message);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad goodbye from \"%s\" (\"%s\")"), cnx->remote_url, packet->msg);
 	}
     }
-  else if (lw6sys_str_starts_with_no_case (sys_context, message, LW6MSG_CMD_DATA))
+  else if (lw6sys_str_starts_with_no_case (sys_context, packet->msg, LW6MSG_CMD_DATA))
     {
-      if (lw6msg_cmd_analyse_data (sys_context, &serial, &i, &n, &seq, &ker_message, message))
+      if (lw6msg_cmd_analyse_data (sys_context, &serial, &i, &n, &seq, &ker_message, packet->msg))
 	{
 	  /*
 	   * Note that put_atom_str could/should automatically
-	   * register the node who initially wrote the message
+	   * register the node who initially wrote the packet->msg
 	   * if needed, this is complicated to do here as it would
-	   * require us to parse the whole message in advance.
+	   * require us to parse the whole packet->msg in advance.
 	   */
-	  if (lw6dat_warehouse_put_atom_str (sys_context, node->warehouse, logical_from_id, message))
+	  if (lw6dat_warehouse_put_atom_str (sys_context, node->warehouse, packet->logical_from_id, packet->msg))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("put in warehouse DATA message \"%s\" from \"%s\""), message, cnx->remote_url);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("put in warehouse DATA packet->msg \"%s\" from \"%s\""), packet->msg, cnx->remote_url);
 	    }
 	  else
 	    {
 	      /*
-	       * A common error is when message comes too early and node has
-	       * not been properly registered yet (order of messages is not
+	       * A common error is when packet->msg comes too early and node has
+	       * not been properly registered yet (order of packet->msgs is not
 	       * garanteed). So it's worth noting in the log for troubleshooting.
 	       */
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to put in warehouse message \"%s\" from \"%s\""), message, cnx->remote_url);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to put in warehouse packet->msg \"%s\" from \"%s\""), packet->msg, cnx->remote_url);
 	    }
 	  LW6SYS_FREE (sys_context, ker_message);
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad data from \"%s\" (\"%s\")"), cnx->remote_url, message);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad data from \"%s\" (\"%s\")"), cnx->remote_url, packet->msg);
 	}
     }
-  else if (lw6sys_str_starts_with_no_case (sys_context, message, LW6MSG_CMD_META))
+  else if (lw6sys_str_starts_with_no_case (sys_context, packet->msg, LW6MSG_CMD_META))
     {
       lw6msg_meta_array_zero (sys_context, &meta_array);
 
-      if (lw6msg_cmd_analyse_meta (sys_context, &serial, &i, &n, &seq, &meta_array, message))
+      if (lw6msg_cmd_analyse_meta (sys_context, &serial, &i, &n, &seq, &meta_array, packet->msg))
 	{
 	  /*
-	   * While META messages are not returned to the game logical
+	   * While META packet->msgs are not returned to the game logical
 	   * state handler, they still need to be passed to the
-	   * warehouse, at least to maintain message order consistency
+	   * warehouse, at least to maintain packet->msg order consistency
 	   * and to be able to re-send them if needed.
 	   */
-	  if (lw6dat_warehouse_put_atom_str (sys_context, node->warehouse, logical_from_id, message))
+	  if (lw6dat_warehouse_put_atom_str (sys_context, node->warehouse, packet->logical_from_id, packet->msg))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("put in warehouse META message \"%s\" from \"%s\""), message, cnx->remote_url);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("put in warehouse META packet->msg \"%s\" from \"%s\""), packet->msg, cnx->remote_url);
 	    }
 	  else
 	    {
 	      /*
-	       * A common error is when message comes too early and node has
-	       * not been properly registered yet (order of messages is not
+	       * A common error is when packet->msg comes too early and node has
+	       * not been properly registered yet (order of packet->msgs is not
 	       * garanteed). So it's worth noting in the log for troubleshooting.
 	       */
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to put in warehouse message \"%s\" from \"%s\""), message, cnx->remote_url);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to put in warehouse packet->msg \"%s\" from \"%s\""), packet->msg, cnx->remote_url);
 	    }
 
 	  for (index = 0; index < LW6MSG_NB_META_ARRAY_ITEMS; ++index)
@@ -423,9 +423,9 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
 		{
 		  /*
 		   * Checking wether peer is registered, if not
-		   * then register it. Else all messages will
+		   * then register it. Else all packet->msgs will
 		   * be rejected. This is the whole purpose of
-		   * the meta messages -> informing nodes that
+		   * the meta packet->msgs -> informing nodes that
 		   * other joined.
 		   */
 		  if (!_lw6p2p_node_is_peer_registered (sys_context, node, meta_array.items[index].node_id))
@@ -451,12 +451,12 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad meta from \"%s\" (\"%s\")"), cnx->remote_url, message);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad meta from \"%s\" (\"%s\")"), cnx->remote_url, packet->msg);
 	}
     }
-  else if (lw6sys_str_starts_with_no_case (sys_context, message, LW6MSG_CMD_MISS))
+  else if (lw6sys_str_starts_with_no_case (sys_context, packet->msg, LW6MSG_CMD_MISS))
     {
-      if (lw6msg_cmd_analyse_miss (sys_context, &id_from, &id_to, &serial_min, &serial_max, message))
+      if (lw6msg_cmd_analyse_miss (sys_context, &id_from, &id_to, &serial_min, &serial_max, packet->msg))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
 		      _x_ ("received MISS from %s id_from=%" LW6SYS_PRINTF_LL
@@ -466,12 +466,12 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
 	}
       else
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad miss from \"%s\" (\"%s\")"), cnx->remote_url, message);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad miss from \"%s\" (\"%s\")"), cnx->remote_url, packet->msg);
 	}
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unhandled message \"%s\""), message);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unhandled packet->msg \"%s\""), packet->msg);
     }
 
   if (remote_node_info)
@@ -481,89 +481,91 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
 }
 
 void
-_lw6p2p_recv_forward (lw6sys_context_t * sys_context, _lw6p2p_node_t * node,
-		      lw6cnx_connection_t * cnx, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
+_lw6p2p_recv_formard (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6cnx_connection_t * cnx, const lw6cnx_packet_t * packet)
 {
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("forward \"%s\""), message);
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("forward \"%s\""), packet->msg);
 
   // todo, forwarding
 }
 
 static int
-_check_sig (lw6sys_context_t * sys_context, lw6cnx_ticket_table_t * ticket_table, u_int64_t remote_id_int,
-	    u_int64_t local_id_int, const char *remote_id_str, const char *message, u_int32_t ticket_sig, int hint_timeout)
+_check_sig (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6cnx_connection_t * cnx, const lw6cnx_packet_t * packet, u_int64_t remote_id_int,
+	    u_int32_t ticket_sig)
 {
   int ret = 0;
   u_int64_t recv_ticket = 0;
   int was_recv_exchanged = 0;
+  int hint_timeout = cnx->properties.hint_timeout;
+  char *remote_id_str = lw6sys_id_ltoa (sys_context, remote_id_int);
 
-  recv_ticket = lw6cnx_ticket_table_get_recv (sys_context, ticket_table, remote_id_str);
-  was_recv_exchanged = lw6cnx_ticket_table_was_recv_exchanged (sys_context, ticket_table, remote_id_str);
-  if (lw6msg_ticket_check_sig (sys_context, recv_ticket, remote_id_int, local_id_int, message, ticket_sig))
+  if (remote_id_str)
     {
-      if (was_recv_exchanged)
+      recv_ticket = lw6cnx_ticket_table_get_recv (sys_context, &(node->ticket_table), remote_id_str);
+      was_recv_exchanged = lw6cnx_ticket_table_was_recv_exchanged (sys_context, &(node->ticket_table), remote_id_str);
+      if (lw6msg_ticket_check_sig (sys_context, recv_ticket, remote_id_int, cnx->local_id_int, packet->msg, ticket_sig))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("good sig from \"%s\" to \"%" LW6SYS_PRINTF_LL
-			   "x\" on message \"%s\" using ticket \"%"
-			   LW6SYS_PRINTF_LL "x\""), remote_id_str, (long long) local_id_int, message, (long long) recv_ticket);
-	}
-      else
-	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("good sig from \"%s\" to \"%"
-			   LW6SYS_PRINTF_LL
-			   "x\" on message \"%s\" using ticket \"%"
-			   LW6SYS_PRINTF_LL
-			   "x\", registering the ticket as received, will be valid in %d seconds"),
-		      remote_id_str, (long long) local_id_int, message, (long long) recv_ticket, hint_timeout);
-	  lw6cnx_ticket_table_ack_recv (sys_context, ticket_table, remote_id_str, hint_timeout * LW6SYS_TICKS_PER_SEC);
-	}
-      ret = 1;
-    }
-  else
-    {
-      if (was_recv_exchanged)
-	{
-	  /*
-	   * OK, messages have been once correctly signed, but
-	   * this one is *badly* signed.
-	   */
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-		      _x_ ("bad sig from \"%s\" to \"%" LW6SYS_PRINTF_LL
-			   "x\" on message \"%s\" using ticket \"%"
-			   LW6SYS_PRINTF_LL "x\""), remote_id_str, (long long) local_id_int, message, (long long) recv_ticket);
-	}
-      else
-	{
-	  /*
-	   * Peer probably never got the ticket, so for now we
-	   * ignore signatures.
-	   */
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("not checking sig from \"%s\" to \"%" LW6SYS_PRINTF_LL
-		       "x\" on message \"%s\" because ticket was never received using ticket \"%"
-		       LW6SYS_PRINTF_LL "x\""), remote_id_str, (long long) local_id_int, message, (long long) recv_ticket);
+	  if (was_recv_exchanged)
+	    {
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			  _x_ ("good sig from \"%s\" to \"%" LW6SYS_PRINTF_LL
+			       "x\" on message \"%s\" using ticket \"%"
+			       LW6SYS_PRINTF_LL "x\""), remote_id_str, (long long) cnx->local_id_int, packet->msg, (long long) recv_ticket);
+	    }
+	  else
+	    {
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
+			  _x_ ("good sig from \"%s\" to \"%"
+			       LW6SYS_PRINTF_LL
+			       "x\" on message \"%s\" using ticket \"%"
+			       LW6SYS_PRINTF_LL
+			       "x\", registering the ticket as received, will be valid in %d seconds"),
+			  remote_id_str, (long long) cnx->local_id_int, packet->msg, (long long) recv_ticket, hint_timeout);
+	      lw6cnx_ticket_table_ack_recv (sys_context, &(node->ticket_table), remote_id_str, hint_timeout * LW6SYS_TICKS_PER_SEC);
+	    }
 	  ret = 1;
 	}
+      else
+	{
+	  if (was_recv_exchanged)
+	    {
+	      /*
+	       * OK, packet->msgs have been once correctly signed, but
+	       * this one is *badly* signed.
+	       */
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
+			  _x_ ("bad sig from \"%s\" to \"%" LW6SYS_PRINTF_LL
+			       "x\" on message \"%s\" using ticket \"%"
+			       LW6SYS_PRINTF_LL "x\""), remote_id_str, (long long) cnx->local_id_int, packet->msg, (long long) recv_ticket);
+	    }
+	  else
+	    {
+	      /*
+	       * Peer probably never got the ticket, so for now we
+	       * ignore signatures.
+	       */
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+			  _x_
+			  ("not checking sig from \"%s\" to \"%" LW6SYS_PRINTF_LL
+			   "x\" on message \"%s\" because ticket was never received using ticket \"%"
+			   LW6SYS_PRINTF_LL "x\""), remote_id_str, (long long) cnx->local_id_int, packet->msg, (long long) recv_ticket);
+	      ret = 1;
+	    }
+	}
+      LW6SYS_FREE (sys_context, remote_id_str);
     }
 
   return ret;
 }
 
 void
-_lw6p2p_recv_callback (lw6sys_context_t * sys_context, void *recv_callback_data,
-		       lw6cnx_connection_t * connection,
-		       u_int32_t physical_ticket_sig, u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
+_lw6p2p_recv_callback (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6cnx_connection_t * cnx, const lw6cnx_packet_t * packet)
 {
-  _lw6p2p_node_t *node = (_lw6p2p_node_t *) recv_callback_data;
   int physical_sig_ok = 0;
   int logical_sig_ok = 0;
   char *logical_from_id_str = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("recv_callback msg=\"%s\""), message);
-  if (node && connection)
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("recv_callback msg=\"%s\""), packet->msg);
+  if (node && cnx)
     {
       /*
        * Important, this function can be called in main thread (and for this
@@ -580,54 +582,46 @@ _lw6p2p_recv_callback (lw6sys_context_t * sys_context, void *recv_callback_data,
 	   * to do it, and there's no way to trap it in generic cli/srv
 	   * code.
 	   */
-	  if (lw6cnx_connection_reliability_filter (sys_context, connection))
+	  if (lw6cnx_connection_reliability_filter (sys_context, cnx))
 	    {
-	      physical_sig_ok =
-		_check_sig (sys_context, &(node->ticket_table), connection->remote_id_int,
-			    connection->local_id_int, connection->remote_id_str, message, physical_ticket_sig, connection->properties.hint_timeout);
+	      physical_sig_ok = _check_sig (sys_context, node, cnx, packet, cnx->remote_id_int, packet->physical_ticket_sig);
 	      if (physical_sig_ok)
 		{
-		  if (connection->local_id_int == logical_to_id)
+		  if (cnx->local_id_int == packet->logical_to_id)
 		    {
-		      if (logical_from_id == connection->remote_id_int)
+		      if (packet->logical_from_id == cnx->remote_id_int)
 			{
 			  /*
 			   * In this case, test was performed just before,
 			   * but we check it again, just to make sure.
 			   */
-			  logical_sig_ok =
-			    _check_sig (sys_context, &(node->ticket_table),
-					connection->remote_id_int,
-					connection->local_id_int, connection->remote_id_str, message, logical_ticket_sig, connection->properties.hint_timeout);
+			  logical_sig_ok = _check_sig (sys_context, node, cnx, packet, packet->logical_from_id, packet->logical_ticket_sig);
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("message forwarding not supported yet"));
-			  logical_from_id_str = lw6sys_id_ltoa (sys_context, logical_from_id);
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("packet->msg forwarding not supported yet"));
+			  logical_from_id_str = lw6sys_id_ltoa (sys_context, packet->logical_from_id);
 			  if (logical_from_id_str)
 			    {
-			      logical_sig_ok =
-				_check_sig (sys_context, &(node->ticket_table),
-					    logical_from_id, logical_to_id,
-					    logical_from_id_str, message, logical_ticket_sig, connection->properties.hint_timeout);
+			      logical_sig_ok = _check_sig (sys_context, node, cnx, packet, packet->logical_from_id, packet->logical_ticket_sig);
 			      LW6SYS_FREE (sys_context, logical_from_id_str);
 			    }
 			}
 		      if (logical_sig_ok)
 			{
-			  _lw6p2p_recv_process (sys_context, node, connection, logical_from_id, message);
+			  _lw6p2p_recv_process (sys_context, node, cnx, packet);
 			}
 		      else
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad logical ticket_sig from \"%s\""), connection->remote_url);
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("bad logical ticket_sig from \"%s\""), cnx->remote_url);
 			}
 		    }
 		  else
 		    {
-		      if (connection->remote_id_int == logical_from_id)
+		      if (cnx->remote_id_int == packet->logical_from_id)
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("message forwarding not supported yet"));
-			  _lw6p2p_recv_forward (sys_context, node, connection, logical_ticket_sig, logical_from_id, logical_to_id, message);
+			  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("packet->msg forwarding not supported yet"));
+			  _lw6p2p_recv_forward (sys_context, node, cnx, packet);
 			}
 		      else
 			{
@@ -638,19 +632,19 @@ _lw6p2p_recv_callback (lw6sys_context_t * sys_context, void *recv_callback_data,
 
 	      if (physical_sig_ok)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("good physical ticket_sig from \"%s\" on message \"%s\""), connection->remote_url, message);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("good physical ticket_sig from \"%s\" on message \"%s\""), cnx->remote_url, packet->msg);
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad physical ticket_sig from \"%s\" on message \"%s\""), connection->remote_url, message);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad physical ticket_sig from \"%s\" on message \"%s\""), cnx->remote_url, packet->msg);
 		}
 	      if (logical_sig_ok)
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("good logical ticket_sig from \"%s\" on message \"%s\""), connection->remote_url, message);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("good logical ticket_sig from \"%s\" on message \"%s\""), cnx->remote_url, packet->msg);
 		}
 	      else
 		{
-		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad logical ticket_sig from \"%s\" on message \"%s\""), connection->remote_url, message);
+		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad logical ticket_sig from \"%s\" on message \"%s\""), cnx->remote_url, packet->msg);
 		}
 	    }
 	  _lw6p2p_node_unlock (sys_context, node);

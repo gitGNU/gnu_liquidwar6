@@ -1590,9 +1590,7 @@ _lw6p2p_node_register_tentacle (lw6sys_context_t * sys_context, _lw6p2p_node_t *
 	  ret =
 	    _lw6p2p_tentacle_init (sys_context, &(node->tentacles[i]), &(node->backends),
 				   node->listener,
-				   node->public_url, remote_url,
-				   real_remote_ip, node->password,
-				   node->node_id_int, remote_id, node->network_reliability, _lw6p2p_recv_callback, (void *) node);
+				   node->public_url, remote_url, real_remote_ip, node->password, node->node_id_int, remote_id, node->network_reliability);
 	}
       else
 	{
@@ -1890,8 +1888,7 @@ _lw6p2p_node_client_join (lw6sys_context_t * sys_context, _lw6p2p_node_t * node,
 		  ret =
 		    _lw6p2p_tentacle_init (sys_context, tentacle, &(node->backends),
 					   node->listener, node->public_url,
-					   remote_url, NULL, node->password,
-					   node->node_id_int, remote_id, node->network_reliability, _lw6p2p_recv_callback, (void *) node);
+					   remote_url, NULL, node->password, node->node_id_int, remote_id, node->network_reliability);
 		  if (ret)
 		    {
 		      ret = 0;
