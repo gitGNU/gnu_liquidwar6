@@ -481,7 +481,7 @@ _lw6p2p_recv_process (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6
 }
 
 void
-_lw6p2p_recv_formard (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6cnx_connection_t * cnx, const lw6cnx_packet_t * packet)
+_lw6p2p_recv_forward (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, lw6cnx_connection_t * cnx, const lw6cnx_packet_t * packet)
 {
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("forward \"%s\""), packet->msg);
 

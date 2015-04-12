@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2014-06-26 22:32+0200\n"
+"POT-Creation-Date: 2015-04-12 17:30+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -35,7 +35,7 @@ msgstr ""
 msgid "Random"
 msgstr ""
 
-#: src/lib/cli/mod-http/mod-http-backend.c:198
+#: src/lib/cli/mod-http/mod-http-backend.c:196
 msgid "HTTP (Curl)"
 msgstr ""
 
@@ -43,7 +43,7 @@ msgstr ""
 msgid "can't initialize mod_http"
 msgstr "klarte ikkje starta mod_http"
 
-#: src/lib/cli/mod-tcp/mod-tcp-backend.c:198
+#: src/lib/cli/mod-tcp/mod-tcp-backend.c:196
 msgid "TCP"
 msgstr ""
 
@@ -51,7 +51,7 @@ msgstr ""
 msgid "can't initialize mod_tcp"
 msgstr "klarte ikkje starta mod_tcp"
 
-#: src/lib/cli/mod-udp/mod-udp-backend.c:198
+#: src/lib/cli/mod-udp/mod-udp-backend.c:196
 msgid "UDP"
 msgstr ""
 
@@ -626,7 +626,7 @@ msgstr "Lyd"
 msgid "Ogg Vorbis"
 msgstr ""
 
-#: src/lib/srv/mod-httpd/mod-httpd-backend.c:257
+#: src/lib/srv/mod-httpd/mod-httpd-backend.c:256
 msgid "HTTPD"
 msgstr ""
 
@@ -634,7 +634,7 @@ msgstr ""
 msgid "can't initialize mod_httpd"
 msgstr "klarte ikkje starta mod_httpd"
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:256
+#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:255
 msgid "TCPD"
 msgstr ""
 
@@ -642,7 +642,7 @@ msgstr ""
 msgid "can't initialize mod_tcpd"
 msgstr "klarte ikkje starta mod_tcpd"
 
-#: src/lib/srv/mod-udpd/mod-udpd-backend.c:257
+#: src/lib/srv/mod-udpd/mod-udpd-backend.c:256
 msgid "UDPD"
 msgstr ""
 

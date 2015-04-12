@@ -39,5 +39,5 @@ xml.gen: doxygen-xml.cfg.in ${top_srcdir}/src/lib/bot/bot.h ${top_srcdir}/src/li
 	touch $@
 
 clean-local:
-	rm -rf html xml html.gen xml.gen
+	rm -rf html xml html.gen xml.gen doxygen_sqlite3.db
 

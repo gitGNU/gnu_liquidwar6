@@ -469,24 +469,6 @@ _test_tentacle_poll_step2_recv_udp (lw6sys_context_t * sys_context, lw6srv_liste
 }
 
 static void
-_test_tentacle1_recv_callback (lw6sys_context_t * sys_context, void *recv_callback_data,
-			       lw6cnx_connection_p connection,
-			       u_int32_t physical_ticket_sig,
-			       u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
-{
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("tentacle1 received \"%s\""), message);
-}
-
-static void
-_test_tentacle2_recv_callback (lw6sys_context_t * sys_context, void *recv_callback_data,
-			       lw6cnx_connection_p connection,
-			       u_int32_t physical_ticket_sig,
-			       u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *message)
-{
-  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("tentacle2 received \"%s\""), message);
-}
-
-static void
 _test_tentacle1_thread_callback (lw6sys_context_t * sys_context, void *tentacle_data)
 {
   _test_tentacle_data_t *data = (_test_tentacle_data_t *) tentacle_data;
@@ -508,7 +490,7 @@ _test_tentacle1_thread_callback (lw6sys_context_t * sys_context, void *tentacle_
       if (_lw6p2p_tentacle_init
 	  (sys_context, &(data->tentacle), &(data->backends), data->listener,
 	   _TEST_TENTACLE_URL1, _TEST_TENTACLE_URL2, _TEST_TENTACLE_BIND_IP2,
-	   _TEST_TENTACLE_PASSWORD, _TEST_TENTACLE_ID1, _TEST_TENTACLE_ID2, _TEST_TENTACLE_NETWORK_RELIABILITY, _test_tentacle1_recv_callback, tentacle_data))
+	   _TEST_TENTACLE_PASSWORD, _TEST_TENTACLE_ID1, _TEST_TENTACLE_ID2, _TEST_TENTACLE_NETWORK_RELIABILITY))
 	{
 	  while ((now = lw6sys_get_timestamp (sys_context)) < end_timestamp && !(*(data->done)))
 	    {
@@ -559,7 +541,6 @@ _test_tentacle1_thread_callback (lw6sys_context_t * sys_context, void *tentacle_
 
 	      _test_tentacle_poll_step1_accept_tcp (sys_context, data->listener, now);
 	      _test_tentacle_poll_step2_recv_udp (sys_context, data->listener, now);
-	      _lw6p2p_tentacle_poll_queues (sys_context, &data->tentacle, &ticket_table);
 
 	      /*
 	       * Snoozing a bit to avoid filling up buffers
@@ -625,7 +606,7 @@ _test_tentacle2_thread_callback (lw6sys_context_t * sys_context, void *tentacle_
       if (_lw6p2p_tentacle_init
 	  (sys_context, &(data->tentacle), &(data->backends), data->listener,
 	   _TEST_TENTACLE_URL2, _TEST_TENTACLE_URL1, _TEST_TENTACLE_BIND_IP1,
-	   _TEST_TENTACLE_PASSWORD, _TEST_TENTACLE_ID2, _TEST_TENTACLE_ID1, _TEST_TENTACLE_NETWORK_RELIABILITY, _test_tentacle2_recv_callback, tentacle_data))
+	   _TEST_TENTACLE_PASSWORD, _TEST_TENTACLE_ID2, _TEST_TENTACLE_ID1, _TEST_TENTACLE_NETWORK_RELIABILITY))
 	{
 	  while ((now = lw6sys_get_timestamp (sys_context)) < end_timestamp && !(*(data->done)))
 	    {
@@ -676,7 +657,6 @@ _test_tentacle2_thread_callback (lw6sys_context_t * sys_context, void *tentacle_
 
 	      _test_tentacle_poll_step1_accept_tcp (sys_context, data->listener, now);
 	      _test_tentacle_poll_step2_recv_udp (sys_context, data->listener, now);
-	      _lw6p2p_tentacle_poll_queues (sys_context, &data->tentacle, &ticket_table);
 
 	      /*
 	       * Snoozing a bit to avoid filling up buffers

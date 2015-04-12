@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2014-06-26 22:32+0200\n"
+"POT-Creation-Date: 2015-04-12 17:30+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -35,7 +35,7 @@ msgstr "Идиот"
 msgid "Random"
 msgstr "Случайно"
 
-#: src/lib/cli/mod-http/mod-http-backend.c:198
+#: src/lib/cli/mod-http/mod-http-backend.c:196
 msgid "HTTP (Curl)"
 msgstr ""
 
@@ -43,7 +43,7 @@ msgstr ""
 msgid "can't initialize mod_http"
 msgstr "ошибка инициализации mod_http"
 
-#: src/lib/cli/mod-tcp/mod-tcp-backend.c:198
+#: src/lib/cli/mod-tcp/mod-tcp-backend.c:196
 msgid "TCP"
 msgstr ""
 
@@ -51,7 +51,7 @@ msgstr ""
 msgid "can't initialize mod_tcp"
 msgstr "ошибка инициализации mod_tcp"
 
-#: src/lib/cli/mod-udp/mod-udp-backend.c:198
+#: src/lib/cli/mod-udp/mod-udp-backend.c:196
 msgid "UDP"
 msgstr ""
 
@@ -620,7 +620,7 @@ msgstr "Звук"
 msgid "Ogg Vorbis"
 msgstr ""
 
-#: src/lib/srv/mod-httpd/mod-httpd-backend.c:257
+#: src/lib/srv/mod-httpd/mod-httpd-backend.c:256
 msgid "HTTPD"
 msgstr ""
 
@@ -628,7 +628,7 @@ msgstr ""
 msgid "can't initialize mod_httpd"
 msgstr "ошибка инициализации mod_httpd"
 
-#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:256
+#: src/lib/srv/mod-tcpd/mod-tcpd-backend.c:255
 msgid "TCPD"
 msgstr ""
 
@@ -636,7 +636,7 @@ msgstr ""
 msgid "can't initialize mod_tcpd"
 msgstr "ошибка инициализации mod_tcpd"
 
-#: src/lib/srv/mod-udpd/mod-udpd-backend.c:257
+#: src/lib/srv/mod-udpd/mod-udpd-backend.c:256
 msgid "UDPD"
 msgstr ""
 
