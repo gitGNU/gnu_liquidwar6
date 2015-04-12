@@ -410,9 +410,8 @@ extern void _lw6p2p_tentacle_clear (lw6sys_context_t * sys_context, _lw6p2p_tent
 extern int _lw6p2p_tentacle_enabled (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle);
 extern void _lw6p2p_tentacle_poll_protocol (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle,
 					    lw6nod_info_t * node_info, lw6cnx_ticket_table_t * ticket_table, const _lw6p2p_consts_t * consts, int serial);
-extern void _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle, lw6cnx_ticket_table_t * ticket_table);
-extern void _lw6p2p_tentacle_poll (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle,
-				   lw6nod_info_t * node_info, lw6cnx_ticket_table_t * ticket_table, const _lw6p2p_consts_t * consts, int serial);
+extern void _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, _lw6p2p_tentacle_t * tentacle);
+extern void _lw6p2p_tentacle_poll (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, _lw6p2p_tentacle_t * tentacle, int serial);
 extern int _lw6p2p_tentacle_send_best (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle,
 				       int64_t now,
 				       lw6cnx_ticket_table_t * ticket_table,

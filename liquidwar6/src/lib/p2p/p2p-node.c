@@ -967,8 +967,7 @@ _poll_step11_tentacles (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, i
 	{
 	  if (_lw6p2p_tentacle_enabled (sys_context, &(node->tentacles[i])))
 	    {
-	      _lw6p2p_tentacle_poll (sys_context, &(node->tentacles[i]), node->node_info,
-				     &(node->ticket_table), &(node->db->data.consts), lw6dat_warehouse_get_local_serial (sys_context, node->warehouse));
+	      _lw6p2p_tentacle_poll (sys_context, node, &(node->tentacles[i]), lw6dat_warehouse_get_local_serial (sys_context, node->warehouse));
 	    }
 	}
       _lw6p2p_node_lock (sys_context, node);

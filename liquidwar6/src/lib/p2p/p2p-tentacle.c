@@ -460,14 +460,15 @@ _lw6p2p_tentacle_poll_protocol (lw6sys_context_t * sys_context, _lw6p2p_tentacle
 }
 
 void
-_lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle, _lw6p2p_node_t * node)
+_lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, _lw6p2p_tentacle_t * tentacle)
 {
   int i = 0;
   int64_t now = 0LL;
   lw6cnx_connection_t *cnx = NULL;
   _send_best_data_t send_best_data;
   lw6sys_list_t *packets = NULL;
-  lw6cnx_ticket_table_t *ticket_table = node->ticket_table;
+  lw6cnx_packet_t *packet = NULL;
+  lw6cnx_ticket_table_t *ticket_table = &(node->ticket_table);
 
   memset (&send_best_data, 0, sizeof (_send_best_data_t));
   now = lw6sys_get_timestamp (sys_context);
@@ -476,7 +477,8 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t
     {
       cnx = tentacle->cli_connections[i];
       lw6cli_poll (sys_context, tentacle->backends->cli_backends[i], cnx);
-      packets = lw6sys_list_r_transfer_from (sys_context, cnx->recv_list);
+      packets = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6cnx_packet_free);
+      lw6sys_list_r_transfer_from (sys_context, cnx->recv_list, &packets);
       while (packets && (packet = (lw6cnx_packet_t *) lw6sys_list_pop_front (sys_context, &packets)))
 	{
 	  _lw6p2p_recv_callback (sys_context, node, cnx, packet);
@@ -487,7 +489,8 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t
     {
       cnx = tentacle->srv_connections[i];
       lw6srv_poll (sys_context, tentacle->backends->srv_backends[i], cnx);
-      packets = lw6sys_list_r_transfer_from (sys_context, cnx->recv_list);
+      packets = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6cnx_packet_free);
+      lw6sys_list_r_transfer_from (sys_context, cnx->recv_list, &packets);
       while (packets && (packet = (lw6cnx_packet_t *) lw6sys_list_pop_front (sys_context, &packets)))
 	{
 	  _lw6p2p_recv_callback (sys_context, node, cnx, packet);
@@ -548,16 +551,15 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t
 }
 
 void
-_lw6p2p_tentacle_poll (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle,
-		       lw6nod_info_t * node_info, lw6cnx_ticket_table_t * ticket_table, const _lw6p2p_consts_t * consts, int serial)
+_lw6p2p_tentacle_poll (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, _lw6p2p_tentacle_t * tentacle, int serial)
 {
   /*
    * IMPORTANT -> this function is called in unlock mode, it can
    * be in conflict with code from the recv callback. Normally this
    * should not be a problem.
    */
-  _lw6p2p_tentacle_poll_protocol (sys_context, tentacle, node_info, ticket_table, consts, serial);
-  _lw6p2p_tentacle_poll_queues (sys_context, tentacle, ticket_table);
+  _lw6p2p_tentacle_poll_protocol (sys_context, tentacle, node->node_info, &(node->ticket_table), &(node->db->data.consts), serial);
+  _lw6p2p_tentacle_poll_queues (sys_context, node, tentacle);
 }
 
 
