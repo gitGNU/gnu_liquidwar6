@@ -74,3 +74,7 @@ endif
 endif
 
 EXTRA_DIST = dsp-internal.h $(OBJC_EXTRA_FILES)
+
+clean-local:
+	rm -f *.log *.trs
+

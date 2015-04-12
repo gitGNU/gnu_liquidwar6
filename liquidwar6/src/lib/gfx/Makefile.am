@@ -117,3 +117,7 @@ endif
 SUBDIRS = $(MOD_GL1_SUBDIR) $(MOD_GLES2_SUBDIR) $(MOD_SOFT_SUBDIR) $(SHARED_SDL_SUBDIR) $(MOD_CACA_SUBDIR)
 
 EXTRA_DIST = gfx-internal.h
+
+clean-local:
+	rm -f *.log *.trs
+

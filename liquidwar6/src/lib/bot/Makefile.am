@@ -51,3 +51,6 @@ endif
 
 SUBDIRS = mod-brute mod-follow mod-idiot mod-random
 
+clean-local:
+	rm -f *.log *.trs
+

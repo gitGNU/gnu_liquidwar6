@@ -24,3 +24,7 @@ libdefdir= $(includedir)/@PACKAGE_TARNAME@/def
 libdef_HEADERS = def.h
 
 EXTRA_DIST = def-list.txt def-update.py def-replace.sh
+
+clean-local:
+	rm -f *.log *.trs
+

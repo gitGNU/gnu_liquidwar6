@@ -40,3 +40,6 @@ TESTS = liquidwar6map-test
 endif
 endif
 
+clean-local:
+	rm -f *.log *.trs
+

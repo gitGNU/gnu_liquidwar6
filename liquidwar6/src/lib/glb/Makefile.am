@@ -41,3 +41,7 @@ endif
 endif
 
 EXTRA_DIST = glb-internal.h gnulib-base64.h gnulib-hmac.h gnulib-memxor.h gnulib-sha1.h
+
+clean-local:
+	rm -f *.log *.trs
+

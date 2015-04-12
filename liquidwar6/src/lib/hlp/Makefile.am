@@ -49,3 +49,7 @@ endif
 endif
 
 EXTRA_DIST = hlp-internal.h
+
+clean-local:
+	rm -f *.log *.trs
+

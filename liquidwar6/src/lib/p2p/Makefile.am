@@ -48,3 +48,6 @@ endif
 
 EXTRA_DIST = p2p-internal.h
 
+clean-local:
+	rm -f *.log *.trs
+

@@ -74,3 +74,7 @@ endif
 endif
 
 SUBDIRS = def sys glb map ker pil $(LW6DYN_SUBDIR) bot sim gen cns hlp cfg ldr tsk mat gui vox gfx snd dsp img net nod cnx msg cli srv dat p2p scm
+
+clean-local:
+	rm -f *.log *.trs
+

@@ -46,3 +46,7 @@ endif
 endif
 
 EXTRA_DIST = scm-internal.h
+
+clean-local:
+	rm -f *.log *.trs
+

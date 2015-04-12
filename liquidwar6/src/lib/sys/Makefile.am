@@ -57,3 +57,7 @@ endif
 endif
 
 EXTRA_DIST = sys-internal.h sys-build-stamp.h sys-build-md5sum.h $(X86_EXTRA_FILES) $(OBJC_EXTRA_FILES)
+
+clean-local:
+	rm -f *.log *.trs
+

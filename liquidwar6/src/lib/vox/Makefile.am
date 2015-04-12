@@ -41,3 +41,7 @@ endif
 endif
 
 EXTRA_DIST = vox-internal.h
+
+clean-local:
+	rm -f *.log *.trs
+

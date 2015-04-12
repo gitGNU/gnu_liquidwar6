@@ -47,3 +47,7 @@ endif
 endif
 
 EXTRA_DIST = sim-internal.h
+
+clean-local:
+	rm -f *.log *.trs
+

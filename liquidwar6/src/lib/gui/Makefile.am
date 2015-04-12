@@ -39,3 +39,7 @@ liquidwar6gui_test_LDADD = libgui.la ../map/libmap.la ../cfg/libcfg.la ../hlp/li
 TESTS = liquidwar6gui-test
 endif
 endif
+
+clean-local:
+	rm -f *.log *.trs
+

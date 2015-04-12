@@ -39,3 +39,7 @@ liquidwar6msg_test_LDADD = libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../glb/li
 TESTS = liquidwar6msg-test
 endif
 endif
+
+clean-local:
+	rm -f *.log *.trs
+

@@ -50,3 +50,6 @@ endif
 
 EXTRA_DIST = ldr-internal.h
 
+clean-local:
+	rm -f *.log *.trs
+

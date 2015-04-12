@@ -42,3 +42,6 @@ endif
 
 EXTRA_DIST = ker-internal.h ker-trigo.h trigo.py
 
+clean-local:
+	rm -f *.log *.trs
+

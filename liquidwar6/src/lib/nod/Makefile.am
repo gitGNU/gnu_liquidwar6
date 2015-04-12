@@ -41,3 +41,7 @@ endif
 endif
 
 EXTRA_DIST = nod-internal.h
+
+clean-local:
+	rm -f *.log *.trs
+

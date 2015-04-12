@@ -51,3 +51,6 @@ endif
 
 SUBDIRS = mod-tcpd mod-udpd mod-httpd
 
+clean-local:
+	rm -f *.log *.trs
+

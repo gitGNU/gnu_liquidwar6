@@ -59,3 +59,6 @@ endif
 
 SUBDIRS = mod-tcp mod-udp $(MOD_HTTP_SUBDIR)
 
+clean-local:
+	rm -f *.log *.trs
+

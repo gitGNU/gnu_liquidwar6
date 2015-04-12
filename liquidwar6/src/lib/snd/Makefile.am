@@ -72,3 +72,6 @@ endif
 
 SUBDIRS = $(MOD_CSOUND_SUBDIR) $(MOD_OGG_SUBDIR)
 
+clean-local:
+	rm -f *.log *.trs
+

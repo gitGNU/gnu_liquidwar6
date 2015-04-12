@@ -39,3 +39,7 @@ liquidwar6img_test_LDADD = libimg.la ../cfg/libcfg.la ../hlp/libhlp.la ../ker/li
 TESTS = liquidwar6img-test
 endif
 endif
+
+clean-local:
+	rm -f *.log *.trs
+

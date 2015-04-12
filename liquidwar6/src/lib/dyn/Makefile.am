@@ -42,3 +42,6 @@ endif
 
 EXTRA_DIST = dyn-internal.h
 
+clean-local:
+	rm -f *.log *.trs
+
