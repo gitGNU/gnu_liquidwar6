@@ -36,7 +36,7 @@ liquidwar6-test-cpu.dat:
 	export CPUPROFILE=$$(readlink -f $@) && export HEAPPROFILE=$$(dirname $$(readlink -f $@))/liquidwar6-test-heap.dat && cd ${top_builddir}/src/lib && $(MAKE) && ./liquidwar6-test
 
 clean-local:
-	rm -f *.jpeg *.pdf *.dat *.dat.*
+	rm -f *.jpeg liquidwar6*.pdf *.dat *.dat.*
 
 EXTRA_DIST = Makefile.main Makefile.extra blank.pdf
 
