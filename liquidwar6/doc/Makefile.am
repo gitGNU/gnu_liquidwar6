@@ -107,6 +107,9 @@ install-data-local:
 	if test -d liquidwar6.html ; then install -d $(DESTDIR)$(docdir)/html ; cp -f liquidwar6.html/* $(DESTDIR)$(docdir)/html/ ; fi
 	if test -f liquidwar6.pdf ; then install -d $(DESTDIR)$(docdir) ; cp -f liquidwar6.pdf $(DESTDIR)$(docdir)/ ; fi
 
+install-info-local:
+	if test x${DESTDIR} != x && test x${DESTDIR} != / && test -d ${DESTDIR} ; then rm -f ${DESTDIR}$(infodir)/share/info/dir* ; fi
+
 uninstall-local: 
 	rm -r -f $(DESTDIR)$(docdir)
 
