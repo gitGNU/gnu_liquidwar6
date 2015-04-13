@@ -163,13 +163,18 @@ typedef char *char_ptr_t;
 /*
  * Bit masks used for testing, the mode is a combination
  * of bits, typically passed as a command line argument.
- * - 0 : batch mode, check only
- * - 1 : batch mode, all tests
- * - 2 : interactive mode, check only
- * - 3 : interactive mode, all tests
+ * - 0 : batch mode, check only, debug mode off
+ * - 1 : batch mode, all tests, debug mode off
+ * - 2 : interactive mode, check only, debug mode off
+ * - 3 : interactive mode, all tests, debug mode off
+ * - 4 : batch mode, check only, debug mode on
+ * - 5 : batch mode, all tests, debug mode on
+ * - 6 : interactive mode, check only, debug mode on
+ * - 7 : interactive mode, all tests, debug mode on
  */
 #define LW6SYS_TEST_MODE_FULL_TEST 0x1
 #define LW6SYS_TEST_MODE_INTERACTIVE 0x2
+#define LW6SYS_TEST_MODE_DEBUG 0x4
 
 #define LW6SYS_BUILD_ENABLE_YES "yes"
 #define LW6SYS_BUILD_ENABLE_NO "no"

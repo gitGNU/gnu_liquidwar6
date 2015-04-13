@@ -33,8 +33,7 @@ _lw6p2p_tentacle_init (lw6sys_context_t * sys_context,
 		       _lw6p2p_backends_t * backends,
 		       lw6srv_listener_t * listener, const char *local_url,
 		       const char *remote_url, const char *real_remote_ip,
-		       const char *password, u_int64_t local_id,
-		       u_int64_t remote_id, int network_reliability)
+		       const char *password, u_int64_t local_id, u_int64_t remote_id, int network_reliability)
 {
   int ret = 1;
   int i = 0;
@@ -53,21 +52,16 @@ _lw6p2p_tentacle_init (lw6sys_context_t * sys_context,
        * probably have already initialized the DNS cache
        * so response will be fast.
        */
-      tentacle->remote_ip =
-	lw6net_dns_gethostbyname (sys_context, parsed_url->host);
+      tentacle->remote_ip = lw6net_dns_gethostbyname (sys_context, parsed_url->host);
       tentacle->remote_port = parsed_url->port;
       if (real_remote_ip)
 	{
 	  if (tentacle->remote_ip)
 	    {
-	      if (lw6sys_str_is_same
-		  (sys_context, tentacle->remote_ip, real_remote_ip))
+	      if (lw6sys_str_is_same (sys_context, tentacle->remote_ip, real_remote_ip))
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			      _x_
-			      ("OK, public URL \"%s\" for \"%s:%d\" is fine"),
-			      remote_url, tentacle->remote_ip,
-			      tentacle->remote_port);
+			      _x_ ("OK, public URL \"%s\" for \"%s:%d\" is fine"), remote_url, tentacle->remote_ip, tentacle->remote_port);
 		  tentacle->dns_ok = 1;
 		}
 	      else
@@ -76,39 +70,28 @@ _lw6p2p_tentacle_init (lw6sys_context_t * sys_context,
 			      _x_
 			      ("URL \"%s\" appears to be associated to \"%s:%d\" but DNS reports it to be associated to \"%s:%d\", using \"%s:%d\""),
 			      remote_url, real_remote_ip,
-			      tentacle->remote_port, tentacle->remote_ip,
-			      tentacle->remote_port, real_remote_ip,
-			      tentacle->remote_port);
+			      tentacle->remote_port, tentacle->remote_ip, tentacle->remote_port, real_remote_ip, tentacle->remote_port);
 		  LW6SYS_FREE (sys_context, tentacle->remote_ip);
-		  tentacle->remote_ip =
-		    lw6sys_str_copy (sys_context, real_remote_ip);
+		  tentacle->remote_ip = lw6sys_str_copy (sys_context, real_remote_ip);
 		}
 	    }
 	  else
 	    {
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("unable to get IP from DNS for \"%s\", using \"%s:%d\" instead"),
-			  remote_url, real_remote_ip, tentacle->remote_port);
-	      tentacle->remote_ip =
-		lw6sys_str_copy (sys_context, real_remote_ip);
+			  _x_ ("unable to get IP from DNS for \"%s\", using \"%s:%d\" instead"), remote_url, real_remote_ip, tentacle->remote_port);
+	      tentacle->remote_ip = lw6sys_str_copy (sys_context, real_remote_ip);
 	    }
 	}
       else
 	{
 	  if (tentacle->remote_ip)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("no \"real\" IP passed, using default \"%s:%d\""),
-			  tentacle->remote_ip, tentacle->remote_port);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("no \"real\" IP passed, using default \"%s:%d\""), tentacle->remote_ip, tentacle->remote_port);
 	      tentacle->dns_ok = 1;
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-			  _x_ ("unable to find host \"%s\""),
-			  parsed_url->host);
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to find host \"%s\""), parsed_url->host);
 	    }
 	}
       lw6sys_url_free (sys_context, parsed_url);
@@ -126,19 +109,12 @@ _lw6p2p_tentacle_init (lw6sys_context_t * sys_context,
   tentacle->remote_id_int = remote_id;
   tentacle->remote_id_str = lw6sys_id_ltoa (sys_context, remote_id);
 
-  if (tentacle->local_url && tentacle->remote_url && tentacle->remote_ip
-      && tentacle->password && tentacle->local_id_str
-      && tentacle->remote_id_str)
+  if (tentacle->local_url && tentacle->remote_url && tentacle->remote_ip && tentacle->password && tentacle->local_id_str && tentacle->remote_id_str)
     {
       tentacle->nb_cli_connections = backends->nb_cli_backends;
       if (tentacle->nb_cli_connections > 0)
 	{
-	  tentacle->cli_connections =
-	    (lw6cnx_connection_t **) LW6SYS_CALLOC (sys_context,
-						    tentacle->
-						    nb_cli_connections *
-						    sizeof
-						    (lw6cnx_connection_t *));
+	  tentacle->cli_connections = (lw6cnx_connection_t **) LW6SYS_CALLOC (sys_context, tentacle->nb_cli_connections * sizeof (lw6cnx_connection_t *));
 	  if (tentacle->cli_connections)
 	    {
 	      for (i = 0; i < tentacle->nb_cli_connections; ++i)
@@ -148,28 +124,19 @@ _lw6p2p_tentacle_init (lw6sys_context_t * sys_context,
 				 tentacle->backends->cli_backends[i],
 				 local_url, remote_url, tentacle->remote_ip,
 				 tentacle->remote_port, tentacle->password,
-				 tentacle->local_id_int,
-				 tentacle->remote_id_int, tentacle->dns_ok,
-				 network_reliability);
+				 tentacle->local_id_int, tentacle->remote_id_int, tentacle->dns_ok, network_reliability);
 		  if (tentacle->cli_connections[i])
 		    {
-		      repr =
-			lw6cli_repr (sys_context,
-				     tentacle->backends->cli_backends[i],
-				     tentacle->cli_connections[i]);
+		      repr = lw6cli_repr (sys_context, tentacle->backends->cli_backends[i], tentacle->cli_connections[i]);
 		      if (repr)
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				      _x_ ("connection \"%s\" opened"), repr);
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connection \"%s\" opened"), repr);
 			  LW6SYS_FREE (sys_context, repr);
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_
-				  ("unable to create connection %d to connect on \"%s\""),
-				  i, tentacle->remote_url);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create connection %d to connect on \"%s\""), i, tentacle->remote_url);
 		      ret = 0;
 		    }
 		}
@@ -182,12 +149,7 @@ _lw6p2p_tentacle_init (lw6sys_context_t * sys_context,
       tentacle->nb_srv_connections = backends->nb_srv_backends;
       if (tentacle->nb_srv_connections > 0)
 	{
-	  tentacle->srv_connections =
-	    (lw6cnx_connection_t **) LW6SYS_CALLOC (sys_context,
-						    tentacle->
-						    nb_srv_connections *
-						    sizeof
-						    (lw6cnx_connection_t *));
+	  tentacle->srv_connections = (lw6cnx_connection_t **) LW6SYS_CALLOC (sys_context, tentacle->nb_srv_connections * sizeof (lw6cnx_connection_t *));
 	  if (tentacle->srv_connections)
 	    {
 	      for (i = 0; i < tentacle->nb_srv_connections; ++i)
@@ -197,28 +159,19 @@ _lw6p2p_tentacle_init (lw6sys_context_t * sys_context,
 				 tentacle->backends->srv_backends[i],
 				 listener, local_url, remote_url,
 				 tentacle->remote_ip, tentacle->remote_port,
-				 tentacle->password, tentacle->local_id_int,
-				 tentacle->remote_id_int, tentacle->dns_ok,
-				 network_reliability);
+				 tentacle->password, tentacle->local_id_int, tentacle->remote_id_int, tentacle->dns_ok, network_reliability);
 		  if (tentacle->srv_connections[i])
 		    {
-		      repr =
-			lw6srv_repr (sys_context,
-				     tentacle->backends->srv_backends[i],
-				     tentacle->srv_connections[i]);
+		      repr = lw6srv_repr (sys_context, tentacle->backends->srv_backends[i], tentacle->srv_connections[i]);
 		      if (repr)
 			{
-			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-				      _x_ ("connection \"%s\" opened"), repr);
+			  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("connection \"%s\" opened"), repr);
 			  LW6SYS_FREE (sys_context, repr);
 			}
 		    }
 		  else
 		    {
-		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				  _x_
-				  ("unable to create connection %d to connect on \"%s\""),
-				  i, tentacle->remote_url);
+		      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create connection %d to connect on \"%s\""), i, tentacle->remote_url);
 		      ret = 0;
 		    }
 		}
@@ -238,8 +191,7 @@ _lw6p2p_tentacle_init (lw6sys_context_t * sys_context,
 }
 
 void
-_lw6p2p_tentacle_clear (lw6sys_context_t * sys_context,
-			_lw6p2p_tentacle_t * tentacle)
+_lw6p2p_tentacle_clear (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle)
 {
   int i = 0;
 
@@ -257,8 +209,7 @@ _lw6p2p_tentacle_clear (lw6sys_context_t * sys_context,
 	{
 	  if (tentacle->srv_connections[i])
 	    {
-	      lw6srv_close (sys_context, tentacle->backends->srv_backends[i],
-			    tentacle->srv_connections[i]);
+	      lw6srv_close (sys_context, tentacle->backends->srv_backends[i], tentacle->srv_connections[i]);
 	    }
 	}
       LW6SYS_FREE (sys_context, tentacle->srv_connections);
@@ -269,8 +220,7 @@ _lw6p2p_tentacle_clear (lw6sys_context_t * sys_context,
 	{
 	  if (tentacle->cli_connections[i])
 	    {
-	      lw6cli_close (sys_context, tentacle->backends->cli_backends[i],
-			    tentacle->cli_connections[i]);
+	      lw6cli_close (sys_context, tentacle->backends->cli_backends[i], tentacle->cli_connections[i]);
 	    }
 	}
       LW6SYS_FREE (sys_context, tentacle->cli_connections);
@@ -303,8 +253,7 @@ _lw6p2p_tentacle_clear (lw6sys_context_t * sys_context,
 }
 
 int
-_lw6p2p_tentacle_enabled (lw6sys_context_t * sys_context,
-			  _lw6p2p_tentacle_t * tentacle)
+_lw6p2p_tentacle_enabled (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle)
 {
   int ret = 0;
 
@@ -323,8 +272,7 @@ typedef struct _send_best_data_s
 _send_best_data_t;
 
 static int
-_send_best_filter (lw6sys_context_t * sys_context, void *func_data,
-		   void *data)
+_send_best_filter (lw6sys_context_t * sys_context, void *func_data, void *data)
 {
   int keep = 1;
   int found_cnx = 0;
@@ -350,27 +298,23 @@ _send_best_filter (lw6sys_context_t * sys_context, void *func_data,
   ping_msec = best_cnx->ping_msec;
   if (ping_msec > 0)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("send of \"%s\" on fastest connection"), msg);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("send of \"%s\" on fastest connection"), msg);
       /*
        * Now we have the cnx, we must figure out its type (cnx/srv)
        * and index to fire the right code on it.
        */
       for (i = 0; i < tentacle->nb_cli_connections && !found_cnx; ++i)
 	{
-	  if (best_cnx && (best_cnx == tentacle->cli_connections[i])
-	      && !found_cnx)
+	  if (best_cnx && (best_cnx == tentacle->cli_connections[i]) && !found_cnx)
 	    {
 	      found_cnx = 1;
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("found fastest connection to \"%s\", it's a client connection, backend name=\"%s\""),
-			  tentacle->remote_url,
-			  tentacle->backends->cli_backends[i]->name);
+			  tentacle->remote_url, tentacle->backends->cli_backends[i]->name);
 	      if (lw6cli_send
 		  (sys_context, tentacle->backends->cli_backends[i], best_cnx,
-		   now, physical_ticket_sig, logical_ticket_sig,
-		   logical_from_id, logical_to_id, msg))
+		   now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg))
 		{
 		  keep = 0;
 		}
@@ -378,19 +322,16 @@ _send_best_filter (lw6sys_context_t * sys_context, void *func_data,
 	}
       for (i = 0; i < tentacle->nb_srv_connections && !found_cnx; ++i)
 	{
-	  if (best_cnx && (best_cnx == tentacle->srv_connections[i])
-	      && !found_cnx)
+	  if (best_cnx && (best_cnx == tentacle->srv_connections[i]) && !found_cnx)
 	    {
 	      found_cnx = 1;
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("found fastest connection to \"%s\", it's a server connection, backend name=\"%s\""),
-			  tentacle->remote_url,
-			  tentacle->backends->srv_backends[i]->name);
+			  tentacle->remote_url, tentacle->backends->srv_backends[i]->name);
 	      if (lw6srv_send
 		  (sys_context, tentacle->backends->srv_backends[i], best_cnx,
-		   now, physical_ticket_sig, logical_ticket_sig,
-		   logical_from_id, logical_to_id, msg))
+		   now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg))
 		{
 		  keep = 0;
 		}
@@ -403,15 +344,11 @@ _send_best_filter (lw6sys_context_t * sys_context, void *func_data,
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
 			  _x_
 			  ("cnx found, but unable to send message, stats success=%d/fail=%d/total=%d"),
-			  best_cnx->sent_nb_success, best_cnx->sent_nb_fail,
-			  best_cnx->sent_nb_total);
+			  best_cnx->sent_nb_success, best_cnx->sent_nb_fail, best_cnx->sent_nb_total);
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("cnx not found, unable to send message \"%s\""),
-			  msg);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("cnx not found, unable to send message \"%s\""), msg);
 	    }
 	}
     }
@@ -424,12 +361,8 @@ _send_best_filter (lw6sys_context_t * sys_context, void *func_data,
        * Well, anyway, just means we did not really find it, so meanwhile,
        * until we get a real "best" one, we go redundant.
        */
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		  _x_
-		  ("couldn't really find a \"best\" connection for now, fallback on redundant mode"));
-      _lw6p2p_tentacle_send_redundant (sys_context, tentacle, now,
-				       ticket_table, logical_ticket_sig,
-				       logical_from_id, logical_to_id, msg);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("couldn't really find a \"best\" connection for now, fallback on redundant mode"));
+      _lw6p2p_tentacle_send_redundant (sys_context, tentacle, now, ticket_table, logical_ticket_sig, logical_from_id, logical_to_id, msg);
     }
 
   return keep;
@@ -438,9 +371,7 @@ _send_best_filter (lw6sys_context_t * sys_context, void *func_data,
 void
 _lw6p2p_tentacle_poll_protocol (lw6sys_context_t * sys_context,
 				_lw6p2p_tentacle_t * tentacle,
-				lw6nod_info_t * node_info,
-				lw6cnx_ticket_table_t * ticket_table,
-				const _lw6p2p_consts_t * consts, int serial)
+				lw6nod_info_t * node_info, lw6cnx_ticket_table_t * ticket_table, const _lw6p2p_consts_t * consts, int serial)
 {
   int i = 0;
   char *msg = NULL;
@@ -461,14 +392,8 @@ _lw6p2p_tentacle_poll_protocol (lw6sys_context_t * sys_context,
 	      ticket_sig =
 		lw6msg_ticket_calc_sig (sys_context,
 					lw6cnx_ticket_table_get_send
-					(sys_context, ticket_table,
-					 cnx->remote_id_str),
-					cnx->local_id_int, cnx->remote_id_int,
-					msg);
-	      if (lw6cli_send
-		  (sys_context, tentacle->backends->cli_backends[i], cnx, now,
-		   ticket_sig, ticket_sig, cnx->local_id_int,
-		   cnx->remote_id_int, msg))
+					(sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int, cnx->remote_id_int, msg);
+	      if (lw6cli_send (sys_context, tentacle->backends->cli_backends[i], cnx, now, ticket_sig, ticket_sig, cnx->local_id_int, cnx->remote_id_int, msg))
 		{
 		  tentacle->hello_sent = 1;
 		}
@@ -482,49 +407,28 @@ _lw6p2p_tentacle_poll_protocol (lw6sys_context_t * sys_context,
       cnx = tentacle->cli_connections[i];
       if (lw6cnx_connection_should_send_foo (sys_context, cnx, now))
 	{
-	  lw6cnx_connection_init_foo_bar_key (sys_context, cnx, now,
-					      consts->foo_delay);
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("preparing foo with foo_bar_key=%08x"),
-		      cnx->foo_bar_key);
-	  msg =
-	    lw6msg_cmd_generate_foo (sys_context, node_info, cnx->foo_bar_key,
-				     serial);
+	  lw6cnx_connection_init_foo_bar_key (sys_context, cnx, now, consts->foo_delay);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("preparing foo with foo_bar_key=%08x"), cnx->foo_bar_key);
+	  msg = lw6msg_cmd_generate_foo (sys_context, node_info, cnx->foo_bar_key, serial);
 	  if (msg)
 	    {
 	      ticket_sig =
 		lw6msg_ticket_calc_sig (sys_context,
 					lw6cnx_ticket_table_get_send
-					(sys_context, ticket_table,
-					 cnx->remote_id_str),
-					cnx->local_id_int, cnx->remote_id_int,
-					msg);
-	      lw6cli_send (sys_context, tentacle->backends->cli_backends[i],
-			   cnx, now, ticket_sig, ticket_sig,
-			   cnx->local_id_int, cnx->remote_id_int, msg);
+					(sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int, cnx->remote_id_int, msg);
+	      lw6cli_send (sys_context, tentacle->backends->cli_backends[i], cnx, now, ticket_sig, ticket_sig, cnx->local_id_int, cnx->remote_id_int, msg);
 	      LW6SYS_FREE (sys_context, msg);
 	    }
-	  if (!lw6cnx_ticket_table_was_recv_exchanged
-	      (sys_context, ticket_table, cnx->remote_id_str))
+	  if (!lw6cnx_ticket_table_was_recv_exchanged (sys_context, ticket_table, cnx->remote_id_str))
 	    {
-	      msg =
-		lw6msg_cmd_generate_ticket (sys_context, node_info,
-					    lw6cnx_ticket_table_get_recv
-					    (sys_context, ticket_table,
-					     cnx->remote_id_str));
+	      msg = lw6msg_cmd_generate_ticket (sys_context, node_info, lw6cnx_ticket_table_get_recv (sys_context, ticket_table, cnx->remote_id_str));
 	      if (msg)
 		{
 		  ticket_sig =
 		    lw6msg_ticket_calc_sig (sys_context,
 					    lw6cnx_ticket_table_get_send
-					    (sys_context, ticket_table,
-					     cnx->remote_id_str),
-					    cnx->local_id_int,
-					    cnx->remote_id_int, msg);
-		  lw6cli_send (sys_context,
-			       tentacle->backends->cli_backends[i], cnx, now,
-			       ticket_sig, ticket_sig, cnx->local_id_int,
-			       cnx->remote_id_int, msg);
+					    (sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int, cnx->remote_id_int, msg);
+		  lw6cli_send (sys_context, tentacle->backends->cli_backends[i], cnx, now, ticket_sig, ticket_sig, cnx->local_id_int, cnx->remote_id_int, msg);
 		  LW6SYS_FREE (sys_context, msg);
 		}
 	    }
@@ -536,49 +440,28 @@ _lw6p2p_tentacle_poll_protocol (lw6sys_context_t * sys_context,
       cnx = tentacle->srv_connections[i];
       if (lw6cnx_connection_should_send_foo (sys_context, cnx, now))
 	{
-	  lw6cnx_connection_init_foo_bar_key (sys_context, cnx, now,
-					      consts->foo_delay);
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("preparing foo with foo_bar_key=%08x"),
-		      cnx->foo_bar_key);
-	  msg =
-	    lw6msg_cmd_generate_foo (sys_context, node_info, cnx->foo_bar_key,
-				     serial);
+	  lw6cnx_connection_init_foo_bar_key (sys_context, cnx, now, consts->foo_delay);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("preparing foo with foo_bar_key=%08x"), cnx->foo_bar_key);
+	  msg = lw6msg_cmd_generate_foo (sys_context, node_info, cnx->foo_bar_key, serial);
 	  if (msg)
 	    {
 	      ticket_sig =
 		lw6msg_ticket_calc_sig (sys_context,
 					lw6cnx_ticket_table_get_send
-					(sys_context, ticket_table,
-					 cnx->remote_id_str),
-					cnx->local_id_int, cnx->remote_id_int,
-					msg);
-	      lw6srv_send (sys_context, tentacle->backends->srv_backends[i],
-			   cnx, now, ticket_sig, ticket_sig,
-			   cnx->local_id_int, cnx->remote_id_int, msg);
+					(sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int, cnx->remote_id_int, msg);
+	      lw6srv_send (sys_context, tentacle->backends->srv_backends[i], cnx, now, ticket_sig, ticket_sig, cnx->local_id_int, cnx->remote_id_int, msg);
 	      LW6SYS_FREE (sys_context, msg);
 	    }
-	  if (!lw6cnx_ticket_table_was_recv_exchanged
-	      (sys_context, ticket_table, cnx->remote_id_str))
+	  if (!lw6cnx_ticket_table_was_recv_exchanged (sys_context, ticket_table, cnx->remote_id_str))
 	    {
-	      msg =
-		lw6msg_cmd_generate_ticket (sys_context, node_info,
-					    lw6cnx_ticket_table_get_recv
-					    (sys_context, ticket_table,
-					     cnx->remote_id_str));
+	      msg = lw6msg_cmd_generate_ticket (sys_context, node_info, lw6cnx_ticket_table_get_recv (sys_context, ticket_table, cnx->remote_id_str));
 	      if (msg)
 		{
 		  ticket_sig =
 		    lw6msg_ticket_calc_sig (sys_context,
 					    lw6cnx_ticket_table_get_send
-					    (sys_context, ticket_table,
-					     cnx->remote_id_str),
-					    cnx->local_id_int,
-					    cnx->remote_id_int, msg);
-		  lw6srv_send (sys_context,
-			       tentacle->backends->srv_backends[i], cnx, now,
-			       ticket_sig, ticket_sig, cnx->local_id_int,
-			       cnx->remote_id_int, msg);
+					    (sys_context, ticket_table, cnx->remote_id_str), cnx->local_id_int, cnx->remote_id_int, msg);
+		  lw6srv_send (sys_context, tentacle->backends->srv_backends[i], cnx, now, ticket_sig, ticket_sig, cnx->local_id_int, cnx->remote_id_int, msg);
 		  LW6SYS_FREE (sys_context, msg);
 		}
 	    }
@@ -587,9 +470,7 @@ _lw6p2p_tentacle_poll_protocol (lw6sys_context_t * sys_context,
 }
 
 void
-_lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context,
-			      _lw6p2p_node_t * node,
-			      _lw6p2p_tentacle_t * tentacle)
+_lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, _lw6p2p_tentacle_t * tentacle)
 {
   int i = 0;
   int64_t now = 0LL;
@@ -606,14 +487,9 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context,
     {
       cnx = tentacle->cli_connections[i];
       lw6cli_poll (sys_context, tentacle->backends->cli_backends[i], cnx);
-      packets =
-	lw6sys_list_new (sys_context,
-			 (lw6sys_free_func_t) lw6cnx_packet_free);
+      packets = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6cnx_packet_free);
       lw6sys_list_r_transfer_from (sys_context, cnx->recv_list, &packets);
-      while (packets
-	     && (packet =
-		 (lw6cnx_packet_t *) lw6sys_list_pop_front (sys_context,
-							    &packets)))
+      while (packets && (packet = (lw6cnx_packet_t *) lw6sys_list_pop_front (sys_context, &packets)))
 	{
 	  _lw6p2p_recv_callback (sys_context, node, cnx, packet);
 	}
@@ -623,14 +499,9 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context,
     {
       cnx = tentacle->srv_connections[i];
       lw6srv_poll (sys_context, tentacle->backends->srv_backends[i], cnx);
-      packets =
-	lw6sys_list_new (sys_context,
-			 (lw6sys_free_func_t) lw6cnx_packet_free);
+      packets = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6cnx_packet_free);
       lw6sys_list_r_transfer_from (sys_context, cnx->recv_list, &packets);
-      while (packets
-	     && (packet =
-		 (lw6cnx_packet_t *) lw6sys_list_pop_front (sys_context,
-							    &packets)))
+      while (packets && (packet = (lw6cnx_packet_t *) lw6sys_list_pop_front (sys_context, &packets)))
 	{
 	  _lw6p2p_recv_callback (sys_context, node, cnx, packet);
 	}
@@ -641,23 +512,18 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context,
       send_best_data.tentacle = tentacle;
       send_best_data.now = now;
       send_best_data.ticket_table = ticket_table;
-      send_best_data.best_cnx =
-	_lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context,
-							   tentacle, 1);
+      send_best_data.best_cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context, tentacle, 1);
       if (send_best_data.best_cnx)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("flushing unsent_reliable_queue"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("flushing unsent_reliable_queue"));
 
 	  /*
 	   * Sort messages in a pseudo-random order on purpose,
 	   * to make sure they arrive totally not in the right
 	   * order.
 	   */
-	  lw6sys_sort (sys_context, &(tentacle->unsent_reliable_queue),
-		       lw6cnx_packet_sort_callback, NULL);
-	  lw6sys_list_filter (sys_context, &(tentacle->unsent_reliable_queue),
-			      _send_best_filter, &send_best_data);
+	  lw6sys_sort (sys_context, &(tentacle->unsent_reliable_queue), lw6cnx_packet_sort_callback, NULL);
+	  lw6sys_list_filter (sys_context, &(tentacle->unsent_reliable_queue), _send_best_filter, &send_best_data);
 	}
       /*
          else
@@ -673,24 +539,18 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context,
       send_best_data.tentacle = tentacle;
       send_best_data.now = now;
       send_best_data.ticket_table = ticket_table;
-      send_best_data.best_cnx =
-	_lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context,
-							   tentacle, 0);
+      send_best_data.best_cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context, tentacle, 0);
       if (send_best_data.best_cnx)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_ ("flushing unsent_unreliable_queue"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("flushing unsent_unreliable_queue"));
 
 	  /*
 	   * Sort messages in a pseudo-random order on purpose,
 	   * to make sure they arrive totally not in the right
 	   * order.
 	   */
-	  lw6sys_sort (sys_context, &(tentacle->unsent_unreliable_queue),
-		       lw6cnx_packet_sort_callback, NULL);
-	  lw6sys_list_filter (sys_context,
-			      &(tentacle->unsent_unreliable_queue),
-			      _send_best_filter, &send_best_data);
+	  lw6sys_sort (sys_context, &(tentacle->unsent_unreliable_queue), lw6cnx_packet_sort_callback, NULL);
+	  lw6sys_list_filter (sys_context, &(tentacle->unsent_unreliable_queue), _send_best_filter, &send_best_data);
 	}
       else
 	{
@@ -701,17 +561,14 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context,
 }
 
 void
-_lw6p2p_tentacle_poll (lw6sys_context_t * sys_context, _lw6p2p_node_t * node,
-		       _lw6p2p_tentacle_t * tentacle, int serial)
+_lw6p2p_tentacle_poll (lw6sys_context_t * sys_context, _lw6p2p_node_t * node, _lw6p2p_tentacle_t * tentacle, int serial)
 {
   /*
    * IMPORTANT -> this function is called in unlock mode, it can
    * be in conflict with code from the recv callback. Normally this
    * should not be a problem.
    */
-  _lw6p2p_tentacle_poll_protocol (sys_context, tentacle, node->node_info,
-				  &(node->ticket_table),
-				  &(node->db->data.consts), serial);
+  _lw6p2p_tentacle_poll_protocol (sys_context, tentacle, node->node_info, &(node->ticket_table), &(node->db->data.consts), serial);
   _lw6p2p_tentacle_poll_queues (sys_context, node, tentacle);
 }
 
@@ -720,10 +577,7 @@ int
 _lw6p2p_tentacle_send_best (lw6sys_context_t * sys_context,
 			    _lw6p2p_tentacle_t * tentacle, int64_t now,
 			    lw6cnx_ticket_table_t * ticket_table,
-			    u_int32_t logical_ticket_sig,
-			    u_int64_t logical_from_id,
-			    u_int64_t logical_to_id, const char *msg,
-			    int reliable)
+			    u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *msg, int reliable)
 {
   int ret = 0;
   u_int32_t physical_ticket_sig = 0;
@@ -732,32 +586,20 @@ _lw6p2p_tentacle_send_best (lw6sys_context_t * sys_context,
   physical_ticket_sig =
     lw6msg_ticket_calc_sig (sys_context,
 			    lw6cnx_ticket_table_get_send (sys_context,
-							  ticket_table,
-							  tentacle->
-							  remote_id_str),
-			    tentacle->local_id_int, tentacle->remote_id_int,
-			    msg);
+							  ticket_table, tentacle->remote_id_str), tentacle->local_id_int, tentacle->remote_id_int, msg);
 
   if (reliable)
     {
       if (!tentacle->unsent_reliable_queue)
 	{
-	  tentacle->unsent_reliable_queue =
-	    lw6sys_list_new (sys_context,
-			     (lw6sys_free_func_t) lw6cnx_packet_free);
+	  tentacle->unsent_reliable_queue = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6cnx_packet_free);
 	}
       if (tentacle->unsent_reliable_queue)
 	{
-	  packet =
-	    lw6cnx_packet_new (sys_context, logical_ticket_sig,
-			       physical_ticket_sig, logical_from_id,
-			       logical_to_id, msg);
+	  packet = lw6cnx_packet_new (sys_context, logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
 	  if (packet)
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("message \"%s\" not sent, pushing it to unsent_reliable_queue"),
-			  packet->msg);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("message \"%s\" not sent, pushing it to unsent_reliable_queue"), packet->msg);
 	      /*
 	       * Use a lifo, a fifo would be cleaner but is more expensive
 	       * on big lists, this is a fallback action anyway, packets
@@ -765,8 +607,7 @@ _lw6p2p_tentacle_send_best (lw6sys_context_t * sys_context,
 	       * very likely sending a big hudge message splitted into
 	       * many atoms so order is irrelevant.
 	       */
-	      lw6sys_lifo_push (sys_context,
-				&(tentacle->unsent_reliable_queue), packet);
+	      lw6sys_lifo_push (sys_context, &(tentacle->unsent_reliable_queue), packet);
 	      ret = 1;
 	    }
 	}
@@ -774,22 +615,14 @@ _lw6p2p_tentacle_send_best (lw6sys_context_t * sys_context,
 
   if (!tentacle->unsent_unreliable_queue)
     {
-      tentacle->unsent_unreliable_queue =
-	lw6sys_list_new (sys_context,
-			 (lw6sys_free_func_t) lw6cnx_packet_free);
+      tentacle->unsent_unreliable_queue = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6cnx_packet_free);
     }
   if (tentacle->unsent_unreliable_queue)
     {
-      packet =
-	lw6cnx_packet_new (sys_context, logical_ticket_sig,
-			   physical_ticket_sig, logical_from_id,
-			   logical_to_id, msg);
+      packet = lw6cnx_packet_new (sys_context, logical_ticket_sig, physical_ticket_sig, logical_from_id, logical_to_id, msg);
       if (packet)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		      _x_
-		      ("message \"%s\" not sent, pushing it to unsent_unreliable_queue"),
-		      packet->msg);
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("message \"%s\" not sent, pushing it to unsent_unreliable_queue"), packet->msg);
 	  /*
 	   * Use a lifo, a fifo would be cleaner but is more expensive
 	   * on big lists, this is a fallback action anyway, packets
@@ -797,8 +630,7 @@ _lw6p2p_tentacle_send_best (lw6sys_context_t * sys_context,
 	   * very likely sending a big hudge message splitted into
 	   * many atoms so order is irrelevant.
 	   */
-	  lw6sys_lifo_push (sys_context, &(tentacle->unsent_unreliable_queue),
-			    packet);
+	  lw6sys_lifo_push (sys_context, &(tentacle->unsent_unreliable_queue), packet);
 	  if (!reliable)
 	    {
 	      /*
@@ -817,9 +649,7 @@ int
 _lw6p2p_tentacle_send_redundant (lw6sys_context_t * sys_context,
 				 _lw6p2p_tentacle_t * tentacle, int64_t now,
 				 lw6cnx_ticket_table_t * ticket_table,
-				 u_int32_t logical_ticket_sig,
-				 u_int64_t logical_from_id,
-				 u_int64_t logical_to_id, const char *msg)
+				 u_int32_t logical_ticket_sig, u_int64_t logical_from_id, u_int64_t logical_to_id, const char *msg)
 {
   int ret = 0;
   lw6cnx_connection_t *cnx = NULL;
@@ -827,42 +657,27 @@ _lw6p2p_tentacle_send_redundant (lw6sys_context_t * sys_context,
   u_int32_t physical_ticket_sig = 0;
   char *repr = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("redundant send of \"%s\""),
-	      msg);
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("redundant send of \"%s\""), msg);
   physical_ticket_sig =
     lw6msg_ticket_calc_sig (sys_context,
 			    lw6cnx_ticket_table_get_send (sys_context,
-							  ticket_table,
-							  tentacle->
-							  remote_id_str),
-			    tentacle->local_id_int, tentacle->remote_id_int,
-			    msg);
+							  ticket_table, tentacle->remote_id_str), tentacle->local_id_int, tentacle->remote_id_int, msg);
 
   for (i = 0; i < tentacle->nb_cli_connections; ++i)
     {
       cnx = tentacle->cli_connections[i];
-      repr =
-	lw6cli_repr (sys_context, tentacle->backends->cli_backends[i],
-		     tentacle->cli_connections[i]);
+      repr = lw6cli_repr (sys_context, tentacle->backends->cli_backends[i], tentacle->cli_connections[i]);
       if (repr)
 	{
 	  if (lw6cli_send
-	      (sys_context, tentacle->backends->cli_backends[i], cnx, now,
-	       physical_ticket_sig, logical_ticket_sig, logical_from_id,
-	       logical_to_id, msg))
+	      (sys_context, tentacle->backends->cli_backends[i], cnx, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("sent redundant message on client connexion \"%s\""),
-			  repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("sent redundant message on client connexion \"%s\""), repr);
 	      ret = 1;
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("can't send redundant message on client connexion \"%s\""),
-			  repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("can't send redundant message on client connexion \"%s\""), repr);
 	    }
 	  LW6SYS_FREE (sys_context, repr);
 	  repr = NULL;
@@ -872,28 +687,18 @@ _lw6p2p_tentacle_send_redundant (lw6sys_context_t * sys_context,
   for (i = 0; i < tentacle->nb_srv_connections; ++i)
     {
       cnx = tentacle->srv_connections[i];
-      repr =
-	lw6srv_repr (sys_context, tentacle->backends->srv_backends[i],
-		     tentacle->srv_connections[i]);
+      repr = lw6srv_repr (sys_context, tentacle->backends->srv_backends[i], tentacle->srv_connections[i]);
       if (repr)
 	{
 	  if (lw6srv_send
-	      (sys_context, tentacle->backends->srv_backends[i], cnx, now,
-	       physical_ticket_sig, logical_ticket_sig, logical_from_id,
-	       logical_to_id, msg))
+	      (sys_context, tentacle->backends->srv_backends[i], cnx, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id, msg))
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-			  _x_
-			  ("sent redundant message on server connexion \"%s\""),
-			  repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("sent redundant message on server connexion \"%s\""), repr);
 	      ret = 1;
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-			  _x_
-			  ("can't send redundant message on server connexion \"%s\""),
-			  repr);
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("can't send redundant message on server connexion \"%s\""), repr);
 	    }
 	  LW6SYS_FREE (sys_context, repr);
 	  repr = NULL;
@@ -904,11 +709,7 @@ _lw6p2p_tentacle_send_redundant (lw6sys_context_t * sys_context,
 }
 
 lw6cnx_connection_t *
-_lw6p2p_tentacle_find_connection_with_foo_bar_key (lw6sys_context_t *
-						   sys_context,
-						   _lw6p2p_tentacle_t *
-						   tentacle,
-						   u_int32_t foo_bar_key)
+_lw6p2p_tentacle_find_connection_with_foo_bar_key (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle, u_int32_t foo_bar_key)
 {
   lw6cnx_connection_t *ret = NULL;
   lw6cnx_connection_t *cnx = NULL;
@@ -936,10 +737,7 @@ _lw6p2p_tentacle_find_connection_with_foo_bar_key (lw6sys_context_t *
 }
 
 lw6cnx_connection_t *
-_lw6p2p_tentacle_find_connection_with_lowest_ping (lw6sys_context_t *
-						   sys_context,
-						   _lw6p2p_tentacle_t *
-						   tentacle, int reliable)
+_lw6p2p_tentacle_find_connection_with_lowest_ping (lw6sys_context_t * sys_context, _lw6p2p_tentacle_t * tentacle, int reliable)
 {
   lw6cnx_connection_t *ret = NULL;
   lw6cnx_connection_t *cnx = NULL;
@@ -951,9 +749,7 @@ _lw6p2p_tentacle_find_connection_with_lowest_ping (lw6sys_context_t *
       cnx = tentacle->cli_connections[i];
       if (cnx->ping_msec > 0
 	  && lw6cli_can_send (sys_context,
-			      tentacle->backends->cli_backends[i], cnx)
-	  && cnx->ping_msec < best_ping_msec && (cnx->properties.reliable
-						 || !reliable))
+			      tentacle->backends->cli_backends[i], cnx) && cnx->ping_msec < best_ping_msec && (cnx->properties.reliable || !reliable))
 	{
 	  best_ping_msec = cnx->ping_msec;
 	  ret = cnx;
@@ -965,9 +761,7 @@ _lw6p2p_tentacle_find_connection_with_lowest_ping (lw6sys_context_t *
       cnx = tentacle->srv_connections[i];
       if (cnx->ping_msec > 0
 	  && lw6srv_can_send (sys_context,
-			      tentacle->backends->srv_backends[i], cnx)
-	  && cnx->ping_msec < best_ping_msec && (cnx->properties.reliable
-						 || !reliable))
+			      tentacle->backends->srv_backends[i], cnx) && cnx->ping_msec < best_ping_msec && (cnx->properties.reliable || !reliable))
 	{
 	  best_ping_msec = cnx->ping_msec;
 	  ret = cnx;
@@ -980,17 +774,13 @@ _lw6p2p_tentacle_find_connection_with_lowest_ping (lw6sys_context_t *
    */
   if (reliable && !ret)
     {
-      ret =
-	_lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context,
-							   tentacle, 0);
+      ret = _lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context, tentacle, 0);
     }
 
   if (ret)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("best ping is %d with backend \"%s\" reliable=%d"),
-		  ret->ping_msec, ret->properties.backend_id,
-		  ret->properties.reliable);
+		  _x_ ("best ping is %d with backend \"%s\" reliable=%d"), ret->ping_msec, ret->properties.backend_id, ret->properties.reliable);
     }
   else
     {

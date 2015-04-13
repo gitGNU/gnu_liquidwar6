@@ -236,7 +236,7 @@ lw6sys_arg_test_mode (lw6sys_context_t * sys_context, int argc, const char *argv
   if (argc >= 2)
     {
       mode = lw6sys_atoi (sys_context, argv[1]);
-      ret = mode & (LW6SYS_TEST_MODE_FULL_TEST | LW6SYS_TEST_MODE_INTERACTIVE);
+      ret = mode & (LW6SYS_TEST_MODE_FULL_TEST | LW6SYS_TEST_MODE_INTERACTIVE | LW6SYS_TEST_MODE_DEBUG);
       if (ret == mode)
 	{
 	  syntax_ok = 1;
@@ -244,8 +244,11 @@ lw6sys_arg_test_mode (lw6sys_context_t * sys_context, int argc, const char *argv
     }
   if (!syntax_ok)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("wrong syntax (should be \"<program> {0|1|2|3}\"), test suite will be run anyways with mode=%d"), ret);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("wrong syntax (should be \"<program> [0-%d]\"), test suite will be run anyways with mode=%d"),
+		  LW6SYS_TEST_MODE_FULL_TEST | LW6SYS_TEST_MODE_INTERACTIVE | LW6SYS_TEST_MODE_DEBUG, ret);
     }
+
+  lw6sys_debug_set (sys_context, ((ret & LW6SYS_TEST_MODE_DEBUG) != 0));
 
   return ret;
 }

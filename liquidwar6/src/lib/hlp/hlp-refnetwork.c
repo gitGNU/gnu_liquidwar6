@@ -35,7 +35,7 @@ _lw6hlp_populate_references_network (lw6sys_context_t * sys_context, lw6sys_hash
   int ret = 0;
 
   _LW6HLP_POPULATE_BOOL (sys_context, references, LW6DEF_SKIP_NETWORK,
-			 _x_ ("If set, then game won't do anything network related. No listen, no connect, no nothing. You are playing locally."), 0);
+			 _x_ ("If set, then game won't do anything network related. No listen, no connect, no nothing. You are playing locally."), 1);
   _LW6HLP_POPULATE_BOOL (sys_context, references, LW6DEF_BROADCAST,
 			 _x_
 			 ("Allows the program to send broadcast messages on the network. It can be usefull to disable those if you don't use UDP node discovery and/or if there's a sysadmin arround who does not enjoy permanent broadcasts on his LAN."),
