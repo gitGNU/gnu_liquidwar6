@@ -496,7 +496,7 @@ AC_CHECK_HEADER(GL/glu.h, HAVE_GL_GLU_H=1,AC_MSG_WARN([
 ]),[${SDL_EXTRA}])
 AC_CHECK_LIB(GLU, gluBeginCurve, HAVE_LIBGLU=1, AC_MSG_WARN([
 *** Liquid War 6 needs GLU (http://www.mesa3d.org/)
-]),[${SDL_EXTRA}])
+]),[${SDL_EXTRA} -lGL])
 
 AC_CHECK_HEADER(SDL/SDL_image.h, HAVE_SDL_IMAGE_H=1, AC_MSG_WARN([
 *** Liquid War 6 needs SDL_image (http://www.libsdl.org/projects/SDL_image/)
