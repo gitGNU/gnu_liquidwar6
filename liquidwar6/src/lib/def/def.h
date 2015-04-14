@@ -977,4 +977,3 @@ Contact author        : ufoot@ufoot.org
 
 
 #endif // LIQUIDWAR6DEF_H
-

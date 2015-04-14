@@ -131,7 +131,7 @@ typedef struct _lw6sys_thread_handler_s
   void *callback_data;
 #ifndef LW6_MS_WINDOWS
   struct itimerval itimer;
-#endif // LW6_MS_WINDOWS
+#endif				// LW6_MS_WINDOWS
 } _lw6sys_thread_handler_t;
 
 #define _LW6SYS_LOG_FILENAME_SIZE 65535

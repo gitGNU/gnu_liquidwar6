@@ -1318,10 +1318,10 @@ extern int lw6sys_test_exec (lw6sys_context_t * sys_context, int argc, const cha
 
 /* sys-testandset.s */
 #ifdef LW6_X86
-extern int32_t lw6sys_test_and_set (int32_t *spinlock);
+extern int32_t lw6sys_test_and_set (int32_t * spinlock);
 #endif // LW6_X86
 #ifdef LW6_AMD64
-extern int64_t lw6sys_test_and_set (int64_t *spinlock);
+extern int64_t lw6sys_test_and_set (int64_t * spinlock);
 #endif // LW6_AMD64
 
 /* sys-thread.c */
