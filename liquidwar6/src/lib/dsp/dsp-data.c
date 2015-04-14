@@ -36,6 +36,12 @@ _lw6dsp_data_new (lw6sys_context_t * sys_context)
     {
       ret->instant_fps = 0.0f;
       ret->average_fps = 0.0f;
+      ret->render_mutex = lw6sys_mutex_create (sys_context);
+      if (!ret->render_mutex)
+	{
+	  LW6SYS_FREE (ret);
+	  ret = NULL;
+	}
     }
 
   return ret;

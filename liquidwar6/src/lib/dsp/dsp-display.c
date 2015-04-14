@@ -77,7 +77,6 @@ lw6dsp_create_backend (lw6sys_context_t * sys_context, int argc, const char *arg
 	  data->gfx_backend_name = lw6sys_str_copy (sys_context, gfx_backend_name);
 	  if (data->gfx_backend_name)
 	    {
-	      data->render_mutex = lw6sys_mutex_create (sys_context);
 	      if (data->render_mutex)
 		{
 		  lw6dsp_param_zero (sys_context, &(data->param));
