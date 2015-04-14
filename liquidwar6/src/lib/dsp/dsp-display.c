@@ -351,6 +351,8 @@ lw6dsp_update (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend, c
   int need_sync = 0;
   int i = 0;
 
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("dsp update begin"));
+
   data = (_lw6dsp_data_t *) dsp_backend->data;
 
   if (data)
@@ -479,6 +481,8 @@ lw6dsp_update (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend, c
 	  lw6sys_mutex_unlock (sys_context, data->render_mutex);
 	}
     }
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("dsp update end"));
 
   return ret;
 }
