@@ -39,11 +39,11 @@
 #define _LW6SYS_BAZOOKA_FILE_SIZE 80
 #define _LW6SYS_BAZOOKA_SAMPLE_SIZE 1000
 #define _LW6SYS_BAZOOKA_ALLOC_MIN 16
-#else
+#else // LW6_PARANOID
 #define _LW6SYS_BAZOOKA_FILE_SIZE 50
 #define _LW6SYS_BAZOOKA_SAMPLE_SIZE 100
 // ALLOC_MIN not defined in non-paranoid mode
-#endif
+#endif // LW6_PARANOID
 
 #define _LW6SYS_DEBUG_DEFAULT 0
 #define _LW6SYS_QUIT_DEFAULT 0
@@ -95,18 +95,26 @@ typedef struct _lw6sys_spinlock_s
   u_int32_t id;
   pthread_spinlock_t spinlock;
 } _lw6sys_spinlock_t;
-#else
-#if LW6_X86
+#else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
+#ifdef LW6_X86
 typedef struct _lw6sys_spinlock_s
 {
   u_int32_t id;
-  int spinlock;
+  int32_t spinlock;
 } _lw6sys_spinlock_t;
-#else
+#else // LW6_X86
+#ifdef LW6_AMD64
+typedef struct _lw6sys_spinlock_s
+{
+  u_int32_t id;
+  int64_t spinlock;
+} _lw6sys_spinlock_t;
+#else // LW6_AMD64
 #define _lw6sys_spinlock_s _lw6sys_mutex_s
 #define _lw6sys_spinlock_t _lw6sys_mutex_t
-#endif
-#endif
+#endif // LW6_AMD64
+#endif // LW6_X86
+#endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 
 typedef struct _lw6sys_thread_handler_s
 {
@@ -123,7 +131,7 @@ typedef struct _lw6sys_thread_handler_s
   void *callback_data;
 #ifndef LW6_MS_WINDOWS
   struct itimerval itimer;
-#endif
+#endif // LW6_MS_WINDOWS
 } _lw6sys_thread_handler_t;
 
 #define _LW6SYS_LOG_FILENAME_SIZE 65535

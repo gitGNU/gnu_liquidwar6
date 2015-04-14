@@ -478,6 +478,23 @@ lw6sys_build_is_x86 ()
 }
 
 /**
+ * lw6sys_build_is_amd64:
+ *
+ * Tells wether CPU belongs to amd64 family or not.
+ *
+ * Return value: 1 if amd64, 0 if not
+ */
+int
+lw6sys_build_is_amd64 ()
+{
+#ifdef LW6_AMD64
+  return 1;
+#else
+  return 0;
+#endif
+}
+
+/**
  * lw6sys_build_get_host_os:
  *
  * Returns the OS this program is designed for. Usefull for bug reports.
@@ -1114,6 +1131,7 @@ lw6sys_build_get_bin_id (lw6sys_context_t * sys_context)
   lw6sys_checksum_update_str (sys_context, &checksum_global, lw6sys_build_get_endianness (sys_context));
   lw6sys_checksum_update_int32 (sys_context, &checksum_global, lw6sys_build_get_pointer_size ());
   lw6sys_checksum_update_int32 (sys_context, &checksum_global, lw6sys_build_is_x86 ());
+  lw6sys_checksum_update_int32 (sys_context, &checksum_global, lw6sys_build_is_amd64 ());
   lw6sys_checksum_update_str (sys_context, &checksum_global, lw6sys_build_get_host_os ());
   lw6sys_checksum_update_int32 (sys_context, &checksum_global, lw6sys_build_is_gnu ());
   lw6sys_checksum_update_int32 (sys_context, &checksum_global, lw6sys_build_is_unix ());

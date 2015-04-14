@@ -32,9 +32,9 @@
 #if ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 static volatile u_int32_t seq_id = 0;
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
-#ifdef LW6_X86
+#if LW6_X86 ||  LW6_AMD64
 static volatile u_int32_t seq_id = 0;
-#endif // LW6_X86
+#endif // LW6_X86 || AMD64
 #endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 
 /**
@@ -77,7 +77,7 @@ lw6sys_spinlock_create (lw6sys_context_t * sys_context)
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create spinlock"));
     }
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
-#ifdef LW6_X86
+#if LW6_X86 || LW6_AMD64
   spinlock = (_lw6sys_spinlock_t *) LW6SYS_CALLOC (sys_context, sizeof (_lw6sys_spinlock_t));
   if (spinlock)
     {
@@ -92,9 +92,9 @@ lw6sys_spinlock_create (lw6sys_context_t * sys_context)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create X86 spinlock"));
     }
-#else // LW6_X86
+#else // LW6_X86 || LW6_AMD64
   spinlock = (_lw6sys_spinlock_t *) lw6sys_mutex_create (sys_context);
-#endif // LW6_X86
+#endif // LW6_X86 || LW6_AMD64
 #endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
   return (lw6sys_spinlock_t *) spinlock;
 }
@@ -116,11 +116,11 @@ lw6sys_spinlock_destroy (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spi
   pthread_spin_destroy (&(((_lw6sys_spinlock_t *) spinlock)->spinlock));
   LW6SYS_FREE (sys_context, (void *) spinlock);
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
-#ifdef LW6_X86
+#if LW6_X86 || LW6_AMD64
   LW6SYS_FREE (sys_context, (void *) spinlock);
-#else // LW6_X86
+#else // LW6_X86 || LW6_AMD64
   lw6sys_mutex_destroy (sys_context, (lw6sys_mutex_t *) spinlock);
-#endif // LW6_X86
+#endif // LW6_X86 || LW6_AMD64
 #endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 }
 
@@ -153,16 +153,16 @@ lw6sys_spinlock_lock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spinlo
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("pthread_spin_lock failed with error code %d"), pthread_ret);
     }
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
-#ifdef LW6_X86
+#if LW6_X86 || LW6_AMD64
   // http://www.cis.temple.edu/~ingargio/cis307/readings/spinsem.html
   while (lw6sys_test_and_set (&(((_lw6sys_spinlock_t *) spinlock)->spinlock)))
     {
       // eat 100% CPU
     }
   ret = 1;
-#else // LW6_X86
+#else // LW6_X86 || LW6_AMD64
   ret = lw6sys_mutex_lock (sys_context, (lw6sys_mutex_t *) spinlock);
-#endif // LW6_X86
+#endif // LW6_X86 || LW6_AMD64
 #endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
   return ret;
 }
@@ -205,11 +205,11 @@ lw6sys_spinlock_trylock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spi
 	}
     }
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
-#ifdef LW6_X86
+#if LW6_X86 || LW6_AMD64
   ret = !(((_lw6sys_spinlock_t *) spinlock)->spinlock);
-#else // LW6_X86
+#else // LW6_X86 || LW6_AMD64
   ret = lw6sys_mutex_trylock (sys_context, (lw6sys_mutex_t *) spinlock);
-#endif // LW6_X86
+#endif // LW6_X86 || LW6_AMD64
 #endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
   return ret;
 }
@@ -241,12 +241,12 @@ lw6sys_spinlock_unlock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spin
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("pthread_spin_unlock failed with error code %d"), pthread_ret);
     }
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
-#ifdef LW6_X86
+#if LW6_X86 || LW6_AMD64
   (((_lw6sys_spinlock_t *) spinlock)->spinlock) = 0;
   ret = 1;
-#else // LW6_X86
+#else // LW6_X86 || LW6_AMD64
   ret = lw6sys_mutex_unlock (sys_context, (lw6sys_mutex_t *) spinlock);
-#endif // LW6_X86
+#endif // LW6_X86 || LW6_AMD64
 #endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
   return ret;
 }

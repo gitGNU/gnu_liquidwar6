@@ -78,7 +78,8 @@ _lw6hlp_populate_references_show (lw6sys_context_t * sys_context, lw6sys_hash_t 
 			 _x_ ("Returns the endianness. 'little' corresponds to x86-like systems, 'big' to ppc-like systems."));
   _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_SHOW_BUILD_POINTER_SIZE,
 			 _x_ ("Returns the pointer size, in bytes. Should be 4 on 32-bit systems and 8 on 64-bit systems."));
-  _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_SHOW_BUILD_X86, _x_ ("Tells wether the CPU belongs to x86 family."));
+  _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_SHOW_BUILD_X86, _x_ ("Tells wether the CPU belongs to the x86 family."));
+  _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_SHOW_BUILD_AMD64, _x_ ("Tells wether the CPU belongs to the amd64 family."));
   _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_SHOW_BUILD_HOST_OS, _x_ ("Shows the host OS, as defined by 'host_os' in GNU Autoconf."));
   _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_SHOW_BUILD_GNU,
 			 _x_ ("Returns 1 (true) if host OS is a GNU system, or at least has been considered as such when compiling, 0 (false) if not."));

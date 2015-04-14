@@ -785,6 +785,7 @@ extern char *lw6sys_build_get_host_cpu ();
 extern char *lw6sys_build_get_endianness (lw6sys_context_t * sys_context);
 extern int lw6sys_build_get_pointer_size ();
 extern int lw6sys_build_is_x86 ();
+extern int lw6sys_build_is_amd64 ();
 extern char *lw6sys_build_get_host_os ();
 extern int lw6sys_build_is_gnu ();
 extern int lw6sys_build_is_unix ();
@@ -1316,7 +1317,12 @@ extern int lw6sys_test_run (lw6sys_context_t * sys_context, int mode);
 extern int lw6sys_test_exec (lw6sys_context_t * sys_context, int argc, const char *argv[], int mode);
 
 /* sys-testandset.s */
-extern int lw6sys_test_and_set (int *spinlock);
+#ifdef LW6_X86
+extern int32_t lw6sys_test_and_set (int32_t *spinlock);
+#endif // LW6_X86
+#ifdef LW6_AMD64
+extern int64_t lw6sys_test_and_set (int64_t *spinlock);
+#endif // LW6_AMD64
 
 /* sys-thread.c */
 extern lw6sys_thread_handler_t

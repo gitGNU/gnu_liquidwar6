@@ -400,6 +400,7 @@ lw6hlp_print_host (lw6sys_context_t * sys_context, FILE * f)
   fprintf (f, "endianness: %s\n", lw6sys_build_get_endianness (sys_context));
   fprintf (f, "pointer-size: %d\n", lw6sys_build_get_pointer_size ());
   fprintf (f, "x86: %d\n", lw6sys_build_is_x86 ());
+  fprintf (f, "amd64: %d\n", lw6sys_build_is_amd64 ());
   fprintf (f, "host-os: %s\n", lw6sys_build_get_host_os ());
   fprintf (f, "gnu: %d\n", lw6sys_build_is_gnu ());
   fprintf (f, "unix: %d\n", lw6sys_build_is_unix ());

@@ -1,6 +1,6 @@
 // http://comsci.liu.edu/~jrodriguez/testandset2.html
 	
-// This is an implentation of TestAndSet for gcc/linux/x86.
+// This is an implentation of TestAndSet for gcc/linux/amd64.
 // The caller defines int lock. Calling TestAndSet(&lock) sets lock
 // to 1 and returns the old value of lock. So, if lock is zero, then
 // TestAndSet(&lock) returns zero and sets lock to one. This means
@@ -16,22 +16,22 @@
 _lw6sys_test_and_set:
 lw6sys_test_and_set:
 	// Assume it is called as lw6sys_test_and_set(&lock).
-	// This code is gcc/linux/intel x86 specific.
+	// This code is gcc/linux/intel amd64 specific.
 
-	// Preserve ebx, which is about to be modified.
-	pushl    %ebx
+	// Preserve rbx, which is about to be modified.
+	pushq    %rbx
 	
-	movl    8(%esp), %ebx       # &lock to ebx
-	movl    $1, %eax            # 1 (true) to eax
+	movq    0(%rsp), %rbx       # &lock to rbx
+	movq    $1, %rax            # 1 (true) to rax
 	
-	// Swap eax and lock. Value 1 (true) is copied to lock, eax receives
+	// Swap rax and lock. Value 1 (true) is copied to lock, rax receives
 	// old lock value
-	xchgl   %eax, (%ebx)    # Atomically exchange eax with lock.
+	xchgq    %rax, (%rbx)    # Atomically exchange rax with lock.
 	
-	// Restore ebx
-	popl    %ebx
+	// Restore rbx
+	popq    %rbx
 	
-	// Return value (old value of lock) is already in register eax
+	// Return value (old value of lock) is already in register rax
 	
 	ret
 	

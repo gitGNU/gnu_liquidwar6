@@ -527,6 +527,22 @@ _scm_lw6sys_build_is_x86 ()
 }
 
 static SCM
+_scm_lw6sys_build_is_amd64 ()
+{
+  SCM ret = SCM_BOOL_F;
+  lw6sys_context_t *sys_context = lw6_global.sys_context;
+
+  LW6SYS_SCRIPT_FUNCTION_BEGIN;
+  lw6scm_coverage_call (sys_context, lw6_global.coverage, __FUNCTION__);
+
+  ret = scm_from_int (lw6sys_build_is_amd64 ());
+
+  LW6SYS_SCRIPT_FUNCTION_END;
+
+  return ret;
+}
+
+static SCM
 _scm_lw6sys_build_get_host_os ()
 {
   SCM ret = SCM_BOOL_F;
@@ -2442,6 +2458,7 @@ lw6_register_funcs_sys (lw6sys_context_t * sys_context)
   ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6SYS_BUILD_GET_ENDIANNESS, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_endianness);
   ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6SYS_BUILD_GET_POINTER_SIZE, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_pointer_size);
   ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6SYS_BUILD_IS_X86, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_is_x86);
+  ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6SYS_BUILD_IS_AMD64, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_is_amd64);
   ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6SYS_BUILD_GET_HOST_OS, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_get_host_os);
   ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6SYS_BUILD_IS_GNU, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_is_gnu);
   ret = ret && lw6scm_c_define_gsubr (sys_context, LW6DEF_C_LW6SYS_BUILD_IS_UNIX, 0, 0, 0, (SCM (*)())_scm_lw6sys_build_is_unix);

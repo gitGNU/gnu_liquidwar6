@@ -371,6 +371,7 @@ c-lw6sys-build-is-mac-os-x
 c-lw6sys-build-is-ms-windows
 c-lw6sys-build-is-unix
 c-lw6sys-build-is-x86
+c-lw6sys-build-is-amd64
 c-lw6sys-debug-get
 c-lw6sys-debug-set
 c-lw6sys-delay
@@ -741,6 +742,7 @@ show-build-version-base
 show-build-version-major
 show-build-version-minor
 show-build-x86
+show-build-amd64
 show-config-file
 show-cwd
 show-data-dir

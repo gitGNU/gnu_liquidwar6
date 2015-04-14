@@ -398,6 +398,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_C_LW6SYS_BUILD_IS_MS_WINDOWS "c-lw6sys-build-is-ms-windows"
 #define LW6DEF_C_LW6SYS_BUILD_IS_UNIX "c-lw6sys-build-is-unix"
 #define LW6DEF_C_LW6SYS_BUILD_IS_X86 "c-lw6sys-build-is-x86"
+#define LW6DEF_C_LW6SYS_BUILD_IS_AMD64 "c-lw6sys-build-is-amd64"
 #define LW6DEF_C_LW6SYS_DEBUG_GET "c-lw6sys-debug-get"
 #define LW6DEF_C_LW6SYS_DEBUG_SET "c-lw6sys-debug-set"
 #define LW6DEF_C_LW6SYS_DELAY "c-lw6sys-delay"
@@ -767,6 +768,7 @@ Contact author        : ufoot@ufoot.org
 #define LW6DEF_SHOW_BUILD_VERSION_MAJOR "show-build-version-major"
 #define LW6DEF_SHOW_BUILD_VERSION_MINOR "show-build-version-minor"
 #define LW6DEF_SHOW_BUILD_X86 "show-build-x86"
+#define LW6DEF_SHOW_BUILD_AMD64 "show-build-amd64"
 #define LW6DEF_SHOW_CONFIG_FILE "show-config-file"
 #define LW6DEF_SHOW_CWD "show-cwd"
 #define LW6DEF_SHOW_DATA_DIR "show-data-dir"
@@ -975,3 +977,4 @@ Contact author        : ufoot@ufoot.org
 
 
 #endif // LIQUIDWAR6DEF_H
+

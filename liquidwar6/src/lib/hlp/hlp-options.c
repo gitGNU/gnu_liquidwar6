@@ -407,6 +407,11 @@ lw6hlp_process_non_run_options (lw6sys_context_t * sys_context, int argc, const 
 	  fprintf (stdout, "%d\n", lw6sys_build_is_x86 ());
 	  (*run_game) = 0;
 	}
+      else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_BUILD_AMD64, argv[i]))
+	{
+	  fprintf (stdout, "%d\n", lw6sys_build_is_amd64 ());
+	  (*run_game) = 0;
+	}
       else if (lw6sys_arg_match (sys_context, LW6DEF_SHOW_BUILD_HOST_OS, argv[i]))
 	{
 	  fprintf (stdout, "%s\n", lw6sys_build_get_host_os ());

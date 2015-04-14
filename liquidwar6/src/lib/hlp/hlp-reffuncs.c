@@ -65,6 +65,7 @@ _lw6hlp_populate_references_funcs (lw6sys_context_t * sys_context, lw6sys_hash_t
   _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_C_LW6SYS_BUILD_GET_ENDIANNESS, _x_ ("Wrapper on lw6sys_build_get_endianness."));
   _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_C_LW6SYS_BUILD_GET_POINTER_SIZE, _x_ ("Wrapper on lw6sys_build_get_pointer_size."));
   _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_C_LW6SYS_BUILD_IS_X86, _x_ ("Wrapper on lw6sys_build_is_x86."));
+  _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_C_LW6SYS_BUILD_IS_AMD64, _x_ ("Wrapper on lw6sys_build_is_amd64."));
   _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_C_LW6SYS_BUILD_GET_HOST_OS, _x_ ("Wrapper on lw6sys_build_get_host_os."));
   _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_C_LW6SYS_BUILD_IS_GNU, _x_ ("Wrapper on lw6sys_build_is_gnu."));
   _LW6HLP_POPULATE_VOID (sys_context, references, LW6DEF_C_LW6SYS_BUILD_IS_UNIX, _x_ ("Wrapper on lw6sys_build_is_unix."));
