@@ -115,7 +115,7 @@ deb: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${top_srcdir}/debian/changelog
 	cp @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz ${TMP}
 	cd ${TMP} && tar xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	cd ${PACKAGE_TMP} && ./configure
-	cd ${PACKAGE_TMP} && dpkg-buildpackage -k406FFCAB -rfakeroot || true
+	cd ${PACKAGE_TMP} && case $$(whoami) in ufoot) dpkg-buildpackage -kFD409E94 -rfakeroot ;; jenkins) dpkg-buildpackage -k406FFCAB -rfakeroot ;; *) dpkg-buildpackage -rfakeroot ;; esac || true
 	cp ${TMP}/@PACKAGE_TARNAME@*@PACKAGE_VERSION@*vendor* .
 	rm -rf ${TMP}
 
