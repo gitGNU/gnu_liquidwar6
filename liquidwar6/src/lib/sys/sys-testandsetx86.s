@@ -21,6 +21,7 @@ lw6sys_test_and_set:
 	// Preserve ebx, which is about to be modified.
 	pushl    %ebx
 	
+	// https://en.wikipedia.org/wiki/X86_calling_conventions
 	movl    8(%esp), %ebx       # &lock to ebx
 	movl    $1, %eax            # 1 (true) to eax
 	

@@ -594,6 +594,7 @@ src/lib/sys/sys-sort.c
 src/lib/sys/sys-spinlock.c
 src/lib/sys/sys-str.c
 src/lib/sys/sys-stream.c
+src/lib/sys/sys-testandset.c
 src/lib/sys/sys-test.c
 src/lib/sys/sys-testmain.c
 src/lib/sys/sys-thread.c

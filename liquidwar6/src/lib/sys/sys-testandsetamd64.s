@@ -12,16 +12,15 @@
 
 	.text
 	.globl _lw6sys_test_and_set
-	.globl lw6sys_test_and_set
 _lw6sys_test_and_set:
-lw6sys_test_and_set:
 	// Assume it is called as lw6sys_test_and_set(&lock).
 	// This code is gcc/linux/intel amd64 specific.
 
 	// Preserve rbx, which is about to be modified.
 	pushq    %rbx
-	
-	movq    0(%rsp), %rbx       # &lock to rbx
+
+	// https://en.wikipedia.org/wiki/X86_calling_conventions
+	movq    %rdi, %rbx          # &lock to rbx
 	movq    $1, %rax            # 1 (true) to rax
 	
 	// Swap rax and lock. Value 1 (true) is copied to lock, rax receives

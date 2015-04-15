@@ -155,7 +155,7 @@ lw6sys_spinlock_lock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spinlo
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 #if LW6_X86 || LW6_AMD64
   // http://www.cis.temple.edu/~ingargio/cis307/readings/spinsem.html
-  while (lw6sys_test_and_set (&(((_lw6sys_spinlock_t *) spinlock)->spinlock)))
+  while (lw6sys_test_and_set (sys_context, &(((_lw6sys_spinlock_t *) spinlock)->test_and_set)))
     {
       // eat 100% CPU
     }
@@ -206,7 +206,7 @@ lw6sys_spinlock_trylock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spi
     }
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 #if LW6_X86 || LW6_AMD64
-  ret = !(((_lw6sys_spinlock_t *) spinlock)->spinlock);
+  ret = !(((_lw6sys_spinlock_t *) spinlock)->test_and_set);
 #else // LW6_X86 || LW6_AMD64
   ret = LW6SYS_MUTEX_TRYLOCK (sys_context, (lw6sys_mutex_t *) spinlock);
 #endif // LW6_X86 || LW6_AMD64
@@ -242,7 +242,7 @@ lw6sys_spinlock_unlock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spin
     }
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 #if LW6_X86 || LW6_AMD64
-  (((_lw6sys_spinlock_t *) spinlock)->spinlock) = 0;
+  (((_lw6sys_spinlock_t *) spinlock)->test_and_set) = 0;
   ret = 1;
 #else // LW6_X86 || LW6_AMD64
   ret = LW6SYS_MUTEX_UNLOCK (sys_context, (lw6sys_mutex_t *) spinlock);

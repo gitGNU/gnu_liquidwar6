@@ -23,11 +23,11 @@ AM_OBJCFLAGS = $(AM_CFLAGS)
 AM_LDFLAGS = @LW6_LDFLAGS@ @LW6_GTK_ENABLE_LDFLAGS@ -lm
 
 if LW6_X86
-ASM_SRC_FILES = sys-testandsetx86.s
+ASM_SRC_FILES = sys-testandset.c sys-testandsetx86.s
 ASM_EXTRA_FILES =
 else
 if LW6_AMD64
-ASM_SRC_FILES = sys-testandsetamd64.s
+ASM_SRC_FILES = sys-testandset.c sys-testandsetamd64.s
 ASM_EXTRA_FILES =
 else
 ASM_SRC_FILES =

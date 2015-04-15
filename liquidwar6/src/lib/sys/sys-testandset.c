@@ -24,43 +24,45 @@
 #include "config.h"
 #endif // HAVE_CONFIG_H
 
-#include <errno.h>
-
 #include "sys.h"
 #include "sys-internal.h"
 
+#ifdef LW6_X86
+/**
+ * lw6sys_test_and_set
+ *
+ * @sys_context: global system context
+ * @test_and_set: pointer to the value used to test and set
+ *
+ * Low level function which performs an atomic exchange to
+ * implement a spinlock. This one is just a wrapper to help
+ * debugging asm calls.
+ *
+ * Return value: 1 when lock is acquired.
+ */
+int32_t
+lw6sys_test_and_set (lw6sys_context_t * sys_context, int32_t * test_and_set)
+{
+  return _lw6sys_test_and_set (test_and_set);
+}
+#endif // LW6_X86
+
+#ifdef LW6_AMD64
+/**
+ * lw6sys_test_and_set
+ *
+ * @sys_context: global system context
+ * @test_and_set: pointer to the value used to test and set
+ *
+ * Low level function which performs an atomic exchange to
+ * implement a spinlock. This one is just a wrapper to help
+ * debugging asm calls.
+ *
+ * Return value: 1 when lock is acquired.
+ */
 int64_t
-lw6sys_test_and_set2 (int64_t * spinlock)
+lw6sys_test_and_set (lw6sys_context_t * sys_context, int64_t * test_and_set)
 {
-  *spinlock = 42;
-
-  return *spinlock;
+  return _lw6sys_test_and_set (test_and_set);
 }
-
-/*
- * This function is one of the rare ones *NOT* to use sys_context
- * as it is really low-level and should not log anything and/or
- * call malloc-style funcs.
- */
-void
-_lw6sys_caller_info_set (_lw6sys_caller_info_t * caller_info, const char *file, int line, const char *func)
-{
-  const char *file_only;
-
-  file_only = _lw6sys_path_file_only_raw (file);
-
-  strncpy (caller_info->file, file_only, _LW6SYS_CALLER_INFO_FILE_SIZE - 1);
-  caller_info->line = line;
-  strncpy (caller_info->func, func, _LW6SYS_CALLER_INFO_FUNC_SIZE - 1);
-}
-
-/*
- * This function is one of the rare ones *NOT* to use sys_context
- * as it is really low-level and should not log anything and/or
- * call malloc-style funcs.
- */
-void
-_lw6sys_caller_info_clear (_lw6sys_caller_info_t * caller_info)
-{
-  memset (caller_info, 0, sizeof (_lw6sys_caller_info_t));
-}
+#endif // LW6_AMD64
