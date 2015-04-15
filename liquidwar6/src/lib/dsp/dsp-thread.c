@@ -228,6 +228,7 @@ _poll (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
       history = lw6sys_history_get (sys_context, data->param.misc.log_timeout);
       if (history)
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display dsp->gfx begin"));
 	  if (lw6gfx_display (sys_context, data->gfx_backend,
 			      mask,
 			      data->param.look,
@@ -241,11 +242,11 @@ _poll (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
 			      (const char **) history,
 			      data->param.misc.capture, data->param.misc.gfx_debug, data->param.misc.debug_team_id, data->param.misc.debug_layer_id))
 	    {
-	      // ok
+	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("display dsp->gfx end"));
 	    }
 	  else
 	    {
-	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("display thread problem"));
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("display dsp->gfx problem"));
 	      ret = 0;
 	    }
 	  lw6sys_history_free (sys_context, history);
