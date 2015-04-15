@@ -44,10 +44,10 @@ _lw6pil_compute_thread_func (lw6sys_context_t * sys_context, lw6pil_worker_t * w
 
   memset (&spread_data, 0, sizeof (_lw6pil_spread_data_t));
 
-  lw6sys_mutex_lock (sys_context, worker->global_mutex);
+  LW6SYS_MUTEX_LOCK (sys_context, worker->global_mutex);
   yield_limit = lw6sys_imax (1, (worker->game_state->game_struct->rules.rounds_per_sec * _LW6PIL_YIELD_LIMIT_MSEC) / 1000);
   yield_period = lw6sys_imax (1, (worker->game_state->game_struct->rules.rounds_per_sec * _LW6PIL_YIELD_PERIOD_MSEC) / 1000);
-  lw6sys_mutex_unlock (sys_context, worker->global_mutex);
+  LW6SYS_MUTEX_UNLOCK (sys_context, worker->global_mutex);
 
   while (worker->run)
     {
@@ -64,14 +64,14 @@ _lw6pil_compute_thread_func (lw6sys_context_t * sys_context, lw6pil_worker_t * w
 	{
 	  lw6sys_sort (sys_context, &commands, _lw6pil_command_sort_callback, NULL);
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker global compute begin %d"), worker->current_round);
-	  lw6sys_mutex_lock (sys_context, worker->global_mutex);
+	  LW6SYS_MUTEX_LOCK (sys_context, worker->global_mutex);
 	  while (worker->run && commands && (command = lw6sys_list_pop_front (sys_context, &commands)) != NULL)
 	    {
 	      command->round = lw6sys_imax (command->round, worker->current_round);
 	      while (worker->run && worker->current_round < command->round)
 		{
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker compute begin %d"), worker->current_round);
-		  lw6sys_mutex_lock (sys_context, worker->compute_mutex);
+		  LW6SYS_MUTEX_LOCK (sys_context, worker->compute_mutex);
 		  lw6ker_team_mask_best (sys_context, &team_mask_even, &team_mask_odd, worker->game_state);
 		  worker->target_round = command->round;
 		  if (worker->game_state->game_struct->rules.spread_thread)
@@ -130,7 +130,7 @@ _lw6pil_compute_thread_func (lw6sys_context_t * sys_context, lw6pil_worker_t * w
 			}
 		    }
 		  worker->computed_rounds++;
-		  lw6sys_mutex_unlock (sys_context, worker->compute_mutex);
+		  LW6SYS_MUTEX_UNLOCK (sys_context, worker->compute_mutex);
 		  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker compute end %d"), worker->current_round);
 
 		  /*
@@ -156,7 +156,7 @@ _lw6pil_compute_thread_func (lw6sys_context_t * sys_context, lw6pil_worker_t * w
 		    }
 		}
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker execute begin %d"), worker->current_round);
-	      lw6sys_mutex_lock (sys_context, worker->compute_mutex);
+	      LW6SYS_MUTEX_LOCK (sys_context, worker->compute_mutex);
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker execute command %s"), command->text);
 	      if (worker->verified)
 		{
@@ -192,11 +192,11 @@ _lw6pil_compute_thread_func (lw6sys_context_t * sys_context, lw6pil_worker_t * w
 		   */
 		  lw6pil_command_execute (sys_context, NULL, 0L, worker->game_state, command);
 		}
-	      lw6sys_mutex_unlock (sys_context, worker->compute_mutex);
+	      LW6SYS_MUTEX_UNLOCK (sys_context, worker->compute_mutex);
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker execute end %d"), worker->current_round);
 	      lw6pil_command_free (sys_context, command);
 	    }
-	  lw6sys_mutex_unlock (sys_context, worker->global_mutex);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, worker->global_mutex);
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("worker global compute end %d"), worker->current_round);
 	  if (commands)
 	    {

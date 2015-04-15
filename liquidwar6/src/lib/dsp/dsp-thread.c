@@ -309,7 +309,7 @@ _lw6dsp_thread_func (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display thread"));
 
-  lw6sys_mutex_lock (sys_context, data->render_mutex);
+  LW6SYS_MUTEX_LOCK (sys_context, data->render_mutex);
 
 #ifdef LW6_MAC_OS_X
   data->macosx_vthread_handler = _lw6dsp_macosx_thread_init (sys_context);
@@ -320,7 +320,7 @@ _lw6dsp_thread_func (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
       _init (sys_context, data);
     }
 
-  lw6sys_mutex_unlock (sys_context, data->render_mutex);
+  LW6SYS_MUTEX_UNLOCK (sys_context, data->render_mutex);
 
   if (data->gfx_backend)
     {
@@ -329,7 +329,7 @@ _lw6dsp_thread_func (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
 	{
 	  ticks = lw6sys_get_timestamp (sys_context);
 
-	  lw6sys_mutex_lock (sys_context, data->render_mutex);
+	  LW6SYS_MUTEX_LOCK (sys_context, data->render_mutex);
 
 	  if (data->param.misc.target_fps > 0)
 	    {
@@ -424,7 +424,7 @@ _lw6dsp_thread_func (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
 		}
 	    }
 
-	  lw6sys_mutex_unlock (sys_context, data->render_mutex);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, data->render_mutex);
 
 	  if (!do_skip)
 	    {

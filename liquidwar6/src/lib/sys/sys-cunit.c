@@ -170,7 +170,7 @@ lw6sys_cunit_clear (lw6sys_context_t * sys_context)
 
   if (global->cunit_mutex)
     {
-      lw6sys_mutex_destroy (sys_context, global->cunit_mutex);
+      LW6SYS_MUTEX_DESTROY (sys_context, global->cunit_mutex);
       global->cunit_mutex = NULL;
     }
 }
@@ -198,11 +198,11 @@ lw6sys_cunit_lock (lw6sys_context_t * sys_context)
       /*
        * Initializing global mutex on-the-fly
        */
-      global->cunit_mutex = lw6sys_mutex_create (sys_context);
+      global->cunit_mutex = LW6SYS_MUTEX_CREATE (sys_context);
     }
   if (global->cunit_mutex)
     {
-      ret = lw6sys_mutex_lock (sys_context, global->cunit_mutex);
+      ret = LW6SYS_MUTEX_LOCK (sys_context, global->cunit_mutex);
     }
   else
     {
@@ -233,7 +233,7 @@ lw6sys_cunit_unlock (lw6sys_context_t * sys_context)
 
   if (global->cunit_mutex)
     {
-      ret = lw6sys_mutex_unlock (sys_context, global->cunit_mutex);
+      ret = LW6SYS_MUTEX_UNLOCK (sys_context, global->cunit_mutex);
     }
   else
     {

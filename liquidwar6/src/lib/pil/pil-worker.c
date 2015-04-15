@@ -44,10 +44,10 @@ _lw6pil_worker_init (lw6sys_context_t * sys_context, lw6pil_worker_t * worker, l
       worker->commands = lw6sys_list_r_new (sys_context, (lw6sys_free_func_t) lw6pil_command_free);
       if (worker->commands)
 	{
-	  worker->compute_mutex = lw6sys_mutex_create (sys_context);
+	  worker->compute_mutex = LW6SYS_MUTEX_CREATE (sys_context);
 	  if (worker->compute_mutex)
 	    {
-	      worker->global_mutex = lw6sys_mutex_create (sys_context);
+	      worker->global_mutex = LW6SYS_MUTEX_CREATE (sys_context);
 	      if (worker->global_mutex)
 		{
 		  worker->compute_thread =
@@ -82,11 +82,11 @@ _lw6pil_worker_quit (lw6sys_context_t * sys_context, lw6pil_worker_t * worker)
     }
   if (worker->compute_mutex)
     {
-      lw6sys_mutex_destroy (sys_context, worker->compute_mutex);
+      LW6SYS_MUTEX_DESTROY (sys_context, worker->compute_mutex);
     }
   if (worker->global_mutex)
     {
-      lw6sys_mutex_destroy (sys_context, worker->global_mutex);
+      LW6SYS_MUTEX_DESTROY (sys_context, worker->global_mutex);
     }
   if (worker->commands)
     {

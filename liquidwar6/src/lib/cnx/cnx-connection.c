@@ -84,7 +84,7 @@ lw6cnx_connection_new (lw6sys_context_t * sys_context, const char *local_url, co
       ret->dns_ok = dns_ok ? 1 : 0;
       ret->network_reliability = network_reliability;
       ret->recv_list = lw6sys_list_r_new (sys_context, (lw6sys_free_func_t) lw6cnx_packet_free);
-      ret->send_mutex = lw6sys_mutex_create (sys_context);
+      ret->send_mutex = LW6SYS_MUTEX_CREATE (sys_context);
       ret->ping_msec = LW6CNX_WORST_PING_MSEC;
 
       if (ret->local_url && ret->remote_url && ret->remote_ip && ret->password
@@ -150,7 +150,7 @@ lw6cnx_connection_free (lw6sys_context_t * sys_context, lw6cnx_connection_t * co
     }
   if (connection->send_mutex)
     {
-      lw6sys_mutex_destroy (sys_context, connection->send_mutex);
+      LW6SYS_MUTEX_DESTROY (sys_context, connection->send_mutex);
     }
   LW6SYS_FREE (sys_context, connection);
 }
@@ -218,7 +218,7 @@ lw6cnx_connection_init_foo_bar_key (lw6sys_context_t * sys_context, lw6cnx_conne
 int
 lw6cnx_connection_lock_send (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection)
 {
-  return lw6sys_mutex_lock (sys_context, connection->send_mutex);
+  return LW6SYS_MUTEX_LOCK (sys_context, connection->send_mutex);
 }
 
 /**
@@ -237,7 +237,7 @@ lw6cnx_connection_lock_send (lw6sys_context_t * sys_context, lw6cnx_connection_t
 void
 lw6cnx_connection_unlock_send (lw6sys_context_t * sys_context, lw6cnx_connection_t * connection)
 {
-  lw6sys_mutex_unlock (sys_context, connection->send_mutex);
+  LW6SYS_MUTEX_UNLOCK (sys_context, connection->send_mutex);
 }
 
 /**

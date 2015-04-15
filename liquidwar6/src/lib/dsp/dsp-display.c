@@ -393,7 +393,7 @@ lw6dsp_update (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend, c
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("dsp param update diff=%d sync=%d"), diff, need_sync);
 
-	  lw6sys_mutex_lock (sys_context, data->render_mutex);
+	  LW6SYS_MUTEX_LOCK (sys_context, data->render_mutex);
 
 	  if (diff & _LW6DSP_PARAM_DIFF_MISC)
 	    {
@@ -477,7 +477,7 @@ lw6dsp_update (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_backend, c
 	      lw6gui_input_sync (sys_context, dsp_backend->input, data->input);
 	    }
 
-	  lw6sys_mutex_unlock (sys_context, data->render_mutex);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, data->render_mutex);
 	}
     }
 
@@ -634,13 +634,13 @@ lw6dsp_get_video_mode (lw6sys_context_t * sys_context, lw6dsp_backend_t * dsp_ba
        * Here we can't do a dirty read as with atomic values such as fps,
        * so we reserve the mutex
        */
-      lw6sys_mutex_lock (sys_context, data->render_mutex);
+      LW6SYS_MUTEX_LOCK (sys_context, data->render_mutex);
       if (data->run && data->started)
 	{
 	  (*video_mode) = data->video_mode_obtained;
 	  ret = 1;
 	}
-      lw6sys_mutex_unlock (sys_context, data->render_mutex);
+      LW6SYS_MUTEX_UNLOCK (sys_context, data->render_mutex);
     }
 
   return ret;
@@ -674,13 +674,13 @@ lw6dsp_get_fullscreen_modes (lw6sys_context_t * sys_context, lw6dsp_backend_t * 
        * Here we can't do a dirty read as with atomic values such as fps,
        * so we reserve the mutex
        */
-      lw6sys_mutex_lock (sys_context, data->render_mutex);
+      LW6SYS_MUTEX_LOCK (sys_context, data->render_mutex);
       if (data->run && data->started)
 	{
 	  (*fullscreen_modes) = data->fullscreen_modes;
 	  ret = 1;
 	}
-      lw6sys_mutex_unlock (sys_context, data->render_mutex);
+      LW6SYS_MUTEX_UNLOCK (sys_context, data->render_mutex);
     }
 
   return ret;

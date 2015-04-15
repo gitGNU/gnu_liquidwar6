@@ -129,7 +129,7 @@ _lw6pil_dump_command_generate (lw6sys_context_t * sys_context, _lw6pil_pilot_t *
 	  game_struct_hexa = lw6ker_game_struct_to_hexa (sys_context, pilot->reference.game_state->game_struct);
 	  if (game_struct_hexa)
 	    {
-	      lw6sys_mutex_lock (sys_context, pilot->reference.global_mutex);
+	      LW6SYS_MUTEX_LOCK (sys_context, pilot->reference.global_mutex);
 
 	      /*
 	       * Duplicating it, indeed, we need to possibly compute a
@@ -142,7 +142,7 @@ _lw6pil_dump_command_generate (lw6sys_context_t * sys_context, _lw6pil_pilot_t *
 	       */
 	      game_state = lw6ker_game_state_dup (sys_context, pilot->reference.game_state, NULL);
 
-	      lw6sys_mutex_unlock (sys_context, pilot->reference.global_mutex);
+	      LW6SYS_MUTEX_UNLOCK (sys_context, pilot->reference.global_mutex);
 
 	      if (game_state)
 		{

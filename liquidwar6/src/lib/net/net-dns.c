@@ -32,8 +32,8 @@ _lw6net_dns_init (lw6sys_context_t * sys_context, _lw6net_dns_t * dns, int dns_c
 {
   int ret = 0;
 
-  dns->dns_gethostbyname_mutex = lw6sys_mutex_create (sys_context);
-  dns->dns_cache_mutex = lw6sys_mutex_create (sys_context);
+  dns->dns_gethostbyname_mutex = LW6SYS_MUTEX_CREATE (sys_context);
+  dns->dns_cache_mutex = LW6SYS_MUTEX_CREATE (sys_context);
   dns->dns_cache = lw6sys_cache_new (sys_context, lw6sys_free_callback, dns_cache_hash_size, dns_cache_delay_sec * LW6SYS_TICKS_PER_SEC);
   ret = (dns->dns_gethostbyname_mutex != NULL && dns->dns_cache_mutex != NULL && dns->dns_cache != NULL);
 
@@ -49,11 +49,11 @@ _lw6net_dns_quit (lw6sys_context_t * sys_context, _lw6net_dns_t * dns)
     }
   if (dns->dns_cache_mutex)
     {
-      lw6sys_mutex_destroy (sys_context, dns->dns_cache_mutex);
+      LW6SYS_MUTEX_DESTROY (sys_context, dns->dns_cache_mutex);
     }
   if (dns->dns_gethostbyname_mutex)
     {
-      lw6sys_mutex_destroy (sys_context, dns->dns_gethostbyname_mutex);
+      LW6SYS_MUTEX_DESTROY (sys_context, dns->dns_gethostbyname_mutex);
     }
   memset (dns, 0, sizeof (_lw6net_dns_t));
 }
@@ -145,7 +145,7 @@ lw6net_dns_gethostbyname (lw6sys_context_t * sys_context, const char *name)
     }
   else
     {
-      if (lw6sys_mutex_lock (sys_context, dns->dns_cache_mutex))
+      if (LW6SYS_MUTEX_LOCK (sys_context, dns->dns_cache_mutex))
 	{
 	  cached_ret = lw6sys_cache_get (sys_context, dns->dns_cache, name);
 	  if (cached_ret)
@@ -153,7 +153,7 @@ lw6net_dns_gethostbyname (lw6sys_context_t * sys_context, const char *name)
 	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("cached DNS \"%s\" -> \"%s\""), name, cached_ret);
 	      ret = lw6sys_str_copy (sys_context, cached_ret);
 	    }
-	  lw6sys_mutex_unlock (sys_context, dns->dns_cache_mutex);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, dns->dns_cache_mutex);
 	}
       /*
        * At this stage cached_ret is NOT NULL if something is in the cache
@@ -185,11 +185,11 @@ lw6net_dns_gethostbyname (lw6sys_context_t * sys_context, const char *name)
 
   if (to_put_in_cache)
     {
-      if (lw6sys_mutex_lock (sys_context, dns->dns_cache_mutex))
+      if (LW6SYS_MUTEX_LOCK (sys_context, dns->dns_cache_mutex))
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("put in DNS cache \"%s\" -> \"%s\""), name, to_put_in_cache);
 	  lw6sys_cache_set (sys_context, dns->dns_cache, name, to_put_in_cache);
-	  lw6sys_mutex_unlock (sys_context, dns->dns_cache_mutex);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, dns->dns_cache_mutex);
 	}
     }
 
@@ -216,7 +216,7 @@ lw6net_dns_lock (lw6sys_context_t * sys_context)
 {
   _lw6net_dns_t *dns = &(_lw6net_global_context->dns);
 
-  return lw6sys_mutex_lock (sys_context, dns->dns_gethostbyname_mutex);
+  return LW6SYS_MUTEX_LOCK (sys_context, dns->dns_gethostbyname_mutex);
 }
 
 /**
@@ -233,5 +233,5 @@ lw6net_dns_unlock (lw6sys_context_t * sys_context)
 {
   _lw6net_dns_t *dns = &(_lw6net_global_context->dns);
 
-  return lw6sys_mutex_unlock (sys_context, dns->dns_gethostbyname_mutex);
+  return LW6SYS_MUTEX_UNLOCK (sys_context, dns->dns_gethostbyname_mutex);
 }

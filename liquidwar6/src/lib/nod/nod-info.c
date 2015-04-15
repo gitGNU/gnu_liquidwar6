@@ -65,7 +65,7 @@ lw6nod_info_new (lw6sys_context_t * sys_context, const char *program,
   info = (lw6nod_info_t *) LW6SYS_CALLOC (sys_context, sizeof (lw6nod_info_t));
   if (info)
     {
-      info->mutex = lw6sys_mutex_create (sys_context);
+      info->mutex = LW6SYS_MUTEX_CREATE (sys_context);
 
       const_init_ret =
 	_lw6nod_const_info_init (sys_context, &(info->const_info), program, version,
@@ -109,7 +109,7 @@ lw6nod_info_free (lw6sys_context_t * sys_context, lw6nod_info_t * info)
     }
   if (info->mutex)
     {
-      lw6sys_mutex_destroy (sys_context, info->mutex);
+      LW6SYS_MUTEX_DESTROY (sys_context, info->mutex);
     }
   _lw6nod_const_info_reset (sys_context, &(info->const_info));
   if (info->discovered_nodes)
@@ -140,7 +140,7 @@ lw6nod_info_lock (lw6sys_context_t * sys_context, lw6nod_info_t * info)
 {
   int ret = 0;
 
-  ret = lw6sys_mutex_lock (sys_context, info->mutex);
+  ret = LW6SYS_MUTEX_LOCK (sys_context, info->mutex);
 
   return ret;
 }
@@ -161,7 +161,7 @@ lw6nod_info_unlock (lw6sys_context_t * sys_context, lw6nod_info_t * info)
 {
   int ret = 0;
 
-  ret = lw6sys_mutex_unlock (sys_context, info->mutex);
+  ret = LW6SYS_MUTEX_UNLOCK (sys_context, info->mutex);
 
   return ret;
 }

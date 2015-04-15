@@ -93,7 +93,7 @@ lw6sys_spinlock_create (lw6sys_context_t * sys_context)
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to create X86 spinlock"));
     }
 #else // LW6_X86 || LW6_AMD64
-  spinlock = (_lw6sys_spinlock_t *) lw6sys_mutex_create (sys_context);
+  spinlock = (_lw6sys_spinlock_t *) LW6SYS_MUTEX_CREATE (sys_context);
 #endif // LW6_X86 || LW6_AMD64
 #endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
   return (lw6sys_spinlock_t *) spinlock;
@@ -119,7 +119,7 @@ lw6sys_spinlock_destroy (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spi
 #if LW6_X86 || LW6_AMD64
   LW6SYS_FREE (sys_context, (void *) spinlock);
 #else // LW6_X86 || LW6_AMD64
-  lw6sys_mutex_destroy (sys_context, (lw6sys_mutex_t *) spinlock);
+  LW6SYS_MUTEX_DESTROY (sys_context, (lw6sys_mutex_t *) spinlock);
 #endif // LW6_X86 || LW6_AMD64
 #endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 }
@@ -161,7 +161,7 @@ lw6sys_spinlock_lock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spinlo
     }
   ret = 1;
 #else // LW6_X86 || LW6_AMD64
-  ret = lw6sys_mutex_lock (sys_context, (lw6sys_mutex_t *) spinlock);
+  ret = LW6SYS_MUTEX_LOCK (sys_context, (lw6sys_mutex_t *) spinlock);
 #endif // LW6_X86 || LW6_AMD64
 #endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
   return ret;
@@ -208,7 +208,7 @@ lw6sys_spinlock_trylock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spi
 #if LW6_X86 || LW6_AMD64
   ret = !(((_lw6sys_spinlock_t *) spinlock)->spinlock);
 #else // LW6_X86 || LW6_AMD64
-  ret = lw6sys_mutex_trylock (sys_context, (lw6sys_mutex_t *) spinlock);
+  ret = LW6SYS_MUTEX_TRYLOCK (sys_context, (lw6sys_mutex_t *) spinlock);
 #endif // LW6_X86 || LW6_AMD64
 #endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
   return ret;
@@ -245,7 +245,7 @@ lw6sys_spinlock_unlock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spin
   (((_lw6sys_spinlock_t *) spinlock)->spinlock) = 0;
   ret = 1;
 #else // LW6_X86 || LW6_AMD64
-  ret = lw6sys_mutex_unlock (sys_context, (lw6sys_mutex_t *) spinlock);
+  ret = LW6SYS_MUTEX_UNLOCK (sys_context, (lw6sys_mutex_t *) spinlock);
 #endif // LW6_X86 || LW6_AMD64
 #endif // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
   return ret;

@@ -37,7 +37,7 @@ _mod_httpd_log (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_con
   date_str = lw6sys_date_clf (sys_context);
   if (date_str)
     {
-      if (lw6sys_mutex_lock (sys_context, httpd_context->access_log_mutex))
+      if (LW6SYS_MUTEX_LOCK (sys_context, httpd_context->access_log_mutex))
 	{
 	  f = fopen (httpd_context->access_log_file, "ab");
 	  if (f)
@@ -48,7 +48,7 @@ _mod_httpd_log (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_con
 		}
 	      fclose (f);
 	    }
-	  lw6sys_mutex_unlock (sys_context, httpd_context->access_log_mutex);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, httpd_context->access_log_mutex);
 	}
       LW6SYS_FREE (sys_context, date_str);
     }

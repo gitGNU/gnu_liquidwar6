@@ -35,7 +35,7 @@ _lock_ro (lw6sys_context_t * sys_context, const lw6sys_list_r_t * list_r)
 
   if (list_r->list)
     {
-      ret = lw6sys_mutex_lock (sys_context, list_r->mutex);
+      ret = LW6SYS_MUTEX_LOCK (sys_context, list_r->mutex);
     }
 
   return ret;
@@ -68,7 +68,7 @@ _lock_rw (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r)
 static void
 _unlock (lw6sys_context_t * sys_context, const lw6sys_list_r_t * list_r)
 {
-  lw6sys_mutex_unlock (sys_context, list_r->mutex);
+  LW6SYS_MUTEX_UNLOCK (sys_context, list_r->mutex);
 }
 
 /**
@@ -91,14 +91,14 @@ lw6sys_list_r_new (lw6sys_context_t * sys_context, lw6sys_free_func_t free_func)
   ret = LW6SYS_MALLOC (sys_context, sizeof (lw6sys_list_r_t));
   if (ret)
     {
-      ret->mutex = lw6sys_mutex_create (sys_context);
+      ret->mutex = LW6SYS_MUTEX_CREATE (sys_context);
       ret->list = lw6sys_list_new (sys_context, free_func);
       ret->free_func = free_func;
       if ((!(ret->mutex)) || (!(ret->list)))
 	{
 	  if (ret->mutex)
 	    {
-	      lw6sys_mutex_destroy (sys_context, ret->mutex);
+	      LW6SYS_MUTEX_DESTROY (sys_context, ret->mutex);
 	      ret->mutex = NULL;
 	    }
 	  if (ret->list)
@@ -132,7 +132,7 @@ lw6sys_list_r_free (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r)
     {
       if (list_r->mutex)
 	{
-	  lw6sys_mutex_destroy (sys_context, list_r->mutex);
+	  LW6SYS_MUTEX_DESTROY (sys_context, list_r->mutex);
 	  list_r->mutex = NULL;
 	}
       if (list_r->list)
@@ -509,7 +509,7 @@ lw6sys_list_r_dup (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6
       ret = LW6SYS_MALLOC (sys_context, sizeof (lw6sys_list_r_t));
       if (ret)
 	{
-	  ret->mutex = lw6sys_mutex_create (sys_context);
+	  ret->mutex = LW6SYS_MUTEX_CREATE (sys_context);
 	  ret->list = lw6sys_list_dup (sys_context, list_r->list, dup_func);
 	  ret->free_func = list_r->free_func;
 
@@ -517,7 +517,7 @@ lw6sys_list_r_dup (lw6sys_context_t * sys_context, lw6sys_list_r_t * list_r, lw6
 	    {
 	      if (ret->mutex)
 		{
-		  lw6sys_mutex_destroy (sys_context, ret->mutex);
+		  LW6SYS_MUTEX_DESTROY (sys_context, ret->mutex);
 		  ret->mutex = NULL;
 		}
 	      if (ret->list)

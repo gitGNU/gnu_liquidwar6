@@ -38,7 +38,7 @@ _loader_lock (lw6sys_context_t * sys_context, char *file, int line, const char *
   /*
    * Could put some log command here to debug
    */
-  lw6sys_mutex_lock (sys_context, loader_data->mutex);
+  LW6SYS_MUTEX_LOCK (sys_context, loader_data->mutex);
   /*
    * Could put some log command here to debug
    */
@@ -50,7 +50,7 @@ _loader_unlock (lw6sys_context_t * sys_context, char *file, int line, const char
   /*
    * Could put some log command here to debug
    */
-  lw6sys_mutex_unlock (sys_context, loader_data->mutex);
+  LW6SYS_MUTEX_UNLOCK (sys_context, loader_data->mutex);
 }
 
 static void
@@ -632,7 +632,7 @@ _loader_data_free (lw6sys_context_t * sys_context, _lw6tsk_loader_data_t * loade
       _clear (sys_context, loader_data);
 
       _LOADER_UNLOCK (sys_context);
-      lw6sys_mutex_destroy (sys_context, loader_data->mutex);
+      LW6SYS_MUTEX_DESTROY (sys_context, loader_data->mutex);
     }
   if (loader_data->user_dir)
     {
@@ -701,7 +701,7 @@ lw6tsk_loader_new (lw6sys_context_t * sys_context, float sleep, char *user_dir, 
 	  loader_data->sleep = sleep;
 	  loader_data->user_dir = lw6sys_str_copy (sys_context, user_dir);
 	  loader_data->progress = progress;
-	  loader_data->mutex = lw6sys_mutex_create (sys_context);
+	  loader_data->mutex = LW6SYS_MUTEX_CREATE (sys_context);
 	  if (loader_data->mutex)
 	    {
 	      loader->thread = lw6sys_thread_create (sys_context, _loader_callback, _loader_join, loader->data);

@@ -93,7 +93,7 @@ _lw6p2p_node_new (lw6sys_context_t * sys_context, int argc, const char *argv[], 
 	{
 	  node->id = ++seq_id;
 	}
-      node->mutex = lw6sys_mutex_create (sys_context);
+      node->mutex = LW6SYS_MUTEX_CREATE (sys_context);
       node->closed = 0;
       node->db = db;
       node->bind_ip = lw6sys_str_copy (sys_context, bind_ip);
@@ -315,7 +315,7 @@ _lw6p2p_node_free (lw6sys_context_t * sys_context, _lw6p2p_node_t * node)
 	}
       if (node->mutex)
 	{
-	  lw6sys_mutex_destroy (sys_context, node->mutex);
+	  LW6SYS_MUTEX_DESTROY (sys_context, node->mutex);
 	}
       LW6SYS_FREE (sys_context, node);
     }
@@ -385,7 +385,7 @@ _lw6p2p_node_lock (lw6sys_context_t * sys_context, _lw6p2p_node_t * node)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lock node"));
-  ret = lw6sys_mutex_lock (sys_context, node->mutex);
+  ret = LW6SYS_MUTEX_LOCK (sys_context, node->mutex);
   if (ret)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lock node OK"));
@@ -404,7 +404,7 @@ _lw6p2p_node_unlock (lw6sys_context_t * sys_context, _lw6p2p_node_t * node)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unlock node"));
-  ret = lw6sys_mutex_unlock (sys_context, node->mutex);
+  ret = LW6SYS_MUTEX_UNLOCK (sys_context, node->mutex);
   if (ret)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unlock node OK"));
@@ -423,7 +423,7 @@ _lw6p2p_node_trylock (lw6sys_context_t * sys_context, _lw6p2p_node_t * node)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trylock node"));
-  ret = lw6sys_mutex_trylock (sys_context, node->mutex);
+  ret = LW6SYS_MUTEX_TRYLOCK (sys_context, node->mutex);
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trylock node ret=%d"), ret);
 
   return ret;

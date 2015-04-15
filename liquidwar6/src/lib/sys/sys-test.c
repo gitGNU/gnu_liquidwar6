@@ -2778,18 +2778,18 @@ _test_mem ()
   ret = ret && (ptr != NULL);
   LW6SYS_FREE (sys_context, ptr);
   // same tests without using macros, fixes link when LW6_OPTIMZE is defined
-  ptr = (char *) lw6sys_malloc (sys_context, MALLOC_SIZE, __FILE__, __LINE__);
+  ptr = (char *) lw6sys_malloc (sys_context, MALLOC_SIZE, __FILE__, __LINE__, __FUNCTION__);
   if (LW6SYS_TEST_ACK (ptr))
     {
-      lw6sys_free (sys_context, ptr, __FILE__, __LINE__);
+      lw6sys_free (sys_context, ptr, __FILE__, __LINE__, __FUNCTION__);
     }
-  ptr = (char *) lw6sys_calloc (sys_context, MALLOC_SIZE, __FILE__, __LINE__);
+  ptr = (char *) lw6sys_calloc (sys_context, MALLOC_SIZE, __FILE__, __LINE__, __FUNCTION__);
   if (LW6SYS_TEST_ACK (ptr))
     {
-      ptr = lw6sys_realloc (sys_context, ptr, MALLOC_SIZE + 1, __FILE__, __LINE__);
+      ptr = lw6sys_realloc (sys_context, ptr, MALLOC_SIZE + 1, __FILE__, __LINE__, __FUNCTION__);
       if (LW6SYS_TEST_ACK (ptr))
 	{
-	  lw6sys_free (sys_context, ptr, __FILE__, __LINE__);
+	  lw6sys_free (sys_context, ptr, __FILE__, __LINE__, __FUNCTION__);
 	}
     }
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d megs"), lw6sys_megabytes_available (sys_context));
@@ -2824,14 +2824,14 @@ _test_mutex ()
     u_int64_t end_timestamp = 0;
 
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("testing mutex functions"));
-    mutex = lw6sys_mutex_create (sys_context);
+    mutex = LW6SYS_MUTEX_CREATE (sys_context);
     if (LW6SYS_TEST_ACK (mutex))
       {
-	if (LW6SYS_TEST_ACK (lw6sys_mutex_lock (sys_context, mutex)))
+	if (LW6SYS_TEST_ACK (LW6SYS_MUTEX_LOCK (sys_context, mutex)))
 	  {
-	    if (LW6SYS_TEST_ACK (!lw6sys_mutex_trylock (sys_context, mutex)))
+	    if (LW6SYS_TEST_ACK (!LW6SYS_MUTEX_TRYLOCK (sys_context, mutex)))
 	      {
-		if (LW6SYS_TEST_ACK (lw6sys_mutex_unlock (sys_context, mutex)))
+		if (LW6SYS_TEST_ACK (LW6SYS_MUTEX_UNLOCK (sys_context, mutex)))
 		  {
 		    ret = 1;
 		  }
@@ -2845,14 +2845,14 @@ _test_mutex ()
 	end_timestamp = lw6sys_get_timestamp (sys_context) + _TEST_MUTEX_DELAY;
 	while (lw6sys_get_timestamp (sys_context) < end_timestamp)
 	  {
-	    if (lw6sys_mutex_lock (sys_context, mutex))
+	    if (LW6SYS_MUTEX_LOCK (sys_context, mutex))
 	      {
-		lw6sys_mutex_unlock (sys_context, mutex);
+		LW6SYS_MUTEX_UNLOCK (sys_context, mutex);
 		i++;
 	      }
 	  }
 	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("%d locks per second"), (i * 1000) / _TEST_MUTEX_DELAY);
-	lw6sys_mutex_destroy (sys_context, mutex);
+	LW6SYS_MUTEX_DESTROY (sys_context, mutex);
       }
   }
 

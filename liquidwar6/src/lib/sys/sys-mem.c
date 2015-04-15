@@ -53,8 +53,9 @@
  *
  * @sys_context: global system context
  * @size: number of bytes to allocate.
- * @file: name of the file calling the function, use @__FILE__x_
- * @line: line in the file calling the function, use @__LINE__x_
+ * @file: name of the file calling the function, use @__FILE__
+ * @line: line in the file calling the function, use @__LINE__
+ * @func: name of the caller function, use @__FUNCTION__
  *
  * This is a wrapper over the standard @malloc function. Additionnally
  * it will keep track of the call with an internal program-wide counter,
@@ -66,7 +67,7 @@
  * Return value: the newly allocated pointer. Data is not initialized.
  */
 void *
-lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file, int line)
+lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file, int line, const char *func)
 {
   void *ptr;
 
@@ -79,12 +80,12 @@ lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file, int l
   if (ptr != NULL)
     {
 #ifndef LW6_OPTIMIZE
-      _lw6sys_bazooka_register_malloc (sys_context, ptr, size, file, line);
+      _lw6sys_bazooka_register_malloc (sys_context, ptr, size, file, line, func);
 #endif // LW6_OPTIMIZE
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("out of memory malloc (%d) failed in %s:%d"), size, file, line);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("out of memory malloc (%d) failed in %s:%d %s()"), size, file, line, func);
     }
 
   return ptr;
@@ -95,8 +96,9 @@ lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file, int l
  *
  * @sys_context: global system context
  * @size: number of bytes to allocate.
- * @file: name of the file calling the function, use @__FILE__x_
- * @line: line in the file calling the function, use @__LINE__x_
+ * @file: name of the file calling the function, use @__FILE__
+ * @line: line in the file calling the function, use @__LINE__
+ * @func: name of the caller function, use @__FUNCTION__
  *
  * This is a wrapper over the standard @calloc function. Additionnally
  * it will keep track of the call with an internal program-wide counter,
@@ -108,7 +110,7 @@ lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file, int l
  * Return value: the newly allocated pointer. Data is filled with zeros.
  */
 void *
-lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file, int line)
+lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file, int line, const char *func)
 {
   void *ptr;
 
@@ -121,12 +123,12 @@ lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file, int l
   if (ptr != NULL)
     {
 #ifndef LW6_OPTIMIZE
-      _lw6sys_bazooka_register_calloc (sys_context, ptr, size, file, line);
+      _lw6sys_bazooka_register_calloc (sys_context, ptr, size, file, line, func);
 #endif // LW6_OPTIMIZE
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("out of memory calloc(%d) failed in %s:%d"), size, file, line);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("out of memory calloc(%d) failed in %s:%d %s()"), size, file, line, func);
     }
 
   return ptr;
@@ -138,8 +140,9 @@ lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file, int l
  * @sys_context: global system context
  * @ptr: the pointer to reallocate.
  * @size: number of bytes to allocate.
- * @file: name of the file calling the function, use @__FILE__x_
- * @line: line in the file calling the function, use @__LINE__x_
+ * @file: name of the file calling the function, use @__FILE__
+ * @line: line in the file calling the function, use @__LINE__
+ * @func: name of the caller function, use @__FUNCTION__
  *
  * This is a wrapper over the standard @realloc function.
  * You should not use this function
@@ -150,7 +153,7 @@ lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file, int l
  * Return value: the newly allocated pointer.
  */
 void *
-lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size, const char *file, int line)
+lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size, const char *file, int line, const char *func)
 {
   void *ptr2;
 
@@ -159,9 +162,9 @@ lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size, const char 
 #endif // LW6_PARANOID
 
 #ifndef LW6_OPTIMIZE
-  if (!_lw6sys_bazooka_register_realloc_1 (sys_context, ptr, size, file, line))
+  if (!_lw6sys_bazooka_register_realloc_1 (sys_context, ptr, size, file, line, func))
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("suspicious realloc (stage 1) at %s:%d"), file, line);
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("suspicious realloc (stage 1) at %s:%d %s()"), file, line, func);
     }
 
 #endif // LW6_OPTIMIZE
@@ -171,15 +174,15 @@ lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size, const char 
   if (ptr2)
     {
 #ifndef LW6_OPTIMIZE
-      if (!_lw6sys_bazooka_register_realloc_2 (sys_context, ptr, ptr2, size, file, line))
+      if (!_lw6sys_bazooka_register_realloc_2 (sys_context, ptr, ptr2, size, file, line, func))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("suspicious realloc (stage 2) at %s:%d"), file, line);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("suspicious realloc (stage 2) at %s:%d %s()"), file, line, func);
 	}
 #endif // LW6_OPTIMIZE
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("out of memory realloc (%d) failed in %s:%d"), size, file, line);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("out of memory realloc (%d) failed in %s:%d %s()"), size, file, line, func);
     }
 
   return ptr2;
@@ -190,8 +193,9 @@ lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size, const char 
  *
  * @sys_context: global system context
  * @ptr: the pointer to free.
- * @file: name of the file calling the function, use @__FILE__x_
- * @line: line in the file calling the function, use @__LINE__x_
+ * @file: name of the file calling the function, use @__FILE__
+ * @line: line in the file calling the function, use @__LINE__
+ * @func: name of the caller function, use @__FUNCTION__
  *
  * This is a wrapper over the standard @free function. Additionnally
  * it will keep track of the call with an internal program-wide counter,
@@ -203,14 +207,14 @@ lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size, const char 
  * Return value: none.
  */
 void
-lw6sys_free (lw6sys_context_t * sys_context, void *ptr, const char *file, int line)
+lw6sys_free (lw6sys_context_t * sys_context, void *ptr, const char *file, int line, const char *func)
 {
   if (ptr != NULL)
     {
 #ifndef LW6_OPTIMIZE
       if (!_lw6sys_bazooka_register_free (sys_context, ptr))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("double free suspected at %s:%d"), file, line);
+	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("double free suspected at %s:%d %s()"), file, line, func);
 	}
 #endif // LW6_OPTIMIZE
       /*
@@ -221,7 +225,7 @@ lw6sys_free (lw6sys_context_t * sys_context, void *ptr, const char *file, int li
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("trying to free NULL pointer in %s:%d"), file, line);
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _("trying to free NULL pointer in %s:%d %s()"), file, line, func);
     }
 }
 

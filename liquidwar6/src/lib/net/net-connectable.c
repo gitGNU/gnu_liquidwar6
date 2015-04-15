@@ -33,7 +33,7 @@ _lw6net_connectable_init (lw6sys_context_t * sys_context, _lw6net_connectable_t 
 {
   int ret = 0;
 
-  connectable->connectable_cache_mutex = lw6sys_mutex_create (sys_context);
+  connectable->connectable_cache_mutex = LW6SYS_MUTEX_CREATE (sys_context);
   connectable->connectable_cache = lw6sys_cache_new (sys_context, NULL, connectable_cache_hash_size, connectable_cache_delay_sec * LW6SYS_TICKS_PER_SEC);
   ret = (connectable->connectable_cache_mutex != NULL && connectable->connectable_cache != NULL);
 
@@ -49,7 +49,7 @@ _lw6net_connectable_quit (lw6sys_context_t * sys_context, _lw6net_connectable_t 
     }
   if (connectable->connectable_cache_mutex)
     {
-      lw6sys_mutex_destroy (sys_context, connectable->connectable_cache_mutex);
+      LW6SYS_MUTEX_DESTROY (sys_context, connectable->connectable_cache_mutex);
     }
   memset (connectable, 0, sizeof (_lw6net_connectable_t));
 }
@@ -79,7 +79,7 @@ lw6net_is_connectable (lw6sys_context_t * sys_context, const char *ip, int port)
   key = lw6sys_new_sprintf (sys_context, "%s:%d", ip, port);
   if (key)
     {
-      if (lw6sys_mutex_lock (sys_context, connectable->connectable_cache_mutex))
+      if (LW6SYS_MUTEX_LOCK (sys_context, connectable->connectable_cache_mutex))
 	{
 	  /*
 	   * Yes, test is inverted, if there's no key it means we
@@ -95,7 +95,7 @@ lw6net_is_connectable (lw6sys_context_t * sys_context, const char *ip, int port)
 	    {
 	      ret = 0;
 	    }
-	  lw6sys_mutex_unlock (sys_context, connectable->connectable_cache_mutex);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, connectable->connectable_cache_mutex);
 	}
 
       LW6SYS_FREE (sys_context, key);
@@ -132,7 +132,7 @@ lw6net_set_connectable (lw6sys_context_t * sys_context, const char *ip, int port
   key = lw6sys_new_sprintf (sys_context, "%s:%d", ip, port);
   if (key)
     {
-      if (lw6sys_mutex_lock (sys_context, connectable->connectable_cache_mutex))
+      if (LW6SYS_MUTEX_LOCK (sys_context, connectable->connectable_cache_mutex))
 	{
 	  if (status)
 	    {
@@ -151,7 +151,7 @@ lw6net_set_connectable (lw6sys_context_t * sys_context, const char *ip, int port
 	      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("destination %s:%d marked as not connectable"), ip, port);
 	    }
 
-	  lw6sys_mutex_unlock (sys_context, connectable->connectable_cache_mutex);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, connectable->connectable_cache_mutex);
 	}
       LW6SYS_FREE (sys_context, key);
     }

@@ -137,7 +137,7 @@ _big_cleanup (lw6sys_context_t * sys_context)
 }
 
 static int
-_bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line, int erase)
+_bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line, const char *func, int erase)
 {
   int ret = 1;
   _lw6sys_bazooka_context_t *bazooka_context = &(((_lw6sys_context_t *) sys_context)->bazooka_context);
@@ -177,8 +177,9 @@ _bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, c
 		{
 		  file_only = file;
 		}
-	      strncpy (bazooka_data[i].file, file_only, _LW6SYS_BAZOOKA_FILE_SIZE - 1);
-	      bazooka_data[i].line = line;
+	      strncpy (bazooka_data[i].alloc_info.file, file_only, _LW6SYS_CALLER_INFO_FILE_SIZE - 1);
+	      bazooka_data[i].alloc_info.line = line;
+	      strncpy (bazooka_data[i].alloc_info.file, file_only, _LW6SYS_CALLER_INFO_FILE_SIZE - 1);
 	      bazooka_data[i].timestamp = lw6sys_get_timestamp (sys_context);
 
 	      if (i >= bazooka_context->size - 1)
@@ -244,9 +245,9 @@ _report_line (lw6sys_context_t * sys_context, _lw6sys_bazooka_line_t * bazooka)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE,
 		  _x_
-		  ("memory bazooka found unfreed data ptr=%p size=%d file:line=\"%s:%d\" time=\"%04d-%02d-%02d %02d:%02d:%02d,%03d\" sample_int=%d sample_str=\"%s\""),
-		  local_bazooka.ptr, local_bazooka.size, local_bazooka.file,
-		  local_bazooka.line, (int) tm_when.tm_year + 1900,
+		  ("memory bazooka found unfreed data ptr=%p size=%d file:line=\"%s:%d\" func=\"%s()\" time=\"%04d-%02d-%02d %02d:%02d:%02d,%03d\" sample_int=%d sample_str=\"%s\""),
+		  local_bazooka.ptr, local_bazooka.size, local_bazooka.alloc_info.file,
+		  local_bazooka.alloc_info.line, local_bazooka.alloc_info.func, (int) tm_when.tm_year + 1900,
 		  (int) tm_when.tm_mon + 1, (int) tm_when.tm_mday,
 		  (int) tm_when.tm_hour, (int) tm_when.tm_min, (int) tm_when.tm_sec, (int) (i_when % LW6SYS_TICKS_PER_SEC), sample_int, sample_str);
     }
@@ -464,33 +465,33 @@ lw6sys_get_memory_bazooka_eraser (lw6sys_context_t * sys_context)
 }
 
 int
-_lw6sys_bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line)
+_lw6sys_bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line, const char *func)
 {
   int ret = 1;
 
 #ifndef LW6_OPTIMIZE
   _lw6sys_bazooka_context_t *bazooka_context = &(((_lw6sys_context_t *) sys_context)->bazooka_context);
 
-  ret = _bazooka_register_malloc (sys_context, ptr, size, file, line, bazooka_context->eraser);
+  ret = _bazooka_register_malloc (sys_context, ptr, size, file, line, func, bazooka_context->eraser);
 #endif // LW6_OPTIMIZE
 
   return ret;
 }
 
 int
-_lw6sys_bazooka_register_calloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line)
+_lw6sys_bazooka_register_calloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line, const char *func)
 {
   int ret = 1;
 
 #ifndef LW6_OPTIMIZE
-  ret = _bazooka_register_malloc (sys_context, ptr, size, file, line, 0);
+  ret = _bazooka_register_malloc (sys_context, ptr, size, file, line, func, 0);
 #endif // LW6_OPTIMIZE
 
   return ret;
 }
 
 int
-_lw6sys_bazooka_register_realloc_1 (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line)
+_lw6sys_bazooka_register_realloc_1 (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line, const char *func)
 {
   int ret = 1;
 
@@ -532,7 +533,7 @@ _lw6sys_bazooka_register_realloc_1 (lw6sys_context_t * sys_context, char *ptr, i
 }
 
 int
-_lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, char *ptr2, int size, const char *file, int line)
+_lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, char *ptr2, int size, const char *file, int line, const char *func)
 {
   int ret = 1;
 
@@ -569,8 +570,9 @@ _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, c
 		    {
 		      file_only = file;
 		    }
-		  strncpy (bazooka_data[i].file, file_only, _LW6SYS_BAZOOKA_FILE_SIZE - 1);
-		  bazooka_data[i].line = line;
+		  strncpy (bazooka_data[i].alloc_info.file, file_only, _LW6SYS_CALLER_INFO_FILE_SIZE - 1);
+		  bazooka_data[i].alloc_info.line = line;
+		  strncpy (bazooka_data[i].alloc_info.func, func, _LW6SYS_CALLER_INFO_FUNC_SIZE - 1);
 		  bazooka_data[i].timestamp = lw6sys_get_timestamp (sys_context);
 		}
 	      break;		// important to leave loop, else serious perfomance problem
@@ -604,8 +606,9 @@ _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, c
 		    {
 		      file_only = file;
 		    }
-		  strncpy (bazooka_data[i].file, file_only, _LW6SYS_BAZOOKA_FILE_SIZE - 1);
-		  bazooka_data[i].line = line;
+		  strncpy (bazooka_data[i].alloc_info.file, file_only, _LW6SYS_CALLER_INFO_FILE_SIZE - 1);
+		  bazooka_data[i].alloc_info.line = line;
+		  strncpy (bazooka_data[i].alloc_info.func, func, _LW6SYS_CALLER_INFO_FUNC_SIZE - 1);
 		  bazooka_data[i].timestamp = lw6sys_get_timestamp (sys_context);
 		  if (i >= bazooka_context->size - 1)
 		    {

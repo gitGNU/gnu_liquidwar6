@@ -36,7 +36,7 @@ _lw6dsp_data_new (lw6sys_context_t * sys_context)
     {
       ret->instant_fps = 0.0f;
       ret->average_fps = 0.0f;
-      ret->render_mutex = lw6sys_mutex_create (sys_context);
+      ret->render_mutex = LW6SYS_MUTEX_CREATE (sys_context);
       if (!ret->render_mutex)
 	{
 	  LW6SYS_FREE (sys_context, ret);
@@ -62,7 +62,7 @@ _lw6dsp_data_free (lw6sys_context_t * sys_context, _lw6dsp_data_t * data)
     }
   if (data->render_mutex)
     {
-      lw6sys_mutex_destroy (sys_context, data->render_mutex);
+      LW6SYS_MUTEX_DESTROY (sys_context, data->render_mutex);
     }
   _lw6dsp_param_clear (sys_context, &(data->param));
   LW6SYS_FREE (sys_context, data);

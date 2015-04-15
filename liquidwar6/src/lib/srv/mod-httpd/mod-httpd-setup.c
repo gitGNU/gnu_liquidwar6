@@ -80,7 +80,7 @@ _mod_httpd_init (lw6sys_context_t * sys_context, int argc, const char *argv[], l
 			{
 			  if (lw6sys_clear_file (sys_context, httpd_context->access_log_file))
 			    {
-			      httpd_context->access_log_mutex = lw6sys_mutex_create (sys_context);
+			      httpd_context->access_log_mutex = LW6SYS_MUTEX_CREATE (sys_context);
 			      if (httpd_context->access_log_mutex)
 				{
 				  ok = 1;
@@ -125,7 +125,7 @@ _mod_httpd_quit (lw6sys_context_t * sys_context, _mod_httpd_context_t * httpd_co
 
   if (httpd_context->access_log_mutex)
     {
-      lw6sys_mutex_destroy (sys_context, httpd_context->access_log_mutex);
+      LW6SYS_MUTEX_DESTROY (sys_context, httpd_context->access_log_mutex);
     }
   if (httpd_context->access_log_file)
     {

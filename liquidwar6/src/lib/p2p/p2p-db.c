@@ -74,7 +74,7 @@ _lw6p2p_db_open (lw6sys_context_t * sys_context, int argc, const char *argv[], c
 	}
 
       db->t0 = lw6sys_get_timestamp (sys_context);
-      db->mutex = lw6sys_mutex_create (sys_context);
+      db->mutex = LW6SYS_MUTEX_CREATE (sys_context);
       if (db->mutex)
 	{
 	  data_dir = lw6sys_get_data_dir (sys_context, argc, argv);
@@ -197,7 +197,7 @@ _lw6p2p_db_close (lw6sys_context_t * sys_context, _lw6p2p_db_t * db)
     {
       if (db->mutex)
 	{
-	  lw6sys_mutex_destroy (sys_context, db->mutex);
+	  LW6SYS_MUTEX_DESTROY (sys_context, db->mutex);
 	}
       if (db->db_filename)
 	{
@@ -313,7 +313,7 @@ _lw6p2p_db_lock (lw6sys_context_t * sys_context, _lw6p2p_db_t * db)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lock db"));
-  ret = lw6sys_mutex_lock (sys_context, db->mutex);
+  ret = LW6SYS_MUTEX_LOCK (sys_context, db->mutex);
   if (ret)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("lock db OK"));
@@ -332,7 +332,7 @@ _lw6p2p_db_unlock (lw6sys_context_t * sys_context, _lw6p2p_db_t * db)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unlock db"));
-  ret = lw6sys_mutex_unlock (sys_context, db->mutex);
+  ret = LW6SYS_MUTEX_UNLOCK (sys_context, db->mutex);
   if (ret)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("unlock db OK"));
@@ -351,7 +351,7 @@ _lw6p2p_db_trylock (lw6sys_context_t * sys_context, _lw6p2p_db_t * db)
   int ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trylock db"));
-  ret = lw6sys_mutex_trylock (sys_context, db->mutex);
+  ret = LW6SYS_MUTEX_TRYLOCK (sys_context, db->mutex);
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trylock db ret=%d"), ret);
 
   return ret;

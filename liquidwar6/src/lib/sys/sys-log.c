@@ -868,7 +868,8 @@ _lw6sys_msgbox_alert (lw6sys_context_t * sys_context, const char *level_str, con
  *   one can use __FILE__
  * @line: the line in the source file where the function is called,
  *   one can use __LINE__
- * @func: the name of the function where this log line was called
+ * @func: the name of the function where this log line was called,
+ *   on can use __FUNCTION__
  * @fmt: a printf-like format string
  * @...: printf-like arguments, corresponding to @fmt.
  *

@@ -37,13 +37,19 @@ static volatile u_int32_t seq_id = 0;
  * lw6sys_mutex_create
  *
  * @sys_context: global system context
+ * @file: the name of the source file where the function is called,
+ *   one can use __FILE__
+ * @line: the line in the source file where the function is called,
+ *   one can use __LINE__
+ * @func: the name of the function where this log line was called,
+ *   on can use __FUNCTION__
  *
  * Creates a mutex object.
  *
  * Return value: newly allocated pointer.
  */
 lw6sys_mutex_t *
-lw6sys_mutex_create (lw6sys_context_t * sys_context)
+lw6sys_mutex_create (lw6sys_context_t * sys_context, const char *file, int line, const char *func)
 {
   _lw6sys_mutex_t *mutex;
 
@@ -81,13 +87,19 @@ lw6sys_mutex_create (lw6sys_context_t * sys_context)
  *
  * @sys_context: global system context
  * @mutex: the mutex to destroy.
+ * @file: the name of the source file where the function is called,
+ *   one can use __FILE__
+ * @line: the line in the source file where the function is called,
+ *   one can use __LINE__
+ * @func: the name of the function where this log line was called,
+ *   on can use __FUNCTION__
  *
  * Destroys a mutex object.
  *
  * Return value: none.
  */
 void
-lw6sys_mutex_destroy (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
+lw6sys_mutex_destroy (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, const char *file, int line, const char *func)
 {
   pthread_mutex_destroy (&(((_lw6sys_mutex_t *) mutex)->mutex));
   LW6SYS_FREE (sys_context, mutex);
@@ -98,6 +110,12 @@ lw6sys_mutex_destroy (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
  *
  * @sys_context: global system context
  * @mutex: the mutex to use
+ * @file: the name of the source file where the function is called,
+ *   one can use __FILE__
+ * @line: the line in the source file where the function is called,
+ *   one can use __LINE__
+ * @func: the name of the function where this log line was called,
+ *   on can use __FUNCTION__
  *
  * Locks the mutex. Note that this should never fail unless
  * there's a serious initialization problem, instead, function
@@ -106,7 +124,7 @@ lw6sys_mutex_destroy (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
  * Return value: 1 if success, 0 if failure.
  */
 int
-lw6sys_mutex_lock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
+lw6sys_mutex_lock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, const char *file, int line, const char *func)
 {
   int ret = 0;
   int pthread_ret;
@@ -131,6 +149,12 @@ lw6sys_mutex_lock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
  *
  * @sys_context: global system context
  * @mutex: the mutex to use
+ * @file: the name of the source file where the function is called,
+ *   one can use __FILE__
+ * @line: the line in the source file where the function is called,
+ *   one can use __LINE__
+ * @func: the name of the function where this log line was called,
+ *   on can use __FUNCTION__
  *
  * Tries to locks the mutex. That is, tells wether mutex
  * can be locked immediately or not. Note that this does
@@ -141,7 +165,7 @@ lw6sys_mutex_lock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
  * Return value: 1 if mutex unlocked, 0 if locked or error.
  */
 int
-lw6sys_mutex_trylock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
+lw6sys_mutex_trylock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, const char *file, int line, const char *func)
 {
   int ret = 0;
   int pthread_ret;
@@ -173,13 +197,19 @@ lw6sys_mutex_trylock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
  *
  * @sys_context: global system context
  * @mutex: the mutex to use
+ * @file: the name of the source file where the function is called,
+ *   one can use __FILE__
+ * @line: the line in the source file where the function is called,
+ *   one can use __LINE__
+ * @func: the name of the function where this log line was called,
+ *   on can use __FUNCTION__
  *
  * Unlocks a mutex.
  *
  * Return value: 1 if sucess, 0 if error.
  */
 int
-lw6sys_mutex_unlock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
+lw6sys_mutex_unlock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, const char *file, int line, const char *func)
 {
   int ret = 0;
   int pthread_ret;
@@ -203,6 +233,12 @@ lw6sys_mutex_unlock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex)
  * lw6sys_get_mutex_lock_count
  *
  * @sys_context: global system context
+ * @file: the name of the source file where the function is called,
+ *   one can use __FILE__
+ * @line: the line in the source file where the function is called,
+ *   one can use __LINE__
+ * @func: the name of the function where this log line was called,
+ *   on can use __FUNCTION__
  *
  * Returns how many mutexes have been locked since program start.
  * Usefull for sanity checking when debugging.

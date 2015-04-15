@@ -283,8 +283,8 @@ _sync_draft_from_reference (lw6sys_context_t * sys_context, _lw6pil_pilot_t * pi
 {
   if (_lw6pil_pilot_get_reference_current_seq (sys_context, pilot) > pilot->last_sync_draft_from_reference_seq)
     {
-      lw6sys_mutex_lock (sys_context, pilot->draft.compute_mutex);
-      lw6sys_mutex_lock (sys_context, pilot->reference.compute_mutex);
+      LW6SYS_MUTEX_LOCK (sys_context, pilot->draft.compute_mutex);
+      LW6SYS_MUTEX_LOCK (sys_context, pilot->reference.compute_mutex);
 
       if (_lw6pil_pilot_get_reference_current_seq (sys_context, pilot) > pilot->last_sync_draft_from_reference_seq)
 	{
@@ -296,8 +296,8 @@ _sync_draft_from_reference (lw6sys_context_t * sys_context, _lw6pil_pilot_t * pi
 	  pilot->last_sync_draft_from_reference_seq = _lw6pil_pilot_get_reference_current_seq (sys_context, pilot);
 	}
 
-      lw6sys_mutex_unlock (sys_context, pilot->reference.compute_mutex);
-      lw6sys_mutex_unlock (sys_context, pilot->draft.compute_mutex);
+      LW6SYS_MUTEX_UNLOCK (sys_context, pilot->reference.compute_mutex);
+      LW6SYS_MUTEX_UNLOCK (sys_context, pilot->draft.compute_mutex);
     }
 }
 
@@ -378,8 +378,8 @@ _commit_reference (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, _lw6pil
    */
   if (dump && lw6pil_dump_exists (sys_context, &(pilot->reference.dump)))
     {
-      lw6sys_mutex_lock (sys_context, pilot->reference.global_mutex);
-      lw6sys_mutex_lock (sys_context, pilot->reference.compute_mutex);
+      LW6SYS_MUTEX_LOCK (sys_context, pilot->reference.global_mutex);
+      LW6SYS_MUTEX_LOCK (sys_context, pilot->reference.compute_mutex);
       /*
        * Yes, test again, now that we're locked
        */
@@ -388,8 +388,8 @@ _commit_reference (lw6sys_context_t * sys_context, lw6pil_dump_t * dump, _lw6pil
 	  (*dump) = pilot->reference.dump;
 	  lw6pil_dump_zero (sys_context, &(pilot->reference.dump));
 	}
-      lw6sys_mutex_unlock (sys_context, pilot->reference.compute_mutex);
-      lw6sys_mutex_unlock (sys_context, pilot->reference.global_mutex);
+      LW6SYS_MUTEX_UNLOCK (sys_context, pilot->reference.compute_mutex);
+      LW6SYS_MUTEX_UNLOCK (sys_context, pilot->reference.global_mutex);
 
       /*
        * Now pump any message left in queue, those already committed should
@@ -626,12 +626,12 @@ _lw6pil_pilot_sync_from_reference (lw6sys_context_t * sys_context, lw6ker_game_s
 {
   int ret = 0;
 
-  lw6sys_mutex_lock (sys_context, pilot->reference.global_mutex);
+  LW6SYS_MUTEX_LOCK (sys_context, pilot->reference.global_mutex);
 
   lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("sync from reference round=%d"), lw6ker_game_state_get_rounds (sys_context, pilot->reference.game_state));
   ret = lw6ker_game_state_sync (sys_context, target, pilot->reference.game_state);
 
-  lw6sys_mutex_unlock (sys_context, pilot->reference.global_mutex);
+  LW6SYS_MUTEX_UNLOCK (sys_context, pilot->reference.global_mutex);
 
   return ret;
 }
@@ -673,8 +673,8 @@ _lw6pil_pilot_sync_from_draft (lw6sys_context_t * sys_context, lw6ker_game_state
     {
       if (dirty_read == LW6PIL_DIRTY_READ_NEVER)
 	{
-	  lw6sys_mutex_lock (sys_context, pilot->draft.compute_mutex);
-	  lw6sys_mutex_lock (sys_context, pilot->reference.compute_mutex);
+	  LW6SYS_MUTEX_LOCK (sys_context, pilot->draft.compute_mutex);
+	  LW6SYS_MUTEX_LOCK (sys_context, pilot->reference.compute_mutex);
 	}
       max_round = _lw6pil_pilot_seq2round (sys_context, pilot, _lw6pil_pilot_get_max_seq (sys_context, pilot));
       if (max_round > current_round)
@@ -698,8 +698,8 @@ _lw6pil_pilot_sync_from_draft (lw6sys_context_t * sys_context, lw6ker_game_state
 	}
       if (dirty_read == LW6PIL_DIRTY_READ_NEVER)
 	{
-	  lw6sys_mutex_unlock (sys_context, pilot->reference.compute_mutex);
-	  lw6sys_mutex_unlock (sys_context, pilot->draft.compute_mutex);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, pilot->reference.compute_mutex);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, pilot->draft.compute_mutex);
 	}
     }
   else

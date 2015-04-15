@@ -673,16 +673,16 @@ extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_BLUE;
 /*
  * macro TMP defined for quick-debugging / trace
  */
-#define TMP(sys_context,message) lw6sys_log(sys_context,LW6SYS_LOG_TMP, message)
-#define TMP1(sys_context,message,arg1) lw6sys_log(sys_context,LW6SYS_LOG_TMP, message, arg1)
-#define TMP2(sys_context,message,arg1,arg2) lw6sys_log(sys_context,LW6SYS_LOG_TMP, message, arg1, arg2)
-#define TMP3(sys_context,message,arg1,arg2,arg3) lw6sys_log(sys_context,LW6SYS_LOG_TMP, message, arg1, arg2, arg3)
-#define TMP4(sys_context,message,arg1,arg2,arg3,arg4) lw6sys_log(sys_context,LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4)
-#define TMP5(sys_context,message,arg1,arg2,arg3,arg4,arg5) lw6sys_log(sys_context,LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5)
-#define TMP6(sys_context,message,arg1,arg2,arg3,arg4,arg5,arg6) lw6sys_log(sys_context,LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6)
-#define TMP7(sys_context,message,arg1,arg2,arg3,arg4,arg5,arg6,arg7) lw6sys_log(sys_context,LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
-#define TMP8(sys_context,message,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) lw6sys_log(sys_context,LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
-#define TMP9(sys_context,message,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9) lw6sys_log(sys_context,LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
+#define TMP(SYS_CONTEXT,message) lw6sys_log(SYS_CONTEXT,LW6SYS_LOG_TMP, message)
+#define TMP1(SYS_CONTEXT,message,arg1) lw6sys_log(SYS_CONTEXT,LW6SYS_LOG_TMP, message, arg1)
+#define TMP2(SYS_CONTEXT,message,arg1,arg2) lw6sys_log(SYS_CONTEXT,LW6SYS_LOG_TMP, message, arg1, arg2)
+#define TMP3(SYS_CONTEXT,message,arg1,arg2,arg3) lw6sys_log(SYS_CONTEXT,LW6SYS_LOG_TMP, message, arg1, arg2, arg3)
+#define TMP4(SYS_CONTEXT,message,arg1,arg2,arg3,arg4) lw6sys_log(SYS_CONTEXT,LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4)
+#define TMP5(SYS_CONTEXT,message,arg1,arg2,arg3,arg4,arg5) lw6sys_log(SYS_CONTEXT,LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5)
+#define TMP6(SYS_CONTEXT,message,arg1,arg2,arg3,arg4,arg5,arg6) lw6sys_log(SYS_CONTEXT,LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6)
+#define TMP7(SYS_CONTEXT,message,arg1,arg2,arg3,arg4,arg5,arg6,arg7) lw6sys_log(SYS_CONTEXT,LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+#define TMP8(SYS_CONTEXT,message,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8) lw6sys_log(SYS_CONTEXT,LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+#define TMP9(SYS_CONTEXT,message,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9) lw6sys_log(SYS_CONTEXT,LW6SYS_LOG_TMP, message, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
 
 /*
  * Instant backtrace facility
@@ -698,6 +698,16 @@ extern lw6sys_color_hsv_t LW6SYS_COLOR_HSV_BLUE;
 #define LW6SYS_REFORMAT_INDENT_NB_COLUMNS 70
 #define LW6SYS_REFORMAT_XML_PREFIX "    "
 #define LW6SYS_REFORMAT_XML_NB_COLUMNS 74
+
+/*
+ * Mutex macros, useful as mutex functions take file/line/function as
+ * arguments and we don't want to copy/paste this everywhere.
+ */
+#define LW6SYS_MUTEX_CREATE(SYS_CONTEXT) lw6sys_mutex_create(SYS_CONTEXT, __FILE__, __LINE__, __FUNCTION__)
+#define LW6SYS_MUTEX_DESTROY(SYS_CONTEXT,MUTEX) lw6sys_mutex_destroy(SYS_CONTEXT, MUTEX, __FILE__, __LINE__, __FUNCTION__)
+#define LW6SYS_MUTEX_LOCK(SYS_CONTEXT,MUTEX) lw6sys_mutex_lock(SYS_CONTEXT, MUTEX, __FILE__, __LINE__,__FUNCTION__)
+#define LW6SYS_MUTEX_TRYLOCK(SYS_CONTEXT,MUTEX) lw6sys_mutex_trylock(SYS_CONTEXT ,MUTEX, __FILE__,  __LINE__, __FUNCTION__)
+#define LW6SYS_MUTEX_UNLOCK(SYS_CONTEXT,MUTEX) lw6sys_mutex_unlock(SYS_CONTEXT, MUTEX, __FILE__, __LINE__, __FUNCTION__)
 
 /**
  * Thread handler is our own wrapper on the pthread object.
@@ -1110,16 +1120,16 @@ extern int lw6sys_math_log2lin (lw6sys_context_t * sys_context, float log_value,
 #define LW6SYS_REALLOC(SYS_CONTEXT,PTR,SIZE) realloc((PTR),(SIZE))
 #define LW6SYS_FREE(SYS_CONTEXT,PTR) free((PTR))
 #else // LW6_OPTIMIZE
-#define LW6SYS_MALLOC(SYS_CONTEXT,SIZE) lw6sys_malloc((SYS_CONTEXT),(SIZE),__FILE__,__LINE__)
-#define LW6SYS_CALLOC(SYS_CONTEXT,SIZE) lw6sys_calloc((SYS_CONTEXT),(SIZE),__FILE__,__LINE__)
-#define LW6SYS_REALLOC(SYS_CONTEXT,PTR,SIZE) lw6sys_realloc((SYS_CONTEXT),(void *) (PTR),(SIZE),__FILE__,__LINE__)
-#define LW6SYS_FREE(SYS_CONTEXT,PTR) lw6sys_free((SYS_CONTEXT),(void *) (PTR),__FILE__,__LINE__)
+#define LW6SYS_MALLOC(SYS_CONTEXT,SIZE) lw6sys_malloc((SYS_CONTEXT),(SIZE),__FILE__,__LINE__,__FUNCTION__)
+#define LW6SYS_CALLOC(SYS_CONTEXT,SIZE) lw6sys_calloc((SYS_CONTEXT),(SIZE),__FILE__,__LINE__,__FUNCTION__)
+#define LW6SYS_REALLOC(SYS_CONTEXT,PTR,SIZE) lw6sys_realloc((SYS_CONTEXT),(void *) (PTR),(SIZE),__FILE__,__LINE__,__FUNCTION__)
+#define LW6SYS_FREE(SYS_CONTEXT,PTR) lw6sys_free((SYS_CONTEXT),(void *) (PTR),__FILE__,__LINE__,__FUNCTION__)
 #endif // LW6_OPTIMIZE
 
-extern void *lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file, int line);
-extern void *lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file, int line);
-extern void *lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size, const char *file, int line);
-extern void lw6sys_free (lw6sys_context_t * sys_context, void *ptr, const char *file, int line);
+extern void *lw6sys_malloc (lw6sys_context_t * sys_context, int size, const char *file, int line, const char *func);
+extern void *lw6sys_calloc (lw6sys_context_t * sys_context, int size, const char *file, int line, const char *func);
+extern void *lw6sys_realloc (lw6sys_context_t * sys_context, void *ptr, int size, const char *file, int line, const char *func);
+extern void lw6sys_free (lw6sys_context_t * sys_context, void *ptr, const char *file, int line, const char *func);
 extern void lw6sys_free_callback (lw6sys_context_t * sys_context, void *ptr);
 extern int lw6sys_megabytes_available (lw6sys_context_t * sys_context);
 extern int lw6sys_is_big_endian (lw6sys_context_t * sys_context);
@@ -1127,11 +1137,11 @@ extern int lw6sys_is_little_endian (lw6sys_context_t * sys_context);
 extern int lw6sys_check_types_size (lw6sys_context_t * sys_context);
 
 /* sys-mutex.c */
-extern lw6sys_mutex_t *lw6sys_mutex_create (lw6sys_context_t * sys_context);
-extern void lw6sys_mutex_destroy (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex);
-extern int lw6sys_mutex_lock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex);
-extern int lw6sys_mutex_trylock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex);
-extern int lw6sys_mutex_unlock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex);
+extern lw6sys_mutex_t *lw6sys_mutex_create (lw6sys_context_t * sys_context, const char *file, int line, const char *func);
+extern void lw6sys_mutex_destroy (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, const char *file, int line, const char *func);
+extern int lw6sys_mutex_lock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, const char *file, int line, const char *func);
+extern int lw6sys_mutex_trylock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, const char *file, int line, const char *func);
+extern int lw6sys_mutex_unlock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, const char *file, int line, const char *func);
 extern int lw6sys_get_mutex_lock_count (lw6sys_context_t * sys_context);
 extern int lw6sys_get_mutex_unlock_count (lw6sys_context_t * sys_context);
 extern int lw6sys_check_mutex_count (lw6sys_context_t * sys_context);

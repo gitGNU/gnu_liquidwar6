@@ -36,12 +36,14 @@
  * programs will use this.
  */
 #ifdef LW6_PARANOID
-#define _LW6SYS_BAZOOKA_FILE_SIZE 80
 #define _LW6SYS_BAZOOKA_SAMPLE_SIZE 1000
 #define _LW6SYS_BAZOOKA_ALLOC_MIN 16
+#define _LW6SYS_CALLER_INFO_FILE_SIZE 80
+#define _LW6SYS_CALLER_INFO_FUNC_SIZE 50
 #else // LW6_PARANOID
-#define _LW6SYS_BAZOOKA_FILE_SIZE 50
 #define _LW6SYS_BAZOOKA_SAMPLE_SIZE 100
+#define _LW6SYS_CALLER_INFO_FILE_SIZE 50
+#define _LW6SYS_CALLER_INFO_FUNC_SIZE 30
 // ALLOC_MIN not defined in non-paranoid mode
 #endif // LW6_PARANOID
 
@@ -57,12 +59,18 @@
 #define _LW6SYS_VTHREAD_COND_TIMEDWAIT_NSEC 100000000
 #define _LW6SYS_VTHREAD_ID -1
 
+typedef struct _lw6sys_caller_info_s
+{
+  char file[_LW6SYS_CALLER_INFO_FILE_SIZE];
+  int line;
+  char func[_LW6SYS_CALLER_INFO_FUNC_SIZE];
+} _lw6sys_caller_info_t;
+
 typedef struct _lw6sys_bazooka_line_s
 {
   void *ptr;
   int size;
-  char file[_LW6SYS_BAZOOKA_FILE_SIZE];
-  int line;
+  _lw6sys_caller_info_t alloc_info;
   int64_t timestamp;
 } _lw6sys_bazooka_line_t;
 
@@ -87,6 +95,8 @@ typedef struct _lw6sys_mutex_s
 {
   u_int32_t id;
   pthread_mutex_t mutex;
+  _lw6sys_caller_info_t create_info;
+  _lw6sys_caller_info_t lock_info;
 } _lw6sys_mutex_t;
 
 #if ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
@@ -165,10 +175,10 @@ _lw6sys_context_t;
 
 /* sys-bazooka.c */
 extern void _lw6sys_bazooka_context_init (lw6sys_context_t * sys_context, _lw6sys_bazooka_context_t * bazooka_context);
-extern int _lw6sys_bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line);
-extern int _lw6sys_bazooka_register_calloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line);
-extern int _lw6sys_bazooka_register_realloc_1 (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line);
-extern int _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, char *ptr2, int size, const char *file, int line);
+extern int _lw6sys_bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line, const char *func);
+extern int _lw6sys_bazooka_register_calloc (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line, const char *func);
+extern int _lw6sys_bazooka_register_realloc_1 (lw6sys_context_t * sys_context, char *ptr, int size, const char *file, int line, const char *func);
+extern int _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, char *ptr2, int size, const char *file, int line, const char *func);
 extern int _lw6sys_bazooka_register_free (lw6sys_context_t * sys_context, char *ptr);
 
 /* sys-str.c */
