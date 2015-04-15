@@ -154,7 +154,6 @@ _bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, c
   if (bazooka_data)
     {
       int i;
-      const char *file_only;
 
       if (erase)
 	{
@@ -168,18 +167,9 @@ _bazooka_register_malloc (lw6sys_context_t * sys_context, char *ptr, int size, c
 	      memset (&(bazooka_data[i]), 0, sizeof (_lw6sys_bazooka_line_t));
 	      bazooka_data[i].ptr = ptr;
 	      bazooka_data[i].size = size;
-	      file_only = strrchr (file, '/');
-	      if (file_only && *file_only)
-		{
-		  file_only++;
-		}
-	      else
-		{
-		  file_only = file;
-		}
-	      strncpy (bazooka_data[i].alloc_info.file, file_only, _LW6SYS_CALLER_INFO_FILE_SIZE - 1);
-	      bazooka_data[i].alloc_info.line = line;
-	      strncpy (bazooka_data[i].alloc_info.file, file_only, _LW6SYS_CALLER_INFO_FILE_SIZE - 1);
+
+	      _lw6sys_caller_info_set (&(bazooka_data[i].alloc_info), file, line, func);
+
 	      bazooka_data[i].timestamp = lw6sys_get_timestamp (sys_context);
 
 	      if (i >= bazooka_context->size - 1)
@@ -546,7 +536,6 @@ _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, c
   if (bazooka_data)
     {
       int i;
-      const char *file_only;
 
       for (i = _hash_index (sys_context, ptr); i < bazooka_context->size; ++i)
 	{
@@ -561,18 +550,9 @@ _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, c
 		{
 		  bazooka_data[i].ptr = ptr2;	// was NULL because of memset
 		  bazooka_data[i].size = size;
-		  file_only = strrchr (file, '/');
-		  if (file_only && *file_only)
-		    {
-		      file_only++;
-		    }
-		  else
-		    {
-		      file_only = file;
-		    }
-		  strncpy (bazooka_data[i].alloc_info.file, file_only, _LW6SYS_CALLER_INFO_FILE_SIZE - 1);
-		  bazooka_data[i].alloc_info.line = line;
-		  strncpy (bazooka_data[i].alloc_info.func, func, _LW6SYS_CALLER_INFO_FUNC_SIZE - 1);
+
+		  _lw6sys_caller_info_set (&(bazooka_data[i].alloc_info), file, line, func);
+
 		  bazooka_data[i].timestamp = lw6sys_get_timestamp (sys_context);
 		}
 	      break;		// important to leave loop, else serious perfomance problem
@@ -597,18 +577,9 @@ _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, c
 		  memset (&(bazooka_data[i]), 0, sizeof (_lw6sys_bazooka_line_t));
 		  bazooka_data[i].ptr = ptr2;
 		  bazooka_data[i].size = size;
-		  file_only = strrchr (file, '/');
-		  if (file_only && *file_only)
-		    {
-		      file_only++;
-		    }
-		  else
-		    {
-		      file_only = file;
-		    }
-		  strncpy (bazooka_data[i].alloc_info.file, file_only, _LW6SYS_CALLER_INFO_FILE_SIZE - 1);
-		  bazooka_data[i].alloc_info.line = line;
-		  strncpy (bazooka_data[i].alloc_info.func, func, _LW6SYS_CALLER_INFO_FUNC_SIZE - 1);
+
+		  _lw6sys_caller_info_set (&(bazooka_data[i].alloc_info), file, line, func);
+
 		  bazooka_data[i].timestamp = lw6sys_get_timestamp (sys_context);
 		  if (i >= bazooka_context->size - 1)
 		    {

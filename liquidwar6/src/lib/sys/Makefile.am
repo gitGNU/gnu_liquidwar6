@@ -49,7 +49,7 @@ TEST_SRC_FILE = sys-cunit.c sys-test.c
 else
 TEST_SRC_FILE =
 endif
-libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-backtrace.c sys-bazooka.c sys-build.c sys-cache.c sys-checksum.c sys-color.c sys-context.c sys-convert.c sys-daemon.c sys-debug.c sys-dump.c sys-env.c sys-escape.c sys-exec.c sys-file.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-listr.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-openmp.c sys-options.c sys-path.c sys-print.c sys-process.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-signal.c sys-sort.c sys-spinlock.c sys-str.c sys-stream.c $(TEST_SRC_FILE) sys-thread.c sys-time.c sys-url.c sys-version.c sys-vthread.c $(ASM_SRC_FILES) $(OBJC_SRC_FILES)
+libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-backtrace.c sys-bazooka.c sys-build.c sys-cache.c sys-callerinfo.c sys-checksum.c sys-color.c sys-context.c sys-convert.c sys-daemon.c sys-debug.c sys-dump.c sys-env.c sys-escape.c sys-exec.c sys-file.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-listr.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-openmp.c sys-options.c sys-path.c sys-print.c sys-process.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-signal.c sys-sort.c sys-spinlock.c sys-str.c sys-stream.c $(TEST_SRC_FILE) sys-thread.c sys-time.c sys-url.c sys-version.c sys-vthread.c $(ASM_SRC_FILES) $(OBJC_SRC_FILES)
 libsysdir= $(includedir)/@PACKAGE_TARNAME@/sys
 libsys_HEADERS = sys.h sys-gettext.h
 

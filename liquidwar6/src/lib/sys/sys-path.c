@@ -489,6 +489,32 @@ lw6sys_path_split (lw6sys_context_t * sys_context, const char *path)
   return ret;
 }
 
+const char *
+_lw6sys_path_file_only_raw (const char *file)
+{
+  const char *file_only = NULL;
+
+  file_only = strrchr (file, DIR_SEP_CHAR_UNIX);
+  if (file_only && *file_only)
+    {
+      file_only++;
+    }
+  else
+    {
+      file_only = strrchr (file, DIR_SEP_CHAR_MS_WINDOWS);
+      if (file_only && *file_only)
+	{
+	  file_only++;
+	}
+      else
+	{
+	  file_only = file;
+	}
+    }
+
+  return file_only;
+}
+
 /**
  * lw6sys_path_file_only
  *

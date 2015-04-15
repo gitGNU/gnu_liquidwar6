@@ -181,6 +181,13 @@ extern int _lw6sys_bazooka_register_realloc_1 (lw6sys_context_t * sys_context, c
 extern int _lw6sys_bazooka_register_realloc_2 (lw6sys_context_t * sys_context, char *ptr, char *ptr2, int size, const char *file, int line, const char *func);
 extern int _lw6sys_bazooka_register_free (lw6sys_context_t * sys_context, char *ptr);
 
+/* sys-callerinfo.c */
+extern void _lw6sys_caller_info_set (_lw6sys_caller_info_t * caller_info, const char *file, int line, const char *func);
+extern void _lw6sys_caller_info_clear (_lw6sys_caller_info_t * caller_info);
+
+/* sys-path.c */
+extern const char *_lw6sys_path_file_only_raw (const char *file);
+
 /* sys-str.c */
 extern char *_lw6sys_new_vsnprintf (lw6sys_context_t * sys_context, int n, const char *fmt, va_list ap);
 extern int _lw6sys_buf_vsnprintf (lw6sys_context_t * sys_context, char *buf, int len, const char *fmt, va_list ap);

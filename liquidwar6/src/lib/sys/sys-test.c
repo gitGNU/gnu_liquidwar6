@@ -27,6 +27,7 @@
 #include <CUnit/CUnit.h>
 
 #include "sys.h"
+#include "sys-internal.h"
 
 #define _TEST_KEYWORD_AS "--this-is_a_TEST-KeYWord"
 #define _TEST_ARG_KEYWORD "my-option"
@@ -57,6 +58,10 @@
 #define PATH_RELATIVE "../../foo/bar"
 #define PATH_RELATIVE_UNPARENT "../foo/bar"
 #endif // LW6_MS_WINDOWS
+#define _TEST_CALLER_INFO_FILE "foo/bar/file.txt"
+#define _TEST_CALLER_INFO_FILE_ONLY "file.txt"
+#define _TEST_CALLER_INFO_LINE 42
+#define _TEST_CALLER_INFO_FUNC "nop"
 #define _TEST_LIST_STR1 "str1"
 #define _TEST_LIST_STR2 "str2"
 #define _TEST_LIST_STR3 "str3"
@@ -582,6 +587,38 @@ _test_cache ()
     lw6sys_cache_unset (sys_context, cache, _TEST_ASSOC_KEY1);
     lw6sys_cache_unset (sys_context, cache, _TEST_ASSOC_KEY3);
     lw6sys_cache_free (sys_context, cache);
+  }
+
+  LW6SYS_TEST_FUNCTION_END;
+}
+
+/*
+ * Testing functions in callerinfo.c
+ */
+static void
+_test_callerinfo ()
+{
+  int ret = 1;
+  lw6sys_context_t *sys_context = NULL;
+  _lw6sys_caller_info_t caller_info;
+
+  LW6SYS_TEST_FUNCTION_BEGIN;
+
+  {
+    _lw6sys_caller_info_clear (&caller_info);
+    _lw6sys_caller_info_set (&caller_info, _TEST_CALLER_INFO_FILE, _TEST_CALLER_INFO_LINE, _TEST_CALLER_INFO_FUNC);
+
+    if (LW6SYS_TEST_ACK
+	(lw6sys_str_is_same (sys_context, caller_info.file, _TEST_CALLER_INFO_FILE_ONLY) && caller_info.line == _TEST_CALLER_INFO_LINE
+	 && lw6sys_str_is_same (sys_context, caller_info.func, _TEST_CALLER_INFO_FUNC)))
+      {
+	lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("caller info set to %s:%d %s()"), caller_info.file, caller_info.line, caller_info.func);
+      }
+    else
+      {
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("caller info set error, got %s:%d %s()"), caller_info.file, caller_info.line, caller_info.func);
+	ret = 0;
+      }
   }
 
   LW6SYS_TEST_FUNCTION_END;
@@ -4874,6 +4911,7 @@ lw6sys_test_register (lw6sys_context_t * sys_context, int mode)
       LW6SYS_CUNIT_ADD_TEST (suite, _test_bazooka);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_build);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_cache);
+      LW6SYS_CUNIT_ADD_TEST (suite, _test_callerinfo);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_checksum);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_color);
       LW6SYS_CUNIT_ADD_TEST (suite, _test_convert);

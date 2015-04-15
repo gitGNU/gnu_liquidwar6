@@ -64,7 +64,7 @@ lw6sys_mutex_create (lw6sys_context_t * sys_context, const char *file, int line,
 
       if (!pthread_mutex_init (&(mutex->mutex), NULL))
 	{
-	  // OK
+	  _lw6sys_caller_info_set (&(mutex->create_info), file, line, func);
 	}
       else
 	{
@@ -129,10 +129,12 @@ lw6sys_mutex_lock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, const
   int ret = 0;
   int pthread_ret;
   _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+  _lw6sys_mutex_t *_mutex = (_lw6sys_mutex_t *) mutex;
 
-  pthread_ret = pthread_mutex_lock (&(((_lw6sys_mutex_t *) mutex)->mutex));
+  pthread_ret = pthread_mutex_lock (&(_mutex->mutex));
   if (!pthread_ret)
     {
+      _lw6sys_caller_info_set (&(_mutex->lock_info), file, line, func);
       global->mutex_lock_counter++;
       ret = 1;
     }
@@ -170,10 +172,12 @@ lw6sys_mutex_trylock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, co
   int ret = 0;
   int pthread_ret;
   _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+  _lw6sys_mutex_t *_mutex = (_lw6sys_mutex_t *) mutex;
 
-  pthread_ret = pthread_mutex_trylock (&(((_lw6sys_mutex_t *) mutex)->mutex));
+  pthread_ret = pthread_mutex_trylock (&(_mutex->mutex));
   if (!pthread_ret)
     {
+      _lw6sys_caller_info_set (&(_mutex->lock_info), file, line, func);
       global->mutex_lock_counter++;
       ret = 1;
     }
@@ -214,10 +218,12 @@ lw6sys_mutex_unlock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, con
   int ret = 0;
   int pthread_ret;
   _lw6sys_global_t *global = &(((_lw6sys_context_t *) sys_context)->global);
+  _lw6sys_mutex_t *_mutex = (_lw6sys_mutex_t *) mutex;
 
-  pthread_ret = pthread_mutex_unlock (&(((_lw6sys_mutex_t *) mutex)->mutex));
+  pthread_ret = pthread_mutex_unlock (&(_mutex->mutex));
   if (!pthread_ret)
     {
+      _lw6sys_caller_info_clear (&(_mutex->lock_info));
       global->mutex_lock_counter++;
       ret = 1;
     }
