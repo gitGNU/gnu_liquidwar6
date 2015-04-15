@@ -65,7 +65,7 @@ lw6sys_mutex_create (lw6sys_context_t * sys_context, const char *file, int line,
       if (!pthread_mutex_init (&(_mutex->mutex), NULL))
 	{
 #ifndef LW6_OPTIMIZE
-	  _lw6sys_caller_info_set (&(_mutex->create_info), file, line, func);
+	  _lw6sys_caller_info_set (&(_mutex->create_info), _lw6sys_path_file_only_raw (file), line, func);
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("mutex %u created from %s:%d %s()"), _mutex->id, _mutex->create_info.file, _mutex->create_info.line,
 		      _mutex->create_info.func);
 #endif // LW6_OPTIMIZE
@@ -108,8 +108,8 @@ lw6sys_mutex_destroy (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, co
   _lw6sys_mutex_t *_mutex = (_lw6sys_mutex_t *) mutex;
 
 #ifndef LW6_OPTIMIZE
-  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("destroying mutex %u from %s:%d %s(), was created from %s:%d %s()"), _mutex->id, file, line, func,
-	      _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func);
+  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("destroying mutex %u from %s:%d %s(), was created from %s:%d %s()"), _mutex->id,
+	      _lw6sys_path_file_only_raw (file), line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func);
 #endif // LW6_OPTIMIZE
   pthread_mutex_destroy (&(_mutex->mutex));
   LW6SYS_FREE (sys_context, mutex);
@@ -145,8 +145,8 @@ lw6sys_mutex_lock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, const
   if (_mutex->lock_info.line)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("locking mutex %u from %s:%d %s(), was created from %s:%d %s(), could be locked from %s:%d %s()"),
-		  _mutex->id, file, line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func, _mutex->lock_info.file,
-		  _mutex->lock_info.line, _mutex->lock_info.func);
+		  _mutex->id, _lw6sys_path_file_only_raw (file), line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func,
+		  _mutex->lock_info.file, _mutex->lock_info.line, _mutex->lock_info.func);
     }
   else
     {
@@ -162,16 +162,16 @@ lw6sys_mutex_lock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, const
       if (_mutex->lock_info.line)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("locked mutex %u from %s:%d %s(), was created from %s:%d %s(), was probably locked from %s:%d %s()"),
-		      _mutex->id, file, line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func, _mutex->lock_info.file,
-		      _mutex->lock_info.line, _mutex->lock_info.func);
+		      _mutex->id, _lw6sys_path_file_only_raw (file), line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func,
+		      _mutex->lock_info.file, _mutex->lock_info.line, _mutex->lock_info.func);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("locked mutex %u from %s:%d %s(), was created from %s:%d %s(), was probably unlocked"), _mutex->id,
-		      file, line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func);
+		      _lw6sys_path_file_only_raw (file), line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func);
 	}
 
-      _lw6sys_caller_info_set (&(_mutex->lock_info), file, line, func);
+      _lw6sys_caller_info_set (&(_mutex->lock_info), _lw6sys_path_file_only_raw (file), line, func);
 #endif // LW6_OPTIMIZE
 
       global->mutex_lock_counter++;
@@ -217,13 +217,13 @@ lw6sys_mutex_trylock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, co
   if (_mutex->lock_info.line)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("trying to lock mutex %u from %s:%d %s(), was created from %s:%d %s(), could be locked from %s:%d %s()"),
-		  _mutex->id, file, line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func, _mutex->lock_info.file,
-		  _mutex->lock_info.line, _mutex->lock_info.func);
+		  _mutex->id, _lw6sys_path_file_only_raw (file), line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func,
+		  _mutex->lock_info.file, _mutex->lock_info.line, _mutex->lock_info.func);
     }
   else
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("trying to lock mutex %u from %s:%d %s(), was created from %s:%d %s(), could be unlocked"), _mutex->id,
-		  file, line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func);
+		  _lw6sys_path_file_only_raw (file), line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func);
     }
 #endif // LW6_OPTIMIZE
 
@@ -234,16 +234,16 @@ lw6sys_mutex_trylock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, co
       if (_mutex->lock_info.line)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("locked mutex %u from %s:%d %s(), was created from %s:%d %s(), was probably locked from %s:%d %s()"),
-		      _mutex->id, file, line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func, _mutex->lock_info.file,
-		      _mutex->lock_info.line, _mutex->lock_info.func);
+		      _mutex->id, _lw6sys_path_file_only_raw (file), line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func,
+		      _mutex->lock_info.file, _mutex->lock_info.line, _mutex->lock_info.func);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("locked mutex %u from %s:%d %s(), was created from %s:%d %s(), was probably unlocked"), _mutex->id,
-		      file, line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func);
+		      _lw6sys_path_file_only_raw (file), line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func);
 	}
 
-      _lw6sys_caller_info_set (&(_mutex->lock_info), file, line, func);
+      _lw6sys_caller_info_set (&(_mutex->lock_info), _lw6sys_path_file_only_raw (file), line, func);
 #endif // LW6_OPTIMIZE
 
       global->mutex_lock_counter++;
@@ -292,13 +292,13 @@ lw6sys_mutex_unlock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, con
   if (_mutex->lock_info.line)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unlocking mutex %u from %s:%d %s(), was created from %s:%d %s(), could be locked from %s:%d %s()"),
-		  _mutex->id, file, line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func, _mutex->lock_info.file,
-		  _mutex->lock_info.line, _mutex->lock_info.func);
+		  _mutex->id, _lw6sys_path_file_only_raw (file), line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func,
+		  _mutex->lock_info.file, _mutex->lock_info.line, _mutex->lock_info.func);
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unlocking mutex %u from %s:%d %s(), was created from %s:%d %s()"), _mutex->id, file, line, func,
-		  _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unlocking mutex %u from %s:%d %s(), was created from %s:%d %s()"), _mutex->id,
+		  _lw6sys_path_file_only_raw (file), line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func);
     }
 #endif // LW6_OPTIMIZE
 
@@ -309,14 +309,14 @@ lw6sys_mutex_unlock (lw6sys_context_t * sys_context, lw6sys_mutex_t * mutex, con
       if (_mutex->lock_info.line)
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO,
-		      _x_ ("unlocked mutex %u from %s:%d %s(), was created from %s:%d %s(), was probably locked from %s:%d %s()"), _mutex->id, file, line,
-		      func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func, _mutex->lock_info.file, _mutex->lock_info.line,
-		      _mutex->lock_info.func);
+		      _x_ ("unlocked mutex %u from %s:%d %s(), was created from %s:%d %s(), was probably locked from %s:%d %s()"), _mutex->id,
+		      _lw6sys_path_file_only_raw (file), line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func,
+		      _mutex->lock_info.file, _mutex->lock_info.line, _mutex->lock_info.func);
 	}
       else
 	{
 	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unlocked mutex %u from %s:%d %s(), was created from %s:%d %s(), was probably unlocked"), _mutex->id,
-		      file, line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func);
+		      _lw6sys_path_file_only_raw (file), line, func, _mutex->create_info.file, _mutex->create_info.line, _mutex->create_info.func);
 	}
 
       _lw6sys_caller_info_clear (&(_mutex->lock_info));
