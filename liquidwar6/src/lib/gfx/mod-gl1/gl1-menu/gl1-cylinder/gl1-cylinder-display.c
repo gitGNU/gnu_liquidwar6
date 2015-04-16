@@ -298,7 +298,7 @@ _mod_gl1_menu_cylinder_display_menu (lw6sys_context_t * sys_context, mod_gl1_uti
     {
       _draw_spheres (sys_context, utils_context, cylinder_context, n - 1, n, blink_state ? 0 : 1, cylinder_context->const_data.nb_spheres);
     }
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display menu, step 3: buttons"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display menu, step 3: items"));
   for (i = 0; i < menu->nb_items_displayed; ++i)
     {
       j = i + menu->first_item_displayed;

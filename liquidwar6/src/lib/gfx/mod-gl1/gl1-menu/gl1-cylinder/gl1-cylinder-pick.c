@@ -98,6 +98,8 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t * sys_context, mod_gl1_utils_
   float relative_text_width;
   int ret = _PASS_THROUGH_DEFAULT;
 
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pick menu, step 1: setup"));
+
   lw6gui_menu_update_display_range (sys_context, menu, cylinder_context->const_data.max_displayed_items);
 
   memset (feedback_buffer, 0, sizeof (GLfloat) * FEEDBACK_BUFFER_SIZE);
@@ -109,6 +111,7 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t * sys_context, mod_gl1_utils_
 
   n = menu->nb_items_displayed + 2;
 
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pick menu, step 2: spheres"));
   if (menu->first_item_displayed > 0)
     {
       _draw_spheres_corners (sys_context, utils_context, cylinder_context, 0, n, cylinder_context->const_data.nb_spheres, _PASS_THROUGH_PREV);
@@ -118,6 +121,7 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t * sys_context, mod_gl1_utils_
       _draw_spheres_corners (sys_context, utils_context, cylinder_context, n - 1, n, cylinder_context->const_data.nb_spheres, _PASS_THROUGH_NEXT);
     }
 
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pick menu, step 3: items"));
   for (i = 0; i < menu->nb_items_displayed; ++i)
     {
       menuitem = menu->items[i + menu->first_item_displayed];
@@ -138,6 +142,7 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t * sys_context, mod_gl1_utils_
       _draw_button_corners (sys_context, utils_context, cylinder_context, i + 1, n, relative_text_width, i + menu->first_item_displayed);
     }
 
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pick menu, step 4: esc"));
   if (menu->esc_item->enabled)
     {
       button_bitmap = mod_gl1_utils_get_button_from_menucache (sys_context, utils_context, look, menu->esc_item);
@@ -157,6 +162,7 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t * sys_context, mod_gl1_utils_
       _draw_button_corners (sys_context, utils_context, cylinder_context, -1, n, relative_text_width, _PASS_THROUGH_ESC);
     }
 
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pick menu, step 5: feedback"));
   glRenderMode (GL_RENDER);	// back to normal mode
 
   ptr = feedback_buffer;
@@ -222,6 +228,8 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t * sys_context, mod_gl1_utils_
       (*scroll) = 0;
       (*esc) = 0;
     }
+
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pick menu, step 6: done"));
 }
 
 void
