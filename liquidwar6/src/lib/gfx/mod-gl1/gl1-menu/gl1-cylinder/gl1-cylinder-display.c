@@ -280,7 +280,7 @@ _mod_gl1_menu_cylinder_display_menu (lw6sys_context_t * sys_context, mod_gl1_uti
   float popup_x, popup_y, popup_w, popup_h;
   char *popup = NULL;
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display menu, step 1: setup"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display menu, step 1: setup"));
   mod_gl1_utils_set_render_mode_3d_menu (sys_context, utils_context);
 
   _prepare_view (sys_context, utils_context, cylinder_context);
@@ -289,7 +289,7 @@ _mod_gl1_menu_cylinder_display_menu (lw6sys_context_t * sys_context, mod_gl1_uti
 
   blink_state = _lw6gfx_sdl_timer_get_uptime (sys_context, &(utils_context->sdl_context)) / (cylinder_context->const_data.sphere_blink_period / 2) % 2;
   n = menu->nb_items_displayed + 2;
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display menu, step 2: spheres"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display menu, step 2: spheres"));
   if (menu->first_item_displayed > 0)
     {
       _draw_spheres (sys_context, utils_context, cylinder_context, 0, n, blink_state, cylinder_context->const_data.nb_spheres);
@@ -298,7 +298,7 @@ _mod_gl1_menu_cylinder_display_menu (lw6sys_context_t * sys_context, mod_gl1_uti
     {
       _draw_spheres (sys_context, utils_context, cylinder_context, n - 1, n, blink_state ? 0 : 1, cylinder_context->const_data.nb_spheres);
     }
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display menu, step 3: buttons"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display menu, step 3: buttons"));
   for (i = 0; i < menu->nb_items_displayed; ++i)
     {
       j = i + menu->first_item_displayed;
@@ -310,13 +310,13 @@ _mod_gl1_menu_cylinder_display_menu (lw6sys_context_t * sys_context, mod_gl1_uti
 	}
       _draw_button (sys_context, utils_context, cylinder_context, look, menuitem, i + 1, n);
     }
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display menu, step 4: esc"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display menu, step 4: esc"));
   if (menu->esc_item->enabled)
     {
       _draw_button (sys_context, utils_context, cylinder_context, look, menu->esc_item, -1, n);
     }
 
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display menu, step 5: popup"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display menu, step 5: popup"));
   if (lw6gui_menu_has_popup (sys_context, menu))
     {
       popup = menu->popup;
@@ -362,7 +362,7 @@ _mod_gl1_menu_cylinder_display_menu (lw6sys_context_t * sys_context, mod_gl1_uti
 	    }
 	}
     }
-  lw6sys_log (LW6SYS_LOG_DEBUG, _x_ ("display menu, step 6: done"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("display menu, step 6: done"));
 }
 
 void
