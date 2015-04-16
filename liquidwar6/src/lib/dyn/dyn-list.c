@@ -47,7 +47,7 @@ _add_backend (lw6sys_context_t * sys_context, lw6sys_assoc_t ** list, const char
   int ret = 0;
   char *so_file = NULL;
   char *get_pedigree_func_str = NULL;
-  lw6sys_module_pedigree_t *(*get_pedigree_func) () = NULL;
+  lw6sys_module_pedigree_t *(*get_pedigree_func) (lw6sys_context_t *) = NULL;
   lw6sys_module_pedigree_t *module_pedigree = NULL;
   lw6dyn_dl_handle_t *backend_handle = NULL;
 
@@ -63,7 +63,7 @@ _add_backend (lw6sys_context_t * sys_context, lw6sys_assoc_t ** list, const char
 	      get_pedigree_func = lw6dyn_dlsym (sys_context, backend_handle, get_pedigree_func_str);
 	      if (get_pedigree_func)
 		{
-		  module_pedigree = (lw6sys_module_pedigree_t *) (get_pedigree_func) ();
+		  module_pedigree = (lw6sys_module_pedigree_t *) (get_pedigree_func) (sys_context);
 		  if (module_pedigree && module_pedigree->id && module_pedigree->name)
 		    {
 		      lw6sys_assoc_set (sys_context, list, module_pedigree->id, lw6sys_str_copy (sys_context, module_pedigree->name));

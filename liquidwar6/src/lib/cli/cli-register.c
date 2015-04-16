@@ -159,7 +159,7 @@ lw6cli_create_backend (lw6sys_context_t * sys_context, int argc, const char *arg
   if (backend_handle)
     {
       char *init_func_name;
-      lw6cli_backend_t *(*init_func) ();
+      lw6cli_backend_t *(*init_func) (lw6sys_context_t *);
 
       init_func_name = lw6sys_new_sprintf (sys_context, LW6DYN_CREATE_BACKEND_FUNC_FORMAT, name);
       if (init_func_name)
@@ -167,7 +167,7 @@ lw6cli_create_backend (lw6sys_context_t * sys_context, int argc, const char *arg
 	  init_func = lw6dyn_dlsym (sys_context, backend_handle, init_func_name);
 	  if (init_func)
 	    {
-	      backend = init_func ();
+	      backend = init_func (sys_context);
 	    }
 	  else
 	    {

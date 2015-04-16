@@ -1328,10 +1328,10 @@ extern int lw6sys_test_exec (lw6sys_context_t * sys_context, int argc, const cha
 
 /* sys-testandset.c */
 #ifdef LW6_X86
-extern int32_t lw6sys_test_and_set (lw6sys_context_t * sys_context, int32_t * test_and_set);
+extern int32_t lw6sys_test_and_set (lw6sys_context_t * sys_context, volatile int32_t * test_and_set);
 #endif // LW6_X86
 #ifdef LW6_AMD64
-extern int64_t lw6sys_test_and_set (lw6sys_context_t * sys_context, int64_t * test_and_set);
+extern int64_t lw6sys_test_and_set (lw6sys_context_t * sys_context, volatile int64_t * test_and_set);
 #endif // LW6_AMD64
 
 /* sys-thread.c */

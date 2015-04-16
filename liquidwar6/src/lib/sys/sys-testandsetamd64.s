@@ -11,8 +11,8 @@
 // TestAndSet(&lock) until it returns 0.
 
 	.text
-	.globl _lw6sys_test_and_set
-_lw6sys_test_and_set:
+	.globl _lw6sys_test_and_set_asm
+_lw6sys_test_and_set_asm:
 	// Assume it is called as lw6sys_test_and_set(&lock).
 	// This code is gcc/linux/intel amd64 specific.
 

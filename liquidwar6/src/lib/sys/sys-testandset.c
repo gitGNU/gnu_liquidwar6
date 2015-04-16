@@ -41,9 +41,15 @@
  * Return value: 1 when lock is acquired.
  */
 int32_t
-lw6sys_test_and_set (lw6sys_context_t * sys_context, int32_t * test_and_set)
+lw6sys_test_and_set (lw6sys_context_t * sys_context, volatile int32_t * test_and_set)
 {
-  return _lw6sys_test_and_set (test_and_set);
+  if (test_and_set && (*test_and_set == 0 || *test_and_set == 1))
+    {
+      return _lw6sys_test_and_set_asm (test_and_set);
+    }
+
+  // theorically unreachable code
+  return 0;
 }
 #endif // LW6_X86
 
@@ -61,8 +67,14 @@ lw6sys_test_and_set (lw6sys_context_t * sys_context, int32_t * test_and_set)
  * Return value: 1 when lock is acquired.
  */
 int64_t
-lw6sys_test_and_set (lw6sys_context_t * sys_context, int64_t * test_and_set)
+lw6sys_test_and_set (lw6sys_context_t * sys_context, volatile int64_t * test_and_set)
 {
-  return _lw6sys_test_and_set (test_and_set);
+  if (test_and_set && (*test_and_set == 0 || *test_and_set == 1))
+    {
+      return _lw6sys_test_and_set_asm (test_and_set);
+    }
+
+  // theorically unreachable code
+  return 0;
 }
 #endif // LW6_AMD64

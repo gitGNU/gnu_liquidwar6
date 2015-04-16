@@ -29,14 +29,6 @@
 #include "sys.h"
 #include "sys-internal.h"
 
-int64_t
-lw6sys_test_and_set2 (int64_t * spinlock)
-{
-  *spinlock = 42;
-
-  return *spinlock;
-}
-
 /*
  * This function is one of the rare ones *NOT* to use sys_context
  * as it is really low-level and should not log anything and/or
@@ -50,8 +42,10 @@ _lw6sys_caller_info_set (_lw6sys_caller_info_t * caller_info, const char *file, 
   file_only = _lw6sys_path_file_only_raw (file);
 
   strncpy (caller_info->file, file_only, _LW6SYS_CALLER_INFO_FILE_SIZE - 1);
+  caller_info->file[_LW6SYS_CALLER_INFO_FILE_SIZE - 1] = '\0';
   caller_info->line = line;
   strncpy (caller_info->func, func, _LW6SYS_CALLER_INFO_FUNC_SIZE - 1);
+  caller_info->func[_LW6SYS_CALLER_INFO_FUNC_SIZE - 1] = '\0';
 }
 
 /*

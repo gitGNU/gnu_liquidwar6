@@ -184,10 +184,10 @@ lw6dyn_dlopen_backend (lw6sys_context_t * sys_context, int argc, const char *arg
   lw6dyn_dl_handle_t *ret = NULL;
   char *so_file = NULL;
   char *get_pedigree_func_str = NULL;
-  lw6sys_module_pedigree_t *(*get_pedigree_func) () = NULL;
+  lw6sys_module_pedigree_t *(*get_pedigree_func) (lw6sys_context_t *) = NULL;
   lw6sys_module_pedigree_t *module_pedigree = NULL;
   char *create_backend_func_str = NULL;
-  void *(*create_backend_func) () = NULL;
+  void *(*create_backend_func) (lw6sys_context_t *) = NULL;
   int ok = 0;
   static int first_load = 1;
 
@@ -204,7 +204,7 @@ lw6dyn_dlopen_backend (lw6sys_context_t * sys_context, int argc, const char *arg
 	      get_pedigree_func = lw6dyn_dlsym (sys_context, ret, get_pedigree_func_str);
 	      if (get_pedigree_func)
 		{
-		  module_pedigree = (lw6sys_module_pedigree_t *) (get_pedigree_func) ();
+		  module_pedigree = (lw6sys_module_pedigree_t *) (get_pedigree_func) (sys_context);
 		  if (module_pedigree)
 		    {
 		      if (module_pedigree->id

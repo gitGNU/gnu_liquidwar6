@@ -110,19 +110,14 @@ typedef struct _lw6sys_spinlock_s
 typedef struct _lw6sys_spinlock_s
 {
   u_int32_t id;
-  int32_t _pad1;
-  int32_t test_and_set;
-  int32_t _pad2;
+  volatile int32_t test_and_set;
 } _lw6sys_spinlock_t;
 #else // LW6_X86
 #ifdef LW6_AMD64
 typedef struct _lw6sys_spinlock_s
 {
   u_int32_t id;
-  int32_t _pad0;
-  int64_t _pad1;
-  int64_t test_and_set;
-  int64_t _pad2;
+  volatile int64_t test_and_set;
 } _lw6sys_spinlock_t;
 #else // LW6_AMD64
 #define _lw6sys_spinlock_s _lw6sys_mutex_s
@@ -199,10 +194,10 @@ extern int _lw6sys_buf_vsnprintf (lw6sys_context_t * sys_context, char *buf, int
 
 /* sys-testandset.s */
 #ifdef LW6_X86
-extern int32_t _lw6sys_test_and_set (int32_t * test_and_set);
+extern int32_t _lw6sys_test_and_set_asm (volatile int32_t * test_and_set);
 #endif // LW6_X86
 #ifdef LW6_AMD64
-extern int64_t _lw6sys_test_and_set (int64_t * test_and_set);
+extern int64_t _lw6sys_test_and_set_asm (volatile int64_t * test_and_set);
 #endif // LW6_AMD64
 
 /* sys_thread.c */
