@@ -39,33 +39,36 @@ static void
 _draw_button_corners (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 		      _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, float relative_text_width, int pass_through)
 {
-
-  if (i >= 0)
+  if (n > 0)
     {
-      _mod_gl1_menu_cylinder_draw_cylinder_corners (sys_context, utils_context, cylinder_context, i, n, relative_text_width, pass_through);
-    }
-  else
-    {
-      float screen_ratio;
-      float draw_esc_offset;
-      float draw_esc_radius;
-      float draw_esc_cyl_height;
-      float draw_esc_cyl_height_offset;
-      float draw_esc_rotate;
+      if (i >= 0)
+	{
+	  _mod_gl1_menu_cylinder_draw_cylinder_corners (sys_context, utils_context, cylinder_context, i, n, relative_text_width, pass_through);
+	}
+      else
+	{
+	  float screen_ratio;
+	  float draw_esc_offset;
+	  float draw_esc_radius;
+	  float draw_esc_cyl_height;
+	  float draw_esc_cyl_height_offset;
+	  float draw_esc_rotate;
 
-      screen_ratio = ((float) utils_context->sdl_context.video_mode.width) / ((float) utils_context->sdl_context.video_mode.height);
+	  screen_ratio = ((float) utils_context->sdl_context.video_mode.width) / ((float) utils_context->sdl_context.video_mode.height);
 
-      draw_esc_offset = cylinder_context->const_data.esc_offset;
-      draw_esc_radius = cylinder_context->const_data.esc_radius;
-      draw_esc_cyl_height = relative_text_width * cylinder_context->const_data.esc_cyl_height * screen_ratio;
-      draw_esc_cyl_height_offset = cylinder_context->const_data.esc_cyl_height_offset * screen_ratio;
-      draw_esc_rotate = cylinder_context->const_data.esc_rotate;
+	  draw_esc_offset = cylinder_context->const_data.esc_offset;
+	  draw_esc_radius = cylinder_context->const_data.esc_radius;
+	  draw_esc_cyl_height = relative_text_width * cylinder_context->const_data.esc_cyl_height * screen_ratio;
+	  draw_esc_cyl_height_offset = cylinder_context->const_data.esc_cyl_height_offset * screen_ratio;
+	  draw_esc_rotate = cylinder_context->const_data.esc_rotate;
 
-      _mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (sys_context, utils_context,
-							  cylinder_context,
-							  draw_esc_offset,
-							  draw_esc_radius,
-							  draw_esc_cyl_height, draw_esc_cyl_height_offset, draw_esc_rotate, relative_text_width, pass_through);
+	  _mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (sys_context, utils_context,
+							      cylinder_context,
+							      draw_esc_offset,
+							      draw_esc_radius,
+							      draw_esc_cyl_height, draw_esc_cyl_height_offset, draw_esc_rotate, relative_text_width,
+							      pass_through);
+	}
     }
 }
 
@@ -75,9 +78,12 @@ _draw_spheres_corners (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 {
   int sphere_i;
 
-  for (sphere_i = 0; sphere_i < nb_spheres; ++sphere_i)
+  if (n > 0)
     {
-      _mod_gl1_menu_cylinder_draw_sphere_corners (sys_context, utils_context, cylinder_context, i, n, sphere_i, nb_spheres, pass_through);
+      for (sphere_i = 0; sphere_i < nb_spheres; ++sphere_i)
+	{
+	  _mod_gl1_menu_cylinder_draw_sphere_corners (sys_context, utils_context, cylinder_context, i, n, sphere_i, nb_spheres, pass_through);
+	}
     }
 }
 
@@ -242,49 +248,52 @@ _mod_gl1_menu_cylinder_get_cylinder_right_point (lw6sys_context_t * sys_context,
   GLfloat *ptr;
   float x, y, x_min = 0, x_max = 0, y_min = 0, y_max = 0;
 
-  memset (feedback_buffer, 0, sizeof (GLfloat) * FEEDBACK_BUFFER_SIZE);
-
-  glFeedbackBuffer (FEEDBACK_BUFFER_SIZE, GL_2D, (float *) feedback_buffer);
-
-  mod_gl1_utils_set_render_mode_3d_feedback (sys_context, utils_context);
-  glRenderMode (GL_FEEDBACK);	// enter feedback mode
-
-  _mod_gl1_menu_cylinder_draw_cylinder_corners (sys_context, utils_context, cylinder_context, i, n, relative_text_width, _PASS_THROUGH_SELECTED);
-
-  glRenderMode (GL_RENDER);	// back to normal mode
-
-  ptr = feedback_buffer;
-
-  while ((*ptr) == GL_PASS_THROUGH_TOKEN && (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE))
+  if (n > 0)
     {
-      ptr++;
-      if (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE)
+      memset (feedback_buffer, 0, sizeof (GLfloat) * FEEDBACK_BUFFER_SIZE);
+
+      glFeedbackBuffer (FEEDBACK_BUFFER_SIZE, GL_2D, (float *) feedback_buffer);
+
+      mod_gl1_utils_set_render_mode_3d_feedback (sys_context, utils_context);
+      glRenderMode (GL_FEEDBACK);	// enter feedback mode
+
+      _mod_gl1_menu_cylinder_draw_cylinder_corners (sys_context, utils_context, cylinder_context, i, n, relative_text_width, _PASS_THROUGH_SELECTED);
+
+      glRenderMode (GL_RENDER);	// back to normal mode
+
+      ptr = feedback_buffer;
+
+      while ((*ptr) == GL_PASS_THROUGH_TOKEN && (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE))
 	{
-	  x_min = utils_context->sdl_context.video_mode.width + 1;
-	  x_max = -1;
-	  y_min = utils_context->sdl_context.video_mode.height + 1;
-	  y_max = -1;
-	  ptr++;		// skipping passthrough value (_PASS_THROUGH_SELECTED)
-	  while ((*ptr) == GL_POINT_TOKEN && ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE - 3)
+	  ptr++;
+	  if (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE)
 	    {
-	      ptr++;
-	      x = *(ptr++);
-	      y = (utils_context->sdl_context.video_mode.height - *(ptr++));
-	      if (x < x_min)
+	      x_min = utils_context->sdl_context.video_mode.width + 1;
+	      x_max = -1;
+	      y_min = utils_context->sdl_context.video_mode.height + 1;
+	      y_max = -1;
+	      ptr++;		// skipping passthrough value (_PASS_THROUGH_SELECTED)
+	      while ((*ptr) == GL_POINT_TOKEN && ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE - 3)
 		{
-		  x_min = x;
-		}
-	      if (x > x_max)
-		{
-		  x_max = x;
-		}
-	      if (y < y_min)
-		{
-		  y_min = y;
-		}
-	      if (y > y_max)
-		{
-		  y_max = y;
+		  ptr++;
+		  x = *(ptr++);
+		  y = (utils_context->sdl_context.video_mode.height - *(ptr++));
+		  if (x < x_min)
+		    {
+		      x_min = x;
+		    }
+		  if (x > x_max)
+		    {
+		      x_max = x;
+		    }
+		  if (y < y_min)
+		    {
+		      y_min = y;
+		    }
+		  if (y > y_max)
+		    {
+		      y_max = y;
+		    }
 		}
 	    }
 	}

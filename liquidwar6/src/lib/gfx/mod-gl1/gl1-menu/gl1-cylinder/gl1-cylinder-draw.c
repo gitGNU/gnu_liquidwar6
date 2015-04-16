@@ -34,7 +34,7 @@ _mod_gl1_menu_cylinder_get_cylinder_y (lw6sys_context_t * sys_context, mod_gl1_u
 {
   float y = 0.0f;
 
-  if (n > 0 && i >= 0 && i < n)
+  if (n > 0)
     {
       y = -cylinder_context->const_data.between1 * (i - (n - 1) / 2.0f) / n;
     }
@@ -52,7 +52,7 @@ _mod_gl1_menu_cylinder_draw_cylinder (lw6sys_context_t * sys_context, mod_gl1_ut
   GLUquadricObj *cyl;
   int32_t dt;
 
-  if (n > 0 && i >= 0 && i < n)
+  if (n > 0)
     {
       cyl = gluNewQuadric ();
       if (cyl != NULL)
@@ -115,7 +115,7 @@ _mod_gl1_menu_cylinder_draw_cylinder_corners (lw6sys_context_t * sys_context, mo
   float y;
   float dy;
 
-  if (n > 0 && i >= 0 && i < n)
+  if (n > 0)
     {
       radius = cylinder_context->const_data.radius1 / n;
       cyl_height = relative_text_width *
@@ -156,7 +156,7 @@ _mod_gl1_menu_cylinder_draw_sphere (lw6sys_context_t * sys_context, mod_gl1_util
 {
   GLUquadricObj *cyl;
 
-  if (n > 0 && i >= 0 && i < n)
+  if (n > 0)
     {
       cyl = gluNewQuadric ();
       if (cyl != NULL)
@@ -206,7 +206,7 @@ _mod_gl1_menu_cylinder_draw_sphere_corners (lw6sys_context_t * sys_context, mod_
   float y;
   float x;
 
-  if (n > 0 && i >= 0 && i < n)
+  if (n > 0)
     {
       radius = cylinder_context->const_data.sphere_radius1 / n;
       y = -cylinder_context->const_data.between1 * (i - (n - 1) / 2.0f) / n;
