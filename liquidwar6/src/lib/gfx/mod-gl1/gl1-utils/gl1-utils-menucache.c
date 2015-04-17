@@ -37,10 +37,17 @@ static char *
 _create_button_key (lw6sys_context_t * sys_context, const lw6gui_look_t * look, const lw6gui_menuitem_t * menuitem)
 {
   char *key;
-  int c1, c2;
+  int c1 = 0;
+  int c2 = 0;
 
-  c1 = lw6sys_checksum (sys_context, (unsigned char *) look, sizeof (lw6gui_look_t));
-  c2 = lw6sys_checksum (sys_context, (unsigned char *) menuitem, sizeof (lw6gui_menuitem_t));
+  if (look)
+    {
+      c1 = lw6sys_checksum (sys_context, (unsigned char *) look, sizeof (lw6gui_look_t));
+    }
+  if (menuitem)
+    {
+      c2 = lw6sys_checksum (sys_context, (unsigned char *) menuitem, sizeof (lw6gui_menuitem_t));
+    }
   key = lw6sys_new_sprintf (sys_context, "%d %d", c1, c2);
 
   return key;
