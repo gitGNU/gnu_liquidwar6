@@ -54,20 +54,23 @@ _draw_button_corners (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * 
 	  float draw_esc_cyl_height_offset;
 	  float draw_esc_rotate;
 
-	  screen_ratio = ((float) utils_context->sdl_context.video_mode.width) / ((float) utils_context->sdl_context.video_mode.height);
+	  if (utils_context->sdl_context.video_mode.height > 0 && utils_context->sdl_context.video_mode.width > 0 && relative_text_width > 0.0f)
+	    {
+	      screen_ratio = ((float) utils_context->sdl_context.video_mode.width) / ((float) utils_context->sdl_context.video_mode.height);
 
-	  draw_esc_offset = cylinder_context->const_data.esc_offset;
-	  draw_esc_radius = cylinder_context->const_data.esc_radius;
-	  draw_esc_cyl_height = relative_text_width * cylinder_context->const_data.esc_cyl_height * screen_ratio;
-	  draw_esc_cyl_height_offset = cylinder_context->const_data.esc_cyl_height_offset * screen_ratio;
-	  draw_esc_rotate = cylinder_context->const_data.esc_rotate;
+	      draw_esc_offset = cylinder_context->const_data.esc_offset;
+	      draw_esc_radius = cylinder_context->const_data.esc_radius;
+	      draw_esc_cyl_height = relative_text_width * cylinder_context->const_data.esc_cyl_height * screen_ratio;
+	      draw_esc_cyl_height_offset = cylinder_context->const_data.esc_cyl_height_offset * screen_ratio;
+	      draw_esc_rotate = cylinder_context->const_data.esc_rotate;
 
-	  _mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (sys_context, utils_context,
-							      cylinder_context,
-							      draw_esc_offset,
-							      draw_esc_radius,
-							      draw_esc_cyl_height, draw_esc_cyl_height_offset, draw_esc_rotate, relative_text_width,
-							      pass_through);
+	      _mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (sys_context, utils_context,
+								  cylinder_context,
+								  draw_esc_offset,
+								  draw_esc_radius,
+								  draw_esc_cyl_height, draw_esc_cyl_height_offset, draw_esc_rotate, relative_text_width,
+								  pass_through);
+	    }
 	}
     }
 }
