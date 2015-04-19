@@ -216,7 +216,7 @@ lw6mat_dvec2_cross (lw6mat_dvec3_t * dvec3, const lw6mat_dvec2_t * dvec2_a, cons
 }
 
 /**
- * lw6mat_dvec2_scale
+ * lw6mat_dvec2_mul_scale
  *
  * @dvec2: vector to modify
  * @f: scale factor
@@ -226,7 +226,7 @@ lw6mat_dvec2_cross (lw6mat_dvec3_t * dvec3, const lw6mat_dvec2_t * dvec2_a, cons
  * Return value: none
  */
 void
-lw6mat_dvec2_scale (lw6mat_dvec2_t * dvec2, double f)
+lw6mat_dvec2_mul_scale (lw6mat_dvec2_t * dvec2, double f)
 {
   dvec2->p.x *= f;
   dvec2->p.y *= f;

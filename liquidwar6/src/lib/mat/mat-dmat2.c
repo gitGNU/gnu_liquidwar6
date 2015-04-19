@@ -117,7 +117,7 @@ lw6mat_dmat2_det (const lw6mat_dmat2_t * dmat2)
 }
 
 /**
- * lw6mat_dmat2_scale
+ * lw6mat_dmat2_mul_scale
  *
  * @dmat2: matrix to modify
  * @f: scale factor
@@ -127,7 +127,7 @@ lw6mat_dmat2_det (const lw6mat_dmat2_t * dmat2)
  * Return value: none
  */
 void
-lw6mat_dmat2_scale (lw6mat_dmat2_t * dmat2, double f)
+lw6mat_dmat2_mul_scale (lw6mat_dmat2_t * dmat2, double f)
 {
   int i;
 

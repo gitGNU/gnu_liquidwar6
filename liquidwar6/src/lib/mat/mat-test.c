@@ -2352,7 +2352,7 @@ _test_fmat2 ()
 		    ret = 0;
 		  }
 	      }
-	    lw6mat_fmat2_scale (&fmat2, _TEST_FMAT_SCALE);
+	    lw6mat_fmat2_mul_scale (&fmat2, _TEST_FMAT_SCALE);
 	    ret = _print_fmat2 (sys_context, &fmat2, "scale") && ret;
 	    det_scaled = lw6mat_fmat2_det (&fmat2);
 	    det_scaled_expected = det * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE;
@@ -2558,7 +2558,7 @@ _test_fmat3 ()
 		    ret = 0;
 		  }
 	      }
-	    lw6mat_fmat3_scale (&fmat3, _TEST_FMAT_SCALE);
+	    lw6mat_fmat3_mul_scale (&fmat3, _TEST_FMAT_SCALE);
 	    ret = _print_fmat3 (sys_context, &fmat3, "scale") && ret;
 	    det_scaled = lw6mat_fmat3_det (&fmat3);
 	    det_scaled_expected = det * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE;
@@ -2782,7 +2782,7 @@ _test_fmat4 ()
 		    ret = 0;
 		  }
 	      }
-	    lw6mat_fmat4_scale (&fmat4, _TEST_FMAT_SCALE);
+	    lw6mat_fmat4_mul_scale (&fmat4, _TEST_FMAT_SCALE);
 	    ret = _print_fmat4 (sys_context, &fmat4, "scale") && ret;
 	    det_scaled = lw6mat_fmat4_det (&fmat4);
 	    det_scaled_expected = det * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE * _TEST_FMAT_SCALE;
@@ -3009,7 +3009,7 @@ _test_dmat2 ()
 		    ret = 0;
 		  }
 	      }
-	    lw6mat_dmat2_scale (&dmat2, _TEST_DMAT_SCALE);
+	    lw6mat_dmat2_mul_scale (&dmat2, _TEST_DMAT_SCALE);
 	    ret = _print_dmat2 (sys_context, &dmat2, "scale") && ret;
 	    det_scaled = lw6mat_dmat2_det (&dmat2);
 	    det_scaled_expected = det * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE;
@@ -3215,7 +3215,7 @@ _test_dmat3 ()
 		    ret = 0;
 		  }
 	      }
-	    lw6mat_dmat3_scale (&dmat3, _TEST_DMAT_SCALE);
+	    lw6mat_dmat3_mul_scale (&dmat3, _TEST_DMAT_SCALE);
 	    ret = _print_dmat3 (sys_context, &dmat3, "scale") && ret;
 	    det_scaled = lw6mat_dmat3_det (&dmat3);
 	    det_scaled_expected = det * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE;
@@ -3439,7 +3439,7 @@ _test_dmat4 ()
 		    ret = 0;
 		  }
 	      }
-	    lw6mat_dmat4_scale (&dmat4, _TEST_DMAT_SCALE);
+	    lw6mat_dmat4_mul_scale (&dmat4, _TEST_DMAT_SCALE);
 	    ret = _print_dmat4 (sys_context, &dmat4, "scale") && ret;
 	    det_scaled = lw6mat_dmat4_det (&dmat4);
 	    det_scaled_expected = det * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE * _TEST_DMAT_SCALE;

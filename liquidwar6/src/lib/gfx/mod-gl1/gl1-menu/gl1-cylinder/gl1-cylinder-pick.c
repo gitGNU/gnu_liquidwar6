@@ -39,7 +39,7 @@ static void
 _draw_button_corners (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 		      _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, float relative_text_width, int pass_through)
 {
-  if (n > 0)
+  if (n > 0 && relative_text_width > 0.0f)
     {
       if (i >= 0)
 	{
@@ -81,7 +81,7 @@ _draw_spheres_corners (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 {
   int sphere_i;
 
-  if (n > 0)
+  if (n > 0 && nb_spheres > 0)
     {
       for (sphere_i = 0; sphere_i < nb_spheres; ++sphere_i)
 	{

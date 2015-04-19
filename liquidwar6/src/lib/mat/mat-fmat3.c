@@ -131,7 +131,7 @@ lw6mat_fmat3_det (const lw6mat_fmat3_t * fmat3)
 }
 
 /**
- * lw6mat_fmat3_scale
+ * lw6mat_fmat3_mul_scale
  *
  * @fmat3: matrix to modify
  * @f: scale factor
@@ -141,7 +141,7 @@ lw6mat_fmat3_det (const lw6mat_fmat3_t * fmat3)
  * Return value: none
  */
 void
-lw6mat_fmat3_scale (lw6mat_fmat3_t * fmat3, float f)
+lw6mat_fmat3_mul_scale (lw6mat_fmat3_t * fmat3, float f)
 {
   int i;
 
