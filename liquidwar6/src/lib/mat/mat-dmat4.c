@@ -44,7 +44,7 @@ lw6mat_dmat4_zero (lw6mat_dmat4_t * dmat4)
 }
 
 /**
- * lw6mat_dmat4_id
+ * lw6mat_dmat4_identity
  *
  * @dmat4: the matrix to initialize.
  *
@@ -54,7 +54,7 @@ lw6mat_dmat4_zero (lw6mat_dmat4_t * dmat4)
  * Return value: none.
  */
 void
-lw6mat_dmat4_id (lw6mat_dmat4_t * dmat4)
+lw6mat_dmat4_identity (lw6mat_dmat4_t * dmat4)
 {
   int i;
 
@@ -83,7 +83,7 @@ lw6mat_dmat4_is_same (const lw6mat_dmat4_t * dmat4_a, const lw6mat_dmat4_t * dma
 }
 
 /**
- * lw6mat_dmat4_trans
+ * lw6mat_dmat4_transpose
  *
  * @dmat4: the matrix to transpose
  *
@@ -92,7 +92,7 @@ lw6mat_dmat4_is_same (const lw6mat_dmat4_t * dmat4_a, const lw6mat_dmat4_t * dma
  * Return value: none.
  */
 void
-lw6mat_dmat4_trans (lw6mat_dmat4_t * dmat4)
+lw6mat_dmat4_transpose (lw6mat_dmat4_t * dmat4)
 {
   int i, j;
   double tmp;

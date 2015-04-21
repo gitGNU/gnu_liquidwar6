@@ -44,7 +44,7 @@ lw6mat_fmat2_zero (lw6mat_fmat2_t * fmat2)
 }
 
 /**
- * lw6mat_fmat2_id
+ * lw6mat_fmat2_identity
  *
  * @fmat2: the matrix to initialize.
  *
@@ -54,7 +54,7 @@ lw6mat_fmat2_zero (lw6mat_fmat2_t * fmat2)
  * Return value: none.
  */
 void
-lw6mat_fmat2_id (lw6mat_fmat2_t * fmat2)
+lw6mat_fmat2_identity (lw6mat_fmat2_t * fmat2)
 {
   fmat2->m[0][0] = LW6MAT_F_1;
   fmat2->m[0][1] = LW6MAT_F_0;
@@ -79,7 +79,7 @@ lw6mat_fmat2_is_same (const lw6mat_fmat2_t * fmat2_a, const lw6mat_fmat2_t * fma
 }
 
 /**
- * lw6mat_fmat2_trans
+ * lw6mat_fmat2_transpose
  *
  * @fmat2: the matrix to transpose
  *
@@ -88,7 +88,7 @@ lw6mat_fmat2_is_same (const lw6mat_fmat2_t * fmat2_a, const lw6mat_fmat2_t * fma
  * Return value: none.
  */
 void
-lw6mat_fmat2_trans (lw6mat_fmat2_t * fmat2)
+lw6mat_fmat2_transpose (lw6mat_fmat2_t * fmat2)
 {
   float tmp;
 

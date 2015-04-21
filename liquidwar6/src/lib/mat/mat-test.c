@@ -2259,8 +2259,8 @@ _test_fmat2 ()
     lw6mat_fmat2_t fmat2;
     lw6mat_fmat2_t fmat2_inv;
     lw6mat_fmat2_t fmat2_mul;
-    lw6mat_fmat2_t fmat2_id;
-    lw6mat_fmat2_t fmat2_trans;
+    lw6mat_fmat2_t fmat2_identity;
+    lw6mat_fmat2_t fmat2_transpose;
     lw6mat_fvec2_t fvec2;
     int i = 0;
     int j = 0;
@@ -2335,10 +2335,10 @@ _test_fmat2 ()
 
 	    lw6mat_fmat2_mul_fmat2 (&fmat2_mul, &fmat2_inv, &fmat2);
 	    ret = _print_fmat2 (sys_context, &fmat2_mul, "mul") && ret;
-	    lw6mat_fmat2_id (&fmat2_id);
+	    lw6mat_fmat2_identity (&fmat2_identity);
 	    for (k = 0; k < LW6MAT_MAT2_V_SIZE_X_SIZE; ++k)
 	      {
-		if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fmat2_mul.v[k], fmat2_id.v[k])))
+		if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fmat2_mul.v[k], fmat2_identity.v[k])))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -2348,7 +2348,7 @@ _test_fmat2 ()
 		else
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_ ("fmat2_mul failed, element %d is %f and should be %f"), k, fmat2_mul.v[k], fmat2_id.v[k]);
+				_x_ ("fmat2_mul failed, element %d is %f and should be %f"), k, fmat2_mul.v[k], fmat2_identity.v[k]);
 		    ret = 0;
 		  }
 	      }
@@ -2369,22 +2369,22 @@ _test_fmat2 ()
 			    _TEST_FMAT_SCALE, det_scaled, det, det_scaled_expected);
 		ret = 0;
 	      }
-	    fmat2_trans = fmat2;
-	    lw6mat_fmat2_trans (&fmat2_trans);
-	    ret = _print_fmat2 (sys_context, &fmat2_trans, "trans 1X") && ret;
+	    fmat2_transpose = fmat2;
+	    lw6mat_fmat2_transpose (&fmat2_transpose);
+	    ret = _print_fmat2 (sys_context, &fmat2_transpose, "trans 1X") && ret;
 	    transposed = 1;
 	    for (i = 0; i < LW6MAT_MAT2_M_SIZE; ++i)
 	      {
 		for (j = 0; j < LW6MAT_MAT2_M_SIZE; ++j)
 		  {
-		    if (LW6SYS_TEST_ACK (fmat2.m[i][j] == fmat2_trans.m[j][i]))
+		    if (LW6SYS_TEST_ACK (fmat2.m[i][j] == fmat2_transpose.m[j][i]))
 		      {
 			// OK
 		      }
 		    else
 		      {
 			lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				    _x_ ("transposition mismatch for fmat2 orig:%d,%d=%f trans:%d,%d=%f"), i, j, fmat2.m[i][j], j, i, fmat2_trans.m[j][i]);
+				    _x_ ("transposition mismatch for fmat2 orig:%d,%d=%f trans:%d,%d=%f"), i, j, fmat2.m[i][j], j, i, fmat2_transpose.m[j][i]);
 			transposed = 0;
 			ret = 0;
 		      }
@@ -2393,9 +2393,9 @@ _test_fmat2 ()
 	    if (LW6SYS_TEST_ACK (transposed))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("orig and trans fmat2 correspond, OK"));
-		lw6mat_fmat2_trans (&fmat2_trans);
-		ret = _print_fmat2 (sys_context, &fmat2_trans, "trans 2X") && ret;
-		if (LW6SYS_TEST_ACK (lw6mat_fmat2_is_same (&fmat2, &fmat2_trans)))
+		lw6mat_fmat2_transpose (&fmat2_transpose);
+		ret = _print_fmat2 (sys_context, &fmat2_transpose, "trans 2X") && ret;
+		if (LW6SYS_TEST_ACK (lw6mat_fmat2_is_same (&fmat2, &fmat2_transpose)))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("orig and double-trans fmat2 look the same, OK"));
 		  }
@@ -2464,8 +2464,8 @@ _test_fmat3 ()
     lw6mat_fmat3_t fmat3;
     lw6mat_fmat3_t fmat3_inv;
     lw6mat_fmat3_t fmat3_mul;
-    lw6mat_fmat3_t fmat3_id;
-    lw6mat_fmat3_t fmat3_trans;
+    lw6mat_fmat3_t fmat3_identity;
+    lw6mat_fmat3_t fmat3_transpose;
     lw6mat_fvec3_t fvec3;
     lw6mat_fvec2_t fvec2;
     int i = 0;
@@ -2541,10 +2541,10 @@ _test_fmat3 ()
 
 	    lw6mat_fmat3_mul_fmat3 (&fmat3_mul, &fmat3_inv, &fmat3);
 	    ret = _print_fmat3 (sys_context, &fmat3_mul, "mul") && ret;
-	    lw6mat_fmat3_id (&fmat3_id);
+	    lw6mat_fmat3_identity (&fmat3_identity);
 	    for (k = 0; k < LW6MAT_MAT3_V_SIZE_X_SIZE; ++k)
 	      {
-		if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fmat3_mul.v[k], fmat3_id.v[k])))
+		if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fmat3_mul.v[k], fmat3_identity.v[k])))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -2554,7 +2554,7 @@ _test_fmat3 ()
 		else
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_ ("fmat3_mul failed, element %d is %f and should be %f"), k, fmat3_mul.v[k], fmat3_id.v[k]);
+				_x_ ("fmat3_mul failed, element %d is %f and should be %f"), k, fmat3_mul.v[k], fmat3_identity.v[k]);
 		    ret = 0;
 		  }
 	      }
@@ -2575,22 +2575,22 @@ _test_fmat3 ()
 			    _TEST_FMAT_SCALE, det_scaled, det, det_scaled_expected);
 		ret = 0;
 	      }
-	    fmat3_trans = fmat3;
-	    lw6mat_fmat3_trans (&fmat3_trans);
-	    ret = _print_fmat3 (sys_context, &fmat3_trans, "trans 1X") && ret;
+	    fmat3_transpose = fmat3;
+	    lw6mat_fmat3_transpose (&fmat3_transpose);
+	    ret = _print_fmat3 (sys_context, &fmat3_transpose, "trans 1X") && ret;
 	    transposed = 1;
 	    for (i = 0; i < LW6MAT_MAT3_M_SIZE; ++i)
 	      {
 		for (j = 0; j < LW6MAT_MAT3_M_SIZE; ++j)
 		  {
-		    if (LW6SYS_TEST_ACK (fmat3.m[i][j] == fmat3_trans.m[j][i]))
+		    if (LW6SYS_TEST_ACK (fmat3.m[i][j] == fmat3_transpose.m[j][i]))
 		      {
 			// OK
 		      }
 		    else
 		      {
 			lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				    _x_ ("transposition mismatch for fmat3 orig:%d,%d=%f trans:%d,%d=%f"), i, j, fmat3.m[i][j], j, i, fmat3_trans.m[j][i]);
+				    _x_ ("transposition mismatch for fmat3 orig:%d,%d=%f trans:%d,%d=%f"), i, j, fmat3.m[i][j], j, i, fmat3_transpose.m[j][i]);
 			transposed = 0;
 			ret = 0;
 		      }
@@ -2599,9 +2599,9 @@ _test_fmat3 ()
 	    if (LW6SYS_TEST_ACK (transposed))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("orig and trans fmat3 correspond, OK"));
-		lw6mat_fmat3_trans (&fmat3_trans);
-		ret = _print_fmat3 (sys_context, &fmat3_trans, "trans 2X") && ret;
-		if (LW6SYS_TEST_ACK (lw6mat_fmat3_is_same (&fmat3, &fmat3_trans)))
+		lw6mat_fmat3_transpose (&fmat3_transpose);
+		ret = _print_fmat3 (sys_context, &fmat3_transpose, "trans 2X") && ret;
+		if (LW6SYS_TEST_ACK (lw6mat_fmat3_is_same (&fmat3, &fmat3_transpose)))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("orig and double-trans fmat3 look the same, OK"));
 		  }
@@ -2688,8 +2688,8 @@ _test_fmat4 ()
     lw6mat_fmat4_t fmat4;
     lw6mat_fmat4_t fmat4_inv;
     lw6mat_fmat4_t fmat4_mul;
-    lw6mat_fmat4_t fmat4_id;
-    lw6mat_fmat4_t fmat4_trans;
+    lw6mat_fmat4_t fmat4_identity;
+    lw6mat_fmat4_t fmat4_transpose;
     lw6mat_fvec4_t fvec4;
     lw6mat_fvec3_t fvec3;
     int i = 0;
@@ -2765,10 +2765,10 @@ _test_fmat4 ()
 
 	    lw6mat_fmat4_mul_fmat4 (&fmat4_mul, &fmat4_inv, &fmat4);
 	    ret = _print_fmat4 (sys_context, &fmat4_mul, "mul") && ret;
-	    lw6mat_fmat4_id (&fmat4_id);
+	    lw6mat_fmat4_identity (&fmat4_identity);
 	    for (k = 0; k < LW6MAT_MAT4_V_SIZE_X_SIZE; ++k)
 	      {
-		if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fmat4_mul.v[k], fmat4_id.v[k])))
+		if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fmat4_mul.v[k], fmat4_identity.v[k])))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -2778,7 +2778,7 @@ _test_fmat4 ()
 		else
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_ ("fmat4_mul failed, element %d is %f and should be %f"), k, fmat4_mul.v[k], fmat4_id.v[k]);
+				_x_ ("fmat4_mul failed, element %d is %f and should be %f"), k, fmat4_mul.v[k], fmat4_identity.v[k]);
 		    ret = 0;
 		  }
 	      }
@@ -2799,22 +2799,22 @@ _test_fmat4 ()
 			    _TEST_FMAT_SCALE, det_scaled, det, det_scaled_expected);
 		ret = 0;
 	      }
-	    fmat4_trans = fmat4;
-	    lw6mat_fmat4_trans (&fmat4_trans);
-	    ret = _print_fmat4 (sys_context, &fmat4_trans, "trans 1X") && ret;
+	    fmat4_transpose = fmat4;
+	    lw6mat_fmat4_transpose (&fmat4_transpose);
+	    ret = _print_fmat4 (sys_context, &fmat4_transpose, "trans 1X") && ret;
 	    transposed = 1;
 	    for (i = 0; i < LW6MAT_MAT4_M_SIZE; ++i)
 	      {
 		for (j = 0; j < LW6MAT_MAT4_M_SIZE; ++j)
 		  {
-		    if (LW6SYS_TEST_ACK (fmat4.m[i][j] == fmat4_trans.m[j][i]))
+		    if (LW6SYS_TEST_ACK (fmat4.m[i][j] == fmat4_transpose.m[j][i]))
 		      {
 			// OK
 		      }
 		    else
 		      {
 			lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				    _x_ ("transposition mismatch for fmat4 orig:%d,%d=%f trans:%d,%d=%f"), i, j, fmat4.m[i][j], j, i, fmat4_trans.m[j][i]);
+				    _x_ ("transposition mismatch for fmat4 orig:%d,%d=%f trans:%d,%d=%f"), i, j, fmat4.m[i][j], j, i, fmat4_transpose.m[j][i]);
 			transposed = 0;
 			ret = 0;
 		      }
@@ -2823,9 +2823,9 @@ _test_fmat4 ()
 	    if (LW6SYS_TEST_ACK (transposed))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("orig and trans fmat4 correspond, OK"));
-		lw6mat_fmat4_trans (&fmat4_trans);
-		ret = _print_fmat4 (sys_context, &fmat4_trans, "trans 2X") && ret;
-		if (LW6SYS_TEST_ACK (lw6mat_fmat4_is_same (&fmat4, &fmat4_trans)))
+		lw6mat_fmat4_transpose (&fmat4_transpose);
+		ret = _print_fmat4 (sys_context, &fmat4_transpose, "trans 2X") && ret;
+		if (LW6SYS_TEST_ACK (lw6mat_fmat4_is_same (&fmat4, &fmat4_transpose)))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("orig and double-trans fmat4 look the same, OK"));
 		  }
@@ -2916,8 +2916,8 @@ _test_dmat2 ()
     lw6mat_dmat2_t dmat2;
     lw6mat_dmat2_t dmat2_inv;
     lw6mat_dmat2_t dmat2_mul;
-    lw6mat_dmat2_t dmat2_id;
-    lw6mat_dmat2_t dmat2_trans;
+    lw6mat_dmat2_t dmat2_identity;
+    lw6mat_dmat2_t dmat2_transpose;
     lw6mat_dvec2_t dvec2;
     int i = 0;
     int j = 0;
@@ -2992,10 +2992,10 @@ _test_dmat2 ()
 
 	    lw6mat_dmat2_mul_dmat2 (&dmat2_mul, &dmat2_inv, &dmat2);
 	    ret = _print_dmat2 (sys_context, &dmat2_mul, "mul") && ret;
-	    lw6mat_dmat2_id (&dmat2_id);
+	    lw6mat_dmat2_identity (&dmat2_identity);
 	    for (k = 0; k < LW6MAT_MAT2_V_SIZE_X_SIZE; ++k)
 	      {
-		if (LW6SYS_TEST_ACK (lw6mat_is_similar_d (dmat2_mul.v[k], dmat2_id.v[k])))
+		if (LW6SYS_TEST_ACK (lw6mat_is_similar_d (dmat2_mul.v[k], dmat2_identity.v[k])))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -3005,7 +3005,7 @@ _test_dmat2 ()
 		else
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_ ("dmat2_mul failed, element %d is %f and should be %f"), k, dmat2_mul.v[k], dmat2_id.v[k]);
+				_x_ ("dmat2_mul failed, element %d is %f and should be %f"), k, dmat2_mul.v[k], dmat2_identity.v[k]);
 		    ret = 0;
 		  }
 	      }
@@ -3026,22 +3026,22 @@ _test_dmat2 ()
 			    _TEST_DMAT_SCALE, det_scaled, det, det_scaled_expected);
 		ret = 0;
 	      }
-	    dmat2_trans = dmat2;
-	    lw6mat_dmat2_trans (&dmat2_trans);
-	    ret = _print_dmat2 (sys_context, &dmat2_trans, "trans 1X") && ret;
+	    dmat2_transpose = dmat2;
+	    lw6mat_dmat2_transpose (&dmat2_transpose);
+	    ret = _print_dmat2 (sys_context, &dmat2_transpose, "trans 1X") && ret;
 	    transposed = 1;
 	    for (i = 0; i < LW6MAT_MAT2_M_SIZE; ++i)
 	      {
 		for (j = 0; j < LW6MAT_MAT2_M_SIZE; ++j)
 		  {
-		    if (LW6SYS_TEST_ACK (dmat2.m[i][j] == dmat2_trans.m[j][i]))
+		    if (LW6SYS_TEST_ACK (dmat2.m[i][j] == dmat2_transpose.m[j][i]))
 		      {
 			// OK
 		      }
 		    else
 		      {
 			lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				    _x_ ("transposition mismatch for dmat2 orig:%d,%d=%f trans:%d,%d=%f"), i, j, dmat2.m[i][j], j, i, dmat2_trans.m[j][i]);
+				    _x_ ("transposition mismatch for dmat2 orig:%d,%d=%f trans:%d,%d=%f"), i, j, dmat2.m[i][j], j, i, dmat2_transpose.m[j][i]);
 			transposed = 0;
 			ret = 0;
 		      }
@@ -3050,9 +3050,9 @@ _test_dmat2 ()
 	    if (LW6SYS_TEST_ACK (transposed))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("orig and trans dmat2 correspond, OK"));
-		lw6mat_dmat2_trans (&dmat2_trans);
-		ret = _print_dmat2 (sys_context, &dmat2_trans, "trans 2X") && ret;
-		if (LW6SYS_TEST_ACK (lw6mat_dmat2_is_same (&dmat2, &dmat2_trans)))
+		lw6mat_dmat2_transpose (&dmat2_transpose);
+		ret = _print_dmat2 (sys_context, &dmat2_transpose, "trans 2X") && ret;
+		if (LW6SYS_TEST_ACK (lw6mat_dmat2_is_same (&dmat2, &dmat2_transpose)))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("orig and double-trans dmat2 look the same, OK"));
 		  }
@@ -3121,8 +3121,8 @@ _test_dmat3 ()
     lw6mat_dmat3_t dmat3;
     lw6mat_dmat3_t dmat3_inv;
     lw6mat_dmat3_t dmat3_mul;
-    lw6mat_dmat3_t dmat3_id;
-    lw6mat_dmat3_t dmat3_trans;
+    lw6mat_dmat3_t dmat3_identity;
+    lw6mat_dmat3_t dmat3_transpose;
     lw6mat_dvec3_t dvec3;
     lw6mat_dvec2_t dvec2;
     int i = 0;
@@ -3198,10 +3198,10 @@ _test_dmat3 ()
 
 	    lw6mat_dmat3_mul_dmat3 (&dmat3_mul, &dmat3_inv, &dmat3);
 	    ret = _print_dmat3 (sys_context, &dmat3_mul, "mul") && ret;
-	    lw6mat_dmat3_id (&dmat3_id);
+	    lw6mat_dmat3_identity (&dmat3_identity);
 	    for (k = 0; k < LW6MAT_MAT3_V_SIZE_X_SIZE; ++k)
 	      {
-		if (LW6SYS_TEST_ACK (lw6mat_is_similar_d (dmat3_mul.v[k], dmat3_id.v[k])))
+		if (LW6SYS_TEST_ACK (lw6mat_is_similar_d (dmat3_mul.v[k], dmat3_identity.v[k])))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -3211,7 +3211,7 @@ _test_dmat3 ()
 		else
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_ ("dmat3_mul failed, element %d is %f and should be %f"), k, dmat3_mul.v[k], dmat3_id.v[k]);
+				_x_ ("dmat3_mul failed, element %d is %f and should be %f"), k, dmat3_mul.v[k], dmat3_identity.v[k]);
 		    ret = 0;
 		  }
 	      }
@@ -3232,22 +3232,22 @@ _test_dmat3 ()
 			    _TEST_DMAT_SCALE, det_scaled, det, det_scaled_expected);
 		ret = 0;
 	      }
-	    dmat3_trans = dmat3;
-	    lw6mat_dmat3_trans (&dmat3_trans);
-	    ret = _print_dmat3 (sys_context, &dmat3_trans, "trans 1X") && ret;
+	    dmat3_transpose = dmat3;
+	    lw6mat_dmat3_transpose (&dmat3_transpose);
+	    ret = _print_dmat3 (sys_context, &dmat3_transpose, "trans 1X") && ret;
 	    transposed = 1;
 	    for (i = 0; i < LW6MAT_MAT3_M_SIZE; ++i)
 	      {
 		for (j = 0; j < LW6MAT_MAT3_M_SIZE; ++j)
 		  {
-		    if (LW6SYS_TEST_ACK (dmat3.m[i][j] == dmat3_trans.m[j][i]))
+		    if (LW6SYS_TEST_ACK (dmat3.m[i][j] == dmat3_transpose.m[j][i]))
 		      {
 			// OK
 		      }
 		    else
 		      {
 			lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				    _x_ ("transposition mismatch for dmat3 orig:%d,%d=%f trans:%d,%d=%f"), i, j, dmat3.m[i][j], j, i, dmat3_trans.m[j][i]);
+				    _x_ ("transposition mismatch for dmat3 orig:%d,%d=%f trans:%d,%d=%f"), i, j, dmat3.m[i][j], j, i, dmat3_transpose.m[j][i]);
 			transposed = 0;
 			ret = 0;
 		      }
@@ -3256,9 +3256,9 @@ _test_dmat3 ()
 	    if (LW6SYS_TEST_ACK (transposed))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("orig and trans dmat3 correspond, OK"));
-		lw6mat_dmat3_trans (&dmat3_trans);
-		ret = _print_dmat3 (sys_context, &dmat3_trans, "trans 2X") && ret;
-		if (LW6SYS_TEST_ACK (lw6mat_dmat3_is_same (&dmat3, &dmat3_trans)))
+		lw6mat_dmat3_transpose (&dmat3_transpose);
+		ret = _print_dmat3 (sys_context, &dmat3_transpose, "trans 2X") && ret;
+		if (LW6SYS_TEST_ACK (lw6mat_dmat3_is_same (&dmat3, &dmat3_transpose)))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("orig and double-trans dmat3 look the same, OK"));
 		  }
@@ -3345,8 +3345,8 @@ _test_dmat4 ()
     lw6mat_dmat4_t dmat4;
     lw6mat_dmat4_t dmat4_inv;
     lw6mat_dmat4_t dmat4_mul;
-    lw6mat_dmat4_t dmat4_id;
-    lw6mat_dmat4_t dmat4_trans;
+    lw6mat_dmat4_t dmat4_identity;
+    lw6mat_dmat4_t dmat4_transpose;
     lw6mat_dvec4_t dvec4;
     lw6mat_dvec3_t dvec3;
     int i = 0;
@@ -3422,10 +3422,10 @@ _test_dmat4 ()
 
 	    lw6mat_dmat4_mul_dmat4 (&dmat4_mul, &dmat4_inv, &dmat4);
 	    ret = _print_dmat4 (sys_context, &dmat4_mul, "mul") && ret;
-	    lw6mat_dmat4_id (&dmat4_id);
+	    lw6mat_dmat4_identity (&dmat4_identity);
 	    for (k = 0; k < LW6MAT_MAT4_V_SIZE_X_SIZE; ++k)
 	      {
-		if (LW6SYS_TEST_ACK (lw6mat_is_similar_d (dmat4_mul.v[k], dmat4_id.v[k])))
+		if (LW6SYS_TEST_ACK (lw6mat_is_similar_d (dmat4_mul.v[k], dmat4_identity.v[k])))
 		  {
 		    /*
 		     * OK, similar enough, we don't require exactness here, there
@@ -3435,7 +3435,7 @@ _test_dmat4 ()
 		else
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				_x_ ("dmat4_mul failed, element %d is %f and should be %f"), k, dmat4_mul.v[k], dmat4_id.v[k]);
+				_x_ ("dmat4_mul failed, element %d is %f and should be %f"), k, dmat4_mul.v[k], dmat4_identity.v[k]);
 		    ret = 0;
 		  }
 	      }
@@ -3456,22 +3456,22 @@ _test_dmat4 ()
 			    _TEST_DMAT_SCALE, det_scaled, det, det_scaled_expected);
 		ret = 0;
 	      }
-	    dmat4_trans = dmat4;
-	    lw6mat_dmat4_trans (&dmat4_trans);
-	    ret = _print_dmat4 (sys_context, &dmat4_trans, "trans 1X") && ret;
+	    dmat4_transpose = dmat4;
+	    lw6mat_dmat4_transpose (&dmat4_transpose);
+	    ret = _print_dmat4 (sys_context, &dmat4_transpose, "trans 1X") && ret;
 	    transposed = 1;
 	    for (i = 0; i < LW6MAT_MAT4_M_SIZE; ++i)
 	      {
 		for (j = 0; j < LW6MAT_MAT4_M_SIZE; ++j)
 		  {
-		    if (LW6SYS_TEST_ACK (dmat4.m[i][j] == dmat4_trans.m[j][i]))
+		    if (LW6SYS_TEST_ACK (dmat4.m[i][j] == dmat4_transpose.m[j][i]))
 		      {
 			// OK
 		      }
 		    else
 		      {
 			lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
-				    _x_ ("transposition mismatch for dmat4 orig:%d,%d=%f trans:%d,%d=%f"), i, j, dmat4.m[i][j], j, i, dmat4_trans.m[j][i]);
+				    _x_ ("transposition mismatch for dmat4 orig:%d,%d=%f trans:%d,%d=%f"), i, j, dmat4.m[i][j], j, i, dmat4_transpose.m[j][i]);
 			transposed = 0;
 			ret = 0;
 		      }
@@ -3480,9 +3480,9 @@ _test_dmat4 ()
 	    if (LW6SYS_TEST_ACK (transposed))
 	      {
 		lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("orig and trans dmat4 correspond, OK"));
-		lw6mat_dmat4_trans (&dmat4_trans);
-		ret = _print_dmat4 (sys_context, &dmat4_trans, "trans 2X") && ret;
-		if (LW6SYS_TEST_ACK (lw6mat_dmat4_is_same (&dmat4, &dmat4_trans)))
+		lw6mat_dmat4_transpose (&dmat4_transpose);
+		ret = _print_dmat4 (sys_context, &dmat4_transpose, "trans 2X") && ret;
+		if (LW6SYS_TEST_ACK (lw6mat_dmat4_is_same (&dmat4, &dmat4_transpose)))
 		  {
 		    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("orig and double-trans dmat4 look the same, OK"));
 		  }
