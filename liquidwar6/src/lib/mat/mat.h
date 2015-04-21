@@ -1039,6 +1039,7 @@ extern char *lw6mat_xvec4_repr (lw6sys_context_t * sys_context, const lw6mat_xve
 /* mat-fmat2.c */
 extern void lw6mat_fmat2_zero (lw6mat_fmat2_t * fmat2);
 extern void lw6mat_fmat2_identity (lw6mat_fmat2_t * fmat2);
+extern void lw6mat_fmat2_translation (lw6mat_fmat2_t * fmat2, float f);
 extern int lw6mat_fmat2_is_same (const lw6mat_fmat2_t * fmat2_a, const lw6mat_fmat2_t * fmat2_b);
 extern void lw6mat_fmat2_transpose (lw6mat_fmat2_t * fmat2);
 extern float lw6mat_fmat2_det (const lw6mat_fmat2_t * fmat2);
@@ -1051,6 +1052,7 @@ extern char *lw6mat_fmat2_repr (lw6sys_context_t * sys_context, const lw6mat_fma
 /* mat-fmat3.c */
 extern void lw6mat_fmat3_zero (lw6mat_fmat3_t * fmat3);
 extern void lw6mat_fmat3_identity (lw6mat_fmat3_t * fmat3);
+extern void lw6mat_fmat3_translation (lw6mat_fmat3_t * fmat3, const lw6mat_fvec2_t * vec2);
 extern int lw6mat_fmat3_is_same (const lw6mat_fmat3_t * fmat3_a, const lw6mat_fmat3_t * fmat3_b);
 extern void lw6mat_fmat3_transpose (lw6mat_fmat3_t * fmat3);
 extern float lw6mat_fmat3_det (const lw6mat_fmat3_t * fmat3);
@@ -1064,6 +1066,7 @@ extern char *lw6mat_fmat3_repr (lw6sys_context_t * sys_context, const lw6mat_fma
 /* mat-fmat4.c */
 extern void lw6mat_fmat4_zero (lw6mat_fmat4_t * fmat4);
 extern void lw6mat_fmat4_identity (lw6mat_fmat4_t * fmat4);
+extern void lw6mat_fmat4_translation (lw6mat_fmat4_t * fmat4, const lw6mat_fvec3_t * vec3);
 extern int lw6mat_fmat4_is_same (const lw6mat_fmat4_t * fmat4_a, const lw6mat_fmat4_t * fmat4_b);
 extern void lw6mat_fmat4_transpose (lw6mat_fmat4_t * fmat4);
 extern float lw6mat_fmat4_det (const lw6mat_fmat4_t * fmat4);
@@ -1077,6 +1080,7 @@ extern char *lw6mat_fmat4_repr (lw6sys_context_t * sys_context, const lw6mat_fma
 /* mat-dmat2.c */
 extern void lw6mat_dmat2_zero (lw6mat_dmat2_t * dmat2);
 extern void lw6mat_dmat2_identity (lw6mat_dmat2_t * dmat2);
+extern void lw6mat_dmat2_translation (lw6mat_dmat2_t * dmat2, double d);
 extern int lw6mat_dmat2_is_same (const lw6mat_dmat2_t * dmat2_a, const lw6mat_dmat2_t * dmat2_b);
 extern void lw6mat_dmat2_transpose (lw6mat_dmat2_t * dmat2);
 extern double lw6mat_dmat2_det (const lw6mat_dmat2_t * dmat2);
@@ -1089,6 +1093,7 @@ extern char *lw6mat_dmat2_repr (lw6sys_context_t * sys_context, const lw6mat_dma
 /* mat-dmat3.c */
 extern void lw6mat_dmat3_zero (lw6mat_dmat3_t * dmat3);
 extern void lw6mat_dmat3_identity (lw6mat_dmat3_t * dmat3);
+extern void lw6mat_dmat3_translation (lw6mat_dmat3_t * dmat3, const lw6mat_dvec2_t * dvec2);
 extern int lw6mat_dmat3_is_same (const lw6mat_dmat3_t * dmat3_a, const lw6mat_dmat3_t * dmat3_b);
 extern void lw6mat_dmat3_transpose (lw6mat_dmat3_t * dmat3);
 extern double lw6mat_dmat3_det (const lw6mat_dmat3_t * dmat3);
@@ -1102,6 +1107,7 @@ extern char *lw6mat_dmat3_repr (lw6sys_context_t * sys_context, const lw6mat_dma
 /* mat-dmat4.c */
 extern void lw6mat_dmat4_zero (lw6mat_dmat4_t * dmat4);
 extern void lw6mat_dmat4_identity (lw6mat_dmat4_t * dmat4);
+extern void lw6mat_dmat4_translation (lw6mat_dmat4_t * dmat4, const lw6mat_dvec3_t * dvec3);
 extern int lw6mat_dmat4_is_same (const lw6mat_dmat4_t * dmat4_a, const lw6mat_dmat4_t * dmat4_b);
 extern void lw6mat_dmat4_transpose (lw6mat_dmat4_t * dmat4);
 extern double lw6mat_dmat4_det (const lw6mat_dmat4_t * dmat4);

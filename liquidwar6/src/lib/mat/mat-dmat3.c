@@ -67,6 +67,30 @@ lw6mat_dmat3_identity (lw6mat_dmat3_t * dmat3)
 }
 
 /**
+ * lw6mat_dmat3_translation
+ *
+ * @dmat3: the matrix to initialize.
+ * @dvec2: vector which defines the translation.
+ *
+ * Loads the matrix with a translation transformation matrix.
+ * By multiplicating by this matrix, a translation is done.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat3_translation (lw6mat_dmat3_t * dmat3, const lw6mat_dvec2_t * dvec2)
+{
+  int i;
+
+  lw6mat_dmat3_identity (dmat3);
+
+  for (i = 0; i < LW6MAT_VEC2_V_SIZE; ++i)
+    {
+      dmat3->m[LW6MAT_VEC2_V_SIZE][i] = dvec2->v[i];
+    }
+}
+
+/**
  * lw6mat_dmat3_is_same
  *
  * @dmat3_a: 1st matrix to compare

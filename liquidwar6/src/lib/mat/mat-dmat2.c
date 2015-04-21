@@ -63,6 +63,24 @@ lw6mat_dmat2_identity (lw6mat_dmat2_t * dmat2)
 }
 
 /**
+ * lw6mat_dmat2_translation
+ *
+ * @dmat2: the matrix to initialize.
+ * @d: value which defines the translation.
+ *
+ * Loads the matrix with a translation transformation matrix.
+ * By multiplicating by this matrix, a translation is done.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat2_translation (lw6mat_dmat2_t * dmat2, double d)
+{
+  lw6mat_dmat2_identity (dmat2);
+  dmat2->m[1][0] = d;
+}
+
+/**
  * lw6mat_dmat2_is_same
  *
  * @dmat2_a: 1st matrix to compare

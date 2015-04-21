@@ -260,6 +260,20 @@
 #define _TEST_DMAT4_MUL_DVEC3_Y 66.0f
 #define _TEST_DMAT4_MUL_DVEC3_Z 135.0f
 
+#define _TEST_FMAT_TRANSLATION_OX 2.0f
+#define _TEST_FMAT_TRANSLATION_OY 3.0f
+#define _TEST_FMAT_TRANSLATION_OZ 4.0f
+#define _TEST_FMAT_TRANSLATION_PX -1.0f
+#define _TEST_FMAT_TRANSLATION_PY -0.5f
+#define _TEST_FMAT_TRANSLATION_PZ 10.0f
+
+#define _TEST_DMAT_TRANSLATION_OX 2.1f
+#define _TEST_DMAT_TRANSLATION_OY 3.1f
+#define _TEST_DMAT_TRANSLATION_OZ 4.1f
+#define _TEST_DMAT_TRANSLATION_PX -0.2f
+#define _TEST_DMAT_TRANSLATION_PY 11.1f
+#define _TEST_DMAT_TRANSLATION_PZ 42.0f
+
 typedef struct _lw6mat_test_data_s
 {
   int ret;
@@ -2261,6 +2275,7 @@ _test_fmat2 ()
     lw6mat_fmat2_t fmat2_mul;
     lw6mat_fmat2_t fmat2_identity;
     lw6mat_fmat2_t fmat2_transpose;
+    lw6mat_fmat2_t fmat2_translation;
     lw6mat_fvec2_t fvec2;
     int i = 0;
     int j = 0;
@@ -2438,6 +2453,22 @@ _test_fmat2 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("was expecting %f %f"), _TEST_FMAT2_MUL_FVEC2_X, _TEST_FMAT2_MUL_FVEC2_Y);
 	    ret = 0;
 	  }
+	fvec2.p.x = _TEST_FMAT_TRANSLATION_OX;
+	fvec2.v[1] = LW6MAT_F_1;
+	lw6mat_fmat2_translation (&fmat2_translation, _TEST_FMAT_TRANSLATION_PX);
+	ret = _print_fmat2 (sys_context, &fmat2_translation, "translation left arg fmat2") && ret;
+	ret = _print_fvec2 (sys_context, &fvec2, "translation right arg column fvec2") && ret;
+	lw6mat_fmat2_mul_fvec2 (&fvec2, &fmat2_translation, &fvec2);
+	ret = _print_fvec2 (sys_context, &fvec2, "translation result fvec2") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fvec2.p.x, _TEST_FMAT_TRANSLATION_OX + _TEST_FMAT_TRANSLATION_PX)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("translation OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
+	    ret = 0;
+	  }
       }
     else
       {
@@ -2466,6 +2497,7 @@ _test_fmat3 ()
     lw6mat_fmat3_t fmat3_mul;
     lw6mat_fmat3_t fmat3_identity;
     lw6mat_fmat3_t fmat3_transpose;
+    lw6mat_fmat3_t fmat3_translation;
     lw6mat_fvec3_t fvec3;
     lw6mat_fvec2_t fvec2;
     int i = 0;
@@ -2662,6 +2694,25 @@ _test_fmat3 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("was expecting %f %f"), _TEST_FMAT3_MUL_FVEC2_X, _TEST_FMAT3_MUL_FVEC2_Y);
 	    ret = 0;
 	  }
+	fvec3.p.x = _TEST_FMAT_TRANSLATION_OX;
+	fvec3.p.y = _TEST_FMAT_TRANSLATION_OY;
+	fvec3.v[2] = LW6MAT_F_1;
+	fvec2.p.x = _TEST_FMAT_TRANSLATION_PX;
+	fvec2.p.y = _TEST_FMAT_TRANSLATION_PY;
+	lw6mat_fmat3_translation (&fmat3_translation, &fvec2);
+	ret = _print_fmat3 (sys_context, &fmat3_translation, "translation left arg fmat3") && ret;
+	ret = _print_fvec3 (sys_context, &fvec3, "translation right arg column fvec3") && ret;
+	lw6mat_fmat3_mul_fvec3 (&fvec3, &fmat3_translation, &fvec3);
+	ret = _print_fvec3 (sys_context, &fvec3, "translation result fvec3") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_d (fvec3.p.x, _TEST_FMAT_TRANSLATION_OX + _TEST_FMAT_TRANSLATION_PX)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("translation OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
+	    ret = 0;
+	  }
       }
     else
       {
@@ -2690,6 +2741,7 @@ _test_fmat4 ()
     lw6mat_fmat4_t fmat4_mul;
     lw6mat_fmat4_t fmat4_identity;
     lw6mat_fmat4_t fmat4_transpose;
+    lw6mat_fmat4_t fmat4_translation;
     lw6mat_fvec4_t fvec4;
     lw6mat_fvec3_t fvec3;
     int i = 0;
@@ -2890,6 +2942,25 @@ _test_fmat4 ()
 			_x_ ("was expecting %f %f %f"), _TEST_FMAT4_MUL_FVEC3_X, _TEST_FMAT4_MUL_FVEC3_Y, _TEST_FMAT4_MUL_FVEC3_Z);
 	    ret = 0;
 	  }
+	fvec4.p.x = _TEST_FMAT_TRANSLATION_OX;
+	fvec4.p.y = _TEST_FMAT_TRANSLATION_OY;
+	fvec4.v[3] = LW6MAT_F_1;
+	fvec3.p.x = _TEST_FMAT_TRANSLATION_PX;
+	fvec3.p.y = _TEST_FMAT_TRANSLATION_PY;
+	lw6mat_fmat4_translation (&fmat4_translation, &fvec3);
+	ret = _print_fmat4 (sys_context, &fmat4_translation, "translation left arg fmat4") && ret;
+	ret = _print_fvec4 (sys_context, &fvec4, "translation right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_translation, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "translation result fvec4") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_d (fvec4.p.x, _TEST_FMAT_TRANSLATION_OX + _TEST_FMAT_TRANSLATION_PX)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("translation OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
+	    ret = 0;
+	  }
       }
     else
       {
@@ -2918,6 +2989,7 @@ _test_dmat2 ()
     lw6mat_dmat2_t dmat2_mul;
     lw6mat_dmat2_t dmat2_identity;
     lw6mat_dmat2_t dmat2_transpose;
+    lw6mat_dmat2_t dmat2_translation;
     lw6mat_dvec2_t dvec2;
     int i = 0;
     int j = 0;
@@ -3095,6 +3167,22 @@ _test_dmat2 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("was expecting %f %f"), _TEST_DMAT2_MUL_DVEC2_X, _TEST_DMAT2_MUL_DVEC2_Y);
 	    ret = 0;
 	  }
+	dvec2.p.x = _TEST_DMAT_TRANSLATION_OX;
+	dvec2.v[1] = LW6MAT_F_1;
+	lw6mat_dmat2_translation (&dmat2_translation, _TEST_DMAT_TRANSLATION_PX);
+	ret = _print_dmat2 (sys_context, &dmat2_translation, "translation left arg dmat2") && ret;
+	ret = _print_dvec2 (sys_context, &dvec2, "translation right arg column dvec2") && ret;
+	lw6mat_dmat2_mul_dvec2 (&dvec2, &dmat2_translation, &dvec2);
+	ret = _print_dvec2 (sys_context, &dvec2, "translation result dvec2") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_d (dvec2.p.x, _TEST_DMAT_TRANSLATION_OX + _TEST_DMAT_TRANSLATION_PX)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("translation OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
+	    ret = 0;
+	  }
       }
     else
       {
@@ -3123,6 +3211,7 @@ _test_dmat3 ()
     lw6mat_dmat3_t dmat3_mul;
     lw6mat_dmat3_t dmat3_identity;
     lw6mat_dmat3_t dmat3_transpose;
+    lw6mat_dmat3_t dmat3_translation;
     lw6mat_dvec3_t dvec3;
     lw6mat_dvec2_t dvec2;
     int i = 0;
@@ -3319,6 +3408,25 @@ _test_dmat3 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("was expecting %f %f"), _TEST_DMAT3_MUL_DVEC2_X, _TEST_DMAT3_MUL_DVEC2_Y);
 	    ret = 0;
 	  }
+	dvec3.p.x = _TEST_DMAT_TRANSLATION_OX;
+	dvec3.p.y = _TEST_DMAT_TRANSLATION_OY;
+	dvec3.v[2] = LW6MAT_F_1;
+	dvec2.p.x = _TEST_DMAT_TRANSLATION_PX;
+	dvec2.p.y = _TEST_DMAT_TRANSLATION_PY;
+	lw6mat_dmat3_translation (&dmat3_translation, &dvec2);
+	ret = _print_dmat3 (sys_context, &dmat3_translation, "translation left arg dmat3") && ret;
+	ret = _print_dvec3 (sys_context, &dvec3, "translation right arg column dvec3") && ret;
+	lw6mat_dmat3_mul_dvec3 (&dvec3, &dmat3_translation, &dvec3);
+	ret = _print_dvec3 (sys_context, &dvec3, "translation result dvec3") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_d (dvec3.p.x, _TEST_DMAT_TRANSLATION_OX + _TEST_DMAT_TRANSLATION_PX)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("translation OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
+	    ret = 0;
+	  }
       }
     else
       {
@@ -3347,6 +3455,7 @@ _test_dmat4 ()
     lw6mat_dmat4_t dmat4_mul;
     lw6mat_dmat4_t dmat4_identity;
     lw6mat_dmat4_t dmat4_transpose;
+    lw6mat_dmat4_t dmat4_translation;
     lw6mat_dvec4_t dvec4;
     lw6mat_dvec3_t dvec3;
     int i = 0;
@@ -3545,6 +3654,25 @@ _test_dmat4 ()
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 			_x_ ("was expecting %f %f %f"), _TEST_DMAT4_MUL_DVEC3_X, _TEST_DMAT4_MUL_DVEC3_Y, _TEST_DMAT4_MUL_DVEC3_Z);
+	    ret = 0;
+	  }
+	dvec4.p.x = _TEST_DMAT_TRANSLATION_OX;
+	dvec4.p.y = _TEST_DMAT_TRANSLATION_OY;
+	dvec4.v[3] = LW6MAT_F_1;
+	dvec3.p.x = _TEST_DMAT_TRANSLATION_PX;
+	dvec3.p.y = _TEST_DMAT_TRANSLATION_PY;
+	lw6mat_dmat4_translation (&dmat4_translation, &dvec3);
+	ret = _print_dmat4 (sys_context, &dmat4_translation, "translation left arg dmat4") && ret;
+	ret = _print_dvec4 (sys_context, &dvec4, "translation right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_translation, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "translation result dvec4") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_d (dvec4.p.x, _TEST_DMAT_TRANSLATION_OX + _TEST_DMAT_TRANSLATION_PX)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("translation OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
 	    ret = 0;
 	  }
       }
