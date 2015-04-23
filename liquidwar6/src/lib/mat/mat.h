@@ -678,20 +678,17 @@ typedef union
  * not use this (use the built-in m[][] accessor instead
  * they are provided to explicitly show memory layout.
  */
-static inline int
-lw6mat_mat2_v_index (int i_column, int j_row)
+static inline int __attribute__ ((const)) lw6mat_mat2_v_index (int i_column, int j_row)
 {
   return i_column * LW6MAT_MAT2_M_SIZE + j_row;
 }
 
-static inline int
-lw6mat_mat3_v_index (int i_column, int j_row)
+static inline int __attribute__ ((const)) lw6mat_mat3_v_index (int i_column, int j_row)
 {
   return i_column * LW6MAT_MAT3_M_SIZE + j_row;
 }
 
-static inline int
-lw6mat_mat4_v_index (int i_column, int j_row)
+static inline int __attribute__ ((const)) lw6mat_mat4_v_index (int i_column, int j_row)
 {
   return i_column * LW6MAT_MAT4_M_SIZE + j_row;
 }
@@ -700,8 +697,7 @@ lw6mat_mat4_v_index (int i_column, int j_row)
  * Conversions.
  */
 
-static inline int32_t
-lw6mat_ftoi (float f)
+static inline int32_t __attribute__ ((const)) lw6mat_ftoi (float f)
 {
   /*
    * Calling round() gives a better conversion
@@ -710,14 +706,12 @@ lw6mat_ftoi (float f)
   return (int32_t) round (f);
 }
 
-static inline double
-lw6mat_ftod (float f)
+static inline double __attribute__ ((const)) lw6mat_ftod (float f)
 {
   return (double) f;
 }
 
-static inline int32_t
-lw6mat_ftox (float f)
+static inline int32_t __attribute__ ((const)) lw6mat_ftox (float f)
 {
   /*
    * Calling round() gives a better conversion
@@ -729,32 +723,27 @@ lw6mat_ftox (float f)
   return (int32_t) round (f * LW6MAT_X_MUL_F);
 }
 
-static inline float
-lw6mat_itof (int32_t i)
+static inline float __attribute__ ((const)) lw6mat_itof (int32_t i)
 {
   return (float) i;
 }
 
-static inline double
-lw6mat_itod (int32_t i)
+static inline double __attribute__ ((const)) lw6mat_itod (int32_t i)
 {
   return (double) i;
 }
 
-static inline int32_t
-lw6mat_itox (int32_t i)
+static inline int32_t __attribute__ ((const)) lw6mat_itox (int32_t i)
 {
   return i << LW6MAT_X_SHIFT_I;
 }
 
-static inline float
-lw6mat_dtof (double d)
+static inline float __attribute__ ((const)) lw6mat_dtof (double d)
 {
   return (float) d;
 }
 
-static inline int32_t
-lw6mat_dtoi (double d)
+static inline int32_t __attribute__ ((const)) lw6mat_dtoi (double d)
 {
   /*
    * Calling round() gives a better conversion
@@ -763,20 +752,17 @@ lw6mat_dtoi (double d)
   return (int32_t) round (d);
 }
 
-static inline int32_t
-lw6mat_dtox (double d)
+static inline int32_t __attribute__ ((const)) lw6mat_dtox (double d)
 {
   return (int32_t) round (d * LW6MAT_X_MUL_F);
 }
 
-static inline float
-lw6mat_xtof (int32_t x)
+static inline float __attribute__ ((const)) lw6mat_xtof (int32_t x)
 {
   return ((float) x) / LW6MAT_X_MUL_F;
 }
 
-static inline int32_t
-lw6mat_xtoi (int32_t x)
+static inline int32_t __attribute__ ((const)) lw6mat_xtoi (int32_t x)
 {
   /*
    * We add 0.5 to the number before truncating
@@ -786,8 +772,7 @@ lw6mat_xtoi (int32_t x)
   return (x + LW6MAT_X_ROUND_I) >> LW6MAT_X_SHIFT_I;
 }
 
-static inline double
-lw6mat_xtod (int32_t x)
+static inline double __attribute__ ((const)) lw6mat_xtod (int32_t x)
 {
   return ((double) x) / LW6MAT_X_MUL_F;
 }
@@ -796,8 +781,7 @@ lw6mat_xtod (int32_t x)
  * Specific fixed-point routines
  */
 
-static inline int32_t
-lw6mat_x_mul_32 (int32_t a, int32_t b)
+static inline int32_t __attribute__ ((const)) lw6mat_x_mul_32 (int32_t a, int32_t b)
 {
   /*
    * Multiplying two fixed-point numbers, does a rough approximation
@@ -807,8 +791,7 @@ lw6mat_x_mul_32 (int32_t a, int32_t b)
   return ((a + LW6MAT_X_ROUND_HALF_I) >> LW6MAT_X_SHIFT_HALF_I) * ((b + LW6MAT_X_ROUND_HALF_I) >> LW6MAT_X_SHIFT_HALF_I);
 }
 
-static inline int32_t
-lw6mat_x_div_32 (int32_t a, int32_t b)
+static inline int32_t __attribute__ ((const)) lw6mat_x_div_32 (int32_t a, int32_t b)
 {
   /*
    * Dividing two fixed-point numbers, does a rough approximation
@@ -818,8 +801,7 @@ lw6mat_x_div_32 (int32_t a, int32_t b)
   return ((a << LW6MAT_X_SHIFT_HALF_I) / ((b + LW6MAT_X_ROUND_HALF_I) >> LW6MAT_X_SHIFT_HALF_I));
 }
 
-static inline int32_t
-lw6mat_x_inv_32 (int32_t a)
+static inline int32_t __attribute__ ((const)) lw6mat_x_inv_32 (int32_t a)
 {
   /*
    * Inverse of a fixed-point number, does a rough approximation
@@ -829,8 +811,7 @@ lw6mat_x_inv_32 (int32_t a)
   return ((LW6MAT_X_1 << LW6MAT_X_SHIFT_HALF_I) / ((a + LW6MAT_X_ROUND_HALF_I) >> LW6MAT_X_SHIFT_HALF_I));
 }
 
-static inline int32_t
-lw6mat_x_mul_64 (int32_t a, int32_t b)
+static inline int32_t __attribute__ ((const)) lw6mat_x_mul_64 (int32_t a, int32_t b)
 {
   /*
    * Multiplying two fixed point numbers, will give the exact result
@@ -840,8 +821,7 @@ lw6mat_x_mul_64 (int32_t a, int32_t b)
   return ((int32_t) (((((int64_t) a) * ((int64_t) b)) + LW6MAT_X_ROUND_I) >> LW6MAT_X_SHIFT_I));
 }
 
-static inline int32_t
-lw6mat_x_div_64 (int32_t a, int32_t b)
+static inline int32_t __attribute__ ((const)) lw6mat_x_div_64 (int32_t a, int32_t b)
 {
   /*
    * Dividing two fixed point numbers, will give the exact result
@@ -851,8 +831,7 @@ lw6mat_x_div_64 (int32_t a, int32_t b)
   return ((int32_t) ((((int64_t) a) << LW6MAT_X_SHIFT_I) / ((int64_t) b)));
 }
 
-static inline int32_t
-lw6mat_x_inv_64 (int32_t a)
+static inline int32_t __attribute__ ((const)) lw6mat_x_inv_64 (int32_t a)
 {
   /*
    * Inverse of a fixed point numbers, will give the exact result
@@ -1125,10 +1104,10 @@ extern void lw6mat_dmat4_mul_dvec3 (lw6mat_dvec3_t * dvec3_dst, const lw6mat_dma
 extern char *lw6mat_dmat4_repr (lw6sys_context_t * sys_context, const lw6mat_dmat4_t * dmat4);
 
 /* mat-similar.c */
-extern int lw6mat_is_similar_f (float f_a, float f_b);
-extern int lw6mat_is_similar_i (int32_t i_a, int32_t i_b);
-extern int lw6mat_is_similar_d (double d_a, double d_b);
-extern int lw6mat_is_similar_x (int32_t x_a, int32_t x_b);
+extern int lw6mat_is_similar_f (float f_a, float f_b) __attribute__ ((const));
+extern int lw6mat_is_similar_i (int32_t i_a, int32_t i_b) __attribute__ ((const));
+extern int lw6mat_is_similar_d (double d_a, double d_b) __attribute__ ((const));
+extern int lw6mat_is_similar_x (int32_t x_a, int32_t x_b) __attribute__ ((const));
 
 /* mat-test.c */
 extern int lw6mat_test_register (lw6sys_context_t * sys_context, int mode);
