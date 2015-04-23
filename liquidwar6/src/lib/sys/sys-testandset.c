@@ -31,7 +31,6 @@
 /**
  * lw6sys_test_and_set
  *
- * @sys_context: global system context
  * @test_and_set: pointer to the value used to test and set
  *
  * Low level function which performs an atomic exchange to
@@ -41,7 +40,7 @@
  * Return value: 1 when lock is acquired.
  */
 int32_t
-lw6sys_test_and_set (lw6sys_context_t * sys_context, volatile int32_t * test_and_set)
+lw6sys_test_and_set (volatile int32_t * test_and_set)
 {
   if (test_and_set && (*test_and_set == 0 || *test_and_set == 1))
     {
@@ -57,7 +56,6 @@ lw6sys_test_and_set (lw6sys_context_t * sys_context, volatile int32_t * test_and
 /**
  * lw6sys_test_and_set
  *
- * @sys_context: global system context
  * @test_and_set: pointer to the value used to test and set
  *
  * Low level function which performs an atomic exchange to
@@ -67,7 +65,7 @@ lw6sys_test_and_set (lw6sys_context_t * sys_context, volatile int32_t * test_and
  * Return value: 1 when lock is acquired.
  */
 int64_t
-lw6sys_test_and_set (lw6sys_context_t * sys_context, volatile int64_t * test_and_set)
+lw6sys_test_and_set (volatile int64_t * test_and_set)
 {
   if (test_and_set && (*test_and_set == 0 || *test_and_set == 1))
     {

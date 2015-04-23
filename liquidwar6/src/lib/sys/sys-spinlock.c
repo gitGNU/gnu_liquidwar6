@@ -155,7 +155,11 @@ lw6sys_spinlock_lock (lw6sys_context_t * sys_context, lw6sys_spinlock_t * spinlo
 #else // ((_POSIX_SPIN_LOCKS - 200112L) >= 0L)
 #if LW6_X86 || LW6_AMD64
   // http://www.cis.temple.edu/~ingargio/cis307/readings/spinsem.html
-  while (lw6sys_test_and_set (sys_context, &(((_lw6sys_spinlock_t *) spinlock)->test_and_set)))
+#ifdef LW6_OPTIMIZE
+  while (lw6sys_test_and_set (&(((_lw6sys_spinlock_t *) spinlock)->test_and_set)))
+#else // LW6_OPTIMIZE
+  while (_lw6sys_test_and_set_asm (&(((_lw6sys_spinlock_t *) spinlock)->test_and_set)))
+#endif // LW6_OPTIMIZE
     {
       // eat 100% CPU
     }
