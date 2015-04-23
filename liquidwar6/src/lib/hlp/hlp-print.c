@@ -1227,7 +1227,10 @@ lw6hlp_print_hello (lw6sys_context_t * sys_context, int argc, const char *argv[]
   lw6sys_options_log_defaults (sys_context);
   lw6sys_options_log (sys_context, argc, argv);
 
-  lw6sys_check_types_size (sys_context);
+  if (!lw6sys_check_types_size (sys_context))
+    {
+      lw6sys_log (sys_context, LW6SYS_LOG_ERROR, _x_ ("run-time types size problem"));
+    }
 }
 
 /**

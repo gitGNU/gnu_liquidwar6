@@ -769,67 +769,67 @@ extern int lw6sys_get_memory_bazooka_malloc_max_bytes (lw6sys_context_t * sys_co
 extern int lw6sys_memory_bazooka_report (lw6sys_context_t * sys_context);
 
 /* sys-build.c */
-extern char *lw6sys_build_get_package_tarname ();
-extern char *lw6sys_build_get_package_name ();
-extern char *lw6sys_build_get_package_string ();
-extern char *lw6sys_build_get_package_id ();
-extern char *lw6sys_build_get_version ();
-extern char *lw6sys_build_get_codename ();
-extern char *lw6sys_build_get_version_base ();
-extern char *lw6sys_build_get_version_major ();
-extern char *lw6sys_build_get_version_minor ();
-extern char *lw6sys_build_get_stamp ();
-extern char *lw6sys_build_get_md5sum ();
-extern char *lw6sys_build_get_copyright ();
-extern char *lw6sys_build_get_license ();
-extern char *lw6sys_build_get_home_url ();
-extern char *lw6sys_build_get_bugs_url ();
-extern char *lw6sys_build_get_configure_args ();
-extern char *lw6sys_build_get_gcc_version ();
-extern char *lw6sys_build_get_cflags ();
-extern char *lw6sys_build_get_ldflags ();
-extern char *lw6sys_build_get_hostname ();
-extern char *lw6sys_build_get_date ();
-extern char *lw6sys_build_get_time ();
-extern char *lw6sys_build_get_host_cpu ();
-extern char *lw6sys_build_get_endianness (lw6sys_context_t * sys_context);
-extern int lw6sys_build_get_pointer_size ();
-extern int lw6sys_build_is_x86 ();
-extern int lw6sys_build_is_amd64 ();
-extern char *lw6sys_build_get_host_os ();
-extern int lw6sys_build_is_gnu ();
-extern int lw6sys_build_is_unix ();
-extern int lw6sys_build_is_ms_windows ();
-extern int lw6sys_build_is_mac_os_x ();
-extern int lw6sys_build_is_gp2x ();
-extern char *lw6sys_build_get_top_srcdir (lw6sys_context_t * sys_context);
-extern char *lw6sys_build_get_abs_srcdir ();
-extern char *lw6sys_build_get_prefix ();
-extern char *lw6sys_build_get_datadir ();
-extern char *lw6sys_build_get_libdir ();
-extern char *lw6sys_build_get_includedir ();
-extern char *lw6sys_build_get_localedir ();
-extern char *lw6sys_build_get_docdir ();
-extern char *lw6sys_build_get_enable_console ();
-extern char *lw6sys_build_get_enable_gtk ();
-extern char *lw6sys_build_get_enable_mod_gl1 ();
-extern char *lw6sys_build_get_enable_mod_gles2 ();
-extern char *lw6sys_build_get_enable_mod_soft ();
-extern char *lw6sys_build_get_enable_mod_caca ();
-extern char *lw6sys_build_get_enable_mod_csound ();
-extern char *lw6sys_build_get_enable_mod_ogg ();
-extern char *lw6sys_build_get_enable_mod_http ();
-extern char *lw6sys_build_get_enable_openmp ();
-extern char *lw6sys_build_get_enable_optimize ();
-extern char *lw6sys_build_get_enable_allinone ();
-extern char *lw6sys_build_get_enable_fullstatic ();
-extern char *lw6sys_build_get_enable_paranoid ();
-extern char *lw6sys_build_get_enable_gprof ();
-extern char *lw6sys_build_get_enable_instrument ();
-extern char *lw6sys_build_get_enable_profiler ();
-extern char *lw6sys_build_get_enable_gcov ();
-extern char *lw6sys_build_get_enable_valgrind ();
-extern int lw6sys_build_get_bin_id (lw6sys_context_t * sys_context);
+extern char *lw6sys_build_get_package_tarname () __attribute__ ((const));
+extern char *lw6sys_build_get_package_name () __attribute__ ((const));
+extern char *lw6sys_build_get_package_string () __attribute__ ((const));
+extern char *lw6sys_build_get_package_id () __attribute__ ((const));
+extern char *lw6sys_build_get_version () __attribute__ ((const));
+extern char *lw6sys_build_get_codename () __attribute__ ((const));
+extern char *lw6sys_build_get_version_base () __attribute__ ((const));
+extern char *lw6sys_build_get_version_major () __attribute__ ((const));
+extern char *lw6sys_build_get_version_minor () __attribute__ ((const));
+extern char *lw6sys_build_get_stamp () __attribute__ ((const));
+extern char *lw6sys_build_get_md5sum () __attribute__ ((const));
+extern char *lw6sys_build_get_copyright () __attribute__ ((const));
+extern char *lw6sys_build_get_license () __attribute__ ((const));
+extern char *lw6sys_build_get_home_url () __attribute__ ((const));
+extern char *lw6sys_build_get_bugs_url () __attribute__ ((const));
+extern char *lw6sys_build_get_configure_args () __attribute__ ((const));
+extern char *lw6sys_build_get_gcc_version () __attribute__ ((const));
+extern char *lw6sys_build_get_cflags () __attribute__ ((const));
+extern char *lw6sys_build_get_ldflags () __attribute__ ((const));
+extern char *lw6sys_build_get_hostname () __attribute__ ((const));
+extern char *lw6sys_build_get_date () __attribute__ ((const));
+extern char *lw6sys_build_get_time () __attribute__ ((const));
+extern char *lw6sys_build_get_host_cpu () __attribute__ ((const));
+extern char *lw6sys_build_get_endianness (lw6sys_context_t * sys_context) __attribute__ ((pure));
+extern int lw6sys_build_get_pointer_size () __attribute__ ((const));
+extern int lw6sys_build_is_x86 () __attribute__ ((const));
+extern int lw6sys_build_is_amd64 () __attribute__ ((const));
+extern char *lw6sys_build_get_host_os () __attribute__ ((const));
+extern int lw6sys_build_is_gnu () __attribute__ ((const));
+extern int lw6sys_build_is_unix () __attribute__ ((const));
+extern int lw6sys_build_is_ms_windows () __attribute__ ((const));
+extern int lw6sys_build_is_mac_os_x () __attribute__ ((const));
+extern int lw6sys_build_is_gp2x () __attribute__ ((const));
+extern char *lw6sys_build_get_top_srcdir (lw6sys_context_t * sys_context) __attribute__ ((pure));
+extern char *lw6sys_build_get_abs_srcdir () __attribute__ ((const));
+extern char *lw6sys_build_get_prefix () __attribute__ ((const));
+extern char *lw6sys_build_get_datadir () __attribute__ ((const));
+extern char *lw6sys_build_get_libdir () __attribute__ ((const));
+extern char *lw6sys_build_get_includedir () __attribute__ ((const));
+extern char *lw6sys_build_get_localedir () __attribute__ ((const));
+extern char *lw6sys_build_get_docdir () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_console () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_gtk () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_mod_gl1 () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_mod_gles2 () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_mod_soft () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_mod_caca () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_mod_csound () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_mod_ogg () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_mod_http () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_openmp () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_optimize () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_allinone () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_fullstatic () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_paranoid () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_gprof () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_instrument () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_profiler () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_gcov () __attribute__ ((const));
+extern char *lw6sys_build_get_enable_valgrind () __attribute__ ((const));
+extern int lw6sys_build_get_bin_id (lw6sys_context_t * sys_context) __attribute__ ((pure));
 extern void lw6sys_build_log_all (lw6sys_context_t * sys_context);
 
 /* sys-cache.c */
@@ -842,26 +842,22 @@ extern void lw6sys_cache_set (lw6sys_context_t * sys_context, lw6sys_cache_t * c
 extern void lw6sys_cache_unset (lw6sys_context_t * sys_context, lw6sys_cache_t * cache, const char *key);
 
 /* sys-chr.c */
-static inline int
-lw6sys_chr_is_digit (char c)
+static inline int __attribute__ ((const)) lw6sys_chr_is_digit (char c)
 {
   return (c >= '0' && c <= '9');
 }
 
-static inline int
-lw6sys_chr_is_alnum (char c)
+static inline int __attribute__ ((const)) lw6sys_chr_is_alnum (char c)
 {
   return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 }
 
-static inline int
-lw6sys_chr_is_space (char c)
+static inline int __attribute__ ((const)) lw6sys_chr_is_space (char c)
 {
   return (c == ' ' || c == '\t');
 }
 
-static inline int
-lw6sys_chr_is_eol (char c)
+static inline int __attribute__ ((const)) lw6sys_chr_is_eol (char c)
 {
   return (c == '\n' || c == '\r');
 }
@@ -869,8 +865,8 @@ lw6sys_chr_is_eol (char c)
 /* sys-checksum.c */
 extern u_int32_t lw6sys_checksum (lw6sys_context_t * sys_context, unsigned char *data, int len);
 extern u_int32_t lw6sys_checksum_str (lw6sys_context_t * sys_context, const char *value);
-extern u_int32_t lw6sys_checksum_int32 (lw6sys_context_t * sys_context, u_int32_t value);
-extern u_int32_t lw6sys_checksum_int64 (lw6sys_context_t * sys_context, u_int64_t value);
+extern u_int32_t lw6sys_checksum_int32 (lw6sys_context_t * sys_context, u_int32_t value) __attribute__ ((pure));
+extern u_int32_t lw6sys_checksum_int64 (lw6sys_context_t * sys_context, u_int64_t value) __attribute__ ((pure));
 extern u_int32_t lw6sys_checksum_whd (lw6sys_context_t * sys_context, lw6sys_whd_t * whd);
 extern u_int32_t lw6sys_checksum_xyz (lw6sys_context_t * sys_context, lw6sys_xyz_t * xyz);
 extern void lw6sys_checksum_update (lw6sys_context_t * sys_context, u_int32_t * checksum, unsigned char *data, int len);
@@ -881,37 +877,37 @@ extern void lw6sys_checksum_update_whd (lw6sys_context_t * sys_context, u_int32_
 extern void lw6sys_checksum_update_xyz (lw6sys_context_t * sys_context, u_int32_t * checksum, const lw6sys_xyz_t * xyz);
 
 /* sys-color.c */
-extern u_int8_t lw6sys_color_float2char (float f);
-extern float lw6sys_color_char2float (u_int8_t i);
+extern u_int8_t lw6sys_color_float2char (float f) __attribute__ ((pure));
+extern float lw6sys_color_char2float (u_int8_t i) __attribute__ ((pure));
 extern lw6sys_color_8_t lw6sys_color_f_to_8 (const lw6sys_color_f_t * color_f);
 extern void lw6sys_color_8_to_f (lw6sys_color_f_t * color_f, lw6sys_color_8_t color_8);
 extern u_int32_t lw6sys_color_f_to_irgba (const lw6sys_color_f_t * color_f);
 extern u_int32_t lw6sys_color_f_to_ibgra (const lw6sys_color_f_t * color_f);
 extern u_int32_t lw6sys_color_f_to_iargb (const lw6sys_color_f_t * color_f);
 extern u_int32_t lw6sys_color_f_to_iabgr (const lw6sys_color_f_t * color_f);
-extern u_int32_t lw6sys_color_8_to_irgba (lw6sys_color_8_t color_8);
-extern u_int32_t lw6sys_color_8_to_ibgra (lw6sys_color_8_t color_8);
-extern u_int32_t lw6sys_color_8_to_iargb (lw6sys_color_8_t color_8);
-extern u_int32_t lw6sys_color_8_to_iabgr (lw6sys_color_8_t color_8);
+extern u_int32_t lw6sys_color_8_to_irgba (lw6sys_color_8_t color_8) __attribute__ ((pure));
+extern u_int32_t lw6sys_color_8_to_ibgra (lw6sys_color_8_t color_8) __attribute__ ((pure));
+extern u_int32_t lw6sys_color_8_to_iargb (lw6sys_color_8_t color_8) __attribute__ ((pure));
+extern u_int32_t lw6sys_color_8_to_iabgr (lw6sys_color_8_t color_8) __attribute__ ((pure));
 extern void lw6sys_color_irgba_to_f (lw6sys_color_f_t * color_f, u_int32_t color_i);
 extern void lw6sys_color_ibgra_to_f (lw6sys_color_f_t * color_f, u_int32_t color_i);
 extern void lw6sys_color_iargb_to_f (lw6sys_color_f_t * color_f, u_int32_t color_i);
 extern void lw6sys_color_iabgr_to_f (lw6sys_color_f_t * color_f, u_int32_t color_i);
-extern lw6sys_color_8_t lw6sys_color_irgba_to_8 (u_int32_t color_i);
-extern lw6sys_color_8_t lw6sys_color_ibgra_to_8 (u_int32_t color_i);
-extern lw6sys_color_8_t lw6sys_color_iargb_to_8 (u_int32_t color_i);
-extern lw6sys_color_8_t lw6sys_color_iabgr_to_8 (u_int32_t color_i);
+extern lw6sys_color_8_t lw6sys_color_irgba_to_8 (u_int32_t color_i) __attribute__ ((pure));
+extern lw6sys_color_8_t lw6sys_color_ibgra_to_8 (u_int32_t color_i) __attribute__ ((pure));
+extern lw6sys_color_8_t lw6sys_color_iargb_to_8 (u_int32_t color_i) __attribute__ ((pure));
+extern lw6sys_color_8_t lw6sys_color_iabgr_to_8 (u_int32_t color_i) __attribute__ ((pure));
 extern lw6sys_color_8_t lw6sys_color_a_to_8 (lw6sys_context_t * sys_context, const char *ascii);
 extern void lw6sys_color_a_to_f (lw6sys_context_t * sys_context, lw6sys_color_f_t * color_f, const char *ascii);
 extern char *lw6sys_color_8_to_a (lw6sys_context_t * sys_context, lw6sys_color_8_t color_8);
 extern void lw6sys_color_rgb_to_hsv (lw6sys_context_t * sys_context, lw6sys_color_hsv_t * color_hsv, lw6sys_color_8_t color_8);
 extern lw6sys_color_8_t lw6sys_color_hsv_to_rgb (lw6sys_context_t * sys_context, const lw6sys_color_hsv_t * color_hsv);
 extern void lw6sys_color_hsv_invert (lw6sys_context_t * sys_context, lw6sys_color_hsv_t * color_hsv, int invert_h, int invert_s, int invert_v);
-extern int lw6sys_color_is_grey (lw6sys_color_8_t color);
+extern int lw6sys_color_is_grey (lw6sys_color_8_t color) __attribute__ ((pure));
 extern lw6sys_color_8_t lw6sys_color_average (lw6sys_context_t * sys_context, int size, const lw6sys_color_8_t * colors);
 extern lw6sys_color_8_t lw6sys_color_ponderate (lw6sys_context_t * sys_context, lw6sys_color_8_t color1, lw6sys_color_8_t color2, float coeff);
 extern float lw6sys_color_distance (lw6sys_context_t * sys_context, lw6sys_color_8_t color1, lw6sys_color_8_t color2);
-extern int lw6sys_color_is_same (lw6sys_context_t * sys_context, const lw6sys_color_8_t color1, const lw6sys_color_8_t color2);
+extern int lw6sys_color_is_same (lw6sys_context_t * sys_context, const lw6sys_color_8_t color1, const lw6sys_color_8_t color2) __attribute__ ((pure));
 extern void lw6sys_color_8_solid (lw6sys_color_8_t * color);
 extern void lw6sys_color_f_solid (lw6sys_color_f_t * color);
 
@@ -953,8 +949,8 @@ extern void lw6sys_dump_clear (lw6sys_context_t * sys_context, char *user_dir);
 extern int lw6sys_dump (lw6sys_context_t * sys_context, char *user_dir, char *content);
 
 /* sys-env.c */
-extern char lw6sys_env_separator_char ();
-extern char *lw6sys_env_separator_str ();
+extern char lw6sys_env_separator_char () __attribute__ ((const));
+extern char *lw6sys_env_separator_str () __attribute__ ((const));
 extern char *lw6sys_env_concat (lw6sys_context_t * sys_context, const char *value1, const char *value2);
 extern int lw6sys_env_exists_prefixed (lw6sys_context_t * sys_context, const char *keyword);
 extern char *lw6sys_getenv (lw6sys_context_t * sys_context, const char *key);
@@ -1040,10 +1036,10 @@ extern char *lw6sys_locale_to_utf8 (lw6sys_context_t * sys_context, const char *
 extern u_int16_t lw6sys_generate_id_16 (lw6sys_context_t * sys_context);
 extern u_int32_t lw6sys_generate_id_32 (lw6sys_context_t * sys_context);
 extern u_int64_t lw6sys_generate_id_64 (lw6sys_context_t * sys_context);
-extern int lw6sys_check_id_16 (lw6sys_context_t * sys_context, u_int16_t id_16);
-extern int lw6sys_check_id_32 (lw6sys_context_t * sys_context, u_int32_t id_32);
-extern int lw6sys_check_id_64 (lw6sys_context_t * sys_context, u_int64_t id_64);
-extern int lw6sys_check_id (lw6sys_context_t * sys_context, u_int64_t id_64);
+extern int lw6sys_check_id_16 (lw6sys_context_t * sys_context, u_int16_t id_16) __attribute__ ((pure));
+extern int lw6sys_check_id_32 (lw6sys_context_t * sys_context, u_int32_t id_32) __attribute__ ((pure));
+extern int lw6sys_check_id_64 (lw6sys_context_t * sys_context, u_int64_t id_64) __attribute__ ((pure));
+extern int lw6sys_check_id (lw6sys_context_t * sys_context, u_int64_t id_64) __attribute__ ((pure));
 extern char *lw6sys_id_ltoa (lw6sys_context_t * sys_context, u_int64_t id);
 extern u_int64_t lw6sys_id_atol (lw6sys_context_t * sys_context, char *id);
 
@@ -1107,11 +1103,11 @@ extern void lw6sys_log_set_console_state (lw6sys_context_t * sys_context, int st
 
 /* sys-math.c */
 extern void lw6sys_math_poly_wy1y2s1 (lw6sys_context_t * sys_context, float *y, float *s, float x, float w, float y1, float y2, float s1);
-extern float lw6sys_math_angle_360 (lw6sys_context_t * sys_context, int x, int y);
-extern float lw6sys_math_heartbeat (lw6sys_context_t * sys_context, int64_t x, int period, float y1, float y2);
-extern int lw6sys_math_blink (lw6sys_context_t * sys_context, int64_t x, int period);
-extern float lw6sys_math_lin2log (lw6sys_context_t * sys_context, int lin_value, int base);
-extern int lw6sys_math_log2lin (lw6sys_context_t * sys_context, float log_value, int base);
+extern float lw6sys_math_angle_360 (lw6sys_context_t * sys_context, int x, int y) __attribute__ ((pure));
+extern float lw6sys_math_heartbeat (lw6sys_context_t * sys_context, int64_t x, int period, float y1, float y2) __attribute__ ((pure));
+extern int lw6sys_math_blink (lw6sys_context_t * sys_context, int64_t x, int period) __attribute__ ((pure));
+extern float lw6sys_math_lin2log (lw6sys_context_t * sys_context, int lin_value, int base) __attribute__ ((pure));
+extern int lw6sys_math_log2lin (lw6sys_context_t * sys_context, float log_value, int base) __attribute__ ((pure));
 
 /* sys-mem.c */
 #ifdef LW6_OPTIMIZE
@@ -1133,8 +1129,8 @@ extern void lw6sys_free (lw6sys_context_t * sys_context, void *ptr, const char *
 extern void lw6sys_free_callback (lw6sys_context_t * sys_context, void *ptr);
 extern int lw6sys_megabytes_available (lw6sys_context_t * sys_context);
 extern int lw6sys_is_big_endian (lw6sys_context_t * sys_context);
-extern int lw6sys_is_little_endian (lw6sys_context_t * sys_context);
-extern int lw6sys_check_types_size (lw6sys_context_t * sys_context);
+extern int lw6sys_is_little_endian (lw6sys_context_t * sys_context) __attribute__ ((pure));
+extern int lw6sys_check_types_size (lw6sys_context_t * sys_context) __attribute__ ((pure));
 
 /* sys-mutex.c */
 extern lw6sys_mutex_t *lw6sys_mutex_create (lw6sys_context_t * sys_context, const char *file, int line, const char *func);
@@ -1147,11 +1143,11 @@ extern int lw6sys_get_mutex_unlock_count (lw6sys_context_t * sys_context);
 extern int lw6sys_check_mutex_count (lw6sys_context_t * sys_context);
 
 /* sys-nop.c */
-extern int lw6sys_true ();
-extern int lw6sys_false ();
+extern int lw6sys_true () __attribute__ ((const));
+extern int lw6sys_false () __attribute__ ((const));
 
 /* sys-openmp.c */
-extern int lw6sys_openmp_get_num_procs (lw6sys_context_t * sys_context);
+extern int lw6sys_openmp_get_num_procs (lw6sys_context_t * sys_context) __attribute__ ((pure));
 
 /* sys-options.c */
 extern char *lw6sys_get_cwd (lw6sys_context_t * sys_context);
@@ -1207,7 +1203,7 @@ extern void lw6sys_print_xml_header (lw6sys_context_t * sys_context, FILE * f, c
 extern void lw6sys_print_xml_footer (lw6sys_context_t * sys_context, FILE * f);
 
 /* sys-process.c */
-int lw6sys_process_is_fully_supported (lw6sys_context_t * sys_context);
+int lw6sys_process_is_fully_supported (lw6sys_context_t * sys_context) __attribute__ ((pure));
 u_int64_t lw6sys_process_fork_and_call (lw6sys_context_t * sys_context, lw6sys_fork_func_t func, void *data);
 int lw6sys_process_kill_1_9 (lw6sys_context_t * sys_context, u_int64_t pid);
 
@@ -1381,50 +1377,42 @@ extern void lw6sys_vthread_join (lw6sys_context_t * sys_context);
 
 
 /* inline utils */
-static inline int32_t
-lw6sys_imin (int32_t a, int32_t b)
+static inline int32_t __attribute__ ((const)) lw6sys_imin (int32_t a, int32_t b)
 {
   return (a < b) ? a : b;
 }
 
-static inline int32_t
-lw6sys_imax (int32_t a, int32_t b)
+static inline int32_t __attribute__ ((const)) lw6sys_imax (int32_t a, int32_t b)
 {
   return (a > b) ? a : b;
 }
 
-static inline float
-lw6sys_fmin (float a, float b)
+static inline float __attribute__ ((const)) lw6sys_fmin (float a, float b)
 {
   return (a < b) ? a : b;
 }
 
-static inline float
-lw6sys_fmax (float a, float b)
+static inline float __attribute__ ((const)) lw6sys_fmax (float a, float b)
 {
   return (a > b) ? a : b;
 }
 
-static inline int64_t
-lw6sys_llmin (int64_t a, int64_t b)
+static inline int64_t __attribute__ ((const)) lw6sys_llmin (int64_t a, int64_t b)
 {
   return (a < b) ? a : b;
 }
 
-static inline int64_t
-lw6sys_llmax (int64_t a, int64_t b)
+static inline int64_t __attribute__ ((const)) lw6sys_llmax (int64_t a, int64_t b)
 {
   return (a > b) ? a : b;
 }
 
-static inline double
-lw6sys_dmin (double a, double b)
+static inline double __attribute__ ((const)) lw6sys_dmin (double a, double b)
 {
   return (a < b) ? a : b;
 }
 
-static inline double
-lw6sys_dmax (double a, double b)
+static inline double __attribute__ ((const)) lw6sys_dmax (double a, double b)
 {
   return (a > b) ? a : b;
 }
