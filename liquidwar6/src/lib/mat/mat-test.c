@@ -274,6 +274,14 @@
 #define _TEST_DMAT_TRANSLATION_PY 11.1f
 #define _TEST_DMAT_TRANSLATION_PZ 42.0f
 
+#define _TEST_FMAT_SCALE_X0 -0.2f
+#define _TEST_FMAT_SCALE_Y0 -0.3f
+#define _TEST_FMAT_SCALE_Z0 -0.4f
+
+#define _TEST_DMAT_SCALE_X0 -2.0f
+#define _TEST_DMAT_SCALE_Y0 -3.0f
+#define _TEST_DMAT_SCALE_Z0 -4.0f
+
 typedef struct _lw6mat_test_data_s
 {
   int ret;
@@ -2276,6 +2284,7 @@ _test_fmat2 ()
     lw6mat_fmat2_t fmat2_identity;
     lw6mat_fmat2_t fmat2_transpose;
     lw6mat_fmat2_t fmat2_translation;
+    lw6mat_fmat2_t fmat2_scale;
     lw6mat_fvec2_t fvec2;
     int i = 0;
     int j = 0;
@@ -2469,6 +2478,22 @@ _test_fmat2 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
 	    ret = 0;
 	  }
+	fvec2.p.x = _TEST_FMAT_SCALE_X0;
+	fvec2.v[1] = LW6MAT_F_1;
+	lw6mat_fmat2_scale (&fmat2_scale, _TEST_FMAT_SCALE);
+	ret = _print_fmat2 (sys_context, &fmat2_scale, "scale left arg fmat2") && ret;
+	ret = _print_fvec2 (sys_context, &fvec2, "scale right arg column fvec2") && ret;
+	lw6mat_fmat2_mul_fvec2 (&fvec2, &fmat2_scale, &fvec2);
+	ret = _print_fvec2 (sys_context, &fvec2, "scale result fvec2") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fvec2.p.x, _TEST_FMAT_SCALE_X0 * _TEST_FMAT_SCALE)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("scale OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("scale error"));
+	    ret = 0;
+	  }
       }
     else
       {
@@ -2498,6 +2523,7 @@ _test_fmat3 ()
     lw6mat_fmat3_t fmat3_identity;
     lw6mat_fmat3_t fmat3_transpose;
     lw6mat_fmat3_t fmat3_translation;
+    lw6mat_fmat3_t fmat3_scale;
     lw6mat_fvec3_t fvec3;
     lw6mat_fvec2_t fvec2;
     int i = 0;
@@ -2713,6 +2739,23 @@ _test_fmat3 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
 	    ret = 0;
 	  }
+	fvec3.p.x = _TEST_FMAT_SCALE_X0;
+	fvec3.p.y = _TEST_FMAT_SCALE_Y0;
+	fvec3.v[2] = LW6MAT_F_1;
+	lw6mat_fmat3_scale (&fmat3_scale, _TEST_FMAT_SCALE);
+	ret = _print_fmat3 (sys_context, &fmat3_scale, "scale left arg fmat3") && ret;
+	ret = _print_fvec3 (sys_context, &fvec3, "scale right arg column fvec3") && ret;
+	lw6mat_fmat3_mul_fvec3 (&fvec3, &fmat3_scale, &fvec3);
+	ret = _print_fvec3 (sys_context, &fvec3, "scale result fvec3") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fvec3.p.x, _TEST_FMAT_SCALE_X0 * _TEST_FMAT_SCALE)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("scale OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("scale error"));
+	    ret = 0;
+	  }
       }
     else
       {
@@ -2742,6 +2785,7 @@ _test_fmat4 ()
     lw6mat_fmat4_t fmat4_identity;
     lw6mat_fmat4_t fmat4_transpose;
     lw6mat_fmat4_t fmat4_translation;
+    lw6mat_fmat4_t fmat4_scale;
     lw6mat_fvec4_t fvec4;
     lw6mat_fvec3_t fvec3;
     int i = 0;
@@ -2961,6 +3005,24 @@ _test_fmat4 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
 	    ret = 0;
 	  }
+	fvec4.p.x = _TEST_FMAT_SCALE_X0;
+	fvec4.p.y = _TEST_FMAT_SCALE_Y0;
+	fvec4.p.z = _TEST_FMAT_SCALE_Z0;
+	fvec4.v[3] = LW6MAT_F_1;
+	lw6mat_fmat4_scale (&fmat4_scale, _TEST_FMAT_SCALE);
+	ret = _print_fmat4 (sys_context, &fmat4_scale, "scale left arg fmat4") && ret;
+	ret = _print_fvec4 (sys_context, &fvec4, "scale right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_scale, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "scale result fvec4") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fvec4.p.x, _TEST_FMAT_SCALE_X0 * _TEST_FMAT_SCALE)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("scale OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("scale error"));
+	    ret = 0;
+	  }
       }
     else
       {
@@ -2990,6 +3052,7 @@ _test_dmat2 ()
     lw6mat_dmat2_t dmat2_identity;
     lw6mat_dmat2_t dmat2_transpose;
     lw6mat_dmat2_t dmat2_translation;
+    lw6mat_dmat2_t dmat2_scale;
     lw6mat_dvec2_t dvec2;
     int i = 0;
     int j = 0;
@@ -3183,6 +3246,22 @@ _test_dmat2 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
 	    ret = 0;
 	  }
+	dvec2.p.x = _TEST_DMAT_SCALE_X0;
+	dvec2.v[1] = LW6MAT_F_1;
+	lw6mat_dmat2_scale (&dmat2_scale, _TEST_DMAT_SCALE);
+	ret = _print_dmat2 (sys_context, &dmat2_scale, "scale left arg dmat2") && ret;
+	ret = _print_dvec2 (sys_context, &dvec2, "scale right arg column dvec2") && ret;
+	lw6mat_dmat2_mul_dvec2 (&dvec2, &dmat2_scale, &dvec2);
+	ret = _print_dvec2 (sys_context, &dvec2, "scale result dvec2") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (dvec2.p.x, _TEST_DMAT_SCALE_X0 * _TEST_DMAT_SCALE)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("scale OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("scale error"));
+	    ret = 0;
+	  }
       }
     else
       {
@@ -3212,6 +3291,7 @@ _test_dmat3 ()
     lw6mat_dmat3_t dmat3_identity;
     lw6mat_dmat3_t dmat3_transpose;
     lw6mat_dmat3_t dmat3_translation;
+    lw6mat_dmat3_t dmat3_scale;
     lw6mat_dvec3_t dvec3;
     lw6mat_dvec2_t dvec2;
     int i = 0;
@@ -3427,6 +3507,23 @@ _test_dmat3 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
 	    ret = 0;
 	  }
+	dvec3.p.x = _TEST_DMAT_SCALE_X0;
+	dvec3.p.y = _TEST_DMAT_SCALE_Y0;
+	dvec3.v[2] = LW6MAT_F_1;
+	lw6mat_dmat3_scale (&dmat3_scale, _TEST_DMAT_SCALE);
+	ret = _print_dmat3 (sys_context, &dmat3_scale, "scale left arg dmat3") && ret;
+	ret = _print_dvec3 (sys_context, &dvec3, "scale right arg column dvec3") && ret;
+	lw6mat_dmat3_mul_dvec3 (&dvec3, &dmat3_scale, &dvec3);
+	ret = _print_dvec3 (sys_context, &dvec3, "scale result dvec3") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (dvec3.p.x, _TEST_DMAT_SCALE_X0 * _TEST_DMAT_SCALE)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("scale OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("scale error"));
+	    ret = 0;
+	  }
       }
     else
       {
@@ -3456,6 +3553,7 @@ _test_dmat4 ()
     lw6mat_dmat4_t dmat4_identity;
     lw6mat_dmat4_t dmat4_transpose;
     lw6mat_dmat4_t dmat4_translation;
+    lw6mat_dmat4_t dmat4_scale;
     lw6mat_dvec4_t dvec4;
     lw6mat_dvec3_t dvec3;
     int i = 0;
@@ -3673,6 +3771,24 @@ _test_dmat4 ()
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
+	    ret = 0;
+	  }
+	dvec4.p.x = _TEST_DMAT_SCALE_X0;
+	dvec4.p.y = _TEST_DMAT_SCALE_Y0;
+	dvec4.p.z = _TEST_DMAT_SCALE_Z0;
+	dvec4.v[3] = LW6MAT_F_1;
+	lw6mat_dmat4_scale (&dmat4_scale, _TEST_DMAT_SCALE);
+	ret = _print_dmat4 (sys_context, &dmat4_scale, "scale left arg dmat4") && ret;
+	ret = _print_dvec4 (sys_context, &dvec4, "scale right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_scale, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "scale result dvec4") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (dvec4.p.x, _TEST_DMAT_SCALE_X0 * _TEST_DMAT_SCALE)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("scale OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("scale error"));
 	    ret = 0;
 	  }
       }

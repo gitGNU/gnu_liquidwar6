@@ -81,6 +81,25 @@ lw6mat_dmat2_translation (lw6mat_dmat2_t * dmat2, double d)
 }
 
 /**
+ * lw6mat_dmat2_scale
+ *
+ * @dmat2: the matrix to initialize.
+ * @d: value used to scale matrix.
+ *
+ * Loads the matrix with a scale matrix. By multiplicating by this
+ * matrix, a scaling is done.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat2_scale (lw6mat_dmat2_t * dmat2, double d)
+{
+  lw6mat_dmat2_identity (dmat2);
+
+  dmat2->m[0][0] = d;
+}
+
+/**
  * lw6mat_dmat2_is_same
  *
  * @dmat2_a: 1st matrix to compare

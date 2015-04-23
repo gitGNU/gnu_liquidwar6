@@ -91,6 +91,30 @@ lw6mat_dmat4_translation (lw6mat_dmat4_t * dmat4, const lw6mat_dvec3_t * dvec3)
 }
 
 /**
+ * lw6mat_dmat4_scale
+ *
+ * @dmat4: the matrix to initialize.
+ * @d: value used to scale matrix.
+ *
+ * Loads the matrix with a scale matrix. By multiplicating by this
+ * matrix, a scaling is done.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat4_scale (lw6mat_dmat4_t * dmat4, double d)
+{
+  int i;
+
+  lw6mat_dmat4_identity (dmat4);
+
+  for (i = 0; i < LW6MAT_VEC3_V_SIZE; ++i)
+    {
+      dmat4->m[i][i] = d;
+    }
+}
+
+/**
  * lw6mat_dmat4_is_same
  *
  * @dmat4_a: 1st matrix to compare
