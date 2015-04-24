@@ -115,6 +115,32 @@ lw6mat_dmat3_scale (lw6mat_dmat3_t * dmat3, double d)
 }
 
 /**
+ * lw6mat_dmat3_rot
+ *
+ * @dmat3: the matrix to initialize.
+ * @r: value used to for the rotation, angle in radians.
+ *
+ * Loads the matrix with a rotation matrix. By multiplicating by this
+ * matrix, a rotation is done, over a virtual Z axis such as Z is the
+ * cross product of X and Y.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat3_rot (lw6mat_dmat3_t * dmat3, double r)
+{
+  float c = cos (r);
+  float s = sin (r);
+
+  lw6mat_dmat3_identity (dmat3);
+
+  dmat3->m[0][0] = c;
+  dmat3->m[0][1] = s;
+  dmat3->m[1][0] = -s;
+  dmat3->m[1][1] = c;
+}
+
+/**
  * lw6mat_dmat3_is_same
  *
  * @dmat3_a: 1st matrix to compare

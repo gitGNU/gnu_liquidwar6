@@ -115,6 +115,81 @@ lw6mat_dmat4_scale (lw6mat_dmat4_t * dmat4, double d)
 }
 
 /**
+ * lw6mat_dmat4_rot_x
+ *
+ * @dmat4: the matrix to initialize.
+ * @r: value used to for the rotation, angle in radians.
+ *
+ * Loads the matrix with a rotation matrix. By multiplicating by this
+ * matrix, a rotation is done, over the X axis.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat4_rot_x (lw6mat_dmat4_t * dmat4, double r)
+{
+  float c = cos (r);
+  float s = sin (r);
+
+  lw6mat_dmat4_identity (dmat4);
+
+  dmat4->m[1][1] = c;
+  dmat4->m[1][2] = s;
+  dmat4->m[2][1] = -s;
+  dmat4->m[2][2] = c;
+}
+
+/**
+ * lw6mat_dmat4_rot_y
+ *
+ * @dmat4: the matrix to initialize.
+ * @r: value used to for the rotation, angle in radians.
+ *
+ * Loads the matrix with a rotation matrix. By multiplicating by this
+ * matrix, a rotation is done, over the Y axis.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat4_rot_y (lw6mat_dmat4_t * dmat4, double r)
+{
+  float c = cos (r);
+  float s = sin (r);
+
+  lw6mat_dmat4_identity (dmat4);
+
+  dmat4->m[2][2] = c;
+  dmat4->m[2][0] = s;
+  dmat4->m[0][2] = -s;
+  dmat4->m[0][0] = c;
+}
+
+/**
+ * lw6mat_dmat4_rot_z
+ *
+ * @dmat4: the matrix to initialize.
+ * @r: value used to for the rotation, angle in radians.
+ *
+ * Loads the matrix with a rotation matrix. By multiplicating by this
+ * matrix, a rotation is done, over the Z axis.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat4_rot_z (lw6mat_dmat4_t * dmat4, double r)
+{
+  float c = cos (r);
+  float s = sin (r);
+
+  lw6mat_dmat4_identity (dmat4);
+
+  dmat4->m[0][0] = c;
+  dmat4->m[0][1] = s;
+  dmat4->m[1][0] = -s;
+  dmat4->m[1][1] = c;
+}
+
+/**
  * lw6mat_dmat4_is_same
  *
  * @dmat4_a: 1st matrix to compare

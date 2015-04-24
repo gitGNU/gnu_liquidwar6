@@ -282,6 +282,28 @@
 #define _TEST_DMAT_SCALE_Y0 -3.0f
 #define _TEST_DMAT_SCALE_Z0 -4.0f
 
+#define _TEST_FMAT_ROTATION_R 0.5f
+
+#define _TEST_FMAT_ROTATION_X0 2.0f
+#define _TEST_FMAT_ROTATION_Y0 3.0f
+#define _TEST_FMAT_ROTATION_Z0 4.0f
+
+#define _TEST_FMAT_ROTATION_XR 0.316888f
+#define _TEST_FMAT_ROTATION_XRX 2.0f
+#define _TEST_FMAT_ROTATION_XRY 3.672867f
+#define _TEST_FMAT_ROTATION_XRZ 0.316888f
+
+#define _TEST_DMAT_ROTATION_R 1.5f
+
+#define _TEST_DMAT_ROTATION_X0 20.0f
+#define _TEST_DMAT_ROTATION_Y0 30.0f
+#define _TEST_DMAT_ROTATION_Z0 40.0f
+
+#define _TEST_DMAT_ROTATION_XR -28.510106f
+#define _TEST_DMAT_ROTATION_XRX 20.0f
+#define _TEST_DMAT_ROTATION_XRY 41.314544f
+#define _TEST_DMAT_ROTATION_XRZ -28.510106f
+
 typedef struct _lw6mat_test_data_s
 {
   int ret;
@@ -2478,6 +2500,7 @@ _test_fmat2 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
 	    ret = 0;
 	  }
+
 	fvec2.p.x = _TEST_FMAT_SCALE_X0;
 	fvec2.v[1] = LW6MAT_F_1;
 	lw6mat_fmat2_scale (&fmat2_scale, _TEST_FMAT_SCALE);
@@ -2524,6 +2547,7 @@ _test_fmat3 ()
     lw6mat_fmat3_t fmat3_transpose;
     lw6mat_fmat3_t fmat3_translation;
     lw6mat_fmat3_t fmat3_scale;
+    lw6mat_fmat3_t fmat3_rotation;
     lw6mat_fvec3_t fvec3;
     lw6mat_fvec2_t fvec2;
     int i = 0;
@@ -2739,6 +2763,7 @@ _test_fmat3 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
 	    ret = 0;
 	  }
+
 	fvec3.p.x = _TEST_FMAT_SCALE_X0;
 	fvec3.p.y = _TEST_FMAT_SCALE_Y0;
 	fvec3.v[2] = LW6MAT_F_1;
@@ -2754,6 +2779,24 @@ _test_fmat3 ()
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("scale error"));
+	    ret = 0;
+	  }
+
+	fvec3.p.x = _TEST_FMAT_ROTATION_X0;
+	fvec3.p.y = _TEST_FMAT_ROTATION_Y0;
+	fvec3.v[2] = LW6MAT_F_1;
+	lw6mat_fmat3_rot (&fmat3_rotation, _TEST_FMAT_ROTATION_R);
+	ret = _print_fmat3 (sys_context, &fmat3_rotation, "rotation left arg fmat3") && ret;
+	ret = _print_fvec3 (sys_context, &fvec3, "rotation right arg column fvec3") && ret;
+	lw6mat_fmat3_mul_fvec3 (&fvec3, &fmat3_rotation, &fvec3);
+	ret = _print_fvec3 (sys_context, &fvec3, "rotation result fvec3") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fvec3.p.x, _TEST_FMAT_ROTATION_XR)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("rotation OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("rotation error"));
 	    ret = 0;
 	  }
       }
@@ -2786,6 +2829,7 @@ _test_fmat4 ()
     lw6mat_fmat4_t fmat4_transpose;
     lw6mat_fmat4_t fmat4_translation;
     lw6mat_fmat4_t fmat4_scale;
+    lw6mat_fmat4_t fmat4_rotation;
     lw6mat_fvec4_t fvec4;
     lw6mat_fvec3_t fvec3;
     int i = 0;
@@ -3005,6 +3049,7 @@ _test_fmat4 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
 	    ret = 0;
 	  }
+
 	fvec4.p.x = _TEST_FMAT_SCALE_X0;
 	fvec4.p.y = _TEST_FMAT_SCALE_Y0;
 	fvec4.p.z = _TEST_FMAT_SCALE_Z0;
@@ -3021,6 +3066,63 @@ _test_fmat4 ()
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("scale error"));
+	    ret = 0;
+	  }
+
+	fvec4.p.x = _TEST_FMAT_ROTATION_X0;
+	fvec4.p.y = _TEST_FMAT_ROTATION_Y0;
+	fvec4.p.z = _TEST_FMAT_ROTATION_Z0;
+	fvec4.v[3] = LW6MAT_F_1;
+	lw6mat_fmat4_rot_x (&fmat4_rotation, _TEST_FMAT_ROTATION_R);
+	ret = _print_fmat4 (sys_context, &fmat4_rotation, "rotation X left arg fmat4") && ret;
+	ret = _print_fvec4 (sys_context, &fvec4, "rotation X right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_rotation, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "rotation X result fvec4") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fvec4.p.x, _TEST_FMAT_ROTATION_XRX)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("rotation X OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("rotation X error"));
+	    ret = 0;
+	  }
+
+	fvec4.p.x = _TEST_FMAT_ROTATION_X0;
+	fvec4.p.y = _TEST_FMAT_ROTATION_Y0;
+	fvec4.p.z = _TEST_FMAT_ROTATION_Z0;
+	fvec4.v[3] = LW6MAT_F_1;
+	lw6mat_fmat4_rot_y (&fmat4_rotation, _TEST_FMAT_ROTATION_R);
+	ret = _print_fmat4 (sys_context, &fmat4_rotation, "rotation Y left arg fmat4") && ret;
+	ret = _print_fvec4 (sys_context, &fvec4, "rotation Y right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_rotation, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "rotation Y result fvec4") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fvec4.p.x, _TEST_FMAT_ROTATION_XRY)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("rotation Y OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("rotation Y error"));
+	    ret = 0;
+	  }
+
+	fvec4.p.x = _TEST_FMAT_ROTATION_X0;
+	fvec4.p.y = _TEST_FMAT_ROTATION_Y0;
+	fvec4.p.z = _TEST_FMAT_ROTATION_Z0;
+	fvec4.v[3] = LW6MAT_F_1;
+	lw6mat_fmat4_rot_z (&fmat4_rotation, _TEST_FMAT_ROTATION_R);
+	ret = _print_fmat4 (sys_context, &fmat4_rotation, "rotation Z left arg fmat4") && ret;
+	ret = _print_fvec4 (sys_context, &fvec4, "rotation Z right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_rotation, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "rotation Z result fvec4") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (fvec4.p.x, _TEST_FMAT_ROTATION_XRZ)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("rotation Z OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("rotation Z error"));
 	    ret = 0;
 	  }
       }
@@ -3246,6 +3348,7 @@ _test_dmat2 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
 	    ret = 0;
 	  }
+
 	dvec2.p.x = _TEST_DMAT_SCALE_X0;
 	dvec2.v[1] = LW6MAT_F_1;
 	lw6mat_dmat2_scale (&dmat2_scale, _TEST_DMAT_SCALE);
@@ -3292,6 +3395,7 @@ _test_dmat3 ()
     lw6mat_dmat3_t dmat3_transpose;
     lw6mat_dmat3_t dmat3_translation;
     lw6mat_dmat3_t dmat3_scale;
+    lw6mat_dmat3_t dmat3_rotation;
     lw6mat_dvec3_t dvec3;
     lw6mat_dvec2_t dvec2;
     int i = 0;
@@ -3507,6 +3611,7 @@ _test_dmat3 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
 	    ret = 0;
 	  }
+
 	dvec3.p.x = _TEST_DMAT_SCALE_X0;
 	dvec3.p.y = _TEST_DMAT_SCALE_Y0;
 	dvec3.v[2] = LW6MAT_F_1;
@@ -3522,6 +3627,24 @@ _test_dmat3 ()
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("scale error"));
+	    ret = 0;
+	  }
+
+	dvec3.p.x = _TEST_DMAT_ROTATION_X0;
+	dvec3.p.y = _TEST_DMAT_ROTATION_Y0;
+	dvec3.v[2] = LW6MAT_F_1;
+	lw6mat_dmat3_rot (&dmat3_rotation, _TEST_DMAT_ROTATION_R);
+	ret = _print_dmat3 (sys_context, &dmat3_rotation, "rotation left arg dmat3") && ret;
+	ret = _print_dvec3 (sys_context, &dvec3, "rotation right arg column dvec3") && ret;
+	lw6mat_dmat3_mul_dvec3 (&dvec3, &dmat3_rotation, &dvec3);
+	ret = _print_dvec3 (sys_context, &dvec3, "rotation result dvec3") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (dvec3.p.x, _TEST_DMAT_ROTATION_XR)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("rotation OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("rotation error"));
 	    ret = 0;
 	  }
       }
@@ -3554,6 +3677,7 @@ _test_dmat4 ()
     lw6mat_dmat4_t dmat4_transpose;
     lw6mat_dmat4_t dmat4_translation;
     lw6mat_dmat4_t dmat4_scale;
+    lw6mat_dmat4_t dmat4_rotation;
     lw6mat_dvec4_t dvec4;
     lw6mat_dvec3_t dvec3;
     int i = 0;
@@ -3773,6 +3897,7 @@ _test_dmat4 ()
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("translation error"));
 	    ret = 0;
 	  }
+
 	dvec4.p.x = _TEST_DMAT_SCALE_X0;
 	dvec4.p.y = _TEST_DMAT_SCALE_Y0;
 	dvec4.p.z = _TEST_DMAT_SCALE_Z0;
@@ -3789,6 +3914,63 @@ _test_dmat4 ()
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("scale error"));
+	    ret = 0;
+	  }
+
+	dvec4.p.x = _TEST_DMAT_ROTATION_X0;
+	dvec4.p.y = _TEST_DMAT_ROTATION_Y0;
+	dvec4.p.z = _TEST_DMAT_ROTATION_Z0;
+	dvec4.v[3] = LW6MAT_F_1;
+	lw6mat_dmat4_rot_x (&dmat4_rotation, _TEST_DMAT_ROTATION_R);
+	ret = _print_dmat4 (sys_context, &dmat4_rotation, "rotation X left arg dmat4") && ret;
+	ret = _print_dvec4 (sys_context, &dvec4, "rotation X right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_rotation, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "rotation X result dvec4") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (dvec4.p.x, _TEST_DMAT_ROTATION_XRX)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("rotation X OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("rotation X error"));
+	    ret = 0;
+	  }
+
+	dvec4.p.x = _TEST_DMAT_ROTATION_X0;
+	dvec4.p.y = _TEST_DMAT_ROTATION_Y0;
+	dvec4.p.z = _TEST_DMAT_ROTATION_Z0;
+	dvec4.v[3] = LW6MAT_F_1;
+	lw6mat_dmat4_rot_y (&dmat4_rotation, _TEST_DMAT_ROTATION_R);
+	ret = _print_dmat4 (sys_context, &dmat4_rotation, "rotation Y left arg dmat4") && ret;
+	ret = _print_dvec4 (sys_context, &dvec4, "rotation Y right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_rotation, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "rotation Y result dvec4") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (dvec4.p.x, _TEST_DMAT_ROTATION_XRY)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("rotation Y OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("rotation Y error"));
+	    ret = 0;
+	  }
+
+	dvec4.p.x = _TEST_DMAT_ROTATION_X0;
+	dvec4.p.y = _TEST_DMAT_ROTATION_Y0;
+	dvec4.p.z = _TEST_DMAT_ROTATION_Z0;
+	dvec4.v[3] = LW6MAT_F_1;
+	lw6mat_dmat4_rot_z (&dmat4_rotation, _TEST_DMAT_ROTATION_R);
+	ret = _print_dmat4 (sys_context, &dmat4_rotation, "rotation Z left arg dmat4") && ret;
+	ret = _print_dvec4 (sys_context, &dvec4, "rotation Z right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_rotation, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "rotation Z result dvec4") && ret;
+	if (LW6SYS_TEST_ACK (lw6mat_is_similar_f (dvec4.p.x, _TEST_DMAT_ROTATION_XRZ)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("rotation Z OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("rotation Z error"));
 	    ret = 0;
 	  }
       }
