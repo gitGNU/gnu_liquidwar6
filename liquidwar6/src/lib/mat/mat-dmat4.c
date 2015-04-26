@@ -201,6 +201,9 @@ lw6mat_dmat4_rot_z (lw6mat_dmat4_t * dmat4, double r)
  * @farval: far plane coordinate
  *
  * Loads the matrix with an orthogonal projection matrix.
+ * Does it the way glOrtho would, see
+ * https://www.opengl.org/sdk/docs/man2/xhtml/glOrtho.xml
+ * for details.
  * Note: use -nearVal and -farVal to initialize.
  * It's a little akward, if you expect to pass vectors with positions
  * ranging from nearVal to farVal then you need to pass -nearVal and
@@ -236,6 +239,28 @@ lw6mat_dmat4_ortho (lw6mat_dmat4_t * dmat4, double left, double right, double bo
       dmat4->m[2][2] = -2.0f / dz;
       dmat4->m[3][2] = -(nearval + farval) / dz;
     }
+}
+
+/**
+ * lw6mat_dmat4_perspective
+ *
+ * @dmat4: the matrix to initialize.
+ * @fovy: vertical field of view (degrees, not radians)
+ * @aspect: x/y ratio
+ * @znear: near plane coordinate (use -znear to initialize)
+ * @zfar: far plane coordinate (use -zfar to initialize)
+ *
+ * Loads the matrix with a projection matrix.
+ * Does it the way gluPerspective would, see
+ * https://www.opengl.org/sdk/docs/man2/xhtml/gluPerspective.xml
+ * for details.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_dmat4_perspective (lw6mat_dmat4_t * dmat4, double fovy, double aspect, double znear, double zfar)
+{
+  // todo
 }
 
 /**
