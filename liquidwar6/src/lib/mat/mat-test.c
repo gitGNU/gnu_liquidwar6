@@ -304,6 +304,20 @@
 #define _TEST_DMAT_ROTATION_XRY 41.314544f
 #define _TEST_DMAT_ROTATION_XRZ -28.510106f
 
+#define _TEST_FMAT4_ORTHO_LEFT -2.0f
+#define _TEST_FMAT4_ORTHO_RIGHT 8.0f
+#define	_TEST_FMAT4_ORTHO_BOTTOM -3.5f
+#define	_TEST_FMAT4_ORTHO_TOP 1.5f
+#define _TEST_FMAT4_ORTHO_NEARVAL -0.1f
+#define _TEST_FMAT4_ORTHO_FARVAL -0.3f
+
+#define _TEST_DMAT4_ORTHO_LEFT -20.0f
+#define _TEST_DMAT4_ORTHO_RIGHT 80.0f
+#define	_TEST_DMAT4_ORTHO_BOTTOM -35.0f
+#define	_TEST_DMAT4_ORTHO_TOP 15.0f
+#define _TEST_DMAT4_ORTHO_NEARVAL -1.5f
+#define _TEST_DMAT4_ORTHO_FARVAL -3.5f
+
 typedef struct _lw6mat_test_data_s
 {
   int ret;
@@ -2830,6 +2844,7 @@ _test_fmat4 ()
     lw6mat_fmat4_t fmat4_translation;
     lw6mat_fmat4_t fmat4_scale;
     lw6mat_fmat4_t fmat4_rotation;
+    lw6mat_fmat4_t fmat4_ortho;
     lw6mat_fvec4_t fvec4;
     lw6mat_fvec3_t fvec3;
     int i = 0;
@@ -3123,6 +3138,44 @@ _test_fmat4 ()
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("rotation Z error"));
+	    ret = 0;
+	  }
+
+	lw6mat_fmat4_ortho (&fmat4_ortho, _TEST_FMAT4_ORTHO_LEFT, _TEST_FMAT4_ORTHO_RIGHT, _TEST_FMAT4_ORTHO_BOTTOM, _TEST_FMAT4_ORTHO_TOP,
+			    -_TEST_FMAT4_ORTHO_NEARVAL, -_TEST_FMAT4_ORTHO_FARVAL);
+	ret = _print_fmat4 (sys_context, &fmat4_rotation, "ortho left arg fmat4") && ret;
+	fvec4.p.x = _TEST_FMAT4_ORTHO_LEFT;
+	fvec4.p.y = _TEST_FMAT4_ORTHO_BOTTOM;
+	fvec4.p.z = _TEST_FMAT4_ORTHO_NEARVAL;
+	fvec4.v[3] = LW6MAT_F_1;
+	ret = _print_fvec4 (sys_context, &fvec4, "ortho right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_ortho, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "ortho result fvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec4.p.x, -LW6MAT_F_1) && lw6mat_is_similar_f (fvec4.p.y, -LW6MAT_F_1) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ortho OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("ortho error"));
+	    ret = 0;
+	  }
+	fvec4.p.x = _TEST_FMAT4_ORTHO_RIGHT;
+	fvec4.p.y = _TEST_FMAT4_ORTHO_TOP;
+	fvec4.p.z = _TEST_FMAT4_ORTHO_FARVAL;
+	fvec4.v[3] = LW6MAT_F_1;
+	ret = _print_fvec4 (sys_context, &fvec4, "ortho right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_ortho, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "ortho result fvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_1) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_1) && lw6mat_is_similar_f (fvec4.p.z, LW6MAT_F_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ortho OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("ortho error"));
 	    ret = 0;
 	  }
       }
@@ -3678,6 +3731,7 @@ _test_dmat4 ()
     lw6mat_dmat4_t dmat4_translation;
     lw6mat_dmat4_t dmat4_scale;
     lw6mat_dmat4_t dmat4_rotation;
+    lw6mat_dmat4_t dmat4_ortho;
     lw6mat_dvec4_t dvec4;
     lw6mat_dvec3_t dvec3;
     int i = 0;
@@ -3971,6 +4025,44 @@ _test_dmat4 ()
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("rotation Z error"));
+	    ret = 0;
+	  }
+
+	lw6mat_dmat4_ortho (&dmat4_ortho, _TEST_DMAT4_ORTHO_LEFT, _TEST_DMAT4_ORTHO_RIGHT, _TEST_DMAT4_ORTHO_BOTTOM, _TEST_DMAT4_ORTHO_TOP,
+			    -_TEST_DMAT4_ORTHO_NEARVAL, -_TEST_DMAT4_ORTHO_FARVAL);
+	ret = _print_dmat4 (sys_context, &dmat4_rotation, "ortho left arg dmat4") && ret;
+	dvec4.p.x = _TEST_DMAT4_ORTHO_LEFT;
+	dvec4.p.y = _TEST_DMAT4_ORTHO_BOTTOM;
+	dvec4.p.z = _TEST_DMAT4_ORTHO_NEARVAL;
+	dvec4.v[3] = LW6MAT_F_1;
+	ret = _print_dvec4 (sys_context, &dvec4, "ortho right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_ortho, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "ortho result dvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec4.p.x, -LW6MAT_F_1) && lw6mat_is_similar_f (dvec4.p.y, -LW6MAT_F_1) && lw6mat_is_similar_f (dvec4.p.z, -LW6MAT_F_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ortho OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("ortho error"));
+	    ret = 0;
+	  }
+	dvec4.p.x = _TEST_DMAT4_ORTHO_RIGHT;
+	dvec4.p.y = _TEST_DMAT4_ORTHO_TOP;
+	dvec4.p.z = _TEST_DMAT4_ORTHO_FARVAL;
+	dvec4.v[3] = LW6MAT_F_1;
+	ret = _print_dvec4 (sys_context, &dvec4, "ortho right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_ortho, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "ortho result dvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec4.p.x, LW6MAT_F_1) && lw6mat_is_similar_f (dvec4.p.y, LW6MAT_F_1) && lw6mat_is_similar_f (dvec4.p.z, LW6MAT_F_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ortho OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("ortho error"));
 	    ret = 0;
 	  }
       }
