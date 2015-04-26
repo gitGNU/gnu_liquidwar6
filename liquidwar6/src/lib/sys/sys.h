@@ -1108,6 +1108,8 @@ extern float lw6sys_math_heartbeat (lw6sys_context_t * sys_context, int64_t x, i
 extern int lw6sys_math_blink (lw6sys_context_t * sys_context, int64_t x, int period) __attribute__ ((pure));
 extern float lw6sys_math_lin2log (lw6sys_context_t * sys_context, int lin_value, int base) __attribute__ ((pure));
 extern int lw6sys_math_log2lin (lw6sys_context_t * sys_context, float log_value, int base) __attribute__ ((pure));
+extern float lw6sys_math_deg2rad (lw6sys_context_t * sys_context, float deg) __attribute__ ((pure));
+extern float lw6sys_math_rad2deg (lw6sys_context_t * sys_context, float rad) __attribute__ ((pure));
 
 /* sys-mem.c */
 #ifdef LW6_OPTIMIZE

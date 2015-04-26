@@ -159,22 +159,22 @@ lw6sys_math_angle_360 (lw6sys_context_t * sys_context, int x, int y)
 	{
 	  if (y >= 0)
 	    {
-	      ret = atanf (((float) y) / ((float) x)) * 180.0f / M_PI;
+	      ret = lw6sys_math_rad2deg (sys_context, atanf (((float) y) / ((float) x)));
 	    }
 	  else
 	    {
-	      ret = 360.0f - atanf (((float) -y) / ((float) x)) * 180.0f / M_PI;
+	      ret = 360.0f - lw6sys_math_rad2deg (sys_context, atanf (((float) -y) / ((float) x)));
 	    }
 	}
       else
 	{
 	  if (y >= 0)
 	    {
-	      ret = 180.0f - atanf (((float) y) / ((float) -x)) * 180.0f / M_PI;
+	      ret = 180.0f - lw6sys_math_rad2deg (sys_context, atanf (((float) y) / ((float) -x)));
 	    }
 	  else
 	    {
-	      ret = 180.0f + atanf (((float) -y) / ((float) -x)) * 180.0f / M_PI;
+	      ret = 180.0f + lw6sys_math_rad2deg (sys_context, atanf (((float) -y) / ((float) -x)));
 	    }
 	}
     }
@@ -316,4 +316,36 @@ lw6sys_math_log2lin (lw6sys_context_t * sys_context, float log_value, int base)
   base = lw6sys_fmax (2.0f, base);
 
   return lw6sys_imax (1, (int) roundf (expf (log_value * logf (base) / base)));
+}
+
+/**
+ * lw6sys_math_deg2rad
+ *
+ * @sys_context: global system context
+ * @deg: angle in degrees
+ *
+ * Converts an angle from degrees to radians.
+ *
+ * Return value: angle in radians.
+ */
+float
+lw6sys_math_deg2rad (lw6sys_context_t * sys_context, float deg)
+{
+  return deg * M_PI / 180.0f;
+}
+
+/**
+ * lw6sys_math_rad2deg
+ *
+ * @sys_context: global system context
+ * @rad: angle in radians
+ *
+ * Converts an angle from radians to degrees.
+ *
+ * Return value: angle in degrees.
+ */
+float
+lw6sys_math_rad2deg (lw6sys_context_t * sys_context, float rad)
+{
+  return rad * 180.0f / M_PI;
 }

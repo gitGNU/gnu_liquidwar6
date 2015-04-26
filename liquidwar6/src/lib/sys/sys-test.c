@@ -2736,6 +2736,8 @@ _test_math ()
     int t, b;
     int lin_lin2log = 0;
     float log_lin2log = 0.0f;
+    float deg = 0.0f;
+    float rad = 0.0f;
 
     for (v1 = _TEST_MATH_POLY_WY1Y2S1_V1_MIN;
 	 v1 <= _TEST_MATH_POLY_WY1Y2S1_V1_MAX; v1 += (_TEST_MATH_POLY_WY1Y2S1_V1_MAX - _TEST_MATH_POLY_WY1Y2S1_V1_MIN) / _TEST_MATH_POLY_WY1Y2S1_NB_V1S)
@@ -2791,6 +2793,18 @@ _test_math ()
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING,
 		    _x_ ("logarithmic to linear conversion gives %d -> %f, expected %f"), _TEST_MATH_LIN2LOG_LIN, log_lin2log, _TEST_MATH_LIN2LOG_LOG);
+	ret = 0;
+      }
+    deg = lw6sys_math_rad2deg (sys_context, M_PI);
+    if (LW6SYS_TEST_ACK (deg == 180.0f))
+      {
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("rad2deg %f -> %f, expected %f"), M_PI, deg, 180.0f);
+	ret = 0;
+      }
+    rad = lw6sys_math_deg2rad (sys_context, 180.0f);
+    if (LW6SYS_TEST_ACK (rad == M_PI))
+      {
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("deg2rad %f -> %f, expected %f"), 180.0f, rad, M_PI);
 	ret = 0;
       }
   }
