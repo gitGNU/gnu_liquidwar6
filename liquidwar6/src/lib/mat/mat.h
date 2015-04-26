@@ -847,6 +847,7 @@ extern int lw6mat_fvec2_is_same (const lw6mat_fvec2_t * fvec2_a, const lw6mat_fv
 extern float lw6mat_fvec2_len_sq (const lw6mat_fvec2_t * fvec2);
 extern float lw6mat_fvec2_len (const lw6mat_fvec2_t * fvec2);
 extern int lw6mat_fvec2_normalize (lw6sys_context_t * sys_context, lw6mat_fvec2_t * fvec2);
+extern int lw6mat_fvec2_homogeneous (lw6sys_context_t * sys_context, lw6mat_fvec2_t * fvec2);
 extern void lw6mat_fvec2_neg (lw6mat_fvec2_t * fvec2);
 extern void lw6mat_fvec2_add (lw6mat_fvec2_t * fvec2, const lw6mat_fvec2_t * fvec2_a, const lw6mat_fvec2_t * fvec2_b);
 extern void lw6mat_fvec2_sub (lw6mat_fvec2_t * fvec2, const lw6mat_fvec2_t * fvec2_a, const lw6mat_fvec2_t * fvec2_b);
@@ -862,6 +863,7 @@ extern int lw6mat_fvec3_is_same (const lw6mat_fvec3_t * fvec3_a, const lw6mat_fv
 extern float lw6mat_fvec3_len_sq (const lw6mat_fvec3_t * fvec3);
 extern float lw6mat_fvec3_len (const lw6mat_fvec3_t * fvec3);
 extern int lw6mat_fvec3_normalize (lw6sys_context_t * sys_context, lw6mat_fvec3_t * fvec3);
+extern int lw6mat_fvec3_homogeneous (lw6sys_context_t * sys_context, lw6mat_fvec3_t * fvec3);
 extern void lw6mat_fvec3_neg (lw6mat_fvec3_t * fvec3);
 extern void lw6mat_fvec3_add (lw6mat_fvec3_t * fvec3, const lw6mat_fvec3_t * fvec3_a, const lw6mat_fvec3_t * fvec3_b);
 extern void lw6mat_fvec3_sub (lw6mat_fvec3_t * fvec3, const lw6mat_fvec3_t * fvec3_a, const lw6mat_fvec3_t * fvec3_b);
@@ -877,6 +879,7 @@ extern int lw6mat_fvec4_is_same (const lw6mat_fvec4_t * fvec4_a, const lw6mat_fv
 extern float lw6mat_fvec4_len_sq (const lw6mat_fvec4_t * fvec4);
 extern float lw6mat_fvec4_len (const lw6mat_fvec4_t * fvec4);
 extern int lw6mat_fvec4_normalize (lw6sys_context_t * sys_context, lw6mat_fvec4_t * fvec4);
+extern int lw6mat_fvec4_homogeneous (lw6sys_context_t * sys_context, lw6mat_fvec4_t * fvec4);
 extern void lw6mat_fvec4_neg (lw6mat_fvec4_t * fvec4);
 extern void lw6mat_fvec4_add (lw6mat_fvec4_t * fvec4, const lw6mat_fvec4_t * fvec4_a, const lw6mat_fvec4_t * fvec4_b);
 extern void lw6mat_fvec4_sub (lw6mat_fvec4_t * fvec4, const lw6mat_fvec4_t * fvec4_a, const lw6mat_fvec4_t * fvec4_b);
@@ -934,6 +937,7 @@ extern int lw6mat_dvec2_is_same (const lw6mat_dvec2_t * dvec2_a, const lw6mat_dv
 extern double lw6mat_dvec2_len_sq (const lw6mat_dvec2_t * dvec2);
 extern double lw6mat_dvec2_len (const lw6mat_dvec2_t * dvec2);
 extern int lw6mat_dvec2_normalize (lw6sys_context_t * sys_context, lw6mat_dvec2_t * dvec2);
+extern int lw6mat_dvec2_homogeneous (lw6sys_context_t * sys_context, lw6mat_dvec2_t * dvec2);
 extern void lw6mat_dvec2_neg (lw6mat_dvec2_t * dvec2);
 extern void lw6mat_dvec2_add (lw6mat_dvec2_t * dvec2, const lw6mat_dvec2_t * dvec2_a, const lw6mat_dvec2_t * dvec2_b);
 extern void lw6mat_dvec2_sub (lw6mat_dvec2_t * dvec2, const lw6mat_dvec2_t * dvec2_a, const lw6mat_dvec2_t * dvec2_b);
@@ -949,6 +953,7 @@ extern int lw6mat_dvec3_is_same (const lw6mat_dvec3_t * dvec3_a, const lw6mat_dv
 extern double lw6mat_dvec3_len_sq (const lw6mat_dvec3_t * dvec3);
 extern double lw6mat_dvec3_len (const lw6mat_dvec3_t * dvec3);
 extern int lw6mat_dvec3_normalize (lw6sys_context_t * sys_context, lw6mat_dvec3_t * dvec3);
+extern int lw6mat_dvec3_homogeneous (lw6sys_context_t * sys_context, lw6mat_dvec3_t * dvec3);
 extern void lw6mat_dvec3_neg (lw6mat_dvec3_t * dvec3);
 extern void lw6mat_dvec3_add (lw6mat_dvec3_t * dvec3, const lw6mat_dvec3_t * dvec3_a, const lw6mat_dvec3_t * dvec3_b);
 extern void lw6mat_dvec3_sub (lw6mat_dvec3_t * dvec3, const lw6mat_dvec3_t * dvec3_a, const lw6mat_dvec3_t * dvec3_b);
@@ -964,6 +969,7 @@ extern int lw6mat_dvec4_is_same (const lw6mat_dvec4_t * dvec4_a, const lw6mat_dv
 extern double lw6mat_dvec4_len_sq (const lw6mat_dvec4_t * dvec4);
 extern double lw6mat_dvec4_len (const lw6mat_dvec4_t * dvec4);
 extern int lw6mat_dvec4_normalize (lw6sys_context_t * sys_context, lw6mat_dvec4_t * dvec4);
+extern int lw6mat_dvec4_homogeneous (lw6sys_context_t * sys_context, lw6mat_dvec4_t * dvec4);
 extern void lw6mat_dvec4_neg (lw6mat_dvec4_t * dvec4);
 extern void lw6mat_dvec4_add (lw6mat_dvec4_t * dvec4, const lw6mat_dvec4_t * dvec4_a, const lw6mat_dvec4_t * dvec4_b);
 extern void lw6mat_dvec4_sub (lw6mat_dvec4_t * dvec4, const lw6mat_dvec4_t * dvec4_a, const lw6mat_dvec4_t * dvec4_b);

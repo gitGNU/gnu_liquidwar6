@@ -1152,6 +1152,12 @@ _test_fvec2 ()
 		    _x_ ("len for normalized fvec2 is %d -> bad, fixed point value is %d and should be %d"), lw6mat_ftoi (len), lw6mat_ftox (len), LW6MAT_X_1);
 	ret = 0;
       }
+    if (!LW6SYS_TEST_ACK (lw6mat_fvec2_homogeneous (sys_context, &fvec2)))
+      {
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("homogeneous returned an error"));
+	ret = 0;
+      }
+    _print_fvec2 (sys_context, &fvec2, "homegeneous");
 
     fvec2_a = fvec2;
     /*
@@ -1349,6 +1355,12 @@ _test_fvec3 ()
 		    _x_ ("len for normalized fvec3 is %d -> bad, fixed point value is %d and should be %d"), lw6mat_ftoi (len), lw6mat_ftox (len), LW6MAT_X_1);
 	ret = 0;
       }
+    if (!LW6SYS_TEST_ACK (lw6mat_fvec3_homogeneous (sys_context, &fvec3)))
+      {
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("homogeneous returned an error"));
+	ret = 0;
+      }
+    _print_fvec3 (sys_context, &fvec3, "homegeneous");
 
     fvec3_a = fvec3;
     /*
@@ -1556,6 +1568,12 @@ _test_fvec4 ()
 		    _x_ ("len for normalized fvec4 is %d -> bad, fixed point value is %d and should be %d"), lw6mat_ftoi (len), lw6mat_ftox (len), LW6MAT_X_1);
 	ret = 0;
       }
+    if (!LW6SYS_TEST_ACK (lw6mat_fvec4_homogeneous (sys_context, &fvec4)))
+      {
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("homogeneous returned an error"));
+	ret = 0;
+      }
+    _print_fvec4 (sys_context, &fvec4, "homegeneous");
 
     fvec4_a = fvec4;
     /*
@@ -1771,6 +1789,12 @@ _test_dvec2 ()
 		    _x_ ("len for normalized dvec2 is %d -> bad, fixed point value is %d and should be %d"), lw6mat_dtoi (len), lw6mat_dtox (len), LW6MAT_X_1);
 	ret = 0;
       }
+    if (!LW6SYS_TEST_ACK (lw6mat_dvec2_homogeneous (sys_context, &dvec2)))
+      {
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("homogeneous returned an error"));
+	ret = 0;
+      }
+    _print_dvec2 (sys_context, &dvec2, "homegeneous");
 
     dvec2_a = dvec2;
     /*
@@ -1968,6 +1992,12 @@ _test_dvec3 ()
 		    _x_ ("len for normalized dvec3 is %d -> bad, fixed point value is %d and should be %d"), lw6mat_dtoi (len), lw6mat_dtox (len), LW6MAT_X_1);
 	ret = 0;
       }
+    if (!LW6SYS_TEST_ACK (lw6mat_dvec3_homogeneous (sys_context, &dvec3)))
+      {
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("homogeneous returned an error"));
+	ret = 0;
+      }
+    _print_dvec3 (sys_context, &dvec3, "homegeneous");
 
     dvec3_a = dvec3;
     /*
@@ -2175,6 +2205,12 @@ _test_dvec4 ()
 		    _x_ ("len for normalized dvec4 is %d -> bad, fixed point value is %d and should be %d"), lw6mat_dtoi (len), lw6mat_dtox (len), LW6MAT_X_1);
 	ret = 0;
       }
+    if (!LW6SYS_TEST_ACK (lw6mat_dvec4_homogeneous (sys_context, &dvec4)))
+      {
+	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("homogeneous returned an error"));
+	ret = 0;
+      }
+    _print_dvec4 (sys_context, &dvec4, "homegeneous");
 
     dvec4_a = dvec4;
     /*

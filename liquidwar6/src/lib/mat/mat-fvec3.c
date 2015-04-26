@@ -96,7 +96,7 @@ lw6mat_fvec3_len (const lw6mat_fvec3_t * fvec3)
 }
 
 /**
- * Normalizes a vector
+ * lw6mat_fvec3_normalize
  *
  * @sys_context: global system context
  * @fvec3: the vector to normalize.
@@ -121,6 +121,40 @@ lw6mat_fvec3_normalize (lw6sys_context_t * sys_context, lw6mat_fvec3_t * fvec3)
   else
     {
       lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("trying to normalize vector zero"));
+
+      return 0;
+    }
+}
+
+/**
+ * lw6mat_fvec3_homogeneous
+ *
+ * Homogeneouss a vector
+ *
+ * @sys_context: global system context
+ * @fvec3: the vector to homogeneous.
+ *
+ * Transforms a vector into homegeneous coords, that is, scales it so
+ * that its last member is 1.
+ *
+ * Return value: 1 if OK, 0 if error, such as trying to operate on vector zero.
+ */
+int
+lw6mat_fvec3_homogeneous (lw6sys_context_t * sys_context, lw6mat_fvec3_t * fvec3)
+{
+  float f = fvec3->v[2];
+
+  if (f != 0.0f)
+    {
+      fvec3->p.x /= f;
+      fvec3->p.y /= f;
+      fvec3->v[2] = LW6MAT_F_1;
+
+      return 1;
+    }
+  else
+    {
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("trying to make homogeneous a vector with zero last member"));
 
       return 0;
     }
