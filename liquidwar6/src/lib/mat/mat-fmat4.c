@@ -215,24 +215,27 @@ lw6mat_fmat4_rot_z (lw6mat_fmat4_t * fmat4, float r)
 void
 lw6mat_fmat4_ortho (lw6mat_fmat4_t * fmat4, float left, float right, float bottom, float top, float nearval, float farval)
 {
-  float dx=right-left;
-  float dy=top-bottom;
-  float dz=farval-nearval;
+  float dx = right - left;
+  float dy = top - bottom;
+  float dz = farval - nearval;
 
-  lw6mat_fmat4_identity(fmat4);
+  lw6mat_fmat4_identity (fmat4);
 
-  if (dx!=0.0f) {
-    fmat4->m[0][0]=2.0f/dx;
-    fmat4->m[3][0] = -(right+left)/dx;
-  }
-  if (dy!=0.0f) {
-    fmat4->m[1][1]=2.0f/dy;
-    fmat4->m[3][1] = -(top+bottom)/dy;
-  }
-  if (dz!=0.0f) {
-    fmat4->m[2][2]=-2.0f/dz;
-    fmat4->m[3][2] = -(nearval+farval)/dz;
-  }
+  if (dx != 0.0f)
+    {
+      fmat4->m[0][0] = 2.0f / dx;
+      fmat4->m[3][0] = -(right + left) / dx;
+    }
+  if (dy != 0.0f)
+    {
+      fmat4->m[1][1] = 2.0f / dy;
+      fmat4->m[3][1] = -(top + bottom) / dy;
+    }
+  if (dz != 0.0f)
+    {
+      fmat4->m[2][2] = -2.0f / dz;
+      fmat4->m[3][2] = -(nearval + farval) / dz;
+    }
 }
 
 /**
