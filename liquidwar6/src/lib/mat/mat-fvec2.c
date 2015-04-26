@@ -106,7 +106,7 @@ lw6mat_fvec2_len (const lw6mat_fvec2_t * fvec2)
  * Return value: 1 if OK, 0 if error, such as trying to normalize vector zero.
  */
 int
-lw6mat_fvec2_norm (lw6sys_context_t * sys_context, lw6mat_fvec2_t * fvec2)
+lw6mat_fvec2_normalize (lw6sys_context_t * sys_context, lw6mat_fvec2_t * fvec2)
 {
   float len = lw6mat_fvec2_len (fvec2);
 

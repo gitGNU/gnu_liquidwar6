@@ -260,7 +260,30 @@ lw6mat_dmat4_ortho (lw6mat_dmat4_t * dmat4, double left, double right, double bo
 void
 lw6mat_dmat4_perspective (lw6mat_dmat4_t * dmat4, double fovy, double aspect, double znear, double zfar)
 {
-  // todo
+  double radfovy2 = lw6sys_math_deg2rad (fovy) / 2.0;
+  double s = sin (radfovy2);
+  double dz = znear - zfar;
+
+  lw6mat_dmat4_zero (dmat4);
+
+  if (s != 0.0f)
+    {
+      double f = cos (radfovy2) / s;
+
+      if (aspect != 0.0f)
+	{
+	  dmat4->m[0][0] = f / aspect;
+	  dmat4->m[1][1] = f;
+	}
+    }
+
+  if (dz != 0.0f)
+    {
+      dmat4->m[2][2] = (znear + zfar) / dz;
+      dmat4->m[3][2] = 2.0f * znear * zfar / dz;
+    }
+
+  dmat4->m[2][3] = -LW6MAT_D_1;
 }
 
 /**

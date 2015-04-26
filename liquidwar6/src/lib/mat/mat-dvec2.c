@@ -106,7 +106,7 @@ lw6mat_dvec2_len (const lw6mat_dvec2_t * dvec2)
  * Return value: 1 if OK, 0 if error, such as trying to normalize vector zero.
  */
 int
-lw6mat_dvec2_norm (lw6sys_context_t * sys_context, lw6mat_dvec2_t * dvec2)
+lw6mat_dvec2_normalize (lw6sys_context_t * sys_context, lw6mat_dvec2_t * dvec2)
 {
   double len = lw6mat_dvec2_len (dvec2);
 

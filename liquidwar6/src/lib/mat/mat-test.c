@@ -318,6 +318,11 @@
 #define _TEST_DMAT4_ORTHO_NEARVAL -1.5f
 #define _TEST_DMAT4_ORTHO_FARVAL -3.5f
 
+#define	_TEST_FMAT4_PERSPECTIVE_FOVY 45.0f
+#define	_TEST_FMAT4_PERSPECTIVE_ASPECT 1.5f
+#define _TEST_FMAT4_PERSPECTIVE_ZNEAR -3.0f
+#define _TEST_FMAT4_PERSPECTIVE_ZFAR -10.0f
+
 typedef struct _lw6mat_test_data_s
 {
   int ret;
@@ -1089,7 +1094,7 @@ _test_fvec2 ()
 
     lw6mat_fvec2_zero (&fvec2);
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (!LW6SYS_TEST_ACK (!lw6mat_fvec2_norm (sys_context, &fvec2)))
+    if (!LW6SYS_TEST_ACK (!lw6mat_fvec2_normalize (sys_context, &fvec2)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
@@ -1130,7 +1135,7 @@ _test_fvec2 ()
 		    _x_ ("len for fvec2 is %d -> bad, fixed point value is %d and should be %d"), lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC2_LEN);
 	ret = 0;
       }
-    if (!LW6SYS_TEST_ACK (lw6mat_fvec2_norm (sys_context, &fvec2)))
+    if (!LW6SYS_TEST_ACK (lw6mat_fvec2_normalize (sys_context, &fvec2)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
@@ -1285,7 +1290,7 @@ _test_fvec3 ()
 
     lw6mat_fvec3_zero (&fvec3);
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (!LW6SYS_TEST_ACK (!lw6mat_fvec3_norm (sys_context, &fvec3)))
+    if (!LW6SYS_TEST_ACK (!lw6mat_fvec3_normalize (sys_context, &fvec3)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
@@ -1327,7 +1332,7 @@ _test_fvec3 ()
 		    _x_ ("len for fvec3 is %d -> bad, fixed point value is %d and should be %d"), lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC3_LEN);
 	ret = 0;
       }
-    if (!LW6SYS_TEST_ACK (lw6mat_fvec3_norm (sys_context, &fvec3)))
+    if (!LW6SYS_TEST_ACK (lw6mat_fvec3_normalize (sys_context, &fvec3)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
@@ -1491,7 +1496,7 @@ _test_fvec4 ()
 
     lw6mat_fvec4_zero (&fvec4);
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (!LW6SYS_TEST_ACK (!lw6mat_fvec4_norm (sys_context, &fvec4)))
+    if (!LW6SYS_TEST_ACK (!lw6mat_fvec4_normalize (sys_context, &fvec4)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
@@ -1534,7 +1539,7 @@ _test_fvec4 ()
 		    _x_ ("len for fvec4 is %d -> bad, fixed point value is %d and should be %d"), lw6mat_ftoi (len), lw6mat_ftox (len), _TEST_FVEC4_LEN);
 	ret = 0;
       }
-    if (!LW6SYS_TEST_ACK (lw6mat_fvec4_norm (sys_context, &fvec4)))
+    if (!LW6SYS_TEST_ACK (lw6mat_fvec4_normalize (sys_context, &fvec4)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
@@ -1708,7 +1713,7 @@ _test_dvec2 ()
 
     lw6mat_dvec2_zero (&dvec2);
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (!LW6SYS_TEST_ACK (!lw6mat_dvec2_norm (sys_context, &dvec2)))
+    if (!LW6SYS_TEST_ACK (!lw6mat_dvec2_normalize (sys_context, &dvec2)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
@@ -1749,7 +1754,7 @@ _test_dvec2 ()
 		    _x_ ("len for dvec2 is %d -> bad, fixed point value is %d and should be %d"), lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC2_LEN);
 	ret = 0;
       }
-    if (!LW6SYS_TEST_ACK (lw6mat_dvec2_norm (sys_context, &dvec2)))
+    if (!LW6SYS_TEST_ACK (lw6mat_dvec2_normalize (sys_context, &dvec2)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
@@ -1904,7 +1909,7 @@ _test_dvec3 ()
 
     lw6mat_dvec3_zero (&dvec3);
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (!LW6SYS_TEST_ACK (!lw6mat_dvec3_norm (sys_context, &dvec3)))
+    if (!LW6SYS_TEST_ACK (!lw6mat_dvec3_normalize (sys_context, &dvec3)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
@@ -1946,7 +1951,7 @@ _test_dvec3 ()
 		    _x_ ("len for dvec3 is %d -> bad, fixed point value is %d and should be %d"), lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC3_LEN);
 	ret = 0;
       }
-    if (!LW6SYS_TEST_ACK (lw6mat_dvec3_norm (sys_context, &dvec3)))
+    if (!LW6SYS_TEST_ACK (lw6mat_dvec3_normalize (sys_context, &dvec3)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
@@ -2110,7 +2115,7 @@ _test_dvec4 ()
 
     lw6mat_dvec4_zero (&dvec4);
     lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("will try to normalize vector zero, following line should leave a trace in the log file"));
-    if (!LW6SYS_TEST_ACK (!lw6mat_dvec4_norm (sys_context, &dvec4)))
+    if (!LW6SYS_TEST_ACK (!lw6mat_dvec4_normalize (sys_context, &dvec4)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("norm did not return an error on vector zero"));
 	ret = 0;
@@ -2153,7 +2158,7 @@ _test_dvec4 ()
 		    _x_ ("len for dvec4 is %d -> bad, fixed point value is %d and should be %d"), lw6mat_dtoi (len), lw6mat_dtox (len), _TEST_DVEC4_LEN);
 	ret = 0;
       }
-    if (!LW6SYS_TEST_ACK (lw6mat_dvec4_norm (sys_context, &dvec4)))
+    if (!LW6SYS_TEST_ACK (lw6mat_dvec4_normalize (sys_context, &dvec4)))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("norm returned an error"));
 	ret = 0;
@@ -2845,6 +2850,7 @@ _test_fmat4 ()
     lw6mat_fmat4_t fmat4_scale;
     lw6mat_fmat4_t fmat4_rotation;
     lw6mat_fmat4_t fmat4_ortho;
+    lw6mat_fmat4_t fmat4_perspective;
     lw6mat_fvec4_t fvec4;
     lw6mat_fvec3_t fvec3;
     int i = 0;
@@ -3143,7 +3149,7 @@ _test_fmat4 ()
 
 	lw6mat_fmat4_ortho (&fmat4_ortho, _TEST_FMAT4_ORTHO_LEFT, _TEST_FMAT4_ORTHO_RIGHT, _TEST_FMAT4_ORTHO_BOTTOM, _TEST_FMAT4_ORTHO_TOP,
 			    -_TEST_FMAT4_ORTHO_NEARVAL, -_TEST_FMAT4_ORTHO_FARVAL);
-	ret = _print_fmat4 (sys_context, &fmat4_rotation, "ortho left arg fmat4") && ret;
+	ret = _print_fmat4 (sys_context, &fmat4_ortho, "ortho left arg fmat4") && ret;
 	fvec4.p.x = _TEST_FMAT4_ORTHO_LEFT;
 	fvec4.p.y = _TEST_FMAT4_ORTHO_BOTTOM;
 	fvec4.p.z = _TEST_FMAT4_ORTHO_NEARVAL;
@@ -3176,6 +3182,112 @@ _test_fmat4 ()
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("ortho error"));
+	    ret = 0;
+	  }
+
+	lw6mat_fmat4_perspective (&fmat4_perspective, _TEST_FMAT4_PERSPECTIVE_FOVY, _TEST_FMAT4_PERSPECTIVE_ASPECT, _TEST_FMAT4_PERSPECTIVE_ZNEAR,
+				  _TEST_FMAT4_PERSPECTIVE_ZFAR);
+	ret = _print_fmat4 (sys_context, &fmat4_perspective, "perspective left arg fmat4") && ret;
+	fvec4.p.x = LW6MAT_F_0;
+	fvec4.p.y = LW6MAT_F_0;
+	fvec4.p.z = -_TEST_FMAT4_PERSPECTIVE_ZNEAR;
+	fvec4.v[3] = LW6MAT_F_1;
+	ret = _print_fvec4 (sys_context, &fvec4, "perspective 000 right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_perspective, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "perspective 000 result fvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 000 OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("perspective 000 error"));
+	    ret = 0;
+	  }
+	fvec4.p.x = LW6MAT_F_0;
+	fvec4.p.y = LW6MAT_F_0;
+	fvec4.p.z = -_TEST_FMAT4_PERSPECTIVE_ZFAR;
+	fvec4.v[3] = LW6MAT_F_1;
+	ret = _print_fvec4 (sys_context, &fvec4, "perspective 001 right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_perspective, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "perspective 001 result fvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 001 OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("perspective 001 error"));
+	    ret = 0;
+	  }
+	fvec4.p.x = LW6MAT_F_1;
+	fvec4.p.y = LW6MAT_F_0;
+	fvec4.p.z = -_TEST_FMAT4_PERSPECTIVE_ZNEAR;
+	fvec4.v[3] = LW6MAT_F_1;
+	ret = _print_fvec4 (sys_context, &fvec4, "perspective 100 right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_perspective, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "perspective 100 result fvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 100 OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("perspective 100 error"));
+	    ret = 0;
+	  }
+	fvec4.p.x = LW6MAT_F_1;
+	fvec4.p.y = LW6MAT_F_0;
+	fvec4.p.z = -_TEST_FMAT4_PERSPECTIVE_ZFAR;
+	fvec4.v[3] = LW6MAT_F_1;
+	ret = _print_fvec4 (sys_context, &fvec4, "perspective 101 right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_perspective, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "perspective 101 result fvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 101 OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("perspective 101 error"));
+	    ret = 0;
+	  }
+	fvec4.p.x = LW6MAT_F_0;
+	fvec4.p.y = LW6MAT_F_1;
+	fvec4.p.z = -_TEST_FMAT4_PERSPECTIVE_ZNEAR;
+	fvec4.v[3] = LW6MAT_F_1;
+	ret = _print_fvec4 (sys_context, &fvec4, "perspective 010 right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_perspective, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "perspective 010 result fvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 010 OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("perspective 010 error"));
+	    ret = 0;
+	  }
+	fvec4.p.x = LW6MAT_F_0;
+	fvec4.p.y = LW6MAT_F_1;
+	fvec4.p.z = -_TEST_FMAT4_PERSPECTIVE_ZFAR;
+	fvec4.v[3] = LW6MAT_F_1;
+	ret = _print_fvec4 (sys_context, &fvec4, "perspective 011 right arg column fvec4") && ret;
+	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_perspective, &fvec4);
+	ret = _print_fvec4 (sys_context, &fvec4, "perspective 011 result fvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 011 OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("perspective 011 error"));
 	    ret = 0;
 	  }
       }
@@ -3934,7 +4046,7 @@ _test_dmat4 ()
 	  }
 	dvec4.p.x = _TEST_DMAT_TRANSLATION_OX;
 	dvec4.p.y = _TEST_DMAT_TRANSLATION_OY;
-	dvec4.v[3] = LW6MAT_F_1;
+	dvec4.v[3] = LW6MAT_D_1;
 	dvec3.p.x = _TEST_DMAT_TRANSLATION_PX;
 	dvec3.p.y = _TEST_DMAT_TRANSLATION_PY;
 	lw6mat_dmat4_translation (&dmat4_translation, &dvec3);
@@ -3955,7 +4067,7 @@ _test_dmat4 ()
 	dvec4.p.x = _TEST_DMAT_SCALE_X0;
 	dvec4.p.y = _TEST_DMAT_SCALE_Y0;
 	dvec4.p.z = _TEST_DMAT_SCALE_Z0;
-	dvec4.v[3] = LW6MAT_F_1;
+	dvec4.v[3] = LW6MAT_D_1;
 	lw6mat_dmat4_scale (&dmat4_scale, _TEST_DMAT_SCALE);
 	ret = _print_dmat4 (sys_context, &dmat4_scale, "scale left arg dmat4") && ret;
 	ret = _print_dvec4 (sys_context, &dvec4, "scale right arg column dvec4") && ret;
@@ -3974,7 +4086,7 @@ _test_dmat4 ()
 	dvec4.p.x = _TEST_DMAT_ROTATION_X0;
 	dvec4.p.y = _TEST_DMAT_ROTATION_Y0;
 	dvec4.p.z = _TEST_DMAT_ROTATION_Z0;
-	dvec4.v[3] = LW6MAT_F_1;
+	dvec4.v[3] = LW6MAT_D_1;
 	lw6mat_dmat4_rot_x (&dmat4_rotation, _TEST_DMAT_ROTATION_R);
 	ret = _print_dmat4 (sys_context, &dmat4_rotation, "rotation X left arg dmat4") && ret;
 	ret = _print_dvec4 (sys_context, &dvec4, "rotation X right arg column dvec4") && ret;
@@ -3993,7 +4105,7 @@ _test_dmat4 ()
 	dvec4.p.x = _TEST_DMAT_ROTATION_X0;
 	dvec4.p.y = _TEST_DMAT_ROTATION_Y0;
 	dvec4.p.z = _TEST_DMAT_ROTATION_Z0;
-	dvec4.v[3] = LW6MAT_F_1;
+	dvec4.v[3] = LW6MAT_D_1;
 	lw6mat_dmat4_rot_y (&dmat4_rotation, _TEST_DMAT_ROTATION_R);
 	ret = _print_dmat4 (sys_context, &dmat4_rotation, "rotation Y left arg dmat4") && ret;
 	ret = _print_dvec4 (sys_context, &dvec4, "rotation Y right arg column dvec4") && ret;
@@ -4012,7 +4124,7 @@ _test_dmat4 ()
 	dvec4.p.x = _TEST_DMAT_ROTATION_X0;
 	dvec4.p.y = _TEST_DMAT_ROTATION_Y0;
 	dvec4.p.z = _TEST_DMAT_ROTATION_Z0;
-	dvec4.v[3] = LW6MAT_F_1;
+	dvec4.v[3] = LW6MAT_D_1;
 	lw6mat_dmat4_rot_z (&dmat4_rotation, _TEST_DMAT_ROTATION_R);
 	ret = _print_dmat4 (sys_context, &dmat4_rotation, "rotation Z left arg dmat4") && ret;
 	ret = _print_dvec4 (sys_context, &dvec4, "rotation Z right arg column dvec4") && ret;
@@ -4030,16 +4142,16 @@ _test_dmat4 ()
 
 	lw6mat_dmat4_ortho (&dmat4_ortho, _TEST_DMAT4_ORTHO_LEFT, _TEST_DMAT4_ORTHO_RIGHT, _TEST_DMAT4_ORTHO_BOTTOM, _TEST_DMAT4_ORTHO_TOP,
 			    -_TEST_DMAT4_ORTHO_NEARVAL, -_TEST_DMAT4_ORTHO_FARVAL);
-	ret = _print_dmat4 (sys_context, &dmat4_rotation, "ortho left arg dmat4") && ret;
+	ret = _print_dmat4 (sys_context, &dmat4_ortho, "ortho left arg dmat4") && ret;
 	dvec4.p.x = _TEST_DMAT4_ORTHO_LEFT;
 	dvec4.p.y = _TEST_DMAT4_ORTHO_BOTTOM;
 	dvec4.p.z = _TEST_DMAT4_ORTHO_NEARVAL;
-	dvec4.v[3] = LW6MAT_F_1;
+	dvec4.v[3] = LW6MAT_D_1;
 	ret = _print_dvec4 (sys_context, &dvec4, "ortho right arg column dvec4") && ret;
 	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_ortho, &dvec4);
 	ret = _print_dvec4 (sys_context, &dvec4, "ortho result dvec4") && ret;
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (dvec4.p.x, -LW6MAT_F_1) && lw6mat_is_similar_f (dvec4.p.y, -LW6MAT_F_1) && lw6mat_is_similar_f (dvec4.p.z, -LW6MAT_F_1)))
+	    (lw6mat_is_similar_f (dvec4.p.x, -LW6MAT_D_1) && lw6mat_is_similar_f (dvec4.p.y, -LW6MAT_D_1) && lw6mat_is_similar_f (dvec4.p.z, -LW6MAT_D_1)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ortho OK"));
 	  }
@@ -4051,12 +4163,12 @@ _test_dmat4 ()
 	dvec4.p.x = _TEST_DMAT4_ORTHO_RIGHT;
 	dvec4.p.y = _TEST_DMAT4_ORTHO_TOP;
 	dvec4.p.z = _TEST_DMAT4_ORTHO_FARVAL;
-	dvec4.v[3] = LW6MAT_F_1;
+	dvec4.v[3] = LW6MAT_D_1;
 	ret = _print_dvec4 (sys_context, &dvec4, "ortho right arg column dvec4") && ret;
 	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_ortho, &dvec4);
 	ret = _print_dvec4 (sys_context, &dvec4, "ortho result dvec4") && ret;
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (dvec4.p.x, LW6MAT_F_1) && lw6mat_is_similar_f (dvec4.p.y, LW6MAT_F_1) && lw6mat_is_similar_f (dvec4.p.z, LW6MAT_F_1)))
+	    (lw6mat_is_similar_f (dvec4.p.x, LW6MAT_D_1) && lw6mat_is_similar_f (dvec4.p.y, LW6MAT_D_1) && lw6mat_is_similar_f (dvec4.p.z, LW6MAT_D_1)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("ortho OK"));
 	  }
