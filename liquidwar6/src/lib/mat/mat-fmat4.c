@@ -190,6 +190,52 @@ lw6mat_fmat4_rot_z (lw6mat_fmat4_t * fmat4, float r)
 }
 
 /**
+ * lw6mat_fmat4_ortho
+ *
+ * @fmat4: the matrix to initialize.
+ * @left: left plane coordinate
+ * @right: right plane coordinate
+ * @bottom: bottom plane coordinate
+ * @top: top plane coordinate
+ * @nearval: near plane coordinate
+ * @farval: far plane coordinate
+ *
+ * Loads the matrix with an orthogonal projection matrix.
+ * Note: use -nearVal and -farVal to initialize.
+ * It's a little akward, if you expect to pass vectors with positions
+ * ranging from nearVal to farVal then you need to pass -nearVal and
+ * -farVal to this function. This is probably due to the fact that
+ * with a right-handed basis and X,Y set up "as usual", then Z is negative
+ * when going farther and farther. This tweak allows farVal to yield
+ * +1 and nearVal -1. We keep this function as is here, as this is the
+ * way OpenGL functions seem to work.
+ *
+ * Return value: none.
+ */
+void
+lw6mat_fmat4_ortho (lw6mat_fmat4_t * fmat4, float left, float right, float bottom, float top, float nearval, float farval)
+{
+  float dx=right-left;
+  float dy=top-bottom;
+  float dz=farval-nearval;
+
+  lw6mat_fmat4_identity(fmat4);
+
+  if (dx!=0.0f) {
+    fmat4->m[0][0]=2.0f/dx;
+    fmat4->m[3][0] = -(right+left)/dx;
+  }
+  if (dy!=0.0f) {
+    fmat4->m[1][1]=2.0f/dy;
+    fmat4->m[3][1] = -(top+bottom)/dy;
+  }
+  if (dz!=0.0f) {
+    fmat4->m[2][2]=-2.0f/dz;
+    fmat4->m[3][2] = -(nearval+farval)/dz;
+  }
+}
+
+/**
  * lw6mat_fmat4_is_same
  *
  * @fmat4_a: 1st matrix to compare

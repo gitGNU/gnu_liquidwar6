@@ -44,3 +44,7 @@ deb:
 
 rpm:
 	echo "Copy source tarball to ./pkg then \"cd pkg\" and build package there." 
+
+indent:
+	cd $(top_srcdir)/src && ./indent.sh
+
