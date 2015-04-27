@@ -320,8 +320,23 @@
 
 #define	_TEST_FMAT4_PERSPECTIVE_FOVY 45.0f
 #define	_TEST_FMAT4_PERSPECTIVE_ASPECT 1.5f
-#define _TEST_FMAT4_PERSPECTIVE_ZNEAR -3.0f
-#define _TEST_FMAT4_PERSPECTIVE_ZFAR -10.0f
+#define _TEST_FMAT4_PERSPECTIVE_ZNEAR 3.0f
+#define _TEST_FMAT4_PERSPECTIVE_ZFAR 10.0f
+
+#define _TEST_FMAT4_PERSPECTIVE_XNEAR_CHECK 0.5364919
+#define _TEST_FMAT4_PERSPECTIVE_XFAR_CHECK 0.16094756
+#define _TEST_FMAT4_PERSPECTIVE_YNEAR_CHECK 0.8047378
+#define _TEST_FMAT4_PERSPECTIVE_YFAR_CHECK 0.24142134
+
+#define	_TEST_DMAT4_PERSPECTIVE_FOVY 45.0f
+#define	_TEST_DMAT4_PERSPECTIVE_ASPECT 1.5f
+#define _TEST_DMAT4_PERSPECTIVE_ZNEAR 3.0f
+#define _TEST_DMAT4_PERSPECTIVE_ZFAR 10.0f
+
+#define _TEST_DMAT4_PERSPECTIVE_XNEAR_CHECK 0.5364919
+#define _TEST_DMAT4_PERSPECTIVE_XFAR_CHECK 0.16094756
+#define _TEST_DMAT4_PERSPECTIVE_YNEAR_CHECK 0.8047378
+#define _TEST_DMAT4_PERSPECTIVE_YFAR_CHECK 0.24142134
 
 typedef struct _lw6mat_test_data_s
 {
@@ -3230,6 +3245,7 @@ _test_fmat4 ()
 	fvec4.v[3] = LW6MAT_F_1;
 	ret = _print_fvec4 (sys_context, &fvec4, "perspective 000 right arg column fvec4") && ret;
 	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_perspective, &fvec4);
+	lw6mat_fvec4_homogeneous (sys_context, &fvec4);
 	ret = _print_fvec4 (sys_context, &fvec4, "perspective 000 result fvec4") && ret;
 	if (LW6SYS_TEST_ACK
 	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
@@ -3247,9 +3263,10 @@ _test_fmat4 ()
 	fvec4.v[3] = LW6MAT_F_1;
 	ret = _print_fvec4 (sys_context, &fvec4, "perspective 001 right arg column fvec4") && ret;
 	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_perspective, &fvec4);
+	lw6mat_fvec4_homogeneous (sys_context, &fvec4);
 	ret = _print_fvec4 (sys_context, &fvec4, "perspective 001 result fvec4") && ret;
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
+	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, LW6MAT_F_1)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 001 OK"));
 	  }
@@ -3264,9 +3281,11 @@ _test_fmat4 ()
 	fvec4.v[3] = LW6MAT_F_1;
 	ret = _print_fvec4 (sys_context, &fvec4, "perspective 100 right arg column fvec4") && ret;
 	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_perspective, &fvec4);
+	lw6mat_fvec4_homogeneous (sys_context, &fvec4);
 	ret = _print_fvec4 (sys_context, &fvec4, "perspective 100 result fvec4") && ret;
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
+	    (lw6mat_is_similar_f (fvec4.p.x, _TEST_FMAT4_PERSPECTIVE_XNEAR_CHECK) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0)
+	     && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 100 OK"));
 	  }
@@ -3281,9 +3300,11 @@ _test_fmat4 ()
 	fvec4.v[3] = LW6MAT_F_1;
 	ret = _print_fvec4 (sys_context, &fvec4, "perspective 101 right arg column fvec4") && ret;
 	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_perspective, &fvec4);
+	lw6mat_fvec4_homogeneous (sys_context, &fvec4);
 	ret = _print_fvec4 (sys_context, &fvec4, "perspective 101 result fvec4") && ret;
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
+	    (lw6mat_is_similar_f (fvec4.p.x, _TEST_FMAT4_PERSPECTIVE_XFAR_CHECK) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0)
+	     && lw6mat_is_similar_f (fvec4.p.z, LW6MAT_F_1)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 101 OK"));
 	  }
@@ -3298,9 +3319,11 @@ _test_fmat4 ()
 	fvec4.v[3] = LW6MAT_F_1;
 	ret = _print_fvec4 (sys_context, &fvec4, "perspective 010 right arg column fvec4") && ret;
 	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_perspective, &fvec4);
+	lw6mat_fvec4_homogeneous (sys_context, &fvec4);
 	ret = _print_fvec4 (sys_context, &fvec4, "perspective 010 result fvec4") && ret;
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
+	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, _TEST_FMAT4_PERSPECTIVE_YNEAR_CHECK)
+	     && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 010 OK"));
 	  }
@@ -3315,9 +3338,11 @@ _test_fmat4 ()
 	fvec4.v[3] = LW6MAT_F_1;
 	ret = _print_fvec4 (sys_context, &fvec4, "perspective 011 right arg column fvec4") && ret;
 	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_perspective, &fvec4);
+	lw6mat_fvec4_homogeneous (sys_context, &fvec4);
 	ret = _print_fvec4 (sys_context, &fvec4, "perspective 011 result fvec4") && ret;
 	if (LW6SYS_TEST_ACK
-	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.z, -LW6MAT_F_1)))
+	    (lw6mat_is_similar_f (fvec4.p.x, LW6MAT_F_0) && lw6mat_is_similar_f (fvec4.p.y, _TEST_FMAT4_PERSPECTIVE_YFAR_CHECK)
+	     && lw6mat_is_similar_f (fvec4.p.z, LW6MAT_F_1)))
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 011 OK"));
 	  }
@@ -3880,6 +3905,7 @@ _test_dmat4 ()
     lw6mat_dmat4_t dmat4_scale;
     lw6mat_dmat4_t dmat4_rotation;
     lw6mat_dmat4_t dmat4_ortho;
+    lw6mat_dmat4_t dmat4_perspective;
     lw6mat_dvec4_t dvec4;
     lw6mat_dvec3_t dvec3;
     int i = 0;
@@ -4211,6 +4237,122 @@ _test_dmat4 ()
 	else
 	  {
 	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("ortho error"));
+	    ret = 0;
+	  }
+
+	lw6mat_dmat4_perspective (&dmat4_perspective, _TEST_DMAT4_PERSPECTIVE_FOVY, _TEST_DMAT4_PERSPECTIVE_ASPECT, _TEST_DMAT4_PERSPECTIVE_ZNEAR,
+				  _TEST_DMAT4_PERSPECTIVE_ZFAR);
+	ret = _print_dmat4 (sys_context, &dmat4_perspective, "perspective left arg dmat4") && ret;
+	dvec4.p.x = LW6MAT_D_0;
+	dvec4.p.y = LW6MAT_D_0;
+	dvec4.p.z = -_TEST_DMAT4_PERSPECTIVE_ZNEAR;
+	dvec4.v[3] = LW6MAT_D_1;
+	ret = _print_dvec4 (sys_context, &dvec4, "perspective 000 right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_perspective, &dvec4);
+	lw6mat_dvec4_homogeneous (sys_context, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "perspective 000 result dvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec4.p.x, LW6MAT_D_0) && lw6mat_is_similar_f (dvec4.p.y, LW6MAT_D_0) && lw6mat_is_similar_f (dvec4.p.z, -LW6MAT_D_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 000 OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("perspective 000 error"));
+	    ret = 0;
+	  }
+	dvec4.p.x = LW6MAT_D_0;
+	dvec4.p.y = LW6MAT_D_0;
+	dvec4.p.z = -_TEST_DMAT4_PERSPECTIVE_ZFAR;
+	dvec4.v[3] = LW6MAT_D_1;
+	ret = _print_dvec4 (sys_context, &dvec4, "perspective 001 right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_perspective, &dvec4);
+	lw6mat_dvec4_homogeneous (sys_context, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "perspective 001 result dvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec4.p.x, LW6MAT_D_0) && lw6mat_is_similar_f (dvec4.p.y, LW6MAT_D_0) && lw6mat_is_similar_f (dvec4.p.z, LW6MAT_D_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 001 OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("perspective 001 error"));
+	    ret = 0;
+	  }
+	dvec4.p.x = LW6MAT_D_1;
+	dvec4.p.y = LW6MAT_D_0;
+	dvec4.p.z = -_TEST_DMAT4_PERSPECTIVE_ZNEAR;
+	dvec4.v[3] = LW6MAT_D_1;
+	ret = _print_dvec4 (sys_context, &dvec4, "perspective 100 right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_perspective, &dvec4);
+	lw6mat_dvec4_homogeneous (sys_context, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "perspective 100 result dvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec4.p.x, _TEST_DMAT4_PERSPECTIVE_XNEAR_CHECK) && lw6mat_is_similar_f (dvec4.p.y, LW6MAT_D_0)
+	     && lw6mat_is_similar_f (dvec4.p.z, -LW6MAT_D_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 100 OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("perspective 100 error"));
+	    ret = 0;
+	  }
+	dvec4.p.x = LW6MAT_D_1;
+	dvec4.p.y = LW6MAT_D_0;
+	dvec4.p.z = -_TEST_DMAT4_PERSPECTIVE_ZFAR;
+	dvec4.v[3] = LW6MAT_D_1;
+	ret = _print_dvec4 (sys_context, &dvec4, "perspective 101 right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_perspective, &dvec4);
+	lw6mat_dvec4_homogeneous (sys_context, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "perspective 101 result dvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec4.p.x, _TEST_DMAT4_PERSPECTIVE_XFAR_CHECK) && lw6mat_is_similar_f (dvec4.p.y, LW6MAT_D_0)
+	     && lw6mat_is_similar_f (dvec4.p.z, LW6MAT_D_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 101 OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("perspective 101 error"));
+	    ret = 0;
+	  }
+	dvec4.p.x = LW6MAT_D_0;
+	dvec4.p.y = LW6MAT_D_1;
+	dvec4.p.z = -_TEST_DMAT4_PERSPECTIVE_ZNEAR;
+	dvec4.v[3] = LW6MAT_D_1;
+	ret = _print_dvec4 (sys_context, &dvec4, "perspective 010 right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_perspective, &dvec4);
+	lw6mat_dvec4_homogeneous (sys_context, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "perspective 010 result dvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec4.p.x, LW6MAT_D_0) && lw6mat_is_similar_f (dvec4.p.y, _TEST_DMAT4_PERSPECTIVE_YNEAR_CHECK)
+	     && lw6mat_is_similar_f (dvec4.p.z, -LW6MAT_D_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 010 OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("perspective 010 error"));
+	    ret = 0;
+	  }
+	dvec4.p.x = LW6MAT_D_0;
+	dvec4.p.y = LW6MAT_D_1;
+	dvec4.p.z = -_TEST_DMAT4_PERSPECTIVE_ZFAR;
+	dvec4.v[3] = LW6MAT_D_1;
+	ret = _print_dvec4 (sys_context, &dvec4, "perspective 011 right arg column dvec4") && ret;
+	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_perspective, &dvec4);
+	lw6mat_dvec4_homogeneous (sys_context, &dvec4);
+	ret = _print_dvec4 (sys_context, &dvec4, "perspective 011 result dvec4") && ret;
+	if (LW6SYS_TEST_ACK
+	    (lw6mat_is_similar_f (dvec4.p.x, LW6MAT_D_0) && lw6mat_is_similar_f (dvec4.p.y, _TEST_DMAT4_PERSPECTIVE_YFAR_CHECK)
+	     && lw6mat_is_similar_f (dvec4.p.z, LW6MAT_D_1)))
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("perspective 011 OK"));
+	  }
+	else
+	  {
+	    lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("perspective 011 error"));
 	    ret = 0;
 	  }
       }
