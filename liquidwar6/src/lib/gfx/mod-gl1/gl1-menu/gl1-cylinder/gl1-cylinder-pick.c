@@ -37,7 +37,7 @@
 #define _PASS_THROUGH_ESC -4
 #define _PASS_THROUGH_SELECTED -5
 
-void
+static void
 _find_cylinder_limits (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 		       _mod_gl1_menu_cylinder_context_t * cylinder_context, lw6gui_zone_t * zone, int i, int n, float relative_text_width)
 {
@@ -106,7 +106,7 @@ _find_cylinder_limits (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
       lw6mat_fmat4_mul_fvec4 (&p4, &mat_all, &p4);
       lw6mat_fvec4_homogeneous (sys_context, &p4);
 
-      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("[%0.3f,%0.3f] [%0.3f,%0.3f] [%0.3f,%0.3f] [%0.3f,%0.3f]"), p1.p.x, p1.p.y, p2.p.x, p2.p.y, p3.p.x,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("[%0.3f,%0.3f] [%0.3f,%0.3f] [%0.3f,%0.3f] [%0.3f,%0.3f]"), p1.p.x, p1.p.y, p2.p.x, p2.p.y, p3.p.x,
 		  p3.p.y, p4.p.x, p4.p.y);
 
       zone->x1 = utils_context->sdl_context.video_mode.width + 1;
@@ -142,6 +142,23 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t * sys_context, mod_gl1_utils_
 				  cylinder_context,
 				  const lw6gui_look_t * look, int *position, int *scroll, int *esc, lw6gui_menu_t * menu, int screen_x, int screen_y)
 {
+  int i, n;
+  lw6gui_zone_t tmp;
+
+  n = menu->nb_items_displayed + 2;
+  if (menu->first_item_displayed > 0)
+    {
+      _find_cylinder_limits (sys_context, utils_context, cylinder_context, &tmp, 0, n, 1.0f);
+    }
+  if (menu->first_item_displayed + menu->nb_items_displayed < menu->nb_items)
+    {
+      _find_cylinder_limits (sys_context, utils_context, cylinder_context, &tmp, n - 1, n, 1.0f);
+    }
+  for (i = 0; i < menu->nb_items_displayed; ++i)
+    {
+      _find_cylinder_limits (sys_context, utils_context, cylinder_context, &tmp, i, n, 1.0f);
+    }
+
   /*
      switch (ret)
      {
