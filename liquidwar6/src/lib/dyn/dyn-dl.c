@@ -522,7 +522,7 @@ lw6dyn_dlsym (lw6sys_context_t * sys_context, lw6dyn_dl_handle_t * handle, const
     }
   else
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unable to find symbol \"%s\" in library \"%s\""), func_name, handle->library_path);
+      lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("unable to find symbol \"%s\" in library \"%s\""), func_name, handle->library_path);
     }
 
   return ret;
