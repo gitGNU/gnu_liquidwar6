@@ -97,7 +97,10 @@ _find_cylinder_limits (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
       lw6mat_fmat4_mul_fmat4 (&mat_all, &mat_all, &mat_translate1);
       lw6mat_fmat4_mul_fmat4 (&mat_all, &mat_all, &mat_perspective);
 
-      lw6mat_fmat4_mul_fvec4 (&p1, &mat_all, &p1);
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("before [%0.3f,%0.3f] [%0.3f,%0.3f] [%0.3f,%0.3f] [%0.3f,%0.3f]"), p1.p.x, p1.p.y, p2.p.x, p2.p.y, p3.p.x,
+		  p3.p.y, p4.p.x, p4.p.y);
+      
+lw6mat_fmat4_mul_fvec4 (&p1, &mat_all, &p1);
       lw6mat_fvec4_homogeneous (sys_context, &p1);
       lw6mat_fmat4_mul_fvec4 (&p2, &mat_all, &p2);
       lw6mat_fvec4_homogeneous (sys_context, &p2);
@@ -106,7 +109,7 @@ _find_cylinder_limits (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
       lw6mat_fmat4_mul_fvec4 (&p4, &mat_all, &p4);
       lw6mat_fvec4_homogeneous (sys_context, &p4);
 
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("[%0.3f,%0.3f] [%0.3f,%0.3f] [%0.3f,%0.3f] [%0.3f,%0.3f]"), p1.p.x, p1.p.y, p2.p.x, p2.p.y, p3.p.x,
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("after [%0.3f,%0.3f] [%0.3f,%0.3f] [%0.3f,%0.3f] [%0.3f,%0.3f]"), p1.p.x, p1.p.y, p2.p.x, p2.p.y, p3.p.x,
 		  p3.p.y, p4.p.x, p4.p.y);
 
       zone->x1 = utils_context->sdl_context.video_mode.width + 1;
