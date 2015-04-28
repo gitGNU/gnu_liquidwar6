@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#include "../../../../mat/mat.h"
+
 #include "../../mod-gl1.h"
 #include "gl1-cylinder-internal.h"
 
@@ -35,58 +37,102 @@
 #define _PASS_THROUGH_ESC -4
 #define _PASS_THROUGH_SELECTED -5
 
-static void
-_draw_button_corners (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
-		      _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, float relative_text_width, int pass_through)
+void
+_find_cylinder_limits (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
+		       _mod_gl1_menu_cylinder_context_t * cylinder_context, lw6gui_zone_t * zone, int i, int n, float relative_text_width)
 {
-  if (n > 0 && relative_text_width > 0.0f)
+  memset (zone, 0, sizeof (lw6gui_zone_t));
+  if (n > 0 && utils_context->sdl_context.video_mode.width > 0 && utils_context->sdl_context.video_mode.height > 9)
     {
-      if (i >= 0)
-	{
-	  _mod_gl1_menu_cylinder_draw_cylinder_corners (sys_context, utils_context, cylinder_context, i, n, relative_text_width, pass_through);
-	}
-      else
-	{
-	  float screen_ratio;
-	  float draw_esc_offset;
-	  float draw_esc_radius;
-	  float draw_esc_cyl_height;
-	  float draw_esc_cyl_height_offset;
-	  float draw_esc_rotate;
+      lw6mat_fmat4_t mat_perspective;
+      lw6mat_fvec3_t vec_translate1;
+      lw6mat_fmat4_t mat_translate1;
+      lw6mat_fmat4_t mat_rotate;
+      lw6mat_fvec3_t vec_translate2;
+      lw6mat_fmat4_t mat_translate2;
+      lw6mat_fmat4_t mat_all;
+      lw6mat_fvec4_t p1;
+      lw6mat_fvec4_t p2;
+      lw6mat_fvec4_t p3;
+      lw6mat_fvec4_t p4;
+      float radius;
+      float cyl_height;
+      float y;
+      float dy;
+      int32_t dt;
 
-	  if (utils_context->sdl_context.video_mode.height > 0 && utils_context->sdl_context.video_mode.width > 0 && relative_text_width > 0.0f)
-	    {
-	      screen_ratio = ((float) utils_context->sdl_context.video_mode.width) / ((float) utils_context->sdl_context.video_mode.height);
+      radius = cylinder_context->const_data.radius1 / n;
+      cyl_height = relative_text_width *
+	cylinder_context->const_data.cyl_height *
+	((float) utils_context->sdl_context.video_mode.width) / ((float) utils_context->sdl_context.video_mode.height);
+      y = _mod_gl1_menu_cylinder_get_cylinder_y (sys_context, utils_context, cylinder_context, i, n);
+      dt = _lw6gfx_sdl_timer_get_cycle (sys_context, &(utils_context->sdl_context)) % cylinder_context->const_data.oscil_period;
+      dy =
+	(cylinder_context->const_data.oscil_range1 / n) * sin (2.0f * M_PI *
+							       ((dt / ((float) cylinder_context->const_data.oscil_period)) + (((float) i) / ((float) n))));
+      lw6mat_fmat4_perspective (&mat_perspective, utils_context->const_data.persp_fovy,
+				((float) utils_context->sdl_context.video_mode.width) /
+				((float) utils_context->sdl_context.video_mode.height), utils_context->const_data.persp_znear,
+				utils_context->const_data.persp_zfar);
 
-	      draw_esc_offset = cylinder_context->const_data.esc_offset;
-	      draw_esc_radius = cylinder_context->const_data.esc_radius;
-	      draw_esc_cyl_height = relative_text_width * cylinder_context->const_data.esc_cyl_height * screen_ratio;
-	      draw_esc_cyl_height_offset = cylinder_context->const_data.esc_cyl_height_offset * screen_ratio;
-	      draw_esc_rotate = cylinder_context->const_data.esc_rotate;
+      vec_translate1.p.x = -cyl_height / 2.0f;
+      vec_translate1.p.y = 0.0f;
+      vec_translate1.p.z = -1.0f;
+      lw6mat_fmat4_translation (&mat_translate1, &vec_translate1);
+      lw6mat_fmat4_rot_y (&mat_translate1, lw6sys_math_deg2rad (90));
+      vec_translate1.p.x = 0.0f;
+      vec_translate1.p.y = y + dy;
+      vec_translate1.p.z = 0.0f;
+      lw6mat_fmat4_translation (&mat_translate2, &vec_translate2);
 
-	      _mod_gl1_menu_cylinder_draw_fixed_cylinder_corners (sys_context, utils_context,
-								  cylinder_context,
-								  draw_esc_offset,
-								  draw_esc_radius,
-								  draw_esc_cyl_height, draw_esc_cyl_height_offset, draw_esc_rotate, relative_text_width,
-								  pass_through);
-	    }
-	}
-    }
-}
+      p1.p.x = p2.p.x = -radius;
+      p3.p.x = p4.p.x = radius;
+      p1.p.y = p2.p.y = p3.p.y = p4.p.y = 0;
+      p1.p.z = p2.p.z = p3.p.z = p4.p.z = cyl_height;
+      p1.p.w = p2.p.w = p3.p.w = p4.p.w = LW6MAT_F_1;
 
-static void
-_draw_spheres_corners (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
-		       _mod_gl1_menu_cylinder_context_t * cylinder_context, int i, int n, int nb_spheres, int pass_through)
-{
-  int sphere_i;
+      lw6mat_fmat4_identity (&mat_all);
+      lw6mat_fmat4_mul_fmat4 (&mat_all, &mat_all, &mat_translate2);
+      lw6mat_fmat4_mul_fmat4 (&mat_all, &mat_all, &mat_rotate);
+      lw6mat_fmat4_mul_fmat4 (&mat_all, &mat_all, &mat_translate1);
+      lw6mat_fmat4_mul_fmat4 (&mat_all, &mat_all, &mat_perspective);
 
-  if (n > 0 && nb_spheres > 0)
-    {
-      for (sphere_i = 0; sphere_i < nb_spheres; ++sphere_i)
-	{
-	  _mod_gl1_menu_cylinder_draw_sphere_corners (sys_context, utils_context, cylinder_context, i, n, sphere_i, nb_spheres, pass_through);
-	}
+      lw6mat_fmat4_mul_fvec4 (&p1, &mat_all, &p1);
+      lw6mat_fvec4_homogeneous (sys_context, &p1);
+      lw6mat_fmat4_mul_fvec4 (&p2, &mat_all, &p2);
+      lw6mat_fvec4_homogeneous (sys_context, &p2);
+      lw6mat_fmat4_mul_fvec4 (&p3, &mat_all, &p3);
+      lw6mat_fvec4_homogeneous (sys_context, &p3);
+      lw6mat_fmat4_mul_fvec4 (&p4, &mat_all, &p4);
+      lw6mat_fvec4_homogeneous (sys_context, &p4);
+
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("[%0.3f,%0.3f] [%0.3f,%0.3f] [%0.3f,%0.3f] [%0.3f,%0.3f]"), p1.p.x, p1.p.y, p2.p.x, p2.p.y, p3.p.x,
+		  p3.p.y, p4.p.x, p4.p.y);
+
+      zone->x1 = utils_context->sdl_context.video_mode.width + 1;
+      zone->x2 = -1;
+      zone->y1 = utils_context->sdl_context.video_mode.height + 1;
+      zone->y2 = -1;
+
+      zone->x1 = zone->x1 < p1.p.x ? zone->x1 : p1.p.x;
+      zone->x1 = zone->x1 < p2.p.x ? zone->x1 : p2.p.x;
+      zone->x1 = zone->x1 < p3.p.x ? zone->x1 : p3.p.x;
+      zone->x1 = zone->x1 < p4.p.x ? zone->x1 : p4.p.x;
+      zone->y1 = zone->y1 < p1.p.y ? zone->y1 : p1.p.y;
+      zone->y1 = zone->y1 < p2.p.y ? zone->y1 : p2.p.y;
+      zone->y1 = zone->y1 < p3.p.y ? zone->y1 : p3.p.y;
+      zone->y1 = zone->y1 < p4.p.y ? zone->y1 : p4.p.y;
+      zone->x2 = zone->x2 > p1.p.x ? zone->x2 : p1.p.x;
+      zone->x2 = zone->x2 > p2.p.x ? zone->x2 : p2.p.x;
+      zone->x2 = zone->x2 > p3.p.x ? zone->x2 : p3.p.x;
+      zone->x2 = zone->x2 > p4.p.x ? zone->x2 : p4.p.x;
+      zone->y2 = zone->y2 > p1.p.y ? zone->y2 : p1.p.y;
+      zone->y2 = zone->y2 > p2.p.y ? zone->y2 : p2.p.y;
+      zone->y2 = zone->y2 > p3.p.y ? zone->y2 : p3.p.y;
+      zone->y2 = zone->y2 > p4.p.y ? zone->y2 : p4.p.y;
+
+      zone->w = zone->x1 - zone->x2;
+      zone->h = zone->y1 - zone->y2;
     }
 }
 
@@ -96,149 +142,33 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t * sys_context, mod_gl1_utils_
 				  cylinder_context,
 				  const lw6gui_look_t * look, int *position, int *scroll, int *esc, lw6gui_menu_t * menu, int screen_x, int screen_y)
 {
-  //  http://users.polytech.unice.fr/~buffa/cours/synthese_image/DOCS/Tutoriaux/glGameDeveloppers/view.cgi-V=tutorial_glfeedback&S=3.htm
-
-  GLfloat feedback_buffer[FEEDBACK_BUFFER_SIZE];
-  GLfloat *ptr;
-  int i, n;
-  float x, y, x_min, x_max, y_min, y_max;
-  lw6gui_menuitem_t *menuitem;
-  mod_gl1_utils_bitmap_t *button_bitmap = NULL;
-  float relative_text_width;
-  int ret = _PASS_THROUGH_DEFAULT;
-
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pick menu, step 1: setup"));
-
-  lw6gui_menu_update_display_range (sys_context, menu, cylinder_context->const_data.max_displayed_items);
-
-  memset (feedback_buffer, 0, sizeof (GLfloat) * FEEDBACK_BUFFER_SIZE);
-
-  glFeedbackBuffer (FEEDBACK_BUFFER_SIZE, GL_2D, (float *) feedback_buffer);
-
-  mod_gl1_utils_set_render_mode_3d_feedback (sys_context, utils_context);
-  glRenderMode (GL_FEEDBACK);	// enter feedback mode
-
-  n = menu->nb_items_displayed + 2;
-
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pick menu, step 2: spheres"));
-  if (menu->first_item_displayed > 0)
-    {
-      _draw_spheres_corners (sys_context, utils_context, cylinder_context, 0, n, cylinder_context->const_data.nb_spheres, _PASS_THROUGH_PREV);
-    }
-  if (menu->first_item_displayed + menu->nb_items_displayed < menu->nb_items)
-    {
-      _draw_spheres_corners (sys_context, utils_context, cylinder_context, n - 1, n, cylinder_context->const_data.nb_spheres, _PASS_THROUGH_NEXT);
-    }
-
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pick menu, step 3: items"));
-  for (i = 0; i < menu->nb_items_displayed; ++i)
-    {
-      menuitem = menu->items[i + menu->first_item_displayed];
-      button_bitmap = mod_gl1_utils_get_button_from_menucache (sys_context, utils_context, look, menuitem);
-      if (button_bitmap)
-	{
-	  //
-	  // If button_bitmap doesn't exist, well, we won't die,
-	  // we just suppose the button is very large. It practise
-	  // it shouldn't happen for we've drawn them just before.
-	  //
-	  relative_text_width = ((float) button_bitmap->surface->w) / ((float) MOD_GL1_UTILS_MENU_TEXTURE_W);
-	}
-      else
-	{
-	  relative_text_width = 1.0f;
-	}
-      _draw_button_corners (sys_context, utils_context, cylinder_context, i + 1, n, relative_text_width, i + menu->first_item_displayed);
-    }
-
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pick menu, step 4: esc"));
-  if (menu->esc_item->enabled)
-    {
-      button_bitmap = mod_gl1_utils_get_button_from_menucache (sys_context, utils_context, look, menu->esc_item);
-      if (button_bitmap)
-	{
-	  //
-	  // If button_bitmap doesn't exist, well, we won't die,
-	  // we just suppose the button is very large. It practise
-	  // it shouldn't happen for we've drawn them just before.
-	  //
-	  relative_text_width = ((float) button_bitmap->surface->w) / ((float) MOD_GL1_UTILS_MENU_TEXTURE_W);
-	}
-      else
-	{
-	  relative_text_width = 1.0f;
-	}
-      _draw_button_corners (sys_context, utils_context, cylinder_context, -1, n, relative_text_width, _PASS_THROUGH_ESC);
-    }
-
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pick menu, step 5: feedback"));
-  glRenderMode (GL_RENDER);	// back to normal mode
-
-  ptr = feedback_buffer;
-
-  while ((*ptr) == GL_PASS_THROUGH_TOKEN && (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE))
-    {
-      ptr++;
-      if (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE)
-	{
-	  x_min = utils_context->sdl_context.video_mode.width + 1;
-	  x_max = -1;
-	  y_min = utils_context->sdl_context.video_mode.height + 1;
-	  y_max = -1;
-	  i = (int) (*ptr++);
-	  while ((*ptr) == GL_POINT_TOKEN && ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE - 3)
-	    {
-	      ptr++;
-	      x = *(ptr++);
-	      y = (utils_context->sdl_context.video_mode.height - *(ptr++));
-	      if (x < x_min)
-		{
-		  x_min = x;
-		}
-	      if (x > x_max)
-		{
-		  x_max = x;
-		}
-	      if (y < y_min)
-		{
-		  y_min = y;
-		}
-	      if (y > y_max)
-		{
-		  y_max = y;
-		}
-	    }
-	  if (x_min <= screen_x && screen_x <= x_max && y_min <= screen_y && screen_y <= y_max)
-	    {
-	      ret = i;
-	    }
-	}
-    }
-
-  switch (ret)
-    {
-    case _PASS_THROUGH_PREV:
-      (*position) = -1;
-      (*scroll) = -1;
-      (*esc) = 0;
-      break;
-    case _PASS_THROUGH_NEXT:
-      (*position) = -1;
-      (*scroll) = +1;
-      (*esc) = 0;
-      break;
-    case _PASS_THROUGH_ESC:
-      (*position) = -1;
-      (*scroll) = 0;
-      (*esc) = 1;
-      break;
-    default:
-      (*position) = ret;
-      (*scroll) = 0;
-      (*esc) = 0;
-    }
-
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("pick menu, step 6: done"));
+  /*
+     switch (ret)
+     {
+     case _PASS_THROUGH_PREV:
+     (*position) = -1;
+     (*scroll) = -1;
+     (*esc) = 0;
+     break;
+     case _PASS_THROUGH_NEXT:
+     (*position) = -1;
+     (*scroll) = +1;
+     (*esc) = 0;
+     break;
+     case _PASS_THROUGH_ESC:
+     (*position) = -1;
+     (*scroll) = 0;
+     (*esc) = 1;
+     break;
+     default:
+     (*position) = ret;
+     (*scroll) = 0;
+     (*esc) = 0;
+     }
+   */
+  *position = -1;
+  *scroll = 0;
+  *esc = 0;
 }
 
 void
@@ -247,60 +177,66 @@ _mod_gl1_menu_cylinder_get_cylinder_right_point (lw6sys_context_t * sys_context,
 						 _mod_gl1_menu_cylinder_context_t
 						 * cylinder_context, int i, int n, float relative_text_width, float *right_point_x, float *right_point_y)
 {
-  GLfloat feedback_buffer[FEEDBACK_BUFFER_SIZE];
-  GLfloat *ptr;
-  float x, y, x_min = 0, x_max = 0, y_min = 0, y_max = 0;
+  /*
+     GLfloat feedback_buffer[FEEDBACK_BUFFER_SIZE];
+     GLfloat *ptr;
+     float x,y;
+     float x_min = 0;
+   */
+  float x_max = 0, y_min = 0, y_max = 0;
 
-  if (n > 0)
-    {
-      memset (feedback_buffer, 0, sizeof (GLfloat) * FEEDBACK_BUFFER_SIZE);
+  /*
+     if (n > 0)
+     {
+     memset (feedback_buffer, 0, sizeof (GLfloat) * FEEDBACK_BUFFER_SIZE);
 
-      glFeedbackBuffer (FEEDBACK_BUFFER_SIZE, GL_2D, (float *) feedback_buffer);
+     glFeedbackBuffer (FEEDBACK_BUFFER_SIZE, GL_2D, (float *) feedback_buffer);
 
-      mod_gl1_utils_set_render_mode_3d_feedback (sys_context, utils_context);
-      glRenderMode (GL_FEEDBACK);	// enter feedback mode
+     mod_gl1_utils_set_render_mode_3d_feedback (sys_context, utils_context);
+     glRenderMode (GL_FEEDBACK);        // enter feedback mode
 
-      _mod_gl1_menu_cylinder_draw_cylinder_corners (sys_context, utils_context, cylinder_context, i, n, relative_text_width, _PASS_THROUGH_SELECTED);
+     _mod_gl1_menu_cylinder_draw_cylinder_corners (sys_context, utils_context, cylinder_context, i, n, relative_text_width, _PASS_THROUGH_SELECTED);
 
-      glRenderMode (GL_RENDER);	// back to normal mode
+     glRenderMode (GL_RENDER);  // back to normal mode
 
-      ptr = feedback_buffer;
+     ptr = feedback_buffer;
 
-      while ((*ptr) == GL_PASS_THROUGH_TOKEN && (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE))
-	{
-	  ptr++;
-	  if (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE)
-	    {
-	      x_min = utils_context->sdl_context.video_mode.width + 1;
-	      x_max = -1;
-	      y_min = utils_context->sdl_context.video_mode.height + 1;
-	      y_max = -1;
-	      ptr++;		// skipping passthrough value (_PASS_THROUGH_SELECTED)
-	      while ((*ptr) == GL_POINT_TOKEN && ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE - 3)
-		{
-		  ptr++;
-		  x = *(ptr++);
-		  y = (utils_context->sdl_context.video_mode.height - *(ptr++));
-		  if (x < x_min)
-		    {
-		      x_min = x;
-		    }
-		  if (x > x_max)
-		    {
-		      x_max = x;
-		    }
-		  if (y < y_min)
-		    {
-		      y_min = y;
-		    }
-		  if (y > y_max)
-		    {
-		      y_max = y;
-		    }
-		}
-	    }
-	}
-    }
+     while ((*ptr) == GL_PASS_THROUGH_TOKEN && (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE))
+     {
+     ptr++;
+     if (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE)
+     {
+     x_min = utils_context->sdl_context.video_mode.width + 1;
+     x_max = -1;
+     y_min = utils_context->sdl_context.video_mode.height + 1;
+     y_max = -1;
+     ptr++;             // skipping passthrough value (_PASS_THROUGH_SELECTED)
+     while ((*ptr) == GL_POINT_TOKEN && ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE - 3)
+     {
+     ptr++;
+     x = *(ptr++);
+     y = (utils_context->sdl_context.video_mode.height - *(ptr++));
+     if (x < x_min)
+     {
+     x_min = x;
+     }
+     if (x > x_max)
+     {
+     x_max = x;
+     }
+     if (y < y_min)
+     {
+     y_min = y;
+     }
+     if (y > y_max)
+     {
+     y_max = y;
+     }
+     }
+     }
+     }
+     }
+   */
 
   (*right_point_x) = x_max;
   (*right_point_y) = (y_min + y_max) / 2;
