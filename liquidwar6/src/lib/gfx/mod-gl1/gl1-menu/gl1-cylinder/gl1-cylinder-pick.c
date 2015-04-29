@@ -67,6 +67,12 @@ _find_cylinder_limits (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
       lw6mat_fmat4_identity (&mat_rotate);
       lw6mat_fmat4_identity (&mat_translate1);
       lw6mat_fmat4_identity (&mat_perspective);
+      lw6mat_fvec3_zero (&vec_translate1);
+      lw6mat_fvec3_zero (&vec_translate2);
+      lw6mat_fvec4_zero (&p1);
+      lw6mat_fvec4_zero (&p2);
+      lw6mat_fvec4_zero (&p3);
+      lw6mat_fvec4_zero (&p4);
 
       radius = cylinder_context->const_data.radius1 / n;
       cyl_height = relative_text_width *
@@ -87,23 +93,23 @@ _find_cylinder_limits (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
       vec_translate1.p.y = 0.0f;
       vec_translate1.p.z = -1.0f;
       lw6mat_fmat4_translation (&mat_translate1, &vec_translate1);
-      lw6mat_fmat4_rot_y (&mat_translate1, lw6sys_math_deg2rad (90));
+      lw6mat_fmat4_rot_y (&mat_rotate, lw6sys_math_deg2rad (90));
       vec_translate2.p.x = 0.0f;
       vec_translate2.p.y = y + dy;
       vec_translate2.p.z = 0.0f;
       lw6mat_fmat4_translation (&mat_translate2, &vec_translate2);
 
-      p1.p.x = p4.p.x = -radius;
-      p2.p.x = p3.p.x = radius;
-      p1.p.y = p2.p.y = p3.p.y = p4.p.y = 0.0f;
+      p1.p.y = p4.p.y = -radius;
+      p2.p.y = p3.p.y = radius;
+      p1.p.x = p2.p.x = p3.p.x = p4.p.x = 0.0f;
       p1.p.z = p2.p.z = 0.0f;
       p3.p.z = p4.p.z = cyl_height;
       p1.p.w = p2.p.w = p3.p.w = p4.p.w = LW6MAT_F_1;
 
       lw6mat_fmat4_mul_fmat4 (&mat_all, &mat_all, &mat_perspective);
-      lw6mat_fmat4_mul_fmat4 (&mat_all, &mat_all, &mat_translate2);
-      lw6mat_fmat4_mul_fmat4 (&mat_all, &mat_all, &mat_rotate);
       lw6mat_fmat4_mul_fmat4 (&mat_all, &mat_all, &mat_translate1);
+      lw6mat_fmat4_mul_fmat4 (&mat_all, &mat_all, &mat_rotate);
+      lw6mat_fmat4_mul_fmat4 (&mat_all, &mat_all, &mat_translate2);
 
       lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("before [%0.3f,%0.3f,%0.3f] [%0.3f,%0.3f,%0.3f] [%0.3f,%0.3f,%0.3f] [%0.3f,%0.3f,%0.3f]"), p1.p.x,
 		  p1.p.y, p1.p.z, p2.p.x, p2.p.y, p2.p.z, p3.p.x, p3.p.y, p3.p.z, p4.p.x, p4.p.y, p4.p.z);
