@@ -94,7 +94,7 @@ lw6mat_dmat3_translation (lw6mat_dmat3_t * dmat3, const lw6mat_dvec2_t * dvec2)
  * lw6mat_dmat3_scale
  *
  * @dmat3: the matrix to initialize.
- * @d: value used to scale matrix.
+ * @dvec2: value used to scale matrix.
  *
  * Loads the matrix with a scale matrix. By multiplicating by this
  * matrix, a scaling is done.
@@ -102,7 +102,7 @@ lw6mat_dmat3_translation (lw6mat_dmat3_t * dmat3, const lw6mat_dvec2_t * dvec2)
  * Return value: none.
  */
 void
-lw6mat_dmat3_scale (lw6mat_dmat3_t * dmat3, double d)
+lw6mat_dmat3_scale (lw6mat_dmat3_t * dmat3, const lw6mat_dvec2_t * dvec2)
 {
   int i;
 
@@ -110,7 +110,7 @@ lw6mat_dmat3_scale (lw6mat_dmat3_t * dmat3, double d)
 
   for (i = 0; i < LW6MAT_VEC2_V_SIZE; ++i)
     {
-      dmat3->m[i][i] = d;
+      dmat3->m[i][i] = dvec2->v[i];
     }
 }
 

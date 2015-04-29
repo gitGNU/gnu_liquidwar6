@@ -2837,7 +2837,8 @@ _test_fmat3 ()
 	fvec3.p.x = _TEST_FMAT_SCALE_X0;
 	fvec3.p.y = _TEST_FMAT_SCALE_Y0;
 	fvec3.v[2] = LW6MAT_F_1;
-	lw6mat_fmat3_scale (&fmat3_scale, _TEST_FMAT_SCALE);
+	fvec2.v[0] = fvec2.v[1] = _TEST_FMAT_SCALE;
+	lw6mat_fmat3_scale (&fmat3_scale, &fvec2);
 	ret = _print_fmat3 (sys_context, &fmat3_scale, "scale left arg fmat3") && ret;
 	ret = _print_fvec3 (sys_context, &fvec3, "scale right arg column fvec3") && ret;
 	lw6mat_fmat3_mul_fvec3 (&fvec3, &fmat3_scale, &fvec3);
@@ -3126,7 +3127,8 @@ _test_fmat4 ()
 	fvec4.p.y = _TEST_FMAT_SCALE_Y0;
 	fvec4.p.z = _TEST_FMAT_SCALE_Z0;
 	fvec4.v[3] = LW6MAT_F_1;
-	lw6mat_fmat4_scale (&fmat4_scale, _TEST_FMAT_SCALE);
+	fvec3.v[0] = fvec3.v[1] = fvec3.v[2] = _TEST_FMAT_SCALE;
+	lw6mat_fmat4_scale (&fmat4_scale, &fvec3);
 	ret = _print_fmat4 (sys_context, &fmat4_scale, "scale left arg fmat4") && ret;
 	ret = _print_fvec4 (sys_context, &fvec4, "scale right arg column fvec4") && ret;
 	lw6mat_fmat4_mul_fvec4 (&fvec4, &fmat4_scale, &fvec4);
@@ -3841,7 +3843,8 @@ _test_dmat3 ()
 	dvec3.p.x = _TEST_DMAT_SCALE_X0;
 	dvec3.p.y = _TEST_DMAT_SCALE_Y0;
 	dvec3.v[2] = LW6MAT_F_1;
-	lw6mat_dmat3_scale (&dmat3_scale, _TEST_DMAT_SCALE);
+	dvec2.v[0] = dvec2.v[1] = _TEST_FMAT_SCALE;
+	lw6mat_dmat3_scale (&dmat3_scale, &dvec2);
 	ret = _print_dmat3 (sys_context, &dmat3_scale, "scale left arg dmat3") && ret;
 	ret = _print_dvec3 (sys_context, &dvec3, "scale right arg column dvec3") && ret;
 	lw6mat_dmat3_mul_dvec3 (&dvec3, &dmat3_scale, &dvec3);
@@ -4130,7 +4133,8 @@ _test_dmat4 ()
 	dvec4.p.y = _TEST_DMAT_SCALE_Y0;
 	dvec4.p.z = _TEST_DMAT_SCALE_Z0;
 	dvec4.v[3] = LW6MAT_D_1;
-	lw6mat_dmat4_scale (&dmat4_scale, _TEST_DMAT_SCALE);
+	dvec3.v[0] = dvec3.v[1] = dvec3.v[2] = _TEST_FMAT_SCALE;
+	lw6mat_dmat4_scale (&dmat4_scale, &dvec3);
 	ret = _print_dmat4 (sys_context, &dmat4_scale, "scale left arg dmat4") && ret;
 	ret = _print_dvec4 (sys_context, &dvec4, "scale right arg column dvec4") && ret;
 	lw6mat_dmat4_mul_dvec4 (&dvec4, &dmat4_scale, &dvec4);
