@@ -44,7 +44,23 @@ mod_gl1_utils_viewport_screen_to_gl (lw6sys_context_t * sys_context, mod_gl1_uti
     }
   else
     {
-      *gl_x = -2.0f;
-      *gl_y = -2.0f;
+      *gl_x = -1.0f;
+      *gl_y = -1.0f;
+    }
+}
+
+void
+mod_gl1_utils_viewport_gl_to_screen (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, int *screen_x, int *screen_y, float gl_x,
+				     float gl_y)
+{
+  if (utils_context->sdl_context.video_mode.width > 0 && utils_context->sdl_context.video_mode.height > 0)
+    {
+      *screen_x = (int) (((gl_x + 1.0f) / 2.0f) * ((float) utils_context->sdl_context.video_mode.width));
+      *screen_y = (int) (((1.0f - gl_y) / 2.0f) * ((float) utils_context->sdl_context.video_mode.height));
+    }
+  else
+    {
+      *screen_x = 0;
+      *screen_y = 0;
     }
 }

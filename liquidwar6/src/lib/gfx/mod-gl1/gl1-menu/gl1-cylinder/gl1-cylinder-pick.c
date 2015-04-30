@@ -224,69 +224,15 @@ void
 _mod_gl1_menu_cylinder_get_cylinder_right_point (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_menu_cylinder_context_t
-						 * cylinder_context, int i, int n, float relative_text_width, float *right_point_x, float *right_point_y)
+						 * cylinder_context, int i, int n, float relative_text_width, int *right_point_x, int *right_point_y)
 {
-  /*
-     GLfloat feedback_buffer[FEEDBACK_BUFFER_SIZE];
-     GLfloat *ptr;
-     float x,y;
-     float x_min = 0;
-   */
-  float x_max = 0, y_min = 0, y_max = 0;
+  lw6gui_zone_t zone;
 
-  /*
-     if (n > 0)
-     {
-     memset (feedback_buffer, 0, sizeof (GLfloat) * FEEDBACK_BUFFER_SIZE);
+  memset (&zone, 0, sizeof (lw6gui_zone_t));
+  if (n > 0)
+    {
+      _find_cylinder_limits (sys_context, utils_context, cylinder_context, &zone, i + 1, n + 2, relative_text_width);
+    }
 
-     glFeedbackBuffer (FEEDBACK_BUFFER_SIZE, GL_2D, (float *) feedback_buffer);
-
-     mod_gl1_utils_set_render_mode_3d_feedback (sys_context, utils_context);
-     glRenderMode (GL_FEEDBACK);        // enter feedback mode
-
-     _mod_gl1_menu_cylinder_draw_cylinder_corners (sys_context, utils_context, cylinder_context, i, n, relative_text_width, _PASS_THROUGH_SELECTED);
-
-     glRenderMode (GL_RENDER);  // back to normal mode
-
-     ptr = feedback_buffer;
-
-     while ((*ptr) == GL_PASS_THROUGH_TOKEN && (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE))
-     {
-     ptr++;
-     if (ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE)
-     {
-     x_min = utils_context->sdl_context.video_mode.width + 1;
-     x_max = -1;
-     y_min = utils_context->sdl_context.video_mode.height + 1;
-     y_max = -1;
-     ptr++;             // skipping passthrough value (_PASS_THROUGH_SELECTED)
-     while ((*ptr) == GL_POINT_TOKEN && ptr < feedback_buffer + FEEDBACK_BUFFER_SIZE - 3)
-     {
-     ptr++;
-     x = *(ptr++);
-     y = (utils_context->sdl_context.video_mode.height - *(ptr++));
-     if (x < x_min)
-     {
-     x_min = x;
-     }
-     if (x > x_max)
-     {
-     x_max = x;
-     }
-     if (y < y_min)
-     {
-     y_min = y;
-     }
-     if (y > y_max)
-     {
-     y_max = y;
-     }
-     }
-     }
-     }
-     }
-   */
-
-  (*right_point_x) = x_max;
-  (*right_point_y) = (y_min + y_max) / 2;
+  mod_gl1_utils_viewport_gl_to_screen (sys_context, utils_context, right_point_x, right_point_y, zone.x2, (zone.y1 + zone.y2) / 2.0f);
 }

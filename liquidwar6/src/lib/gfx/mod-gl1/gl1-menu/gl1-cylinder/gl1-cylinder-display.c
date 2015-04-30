@@ -414,8 +414,8 @@ _mod_gl1_menu_cylinder_display_meta (lw6sys_context_t * sys_context, mod_gl1_uti
 				     _mod_gl1_menu_cylinder_context_t * cylinder_context, const lw6gui_look_t * look, lw6gui_menu_t * menu)
 {
   int n;
-  float right_point_x = 0.0f;
-  float right_point_y = 0.0f;
+  int right_point_x = 0;
+  int right_point_y = 0;
   float tooltip_x, tooltip_y, tooltip_w, tooltip_h;
   char *tooltip = NULL;
   float help_x, help_y, help_w, help_h;
@@ -472,7 +472,7 @@ _mod_gl1_menu_cylinder_display_meta (lw6sys_context_t * sys_context, mod_gl1_uti
 		 utils_context->menucache_array.tooltip_bitmap->surface->w) / cylinder_context->const_data.tooltip_max_width;
 	      tooltip_h = (tooltip_w * utils_context->menucache_array.tooltip_bitmap->surface->h) / utils_context->menucache_array.tooltip_bitmap->surface->w;
 	      tooltip_x = utils_context->sdl_context.video_mode.width - tooltip_w;
-	      tooltip_y = right_point_y - tooltip_h / 2;
+	      tooltip_y = ((float) right_point_y) - tooltip_h / 2;
 	      mod_gl1_utils_bitmap_display (sys_context, utils_context,
 					    utils_context->menucache_array.tooltip_bitmap, tooltip_x, tooltip_y, tooltip_x + tooltip_w, tooltip_y + tooltip_h);
 	    }

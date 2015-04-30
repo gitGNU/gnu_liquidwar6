@@ -156,7 +156,7 @@ extern void
 _mod_gl1_menu_cylinder_get_cylinder_right_point (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
 						 utils_context,
 						 _mod_gl1_menu_cylinder_context_t
-						 * cylinder_context, int i, int n, float relative_text_width, float *right_point_x, float *right_point_y);
+						 * cylinder_context, int i, int n, float relative_text_width, int *right_point_x, int *right_point_y);
 
 /* gl1-cylinder-progress.c */
 extern void _mod_gl1_menu_cylinder_draw_progress (lw6sys_context_t * sys_context, mod_gl1_utils_context_t *
