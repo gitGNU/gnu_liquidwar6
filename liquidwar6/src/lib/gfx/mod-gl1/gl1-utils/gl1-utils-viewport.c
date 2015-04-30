@@ -32,3 +32,19 @@ mod_gl1_utils_viewport_drawable_max (lw6sys_context_t * sys_context, mod_gl1_uti
   lw6gui_zone_init_xywh (sys_context, &(utils_context->sdl_context.viewport), 0.0f, 0.0f,
 			 utils_context->sdl_context.video_mode.width, utils_context->sdl_context.video_mode.height);
 }
+
+void
+mod_gl1_utils_viewport_screen_to_gl (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, float *gl_x, float *gl_y, int screen_x,
+				     int screen_y)
+{
+  if (utils_context->sdl_context.video_mode.width > 0 && utils_context->sdl_context.video_mode.height > 0)
+    {
+      *gl_x = (2.0f * ((float) screen_x) / ((float) utils_context->sdl_context.video_mode.width)) - 1.0f;
+      *gl_y = 1.0f - (2.0f * ((float) screen_y) / ((float) utils_context->sdl_context.video_mode.height));
+    }
+  else
+    {
+      *gl_x = -2.0f;
+      *gl_y = -2.0f;
+    }
+}

@@ -37,6 +37,14 @@
 #define _PASS_THROUGH_ESC -4
 #define _PASS_THROUGH_SELECTED -5
 
+typedef struct _mod_gl1_cylinder_pick_item_s
+{
+  lw6gui_zone_t zone;
+  int position;
+  int scroll;
+  int esc;
+} _mod_gl1_cylinder_pick_item_t;
+
 static void
 _find_cylinder_limits (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
 		       _mod_gl1_menu_cylinder_context_t * cylinder_context, lw6gui_zone_t * zone, int i, int n, float relative_text_width)
@@ -159,50 +167,57 @@ _mod_gl1_menu_cylinder_pick_item (lw6sys_context_t * sys_context, mod_gl1_utils_
 				  cylinder_context,
 				  const lw6gui_look_t * look, int *position, int *scroll, int *esc, lw6gui_menu_t * menu, int screen_x, int screen_y)
 {
-  int i, n;
-  lw6gui_zone_t tmp;
+  int i = 0, n = 0;
+  _mod_gl1_cylinder_pick_item_t *pick_items = NULL;
+  _mod_gl1_cylinder_pick_item_t *pick_item = NULL;
+  float gl_x = -1.0f;
+  float gl_y = -1.0f;
 
-  n = menu->nb_items_displayed + 2;
-  if (menu->first_item_displayed > 0)
-    {
-      _find_cylinder_limits (sys_context, utils_context, cylinder_context, &tmp, 0, n, 1.0f);
-    }
-  if (menu->first_item_displayed + menu->nb_items_displayed < menu->nb_items)
-    {
-      _find_cylinder_limits (sys_context, utils_context, cylinder_context, &tmp, n - 1, n, 1.0f);
-    }
-  for (i = 0; i < menu->nb_items_displayed; ++i)
-    {
-      _find_cylinder_limits (sys_context, utils_context, cylinder_context, &tmp, i, n, 1.0f);
-    }
-
-  /*
-     switch (ret)
-     {
-     case _PASS_THROUGH_PREV:
-     (*position) = -1;
-     (*scroll) = -1;
-     (*esc) = 0;
-     break;
-     case _PASS_THROUGH_NEXT:
-     (*position) = -1;
-     (*scroll) = +1;
-     (*esc) = 0;
-     break;
-     case _PASS_THROUGH_ESC:
-     (*position) = -1;
-     (*scroll) = 0;
-     (*esc) = 1;
-     break;
-     default:
-     (*position) = ret;
-     (*scroll) = 0;
-     (*esc) = 0;
-     }
-   */
   *position = -1;
   *scroll = 0;
   *esc = 0;
+
+  n = menu->nb_items_displayed + 2;
+  if (n > 0)
+    {
+      pick_items = (_mod_gl1_cylinder_pick_item_t *) LW6SYS_CALLOC (sys_context, n * sizeof (_mod_gl1_cylinder_pick_item_t));
+      if (pick_items != NULL)
+	{
+	  for (i = 0; i < n; ++i)
+	    {
+	      pick_items[i].position = -1;
+	    }
+	  if (menu->first_item_displayed > 0)
+	    {
+	      _find_cylinder_limits (sys_context, utils_context, cylinder_context, &(pick_items[0].zone), 0, n, 1.0f);
+	      pick_items[0].scroll = -1;
+	    }
+	  if (menu->first_item_displayed + menu->nb_items_displayed < menu->nb_items)
+	    {
+	      _find_cylinder_limits (sys_context, utils_context, cylinder_context, &(pick_items[n - 1].zone), n - 1, n, 1.0f);
+	      pick_items[n - 1].scroll = 1;
+	    }
+	  for (i = 0; i < menu->nb_items_displayed; ++i)
+	    {
+	      _find_cylinder_limits (sys_context, utils_context, cylinder_context, &(pick_items[i + 1].zone), i + 1, n, 1.0f);
+	      pick_items[i + 1].position = i;
+	    }
+
+	  for (i = 0; i < n; ++i)
+	    {
+	      mod_gl1_utils_viewport_screen_to_gl (sys_context, utils_context, &gl_x, &gl_y, screen_x, screen_y);
+	      pick_item = &(pick_items[i]);
+	      if (pick_item->zone.x1 <= gl_x && pick_item->zone.x2 >= gl_x && pick_item->zone.y1 <= gl_y && pick_item->zone.y2 >= gl_y)
+		{
+		  *position = pick_item->position;
+		  *scroll = pick_item->scroll;
+		  *esc = pick_item->esc;
+		}
+	    }
+
+	  LW6SYS_FREE (sys_context, pick_items);
+	}
+    }
 }
 
 void

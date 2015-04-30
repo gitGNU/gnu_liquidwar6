@@ -677,6 +677,8 @@ extern void mod_gl1_utils_timer_set_bitmap_refresh (lw6sys_context_t * sys_conte
 
 /* gl1-utils-viewport.c */
 extern void mod_gl1_utils_viewport_drawable_max (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context);
+extern void mod_gl1_utils_viewport_screen_to_gl (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context, float *gl_x, float *gl_y,
+						 int screen_x, int screen_y);
 
 /* gl1-utils-zones.c */
 extern SDL_Surface *mod_gl1_utils_create_zones_surface (lw6sys_context_t * sys_context, mod_gl1_utils_context_t * utils_context,
