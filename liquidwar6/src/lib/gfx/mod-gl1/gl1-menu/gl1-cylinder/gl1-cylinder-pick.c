@@ -231,7 +231,7 @@ _mod_gl1_menu_cylinder_get_cylinder_right_point (lw6sys_context_t * sys_context,
   memset (&zone, 0, sizeof (lw6gui_zone_t));
   if (n > 0)
     {
-      _find_cylinder_limits (sys_context, utils_context, cylinder_context, &zone, i + 1, n + 2, relative_text_width);
+      _find_cylinder_limits (sys_context, utils_context, cylinder_context, &zone, i, n, relative_text_width);
     }
 
   mod_gl1_utils_viewport_gl_to_screen (sys_context, utils_context, right_point_x, right_point_y, zone.x2, (zone.y1 + zone.y2) / 2.0f);
