@@ -35,7 +35,7 @@
 int
 _lw6net_socket_bind (lw6sys_context_t * sys_context, const char *ip, int port, int protocol)
 {
-  int sock = -1;
+  int sock = LW6NET_SOCKET_INVALID;
   int binded = 0;
   struct sockaddr_in name;
   int enable = 1;
@@ -114,7 +114,7 @@ _lw6net_socket_bind (lw6sys_context_t * sys_context, const char *ip, int port, i
 	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("close() failed"));
 	  lw6net_last_error (sys_context);
 	}
-      sock = -1;
+      sock = LW6NET_SOCKET_INVALID;
     }
 
   return sock;

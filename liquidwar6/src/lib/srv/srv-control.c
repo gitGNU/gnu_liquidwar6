@@ -54,7 +54,7 @@ lw6srv_start (lw6sys_context_t * sys_context, const char *ip, int port)
       listener->udp_buffers = lw6sys_list_new (sys_context, (lw6sys_free_func_t) lw6srv_udp_buffer_free);
       if (listener->ip && listener->port && (listener->tcp_sock >= 0) && listener->tcp_accepters && (listener->udp_sock >= 0) && listener->udp_buffers)
 	{
-	  // OK
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("start listening in TCP and UDP on %s:%d"), ip, port);
 	}
       else
 	{
@@ -102,6 +102,7 @@ lw6srv_stop (lw6sys_context_t * sys_context, lw6srv_listener_t * listener)
       lw6net_socket_close (sys_context, &(listener->tcp_sock));
       if (listener->ip)
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_INFO, _x_ ("stop listening in TCP and UDP on %s:%d"), listener->ip, listener->port);
 	  LW6SYS_FREE (sys_context, listener->ip);
 	}
       LW6SYS_FREE (sys_context, listener);

@@ -478,7 +478,6 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_node_t * n
   _send_best_data_t send_best_data;
   lw6sys_list_t *packets = NULL;
   lw6cnx_packet_t *packet = NULL;
-  lw6cnx_ticket_table_t *ticket_table = &(node->ticket_table);
 
   memset (&send_best_data, 0, sizeof (_send_best_data_t));
   now = lw6sys_get_timestamp (sys_context);
@@ -491,7 +490,14 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_node_t * n
       lw6sys_list_r_transfer_from (sys_context, cnx->recv_list, &packets);
       while (packets && (packet = (lw6cnx_packet_t *) lw6sys_list_pop_front (sys_context, &packets)))
 	{
-	  _lw6p2p_recv_callback (sys_context, node, cnx, packet);
+	  if (node)
+	    {
+	      _lw6p2p_recv_callback (sys_context, node, cnx, packet);
+	    }
+	  else
+	    {
+	      lw6cnx_packet_free (sys_context, packet);
+	    }
 	}
     }
 
@@ -503,59 +509,71 @@ _lw6p2p_tentacle_poll_queues (lw6sys_context_t * sys_context, _lw6p2p_node_t * n
       lw6sys_list_r_transfer_from (sys_context, cnx->recv_list, &packets);
       while (packets && (packet = (lw6cnx_packet_t *) lw6sys_list_pop_front (sys_context, &packets)))
 	{
-	  _lw6p2p_recv_callback (sys_context, node, cnx, packet);
+	  if (node)
+	    {
+	      _lw6p2p_recv_callback (sys_context, node, cnx, packet);
+	    }
+	  else
+	    {
+	      lw6cnx_packet_free (sys_context, packet);
+	    }
 	}
     }
 
-  if (tentacle->unsent_reliable_queue)
+  if (node)
     {
-      send_best_data.tentacle = tentacle;
-      send_best_data.now = now;
-      send_best_data.ticket_table = ticket_table;
-      send_best_data.best_cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context, tentacle, 1);
-      if (send_best_data.best_cnx)
-	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("flushing unsent_reliable_queue"));
+      lw6cnx_ticket_table_t *ticket_table = &(node->ticket_table);
 
+      if (tentacle->unsent_reliable_queue)
+	{
+	  send_best_data.tentacle = tentacle;
+	  send_best_data.now = now;
+	  send_best_data.ticket_table = ticket_table;
+	  send_best_data.best_cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context, tentacle, 1);
+	  if (send_best_data.best_cnx)
+	    {
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("flushing unsent_reliable_queue"));
+
+	      /*
+	       * Sort messages in a pseudo-random order on purpose,
+	       * to make sure they arrive totally not in the right
+	       * order.
+	       */
+	      lw6sys_sort (sys_context, &(tentacle->unsent_reliable_queue), lw6cnx_packet_sort_callback, NULL);
+	      lw6sys_list_filter (sys_context, &(tentacle->unsent_reliable_queue), _send_best_filter, &send_best_data);
+	    }
 	  /*
-	   * Sort messages in a pseudo-random order on purpose,
-	   * to make sure they arrive totally not in the right
-	   * order.
+	     else
+	     {
+	     lw6sys_list_free (sys_context,tentacle->unsent_reliable_queue);
+	     tentacle->unsent_reliable_queue = NULL;
+	     }
 	   */
-	  lw6sys_sort (sys_context, &(tentacle->unsent_reliable_queue), lw6cnx_packet_sort_callback, NULL);
-	  lw6sys_list_filter (sys_context, &(tentacle->unsent_reliable_queue), _send_best_filter, &send_best_data);
 	}
-      /*
-         else
-         {
-         lw6sys_list_free (sys_context,tentacle->unsent_reliable_queue);
-         tentacle->unsent_reliable_queue = NULL;
-         }
-       */
-    }
 
-  if (tentacle->unsent_unreliable_queue)
-    {
-      send_best_data.tentacle = tentacle;
-      send_best_data.now = now;
-      send_best_data.ticket_table = ticket_table;
-      send_best_data.best_cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context, tentacle, 0);
-      if (send_best_data.best_cnx)
+      if (tentacle->unsent_unreliable_queue)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("flushing unsent_unreliable_queue"));
+	  send_best_data.tentacle = tentacle;
+	  send_best_data.now = now;
+	  send_best_data.ticket_table = ticket_table;
+	  send_best_data.best_cnx = _lw6p2p_tentacle_find_connection_with_lowest_ping (sys_context, tentacle, 0);
+	  if (send_best_data.best_cnx)
+	    {
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("flushing unsent_unreliable_queue"));
 
-	  /*
-	   * Sort messages in a pseudo-random order on purpose,
-	   * to make sure they arrive totally not in the right
-	   * order.
-	   */
-	  lw6sys_sort (sys_context, &(tentacle->unsent_unreliable_queue), lw6cnx_packet_sort_callback, NULL);
-	  lw6sys_list_filter (sys_context, &(tentacle->unsent_unreliable_queue), _send_best_filter, &send_best_data);
-	}
-      else
-	{
-	  lw6sys_list_free (sys_context, tentacle->unsent_unreliable_queue);
-	  tentacle->unsent_unreliable_queue = NULL;
+	      /*
+	       * Sort messages in a pseudo-random order on purpose,
+	       * to make sure they arrive totally not in the right
+	       * order.
+	       */
+	      lw6sys_sort (sys_context, &(tentacle->unsent_unreliable_queue), lw6cnx_packet_sort_callback, NULL);
+	      lw6sys_list_filter (sys_context, &(tentacle->unsent_unreliable_queue), _send_best_filter, &send_best_data);
+	    }
+	  else
+	    {
+	      lw6sys_list_free (sys_context, tentacle->unsent_unreliable_queue);
+	      tentacle->unsent_unreliable_queue = NULL;
+	    }
 	}
     }
 }

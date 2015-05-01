@@ -122,7 +122,7 @@ _mod_tcp_poll (lw6sys_context_t * sys_context, _mod_tcp_context_t * tcp_context,
   u_int64_t logical_to_id = 0;
   lw6cnx_packet_t *packet = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcp poll"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcp poll sock=%d state=%d"), specific_data->sock, specific_data->state);
   switch (specific_data->state)
     {
     case _MOD_TCP_STATE_CLOSED:
@@ -218,6 +218,7 @@ _mod_tcp_poll (lw6sys_context_t * sys_context, _mod_tcp_context_t * tcp_context,
 	}
       else
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("invalid socket %d, closing "), specific_data->sock);
 	  specific_data->sock = LW6NET_SOCKET_INVALID;
 	  specific_data->state = _MOD_TCP_STATE_CLOSED;
 	}

@@ -116,7 +116,7 @@ _mod_tcpd_poll (lw6sys_context_t * sys_context, _mod_tcpd_context_t * tcpd_conte
   u_int64_t logical_to_id = 0;
   lw6cnx_packet_t *packet = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd poll"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd begin poll sock=%d"), specific_data->sock);
   if (lw6net_socket_is_valid (sys_context, specific_data->sock))
     {
       /*
@@ -165,4 +165,5 @@ _mod_tcpd_poll (lw6sys_context_t * sys_context, _mod_tcpd_context_t * tcpd_conte
 	    }
 	}
     }
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("mod_tcpd end poll sock=%d"), specific_data->sock);
 }

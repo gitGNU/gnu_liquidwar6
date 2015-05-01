@@ -388,6 +388,14 @@ _test_tentacle_poll_step1_accept_tcp (lw6sys_context_t * sys_context, lw6srv_lis
 	      ret = 0;
 	    }
 	}
+      else
+	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad socket accepted %d"), sock);
+	}
+    }
+  else
+    {
+      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("bad socket in listener %d"), listener->tcp_sock);
     }
 
   if (ip)
@@ -541,6 +549,7 @@ _test_tentacle1_thread_callback (lw6sys_context_t * sys_context, void *tentacle_
 
 	      _test_tentacle_poll_step1_accept_tcp (sys_context, data->listener, now);
 	      _test_tentacle_poll_step2_recv_udp (sys_context, data->listener, now);
+	      _lw6p2p_tentacle_poll_queues (sys_context, NULL, &(data->tentacle));
 
 	      /*
 	       * Snoozing a bit to avoid filling up buffers
@@ -657,6 +666,7 @@ _test_tentacle2_thread_callback (lw6sys_context_t * sys_context, void *tentacle_
 
 	      _test_tentacle_poll_step1_accept_tcp (sys_context, data->listener, now);
 	      _test_tentacle_poll_step2_recv_udp (sys_context, data->listener, now);
+	      _lw6p2p_tentacle_poll_queues (sys_context, NULL, &(data->tentacle));
 
 	      /*
 	       * Snoozing a bit to avoid filling up buffers

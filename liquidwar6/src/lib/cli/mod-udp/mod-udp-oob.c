@@ -169,7 +169,7 @@ _do_info (lw6sys_context_t * sys_context, _mod_udp_context_t * udp_context, lw6n
 {
   int ret = 0;
   int eom = 0;
-  int sock = -1;
+  int sock = LW6NET_SOCKET_INVALID;;
   int64_t origin = 0;
   char *request = NULL;
   lw6sys_list_t *response = NULL;
@@ -257,7 +257,7 @@ _do_list (lw6sys_context_t * sys_context, _mod_udp_context_t * udp_context, lw6n
 	  lw6sys_url_t * parsed_url, char *ip)
 {
   int ret = 0;
-  int sock = -1;
+  int sock = LW6NET_SOCKET_INVALID;
   char *request = NULL;
   lw6sys_list_t *response = NULL;
   char *incoming_ip = NULL;

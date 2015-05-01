@@ -175,7 +175,9 @@ _mod_tcpd_feed_with_udp (lw6sys_context_t * sys_context, _mod_tcpd_context_t * t
 {
   int ret = 0;
 
-  // todo
+  /*
+   * UDP is never handled by mod_tcpd, return always false
+   */
 
   return ret;
 }
