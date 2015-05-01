@@ -53,7 +53,11 @@ lw6gfx_init (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend, lw6gui_
 
   if (backend->init)
     {
-      backend->gfx_context = backend->init (sys_context, backend->argc, backend->argv, video_mode, resize_callback);
+      if (lw6sys_spinlock_lock (sys_context, backend->call_lock))
+	{
+	  backend->gfx_context = backend->init (sys_context, backend->argc, backend->argv, video_mode, resize_callback);
+	  lw6sys_spinlock_unlock (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -83,14 +87,18 @@ lw6gfx_quit (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend)
 
   if (backend->quit)
     {
-      /*
-       * It's important to check that backend is not NULL for
-       * quit can *really* be called several times on the same backend
-       */
-      if (backend->gfx_context)
+      if (lw6sys_spinlock_lock (sys_context, backend->call_lock))
 	{
-	  backend->quit (sys_context, backend->gfx_context);
-	  backend->gfx_context = NULL;
+	  /*
+	   * It's important to check that backend is not NULL for
+	   * quit can *really* be called several times on the same backend
+	   */
+	  if (backend->gfx_context)
+	    {
+	      backend->quit (sys_context, backend->gfx_context);
+	      backend->gfx_context = NULL;
+	    }
+	  lw6sys_spinlock_unlock (sys_context, backend->call_lock);
 	}
     }
   else
@@ -120,7 +128,11 @@ lw6gfx_repr (lw6sys_context_t * sys_context, const lw6gfx_backend_t * backend)
 
   if (backend->repr)
     {
-      ret = backend->repr (sys_context, backend->gfx_context, backend->id);
+      if (lw6sys_spinlock_lock (sys_context, backend->call_lock))
+	{
+	  ret = backend->repr (sys_context, backend->gfx_context, backend->id);
+	  lw6sys_spinlock_unlock (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -157,7 +169,11 @@ lw6gfx_set_video_mode (lw6sys_context_t * sys_context, lw6gfx_backend_t * backen
 
   if (backend->set_video_mode)
     {
-      ret = backend->set_video_mode (sys_context, backend->gfx_context, video_mode);
+      if (lw6sys_spinlock_lock (sys_context, backend->call_lock))
+	{
+	  ret = backend->set_video_mode (sys_context, backend->gfx_context, video_mode);
+	  lw6sys_spinlock_unlock (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -189,7 +205,11 @@ lw6gfx_get_video_mode (lw6sys_context_t * sys_context, lw6gfx_backend_t * backen
 
   if (backend->get_video_mode)
     {
-      ret = backend->get_video_mode (sys_context, backend->gfx_context, video_mode);
+      if (lw6sys_spinlock_lock (sys_context, backend->call_lock))
+	{
+	  ret = backend->get_video_mode (sys_context, backend->gfx_context, video_mode);
+	  lw6sys_spinlock_unlock (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -221,7 +241,11 @@ lw6gfx_get_fullscreen_modes (lw6sys_context_t * sys_context, lw6gfx_backend_t * 
 
   if (backend->get_fullscreen_modes)
     {
-      ret = backend->get_fullscreen_modes (sys_context, backend->gfx_context, fullscreen_modes);
+      if (lw6sys_spinlock_lock (sys_context, backend->call_lock))
+	{
+	  ret = backend->get_fullscreen_modes (sys_context, backend->gfx_context, fullscreen_modes);
+	  lw6sys_spinlock_unlock (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -254,7 +278,11 @@ lw6gfx_pump_events (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend)
 
   if (backend->pump_events)
     {
-      ret = backend->pump_events (sys_context, backend->gfx_context);
+      if (lw6sys_spinlock_lock (sys_context, backend->call_lock))
+	{
+	  ret = backend->pump_events (sys_context, backend->gfx_context);
+	  lw6sys_spinlock_unlock (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -309,9 +337,13 @@ lw6gfx_display (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend, int 
 
   if (backend->display)
     {
-      ret =
-	backend->display (sys_context, backend->gfx_context, mask, look, level,
-			  game_struct, game_state, local_cursors, menu, progress, fps, mps, log_list, capture, gfx_debug, debug_team_id, debug_layer_id);
+      if (lw6sys_spinlock_lock (sys_context, backend->call_lock))
+	{
+	  ret =
+	    backend->display (sys_context, backend->gfx_context, mask, look, level,
+			      game_struct, game_state, local_cursors, menu, progress, fps, mps, log_list, capture, gfx_debug, debug_team_id, debug_layer_id);
+	  lw6sys_spinlock_unlock (sys_context, backend->call_lock);
+	}
     }
   else
     {

@@ -163,8 +163,17 @@ lw6gfx_create_backend (lw6sys_context_t * sys_context, int argc, const char *arg
 
   if (backend)
     {
-      backend->argc = argc;
-      backend->argv = argv;
+      backend->call_lock = lw6sys_spinlock_create (sys_context);
+      if (backend->call_lock)
+	{
+	  backend->argc = argc;
+	  backend->argv = argv;
+	}
+      else
+	{
+	  lw6gfx_destroy_backend (sys_context, backend);
+	  backend = NULL;
+	}
     }
   else
     {
@@ -200,9 +209,18 @@ lw6gfx_create_backend (lw6sys_context_t * sys_context, int argc, const char *arg
 
   if (backend && backend_handle)
     {
-      backend->dl_handle = backend_handle;
-      backend->argc = argc;
-      backend->argv = argv;
+      backend->call_lock = lw6sys_spinlock_create (sys_context);
+      if (backend->call_lock)
+	{
+	  backend->dl_handle = backend_handle;
+	  backend->argc = argc;
+	  backend->argv = argv;
+	}
+      else
+	{
+	  lw6gfx_destroy_backend (sys_context, backend);
+	  backend = NULL;
+	}
     }
   else
     {
@@ -239,7 +257,14 @@ void
 lw6gfx_destroy_backend (lw6sys_context_t * sys_context, lw6gfx_backend_t * backend)
 {
 #ifndef LW6_ALLINONE
-  lw6dyn_dlclose_backend (sys_context, backend->dl_handle);
+  if (backend->dl_handle)
+    {
+      lw6dyn_dlclose_backend (sys_context, backend->dl_handle);
+    }
 #endif
+  if (backend->call_lock)
+    {
+      lw6sys_spinlock_destroy (sys_context, backend->call_lock);
+    }
   LW6SYS_FREE (sys_context, backend);
 }
