@@ -2796,13 +2796,13 @@ _test_math ()
 	ret = 0;
       }
     deg = lw6sys_math_rad2deg (M_PI);
-    if (LW6SYS_TEST_ACK (deg == 180.0f))
+    if (LW6SYS_TEST_ACK (abs (deg - 180.0f) > 0.001f))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("rad2deg %f -> %f, expected %f"), M_PI, deg, 180.0f);
 	ret = 0;
       }
     rad = lw6sys_math_deg2rad (180.0f);
-    if (LW6SYS_TEST_ACK (rad == M_PI))
+    if (LW6SYS_TEST_ACK (abs (rad - M_PI) > 0.001f))
       {
 	lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("deg2rad %f -> %f, expected %f"), 180.0f, rad, M_PI);
 	ret = 0;
