@@ -63,7 +63,7 @@
 #define _TEST_ENTRY_PING_DELAY_MSEC 500
 #define _TEST_ENTRY_AVAILABLE 1
 
-#define _TEST_TENTACLE_DURATION_THREAD 10000
+#define _TEST_TENTACLE_DURATION_THREAD 15000
 #define _TEST_TENTACLE_BIND_IP1 "127.0.0.1"
 #define _TEST_TENTACLE_BIND_PORT1 8058
 #define _TEST_TENTACLE_URL1 "127.0.0.1:8058"
@@ -81,6 +81,36 @@
 #define _TEST_TENTACLE_SEND_BEST_UNRELIABLE_STR "best unreliable message"
 #define _TEST_TENTACLE_SEND_REDUNDANT_STR "redundant message"
 #define _TEST_TENTACLE_ACCEPT_DELAY 3000
+
+#define _TEST_TENTACLE1_PROGRAM "foo"
+#define _TEST_TENTACLE1_VERSION "123"
+#define _TEST_TENTACLE1_CODENAME "toto"
+#define _TEST_TENTACLE1_STAMP 12
+#define _TEST_TENTACLE1_ID _TEST_TENTACLE_ID1
+#define _TEST_TENTACLE1_URL _TEST_TENTACLE_URL1
+#define _TEST_TENTACLE1_TITLE "fake"
+#define _TEST_TENTACLE1_DESCRIPTION "this is a fake description"
+#define _TEST_TENTACLE1_PASSWORD NULL
+#define _TEST_TENTACLE1_BENCH 10
+#define _TEST_TENTACLE1_OPEN_RELAY 0
+#define _TEST_TENTACLE1_UPTIME 10
+#define _TEST_TENTACLE1_IDLE_SCREENSHOT_SIZE 0
+#define _TEST_TENTACLE1_IDLE_SCREENSHOT_DATA NULL
+
+#define _TEST_TENTACLE2_PROGRAM "foo"
+#define _TEST_TENTACLE2_VERSION "123"
+#define _TEST_TENTACLE2_CODENAME "toto"
+#define _TEST_TENTACLE2_STAMP 12
+#define _TEST_TENTACLE2_ID _TEST_TENTACLE_ID2
+#define _TEST_TENTACLE2_URL _TEST_TENTACLE_URL2
+#define _TEST_TENTACLE2_TITLE "fake"
+#define _TEST_TENTACLE2_DESCRIPTION "this is a fake description"
+#define _TEST_TENTACLE2_PASSWORD NULL
+#define _TEST_TENTACLE2_BENCH 10
+#define _TEST_TENTACLE2_OPEN_RELAY 0
+#define _TEST_TENTACLE2_UPTIME 10
+#define _TEST_TENTACLE2_IDLE_SCREENSHOT_SIZE 0
+#define _TEST_TENTACLE2_IDLE_SCREENSHOT_DATA NULL
 
 #define _TEST_NODE_BIND_IP LW6NET_ADDRESS_LOOPBACK
 #define _TEST_NODE_BIND_PORT1 (LW6NET_DEFAULT_PORT + 11)
@@ -340,6 +370,7 @@ typedef struct _test_tentacle_data_s
 {
   _lw6p2p_tentacle_t tentacle;
   _lw6p2p_backends_t backends;
+  lw6nod_info_t *node_info;
   lw6srv_listener_t *listener;
   float progress_value;
   lw6sys_progress_t progress;
@@ -485,9 +516,36 @@ _test_tentacle_tcp_accepter_reply (lw6sys_context_t * sys_context, void *func_da
 
   if (LW6SYS_TEST_ACK (tcp_accepter != NULL))
     {
+      int i = 0;
+      int analyse_tcp_ret = 0;
+      u_int64_t remote_id = 0L;
+
+      lw6net_tcp_peek (sys_context, &(tcp_accepter->sock), tcp_accepter->first_line, LW6SRV_PROTOCOL_BUFFER_SIZE, 0);
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("received TCP data \"%s\""), tcp_accepter->first_line);
 
-      // TODO : register the CNX somewhere so that TCPD can send
+      for (i = 0; i < tentacle_data->backends.nb_srv_backends && ret; ++i)
+	{
+	  analyse_tcp_ret =
+	    lw6srv_analyse_tcp (sys_context, tentacle_data->backends.srv_backends[i], tcp_accepter, tentacle_data->node_info, &remote_id, NULL);
+	  if (analyse_tcp_ret & LW6SRV_ANALYSE_DEAD)
+	    {
+	      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("dead accepter, closing socket"));
+	      lw6net_socket_close (sys_context, &(tcp_accepter->sock));
+	      ret = 0;
+	    }
+	  else
+	    {
+	      if (analyse_tcp_ret & LW6SRV_ANALYSE_UNDERSTANDABLE)
+		{
+		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("accepter OK, message understood"));
+		  lw6srv_feed_with_tcp (sys_context, tentacle_data->backends.srv_backends[i], tentacle_data->tentacle.srv_connections[i], tcp_accepter);
+		}
+	      else
+		{
+		  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("accepter OK but message ununderstandable"));
+		}
+	    }
+	}
     }
   else
     {
@@ -803,6 +861,19 @@ _tentacle_with_backends (lw6sys_context_t * sys_context, char *cli_backends, cha
 	    {
 	      if (LW6SYS_TEST_ACK (_lw6p2p_backends_init_srv (sys_context, argc, argv, &(tentacle_data1.backends), srv_backends, tentacle_data1.listener)))
 		{
+		  tentacle_data1.node_info = lw6nod_info_new (sys_context, _TEST_TENTACLE1_PROGRAM, _TEST_TENTACLE1_VERSION, _TEST_TENTACLE1_CODENAME,
+							      _TEST_TENTACLE1_STAMP, _TEST_TENTACLE1_ID, _TEST_TENTACLE1_URL, _TEST_TENTACLE1_TITLE,
+							      _TEST_TENTACLE1_DESCRIPTION, _TEST_TENTACLE1_PASSWORD, _TEST_TENTACLE1_BENCH,
+							      _TEST_TENTACLE1_OPEN_RELAY, _TEST_TENTACLE1_UPTIME, _TEST_TENTACLE1_IDLE_SCREENSHOT_SIZE,
+							      _TEST_TENTACLE1_IDLE_SCREENSHOT_DATA);
+		  if (LW6SYS_TEST_ACK (tentacle_data1.node_info != NULL))
+		    {
+		      // proceed
+		    }
+		  else
+		    {
+		      ret = 0;
+		    }
 		}
 	      else
 		{
@@ -833,6 +904,19 @@ _tentacle_with_backends (lw6sys_context_t * sys_context, char *cli_backends, cha
 	    {
 	      if (LW6SYS_TEST_ACK (_lw6p2p_backends_init_srv (sys_context, argc, argv, &(tentacle_data2.backends), srv_backends, tentacle_data2.listener)))
 		{
+		  tentacle_data2.node_info = lw6nod_info_new (sys_context, _TEST_TENTACLE2_PROGRAM, _TEST_TENTACLE2_VERSION, _TEST_TENTACLE2_CODENAME,
+							      _TEST_TENTACLE2_STAMP, _TEST_TENTACLE2_ID, _TEST_TENTACLE2_URL, _TEST_TENTACLE2_TITLE,
+							      _TEST_TENTACLE2_DESCRIPTION, _TEST_TENTACLE2_PASSWORD, _TEST_TENTACLE2_BENCH,
+							      _TEST_TENTACLE2_OPEN_RELAY, _TEST_TENTACLE2_UPTIME, _TEST_TENTACLE2_IDLE_SCREENSHOT_SIZE,
+							      _TEST_TENTACLE2_IDLE_SCREENSHOT_DATA);
+		  if (LW6SYS_TEST_ACK (tentacle_data2.node_info != NULL))
+		    {
+		      // proceed
+		    }
+		  else
+		    {
+		      ret = 0;
+		    }
 		}
 	      else
 		{
@@ -890,6 +974,14 @@ _tentacle_with_backends (lw6sys_context_t * sys_context, char *cli_backends, cha
   _lw6p2p_backends_clear_cli (sys_context, &(tentacle_data1.backends));
   _lw6p2p_backends_clear_srv (sys_context, &(tentacle_data2.backends));
   _lw6p2p_backends_clear_cli (sys_context, &(tentacle_data2.backends));
+  if (tentacle_data1.node_info)
+    {
+      lw6nod_info_free (sys_context, tentacle_data1.node_info);
+    }
+  if (tentacle_data2.node_info)
+    {
+      lw6nod_info_free (sys_context, tentacle_data2.node_info);
+    }
   if (tentacle_data1.listener)
     {
       lw6srv_stop (sys_context, tentacle_data1.listener);
