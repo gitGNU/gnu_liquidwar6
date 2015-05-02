@@ -357,7 +357,7 @@ _test_tentacle_poll_step1_accept_tcp (lw6sys_context_t * sys_context, lw6srv_lis
   lw6srv_tcp_accepter_t *tcp_accepter = NULL;
   char *guessed_public_url = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("polling node TCP"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("polling node TCP sock=%d"), listener->tcp_sock);
 
   if (lw6net_socket_is_valid (sys_context, listener->tcp_sock))
     {
@@ -419,7 +419,7 @@ _test_tentacle_poll_step2_recv_udp (lw6sys_context_t * sys_context, lw6srv_liste
   lw6srv_udp_buffer_t *udp_buffer = NULL;
   char *guessed_public_url = NULL;
 
-  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("polling node UDP"));
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("polling node UDP sock=%d"), listener->udp_sock);
   memset (buf, 0, LW6NET_UDP_MINIMAL_BUF_SIZE + 1);
   if (listener->udp_sock >= 0)
     {
@@ -475,6 +475,71 @@ _test_tentacle_poll_step2_recv_udp (lw6sys_context_t * sys_context, lw6srv_liste
 
   return ret;
 }
+
+static int
+_test_tentacle_tcp_accepter_reply (lw6sys_context_t * sys_context, void *func_data, void *data)
+{
+  int ret = 1;
+  _test_tentacle_data_t *tentacle_data = (_test_tentacle_data_t *) func_data;
+  lw6srv_tcp_accepter_t *tcp_accepter = (lw6srv_tcp_accepter_t *) data;
+
+  if (LW6SYS_TEST_ACK (tcp_accepter != NULL))
+    {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("received TCP data \"%s\""), tcp_accepter->first_line);
+
+      // TODO : register the CNX somewhere so that TCPD can send
+    }
+  else
+    {
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("received TCP data but pointer is NULL"));
+      ret = 0;
+    }
+
+
+  if (!ret)
+    {
+      tentacle_data->ret = 0;
+    }
+
+  return ret;
+}
+
+static int
+_test_tentacle_udp_buffer_reply (lw6sys_context_t * sys_context, void *func_data, void *data)
+{
+  int ret = 1;
+  _test_tentacle_data_t *tentacle_data = (_test_tentacle_data_t *) func_data;
+  lw6srv_udp_buffer_t *udp_buffer = (lw6srv_udp_buffer_t *) data;
+
+  if (LW6SYS_TEST_ACK (udp_buffer != NULL))
+    {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("received UDP data \"%s\""), udp_buffer->line);
+    }
+  else
+    {
+      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("received UDP data but pointer is NULL"));
+      ret = 0;
+    }
+
+  if (!ret)
+    {
+      tentacle_data->ret = 0;
+    }
+
+  return ret;
+}
+
+static int
+_test_tentacle_poll_step3_reply (lw6sys_context_t * sys_context, lw6srv_listener_t * listener, int64_t now, _test_tentacle_data_t * data)
+{
+  int ret = 1;
+
+  lw6sys_list_filter (sys_context, &(listener->tcp_accepters), _test_tentacle_tcp_accepter_reply, data);
+  lw6sys_list_filter (sys_context, &(listener->udp_buffers), _test_tentacle_udp_buffer_reply, data);
+
+  return ret;
+}
+
 
 static void
 _test_tentacle1_thread_callback (lw6sys_context_t * sys_context, void *tentacle_data)
@@ -549,6 +614,7 @@ _test_tentacle1_thread_callback (lw6sys_context_t * sys_context, void *tentacle_
 
 	      _test_tentacle_poll_step1_accept_tcp (sys_context, data->listener, now);
 	      _test_tentacle_poll_step2_recv_udp (sys_context, data->listener, now);
+	      _test_tentacle_poll_step3_reply (sys_context, data->listener, now, data);
 	      _lw6p2p_tentacle_poll_queues (sys_context, NULL, &(data->tentacle));
 
 	      /*
