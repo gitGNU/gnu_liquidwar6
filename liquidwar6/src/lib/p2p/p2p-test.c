@@ -1148,8 +1148,12 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
   char *repr = NULL;
   int ret = 0;
 
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init nodes db12=%p db34=%p db56=%p node1=%p node2=%p node3=%p node4=%p node5=%p node6=%p"), db12, db34,
+	      db56, node1, node2, node3, node4, node5, node6);
+
   if (db12)
     {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init db12"));
       /*
        * It's important to reset test DBs before using them,
        * else there could be temporaries IDs mismatches.
@@ -1172,6 +1176,7 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
     }
   if (db34)
     {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init db34"));
       /*
        * It's important to reset test DBs before using them,
        * else there could be temporaries IDs mismatches.
@@ -1194,6 +1199,7 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
     }
   if (db56)
     {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init db56"));
       /*
        * It's important to reset test DBs before using them,
        * else there could be temporaries IDs mismatches.
@@ -1218,6 +1224,7 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
     {
       if (node1)
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init node1"));
 	  (*node1) =
 	    lw6p2p_node_new (sys_context, argc, argv, *db12, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
@@ -1240,6 +1247,7 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
 
       if (node2)
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init node2"));
 	  (*node2) =
 	    lw6p2p_node_new (sys_context, argc, argv, *db12, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
@@ -1263,6 +1271,7 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
     {
       if (node3)
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init node3"));
 	  (*node3) =
 	    lw6p2p_node_new (sys_context, argc, argv, *db34, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
@@ -1285,6 +1294,7 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
 
       if (node4)
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init node4"));
 	  (*node4) =
 	    lw6p2p_node_new (sys_context, argc, argv, *db34, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
@@ -1309,6 +1319,7 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
     {
       if (node5)
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init node5"));
 	  (*node5) =
 	    lw6p2p_node_new (sys_context, argc, argv, *db56, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
@@ -1331,6 +1342,7 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
 
       if (node6)
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init node6"));
 	  (*node6) =
 	    lw6p2p_node_new (sys_context, argc, argv, *db56, cli_backends,
 			     srv_backends, _TEST_NODE_BIND_IP,
@@ -1405,6 +1417,8 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
 	  (*db56) = NULL;
 	}
     }
+
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("init nodes done ret=%d"), ret);
 
   return ret;
 }
