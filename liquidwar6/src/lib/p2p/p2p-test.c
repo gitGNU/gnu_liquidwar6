@@ -2271,7 +2271,7 @@ _api_with_backends (lw6sys_context_t * sys_context, char *cli_backends, char *sr
   memset (&api_data5, 0, sizeof (_test_node_api_data_t));
   memset (&api_data6, 0, sizeof (_test_node_api_data_t));
 
-  if (LW6SYS_TEST_ACK (_init_nodes (sys_context, cli_backends, srv_backends, &db12, &db34, &db56, &node1, &node2, &node3, &node4, &node5, &node6)))
+  if (_init_nodes (sys_context, cli_backends, srv_backends, &db12, &db34, &db56, &node1, &node2, &node3, &node4, &node5, &node6))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("nodes initialized"));
 
