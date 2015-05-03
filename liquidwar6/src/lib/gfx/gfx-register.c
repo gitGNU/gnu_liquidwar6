@@ -163,7 +163,7 @@ lw6gfx_create_backend (lw6sys_context_t * sys_context, int argc, const char *arg
 
   if (backend)
     {
-      backend->call_lock = lw6sys_mutex_create (sys_context);
+      backend->call_lock = LW6SYS_MUTEX_CREATE (sys_context);
       if (backend->call_lock)
 	{
 	  backend->argc = argc;
@@ -209,7 +209,7 @@ lw6gfx_create_backend (lw6sys_context_t * sys_context, int argc, const char *arg
 
   if (backend && backend_handle)
     {
-      backend->call_lock = lw6sys_mutex_create (sys_context);
+      backend->call_lock = LW6SYS_MUTEX_CREATE (sys_context);
       if (backend->call_lock)
 	{
 	  backend->dl_handle = backend_handle;
@@ -264,7 +264,7 @@ lw6gfx_destroy_backend (lw6sys_context_t * sys_context, lw6gfx_backend_t * backe
 #endif
   if (backend->call_lock)
     {
-      lw6sys_mutex_destroy (sys_context, backend->call_lock);
+      LW6SYS_MUTEX_DESTROY (sys_context, backend->call_lock);
     }
   LW6SYS_FREE (sys_context, backend);
 }
