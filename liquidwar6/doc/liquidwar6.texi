@@ -277,7 +277,7 @@ In the near future:
 @itemize
 @item
 Network play. Top-level priority. Yes, network has been promised for months
-(years?) and is still not there. I said ``when it's done''.
+(years? ...yes, years) and is still not there. I said ``when it's done''.
 @item
 Fix bugs ;) The current engine is somewhat buggy, fighters might loose
 the cursor, it clearly needs polishing.
