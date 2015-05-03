@@ -1882,6 +1882,7 @@ _test_node_api_node1_callback (lw6sys_context_t * sys_context, void *api_data)
 
   while (lw6sys_get_timestamp (sys_context) < end_timestamp && !(*(data->done)))
     {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("poll node api test 1"));
       lw6p2p_node_poll (sys_context, data->node, &(data->progress));
       lw6sys_idle (sys_context);
     }
@@ -1932,6 +1933,7 @@ _test_node_api_node2_callback (lw6sys_context_t * sys_context, void *api_data)
     }
   while (lw6sys_get_timestamp (sys_context) < end_timestamp && !(*(data->done)))
     {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("poll node api test 2"));
       lw6p2p_node_poll (sys_context, data->node, &(data->progress));
       lw6sys_idle (sys_context);
       if (lw6p2p_node_is_dump_needed (sys_context, data->node))
@@ -2071,6 +2073,7 @@ _test_node_api_node3_callback (lw6sys_context_t * sys_context, void *api_data)
   end_timestamp = lw6sys_get_timestamp (sys_context) + _TEST_NODE_API_DURATION_THREAD;
   while (lw6sys_get_timestamp (sys_context) < end_timestamp && !(*(data->done)))
     {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("poll node api test 3"));
       lw6p2p_node_poll (sys_context, data->node, &(data->progress));
       lw6sys_idle (sys_context);
     }
@@ -2117,6 +2120,7 @@ _test_node_api_node4_callback (lw6sys_context_t * sys_context, void *api_data)
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("node4 before loop seq_max=%" LW6SYS_PRINTF_LL "d"), (long long) seq);
       while (lw6sys_get_timestamp (sys_context) < end_timestamp && !(*(data->done)))
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("poll node api test 4"));
 	  lw6p2p_node_poll (sys_context, data->node, &(data->progress));
 	  lw6sys_idle (sys_context);
 
@@ -2208,6 +2212,7 @@ _test_node_api_node5_callback (lw6sys_context_t * sys_context, void *api_data)
 
   while (lw6sys_get_timestamp (sys_context) < end_timestamp && !(*(data->done)))
     {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("poll node api test 5"));
       lw6p2p_node_poll (sys_context, data->node, &(data->progress));
       lw6sys_idle (sys_context);
     }
@@ -2229,6 +2234,7 @@ _test_node_api_node6_callback (lw6sys_context_t * sys_context, void *api_data)
 
   while (lw6sys_get_timestamp (sys_context) < end_timestamp && !(*(data->done)))
     {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("poll node api test 6"));
       lw6p2p_node_poll (sys_context, data->node, &(data->progress));
       lw6sys_idle (sys_context);
     }
