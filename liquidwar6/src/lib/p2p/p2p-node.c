@@ -629,6 +629,7 @@ _tcp_accepter_reply (lw6sys_context_t * sys_context, void *func_data, void *data
   char *remote_url = NULL;
   int tentacle_index = -1;
 
+  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("processing tcp reply sock=%d"), tcp_accepter->sock);
   lw6net_tcp_peek (sys_context, &(tcp_accepter->sock), tcp_accepter->first_line, LW6SRV_PROTOCOL_BUFFER_SIZE, 0);
 
   for (i = 0; i < node->backends.nb_srv_backends && ret; ++i)
@@ -636,7 +637,7 @@ _tcp_accepter_reply (lw6sys_context_t * sys_context, void *func_data, void *data
       analyse_tcp_ret = lw6srv_analyse_tcp (sys_context, node->backends.srv_backends[i], tcp_accepter, node->node_info, &remote_id, NULL);
       if (analyse_tcp_ret & LW6SRV_ANALYSE_DEAD)
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("dead accepter, scheduling it for deletion"));
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("dead accepter, scheduling it for deletion (sock=%d)"), tcp_accepter->sock);
 	  lw6net_socket_close (sys_context, &(tcp_accepter->sock));
 	  ret = 0;
 	}

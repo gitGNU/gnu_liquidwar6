@@ -141,6 +141,7 @@ _mod_tcpd_feed_with_tcp (lw6sys_context_t * sys_context, _mod_tcpd_context_t * t
 	      /*
 	       * Close our old socket, use the new one
 	       */
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("old connection dead, replacing with new connection, using sock %d"), tmp_sock);
 	      tcp_accepter->sock = LW6NET_SOCKET_INVALID;
 	      specific_data->sock = tmp_sock;
 	      ret = 1;
@@ -154,6 +155,7 @@ _mod_tcpd_feed_with_tcp (lw6sys_context_t * sys_context, _mod_tcpd_context_t * t
 	}
       else
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("new connection, using sock %d"), tmp_sock);
 	  tcp_accepter->sock = LW6NET_SOCKET_INVALID;
 	  specific_data->sock = tmp_sock;
 	  ret = 1;
