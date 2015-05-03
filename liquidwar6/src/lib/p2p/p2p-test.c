@@ -2090,6 +2090,7 @@ _test_node_api_node4_callback (lw6sys_context_t * sys_context, void *api_data)
   int long_draft_received = 0;
   int short_draft_received = 0;
   int reference_received = 0;
+  int join_ret = 0;
 
   lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("begin node api test 4"));
 
@@ -2101,7 +2102,8 @@ _test_node_api_node4_callback (lw6sys_context_t * sys_context, void *api_data)
    * This node acts as a client.
    */
   lw6sys_delay (sys_context, _TEST_NODE_API_DURATION_JOIN);
-  if (LW6SYS_TEST_ACK (lw6p2p_node_client_join (sys_context, data->node, data->peer_id, _TEST_NODE_PUBLIC_URL2, &(data->progress))))
+  join_ret = lw6p2p_node_client_join (sys_context, data->node, data->peer_id, _TEST_NODE_PUBLIC_URL2, &(data->progress));
+  if (LW6SYS_TEST_ACK (join_ret))
     {
       lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("\"%s\" joined \"%s\""), ((_lw6p2p_node_t *) data->node)->public_url, _TEST_NODE_PUBLIC_URL2);
 
