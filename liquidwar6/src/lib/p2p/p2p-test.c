@@ -1854,6 +1854,8 @@ _test_node_api_node1_callback (lw6sys_context_t * sys_context, void *api_data)
   _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
   int64_t end_timestamp = 0LL;
 
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("begin node api test 1"));
+
   end_timestamp = lw6sys_get_timestamp (sys_context) + _TEST_NODE_API_DURATION_THREAD;
 
   data->ret = 1;
@@ -1863,6 +1865,8 @@ _test_node_api_node1_callback (lw6sys_context_t * sys_context, void *api_data)
       lw6p2p_node_poll (sys_context, data->node, &(data->progress));
       lw6sys_idle (sys_context);
     }
+
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("end node api test 1 data->ret=%d"), data->ret);
 }
 
 static void
@@ -1879,6 +1883,8 @@ _test_node_api_node2_callback (lw6sys_context_t * sys_context, void *api_data)
   int len = 0;
   int dump_sent = 0;
   int64_t next_msgn_timestamp = 0LL;
+
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("begin node api test 2"));
 
   begin_timestamp = lw6sys_get_timestamp (sys_context) + _TEST_NODE_ACK_DELAY_MSEC;
   end_timestamp = begin_timestamp + _TEST_NODE_API_DURATION_THREAD;
@@ -2028,6 +2034,8 @@ _test_node_api_node2_callback (lw6sys_context_t * sys_context, void *api_data)
     {
       lw6p2p_node_disconnect (sys_context, data->node);
     }
+
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("end node api test 2 data->ret=%d"), data->ret);
 }
 
 static void
@@ -2035,6 +2043,8 @@ _test_node_api_node3_callback (lw6sys_context_t * sys_context, void *api_data)
 {
   _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
   int64_t end_timestamp = 0LL;
+
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("begin node api test 3"));
 
   data->ret = 1;
 
@@ -2044,6 +2054,8 @@ _test_node_api_node3_callback (lw6sys_context_t * sys_context, void *api_data)
       lw6p2p_node_poll (sys_context, data->node, &(data->progress));
       lw6sys_idle (sys_context);
     }
+
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("end node api test 3 data->ret=%d"), data->ret);
 }
 
 static void
@@ -2058,6 +2070,8 @@ _test_node_api_node4_callback (lw6sys_context_t * sys_context, void *api_data)
   int long_draft_received = 0;
   int short_draft_received = 0;
   int reference_received = 0;
+
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("begin node api test 4"));
 
   begin_timestamp = lw6sys_get_timestamp (sys_context) + _TEST_NODE_ACK_DELAY_MSEC;
   end_timestamp = begin_timestamp + _TEST_NODE_API_DURATION_THREAD;
@@ -2154,6 +2168,8 @@ _test_node_api_node4_callback (lw6sys_context_t * sys_context, void *api_data)
     {
       lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("\"%s\" couldn't join \"%s\""), ((_lw6p2p_node_t *) data->node)->public_url, _TEST_NODE_PUBLIC_URL2);
     }
+
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("end node api test 4 data->ret=%d"), data->ret);
 }
 
 static void
@@ -2162,6 +2178,8 @@ _test_node_api_node5_callback (lw6sys_context_t * sys_context, void *api_data)
   _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
   int64_t end_timestamp = 0LL;
 
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("begin node api test 5"));
+
   end_timestamp = lw6sys_get_timestamp (sys_context) + _TEST_NODE_API_DURATION_THREAD;
 
   data->ret = 1;
@@ -2171,6 +2189,8 @@ _test_node_api_node5_callback (lw6sys_context_t * sys_context, void *api_data)
       lw6p2p_node_poll (sys_context, data->node, &(data->progress));
       lw6sys_idle (sys_context);
     }
+
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("end node api test 5 data->ret=%d"), data->ret);
 }
 
 static void
@@ -2179,6 +2199,8 @@ _test_node_api_node6_callback (lw6sys_context_t * sys_context, void *api_data)
   _test_node_api_data_t *data = (_test_node_api_data_t *) api_data;
   int64_t end_timestamp = 0LL;
 
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("begin node api test 6"));
+
   end_timestamp = lw6sys_get_timestamp (sys_context) + _TEST_NODE_API_DURATION_THREAD;
 
   data->ret = 1;
@@ -2188,6 +2210,8 @@ _test_node_api_node6_callback (lw6sys_context_t * sys_context, void *api_data)
       lw6p2p_node_poll (sys_context, data->node, &(data->progress));
       lw6sys_idle (sys_context);
     }
+
+  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("end node api test 6 data->ret=%d"), data->ret);
 }
 
 static int
@@ -2229,6 +2253,8 @@ _api_with_backends (lw6sys_context_t * sys_context, char *cli_backends, char *sr
 
   if (LW6SYS_TEST_ACK (_init_nodes (sys_context, cli_backends, srv_backends, &db12, &db34, &db56, &node1, &node2, &node3, &node4, &node5, &node6)))
     {
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("nodes initialized"));
+
       api_data1.node = node1;
       api_data2.node = node2;
       api_data3.node = node3;
@@ -2262,6 +2288,8 @@ _api_with_backends (lw6sys_context_t * sys_context, char *cli_backends, char *sr
       thread4 = lw6sys_thread_create (sys_context, _test_node_api_node4_callback, NULL, (void *) &api_data4);
       thread5 = lw6sys_thread_create (sys_context, _test_node_api_node5_callback, NULL, (void *) &api_data5);
       thread6 = lw6sys_thread_create (sys_context, _test_node_api_node6_callback, NULL, (void *) &api_data6);
+
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("threads created"));
 
       if (LW6SYS_TEST_ACK (thread1 && thread2 && thread3 && thread4 && thread5 && thread6))
 	{
