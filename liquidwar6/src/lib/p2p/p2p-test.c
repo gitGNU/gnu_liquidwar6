@@ -1163,9 +1163,11 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
        * at least for some time.
        */
       lw6p2p_db_reset (sys_context, argc, argv, _TEST_DB_NAME12);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("reseted db12"));
       (*db12) = lw6p2p_db_open (sys_context, argc, argv, _TEST_DB_NAME12);
       if (*db12)
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("opened db12"));
 	  repr = lw6p2p_db_repr (sys_context, *db12);
 	  if (LW6SYS_TEST_ACK (repr))
 	    {
@@ -1185,10 +1187,12 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
        * different ID than before to somewhat "not connect very well",
        * at least for some time.
        */
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("reseted db34"));
       lw6p2p_db_reset (sys_context, argc, argv, _TEST_DB_NAME34);
       (*db34) = lw6p2p_db_open (sys_context, argc, argv, _TEST_DB_NAME34);
       if (*db34)
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("opened db34"));
 	  repr = lw6p2p_db_repr (sys_context, *db34);
 	  if (LW6SYS_TEST_ACK (repr))
 	    {
@@ -1209,9 +1213,11 @@ _init_nodes (lw6sys_context_t * sys_context, char *cli_backends, char *srv_backe
        * at least for some time.
        */
       lw6p2p_db_reset (sys_context, argc, argv, _TEST_DB_NAME56);
+      lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("reseted db56"));
       (*db56) = lw6p2p_db_open (sys_context, argc, argv, _TEST_DB_NAME56);
       if (*db56)
 	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_NOTICE, _x_ ("opened db56"));
 	  repr = lw6p2p_db_repr (sys_context, *db56);
 	  if (LW6SYS_TEST_ACK (repr))
 	    {
