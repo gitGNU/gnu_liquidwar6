@@ -426,12 +426,16 @@ else
 ]))
 fi
 
+AC_CHECK_HEADER(libpng/png.h, HAVE_LIBPNG_PNG_H=1)
 AC_CHECK_HEADER(libpng12/png.h, HAVE_LIBPNG12_PNG_H=1)
 AC_CHECK_HEADER(libpng13/png.h, HAVE_LIBPNG13_PNG_H=1)
 AC_CHECK_HEADER(libpng14/png.h, HAVE_LIBPNG14_PNG_H=1)
 AC_CHECK_HEADER(libpng15/png.h, HAVE_LIBPNG15_PNG_H=1)
 AC_CHECK_HEADER(libpng16/png.h, HAVE_LIBPNG16_PNG_H=1)
-if test x${HAVE_LIBPNG12_PNG_H} = x1 || test x${HAVE_LIBPNG13_PNG_H} = x1 || test x${HAVE_LIBPNG14_PNG_H} = x1 || test x${HAVE_LIBPNG15_PNG_H} || test x${HAVE_LIBPNG16_PNG_H} = x1; then
+if test x${HAVE_LIBPNG_PNG_H} = x1 || test x${HAVE_LIBPNG12_PNG_H} = x1 || test x${HAVE_LIBPNG13_PNG_H} = x1 || test x${HAVE_LIBPNG14_PNG_H} = x1 || test x${HAVE_LIBPNG15_PNG_H} || test x${HAVE_LIBPNG16_PNG_H} = x1; then
+   if test x${HAVE_LIBPNG_PNG_H} = x1; then
+      LIBPNG_1X_H=libpng/png.h
+   fi
    if test x${HAVE_LIBPNG12_PNG_H} = x1; then
       LIBPNG_1X_H=libpng12/png.h
    fi
