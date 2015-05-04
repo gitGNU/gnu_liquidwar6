@@ -41,6 +41,7 @@ fi
 
 echo "******** $0 $(date) ********"
 git clean -d -f -x
+rm -rf $HOME/.liquidwar6
 if cd liquidwar6 && rm -f *.gz doc/*.gz pkg/*.gz pkg/*vendor* pkg/*.zip pkg/*.exe pkg/*.dmg ; then
     echo "cd liquidwar6 OK"
 else
