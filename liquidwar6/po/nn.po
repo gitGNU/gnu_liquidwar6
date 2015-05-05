@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2015-04-12 17:30+0200\n"
+"POT-Creation-Date: 2015-05-05 07:07+0200\n"
 "PO-Revision-Date: 2010-09-09 19:27+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -295,11 +295,11 @@ msgstr ""
 "programvara.\n"
 "Programvare kjem UTAN NOKON GARANTIAR, så langt dette er mogleg.\n"
 
-#: src/lib/hlp/hlp-print.c:1200
+#: src/lib/hlp/hlp-print.c:1201
 msgid "hello"
 msgstr "hallo"
 
-#: src/lib/hlp/hlp-print.c:1245
+#: src/lib/hlp/hlp-print.c:1249
 msgid "goodbye"
 msgstr "ha det"
 
@@ -663,58 +663,58 @@ msgstr "klarte ikkje opna loggfila «%s»"
 msgid "Backtrace"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:925
+#: src/lib/sys/sys-log.c:926
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "Feil (feilnummer: %d:%s) "
 
-#: src/lib/sys/sys-log.c:929
+#: src/lib/sys/sys-log.c:930
 msgid "ERROR! "
 msgstr "Feil"
 
-#: src/lib/sys/sys-log.c:939
+#: src/lib/sys/sys-log.c:940
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "Åtvaring (feilnummer: %d:%s)"
 
-#: src/lib/sys/sys-log.c:943
+#: src/lib/sys/sys-log.c:944
 msgid "WARNING! "
 msgstr "Åtvaring"
 
-#: src/lib/sys/sys-log.c:960
+#: src/lib/sys/sys-log.c:961
 msgid "[tmp] "
 msgstr "[tmp] "
 
-#: src/lib/sys/sys-log.c:966
+#: src/lib/sys/sys-log.c:967
 msgid "[debug] "
 msgstr "[feilsøk] "
 
-#: src/lib/sys/sys-log.c:1047
+#: src/lib/sys/sys-log.c:1048
 msgid "CRITICAL! "
 msgstr "Kritisk"
 
-#: src/lib/sys/sys-log.c:1051
+#: src/lib/sys/sys-log.c:1052
 msgid "CRITICAL!"
 msgstr "Kritisk"
 
-#: src/lib/sys/sys-mem.c:87
-#, c-format
-msgid "out of memory malloc (%d) failed in %s:%d"
+#: src/lib/sys/sys-mem.c:88
+#, fuzzy, c-format
+msgid "out of memory malloc (%d) failed in %s:%d %s()"
 msgstr "slapp opp for minne ved malloc (%d) i %s:%d"
 
-#: src/lib/sys/sys-mem.c:129
-#, c-format
-msgid "out of memory calloc(%d) failed in %s:%d"
+#: src/lib/sys/sys-mem.c:131
+#, fuzzy, c-format
+msgid "out of memory calloc(%d) failed in %s:%d %s()"
 msgstr "slapp opp for minne ved calloc (%d) i %s:%d"
 
-#: src/lib/sys/sys-mem.c:182
-#, c-format
-msgid "out of memory realloc (%d) failed in %s:%d"
+#: src/lib/sys/sys-mem.c:185
+#, fuzzy, c-format
+msgid "out of memory realloc (%d) failed in %s:%d %s()"
 msgstr "slapp opp for minne ved realloc (%d) i %s:%d"
 
-#: src/lib/sys/sys-mem.c:224
-#, c-format
-msgid "trying to free NULL pointer in %s:%d"
+#: src/lib/sys/sys-mem.c:228
+#, fuzzy, c-format
+msgid "trying to free NULL pointer in %s:%d %s()"
 msgstr "prøver å frigjera NULL-peikar i %s:%d"
 
 #: src/lib/sys/sys-signal.c:247

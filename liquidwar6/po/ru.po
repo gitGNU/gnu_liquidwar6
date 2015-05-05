@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: liquidwar6 dev\n"
 "Report-Msgid-Bugs-To: ufoot@ufoot.org\n"
-"POT-Creation-Date: 2015-04-12 17:30+0200\n"
+"POT-Creation-Date: 2015-05-05 07:07+0200\n"
 "PO-Revision-Date: 2011-09-20 21:51+0700\n"
 "Last-Translator: Yevgeny Lezhnin <z_lezhnin@mail2000.ru>\n"
 "Language-Team: Russian\n"
@@ -295,11 +295,11 @@ msgstr ""
 "распространять и/или модифицировать её.\n"
 "Эта программа распространяется БЕЗ ВСЯКИХ ГАРАНТИЙ, но в рамках закона.\n"
 
-#: src/lib/hlp/hlp-print.c:1200
+#: src/lib/hlp/hlp-print.c:1201
 msgid "hello"
 msgstr "приветствую"
 
-#: src/lib/hlp/hlp-print.c:1245
+#: src/lib/hlp/hlp-print.c:1249
 msgid "goodbye"
 msgstr "счастливо"
 
@@ -657,58 +657,58 @@ msgstr "не могу открыть журнал \"%s\""
 msgid "Backtrace"
 msgstr ""
 
-#: src/lib/sys/sys-log.c:925
+#: src/lib/sys/sys-log.c:926
 #, c-format
 msgid "ERROR! (errno=%d:%s) "
 msgstr "ОШИБКА! (errno=%d:%s)"
 
-#: src/lib/sys/sys-log.c:929
+#: src/lib/sys/sys-log.c:930
 msgid "ERROR! "
 msgstr "ОШИБКА! "
 
-#: src/lib/sys/sys-log.c:939
+#: src/lib/sys/sys-log.c:940
 #, c-format
 msgid "WARNING! (errno=%d:%s) "
 msgstr "ПРЕДУПРЕЖДЕНИЕ! (errno=%d:%s) "
 
-#: src/lib/sys/sys-log.c:943
+#: src/lib/sys/sys-log.c:944
 msgid "WARNING! "
 msgstr "ПРЕДУПРЕЖДЕНИЕ! "
 
-#: src/lib/sys/sys-log.c:960
+#: src/lib/sys/sys-log.c:961
 msgid "[tmp] "
 msgstr ""
 
-#: src/lib/sys/sys-log.c:966
+#: src/lib/sys/sys-log.c:967
 msgid "[debug] "
 msgstr "[отладка] "
 
-#: src/lib/sys/sys-log.c:1047
+#: src/lib/sys/sys-log.c:1048
 msgid "CRITICAL! "
 msgstr "КРИТИЧЕСКАЯ ОШИБКА! "
 
-#: src/lib/sys/sys-log.c:1051
+#: src/lib/sys/sys-log.c:1052
 msgid "CRITICAL!"
 msgstr "КРИТИЧЕСКАЯ ОШИБКА!"
 
-#: src/lib/sys/sys-mem.c:87
-#, c-format
-msgid "out of memory malloc (%d) failed in %s:%d"
+#: src/lib/sys/sys-mem.c:88
+#, fuzzy, c-format
+msgid "out of memory malloc (%d) failed in %s:%d %s()"
 msgstr "недостаточно памяти, ошибка malloc (%d) в %s:%d"
 
-#: src/lib/sys/sys-mem.c:129
-#, c-format
-msgid "out of memory calloc(%d) failed in %s:%d"
+#: src/lib/sys/sys-mem.c:131
+#, fuzzy, c-format
+msgid "out of memory calloc(%d) failed in %s:%d %s()"
 msgstr "недостаточно памяти, ошибка calloc (%d) в %s:%d"
 
-#: src/lib/sys/sys-mem.c:182
-#, c-format
-msgid "out of memory realloc (%d) failed in %s:%d"
+#: src/lib/sys/sys-mem.c:185
+#, fuzzy, c-format
+msgid "out of memory realloc (%d) failed in %s:%d %s()"
 msgstr "недостаточно памяти, ошибка realloc (%d) в %s:%d"
 
-#: src/lib/sys/sys-mem.c:224
-#, c-format
-msgid "trying to free NULL pointer in %s:%d"
+#: src/lib/sys/sys-mem.c:228
+#, fuzzy, c-format
+msgid "trying to free NULL pointer in %s:%d %s()"
 msgstr "попытка освободить память по указателю NULL в %s:%d"
 
 #: src/lib/sys/sys-signal.c:247
