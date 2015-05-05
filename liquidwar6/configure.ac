@@ -103,7 +103,14 @@ if test x${MD5SUM} != xyes; then
 fi
 
 dnl To generate struct documentation
+
 lw6_doxygen=yes
+
+AC_ARG_ENABLE([doxygen], AS_HELP_STRING([--enable-doxygen],[enable doxygen default=yes]), [enable_doxygen=$enableval], [enable_doxygen=yes])
+if test x$enable_doxygen != xyes; then
+   lw6_doxygen=no
+fi
+
 AC_CHECK_PROG(DOXYGEN, doxygen, yes, no)
 if test x${DOXYGEN} != xyes; then
    lw6_doxygen=no
@@ -126,6 +133,10 @@ if test x${DOT} != xyes; then
    AC_MSG_WARN([
 *** Liquid War 6 recommends dot (http://www.graphviz.org/)
 ])
+   DOXYGEN_HAVE_DOT=NO
+fi
+
+if test x$lw6_doxygen != xyes; then
    DOXYGEN_HAVE_DOT=NO
 fi
 
@@ -1164,6 +1175,11 @@ if test -z "${LW6_CUNIT_TRUE}"; then
 	AC_MSG_NOTICE([enable cunit... yes])
 else
 	AC_MSG_NOTICE([enable cunit... no])
+fi
+if test -z "${LW6_DOXYGEN_TRUE}"; then
+	AC_MSG_NOTICE([enable doxygen... yes])
+else
+	AC_MSG_NOTICE([enable doxygen... no])
 fi
 if test -z "${LW6_CONSOLE_TRUE}"; then
 	AC_MSG_NOTICE([enable console... yes])

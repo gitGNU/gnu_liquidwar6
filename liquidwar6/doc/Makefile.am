@@ -98,6 +98,7 @@ manual.tar.gz: @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && tar -xzf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && cd @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz && ./configure && cd doc/
 
 clean-local:
+	rm -f *-doxygen.texi
 	rm -f deps.png deps.pdf
 	rm -f coverage.tar.gz global.tar.gz cyclo.tar.gz doxygen.tar.gz perf.tar.gz manual.tar.gz
 	rm -rf coverage-tmp global-tmp cyclo-tmp doxygen-tmp perf-tmp manual-tmp
@@ -112,12 +113,19 @@ uninstall-local:
 
 if LW6_GDOC
 include Makefile.gdoc
-endif
+endif # LW6_GDOC
 
 if LW6_SELFDOC
 include Makefile.selfdoc
-endif
+endif # LW6_SELFDOC
 
 if LW6_DOXYGEN
 include Makefile.doxygen
-endif
+else # LW6_DOXYGEN
+# Yes, % is not standard and a GNU extension but this rule is a quick by-default
+# workarround to avoid breaking build when doxygen is not here. For max compat,
+# just install doxygen http://www.stack.nl/~dimitri/doxygen/
+%-doxygen.texi:
+	touch $@
+endif # LW6_DOXYGEN
+
