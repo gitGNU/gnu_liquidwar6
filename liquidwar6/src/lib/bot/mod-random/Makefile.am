@@ -33,6 +33,6 @@ libmod_random_la_SOURCES = $(MOD_RANDOM_FILES)
 libmod_random_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@
 libmod_randomdir = $(includedir)/@PACKAGE_TARNAME@/bot/mod-random
 libmod_random_HEADERS = mod-random.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-random-internal.h

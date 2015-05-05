@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libnod.la
 if LW6_CUNIT
 TEST_SRC_FILE = nod-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libnod_la_SOURCES = nod-community.c nod-constinfo.c nod-dyninfo.c nod-info.c nod-refinfo.c $(TEST_SRC_FILE)
 libnoddir= $(includedir)/@PACKAGE_TARNAME@/nod
 libnod_HEADERS = nod.h
@@ -37,8 +37,8 @@ libexec_PROGRAMS = liquidwar6nod-test
 liquidwar6nod_test_SOURCES = nod-testmain.c
 liquidwar6nod_test_LDADD = libnod.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6nod-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = nod-internal.h
 

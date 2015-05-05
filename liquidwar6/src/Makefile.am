@@ -22,27 +22,27 @@ if ALLINONE
 if MOD_GL1
 AM_CFLAGS = @LW6_CFLAGS@ -I${srcdir}/lib @GUILE_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @GL1_LIBS@ @GLU_LIBS@ @SDL_LIBS@ @SDL_LIBS_SOUND@
-else
+else # MOD_GL1
 if MOD_GLES2
 AM_CFLAGS = @LW6_CFLAGS@ -I${srcdir}/lib @GUILE_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @GLES2_LIBS@ @SDL_LIBS@ @SDL_LIBS_SOUND@
-else
+else # MOD_GLES2
 AM_CFLAGS = @LW6_CFLAGS@ -I${srcdir}/lib @GUILE_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS@ @SDL_LIBS_SOUND@
-endif
-endif
-else
+endif # MOD_GLES2
+endif # MOD_GL1
+else # ALLINONE
 AM_CFLAGS = @LW6_CFLAGS@ -I${srcdir}/lib @GUILE_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
-endif
+endif # ALLINONE
 
 if FULLSTATIC
 # Note: you might need to edit this to fit your system
 LW6_FLAGS = -all-static -lgpm
-else
+else # FULLSTATIC
 # Note: libgpm seem to be required only when linking statically
 LW6_FLAGS = @LW6_LDFLAGS@
-endif
+endif # FULLSTATIC
 
 if LW6_MS_WINDOWS
 # Automake isn't necessarly aware of windres and its use.
@@ -51,10 +51,10 @@ mswindows.o : ${srcdir}/mswindows.rc
 
 LW6_RC_SRC = mswindows.rc
 LW6_RC_OBJ = mswindows.o
-else
+else # LW6_MS_WINDOWS
 LW6_RC_SRC =
 LW6_RC_OBJ =
-endif
+endif # LW6_MS_WINDOWS
 
 bin_PROGRAMS = liquidwar6
 liquidwar6_SOURCES = main.c $(LW6_RC_SRC)

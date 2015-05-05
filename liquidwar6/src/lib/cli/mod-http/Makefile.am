@@ -34,6 +34,6 @@ libmod_http_la_LIBADD = libmod_http_s.la
 libmod_http_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ -lcurl
 libmod_httpdir = $(includedir)/@PACKAGE_TARNAME@/cli/mod-http
 libmod_http_HEADERS = mod-http.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-http-internal.h

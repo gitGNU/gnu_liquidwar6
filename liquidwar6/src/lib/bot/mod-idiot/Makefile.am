@@ -33,6 +33,6 @@ libmod_idiot_la_SOURCES = $(MOD_IDIOT_FILES)
 libmod_idiot_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@
 libmod_idiotdir = $(includedir)/@PACKAGE_TARNAME@/bot/mod-idiot
 libmod_idiot_HEADERS = mod-idiot.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-idiot-internal.h

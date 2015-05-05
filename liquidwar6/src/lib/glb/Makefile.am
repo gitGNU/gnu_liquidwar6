@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libgl1b.la
 if LW6_CUNIT
 TEST_SRC_FILE = glb-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libgl1b_la_SOURCES = glb-base64.c glb-sha1.c $(TEST_SRC_FILE) gnulib-base64.c gnulib-hmacsha1.c gnulib-memxor.c gnulib-sha1.c
 libgl1bdir= $(includedir)/@PACKAGE_TARNAME@/glb
 libgl1b_HEADERS = glb.h
@@ -37,8 +37,8 @@ libexec_PROGRAMS = liquidwar6glb-test
 liquidwar6glb_test_SOURCES = glb-testmain.c
 liquidwar6glb_test_LDADD = libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6glb-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = glb-internal.h gnulib-base64.h gnulib-hmac.h gnulib-memxor.h gnulib-sha1.h
 

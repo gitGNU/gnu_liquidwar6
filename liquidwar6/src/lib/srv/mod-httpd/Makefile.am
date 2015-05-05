@@ -33,6 +33,6 @@ libmod_httpd_la_SOURCES = $(MOD_HTTPD_FILES)
 libmod_httpd_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@
 libmod_httpddir = $(includedir)/@PACKAGE_TARNAME@/srv/mod-httpd
 libmod_httpd_HEADERS = mod-httpd.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-httpd-internal.h

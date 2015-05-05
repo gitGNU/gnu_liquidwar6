@@ -34,6 +34,6 @@ libmod_tcp_la_SOURCES = $(MOD_TCP_FILES)
 libmod_tcp_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@
 libmod_tcpdir = $(includedir)/@PACKAGE_TARNAME@/cli/mod-tcp
 libmod_tcp_HEADERS = mod-tcp.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-tcp-internal.h

@@ -21,42 +21,42 @@
 if ALLINONE
 AM_CFLAGS = @LW6_CFLAGS@ @MOD_CSOUND_ENABLE_CFLAGS@ @MOD_OGG_ENABLE_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS_SOUND@
-else
+else # ALLINONE
 AM_CFLAGS = @LW6_CFLAGS@ @MOD_CSOUND_ENABLE_CFLAGS@ @MOD_OGG_ENABLE_CFLAGS@ 
 AM_LDFLAGS = @LW6_LDFLAGS@
-endif
+endif # ALLINONE
 
 if MOD_CSOUND
 MOD_CSOUND_SUBDIR = mod-csound
 MOD_CSOUND_LIB_S = mod-csound/libmod_csound_s.la
-else
+else # MOD_CSOUND
 MOD_CSOUND_SUBDIR =
 MOD_CSOUND_LIB_S =
-endif
+endif # MOD_CSOUND
 
 if MOD_OGG
 MOD_OGG_SUBDIR = mod-ogg
 MOD_OGG_LIB_S = mod-ogg/libmod_ogg_s.la
-else
+else # MOD_OGG
 MOD_OGG_SUBDIR =
 MOD_OGG_LIB_S =
-endif
+endif # MOD_OGG
 
 if ALLINONE
 LW6DYN_LIB = 
 LW6SND_LIB_S = $(MOD_CSOUND_LIB_S) $(MOD_OGG_LIB_S)
-else
+else # ALLINONE
 LW6DYN_LIB = ../dyn/libdyn.la 
 LW6SND_LIB_S =
-endif
+endif # ALLINONE
 
 noinst_LTLIBRARIES = libsnd.la
 libsnd_la_LIBADD = $(LW6SND_LIB_S) 
 if LW6_CUNIT
 TEST_SRC_FILE = snd-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libsnd_la_SOURCES = snd-api.c snd-register.c $(TEST_SRC_FILE)
 libsnddir= $(includedir)/@PACKAGE_TARNAME@/snd
 libsnd_HEADERS = snd.h
@@ -67,8 +67,8 @@ libexec_PROGRAMS = liquidwar6snd-test
 liquidwar6snd_test_SOURCES = snd-testmain.c
 liquidwar6snd_test_LDADD = libsnd.la $(LW6DYN_LIB) ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6snd-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 SUBDIRS = $(MOD_CSOUND_SUBDIR) $(MOD_OGG_SUBDIR)
 

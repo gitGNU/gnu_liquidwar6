@@ -22,11 +22,11 @@ EXTRA_DIST = texinfo-struct.xsl
 
 if LW6_DOXYGEN
 opt: html.gen
-endif
+endif # LW6_DOXYGEN
 
 if LW6_DOXYGEN
 all: xml.gen
-endif
+endif # LW6_DOXYGEN
 
 # dependency on doxygen-html.cfg.in and not doxygen-html.cfg to avoid too many builds
 html.gen: doxygen-html.cfg.in ${top_srcdir}/src/lib/bot/bot.h ${top_srcdir}/src/lib/cfg/cfg.h ${top_srcdir}/src/lib/cli/cli.h ${top_srcdir}/src/lib/cns/cns.h ${top_srcdir}/src/lib/cnx/cnx.h ${top_srcdir}/src/lib/dat/dat.h ${top_srcdir}/src/lib/dsp/dsp.h ${top_srcdir}/src/lib/dyn/dyn.h ${top_srcdir}/src/lib/gfx/gfx.h ${top_srcdir}/src/lib/glb/glb.h ${top_srcdir}/src/lib/gui/gui.h ${top_srcdir}/src/lib/hlp/hlp.h ${top_srcdir}/src/lib/img/img.h ${top_srcdir}/src/lib/ker/ker.h ${top_srcdir}/src/lib/ldr/ldr.h ${top_srcdir}/src/lib/map/map.h ${top_srcdir}/src/lib/mat/mat.h ${top_srcdir}/src/lib/msg/msg.h ${top_srcdir}/src/lib/net/net.h ${top_srcdir}/src/lib/nod/nod.h ${top_srcdir}/src/lib/p2p/p2p.h ${top_srcdir}/src/lib/pil/pil.h ${top_srcdir}/src/lib/scm/scm.h ${top_srcdir}/src/lib/sim/sim.h ${top_srcdir}/src/lib/snd/snd.h ${top_srcdir}/src/lib/srv/srv.h ${top_srcdir}/src/lib/sys/sys.h ${top_srcdir}/src/lib/tsk/tsk.h ${top_srcdir}/src/lib/vox/vox.h

@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libpil.la
 if LW6_CUNIT
 TEST_SRC_FILE = pil-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libpil_la_SOURCES = pil-bench.c pil-command.c pil-compute.c pil-coords.c pil-dump.c pil-localcursors.c pil-nopilot.c pil-pilot.c pil-seed.c pil-seq.c pil-spread.c pil-suite.c $(TEST_SRC_FILE) pil-worker.c
 libpildir= $(includedir)/@PACKAGE_TARNAME@/pil
 libpil_HEADERS = pil.h
@@ -37,8 +37,8 @@ libexec_PROGRAMS = liquidwar6pil-test
 liquidwar6pil_test_SOURCES = pil-testmain.c
 liquidwar6pil_test_LDADD = libpil.la ../ker/libker.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6pil-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = pil-internal.h
 

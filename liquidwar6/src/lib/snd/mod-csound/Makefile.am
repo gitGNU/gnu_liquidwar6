@@ -34,6 +34,6 @@ libmod_csound_la_LIBADD = libmod_csound_s.la
 libmod_csound_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @CSOUND_LIBS@
 libmod_csounddir = $(includedir)/@PACKAGE_TARNAME@/snd/mod-csound
 libmod_csound_HEADERS = mod-csound.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-csound-internal.h

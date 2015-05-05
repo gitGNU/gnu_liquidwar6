@@ -21,9 +21,9 @@
 AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 if ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@
-else
+else # ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@ @GLES2_LIBS@ @SDL_LIBS@
-endif
+endif # ALLINONE
 
 libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/gfx
 
@@ -38,7 +38,7 @@ libmod_gles2_la_LIBADD = $(MOD_GLES2_LIBS)
 libmod_gles2_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @GLES2_LIBS@ @SDL_LIBS@
 libmod_gles2dir = $(includedir)/@PACKAGE_TARNAME@/gfx/mod-gles2
 libmod_gles2_HEADERS = mod-gles2.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-gles2-internal.h
 

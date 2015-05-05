@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@ -lexpat
 noinst_LTLIBRARIES = libhlp.la
 if LW6_CUNIT
 TEST_SRC_FILE = hlp-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libhlp_la_SOURCES = hlp-about.c hlp-credits.c hlp-keyword.c hlp-list.c hlp-options.c hlp-print.c hlp-refadvanced.c hlp-refaliases.c hlp-refdoc.c hlp-reffuncs.c hlp-refgraphics.c hlp-refhooks.c hlp-refinput.c hlp-refmap.c hlp-refmaphints.c hlp-refmaprules.c hlp-refmapstyle.c hlp-refmapteams.c hlp-refnetwork.c hlp-refpath.c hlp-refplayers.c hlp-refquick.c hlp-refshow.c hlp-refsound.c hlp-refteamcolors.c hlp-refweapons.c hlp-ref.c $(TEST_SRC_FILE)
 libhlpdir= $(includedir)/@PACKAGE_TARNAME@/hlp
 libhlp_HEADERS = hlp.h
@@ -39,14 +39,14 @@ liquidwar6_doc_LDADD = libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 liquidwar6hlp_test_SOURCES = hlp-testmain.c
 liquidwar6hlp_test_LDADD = libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6hlp-test
-endif
-else
+endif # !FULLSTATIC
+else # LW6_CUNIT
 if !FULLSTATIC
 libexec_PROGRAMS = liquidwar6-doc
 liquidwar6_doc_SOURCES = hlp-docmain.c
 liquidwar6_doc_LDADD = libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = hlp-internal.h
 

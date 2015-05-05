@@ -21,9 +21,9 @@
 AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 if ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@
-else
+else # ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@ @GL1_LIBS@ @GLU_LIBS@ @SDL_LIBS@
-endif
+endif # ALLINONE
 
 libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/gfx
 
@@ -40,7 +40,7 @@ libmod_gl1_la_LIBADD = $(MOD_GL1_LIBS)
 libmod_gl1_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @GL1_LIBS@ @GLU_LIBS@ @SDL_LIBS@
 libmod_gl1dir = $(includedir)/@PACKAGE_TARNAME@/gfx/mod-gl1
 libmod_gl1_HEADERS = mod-gl1.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-gl1-internal.h
 

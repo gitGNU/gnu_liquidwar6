@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@ -lltdl
 noinst_LTLIBRARIES = libdyn.la
 if LW6_CUNIT
 TEST_SRC_FILE = dyn-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libdyn_la_SOURCES = dyn-dl.c dyn-list.c dyn-path.c $(TEST_SRC_FILE)
 libdyndir= $(includedir)/@PACKAGE_TARNAME@/dyn
 libdyn_HEADERS = dyn.h
@@ -37,8 +37,8 @@ libexec_PROGRAMS = liquidwar6dyn-test
 liquidwar6dyn_test_SOURCES = dyn-testmain.c
 liquidwar6dyn_test_LDADD = libdyn.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6dyn-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = dyn-internal.h
 

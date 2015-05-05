@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libcnx.la
 if LW6_CUNIT
 TEST_SRC_FILE = cnx-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libcnx_la_SOURCES = cnx-connection.c cnx-packet.c cnx-password.c $(TEST_SRC_FILE) cnx-tickettable.c
 libcnxdir= $(includedir)/@PACKAGE_TARNAME@/cnx
 libcnx_HEADERS = cnx.h
@@ -37,8 +37,8 @@ libexec_PROGRAMS = liquidwar6cnx-test
 liquidwar6cnx_test_SOURCES = cnx-testmain.c
 liquidwar6cnx_test_LDADD = libcnx.la ../glb/libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6cnx-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 clean-local:
 	rm -f *.log *.trs

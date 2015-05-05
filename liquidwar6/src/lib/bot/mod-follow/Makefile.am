@@ -33,6 +33,6 @@ libmod_follow_la_SOURCES = $(MOD_FOLLOW_FILES)
 libmod_follow_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@
 libmod_followdir = $(includedir)/@PACKAGE_TARNAME@/bot/mod-follow
 libmod_follow_HEADERS = mod-follow.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-follow-internal.h

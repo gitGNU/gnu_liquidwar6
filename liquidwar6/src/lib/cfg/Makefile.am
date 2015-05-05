@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@ -lexpat
 noinst_LTLIBRARIES = libcfg.la
 if LW6_CUNIT
 TEST_SRC_FILE = cfg-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libcfg_la_SOURCES = cfg-arg.c cfg-defaults.c cfg-env.c cfg-format.c cfg-load.c cfg-option.c cfg-save.c cfg-exp.c cfg-setup.c $(TEST_SRC_FILE) cfg-unified.c cfg-xml.c
 libcfgdir= $(includedir)/@PACKAGE_TARNAME@/cfg
 libcfg_HEADERS = cfg.h
@@ -37,8 +37,8 @@ libexec_PROGRAMS = liquidwar6cfg-test
 liquidwar6cfg_test_SOURCES = cfg-testmain.c
 liquidwar6cfg_test_LDADD = libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6cfg-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = cfg-internal.h
 

@@ -22,85 +22,85 @@ if ALLINONE
 if MOD_GL1
 AM_CFLAGS = @LW6_CFLAGS@ @MOD_GL1_ENABLE_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @GL1_LIBS@ @GLU_LIBS@ @SDL_LIBS@
-else
+else # MOD_GL1
 if MOD_GLES2
 AM_CFLAGS = @LW6_CFLAGS@ @MOD_GLES2_ENABLE_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @GLES2_LIBS@ @SDL_LIBS@
-else
+else # MOD_GLES2
 if MOD_SOFT
 AM_CFLAGS = @LW6_CFLAGS@ @MOD_SOFT_ENABLE_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @SOFT_LIBS@ @SDL_LIBS@
-else
+else # MOD_SOFT
 if MOD_CACA
 AM_CFLAGS = @LW6_CFLAGS@ @MOD_CACA_ENABLE_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @CACA_LIBS@
-else
+else # MOD_CACA
 AM_CFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
-endif
-endif
-endif
-endif
-else
+endif # MOD_CACA
+endif # MOD_SOFT
+endif # MOD_GLES2
+endif # MOD_GL1
+else # ALLINONE
 AM_CFLAGS = @LW6_CFLAGS@ @MOD_GL1_ENABLE_CFLAGS@ @MOD_GLES2_ENABLE_CFLAGS@ @MOD_SOFT_ENABLE_CFLAGS@ @MOD_CACA_ENABLE_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
-endif
+endif # ALLINONE
 
 if MOD_GL1
 MOD_GL1_SUBDIR = mod-gl1
 MOD_GL1_LIB_S = mod-gl1/libmod_gl1_s.la
-else
+else # MOD_GL1
 MOD_GL1_SUBDIR =
 MOD_GL1_LIB_S =
-endif
+endif # MOD_GL1
 
 if MOD_GLES2
 MOD_GLES2_SUBDIR = mod-gles2
 MOD_GLES2_LIB_S = mod-gles2/libmod_gles2_s.la
-else
+else # MOD_GLES2
 MOD_GLES2_SUBDIR =
 MOD_GLES2_LIB_S =
-endif
+endif # MOD_GLES2
 
 if MOD_SOFT
 MOD_SOFT_SUBDIR = mod-soft
 MOD_SOFT_LIB_S = mod-soft/libmod_soft_s.la
-else
+else # MOD_SOFT
 MOD_SOFT_SUBDIR =
 MOD_SOFT_LIB_S =
-endif
+endif # MOD_SOFT
 
 if SHARED_SDL
 SHARED_SDL_SUBDIR = shared-sdl
 SHARED_SDL_LIB_S = shared-sdl/libshared_sdl_s.la
-else
+else # SHARED_SDL
 SHARED_SDL_SUBDIR =
 SHARED_SDL_LIB_S =
-endif
+endif # SHARED_SDL
 
 if MOD_CACA
 MOD_CACA_SUBDIR = mod-caca
 MOD_CACA_LIB_S = mod-caca/libmod_caca_s.la
-else
+else # MOD_CACA
 MOD_CACA_SUBDIR =
 MOD_CACA_LIB_S =
-endif
+endif # MOD_CACA
 
 if ALLINONE
 LW6DYN_LIB = 
 LW6GFX_LIB_S = $(MOD_GL1_LIB_S) $(MOD_GLES2_LIB_S) $(MOD_SOFT_LIB_S) $(SHARED_SDL_LIB_S) $(MOD_CACA_LIB_S)
-else
+else # ALLINONE
 LW6DYN_LIB = ../dyn/libdyn.la 
 LW6GFX_LIB_S =
-endif
+endif # ALLINONE
 
 noinst_LTLIBRARIES = libgfx.la
 libgfx_la_LIBADD = $(LW6GFX_LIB_S) 
 if LW6_CUNIT
 TEST_SRC_FILE = gfx-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libgfx_la_SOURCES = gfx-api.c gfx-register.c gfx-sdl.c $(TEST_SRC_FILE)
 libgfxdir= $(includedir)/@PACKAGE_TARNAME@/gfx
 libgfx_HEADERS = gfx.h
@@ -111,8 +111,8 @@ libexec_PROGRAMS = liquidwar6gfx-test
 liquidwar6gfx_test_SOURCES = gfx-testmain.c
 liquidwar6gfx_test_LDADD = libgfx.la $(LW6DYN_LIB) ../cns/libcns.la ../vox/libvox.la ../gui/libgui.la ../mat/libmat.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6gfx-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 SUBDIRS = $(MOD_GL1_SUBDIR) $(MOD_GLES2_SUBDIR) $(MOD_SOFT_SUBDIR) $(SHARED_SDL_SUBDIR) $(MOD_CACA_SUBDIR)
 

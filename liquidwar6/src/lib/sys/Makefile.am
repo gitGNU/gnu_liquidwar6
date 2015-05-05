@@ -25,30 +25,30 @@ AM_LDFLAGS = @LW6_LDFLAGS@ @LW6_GTK_ENABLE_LDFLAGS@ -lm
 if LW6_X86
 ASM_SRC_FILES = sys-testandset.c sys-testandsetx86.s
 ASM_EXTRA_FILES =
-else
+else # LW6_X86
 if LW6_AMD64
 ASM_SRC_FILES = sys-testandset.c sys-testandsetamd64.s
 ASM_EXTRA_FILES =
-else
+else # LW6_AMD64
 ASM_SRC_FILES =
 ASM_EXTRA_FILES = 
-endif
-endif
+endif # LW6_AMD64
+endif # LW6_X86
 
 if LW6_MAC_OS_X
 OBJC_SRC_FILES = sys-macosx.m
 OBJC_EXTRA_FILES =
-else
+else # LW6_MAC_OS_X
 OBJC_SRC_FILES =
 OBJC_EXTRA_FILES = sys-macosx.m
-endif
+endif # LW6_MAC_OS_X
 
 noinst_LTLIBRARIES = libsys.la
 if LW6_CUNIT
 TEST_SRC_FILE = sys-cunit.c sys-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libsys_la_SOURCES = sys-arg.c sys-assoc.c sys-backtrace.c sys-bazooka.c sys-build.c sys-cache.c sys-callerinfo.c sys-checksum.c sys-color.c sys-context.c sys-convert.c sys-daemon.c sys-debug.c sys-dump.c sys-env.c sys-escape.c sys-exec.c sys-file.c sys-profiler.c sys-hash.c sys-hexa.c sys-history.c sys-i18n.c sys-id.c sys-keyword.c sys-list.c sys-listr.c sys-log.c sys-math.c sys-mem.c sys-mutex.c sys-nop.c sys-openmp.c sys-options.c sys-path.c sys-print.c sys-process.c sys-progress.c sys-random.c sys-sdl.c sys-serial.c sys-shape.c sys-signal.c sys-sort.c sys-spinlock.c sys-str.c sys-stream.c $(TEST_SRC_FILE) sys-thread.c sys-time.c sys-url.c sys-version.c sys-vthread.c $(ASM_SRC_FILES) $(OBJC_SRC_FILES)
 libsysdir= $(includedir)/@PACKAGE_TARNAME@/sys
 libsys_HEADERS = sys.h sys-gettext.h
@@ -59,8 +59,8 @@ libexec_PROGRAMS = liquidwar6sys-test
 liquidwar6sys_test_SOURCES = sys-testmain.c
 liquidwar6sys_test_LDADD = libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6sys-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = sys-internal.h sys-build-stamp.h sys-build-md5sum.h $(ASM_EXTRA_FILES) $(OBJC_EXTRA_FILES)
 

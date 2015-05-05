@@ -21,9 +21,9 @@
 AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 if ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@
-else
+else # ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@ @SOFT_LIBS@ @SDL_LIBS@
-endif
+endif # ALLINONE
 
 libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/gfx
 
@@ -38,6 +38,6 @@ libmod_soft_la_LIBADD = $(MOD_SOFT_LIBS)
 libmod_soft_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @SOFT_LIBS@ @SDL_LIBS@
 libmod_softdir = $(includedir)/@PACKAGE_TARNAME@/gfx/mod-soft
 libmod_soft_HEADERS = mod-soft.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-soft-internal.h

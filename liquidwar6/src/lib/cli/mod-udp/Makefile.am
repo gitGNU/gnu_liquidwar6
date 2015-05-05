@@ -33,6 +33,6 @@ libmod_udp_la_SOURCES = $(MOD_UDP_FILES)
 libmod_udp_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@
 libmod_udpdir = $(includedir)/@PACKAGE_TARNAME@/cli/mod-udp
 libmod_udp_HEADERS = mod-udp.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-udp-internal.h

@@ -24,18 +24,18 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 if ALLINONE
 LW6DYN_LIB = 
 LW6SRV_LIB_S = mod-tcpd/libmod_tcpd_s.la mod-udpd/libmod_udpd_s.la mod-httpd/libmod_httpd_s.la
-else
+else # ALLINONE
 LW6DYN_LIB = ../dyn/libdyn.la 
 LW6SRV_LIB_S =
-endif
+endif # ALLINONE
 
 noinst_LTLIBRARIES = libsrv.la
 libsrv_la_LIBADD = $(LW6SRV_LIB_S)
 if LW6_CUNIT
 TEST_SRC_FILE = srv-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libsrv_la_SOURCES = srv-api.c srv-control.c srv-oob.c srv-register.c srv-tcpaccepter.c $(TEST_SRC_FILE) srv-udpbuffer.c
 libsrvdir= $(includedir)/@PACKAGE_TARNAME@/srv
 libsrv_HEADERS = srv.h
@@ -46,8 +46,8 @@ libexec_PROGRAMS = liquidwar6srv-test
 liquidwar6srv_test_SOURCES = srv-testmain.c
 liquidwar6srv_test_LDADD = libsrv.la $(LW6DYN_LIB) ../msg/libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6srv-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 SUBDIRS = mod-tcpd mod-udpd mod-httpd
 

@@ -32,18 +32,18 @@ endif
 if ALLINONE
 LW6DYN_LIB = 
 LW6CLI_LIB_S = mod-tcp/libmod_tcp_s.la mod-udp/libmod_udp_s.la $(MOD_HTTP_LIB_S)
-else
+else # ALLINONE
 LW6DYN_LIB = ../dyn/libdyn.la 
 LW6CLI_LIB_S =
-endif
+endif # ALLINONE
 
 noinst_LTLIBRARIES = libcli.la
 libcli_la_LIBADD = $(LW6CLI_LIB_S)
 if LW6_CUNIT
 TEST_SRC_FILE = cli-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libcli_la_SOURCES = cli-api.c cli-oob.c cli-register.c $(TEST_SRC_FILE)
 libclidir= $(includedir)/@PACKAGE_TARNAME@/cli
 libcli_HEADERS = cli.h
@@ -54,8 +54,8 @@ libexec_PROGRAMS = liquidwar6cli-test
 liquidwar6cli_test_SOURCES = cli-testmain.c
 liquidwar6cli_test_LDADD = libcli.la $(LW6DYN_LIB) ../msg/libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../net/libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6cli-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 SUBDIRS = mod-tcp mod-udp $(MOD_HTTP_SUBDIR)
 

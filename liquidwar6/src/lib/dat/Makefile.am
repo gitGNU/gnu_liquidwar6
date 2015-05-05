@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libdat.la
 if LW6_CUNIT
 TEST_SRC_FILE = dat-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libdat_la_SOURCES = dat-atom.c dat-block.c dat-miss.c dat-stack.c $(TEST_SRC_FILE) dat-warehouse.c
 libdatdir= $(includedir)/@PACKAGE_TARNAME@/dat
 libdat_HEADERS = dat.h
@@ -37,8 +37,8 @@ libexec_PROGRAMS = liquidwar6dat-test
 liquidwar6dat_test_SOURCES = dat-testmain.c
 liquidwar6dat_test_LDADD = libdat.la ../msg/libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../glb/libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6dat-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = dat-internal.h
 

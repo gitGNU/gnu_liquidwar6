@@ -23,43 +23,43 @@ if MOD_GL1
 AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 AM_OBJCFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @GL1_LIBS@ @GLU_LIBS@ @SDL_LIBS@
-else
+else # MOD_GL1
 if MOD_GLES2
 AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 AM_OBJCFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @GLES2_LIBS@ @SDL_LIBS@
-else
+else # MOD_GLES2
 AM_CFLAGS = @LW6_CFLAGS@
 AM_OBJCFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
-endif
-endif
-else
+endif # MOD_GLES2
+endif # MOD_GL1
+else # ALLINONE
 AM_CFLAGS = @LW6_CFLAGS@
 AM_OBJCFLAGS = @LW6_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
-endif
+endif # ALLINONE
 
 if ALLINONE
 LW6DYN_LIB = 
-else
+else # ALLINONE
 LW6DYN_LIB = ../dyn/libdyn.la 
-endif
+endif # ALLINONE
 
 if LW6_MAC_OS_X
 OBJC_SRC_FILES = dsp-macosx.m
 OBJC_EXTRA_FILES =
-else
+else # LW6_MAC_OS_X
 OBJC_SRC_FILES =
 OBJC_EXTRA_FILES = dsp-macosx.m
-endif
+endif # LW6_MAC_OS_X
 
 noinst_LTLIBRARIES = libdsp.la
 if LW6_CUNIT
 TEST_SRC_FILE = dsp-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libdsp_la_SOURCES = dsp-data.c dsp-display.c $(OBJC_SRC_FILES) dsp-param.c dsp-thread.c $(TEST_SRC_FILE)
 libdspdir= $(includedir)/@PACKAGE_TARNAME@/dsp
 libdsp_HEADERS = dsp.h
@@ -70,8 +70,8 @@ libexec_PROGRAMS = liquidwar6dsp-test
 liquidwar6dsp_test_SOURCES = dsp-testmain.c
 liquidwar6dsp_test_LDADD = libdsp.la ../gfx/libgfx.la $(LW6DYN_LIB) ../cns/libcns.la ../vox/libvox.la ../gui/libgui.la ../mat/libmat.la ../ldr/libldr.la ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../cfg/libcfg.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6dsp-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = dsp-internal.h $(OBJC_EXTRA_FILES)
 

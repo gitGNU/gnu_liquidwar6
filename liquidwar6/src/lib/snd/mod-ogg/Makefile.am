@@ -21,9 +21,9 @@
 AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 if ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@
-else
+else # ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS_SOUND@
-endif
+endif # ALLINONE
 
 libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/snd
 
@@ -38,7 +38,7 @@ libmod_ogg_la_LIBADD = libmod_ogg_s.la
 libmod_ogg_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @SDL_LIBS_SOUND@
 libmod_oggdir = $(includedir)/@PACKAGE_TARNAME@/snd/mod-ogg
 libmod_ogg_HEADERS = mod-ogg.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-ogg-internal.h
 

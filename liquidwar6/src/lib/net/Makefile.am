@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libnet.la
 if LW6_CUNIT
 TEST_SRC_FILE = net-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libnet_la_SOURCES = net-address.c  net-connectable.c net-const.c net-counters.c net-dns.c net-error.c net-if.c net-line.c net-log.c net-setup.c net-socket.c net-tcp.c $(TEST_SRC_FILE) net-udp.c
 libnetdir= $(includedir)/@PACKAGE_TARNAME@/net
 libnet_HEADERS = net.h
@@ -37,8 +37,8 @@ libexec_PROGRAMS = liquidwar6net-test
 liquidwar6net_test_SOURCES = net-testmain.c
 liquidwar6net_test_LDADD = libnet.la ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6net-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = net-internal.h
 

@@ -33,6 +33,6 @@ libmod_tcpd_la_SOURCES = $(MOD_TCPD_FILES)
 libmod_tcpd_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@
 libmod_tcpddir = $(includedir)/@PACKAGE_TARNAME@/srv/mod-tcpd
 libmod_tcpd_HEADERS = mod-tcpd.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-tcpd-internal.h

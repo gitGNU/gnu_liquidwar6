@@ -21,17 +21,17 @@
 if ALLINONE
 AM_CFLAGS = @LW6_CFLAGS@ @GUILE_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @GUILE_LDFLAGS@
-else
+else # ALLINONE
 AM_CFLAGS = @LW6_CFLAGS@ @GUILE_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @GUILE_LDFLAGS@
-endif
+endif # ALLINONE
 
 noinst_LTLIBRARIES = libscm.la
 if LW6_CUNIT
 TEST_SRC_FILE = scm-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libscm_la_SOURCES = scm-coverage.c scm-funcname.c scm-gettext.c $(TEST_SRC_FILE) scm-utils.c scm-wrapper.c
 libscmdir= $(includedir)/@PACKAGE_TARNAME@/scm
 libscm_HEADERS = scm.h
@@ -42,8 +42,8 @@ libexec_PROGRAMS = liquidwar6scm-test
 liquidwar6scm_test_SOURCES = scm-testmain.c
 liquidwar6scm_test_LDADD = libscm.la ../hlp/libhlp.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6scm-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = scm-internal.h
 

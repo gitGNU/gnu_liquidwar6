@@ -21,9 +21,9 @@
 AM_CFLAGS = @LW6_CFLAGS@ @CACA_CFLAGS@
 if ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@
-else
+else # ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@ @CACA_LIBS@
-endif
+endif # ALLINONE
 
 libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/gfx
 
@@ -38,6 +38,6 @@ libmod_caca_la_LIBADD = $(MOD_CACA_LIBS)
 libmod_caca_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @CACA_LIBS@
 libmod_cacadir = $(includedir)/@PACKAGE_TARNAME@/gfx/mod-caca
 libmod_caca_HEADERS = mod-caca.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-caca-internal.h

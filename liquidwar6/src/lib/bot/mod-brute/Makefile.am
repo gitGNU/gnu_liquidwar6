@@ -33,6 +33,6 @@ libmod_brute_la_SOURCES = $(MOD_BRUTE_FILES)
 libmod_brute_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@
 libmod_brutedir = $(includedir)/@PACKAGE_TARNAME@/bot/mod-brute
 libmod_brute_HEADERS = mod-brute.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = mod-brute-internal.h

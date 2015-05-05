@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libmap.la
 if LW6_CUNIT
 TEST_SRC_FILE = map-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libmap_la_SOURCES = map-body.c map-color.c map-coords.c map-cursortexture.c map-cursortexturelayer.c map-dup.c map-exp.c map-hexa.c map-layer.c map-level.c map-localinfo.c map-metadata.c map-metalayer.c map-rules.c map-param.c map-style.c map-teams.c $(TEST_SRC_FILE) map-texture.c map-weapon.c
 libmapdir= $(includedir)/@PACKAGE_TARNAME@/map
 libmap_HEADERS = map.h
@@ -37,8 +37,8 @@ libexec_PROGRAMS = liquidwar6map-test
 liquidwar6map_test_SOURCES = map-testmain.c
 liquidwar6map_test_LDADD = libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6map-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 clean-local:
 	rm -f *.log *.trs

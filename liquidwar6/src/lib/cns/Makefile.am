@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@ @LW6_CONSOLE_ENABLE_LDFLAGS@
 noinst_LTLIBRARIES = libcns.la
 if LW6_CUNIT
 TEST_SRC_FILE = cns-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libcns_la_SOURCES = cns-handler.c cns-history.c cns-support.c $(TEST_SRC_FILE)
 libcnsdir= $(includedir)/@PACKAGE_TARNAME@/cns
 libcns_HEADERS = cns.h
@@ -37,8 +37,8 @@ libexec_PROGRAMS = liquidwar6cns-test
 liquidwar6cns_test_SOURCES = cns-testmain.c
 liquidwar6cns_test_LDADD = libcns.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6cns-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 clean-local:
 	rm -f *.log *.trs

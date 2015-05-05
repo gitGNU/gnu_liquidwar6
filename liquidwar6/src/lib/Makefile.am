@@ -22,34 +22,34 @@ if ALLINONE
 if MOD_GL1
 AM_CFLAGS = @LW6_CFLAGS@ @GUILE_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @GL1_LIBS@ @GLU_LIBS@ @SDL_LIBS@ @SDL_LIBS_SOUND@
-else
+else # MOD_GL1
 if MOD_GLES2
 AM_CFLAGS = @LW6_CFLAGS@ @GUILE_CFLAGS@ @SDL_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @GLES2_LIBS@ @SDL_LIBS@ @SDL_LIBS_SOUND@
-else
+else # MOD_GLES2
 AM_CFLAGS = @LW6_CFLAGS@ @GUILE_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS@ @SDL_LIBS_SOUND@
-endif
-endif
-else
+endif # MOD_GLES2
+endif # MOD_GL1
+else # ALLINONE
 AM_CFLAGS = @LW6_CFLAGS@ @GUILE_CFLAGS@
 AM_LDFLAGS = @LW6_LDFLAGS@
-endif
+endif # ALLINONE
 
 if ALLINONE
 LW6DYN_LIB = 
 LW6DYN_SUBDIR =
-else
+else # ALLINONE
 LW6DYN_LIB = dyn/libdyn.la 
 LW6DYN_SUBDIR = dyn
-endif
+endif # ALLINONE
 
 noinst_LTLIBRARIES = libliquidwar6_s.la
 if LW6_CUNIT
 TEST_SRC_FILE = lw6-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 LW6_FILES = lw6-callback.c lw6-control.c lw6-fix.c lw6-funcs.c lw6-funcssys.c lw6-funcshlp.c lw6-funcscfg.c lw6-funcsgen.c lw6-funcsgui.c lw6-funcsgfx.c lw6-funcsdsp.c lw6-funcsldr.c lw6-funcsmap.c lw6-funcsker.c lw6-funcspil.c lw6-funcssnd.c lw6-funcscns.c lw6-funcstsk.c lw6-funcsimg.c lw6-funcsnet.c lw6-funcscli.c lw6-funcssrv.c lw6-funcsp2p.c lw6-funcsbot.c lw6-global.c lw6-main.c lw6-options.c lw6-smobs.c $(TEST_SRC_FILE)
 LW6_LIBS = sys/libsys.la glb/libgl1b.la cns/libcns.la hlp/libhlp.la cfg/libcfg.la map/libmap.la ker/libker.la pil/libpil.la bot/libbot.la sim/libsim.la gen/libgen.la ldr/libldr.la mat/libmat.la gui/libgui.la vox/libvox.la gfx/libgfx.la dsp/libdsp.la snd/libsnd.la img/libimg.la net/libnet.la nod/libnod.la cnx/libcnx.la msg/libmsg.la cli/libcli.la srv/libsrv.la dat/libdat.la p2p/libp2p.la scm/libscm.la tsk/libtsk.la $(LW6DYN_LIB) 
 libliquidwar6_s_la_SOURCES = $(LW6_FILES)
@@ -62,7 +62,7 @@ libliquidwar6_la_LIBADD = $(LW6_LIBS)
 libliquidwar6_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @GUILE_LDFLAGS@
 libliquidwar6dir = $(includedir)/@PACKAGE_TARNAME@
 libliquidwar6_HEADERS = liquidwar6.h
-endif
+endif # !ALLINONE
 
 if LW6_CUNIT
 if !FULLSTATIC
@@ -70,8 +70,8 @@ libexec_PROGRAMS = liquidwar6-test
 liquidwar6_test_SOURCES = lw6-testmain.c
 liquidwar6_test_LDADD = libliquidwar6_s.la $(LW6_LIBS) @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 SUBDIRS = def sys glb map ker pil $(LW6DYN_SUBDIR) bot sim gen cns hlp cfg ldr tsk mat gui vox gfx snd dsp img net nod cnx msg cli srv dat p2p scm
 

@@ -34,5 +34,5 @@ $(srcdir)/style.xml: $(top_srcdir)/src/lib/map/map.h $(top_srcdir)/src/lib/ldr/l
 
 $(srcdir)/teams.xml: $(top_srcdir)/src/lib/map/map.h $(top_srcdir)/src/lib/ldr/ldr.h
 	$(top_builddir)/src/lib/ldr/liquidwar6-xml --example-teams-xml | grep -v "DOCTYPE liquidwar6 SYSTEM" > $@
-endif
+endif # LW6_SELFDOC
 

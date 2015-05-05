@@ -23,16 +23,16 @@ AM_LDFLAGS = @LW6_LDFLAGS@ -lsqlite3
 
 if ALLINONE
 LW6DYN_LIB = 
-else
+else # ALLINONE
 LW6DYN_LIB = ../dyn/libdyn.la 
-endif
+endif # ALLINONE
 
 noinst_LTLIBRARIES = libp2p.la
 if LW6_CUNIT
 TEST_SRC_FILE = p2p-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif  # LW6_CUNIT
 libp2p_la_SOURCES = p2p-backends.c p2p-clioob.c p2p-connectregistered.c p2p-data.c p2p-db.c p2p-entry.c p2p-explore.c p2p-flush.c p2p-node.c p2p-peeridlist.c p2p-recv.c p2p-srvoob.c p2p-tentacle.c $(TEST_SRC_FILE)
 libp2pdir= $(includedir)/@PACKAGE_TARNAME@/p2p
 libp2p_HEADERS = p2p.h
@@ -43,8 +43,8 @@ libexec_PROGRAMS = liquidwar6p2p-test
 liquidwar6p2p_test_SOURCES = p2p-testmain.c
 liquidwar6p2p_test_LDADD = libp2p.la ../dat/libdat.la ../cli/libcli.la ../srv/libsrv.la ../msg/libmsg.la ../cnx/libcnx.la ../nod/libnod.la ../net/libnet.la $(LW6DYN_LIB) ../cfg/libcfg.la ../hlp/libhlp.la ../glb/libgl1b.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6p2p-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = p2p-internal.h
 

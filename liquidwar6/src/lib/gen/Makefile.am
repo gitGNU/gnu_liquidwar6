@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libgen.la
 if LW6_CUNIT
 TEST_SRC_FILE = gen-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libgen_la_SOURCES = gen-create.c gen-seed.c $(TEST_SRC_FILE)
 libgendir= $(includedir)/@PACKAGE_TARNAME@/gen
 libgen_HEADERS = gen.h
@@ -37,8 +37,8 @@ libexec_PROGRAMS = liquidwar6gen-test
 liquidwar6gen_test_SOURCES = gen-testmain.c
 liquidwar6gen_test_LDADD = libgen.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6gen-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = gen-internal.h
 

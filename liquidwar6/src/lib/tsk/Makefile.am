@@ -24,9 +24,9 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 noinst_LTLIBRARIES = libtsk.la
 if LW6_CUNIT
 TEST_SRC_FILE = tsk-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libtsk_la_SOURCES = tsk-loader.c $(TEST_SRC_FILE)
 libtskdir= $(includedir)/@PACKAGE_TARNAME@/tsk
 libtsk_HEADERS = tsk.h
@@ -37,8 +37,8 @@ libexec_PROGRAMS = liquidwar6tsk-test
 liquidwar6tsk_test_SOURCES = tsk-testmain.c
 liquidwar6tsk_test_LDADD = libtsk.la ../gen/libgen.la ../ldr/libldr.la ../cfg/libcfg.la ../hlp/libhlp.la ../ker/libker.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6tsk-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = tsk-internal.h
 

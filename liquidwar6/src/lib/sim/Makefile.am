@@ -23,16 +23,16 @@ AM_LDFLAGS = @LW6_LDFLAGS@
 
 if ALLINONE
 LW6DYN_LIB = 
-else
+else # ALLINONE
 LW6DYN_LIB = ../dyn/libdyn.la 
-endif
+endif # ALLINONE
 
 noinst_LTLIBRARIES = libsim.la
 if LW6_CUNIT
 TEST_SRC_FILE = sim-test.c
-else
+else # LW6_CUNIT
 TEST_SRC_FILE =
-endif
+endif # LW6_CUNIT
 libsim_la_SOURCES = sim-mask.c sim-print.c sim-results.c sim-simulate.c $(TEST_SRC_FILE)
 libsimdir= $(includedir)/@PACKAGE_TARNAME@/sim
 libsim_HEADERS = sim.h
@@ -43,8 +43,8 @@ libexec_PROGRAMS = liquidwar6sim-test
 liquidwar6sim_test_SOURCES = sim-testmain.c
 liquidwar6sim_test_LDADD = libsim.la ../bot/libbot.la $(LW6DYN_LIB) ../pil/libpil.la ../ker/libker.la ../map/libmap.la ../sys/libsys.la @LW6_LIBINTL_LDADD@
 TESTS = liquidwar6sim-test
-endif
-endif
+endif # !FULLSTATIC
+endif # LW6_CUNIT
 
 EXTRA_DIST = sim-internal.h
 

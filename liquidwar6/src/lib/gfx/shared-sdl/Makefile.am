@@ -21,9 +21,9 @@
 AM_CFLAGS = @LW6_CFLAGS@ @SDL_CFLAGS@
 if ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@
-else
+else # ALLINONE
 AM_LDFLAGS = @LW6_LDFLAGS@ @SDL_LIBS@
-endif
+endif # ALLINONE
 
 libdir = @libdir@/@PACKAGE_TARNAME@-@LW6_VERSION_BASE@/gfx
 
@@ -38,6 +38,6 @@ libshared_sdl_la_LIBADD = $(SHARED_SDL_LIBS)
 libshared_sdl_la_LDFLAGS = -release @PACKAGE_VERSION@ @LW6_LDFLAGS@ @SDL_LIBS@
 libshared_sdldir = $(includedir)/@PACKAGE_TARNAME@/gfx/shared-sdl
 libshared_sdl_HEADERS = shared-sdl.h
-endif
+endif # !ALLINONE
 
 EXTRA_DIST = shared-sdl-internal.h
