@@ -541,10 +541,15 @@ channel @code{#liquidwar} on irc.freenode.net.
 
 @cindex Download
 
-Liquid War 6 can be found on
+Liquid War 6 can be found on:
+@itemize
+@item
+@uref{http://ftp.gnu.org/gnu/liquidwar6/}
+@item
 @uref{http://download.savannah.gnu.org/releases/liquidwar6/}
-and
-@uref{http://www.ufoot.org/download/liquidwar/v6/}.
+@item
+@uref{http://www.ufoot.org/download/liquidwar/v6/}
+@end itemize
 
 Downloading the latest file from this place, and compile
 it yourself on your computer with a classical
@@ -6819,7 +6824,9 @@ you need here:
 @item
 @uref{http://www.gnu.org/software/liquidwar6/manual/}: Online manual
 @item
-@uref{http://download.savannah.gnu.org/releases/liquidwar6/}: Savannah downloads
+@uref{http://ftp.gnu.org/gnu/liquidwar6/}: GNU downloads (source only)
+@item
+@uref{http://download.savannah.gnu.org/releases/liquidwar6/}: Savannah downloads (source and binaries)
 @item
 @uref{http://www.ufoot.org/download/liquidwar/v6/}: ufoot.org downloads (mirror)
 @item
