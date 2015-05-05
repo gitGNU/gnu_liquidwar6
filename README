@@ -3,9 +3,7 @@ This is the GIT repository for Liquid War 6.
 If checking out from GIT, some intermediate files are not included, to build
 from source you need to install automake/autoconf and run:
 
-aclocal -I m4 --install
-automake
-autoconf
+autoreconf
 
 then:
 
