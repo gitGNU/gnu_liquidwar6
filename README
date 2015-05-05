@@ -10,3 +10,9 @@ then:
 ./configure
 make
 make install
+
+If in doubt, download stable tarballs from:
+http://ftp.gnu.org/gnu/liquidwar6/
+Or development snapshots from:
+http://www.ufoot.org/liquidwar/v6/snapshots/source/
+
