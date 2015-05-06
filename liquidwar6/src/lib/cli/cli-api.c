@@ -53,6 +53,7 @@ lw6cli_init (lw6sys_context_t * sys_context, lw6cli_backend_t * backend)
       if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
 	  backend->cli_context = backend->init (sys_context, backend->argc, backend->argv, &(backend->properties));
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -91,6 +92,7 @@ lw6cli_quit (lw6sys_context_t * sys_context, lw6cli_backend_t * backend)
 	      backend->quit (sys_context, backend->cli_context);
 	      backend->cli_context = NULL;
 	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -129,6 +131,7 @@ lw6cli_process_oob (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, 
       if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
 	  ret = backend->process_oob (sys_context, backend->cli_context, node_info, oob_data);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -180,6 +183,7 @@ lw6cli_open (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, const c
 	    {
 	      ret->properties = backend->properties;
 	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -213,6 +217,7 @@ lw6cli_close (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6cnx
       if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
 	  backend->close (sys_context, backend->cli_context, connection);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -278,6 +283,7 @@ lw6cli_send (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6cnx_
 	       */
 	      ret = backend->properties.reliable;
 	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -315,6 +321,7 @@ lw6cli_can_send (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6
       if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
 	  ret = backend->can_send (sys_context, backend->cli_context, connection);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -350,6 +357,7 @@ lw6cli_poll (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6cnx_
       if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
 	  backend->poll (sys_context, backend->cli_context, connection);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -383,6 +391,7 @@ lw6cli_repr (lw6sys_context_t * sys_context, const lw6cli_backend_t * backend, l
       if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
 	  ret = backend->repr (sys_context, backend->cli_context, connection);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else

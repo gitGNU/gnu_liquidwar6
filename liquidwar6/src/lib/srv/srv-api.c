@@ -51,7 +51,11 @@ lw6srv_init (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6srv_
   backend->srv_context = NULL;
   if (backend->init)
     {
-      backend->srv_context = backend->init (sys_context, backend->argc, backend->argv, &(backend->properties), listener);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  backend->srv_context = backend->init (sys_context, backend->argc, backend->argv, &(backend->properties), listener);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -78,14 +82,18 @@ lw6srv_quit (lw6sys_context_t * sys_context, lw6srv_backend_t * backend)
 
   if (backend->quit)
     {
-      /*
-       * It's important to check that backend is not NULL for
-       * quit can *really* be called several times on the same backend
-       */
-      if (backend->srv_context)
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	  backend->quit (sys_context, backend->srv_context);
-	  backend->srv_context = NULL;
+	  /*
+	   * It's important to check that backend is not NULL for
+	   * quit can *really* be called several times on the same backend
+	   */
+	  if (backend->srv_context)
+	    {
+	      backend->quit (sys_context, backend->srv_context);
+	      backend->srv_context = NULL;
+	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -123,7 +131,11 @@ lw6srv_analyse_tcp (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, 
 
   if (backend->analyse_tcp)
     {
-      ret = backend->analyse_tcp (sys_context, backend->srv_context, tcp_accepter, node_info, remote_id, remote_url);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->analyse_tcp (sys_context, backend->srv_context, tcp_accepter, node_info, remote_id, remote_url);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -163,7 +175,11 @@ lw6srv_analyse_udp (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, 
 
   if (backend->analyse_udp)
     {
-      ret = backend->analyse_udp (sys_context, backend->srv_context, udp_buffer, node_info, remote_id, remote_url);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->analyse_udp (sys_context, backend->srv_context, udp_buffer, node_info, remote_id, remote_url);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -196,7 +212,11 @@ lw6srv_process_oob (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, 
 
   if (backend->process_oob)
     {
-      ret = backend->process_oob (sys_context, backend->srv_context, node_info, oob_data);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->process_oob (sys_context, backend->srv_context, node_info, oob_data);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -245,12 +265,16 @@ lw6srv_open (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6srv_
 
   if (backend->open)
     {
-      ret =
-	backend->open (sys_context, backend->srv_context, listener, local_url, remote_url,
-		       remote_ip, remote_port, password, local_id, remote_id, dns_ok, network_reliability);
-      if (ret)
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	  ret->properties = backend->properties;
+	  ret =
+	    backend->open (sys_context, backend->srv_context, listener, local_url, remote_url,
+			   remote_ip, remote_port, password, local_id, remote_id, dns_ok, network_reliability);
+	  if (ret)
+	    {
+	      ret->properties = backend->properties;
+	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -286,7 +310,11 @@ lw6srv_feed_with_tcp (lw6sys_context_t * sys_context, lw6srv_backend_t * backend
 
   if (backend->feed_with_tcp)
     {
-      ret = backend->feed_with_tcp (sys_context, backend->srv_context, connection, tcp_accepter);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->feed_with_tcp (sys_context, backend->srv_context, connection, tcp_accepter);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -321,7 +349,11 @@ lw6srv_feed_with_udp (lw6sys_context_t * sys_context, lw6srv_backend_t * backend
 
   if (backend->feed_with_udp)
     {
-      ret = backend->feed_with_udp (sys_context, backend->srv_context, connection, udp_buffer);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->feed_with_udp (sys_context, backend->srv_context, connection, udp_buffer);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -351,7 +383,11 @@ lw6srv_close (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6cnx
 
   if (backend->close)
     {
-      backend->close (sys_context, backend->srv_context, connection);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  backend->close (sys_context, backend->srv_context, connection);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -389,22 +425,26 @@ lw6srv_send (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6cnx_
 
   if (backend->send)
     {
-      if (lw6cnx_connection_reliability_filter (sys_context, connection))
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	  ret =
-	    backend->send (sys_context, backend->srv_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id,
-			   message);
-	}
-      else
-	{
-	  /*
-	   * We return the "reliable" attribute of the backend, the
-	   * idea is that on so-called reliable backends we do not
-	   * want an error to be fired and reset the connection,
-	   * on unreliable backends, well it failed, it failed,
-	   * not that bad.
-	   */
-	  ret = backend->properties.reliable;
+	  if (lw6cnx_connection_reliability_filter (sys_context, connection))
+	    {
+	      ret =
+		backend->send (sys_context, backend->srv_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id,
+			       message);
+	    }
+	  else
+	    {
+	      /*
+	       * We return the "reliable" attribute of the backend, the
+	       * idea is that on so-called reliable backends we do not
+	       * want an error to be fired and reset the connection,
+	       * on unreliable backends, well it failed, it failed,
+	       * not that bad.
+	       */
+	      ret = backend->properties.reliable;
+	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -439,7 +479,11 @@ lw6srv_can_send (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6
 
   if (backend->send)
     {
-      ret = backend->can_send (sys_context, backend->srv_context, connection);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->can_send (sys_context, backend->srv_context, connection);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -469,7 +513,11 @@ lw6srv_poll (lw6sys_context_t * sys_context, lw6srv_backend_t * backend, lw6cnx_
 
   if (backend->poll)
     {
-      backend->poll (sys_context, backend->srv_context, connection);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  backend->poll (sys_context, backend->srv_context, connection);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -499,7 +547,11 @@ lw6srv_repr (lw6sys_context_t * sys_context, const lw6srv_backend_t * backend, l
 
   if (backend->repr)
     {
-      ret = backend->repr (sys_context, backend->srv_context, connection);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->repr (sys_context, backend->srv_context, connection);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
