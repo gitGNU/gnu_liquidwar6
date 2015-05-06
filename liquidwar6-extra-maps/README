@@ -15,10 +15,14 @@ GNU Arch repository   : http://arch.sv.gnu.org/archives/liquidwar6/
 Project on Savannah   : http://savannah.gnu.org/projects/liquidwar6/
 Mailing-list          : help-liquidwar6@gnu.org
 
-This liquidwar6-extra-maps package contains extra maps for the game. 
+WARNING: this is an a beta release of the upcoming "6.x.x" branch.
+So there's nothing playable yet. I you're searching for a playable
+version, see http://www.ufoot.org/liquidwar/v5 ("5.x.x" branch).
+
+The liquidwar6-extra-maps package contains extra maps for the game.
 It has been separated for there are many maps and package is too big.
 
-The game itself is in the core liquidwar6 package.
+This is the core liquidwar6 package.
 
 Have a nice day,
 

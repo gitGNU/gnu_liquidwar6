@@ -1,5 +1,8 @@
 Liquid War NEWS -- history of user-visible changes.
 
+* March 2015: release of 0.6.3902. Yet another bug-fix release,
+  should cure a bunch of segfaults.
+
 * March 2014: release of 0.4.3680. Bug-fix release, network
   connection works at a prototype stage.
 

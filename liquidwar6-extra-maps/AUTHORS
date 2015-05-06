@@ -1,13 +1,32 @@
-List of Liquid War 6 authors / contributors. 
+Here’s a list of contributors :
 
-Thomas Colcombet : invented Liquid War rules, drew some of LW3 maps.
+Project maintainer, main developper :
+  * Christian Mauduit
 
-Christian Mauduit <ufoot@ufoot.org> : main developper, project maintainer.
+Original idea :
+  * Thomas Colcombet
 
-Kasper Hviid : drew all the "kasper" maps.
+Artwork, level design :
+  * Kasper Hviid
 
-Many people contributed to Liquid War 5, their names are not listed here,
-but without them Liquid War 6 would obviously never have been started. 
-Special thanks to all of them. However this is not a direct contribution
-to the project, in terms of code and other copyrightable materials.
+Musics :
+  * Tim Chadburn (menus)
+  * Robert Radamant (Free the sounds)
+  * LapSuS (Heav’hypnosis)
+  * Nighter313 (Oriental Travel)
+
+ Libcaca backend :
+  * A. Frances
+  * R. Clavel
+  * K. Lemmonnier
+
+Translations :
+  * Karl Ove Hufthammer (NN, Norwegian)
+  * Yevgeny Lezhnin (RU, Russian)
+
+Many people contributed to Liquid War 5, their names are not listed
+here, but without them Liquid War 6 would obviously never have been
+started. Special thanks to all of them. However this is not a direct
+contribution to the project, in terms of code and other copyrightable
+materials.
 
