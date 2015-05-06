@@ -181,6 +181,7 @@ C API
 
 Appendices
 
+* Authors::             List of contributors.
 * 2005 .plan::          This is how it started.                     
 * Fanfic::              A historical Liquid War fanfic.
 * Links::               Liquid War on the web
@@ -3863,8 +3864,8 @@ Bits of code which depend on other libraries are a different story, for
 some projects on which Liquid War 6 depends might, for some reason, raise
 warnings. But as far as Liquid War 6 is concerned, the goal is simple: zero leak.
 @item
-Liquid War 6 is referenced on @uref{http://www.ohloh.net/, ohloh}. 
-Visit @uref{http://www.ohloh.net/p/liquidwar6} 
+Liquid War 6 is referenced on @uref{http://www.openhub.net/, Open HUB}. 
+Visit @uref{http://www.openhub.net/p/liquidwar6} 
 to get time-based statistics and facts about the source code.
 @end itemize
 
@@ -6549,10 +6550,73 @@ Online @uref{http://josefsson.org/gdoc/,gdoc} reference available on
 @c ===========================================================================
 
 @c ---------------------------------------------------------------------------
+@c Authors
+@c ---------------------------------------------------------------------------
+
+@node Authors, 2005 .plan, , Top
+@appendix Authors
+
+Here's a list of contributors :
+
+Project maintainer, main developper :
+@itemize
+@item
+@uref{mailto:ufoot@@ufoot.org, Christian Mauduit}
+@end itemize
+
+Original idea :
+@itemize
+@item
+Thomas Colcombet
+@end itemize
+
+Artwork, level design :
+@itemize
+@item
+Kasper Hviid
+@end itemize
+
+Musics :
+@itemize
+@item
+Tim Chadburn (menus)
+@item
+Robert Radamant (Free the sounds)
+@item
+LapSuS (Heav'hypnosis)
+@item
+Nighter313 (Oriental Travel)
+@end itemize
+
+Libcaca backend :
+@itemize
+@item
+A. Frances
+@item
+R. Clavel
+@item
+K. Lemmonnier
+@end itemize
+
+Translations :
+@itemize
+@item
+Karl Ove Hufthammer (NN, Norwegian)
+@item
+Yevgeny Lezhnin (RU, Russian)
+@end itemize
+
+Many people contributed to @uref{http://www.ufoot.org/liquidwar/v5, Liquid War 5},
+their names are not listed here,
+but without them Liquid War 6 would obviously never have been started.
+Special thanks to all of them. However this is not a direct contribution
+to the project, in terms of code and other copyrightable materials.
+
+@c ---------------------------------------------------------------------------
 @c 2005 .plan
 @c ---------------------------------------------------------------------------
 
-@node 2005 .plan, Fanfic, , Top
+@node 2005 .plan, Fanfic, Authors, Top
 @appendix 2005 .plan
 
 Here's my .plan file, which describes what I 
@@ -6868,7 +6932,7 @@ This list is also by no way extensive, it's provided ``as is''.
 @item
 @uref{http://freecode.com/projects/liquid-war-6}: Liquid War 6 on Freecode.
 @item
-@uref{http://www.ohloh.net/p/liquidwar6}: Liquid War 6 on ohloh.
+@uref{http://www.openhub.net/p/liquidwar6}: Liquid War 6 on Open HUB.
 @item
 @uref{http://www.playdeb.net/software/Liquid%20War%206}: Liquid War 6 on PlayDeb.
 @end itemize
