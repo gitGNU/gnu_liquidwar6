@@ -386,6 +386,8 @@ as the revision number (the version 3rd number).
 2014-03-26 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.4.3681/,0.4.3681}, codename ``Hannibal''
 @item
 2015-05-06 : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.6.3902/,0.6.3902}, codename ``Goliath''
+@item
+2015-XX-YY : @uref{http://download.savannah.gnu.org/releases/liquidwar6/0.7.ZZZZ/,0.7.ZZZZ}, codename ``Arthur''
 @end itemize
 
 @subsection Road map
