@@ -64,6 +64,8 @@ typedef struct lw6snd_backend_s
   int argc;
   /// The argv value passed to main.
   const char **argv;
+  /// Lock used to avoid concurrent access to underlying libs.
+  lw6sys_mutex_t *call_lock;
   /**
    * The id of the object, this is non-zero and unique within one run session,
    * incremented at each object creation.

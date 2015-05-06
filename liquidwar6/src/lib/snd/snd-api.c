@@ -52,7 +52,11 @@ lw6snd_play_fx (lw6sys_context_t * sys_context, lw6snd_backend_t * backend, int 
 
   if (backend->play_fx)
     {
-      ret = backend->play_fx (sys_context, backend->snd_context, fx_id);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->play_fx (sys_context, backend->snd_context, fx_id);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -89,11 +93,15 @@ lw6snd_is_music_file (lw6sys_context_t * sys_context, lw6snd_backend_t * backend
 
   if (backend->is_music_file)
     {
-      found_path = lw6sys_find_in_dir_and_path (sys_context, map_dir, music_path, music_file);
-      if (found_path)
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	  ret = backend->is_music_file (sys_context, backend->snd_context, found_path);
-	  LW6SYS_FREE (sys_context, found_path);
+	  found_path = lw6sys_find_in_dir_and_path (sys_context, map_dir, music_path, music_file);
+	  if (found_path)
+	    {
+	      ret = backend->is_music_file (sys_context, backend->snd_context, found_path);
+	      LW6SYS_FREE (sys_context, found_path);
+	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -128,19 +136,24 @@ lw6snd_play_music_file (lw6sys_context_t * sys_context, lw6snd_backend_t * backe
 
   if (backend->play_music_file)
     {
-      /*
-       * If music file is empty, we just return 0 without
-       * even asking for the actual backend.
-       */
-      if (strlen (music_file) > 0)
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trying song \"%s\" with map_dir=\"%s\" and music_path=\"%s\""), music_file, map_dir, music_path);
-	  found_path = lw6sys_find_in_dir_and_path (sys_context, map_dir, music_path, music_file);
-	  if (found_path)
+	  /*
+	   * If music file is empty, we just return 0 without
+	   * even asking for the actual backend.
+	   */
+	  if (strlen (music_file) > 0)
 	    {
-	      ret = backend->play_music_file (sys_context, backend->snd_context, found_path);
-	      LW6SYS_FREE (sys_context, found_path);
+	      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG, _x_ ("trying song \"%s\" with map_dir=\"%s\" and music_path=\"%s\""), music_file, map_dir,
+			  music_path);
+	      found_path = lw6sys_find_in_dir_and_path (sys_context, map_dir, music_path, music_file);
+	      if (found_path)
+		{
+		  ret = backend->play_music_file (sys_context, backend->snd_context, found_path);
+		  LW6SYS_FREE (sys_context, found_path);
+		}
 	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
 
@@ -175,9 +188,13 @@ lw6snd_play_music_random (lw6sys_context_t * sys_context, lw6snd_backend_t * bac
 
   if (backend->play_music_random)
     {
-      lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
-		  _x_ ("picking a random song in \"%s\" using filter \"%s\" and exclude \"%s\""), music_path, music_filter, music_exclude);
-      ret = backend->play_music_random (sys_context, backend->snd_context, music_path, music_filter, music_exclude);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  lw6sys_log (sys_context, LW6SYS_LOG_DEBUG,
+		      _x_ ("picking a random song in \"%s\" using filter \"%s\" and exclude \"%s\""), music_path, music_filter, music_exclude);
+	  ret = backend->play_music_random (sys_context, backend->snd_context, music_path, music_filter, music_exclude);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -206,7 +223,11 @@ lw6snd_stop_music (lw6sys_context_t * sys_context, lw6snd_backend_t * backend)
 
   if (backend->stop_music)
     {
-      backend->stop_music (sys_context, backend->snd_context);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  backend->stop_music (sys_context, backend->snd_context);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -239,7 +260,11 @@ lw6snd_init (lw6sys_context_t * sys_context, lw6snd_backend_t * backend, float f
 
   if (backend->init)
     {
-      backend->snd_context = backend->init (sys_context, backend->argc, backend->argv, fx_volume, water_volume, music_volume);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  backend->snd_context = backend->init (sys_context, backend->argc, backend->argv, fx_volume, water_volume, music_volume);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -269,7 +294,11 @@ lw6snd_set_fx_volume (lw6sys_context_t * sys_context, lw6snd_backend_t * backend
 
   if (backend->set_fx_volume)
     {
-      backend->set_fx_volume (sys_context, backend->snd_context, volume);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  backend->set_fx_volume (sys_context, backend->snd_context, volume);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -297,7 +326,11 @@ lw6snd_set_water_volume (lw6sys_context_t * sys_context, lw6snd_backend_t * back
 
   if (backend->set_water_volume)
     {
-      backend->set_water_volume (sys_context, backend->snd_context, volume);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  backend->set_water_volume (sys_context, backend->snd_context, volume);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -325,7 +358,11 @@ lw6snd_set_music_volume (lw6sys_context_t * sys_context, lw6snd_backend_t * back
 
   if (backend->set_music_volume)
     {
-      backend->set_music_volume (sys_context, backend->snd_context, volume);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  backend->set_music_volume (sys_context, backend->snd_context, volume);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
@@ -352,9 +389,13 @@ lw6snd_poll (lw6sys_context_t * sys_context, lw6snd_backend_t * backend)
 
   if (backend->poll)
     {
-      if (backend->snd_context)
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	  backend->poll (sys_context, backend->snd_context);
+	  if (backend->snd_context)
+	    {
+	      backend->poll (sys_context, backend->snd_context);
+	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -382,14 +423,18 @@ lw6snd_quit (lw6sys_context_t * sys_context, lw6snd_backend_t * backend)
 
   if (backend->quit)
     {
-      /*
-       * It's important to check that backend is not NULL for
-       * quit can *really* be called several times on the same backend
-       */
-      if (backend->snd_context)
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	  backend->quit (sys_context, backend->snd_context);
-	  backend->snd_context = NULL;
+	  /*
+	   * It's important to check that backend is not NULL for
+	   * quit can *really* be called several times on the same backend
+	   */
+	  if (backend->snd_context)
+	    {
+	      backend->quit (sys_context, backend->snd_context);
+	      backend->snd_context = NULL;
+	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -419,7 +464,11 @@ lw6snd_repr (lw6sys_context_t * sys_context, const lw6snd_backend_t * backend)
 
   if (backend->repr)
     {
-      ret = backend->repr (sys_context, backend->snd_context, backend->id);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->repr (sys_context, backend->snd_context, backend->id);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {

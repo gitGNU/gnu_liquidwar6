@@ -117,8 +117,17 @@ lw6snd_create_backend (lw6sys_context_t * sys_context, int argc, const char *arg
 
   if (backend)
     {
-      backend->argc = argc;
-      backend->argv = argv;
+      backend->call_lock = LW6SYS_MUTEX_CREATE (sys_context);
+      if (backend->call_lock)
+	{
+	  backend->argc = argc;
+	  backend->argv = argv;
+	}
+      else
+	{
+	  lw6snd_destroy_backend (sys_context, backend);
+	  backend = NULL;
+	}
     }
   else
     {
@@ -154,9 +163,18 @@ lw6snd_create_backend (lw6sys_context_t * sys_context, int argc, const char *arg
 
   if (backend && backend_handle)
     {
-      backend->dl_handle = backend_handle;
-      backend->argc = argc;
-      backend->argv = argv;
+      backend->call_lock = LW6SYS_MUTEX_CREATE (sys_context);
+      if (backend->call_lock)
+	{
+	  backend->dl_handle = backend_handle;
+	  backend->argc = argc;
+	  backend->argv = argv;
+	}
+      else
+	{
+	  lw6snd_destroy_backend (sys_context, backend);
+	  backend = NULL;
+	}
     }
   else
     {
@@ -195,5 +213,9 @@ lw6snd_destroy_backend (lw6sys_context_t * sys_context, lw6snd_backend_t * backe
 #ifndef LW6_ALLINONE
   lw6dyn_dlclose_backend (sys_context, backend->dl_handle);
 #endif
+  if (backend->call_lock)
+    {
+      LW6SYS_MUTEX_DESTROY (sys_context, backend->call_lock);
+    }
   LW6SYS_FREE (sys_context, backend);
 }
