@@ -1,1 +1,1 @@
-@set LW6_CODENAME Goliath
+@set LW6_CODENAME Arthur
