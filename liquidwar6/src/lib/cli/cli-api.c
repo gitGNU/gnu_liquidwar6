@@ -50,7 +50,10 @@ lw6cli_init (lw6sys_context_t * sys_context, lw6cli_backend_t * backend)
   backend->cli_context = NULL;
   if (backend->init)
     {
-      backend->cli_context = backend->init (sys_context, backend->argc, backend->argv, &(backend->properties));
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  backend->cli_context = backend->init (sys_context, backend->argc, backend->argv, &(backend->properties));
+	}
     }
   else
     {
@@ -77,14 +80,17 @@ lw6cli_quit (lw6sys_context_t * sys_context, lw6cli_backend_t * backend)
 
   if (backend->quit)
     {
-      /*
-       * It's important to check that backend is not NULL for
-       * quit can *really* be called several times on the same backend
-       */
-      if (backend->cli_context)
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	  backend->quit (sys_context, backend->cli_context);
-	  backend->cli_context = NULL;
+	  /*
+	   * It's important to check that backend is not NULL for
+	   * quit can *really* be called several times on the same backend
+	   */
+	  if (backend->cli_context)
+	    {
+	      backend->quit (sys_context, backend->cli_context);
+	      backend->cli_context = NULL;
+	    }
 	}
     }
   else
@@ -120,7 +126,10 @@ lw6cli_process_oob (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, 
 
   if (backend->process_oob)
     {
-      ret = backend->process_oob (sys_context, backend->cli_context, node_info, oob_data);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->process_oob (sys_context, backend->cli_context, node_info, oob_data);
+	}
     }
   else
     {
@@ -162,12 +171,15 @@ lw6cli_open (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, const c
 
   if (backend->open)
     {
-      ret =
-	backend->open (sys_context, backend->cli_context, local_url, remote_url, remote_ip,
-		       remote_port, password, local_id, remote_id, dns_ok, network_reliability);
-      if (ret)
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	  ret->properties = backend->properties;
+	  ret =
+	    backend->open (sys_context, backend->cli_context, local_url, remote_url, remote_ip,
+			   remote_port, password, local_id, remote_id, dns_ok, network_reliability);
+	  if (ret)
+	    {
+	      ret->properties = backend->properties;
+	    }
 	}
     }
   else
@@ -198,7 +210,10 @@ lw6cli_close (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6cnx
 
   if (backend->close)
     {
-      backend->close (sys_context, backend->cli_context, connection);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  backend->close (sys_context, backend->cli_context, connection);
+	}
     }
   else
     {
@@ -235,31 +250,34 @@ lw6cli_send (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6cnx_
 
   if (backend->send)
     {
-      if (lw6cnx_connection_reliability_filter (sys_context, connection))
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	  ret =
-	    backend->send (sys_context, backend->cli_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id,
-			   message);
-	  ++(connection->sent_nb_total);
-	  if (ret)
+	  if (lw6cnx_connection_reliability_filter (sys_context, connection))
 	    {
-	      ++(connection->sent_nb_success);
+	      ret =
+		backend->send (sys_context, backend->cli_context, connection, now, physical_ticket_sig, logical_ticket_sig, logical_from_id, logical_to_id,
+			       message);
+	      ++(connection->sent_nb_total);
+	      if (ret)
+		{
+		  ++(connection->sent_nb_success);
+		}
+	      else
+		{
+		  ++(connection->sent_nb_fail);
+		}
 	    }
 	  else
 	    {
-	      ++(connection->sent_nb_fail);
+	      /*
+	       * We return the "reliable" attribute of the backend, the
+	       * idea is that on so-called reliable backends we do not
+	       * want an error to be fired and reset the connection,
+	       * on unreliable backends, well it failed, it failed,
+	       * not that bad.
+	       */
+	      ret = backend->properties.reliable;
 	    }
-	}
-      else
-	{
-	  /*
-	   * We return the "reliable" attribute of the backend, the
-	   * idea is that on so-called reliable backends we do not
-	   * want an error to be fired and reset the connection,
-	   * on unreliable backends, well it failed, it failed,
-	   * not that bad.
-	   */
-	  ret = backend->properties.reliable;
 	}
     }
   else
@@ -294,7 +312,10 @@ lw6cli_can_send (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6
 
   if (backend->send)
     {
-      ret = backend->can_send (sys_context, backend->cli_context, connection);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->can_send (sys_context, backend->cli_context, connection);
+	}
     }
   else
     {
@@ -326,7 +347,10 @@ lw6cli_poll (lw6sys_context_t * sys_context, lw6cli_backend_t * backend, lw6cnx_
 
   if (backend->poll)
     {
-      backend->poll (sys_context, backend->cli_context, connection);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  backend->poll (sys_context, backend->cli_context, connection);
+	}
     }
   else
     {
@@ -356,7 +380,10 @@ lw6cli_repr (lw6sys_context_t * sys_context, const lw6cli_backend_t * backend, l
 
   if (backend->repr)
     {
-      ret = backend->repr (sys_context, backend->cli_context, connection);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->repr (sys_context, backend->cli_context, connection);
+	}
     }
   else
     {
