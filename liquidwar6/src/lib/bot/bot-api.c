@@ -56,24 +56,28 @@ lw6bot_init (lw6sys_context_t * sys_context, lw6bot_backend_t * backend, lw6bot_
 
   if (backend->init)
     {
-      backend->bot_context = NULL;
-      memset (&data, 0, sizeof (lw6bot_data_t));
-      backend->seed = *seed;
-      if (backend->seed.param.speed <= 0.0f)
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("incorrect speed %0.1f"), backend->seed.param.speed);
-	  bad_speed = 1;
-	}
-      if (backend->seed.param.iq < 0)
-	{
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("incorrect iq %d"), backend->seed.param.iq);
-	  bad_iq = 1;
-	}
-      data.param = backend->seed.param;
-      data.game_state = seed->game_state;
-      if ((!bad_speed) && (!bad_iq))
-	{
-	  backend->bot_context = backend->init (sys_context, backend->argc, backend->argv, &data);
+	  backend->bot_context = NULL;
+	  memset (&data, 0, sizeof (lw6bot_data_t));
+	  backend->seed = *seed;
+	  if (backend->seed.param.speed <= 0.0f)
+	    {
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("incorrect speed %0.1f"), backend->seed.param.speed);
+	      bad_speed = 1;
+	    }
+	  if (backend->seed.param.iq < 0)
+	    {
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("incorrect iq %d"), backend->seed.param.iq);
+	      bad_iq = 1;
+	    }
+	  data.param = backend->seed.param;
+	  data.game_state = seed->game_state;
+	  if ((!bad_speed) && (!bad_iq))
+	    {
+	      backend->bot_context = backend->init (sys_context, backend->argc, backend->argv, &data);
+	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -101,14 +105,18 @@ lw6bot_quit (lw6sys_context_t * sys_context, lw6bot_backend_t * backend)
 
   if (backend->quit)
     {
-      /*
-       * It's important to check that backend is not NULL for
-       * quit can *really* be called several times on the same backend
-       */
-      if (backend->bot_context)
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	  backend->quit (sys_context, backend->bot_context);
-	  backend->bot_context = NULL;
+	  /*
+	   * It's important to check that backend is not NULL for
+	   * quit can *really* be called several times on the same backend
+	   */
+	  if (backend->bot_context)
+	    {
+	      backend->quit (sys_context, backend->bot_context);
+	      backend->bot_context = NULL;
+	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -142,40 +150,44 @@ lw6bot_next_move (lw6sys_context_t * sys_context, lw6bot_backend_t * backend, in
 
   if (backend->next_move)
     {
-      memset (&data, 0, sizeof (lw6bot_data_t));
-      data.param = backend->seed.param;
-      /*
-       * We set the game_state to NULL to avoid referencing
-       * some old stuff passed at creation, which
-       * could have disappeared.
-       */
-      data.game_state = NULL;
-      switch (backend->seed.dirty_read)
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
 	{
-	case LW6PIL_DIRTY_READ_NEVER:
-	case LW6PIL_DIRTY_READ_SYNC_ONLY:
+	  memset (&data, 0, sizeof (lw6bot_data_t));
+	  data.param = backend->seed.param;
 	  /*
-	   * In those cases we assume the game_state we have has been
-	   * synchronized elsewhere, typically in the display thread.
+	   * We set the game_state to NULL to avoid referencing
+	   * some old stuff passed at creation, which
+	   * could have disappeared.
 	   */
-	  data.game_state = backend->seed.game_state;
-	  break;
-	case LW6PIL_DIRTY_READ_ALWAYS:
-	  if (backend->seed.pilot)
+	  data.game_state = NULL;
+	  switch (backend->seed.dirty_read)
 	    {
-	      data.game_state = lw6pil_pilot_dirty_read (sys_context, backend->seed.pilot);
-	    }
-	  else
-	    {
+	    case LW6PIL_DIRTY_READ_NEVER:
+	    case LW6PIL_DIRTY_READ_SYNC_ONLY:
+	      /*
+	       * In those cases we assume the game_state we have has been
+	       * synchronized elsewhere, typically in the display thread.
+	       */
 	      data.game_state = backend->seed.game_state;
+	      break;
+	    case LW6PIL_DIRTY_READ_ALWAYS:
+	      if (backend->seed.pilot)
+		{
+		  data.game_state = lw6pil_pilot_dirty_read (sys_context, backend->seed.pilot);
+		}
+	      else
+		{
+		  data.game_state = backend->seed.game_state;
+		}
+	      break;
+	    default:
+	      lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unknown dirty read mode %d"), backend->seed.dirty_read);
 	    }
-	  break;
-	default:
-	  lw6sys_log (sys_context, LW6SYS_LOG_WARNING, _x_ ("unknown dirty read mode %d"), backend->seed.dirty_read);
-	}
-      if (data.game_state)
-	{
-	  ret = backend->next_move (sys_context, backend->bot_context, x, y, &data);
+	  if (data.game_state)
+	    {
+	      ret = backend->next_move (sys_context, backend->bot_context, x, y, &data);
+	    }
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
 	}
     }
   else
@@ -207,7 +219,11 @@ lw6bot_repr (lw6sys_context_t * sys_context, const lw6bot_backend_t * backend)
 
   if (backend->repr)
     {
-      ret = backend->repr (sys_context, backend->bot_context, backend->id);
+      if (LW6SYS_MUTEX_LOCK (sys_context, backend->call_lock))
+	{
+	  ret = backend->repr (sys_context, backend->bot_context, backend->id);
+	  LW6SYS_MUTEX_UNLOCK (sys_context, backend->call_lock);
+	}
     }
   else
     {
