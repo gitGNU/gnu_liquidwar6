@@ -22,7 +22,7 @@ SUBDIRS = src script po data music map doc debian pkg
 
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = config.rpath
+EXTRA_DIST = bootstrap config.rpath
 
 all-local:
 	cd $(abs_srcdir)/src && ./stamp.sh auto

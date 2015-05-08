@@ -54,10 +54,10 @@ else
 fi
 
 echo "******** $0 $(date) ********"
-if autoreconf ; then
-    echo "autoreconf OK"
+if ./bootstrap ; then
+    echo "bootstrap OK"
 else
-    echo "autoreconf failed"
+    echo "bootstrap failed"
     exit 2
 fi
 
@@ -130,10 +130,10 @@ else
 fi
 
 echo "******** $0 $(date) ********"
-if autoreconf ; then
-    echo "autoreconf OK"
+if ./bootstrap ; then
+    echo "bootstrap OK"
 else
-    echo "autoreconf failed"
+    echo "bootstrap failed"
     exit 11
 fi
 

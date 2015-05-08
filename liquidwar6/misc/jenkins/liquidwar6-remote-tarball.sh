@@ -33,7 +33,7 @@ TMPDIR=/tmp/liquidwar6-$(date "+%Y%m%d-%H%M%S")-$GITREV
 
 echo $TMPDIR
 install -d $TMPDIR && cd $TMPDIR
-git clone git://git.savannah.gnu.org/liquidwar6.git && cd liquidwar6/liquidwar6 && git checkout $GITREV && autoreconf && ./configure && make && make dist
+git clone git://git.savannah.gnu.org/liquidwar6.git && cd liquidwar6/liquidwar6 && git checkout $GITREV && ./bootstrap && ./configure && make && make dist
 FILENAME=$(ls *.gz)
 if [ -f $FILENAME ] ; then
     cp $FILENAME $TMPDIR
