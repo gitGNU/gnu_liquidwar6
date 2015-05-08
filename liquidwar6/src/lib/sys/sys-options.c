@@ -70,27 +70,17 @@ char *
 lw6sys_get_cwd (lw6sys_context_t * sys_context)
 {
   char *cwd = NULL;
-  char *cwd_tmp = NULL;
+  char cwd_tmp[CWD_SIZE+1];
 
-  cwd_tmp = (char *) LW6SYS_CALLOC (sys_context, CWD_SIZE + 1);
+  memset(cwd_tmp,0,CWD_SIZE+1);
 
-  if (cwd_tmp)
-    {
 #ifdef LW6_MS_WINDOWS
-      if (!GetCurrentDirectoryA (CWD_SIZE, cwd_tmp))
+  if (!GetCurrentDirectoryA (CWD_SIZE, cwd_tmp))
 #else
-      if (!getcwd (cwd_tmp, CWD_SIZE))
+  if (!getcwd (cwd_tmp, CWD_SIZE))
 #endif
-	{
-	  LW6SYS_FREE (sys_context, cwd_tmp);
-	  cwd_tmp = NULL;
-	}
-    }
-
-  if (cwd_tmp)
     {
       cwd = lw6sys_path_strip_slash (sys_context, cwd_tmp);
-      LW6SYS_FREE (sys_context, cwd_tmp);
     }
   else
     {
