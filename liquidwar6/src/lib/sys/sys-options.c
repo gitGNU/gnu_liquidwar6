@@ -70,9 +70,9 @@ char *
 lw6sys_get_cwd (lw6sys_context_t * sys_context)
 {
   char *cwd = NULL;
-  char cwd_tmp[CWD_SIZE+1];
+  char cwd_tmp[CWD_SIZE + 1];
 
-  memset(cwd_tmp,0,CWD_SIZE+1);
+  memset (cwd_tmp, 0, CWD_SIZE + 1);
 
 #ifdef LW6_MS_WINDOWS
   if (!GetCurrentDirectoryA (CWD_SIZE, cwd_tmp))

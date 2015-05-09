@@ -1376,7 +1376,7 @@ _scm_lw6sys_log (SCM level, SCM message)
   c_message = lw6scm_utils_to_0str (sys_context, message);
   if (c_message)
     {
-      lw6sys_log (sys_context, c_level, __FILE__, __LINE__, "%s", c_message);
+      lw6sys_log (sys_context, c_level, __FILE__, __LINE__, __FUNCTION__, "%s", c_message);
       LW6SYS_FREE (sys_context, c_message);
     }
 
