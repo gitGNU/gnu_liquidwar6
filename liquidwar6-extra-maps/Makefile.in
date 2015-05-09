@@ -51,9 +51,11 @@ dist:
 	rm -f @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
 	rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@	
 	mkdir @PACKAGE_TARNAME@-@PACKAGE_VERSION@
-	cp -r $(srcdir)/AUTHORS $(srcdir)/configure $(srcdir)/configure.ac $(srcdir)/ChangeLog $(srcdir)/COPYING $(srcdir)/debian $(srcdir)/INSTALL liquidwar6-extra-maps.spec $(srcdir)/liquidwar6-extra-maps.spec.in $(srcdir)/Makefile.in $(srcdir)/map $(srcdir)/NEWS $(srcdir)/normalize.sh $(srcdir)/README @PACKAGE_TARNAME@-@PACKAGE_VERSION@
+	cp -r $(srcdir)/AUTHORS $(srcdir)/bootstrap $(srcdir)/configure $(srcdir)/configure.ac $(srcdir)/ChangeLog $(srcdir)/COPYING $(srcdir)/debian $(srcdir)/INSTALL liquidwar6-extra-maps.spec $(srcdir)/liquidwar6-extra-maps.spec.in $(srcdir)/Makefile.in $(srcdir)/map $(srcdir)/NEWS $(srcdir)/normalize.sh $(srcdir)/README @PACKAGE_TARNAME@-@PACKAGE_VERSION@
 	rm -rf $(srcdir)/dummy `find @PACKAGE_TARNAME@-@PACKAGE_VERSION@ -name ".arch-ids"`
 	rm -rf $(srcdir)/dummy `find @PACKAGE_TARNAME@-@PACKAGE_VERSION@ -name "CVS"`
+	rm -rf $(srcdir)/dummy `find @PACKAGE_TARNAME@-@PACKAGE_VERSION@ -name ".git"`
+	rm -rf $(srcdir)/dummy `find @PACKAGE_TARNAME@-@PACKAGE_VERSION@ -name ".gitignore"`
 	rm -rf $(srcdir)/dummy `find @PACKAGE_TARNAME@-@PACKAGE_VERSION@ -name "*~"`
 	rm -rf $(srcdir)/dummy `find @PACKAGE_TARNAME@-@PACKAGE_VERSION@ -name "*.xcf"`
 	tar czf @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz @PACKAGE_TARNAME@-@PACKAGE_VERSION@
