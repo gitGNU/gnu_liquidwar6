@@ -256,7 +256,7 @@ _create_dir (lw6sys_context_t * sys_context, const char *dirname, int verbose, i
   int ret = 0;
 
 #ifdef LW6_MS_WINDOWS
-  if (mkdir (dirname))
+  if (mkdir (dirname) == 0)
 #else
   if (mkdir (dirname, S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP) == 0)
 #endif
